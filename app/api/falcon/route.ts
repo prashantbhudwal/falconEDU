@@ -1,3 +1,4 @@
+import { getPrompt } from "@/app/utils";
 import { NextResponse, NextRequest } from "next/server";
 import { OpenAIApi, Configuration } from "openai";
 
@@ -7,7 +8,10 @@ const configuration = new Configuration({
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
-  const prompt = body.prompt;
+  const topic = body.topic;
+  const promptType = body.promptType;
+  const prompt = getPrompt(promptType);
+
   const openai = new OpenAIApi(configuration);
   async function fetchCompletion() {
     const completion = await openai.createChatCompletion({
@@ -15,7 +19,7 @@ export async function POST(request: NextRequest) {
       messages: [
         {
           role: "user",
-          content: `I am a student in grade 6, give me an example of: ${prompt}`,
+          content: `I am a student in grade 6. ${prompt}: ${topic}`,
         },
       ],
     });
