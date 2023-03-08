@@ -24,7 +24,7 @@ export default function LiveBlock({
       <div className="flex flex-row gap-3 flex-wrap justify-center">
         {buttonsArray.map((buttonText: string) => (
           <Button key={buttonText} onClick={() => console.log(buttonText)}>
-            {buttonText.toUpperCase()}
+            {buttonText}
           </Button>
         ))}
       </div>

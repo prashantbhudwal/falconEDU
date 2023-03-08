@@ -10,7 +10,7 @@ export default function Button({
     <button
       onClick={onClick}
       className={
-        "bg-emerald-500 ring-1 ring-slate-700 text-slate-700 rounded-md px-2 py-1 text-sm font-medium"
+        "bg-emerald-500 ring-1 ring-slate-700 text-slate-700 rounded-md px-2 py-1 text-sm font-medium capitalize"
       }
     >
       {children}
