@@ -18,8 +18,13 @@ export async function POST(request: NextRequest) {
       model: "gpt-3.5-turbo",
       messages: [
         {
+          role: "system",
+          content:
+            "You are a helpful assistant. Your name is FalconOne. I am a student in grade 6 and english is my second language.",
+        },
+        {
           role: "user",
-          content: `I am a student in grade 6. ${prompt}: ${topic}`,
+          content: `${prompt}: ${topic}`,
         },
       ],
     });
