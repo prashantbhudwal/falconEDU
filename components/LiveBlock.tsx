@@ -12,7 +12,7 @@ export default function LiveBlock({
   return (
     <div className="flex flex-col gap-3 items-center">
       <Block displayText={generatedText} />
-      <div className="flex flex-row gap-3">
+      <div className="flex flex-row gap-3 flex-wrap justify-center">
         {buttonsArray.map((buttonText: string) => (
           <Button key={buttonText} onClick={() => console.log(buttonText)}>
             {buttonText.toUpperCase()}
