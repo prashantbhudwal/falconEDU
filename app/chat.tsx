@@ -7,31 +7,44 @@ import { getEmoji } from "./utils";
 import useSWR from "swr";
 import { buttonsArray } from "@/app/schema";
 
-const chatResponse =
-  "This is a simulation of chat response from the API route. It is a string. It is a very long string";
 export default function Chat({ chatTopic }: { chatTopic: string }) {
-  console.log(chatTopic);
+  const [chatResponse, setChatResponse] = useState<string>("test");
+  const [fetchNow, setFetchNow] = useState(false);
   const [blockType, setBlockType] = useState(chatTopic);
   const [blockContent, setBlockContent] = useState([
     {
-      text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto iure quos placeat quibusdam laudantium sunt ullam voluptatem eius atque id dolore itaque inventore ex mollitia, illo tempore vel, nam quis natus commodi ut repudiandae. Soluta saepe beatae iusto voluptatem ipsa nam facilis eum iure eligendi deleniti? Officiis ut voluptatum vero?",
-      id: "1",
-      type: "story",
-      emoji: "🏜",
-    },
-    {
-      text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto iure quos placeat quibusdam laudantium sunt ullam voluptatem eius atque id dolore itaque inventore ex mollitia, illo tempore vel, nam quis natus commodi ut repudiandae. Soluta saepe beatae iusto voluptatem ipsa nam facilis eum iure eligendi deleniti? Officiis ut voluptatum vero?",
-      id: "2",
-      type: "example",
-      emoji: "🧩",
-    },
-    {
-      text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto iure quos placeat quibusdam laudantium sunt ullam voluptatem eius atque id dolore itaque inventore ex mollitia, illo tempore vel, nam quis natus commodi ut repudiandae. Soluta saepe beatae iusto voluptatem ipsa nam facilis eum iure eligendi deleniti? Officiis ut voluptatum vero?",
-      id: "3",
-      type: "analogy",
-      emoji: "🪢",
+      text: "Learn about Matter",
+      id: "",
+      type: "",
+      emoji: "",
     },
   ]);
+
+  const fetcher = function () {
+    const body = {
+      prompt: chatTopic,
+    };
+    return fetch(`/api/falcon`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setChatResponse(data.response.content);
+        setFetchNow(false);
+        return data.response.content;
+      });
+  };
+
+  const { data, error, isLoading } = useSWR(
+    fetchNow ? "/api/openAPI" : null,
+    fetcher
+  );
+
+  console.log(data);
 
   const chatBlocks = blockContent.map((chat: any) => {
     return (
@@ -46,6 +59,7 @@ export default function Chat({ chatTopic }: { chatTopic: string }) {
 
   const handleClick = function (buttonText: string) {
     setBlockType(buttonText);
+    setFetchNow(true);
   };
 
   //Auto scroll to the button panel after every render
@@ -70,8 +84,22 @@ export default function Chat({ chatTopic }: { chatTopic: string }) {
         },
       ];
     });
-  }, [blockType]);
+  }, [blockType, data]);
 
+  const loadingJSX = <h1>Loading</h1>;
+  const errorJSX = <h1>Error</h1>;
+  if (error) return errorJSX;
+  if (isLoading) return loadingJSX;
+  // if (!fetchNow)
+  //   return (
+  //     <div>
+  //       <h1>
+  //         What would you like to learn about{" "}
+  //         <span className="capitalize">{chatTopic}</span>?
+  //       </h1>
+  //       <ButtonPanel buttonsArray={buttonsArray} handleClick={handleClick} />
+  //     </div>
+  //   );
   return (
     <div className="flex flex-col gap-4 items-center max-w-xl">
       {chatBlocks}
