@@ -26,7 +26,7 @@ export default function Home() {
     return <Block displayText={chat.message} key={chat.id} />;
   });
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 items-center  max-w-2xl">
       {chatBlocks}
       <LiveBlock generatedText={text} buttonsArray={buttonsArray} />
     </div>
