@@ -19,6 +19,7 @@ export default function LiveBlock({
       <Block
         displayText={blockData.message}
         blockEmoji={blockData.blockEmoji}
+        blockType={blockData.blockType}
       />
       <div className="flex flex-row gap-3 flex-wrap justify-center">
         {buttonsArray.map((buttonText: string) => (

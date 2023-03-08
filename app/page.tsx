@@ -42,6 +42,7 @@ export default function Home() {
       <Block
         displayText={chat.message}
         blockEmoji={chat.blockEmoji}
+        blockType={chat.blockType}
         key={chat.id}
       />
     );
