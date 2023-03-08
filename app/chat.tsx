@@ -20,9 +20,11 @@ export default function Chat({ chatTopic }: { chatTopic: string }) {
     },
   ]);
 
+  //TODO: Extract this into a custom hook
   const fetcher = function () {
     const body = {
-      prompt: chatTopic,
+      topic: chatTopic,
+      promptType: blockType,
     };
     return fetch(`/api/falcon`, {
       method: "POST",
@@ -44,6 +46,7 @@ export default function Chat({ chatTopic }: { chatTopic: string }) {
     fetcher
   );
 
+  // BUG data becomes undefined after the first render
   console.log(data);
 
   const chatBlocks = blockContent.map((chat: any) => {
@@ -90,7 +93,8 @@ export default function Chat({ chatTopic }: { chatTopic: string }) {
   const errorJSX = <h1>Error</h1>;
   if (error) return errorJSX;
   if (isLoading) return loadingJSX;
-  // if (!fetchNow)
+  // BUG: data is undefined on the first render and hence the app goes back to the initial state
+  // if (!data)
   //   return (
   //     <div>
   //       <h1>
