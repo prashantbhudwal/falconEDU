@@ -3,14 +3,13 @@
 import Block from "@/components/Block";
 import ButtonPanel from "@/components/ButtonPanel";
 import { useEffect, useState } from "react";
+import { getEmoji } from "./utils";
 
 export default function Chat({
   chatResponse,
-  chatArray,
   buttonsArray,
 }: {
   chatResponse: string;
-  chatArray: any;
   buttonsArray: Array<string>;
 }) {
   const [blockType, setBlockType] = useState("");
@@ -46,30 +45,7 @@ export default function Chat({
     );
   });
 
-  const getEmoji = function (blockType: string) {
-    switch (blockType) {
-      case "story":
-        return "🏜";
-      case "example":
-        return "🧩";
-      case "analogy":
-        return "🪢";
-      case "history":
-        return "📜";
-      case "application":
-        return "🎯";
-      case "antiExample":
-        return "☣️";
-      case "contrast":
-        return "🔀";
-      case "explain":
-        return "📝";
-      default:
-        return "☣️";
-    }
-  };
-
-  const handleClick = function (buttonText: string) {
+ const handleClick = function (buttonText: string) {
     setBlockType(buttonText);
   };
 
