@@ -1,13 +1,14 @@
+"use Client";
 export default function Button({
   children,
   onClick,
 }: {
   children: React.ReactNode;
-  onClick: () => void;
+  onClick?: () => void;
 }) {
   return (
     <button
-      onClick={() => onClick}
+      onClick={() => onClick()}
       className={"bg-green-600 text-white rounded-md px-4 py-2"}
     >
       {children}
