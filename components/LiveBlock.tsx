@@ -3,15 +3,23 @@ import Block from "./Block";
 import Button from "./Button";
 
 export default function LiveBlock({
-  generatedText,
+  blockData,
   buttonsArray,
 }: {
-  generatedText: string;
+  blockData: {
+    message: string;
+    id: string;
+    blockType: string;
+    blockEmoji: string;
+  };
   buttonsArray: Array<string>;
 }) {
   return (
     <div className="flex flex-col gap-3 items-center">
-      <Block displayText={generatedText} />
+      <Block
+        displayText={blockData.message}
+        blockEmoji={blockData.blockEmoji}
+      />
       <div className="flex flex-row gap-3 flex-wrap justify-center">
         {buttonsArray.map((buttonText: string) => (
           <Button key={buttonText} onClick={() => console.log(buttonText)}>
