@@ -4,12 +4,11 @@ import Block from "@/components/Block";
 import ButtonPanel from "@/components/ButtonPanel";
 import { useEffect, useState } from "react";
 import { getEmoji } from "./utils";
-
+const chatResponse =
+  "This is a simulation of chat response from the API route. It is a string. It is a very long string";
 export default function Chat({
-  chatResponse,
   buttonsArray,
 }: {
-  chatResponse: string;
   buttonsArray: Array<string>;
 }) {
   const [blockType, setBlockType] = useState("preClick");

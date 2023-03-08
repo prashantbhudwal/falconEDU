@@ -4,9 +4,6 @@ import Chat from "./chat";
 import { useState } from "react";
 import Button from "@/components/Button";
 
-const chatResponse =
-  "This is a simulation of chat response from the API route. It is a string. It is a very long string";
-
 export default function Home() {
   const [topic, setTopic] = useState<string>("");
   const [input, setInput] = useState<string>("");
@@ -28,5 +25,5 @@ export default function Home() {
     );
   }
 
-  return <Chat buttonsArray={buttonsArray} chatResponse={chatResponse} />;
+  return <Chat buttonsArray={buttonsArray} />;
 }
