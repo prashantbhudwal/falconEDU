@@ -2,15 +2,18 @@ import Button from "./Button";
 
 export default function ButtonPanel({
   buttonsArray,
-  onClick,
+  handleClick,
 }: {
   buttonsArray: Array<string>;
-  onClick: (buttonText: string) => void;
+  handleClick: (buttonText: string) => void;
 }) {
   return (
     <div className="flex flex-row gap-3 flex-wrap justify-center">
       {buttonsArray.map((buttonText: string) => (
-        <Button key={buttonText} onClick={() => onClick(buttonText)}>
+        <Button
+          key={buttonText}
+          onClick={() => handleClick(buttonText.toLowerCase())}
+        >
           {buttonText}
         </Button>
       ))}
