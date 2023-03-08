@@ -12,7 +12,7 @@ export default function Chat({
   chatResponse: string;
   buttonsArray: Array<string>;
 }) {
-  const [blockType, setBlockType] = useState("");
+  const [blockType, setBlockType] = useState("preClick");
   const [blockContent, setBlockContent] = useState([
     {
       text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto iure quos placeat quibusdam laudantium sunt ullam voluptatem eius atque id dolore itaque inventore ex mollitia, illo tempore vel, nam quis natus commodi ut repudiandae. Soluta saepe beatae iusto voluptatem ipsa nam facilis eum iure eligendi deleniti? Officiis ut voluptatum vero?",
@@ -45,9 +45,17 @@ export default function Chat({
     );
   });
 
- const handleClick = function (buttonText: string) {
+  const handleClick = function (buttonText: string) {
     setBlockType(buttonText);
   };
+
+  //Auto scroll to the button panel after every render
+  useEffect(() => {
+    const buttonPanel = document.getElementById("buttonPanel");
+    if (buttonPanel) {
+      buttonPanel.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [blockContent]);
 
   useEffect(() => {
     setBlockContent((prevBlockContent) => {

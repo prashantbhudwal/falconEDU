@@ -8,7 +8,10 @@ export default function ButtonPanel({
   handleClick: (buttonText: string) => void;
 }) {
   return (
-    <div className="flex flex-row gap-3 flex-wrap justify-center">
+    <div
+      id="buttonPanel"
+      className="flex flex-row gap-3 flex-wrap justify-center"
+    >
       {buttonsArray.map((buttonText: string) => (
         <Button
           key={buttonText}
