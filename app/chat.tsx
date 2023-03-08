@@ -4,14 +4,14 @@ import Block from "@/components/Block";
 import ButtonPanel from "@/components/ButtonPanel";
 import { useEffect, useState } from "react";
 import { getEmoji } from "./utils";
+import useSWR from "swr";
+import { buttonsArray } from "@/app/schema";
+
 const chatResponse =
   "This is a simulation of chat response from the API route. It is a string. It is a very long string";
-export default function Chat({
-  buttonsArray,
-}: {
-  buttonsArray: Array<string>;
-}) {
-  const [blockType, setBlockType] = useState("preClick");
+export default function Chat({ chatTopic }: { chatTopic: string }) {
+  console.log(chatTopic);
+  const [blockType, setBlockType] = useState(chatTopic);
   const [blockContent, setBlockContent] = useState([
     {
       text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto iure quos placeat quibusdam laudantium sunt ullam voluptatem eius atque id dolore itaque inventore ex mollitia, illo tempore vel, nam quis natus commodi ut repudiandae. Soluta saepe beatae iusto voluptatem ipsa nam facilis eum iure eligendi deleniti? Officiis ut voluptatum vero?",
@@ -70,7 +70,7 @@ export default function Chat({
         },
       ];
     });
-  }, [blockType, chatResponse]);
+  }, [blockType]);
 
   return (
     <div className="flex flex-col gap-4 items-center max-w-xl">

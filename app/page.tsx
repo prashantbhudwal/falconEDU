@@ -1,5 +1,4 @@
 "use client";
-import { buttonsArray } from "@/app/schema";
 import Chat from "./chat";
 import { useState } from "react";
 import Button from "@/components/Button";
@@ -25,5 +24,5 @@ export default function Home() {
     );
   }
 
-  return <Chat buttonsArray={buttonsArray} />;
+  return <Chat chatTopic={input} />;
 }
