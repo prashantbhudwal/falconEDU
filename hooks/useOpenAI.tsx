@@ -3,7 +3,6 @@ import useSWR from "swr";
 export default function useOpenAI(
   chatTopic: string,
   blockType: string,
-  setChatResponse: any,
   setFetchNow: any,
   fetchNow: boolean
 ) {
@@ -22,19 +21,24 @@ export default function useOpenAI(
     })
       .then((res) => res.json())
       .then((data) => {
-        setChatResponse(data.response.content);
         setFetchNow(false);
-        return data.response.content;
+        return data;
+      })
+      .then((data) => {
+        // old data -> completion.data.choices[0].message
+        // new data -> completion.data
+
+        console.log(data);
+        const response = data.response.choices[0].message.content;
+        const topic = data.response.topic;
+        const promptType = data.response.promptType;
+        const id = data.response.id;
+        return { response, topic, promptType, id };
       });
   };
   const { data, error, isLoading } = useSWR(
     fetchNow ? "/api/openAPI" : null,
     fetcher
   );
-
-  return {
-    data,
-    error,
-    isLoading,
-  };
+  return [data, error, isLoading];
 }
