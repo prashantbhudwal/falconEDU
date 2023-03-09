@@ -1,69 +1,73 @@
 "use client";
-
 import Block from "@/components/Block";
 import ButtonPanel from "@/components/ButtonPanel";
+import StartChat from "@/components/StartChat";
 import { useEffect, useState } from "react";
 import { getEmoji } from "./utils";
-import useSWR from "swr";
 import { buttonsArray } from "@/app/schema";
+import useOpenAI from "@/hooks/useOpenAI";
+interface BlockContent {
+  text: string;
+  id: string;
+  type: string;
+  emoji: string;
+}
 
 export default function Chat({ chatTopic }: { chatTopic: string }) {
-  const [chatResponse, setChatResponse] = useState<string>("test");
   const [fetchNow, setFetchNow] = useState(false);
+  const [chatBlocks, setChatBlocks] = useState<JSX.Element[]>([]);
   const [blockType, setBlockType] = useState(chatTopic);
-  const [blockContent, setBlockContent] = useState([
-    {
-      text: "Learn about Matter",
-      id: "",
-      type: "",
-      emoji: "",
-    },
-  ]);
-
-  //TODO: Extract this into a custom hook
-  const fetcher = function () {
-    const body = {
-      topic: chatTopic,
-      promptType: blockType,
-    };
-    return fetch(`/api/falcon`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(body),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setChatResponse(data.response.content);
-        setFetchNow(false);
-        return data.response.content;
-      });
-  };
-
-  const { data, error, isLoading } = useSWR(
-    fetchNow ? "/api/openAPI" : null,
-    fetcher
-  );
-
-  // BUG data becomes undefined after the first render
-  console.log(data);
-
-  const chatBlocks = blockContent.map((chat: any) => {
-    return (
-      <Block
-        displayText={chat.text}
-        blockEmoji={chat.emoji}
-        blockType={chat.type}
-        key={chat.id}
-      />
-    );
-  });
+  const [blockContent, setBlockContent] = useState<BlockContent[]>([]);
+  const [lastBlockId, setLastBlockId] = useState("");
 
   const handleClick = function (buttonText: string) {
     setBlockType(buttonText);
     setFetchNow(true);
   };
+
+  const [data, error, isLoading] = useOpenAI(
+    chatTopic,
+    blockType,
+    setFetchNow,
+    fetchNow
+  );
+  // useEffect(() => {
+  //   if (data) {
+  //     console.log(`Data from useEffect: ${data}`);
+  //     // Data again becomes undefined after the first render
+  //     // setChatResponse(data.response.content);
+  //     // setFetchNow(false);
+  //   }
+  // }, [data]);
+
+  // BUG data becomes undefined after the first render
+
+  useEffect(() => {
+    if (data && data.id !== lastBlockId) {
+      console.log(blockContent);
+      setBlockContent((prevBlockContent) => {
+        return [
+          ...prevBlockContent,
+          {
+            text: data.response,
+            id: data.id,
+            type: data.promptType,
+            emoji: getEmoji(data.promptType),
+          },
+        ];
+      });
+      setLastBlockId(data.id);
+    }
+  }, [data, lastBlockId]);
+
+  useEffect(() => {
+    if (blockContent.length > 0) {
+      const chatBlocks = blockContent.map((block: any) => {
+        return <Block {...block} key={block.id} />;
+      });
+      setChatBlocks(chatBlocks);
+    }
+  }, [blockContent]);
 
   //Auto scroll to the button panel after every render
   useEffect(() => {
@@ -71,39 +75,11 @@ export default function Chat({ chatTopic }: { chatTopic: string }) {
     if (buttonPanel) {
       buttonPanel.scrollIntoView({ behavior: "smooth" });
     }
-  }, [blockContent]);
+  }, [chatBlocks]);
 
-  useEffect(() => {
-    setBlockContent((prevBlockContent) => {
-      const newId = prevBlockContent.length + 1;
-      const idString = newId.toString();
-      return [
-        ...prevBlockContent,
-        {
-          text: chatResponse,
-          id: idString,
-          type: blockType,
-          emoji: getEmoji(blockType),
-        },
-      ];
-    });
-  }, [blockType, data]);
-
-  const loadingJSX = <h1>Loading</h1>;
-  const errorJSX = <h1>Error</h1>;
-  if (error) return errorJSX;
-  if (isLoading) return loadingJSX;
-  // BUG: data is undefined on the first render and hence the app goes back to the initial state
-  // if (!data)
-  //   return (
-  //     <div>
-  //       <h1>
-  //         What would you like to learn about{" "}
-  //         <span className="capitalize">{chatTopic}</span>?
-  //       </h1>
-  //       <ButtonPanel buttonsArray={buttonsArray} handleClick={handleClick} />
-  //     </div>
-  //   );
+  // if (!data) return <StartChat buttonsArray={buttonsArray} handleClick={handleClick} chatTopic={chatTopic}/>
+  if (error) return <h1>Error</h1>;
+  if (isLoading) return <h1>Loading</h1>;
   return (
     <div className="flex flex-col gap-4 items-center max-w-xl">
       {chatBlocks}

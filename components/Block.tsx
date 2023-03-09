@@ -1,11 +1,11 @@
 export default function Block({
-  displayText,
-  blockEmoji,
-  blockType,
+  text: displayText,
+  emoji: blockEmoji,
+  type: blockType,
 }: {
-  displayText: string;
-  blockEmoji: string;
-  blockType: string;
+  text: string;
+  emoji: string;
+  type: string;
 }) {
   return (
     <div className="bg-slate-800 text-slate-300 px-5 py-3 rounded-lg ring-1 ring-slate-500">
