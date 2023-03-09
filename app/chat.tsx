@@ -79,10 +79,14 @@ export default function Chat({ chatTopic }: { chatTopic: string }) {
 
   // if (!data) return <StartChat buttonsArray={buttonsArray} handleClick={handleClick} chatTopic={chatTopic}/>
   if (error) return <h1>Error</h1>;
-  if (isLoading) return <h1>Loading</h1>;
+  // if (isLoading) return <h1>Loading</h1>;
   return (
     <div className="flex flex-col gap-4 items-center max-w-xl">
+      <h1 className="border-b border-solid border-slate-800 text-slate-400 p-4 text-2xl">
+        {chatTopic}
+      </h1>
       {chatBlocks}
+      {fetchNow && <h1>Loading...</h1>}
       <ButtonPanel buttonsArray={buttonsArray} handleClick={handleClick} />
     </div>
   );
