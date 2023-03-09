@@ -28,13 +28,15 @@ export async function POST(request: NextRequest) {
         },
       ],
     });
-    return completion.data.choices[0].message;
+    return completion.data;
   }
 
-  // const response = await fetchCompletion();
-  const response = {
-    content: `Test response from server for ${topic}, ${promptType}`,
-  };
+  const openAIresponse = await fetchCompletion();
+
+  const response = { ...openAIresponse, topic, promptType };
+  // const response = {
+  //   content: `Test response from server for ${topic}, ${promptType}`,
+  // };
 
   return NextResponse.json({ response });
 }
