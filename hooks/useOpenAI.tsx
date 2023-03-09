@@ -7,7 +7,6 @@ export default function useOpenAI(
   fetchNow: boolean
 ) {
   const fetcher = function () {
-    console.log(`🔴 Fetch started`);
     const body = {
       topic: chatTopic,
       promptType: blockType,
@@ -25,10 +24,6 @@ export default function useOpenAI(
         return data;
       })
       .then((data) => {
-        // old data -> completion.data.choices[0].message
-        // new data -> completion.data
-
-        console.log(data);
         const response = data.response.choices[0].message.content;
         const topic = data.response.topic;
         const promptType = data.response.promptType;

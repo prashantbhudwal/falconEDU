@@ -44,7 +44,6 @@ export default function Chat({ chatTopic }: { chatTopic: string }) {
 
   useEffect(() => {
     if (data && data.id !== lastBlockId) {
-      console.log(blockContent);
       setBlockContent((prevBlockContent) => {
         return [
           ...prevBlockContent,

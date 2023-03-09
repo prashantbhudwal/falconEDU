@@ -34,9 +34,6 @@ export async function POST(request: NextRequest) {
   const openAIresponse = await fetchCompletion();
 
   const response = { ...openAIresponse, topic, promptType };
-  // const response = {
-  //   content: `Test response from server for ${topic}, ${promptType}`,
-  // };
 
   return NextResponse.json({ response });
 }
