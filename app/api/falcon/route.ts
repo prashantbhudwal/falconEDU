@@ -31,7 +31,8 @@ export async function POST(request: NextRequest) {
     return completion.data.choices[0].message;
   }
 
-  const response = await fetchCompletion();
+  // const response = await fetchCompletion();
+  const response = {content:"Test response from server."};
 
   return NextResponse.json({ response });
 }
