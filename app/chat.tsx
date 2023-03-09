@@ -1,7 +1,7 @@
 "use client";
-
 import Block from "@/components/Block";
 import ButtonPanel from "@/components/ButtonPanel";
+import StartChat from "@/components/StartChat";
 import { useEffect, useState } from "react";
 import { getEmoji } from "./utils";
 import { buttonsArray } from "@/app/schema";
@@ -20,20 +20,29 @@ export default function Chat({ chatTopic }: { chatTopic: string }) {
     },
   ]);
 
-  //TODO: Extract this into a custom hook
-const {data, error, isLoading} = useOpenAI(chatTopic, blockType, setChatResponse, setFetchNow, fetchNow);
-  // BUG data becomes undefined after the first render
-  console.log(data);
+  const { data, error, isLoading } = useOpenAI(
+    chatTopic,
+    blockType,
+    setChatResponse,
+    setFetchNow,
+    fetchNow
+  );
 
-  const chatBlocks = blockContent.map((chat: any) => {
-    return (
-      <Block
-        displayText={chat.text}
-        blockEmoji={chat.emoji}
-        blockType={chat.type}
-        key={chat.id}
-      />
-    );
+  useEffect(() => {
+    if (data) {
+      console.log(`Data from useEffect: ${data}`);
+      // Data again becomes undefined after the first render
+      // setChatResponse(data.response.content);
+      // setFetchNow(false);
+    }
+  }, [data]);
+
+  // BUG data becomes undefined after the first render
+  console.log(`Data from `);
+
+  const chatBlocks = blockContent.map((block: any) => {
+    console.log(`Generate Block`);
+    return <Block {...block} key={block.id} />;
   });
 
   const handleClick = function (buttonText: string) {
@@ -65,21 +74,10 @@ const {data, error, isLoading} = useOpenAI(chatTopic, blockType, setChatResponse
     });
   }, [blockType, data]);
 
-  const loadingJSX = <h1>Loading</h1>;
-  const errorJSX = <h1>Error</h1>;
-  if (error) return errorJSX;
-  if (isLoading) return loadingJSX;
   // BUG: data is undefined on the first render and hence the app goes back to the initial state
-  // if (!data)
-  //   return (
-  //     <div>
-  //       <h1>
-  //         What would you like to learn about{" "}
-  //         <span className="capitalize">{chatTopic}</span>?
-  //       </h1>
-  //       <ButtonPanel buttonsArray={buttonsArray} handleClick={handleClick} />
-  //     </div>
-  //   );
+  // if (!data) return <StartChat buttonsArray={buttonsArray} handleClick={handleClick} chatTopic={chatTopic}/>
+  if (error) return <h1>Error</h1>;
+  if (isLoading) return <h1>Loading</h1>;
   return (
     <div className="flex flex-col gap-4 items-center max-w-xl">
       {chatBlocks}
