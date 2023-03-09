@@ -1,11 +1,11 @@
 import useSWR from "swr";
 
 export default function useOpenAI(
-  chatTopic,
-  blockType,
-  setChatResponse,
-  setFetchNow,
-  fetchNow
+  chatTopic: string,
+  blockType: string,
+  setChatResponse: any,
+  setFetchNow: any,
+  fetchNow: boolean
 ) {
   const fetcher = function () {
     const body = {
