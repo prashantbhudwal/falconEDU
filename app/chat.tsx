@@ -4,8 +4,8 @@ import Block from "@/components/Block";
 import ButtonPanel from "@/components/ButtonPanel";
 import { useEffect, useState } from "react";
 import { getEmoji } from "./utils";
-import useSWR from "swr";
 import { buttonsArray } from "@/app/schema";
+import useOpenAI from "@/hooks/useOpenAI";
 
 export default function Chat({ chatTopic }: { chatTopic: string }) {
   const [chatResponse, setChatResponse] = useState<string>("test");
@@ -21,31 +21,7 @@ export default function Chat({ chatTopic }: { chatTopic: string }) {
   ]);
 
   //TODO: Extract this into a custom hook
-  const fetcher = function () {
-    const body = {
-      topic: chatTopic,
-      promptType: blockType,
-    };
-    return fetch(`/api/falcon`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(body),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setChatResponse(data.response.content);
-        setFetchNow(false);
-        return data.response.content;
-      });
-  };
-
-  const { data, error, isLoading } = useSWR(
-    fetchNow ? "/api/openAPI" : null,
-    fetcher
-  );
-
+const {data, error, isLoading} = useOpenAI(chatTopic, blockType, setChatResponse, setFetchNow, fetchNow);
   // BUG data becomes undefined after the first render
   console.log(data);
 
