@@ -8,6 +8,7 @@ export default function useOpenAI(
   fetchNow: boolean
 ) {
   const fetcher = function () {
+    console.log(`🔴 Fetch started`);
     const body = {
       topic: chatTopic,
       promptType: blockType,
