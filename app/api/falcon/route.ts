@@ -32,7 +32,9 @@ export async function POST(request: NextRequest) {
   }
 
   // const response = await fetchCompletion();
-  const response = {content:"Test response from server."};
+  const response = {
+    content: `Test response from server for ${topic}, ${promptType}`,
+  };
 
   return NextResponse.json({ response });
 }
