@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
         {
           role: "system",
           content:
-            "You are a helpful assistant. Your name is FalconOne. I am a student in grade 6 and english is my second language.",
+            "You are a helpful assistant. I am a student in grade 8 and english is my second language.",
         },
         {
           role: "user",
