@@ -76,18 +76,18 @@ export default function Chat({ chatTopic }: { chatTopic: string }) {
     }
   }, [chatBlocks]);
 
-  if (error)
-    return (
-      <div className="flex flex-col gap-4 items-center max-w-xl">
-        <h1 className="border-b border-solid border-slate-800 text-slate-400 p-4 text-2xl">
-          {chatTopic}
-        </h1>
-        <h1 className=" text-slate-600 p-4 text-xl">
-          Oops, seems like the servers are on strike! Try again?
-        </h1>
-        <ButtonPanel buttonsArray={buttonsArray} handleClick={handleClick} />
-      </div>
-    );
+  // if (error)
+  //   return (
+  //     <div className="flex flex-col gap-4 items-center max-w-xl">
+  //       <h1 className="border-b border-solid border-slate-800 text-slate-400 p-4 text-2xl">
+  //         {chatTopic}
+  //       </h1>
+  //       <h1 className=" text-slate-600 p-4 text-xl">
+  //         Oops, seems like the servers are on strike! Try again?
+  //       </h1>
+  //       <ButtonPanel buttonsArray={buttonsArray} handleClick={handleClick} />
+  //     </div>
+  //   );
 
   return (
     <div className="flex flex-col gap-4 items-center max-w-xl">
@@ -96,6 +96,7 @@ export default function Chat({ chatTopic }: { chatTopic: string }) {
       </h1>
       {chatBlocks}
       {fetchNow && <h1>Loading...</h1>}
+      {error && <h1>Oops it is taking longer than expected...</h1>}
       <ButtonPanel buttonsArray={buttonsArray} handleClick={handleClick} />
     </div>
   );
