@@ -13,7 +13,7 @@ export default function Home() {
     return (
       <div className="flex flex-col gap-4 items-center m-4">
         <h1 className=" text-slate-600 p-4 text-xl">
-          What would you like to learn today?
+          What are you teaching today?
         </h1>
         <input
           placeholder="Enter a topic"
