@@ -1,7 +1,6 @@
 "use client";
 import Block from "@/components/Block";
 import ButtonPanel from "@/components/ButtonPanel";
-import StartChat from "@/components/StartChat";
 import { useEffect, useState } from "react";
 import { getEmoji } from "./utils";
 import { buttonsArray } from "@/app/schema";
