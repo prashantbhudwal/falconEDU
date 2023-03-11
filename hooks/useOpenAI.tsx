@@ -32,8 +32,9 @@ export default function useOpenAI(
       });
   };
   const { data, error, isLoading } = useSWR(
-    fetchNow ? "/api/openAPI" : null,
-    fetcher
+    fetchNow ? "/api/falcon" : null,
+    fetcher,
+    { refreshInterval: 500 } //Jugaad here -> Need to revalidate on click
   );
   return [data, error, isLoading];
 }
