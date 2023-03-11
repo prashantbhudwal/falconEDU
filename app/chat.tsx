@@ -31,17 +31,7 @@ export default function Chat({ chatTopic }: { chatTopic: string }) {
     setFetchNow,
     fetchNow
   );
-  // useEffect(() => {
-  //   if (data) {
-  //     console.log(`Data from useEffect: ${data}`);
-  //     // Data again becomes undefined after the first render
-  //     // setChatResponse(data.response.content);
-  //     // setFetchNow(false);
-  //   }
-  // }, [data]);
-
-  // BUG data becomes undefined after the first render
-
+ 
   useEffect(() => {
     if (data && data.id !== lastBlockId) {
       setBlockContent((prevBlockContent) => {
@@ -68,7 +58,6 @@ export default function Chat({ chatTopic }: { chatTopic: string }) {
     }
   }, [blockContent]);
 
-  //Auto scroll to the button panel after every render
   useEffect(() => {
     const buttonPanel = document.getElementById("buttonPanel");
     if (buttonPanel) {
