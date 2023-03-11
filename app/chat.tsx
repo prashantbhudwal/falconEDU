@@ -1,7 +1,6 @@
 "use client";
 import Block from "@/components/Block";
 import ButtonPanel from "@/components/ButtonPanel";
-import StartChat from "@/components/StartChat";
 import { useEffect, useState } from "react";
 import { getEmoji } from "./utils";
 import { buttonsArray } from "@/app/schema";
@@ -31,33 +30,21 @@ export default function Chat({ chatTopic }: { chatTopic: string }) {
     setFetchNow,
     fetchNow
   );
-  // useEffect(() => {
-  //   if (data) {
-  //     console.log(`Data from useEffect: ${data}`);
-  //     // Data again becomes undefined after the first render
-  //     // setChatResponse(data.response.content);
-  //     // setFetchNow(false);
-  //   }
-  // }, [data]);
 
-  // BUG data becomes undefined after the first render
-
-  useEffect(() => {
-    if (data && data.id !== lastBlockId) {
-      setBlockContent((prevBlockContent) => {
-        return [
-          ...prevBlockContent,
-          {
-            text: data.response,
-            id: data.id,
-            type: data.promptType,
-            emoji: getEmoji(data.promptType),
-          },
-        ];
-      });
-      setLastBlockId(data.id);
-    }
-  }, [data, lastBlockId]);
+  if (data && data.id !== lastBlockId) {
+    setBlockContent((prevBlockContent) => {
+      return [
+        ...prevBlockContent,
+        {
+          text: data.response,
+          id: data.id,
+          type: data.promptType,
+          emoji: getEmoji(data.promptType),
+        },
+      ];
+    });
+    setLastBlockId(data.id);
+  }
 
   useEffect(() => {
     if (blockContent.length > 0) {
@@ -66,16 +53,12 @@ export default function Chat({ chatTopic }: { chatTopic: string }) {
       });
       setChatBlocks(chatBlocks);
     }
-  }, [blockContent]);
-
-  //Auto scroll to the button panel after every render
-  useEffect(() => {
     const buttonPanel = document.getElementById("buttonPanel");
     if (buttonPanel) {
       buttonPanel.scrollIntoView({ behavior: "smooth" });
     }
-  }, [chatBlocks]);
-  
+  }, [blockContent]);
+
   return (
     <div className="flex flex-col gap-4 items-center max-w-xl">
       <h1 className="border-b border-solid border-slate-800 text-slate-400 p-4 text-2xl">
