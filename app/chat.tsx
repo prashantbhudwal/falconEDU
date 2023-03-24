@@ -32,12 +32,14 @@ export default function Chat({
     setFetchNow(true);
   };
 
-  const [data, error, isLoading] = useOpenAI(
-    chatTopic,
-    blockType,
-    setFetchNow,
-    fetchNow
-  );
+   const [data, error, isLoading] = useOpenAI(
+     chatTopic,
+     chatSubtopic,
+     chatGrade,
+     blockType,
+     setFetchNow,
+     fetchNow
+   );
 
   if (data && data.id !== lastBlockId) {
     setBlockContent((prevBlockContent) => {
@@ -70,7 +72,7 @@ export default function Chat({
   return (
     <div className="flex flex-col gap-4 items-center max-w-xl">
       <h1 className="border-b border-solid border-slate-800 text-slate-400 p-4 text-2xl">
-        {chatTopic}
+        Grade {chatGrade}: {chatTopic} - {chatSubtopic}
       </h1>
       {chatBlocks}
       {fetchNow && <h1>Loading...</h1>}
