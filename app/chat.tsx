@@ -72,8 +72,8 @@ export default function Chat({
   return (
     <div className="flex flex-col gap-4 items-center max-w-xl">
       <div className="flex flex-col items-center border-b border-solid border-slate-800 text-slate-400 p-4">
-        <h1 className="text-2xl">{chatTopic}</h1>
-        <p className=" text-base  text-slate-600">{chatSubtopic}</p>
+        <h1 className="text-xl">{chatTopic}</h1>
+        <p className=" text-base  text-slate-600">Topic: {chatSubtopic}</p>
       </div>
       {chatBlocks}
       {fetchNow && <h1>Loading...</h1>}
