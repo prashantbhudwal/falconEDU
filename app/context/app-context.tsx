@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { createContext, useContext, useState } from "react";
 
@@ -22,7 +22,9 @@ const AppContext = createContext<AppState>({
 
 export const useAppState = () => useContext(AppContext);
 
-export const AppProvider: React.FC = ({ children }: any) => {
+export const AppProvider: React.FC<React.PropsWithChildren<{}>> = ({
+  children,
+}) => {
   const [grade, setGrade] = useState<string>("");
   const [topic, setTopic] = useState<string>("");
   const [subtopic, setSubtopic] = useState<string>("");
