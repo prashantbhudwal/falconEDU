@@ -12,7 +12,15 @@ interface BlockContent {
   emoji: string;
 }
 
-export default function Chat({ chatTopic }: { chatTopic: string }) {
+export default function Chat({
+  chatTopic,
+  chatSubtopic,
+  chatGrade,
+}: {
+  chatTopic: string;
+  chatSubtopic: string;
+  chatGrade: string;
+}) {
   const [fetchNow, setFetchNow] = useState(false);
   const [chatBlocks, setChatBlocks] = useState<JSX.Element[]>([]);
   const [blockType, setBlockType] = useState(chatTopic);
