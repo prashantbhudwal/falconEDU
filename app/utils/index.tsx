@@ -24,22 +24,22 @@ export const getEmoji = function (blockType: string) {
 export const getPrompt = function (promptType: string) {
   switch (promptType) {
     case "story":
-      return "Tell me a story that helps me understand";
+      return "Tell me a story that helps students understand";
     case "example":
-      return " Give me an example of";
+      return "Provide an example that clarifies the concept for students";
     case "analogy":
-      return "Give me an analogy that helps me understand";
+      return "Share an analogy that makes the concept easier for students to grasp";
     case "history":
-      return "Tell me about the history of";
+      return "Discuss the historical context or background of";
     case "application":
-      return "Give me a real-world application of";
+      return "Describe a real-world application of this concept that students can relate to";
     case "antiExample":
-      return "Give me a counter example of";
+      return "Explain a counterexample that helps students differentiate between correct and incorrect understanding of";
     case "contrast":
-      return "Contrast the topic after ':' with other closely related topics";
+      return "Compare and contrast this concept with other closely related topics to help students distinguish between them";
     case "define":
-      return "Define";
+      return "Define the concept in a clear and concise manner for students";
     default:
-      return "Explain";
+      return "Explain the concept in a way that is easy for students to understand";
   }
 };

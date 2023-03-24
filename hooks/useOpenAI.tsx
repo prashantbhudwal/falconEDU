@@ -2,6 +2,8 @@ import useSWR from "swr";
 
 export default function useOpenAI(
   chatTopic: string,
+  chatSubtopic: string,
+  chatGrade: string,
   blockType: string,
   setFetchNow: any,
   fetchNow: boolean
@@ -9,6 +11,8 @@ export default function useOpenAI(
   const fetcher = function () {
     const body = {
       topic: chatTopic,
+      subtopic: chatSubtopic,
+      grade: chatGrade,
       promptType: blockType,
     };
     return fetch(`/api/falcon`, {
@@ -18,7 +22,12 @@ export default function useOpenAI(
       },
       body: JSON.stringify(body),
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("An error occurred while fetching the data.");
+        }
+        return res.json();
+      })
       .then((data) => {
         setFetchNow(false);
         return data;
@@ -29,12 +38,16 @@ export default function useOpenAI(
         const promptType = data.response.promptType;
         const id = data.response.id;
         return { response, topic, promptType, id };
+      })
+      .catch((error) => {
+        setFetchNow(false);
+        return { error: error.message };
       });
   };
   const { data, error, isLoading } = useSWR(
     fetchNow ? "/api/falcon" : null,
     fetcher,
-    { refreshInterval: 500 } //Jugaad here -> Need to revalidate on click
+    { refreshInterval: 500 } // Jugaad here -> Need to revalidate on click
   );
   return [data, error, isLoading];
 }

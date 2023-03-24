@@ -12,7 +12,15 @@ interface BlockContent {
   emoji: string;
 }
 
-export default function Chat({ chatTopic }: { chatTopic: string }) {
+export default function Chat({
+  chatTopic,
+  chatSubtopic,
+  chatGrade,
+}: {
+  chatTopic: string;
+  chatSubtopic: string;
+  chatGrade: string;
+}) {
   const [fetchNow, setFetchNow] = useState(false);
   const [chatBlocks, setChatBlocks] = useState<JSX.Element[]>([]);
   const [blockType, setBlockType] = useState(chatTopic);
@@ -26,6 +34,8 @@ export default function Chat({ chatTopic }: { chatTopic: string }) {
 
   const [data, error, isLoading] = useOpenAI(
     chatTopic,
+    chatSubtopic,
+    chatGrade,
     blockType,
     setFetchNow,
     fetchNow
@@ -61,9 +71,10 @@ export default function Chat({ chatTopic }: { chatTopic: string }) {
 
   return (
     <div className="flex flex-col gap-4 items-center max-w-xl">
-      <h1 className="border-b border-solid border-slate-800 text-slate-400 p-4 text-2xl">
-        {chatTopic}
-      </h1>
+      <div className="flex flex-col items-center border-b border-solid border-slate-800 text-slate-400 p-4">
+        <h1 className="text-2xl">{chatTopic}</h1>
+        <p className=" text-base  text-slate-600">{chatSubtopic}</p>
+      </div>
       {chatBlocks}
       {fetchNow && <h1>Loading...</h1>}
       {error && <h1>Oops it is taking longer than expected...</h1>}

@@ -1,0 +1,82 @@
+[
+  {
+    "id": 1,
+    "grade": "6",
+    "chapters": [
+      {
+        "id": 1,
+        "name": "Food: Where Does It Come From?",
+        "topics": [
+          {
+            "id": 1,
+            "name": "Sources of food"
+          },
+          {
+            "id": 2,
+            "name": "Components of food"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "Components of Food",
+        "topics": [
+          {
+            "id": 1,
+            "name": "Nutrients"
+          },
+          {
+            "id": 2,
+            "name": "Balanced diet"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "name": "Fibre to Fabric",
+        "topics": [
+          {
+            "id": 1,
+            "name": "Fibres"
+          },
+          {
+            "id": 2,
+            "name": "Fabrics"
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "name": "Sorting Materials into Groups",
+        "topics": [
+          {
+            "id": 1,
+            "name": "Classification of objects"
+          },
+          {
+            "id": 2,
+            "name": "Properties of materials"
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "name": "Separation of Substances",
+        "topics": [
+          {
+            "id": 1,
+            "name": "Methods of separation"
+          },
+          {
+            "id": 2,
+            "name": "Separation of solids from solids"
+          },
+          {
+            "id": 3,
+            "name": "Separation of solids from liquids"
+          }
+        ]
+      }
+    ]
+  }
+]

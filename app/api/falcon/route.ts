@@ -9,6 +9,8 @@ const configuration = new Configuration({
 export async function POST(request: NextRequest) {
   const body = await request.json();
   const topic = body.topic;
+  const subtopic = body.subtopic;
+  const grade = body.grade;
   const promptType = body.promptType;
   const prompt = getPrompt(promptType);
 
@@ -19,8 +21,7 @@ export async function POST(request: NextRequest) {
       messages: [
         {
           role: "system",
-          content:
-            "You are a helpful assistant. I am a student in grade 8 and english is my second language.",
+          content: `You are a knowledgeable teaching assistant. I am a teacher in India teaching grade ${grade} at an NCERT school, focusing on the topic "${topic}" under the subtopic "${subtopic}". My students' primary language is not English. Help me brainstorm ideas and strategies for effectively teaching this topic in my classroom.`,
         },
         {
           role: "user",
