@@ -1,53 +1,53 @@
 import useSWR from "swr";
+import axios from "axios";
+
+const processOpenAIResponse = function (OpenAIResponse: any) {
+  const response = OpenAIResponse.choices[0].message.content;
+  const topic = OpenAIResponse.topic;
+  const promptType = OpenAIResponse.promptType;
+  const id = OpenAIResponse.id;
+  return { response, topic, promptType, id };
+};
+
+const fetcher = async function (body: any) {
+  try {
+    const response = await axios.post("/api/falcon", body, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = response.data;
+    return processOpenAIResponse(data.response);
+  } catch (error) {
+    const errorMessage =
+      error instanceof Error ? error.message : "An unknown error occurred.";
+    return { error: errorMessage };
+  }
+};
 
 export default function useOpenAI(
   chatTopic: string,
   chatSubtopic: string,
   chatGrade: string,
-  blockType: string,
-  setFetchNow: any,
-  fetchNow: boolean
+  blockType: string
 ) {
-  const fetcher = function () {
-    const body = {
-      topic: chatTopic,
-      subtopic: chatSubtopic,
-      grade: chatGrade,
-      promptType: blockType,
-    };
-    return fetch(`/api/falcon`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(body),
-    })
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("An error occurred while fetching the data.");
-        }
-        return res.json();
-      })
-      .then((data) => {
-        setFetchNow(false);
-        return data;
-      })
-      .then((data) => {
-        const response = data.response.choices[0].message.content;
-        const topic = data.response.topic;
-        const promptType = data.response.promptType;
-        const id = data.response.id;
-        return { response, topic, promptType, id };
-      })
-      .catch((error) => {
-        setFetchNow(false);
-        return { error: error.message };
-      });
+  const body = {
+    topic: chatTopic,
+    subtopic: chatSubtopic,
+    grade: chatGrade,
+    promptType: blockType,
   };
-  const { data, error, isLoading } = useSWR(
-    fetchNow ? "/api/falcon" : null,
-    fetcher,
-    { refreshInterval: 500 } // Jugaad here -> Need to revalidate on click
+
+  const { data, error, isLoading, isValidating, mutate } = useSWR(
+    "/api/falcon",
+    () => fetcher(body),
+    {
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+      revalidateOnMount: false,
+      initialData: { response: "", topic: "", promptType: "", id: "" },
+    }
   );
-  return [data, error, isLoading];
+  return [data, error, isLoading, isValidating, mutate];
 }
