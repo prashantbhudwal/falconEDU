@@ -9,18 +9,16 @@ const processOpenAIResponse = function (OpenAIResponse: any) {
   return { response, topic, promptType, id };
 };
 
-const fetcher = async function (body: any, setFetchNow: any) {
+const fetcher = async function (body: any) {
   try {
     const response = await axios.post("/api/falcon", body, {
       headers: {
         "Content-Type": "application/json",
       },
     });
-    setFetchNow(false);
     const data = response.data;
     return processOpenAIResponse(data.response);
   } catch (error) {
-    setFetchNow(false);
     const errorMessage =
       error instanceof Error ? error.message : "An unknown error occurred.";
     return { error: errorMessage };
@@ -31,9 +29,7 @@ export default function useOpenAI(
   chatTopic: string,
   chatSubtopic: string,
   chatGrade: string,
-  blockType: string,
-  setFetchNow: any,
-  fetchNow: boolean
+  blockType: string
 ) {
   const body = {
     topic: chatTopic,
@@ -42,10 +38,16 @@ export default function useOpenAI(
     promptType: blockType,
   };
 
-  const { data, error, isLoading } = useSWR(
-    fetchNow ? "/api/falcon" : null,
-    () => fetcher(body, setFetchNow),
-    { refreshInterval: 500 } // Jugaad here -> Need to revalidate on click
+  const { data, error, isLoading, mutate } = useSWR(
+    "/api/falcon",
+    () => fetcher(body),
+    {
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+      revalidateOnMount: false,
+      initialData: { response: "", topic: "", promptType: "", id: "" },
+    }
   );
-  return [data, error, isLoading];
+  return [data, error, isLoading, mutate];
 }
