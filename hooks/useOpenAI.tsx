@@ -38,7 +38,7 @@ export default function useOpenAI(
     promptType: blockType,
   };
 
-  const { data, error, isLoading, mutate } = useSWR(
+  const { data, error, isLoading, isValidating, mutate } = useSWR(
     "/api/falcon",
     () => fetcher(body),
     {
@@ -49,5 +49,5 @@ export default function useOpenAI(
       initialData: { response: "", topic: "", promptType: "", id: "" },
     }
   );
-  return [data, error, isLoading, mutate];
+  return [data, error, isLoading, isValidating, mutate];
 }

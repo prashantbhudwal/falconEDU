@@ -26,7 +26,7 @@ export default function Chat({
   const [blockContent, setBlockContent] = useState<BlockContent[]>([]);
   const [lastBlockId, setLastBlockId] = useState("");
 
-  const [data, error, isLoading, mutate] = useOpenAI(
+  const [data, error, isLoading, isValidating, mutate] = useOpenAI(
     chatTopic,
     chatSubtopic,
     chatGrade,
@@ -73,9 +73,11 @@ export default function Chat({
         <p className=" text-base  text-slate-600">Topic: {chatSubtopic}</p>
       </div>
       {chatBlocks}
-      {isLoading && <h1>Loading...</h1>}
+      {isValidating && <h1>Loading...</h1>}
       {error && <h1>Oops it is taking longer than expected...</h1>}
-      <ButtonPanel buttonsArray={buttonsArray} handleClick={handleClick} />
+      {(!isValidating || !blockType) && (
+        <ButtonPanel buttonsArray={buttonsArray} handleClick={handleClick} />
+      )}
     </div>
   );
 }
