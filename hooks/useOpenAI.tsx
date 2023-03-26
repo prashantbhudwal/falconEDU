@@ -10,13 +10,19 @@ const processOpenAIResponse = function (OpenAIResponse: any) {
 };
 
 const fetcher = async function (body: any) {
-  const response = await axios.post("/api/falcon", body, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  const data = response.data;
-  return processOpenAIResponse(data.response);
+  try {
+    const response = await axios.post("/api/falcon", body, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = response.data;
+    return processOpenAIResponse(data.response);
+  } catch (error) {
+    const errorMessage =
+      error instanceof Error ? error.message : "An unknown error occurred.";
+    return { error: errorMessage };
+  }
 };
 
 export default function useOpenAI(
