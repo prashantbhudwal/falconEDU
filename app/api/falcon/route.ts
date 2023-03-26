@@ -18,6 +18,8 @@ export async function POST(request: NextRequest) {
   async function fetchCompletion() {
     const completion = await openai.createChatCompletion({
       model: "gpt-3.5-turbo",
+      temperature: 0.7,
+      max_tokens: 300,
       messages: [
         {
           role: "system",
