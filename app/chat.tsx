@@ -75,7 +75,7 @@ export default function Chat({
       {chatBlocks}
       {isValidating && <h1>Loading...</h1>}
       {error && <h1>Oops it is taking longer than expected...</h1>}
-      {(!isValidating || !blockType) && (
+      {(!isValidating || !blockType || error) && (
         <ButtonPanel buttonsArray={buttonsArray} handleClick={handleClick} />
       )}
     </div>
