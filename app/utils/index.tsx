@@ -17,7 +17,7 @@ export const getEmoji = function (blockType: string) {
     case "define":
       return "📝";
     default:
-      return "☣️";
+      return "Oops!! AI is on Strike. Try Again?";
   }
 };
 
