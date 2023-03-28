@@ -68,11 +68,11 @@ export default function Home() {
           ))}
       </select>
       <button
-        className="bg-emerald-500 ring-1 ring-slate-700 text-slate-700 rounded-md px-8 py-2 text-lg font-medium capitalize"
+        className="bg-fuchsia-500 ring-1 ring-slate-700 text-slate-800 rounded-md px-8 py-2 text-lg font-medium capitalize"
         onClick={handleClick}
         disabled={!topic || !subtopic || !grade}
       >
-        Start
+        Save
       </button>
     </div>
   );
