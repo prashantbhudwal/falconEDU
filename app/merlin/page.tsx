@@ -3,6 +3,7 @@ import Chip from "./Chip";
 import Sidebar from "./Sidebar";
 import TopBar from "./TopBar";
 import CanvasBlock from "./CanvasBlock";
+import OutlineBlock from "./OutlineBlock";
 
 export default function Merlin() {
   const data = {
@@ -33,8 +34,10 @@ export default function Merlin() {
         <CanvasBlock generatedData={generatedData} />
       </Canvas>
       <Sidebar className="col-start-11 col-span-2" heading={"Outline"}>
-        1. This is the text <br /> 2. More text <br />
-        1. This is the text <br /> 2. More text <br />
+        <OutlineBlock>
+          1. This is the text <br /> 2. More text <br />
+          1. This is the text <br /> 2. More text <br />
+        </OutlineBlock>
       </Sidebar>
     </div>
   );
