@@ -1,6 +1,8 @@
 import useSWR from "swr";
 import axios from "axios";
 
+const ROUTE = "/api/falcon";
+
 const processOpenAIResponse = function (OpenAIResponse: any) {
   const response = OpenAIResponse.choices[0].message.content;
   const topic = OpenAIResponse.topic;
@@ -11,7 +13,7 @@ const processOpenAIResponse = function (OpenAIResponse: any) {
 
 const fetcher = async function (body: any) {
   try {
-    const response = await axios.post("/api/falcon", body, {
+    const response = await axios.post(ROUTE, body, {
       headers: {
         "Content-Type": "application/json",
       },
@@ -39,7 +41,7 @@ export default function useOpenAI(
   };
 
   const { data, error, isLoading, isValidating, mutate } = useSWR(
-    "/api/falcon",
+    ROUTE,
     () => fetcher(body),
     {
       revalidateIfStale: false,
