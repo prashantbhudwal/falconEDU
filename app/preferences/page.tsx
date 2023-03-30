@@ -2,6 +2,7 @@
 import { useState } from "react";
 import grades from "../data/grades.json";
 import { useAppState } from "../context/app-context";
+import Select from "@/components/Select";
 
 export default function Home() {
   const { topic, subtopic, grade, setTopic, setSubtopic, setGrade } =
@@ -24,49 +25,40 @@ export default function Home() {
     setStarted(true);
   };
 
+  const gradeOptions = grades.map((g) => ({
+    id: g.id,
+    name: `Grade ${g.grade}`,
+  }));
+  const chapterOptions =
+    grades
+      .find((g) => g.grade.toString() === grade)
+      ?.chapters.map((c) => ({ id: c.id, name: c.name })) || [];
+  const topicOptions =
+    grades
+      .find((g) => g.grade.toString() === grade)
+      ?.chapters.find((c) => c.name === topic)
+      ?.topics.map((t) => ({ id: t.id, name: t.name })) || [];
+
   return (
     <div className="flex flex-col gap-4 items-center m-4">
-      <select
-        onChange={handleGradeChange}
+      <Select
+        options={gradeOptions}
         value={grade}
-        className="border-slate-700 rounded-md bg-slate-300 text-black p-4 w-96"
-      >
-        <option value="">Select a grade</option>
-        {grades.map((g) => (
-          <option key={g.id} value={g.grade}>
-            Grade {g.grade}
-          </option>
-        ))}
-      </select>
-      <select
-        onChange={handleChapterChange}
+        onChange={handleGradeChange}
+        label="a grade"
+      />
+      <Select
+        options={chapterOptions}
         value={topic}
-        className="border-slate-700 rounded-md bg-slate-300 text-black p-4 w-96"
-      >
-        <option value="">Select a chapter</option>
-        {grades
-          .find((g) => g.grade === grade)
-          ?.chapters.map((c) => (
-            <option key={c.id} value={c.name}>
-              {c.name}
-            </option>
-          ))}
-      </select>
-      <select
-        onChange={handleTopicChange}
+        onChange={handleChapterChange}
+        label="a chapter"
+      />
+      <Select
+        options={topicOptions}
         value={subtopic}
-        className="border-slate-700 rounded-md bg-slate-300 text-black p-4 w-96"
-      >
-        <option value="">Select a topic</option>
-        {grades
-          .find((g) => g.grade === grade)
-          ?.chapters.find((c) => c.name === topic)
-          ?.topics.map((t) => (
-            <option key={t.id} value={t.name}>
-              {t.name}
-            </option>
-          ))}
-      </select>
+        onChange={handleTopicChange}
+        label="a topic"
+      />
       <button
         className="bg-fuchsia-500 ring-1 ring-slate-700 text-slate-800 rounded-md px-8 py-2 text-lg font-medium capitalize"
         onClick={handleClick}
