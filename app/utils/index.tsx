@@ -43,3 +43,66 @@ export const getPrompt = function (promptType: string) {
       return "Explain the concept in a way that is easy for students to understand";
   }
 };
+
+export const blockContentArray = [
+  {
+    text: "This is a short description of a Pikachu.",
+    id: "id-1",
+    type: "Type 1",
+    emoji: "🐹",
+  },
+  {
+    text: "This is a short description of a Charmander.",
+    id: "id-2",
+    type: "Type 2",
+    emoji: "🦎",
+  },
+  {
+    text: "Squirtle is a water-type Pokémon with a hard shell and a playful personality. It loves to play in the water and can shoot powerful water jets from its mouth.",
+    id: "id-3",
+    type: "Type 3",
+    emoji: "🐢",
+  },
+  {
+    text: "This is a short description of a Bulbasaur.",
+    id: "id-4",
+    type: "Type 4",
+    emoji: "🌱",
+  },
+  {
+    text: "This is a short description of a Jigglypuff.",
+    id: "id-5",
+    type: "Type 5",
+    emoji: "🎤",
+  },
+  {
+    text: "This is a short description of a Eevee.",
+    id: "id-6",
+    type: "Type 6",
+    emoji: "🦊",
+  },
+  {
+    text: "This is a short description of a Snorlax.",
+    id: "id-7",
+    type: "Type 7",
+    emoji: "💤",
+  },
+  {
+    text: "This is a short description of a Pikachu.",
+    id: "id-8",
+    type: "Type 8",
+    emoji: "🐭",
+  },
+  {
+    text: "This is a short description of a Mewtwo.",
+    id: "id-9",
+    type: "Type 9",
+    emoji: "🧬",
+  },
+  {
+    text: "This is a short description of a Gyarados.",
+    id: "id-10",
+    type: "Type 10",
+    emoji: "🐠",
+  },
+];
