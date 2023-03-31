@@ -6,25 +6,7 @@ export default function ChatComponent() {
   const [messages, setMessages] = useState<string[]>([]);
   const [fetchNow, setFetchNow] = useState(false);
 
-  const fetcher = function () {
-    const body = {
-      prompt: "Can you write an essay on JayZ",
-    };
-    return fetch(`/api/falconStream`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(body),
-    })
-      .then((res) => res.json())
-      .then((data) => data.response.content);
-  };
 
-  const { data, error, isLoading } = useSWR(
-    fetchNow ? "/api/openAPI" : null,
-    fetcher
-  );
 
   useEffect(() => {
     const body = {
