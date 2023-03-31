@@ -22,7 +22,7 @@ export default function Chip({ text }: { text: string }) {
       <p
         role={"Handle"}
         ref={drag}
-        className={`leading-6 text-lg uppercase text-center `}
+        className={`leading-6 text-lg capitalize text-center`}
       >
         {text}
       </p>
