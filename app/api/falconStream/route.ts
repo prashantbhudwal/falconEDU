@@ -1,6 +1,7 @@
 // app/api/route.ts
-import { Configuration, OpenAIApi } from "openai";
-import { NextResponse, NextRequest } from "next/server";
+import { NextRequest } from "next/server";
+import { getCompletionStream } from "../openAI";
+import { ChatCompletionRequestMessage } from "openai";
 
 export const runtime = "nodejs";
 // This is required to enable streaming
@@ -9,10 +10,16 @@ export const dynamic = "force-dynamic";
 export async function POST(request: NextRequest) {
   const body = await request.json();
   const prompt = body.prompt;
-  const configuration = new Configuration({
-    apiKey: process.env.OPENAI_API_KEY,
-  });
-  const openai = new OpenAIApi(configuration);
+  const messages: ChatCompletionRequestMessage[] = [
+    {
+      role: "system",
+      content: `You are a knowledgeable teaching assistant.`,
+    },
+    {
+      role: "user",
+      content: prompt,
+    },
+  ];
 
   let responseStream = new TransformStream();
   const writer = responseStream.writable.getWriter();
@@ -21,20 +28,7 @@ export async function POST(request: NextRequest) {
   // writer.write(encoder.encode("streaming")); // Send "streaming" message to the client
 
   try {
-    const openaiRes = await openai.createChatCompletion(
-      {
-        model: "gpt-3.5-turbo",
-        stream: true,
-        max_tokens: 100,
-        messages: [
-          {
-            role: "user",
-            content: prompt,
-          },
-        ],
-      },
-      { responseType: "stream" }
-    );
+    const openaiRes = await getCompletionStream(messages);
 
     // @ts-ignore
     openaiRes.data.on("data", async (data: Buffer) => {
