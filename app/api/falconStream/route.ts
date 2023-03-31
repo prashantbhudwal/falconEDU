@@ -1,6 +1,6 @@
 // app/api/route.ts
 import { NextRequest } from "next/server";
-import { getCompletionStream } from "../openAI";
+import { getCompletionStream, handleGPT3TurboStreamData } from "../openAI";
 import { ChatCompletionRequestMessage } from "openai";
 
 export const runtime = "nodejs";
@@ -20,45 +20,18 @@ export async function POST(request: NextRequest) {
       content: prompt,
     },
   ];
-
   let responseStream = new TransformStream();
   const writer = responseStream.writable.getWriter();
-  const encoder = new TextEncoder();
-
-  // writer.write(encoder.encode("streaming")); // Send "streaming" message to the client
 
   try {
     const openaiRes = await getCompletionStream(messages);
-
     // @ts-ignore
-    openaiRes.data.on("data", async (data: Buffer) => {
-      const lines = data
-        .toString()
-        .split("\n")
-        .filter((line: string) => line.trim() !== "");
-      for (const line of lines) {
-        const message = line.replace(/^data: /, "");
-        if (message === "[DONE]") {
-          console.log("Stream completed");
-          writer.close();
-          return;
-        }
-        try {
-          const parsed = JSON.parse(message);
-          console.log(parsed);
-          console.log(parsed.choices[0].delta);
-          const filteredContent = parsed.choices[0].delta.content
-            ? parsed.choices[0].delta?.content
-            : "";
-
-          await writer.write(encoder.encode(`${filteredContent}`));
-        } catch (error) {
-          console.error("Could not JSON parse stream message", message, error);
-        }
-      }
-    });
+    openaiRes.data.on("data", (data: Buffer) =>
+      handleGPT3TurboStreamData(data, writer)
+    );
   } catch (error) {
     console.error("An error occurred during OpenAI request", error);
+    const encoder = new TextEncoder();
     writer.write(encoder.encode("An error occurred during OpenAI request"));
     writer.close();
   }

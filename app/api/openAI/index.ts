@@ -36,3 +36,32 @@ export async function getCompletionStream(
   );
   return completion;
 }
+
+export async function handleGPT3TurboStreamData(
+  data: Buffer,
+  writer: WritableStreamDefaultWriter<Uint8Array>
+) {
+  const encoder = new TextEncoder();
+  const lines = data
+    .toString()
+    .split("\n")
+    .filter((line) => line.trim() !== "");
+
+  for (const line of lines) {
+    const message = line.replace(/^data: /, "");
+    if (message === "[DONE]") {
+      console.log("Stream completed");
+      writer.close();
+      return;
+    }
+
+    try {
+      const parsed = JSON.parse(message);
+      const filteredContent = parsed.choices[0]?.delta?.content || "";
+
+      await writer.write(encoder.encode(filteredContent));
+    } catch (error) {
+      console.error("Could not JSON parse stream message", message, error);
+    }
+  }
+}
