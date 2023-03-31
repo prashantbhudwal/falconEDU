@@ -2,29 +2,15 @@
 import Canvas from "./Canvas";
 import Chip from "./Chip";
 import Sidebar from "./Sidebar";
-import TopBar from "./TopBar";
-import CanvasBlock from "./CanvasBlock";
 import OutlineBlock from "./OutlineBlock";
 import { buttonsArray as promptsArray } from "../schema";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
 
 export default function Merlin() {
-  const data = {
-    name: "Merlin",
-    type: "wizard",
-    age: 1000,
-    location: "Camelot",
-    friends: ["Arthur", "Gwen", "Lancelot"],
-  };
-
-  const generatedData = {
-    text: "This is a generated text. This is a generated text. This is a generated text. This is a generated text. This is a generated text. This is a generated text. This is a generated text. This is a generated text. This is a generated text. This is a generated text. This is a generated text. This is a generated text.",
-  };
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="grid grid-cols-12 gap-4 w-full">
-        {/* <TopBar className="col-start-1 col-span-full h-16 max-h-16" /> */}
         <Sidebar
           className="col-start-1 col-span-2 row-start-1"
           heading={"Blocks"}
@@ -33,14 +19,7 @@ export default function Merlin() {
             <Chip key={buttonText} text={buttonText} />
           ))}
         </Sidebar>
-        <Canvas className="col-start-3 col-span-8 h-screen overflow-y-auto custom-scrollbar">
-          <CanvasBlock generatedData={generatedData} />
-          <CanvasBlock generatedData={generatedData} />
-          <CanvasBlock generatedData={generatedData} />
-          <CanvasBlock generatedData={generatedData} />
-          <CanvasBlock generatedData={generatedData} />
-          <CanvasBlock generatedData={generatedData} />
-        </Canvas>
+        <Canvas className="col-start-3 col-span-8 h-screen overflow-y-auto custom-scrollbar" />
         <Sidebar className="col-start-11 col-span-2" heading={"Outline"}>
           <OutlineBlock>
             1. This is the text <br /> 2. More text <br />
