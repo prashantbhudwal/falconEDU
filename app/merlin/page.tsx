@@ -6,8 +6,14 @@ import OutlineBlock from "./OutlineBlock";
 import { buttonsArray as promptsArray } from "../schema";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
+import { useAppState } from "../context/app-context";
 
 export default function Merlin() {
+  const {
+    topic: chatTopic,
+    subtopic: chatSubtopic,
+    grade: chatGrade,
+  } = useAppState();
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="grid grid-cols-12 gap-4 w-full">
