@@ -81,5 +81,5 @@ export default function Home() {
     );
   }
 
-  return <Chat chatTopic={topic} chatSubtopic={subtopic} chatGrade={grade} />;
+  return <Chat />;
 }

@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import { getEmoji } from "./utils";
 import { buttonsArray } from "@/app/schema";
 import useOpenAI from "@/hooks/useOpenAI";
+import { useAppState } from "./context/app-context";
+
 interface BlockContent {
   text: string;
   id: string;
@@ -12,15 +14,12 @@ interface BlockContent {
   emoji: string;
 }
 
-export default function Chat({
-  chatTopic,
-  chatSubtopic,
-  chatGrade,
-}: {
-  chatTopic: string;
-  chatSubtopic: string;
-  chatGrade: string;
-}) {
+export default function Chat() {
+  const {
+    topic: chatTopic,
+    subtopic: chatSubtopic,
+    grade: chatGrade,
+  } = useAppState();
   const [chatBlocks, setChatBlocks] = useState<JSX.Element[]>([]);
   const [blockType, setBlockType] = useState("");
   const [blockContent, setBlockContent] = useState<BlockContent[]>([]);
