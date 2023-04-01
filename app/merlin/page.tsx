@@ -28,8 +28,8 @@ export default function Merlin() {
         <Canvas className="col-start-3 col-span-8 h-screen overflow-y-auto custom-scrollbar" />
         <Sidebar className="col-start-11 col-span-2" heading={"Outline"}>
           <OutlineBlock>
-            1. This is the text <br /> 2. More text <br />
-            1. This is the text <br /> 2. More text <br />
+            1. Outline will <br /> 2. Appear here <br />
+            3. Very Very <br /> 4. Soon <br />
           </OutlineBlock>
         </Sidebar>
       </div>
