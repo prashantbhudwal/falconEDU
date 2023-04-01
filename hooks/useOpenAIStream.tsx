@@ -2,9 +2,45 @@ import { useState, useEffect, useRef } from "react";
 
 const ROUTE = "/api/falconStream";
 
+const fetchStream = async function (prompt: any, onMessage: any) {
+  try {
+    const response = await fetch(ROUTE, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ prompt }),
+    });
+
+    if (!response.body) {
+      throw new Error("Fetch response does not have a readable stream");
+    }
+
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+
+    while (true) {
+      const { done, value } = await reader.read();
+      
+      if (done) {
+        console.log("Stream has completed");
+        break;
+      }
+
+      const chunk = decoder.decode(value);
+      onMessage(chunk);
+    }
+  } catch (error) {
+    console.error("Error reading stream:", error);
+    throw error;
+  }
+};
+
 export default function useFalconStream(
   prompt: string,
-  onMessage: (message: string) => void
+  onMessage: (message: string) => void,
+  fetchNow: boolean,
+  fetchComplete: ()=> void 
 ) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -17,47 +53,20 @@ export default function useFalconStream(
   }, [prompt, onMessage]);
 
   useEffect(() => {
-    const fetchStream = async () => {
-      try {
-        const response = await fetch(ROUTE, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ prompt: promptRef.current }),
-        });
-
-        if (!response.body) {
-          console.error("Fetch response does not have a readable stream");
-          setError("Fetch response does not have a readable stream");
+    if (fetchNow) {
+      const fetchData = async () => {
+        try {
+          await fetchStream(promptRef.current, onMessageRef.current);
+        } catch (error) {
+          setError("Error reading stream");
+        } finally {
           setIsLoading(false);
-          return;
         }
-
-        const reader = response.body.getReader();
-        const decoder = new TextDecoder();
-
-        while (true) {
-          const { done, value } = await reader.read();
-
-          if (done) {
-            console.log("Stream has completed");
-            break;
-          }
-
-          const chunk = decoder.decode(value);
-          onMessageRef.current(chunk);
-        }
-      } catch (error) {
-        console.error("Error reading stream:", error);
-        setError("Error reading stream");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchStream();
-  }, []);
+      };
+      fetchData();
+      fetchComplete()
+    }
+  }, [fetchNow]);
 
   return { isLoading, error };
 }
