@@ -5,7 +5,7 @@ export default function CanvasBlock({
   emoji: blockEmoji,
   type: blockType,
 }: {
-  text: string;
+  text: string | string[];
   emoji: string;
   type: string;
 }) {
