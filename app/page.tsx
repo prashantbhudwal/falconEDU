@@ -63,20 +63,22 @@ export default function Home() {
             </option>
           ))}
       </select>
-      <button
-        className="bg-emerald-500 ring-1 ring-slate-700 text-slate-700 rounded-md px-8 py-2 text-lg font-medium capitalize"
-        onClick={() => router.push("/chat")}
-        disabled={!topic || !subtopic || !grade}
-      >
-        Start
-      </button>
-      <button
-        className="bg-fuchsia-500 ring-1 ring-slate-700 text-slate-700 rounded-md px-8 py-2 text-lg font-medium capitalize"
-        onClick={() => router.push("/merlin")}
-        disabled={!topic || !subtopic || !grade}
-      >
-        Merlin
-      </button>
+      <div className="flex flex-row gap-4">
+        <button
+          className="bg-emerald-500 ring-1 ring-slate-700 text-slate-700 rounded-md px-8 py-2 text-lg font-medium capitalize"
+          onClick={() => router.push("/chat")}
+          disabled={!topic || !subtopic || !grade}
+        >
+          Mobile
+        </button>
+        <button
+          className="bg-blue-400 ring-1 ring-slate-700 text-slate-700 rounded-md px-8 py-2 text-lg font-medium capitalize"
+          onClick={() => router.push("/merlin")}
+          disabled={!topic || !subtopic || !grade}
+        >
+          Desktop
+        </button>
+      </div>
     </div>
   );
 }
