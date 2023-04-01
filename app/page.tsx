@@ -70,6 +70,13 @@ export default function Home() {
       >
         Start
       </button>
+      <button
+        className="bg-fuchsia-500 ring-1 ring-slate-700 text-slate-700 rounded-md px-8 py-2 text-lg font-medium capitalize"
+        onClick={() => router.push("/merlin")}
+        disabled={!topic || !subtopic || !grade}
+      >
+        Merlin
+      </button>
     </div>
   );
 }
