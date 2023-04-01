@@ -44,65 +44,88 @@ export const getPrompt = function (promptType: string) {
   }
 };
 
+export const getBlockShadow = function (blockType: string) {
+  switch (blockType) {
+    case "story":
+      return "shadow-emerald-600";
+    case "example":
+      return "shadow-amber-600";
+    case "analogy":
+      return "shadow-rose-600";
+    case "history":
+      return "shadow-indigo-600";
+    case "application":
+      return "shadow-cyan-600";
+    case "antiExample":
+      return "shadow-red-600";
+    case "contrast":
+      return "shadow-lime-600";
+    case "define":
+      return "shadow-fuchsia-600";
+    default:
+      return "shadow-none";
+  }
+};
+
 export const blockContentArray = [
   {
     text: "This is a short description of a Pikachu.",
     id: "id-1",
-    type: "Type 1",
-    emoji: "🐹",
+    type: "story",
+    emoji: "🏜",
   },
   {
     text: "This is a short description of a Charmander.",
     id: "id-2",
-    type: "Type 2",
-    emoji: "🦎",
+    type: "example",
+    emoji: "🧩",
   },
   {
     text: "Squirtle is a water-type Pokémon with a hard shell and a playful personality. It loves to play in the water and can shoot powerful water jets from its mouth.",
     id: "id-3",
-    type: "Type 3",
-    emoji: "🐢",
+    type: "analogy",
+    emoji: "🪢",
   },
   {
     text: "This is a short description of a Bulbasaur.",
     id: "id-4",
-    type: "Type 4",
-    emoji: "🌱",
+    type: "history",
+    emoji: "📜",
   },
   {
     text: "This is a short description of a Jigglypuff.",
     id: "id-5",
-    type: "Type 5",
-    emoji: "🎤",
+    type: "application",
+    emoji: "🎯",
   },
   {
-    text: "This is a short description of a Eevee.",
+    text: "This is a short description of an Eevee.",
     id: "id-6",
-    type: "Type 6",
-    emoji: "🦊",
+    type: "antiExample",
+    emoji: "☣️",
   },
   {
     text: "This is a short description of a Snorlax.",
     id: "id-7",
-    type: "Type 7",
-    emoji: "💤",
+    type: "contrast",
+    emoji: "🔀",
   },
   {
     text: "This is a short description of a Pikachu.",
     id: "id-8",
-    type: "Type 8",
-    emoji: "🐭",
+    type: "define",
+    emoji: "📝",
   },
   {
     text: "This is a short description of a Mewtwo.",
     id: "id-9",
-    type: "Type 9",
-    emoji: "🧬",
+    type: "story",
+    emoji: "🏜",
   },
   {
     text: "This is a short description of a Gyarados.",
     id: "id-10",
-    type: "Type 10",
-    emoji: "🐠",
+    type: "example",
+    emoji: "🧩",
   },
 ];
