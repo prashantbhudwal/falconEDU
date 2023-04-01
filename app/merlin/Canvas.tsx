@@ -10,22 +10,23 @@ export default function Canvas({ className }: { className?: string }) {
   const [blockType, setBlockType] = useState<string>("");
   const specObject = {
     accept: "Box",
-    drop: (item: string) => setBlockType(item),
+    drop: (item) => setBlockType(item.text), //TODO fix the block type item.text?
     collect: (monitor: DropTargetMonitor) => ({
       isOver: monitor.isOver(),
       canDrop: monitor.canDrop(),
     }),
   };
+  console.log(blockType);
   const [{ isOver }, drop] = useDrop(() => specObject);
 
   const handleNewMessage = useCallback((message: string) => {
     setMessages((prevMessages) => [...prevMessages, message]);
-  }, []);
+  }, []); // and what is happening here?
 
   const { isLoading, error } = useFalconStream(
     "Can you write a note on JayZ",
     handleNewMessage
-  );
+  ); //What is this even doing?
 
   useEffect(() => {
     if (blockType) {
