@@ -1,39 +1,80 @@
 "use client";
 import { useDrop, DropTargetMonitor } from "react-dnd";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import CanvasBlock from "./CanvasBlock";
-import { blockContentArray } from "../utils";
 import useFalconStream from "@/hooks/useOpenAIStream";
+import { useAppState } from "../context/app-context";
+import { getEmoji } from "../utils";
+import { v4 as uuid } from "uuid";
+
+interface BlockContent {
+  text: string | string[];
+  id: string;
+  type: string;
+  emoji: string;
+}
 
 export default function Canvas({ className }: { className?: string }) {
+  const prevIsLoadingRef = useRef<boolean>();
+  const [fetchNow, setFetchNow] = useState(false);
   const [messages, setMessages] = useState<string[]>([]);
   const [blockType, setBlockType] = useState<string>("");
+  const [blockContent, setBlockContent] = useState<BlockContent[]>([]);
+  const [lastBlockId, setLastBlockId] = useState("");
+  const {
+    topic: chatTopic,
+    subtopic: chatSubtopic,
+    grade: chatGrade,
+  } = useAppState();
+
   const specObject = {
     accept: "Box",
-    drop: (item) => setBlockType(item.text), //TODO fix the block type item.text?
+    drop: (item) => setBlockType(item.text.toLowerCase()),
     collect: (monitor: DropTargetMonitor) => ({
       isOver: monitor.isOver(),
       canDrop: monitor.canDrop(),
     }),
   };
-  console.log(blockType);
+
   const [{ isOver }, drop] = useDrop(() => specObject);
 
   const handleNewMessage = useCallback((message: string) => {
     setMessages((prevMessages) => [...prevMessages, message]);
-  }, []); // and what is happening here?
+  }, []);
 
   const { isLoading, error } = useFalconStream(
-    "Can you write a note on JayZ",
-    handleNewMessage
-  ); //What is this even doing?
+    `Can you ${blockType} the topic ${chatSubtopic} from the chapter ${chatTopic} of grade ${chatGrade} NCERT Textbook.`,
+    handleNewMessage,
+    fetchNow,
+    () => setFetchNow(false)
+  );
 
   useEffect(() => {
     if (blockType) {
       setMessages([]);
+      setFetchNow(true);
     }
   }, [blockType]);
 
+  useEffect(() => {
+    prevIsLoadingRef.current = isLoading;
+  }, [isLoading]);
+
+  useEffect(() => {
+    if (isLoading === false && messages.length > 0) {
+      const randomId = uuid();
+      setBlockContent((prevBlockContent) => [
+        ...prevBlockContent,
+        {
+          text: messages,
+          id: randomId,
+          type: blockType,
+          emoji: getEmoji(blockType),
+        },
+      ]);
+      setLastBlockId(randomId);
+    }
+  }, [isLoading, blockType]);
   return (
     <div
       ref={drop}
@@ -45,8 +86,15 @@ export default function Canvas({ className }: { className?: string }) {
       <header className="font-medium text-emerald-500 text-center border-b border-solid border-emerald-700 pb-2">
         <p className="uppercase">Canvas</p>
       </header>
-      <CanvasBlock text={messages} emoji={"🥸"} type={blockType} key={"test"} />
-      {blockContentArray.map((block: any) => {
+      {blockType && (
+        <CanvasBlock
+          text={messages}
+          emoji={getEmoji(blockType)}
+          type={blockType}
+          key={"test"}
+        />
+      )}
+      {blockContent.map((block: any) => {
         return <CanvasBlock {...block} key={block.id} />;
       })}
     </div>
