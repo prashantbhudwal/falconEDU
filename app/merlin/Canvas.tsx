@@ -1,6 +1,6 @@
 "use client";
 import { useDrop, DropTargetMonitor } from "react-dnd";
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback } from "react";
 import CanvasBlock from "./CanvasBlock";
 import useFalconStream from "@/hooks/useOpenAIStream";
 import { useAppState } from "../context/app-context";
@@ -15,12 +15,10 @@ interface BlockContent {
 }
 
 export default function Canvas({ className }: { className?: string }) {
-  const prevIsLoadingRef = useRef<boolean>();
   const [fetchNow, setFetchNow] = useState(false);
   const [messages, setMessages] = useState<string[]>([]);
   const [blockType, setBlockType] = useState<string>("");
   const [blockContent, setBlockContent] = useState<BlockContent[]>([]);
-  const [lastBlockId, setLastBlockId] = useState("");
   const {
     topic: chatTopic,
     subtopic: chatSubtopic,
@@ -29,7 +27,7 @@ export default function Canvas({ className }: { className?: string }) {
 
   const specObject = {
     accept: "Box",
-    drop: (item) => setBlockType(item.text.toLowerCase()),
+    drop: (item: any) => setBlockType(item.text.toLowerCase()),
     collect: (monitor: DropTargetMonitor) => ({
       isOver: monitor.isOver(),
       canDrop: monitor.canDrop(),
@@ -57,10 +55,6 @@ export default function Canvas({ className }: { className?: string }) {
   }, [blockType]);
 
   useEffect(() => {
-    prevIsLoadingRef.current = isLoading;
-  }, [isLoading]);
-
-  useEffect(() => {
     if (isLoading === false && messages.length > 0) {
       const randomId = uuid();
       setBlockContent((prevBlockContent) => [
@@ -72,7 +66,6 @@ export default function Canvas({ className }: { className?: string }) {
           emoji: getEmoji(blockType),
         },
       ]);
-      setLastBlockId(randomId);
     }
   }, [isLoading, blockType]);
   return (
