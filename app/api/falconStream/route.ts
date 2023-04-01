@@ -22,9 +22,9 @@ export async function POST(request: NextRequest) {
   ];
   let responseStream = new TransformStream();
   const writer = responseStream.writable.getWriter();
-
   try {
     const openaiRes = await getCompletionStream(messages);
+    console.log(openaiRes.headers["x-request-id"]);
     // @ts-ignore
     openaiRes.data.on("data", (data: Buffer) =>
       handleGPT3TurboStreamData(data, writer)
@@ -35,7 +35,6 @@ export async function POST(request: NextRequest) {
     writer.write(encoder.encode("An error occurred during OpenAI request"));
     writer.close();
   }
-
   return new Response(responseStream.readable, {
     headers: {
       "Content-Type": "text/event-stream",
