@@ -19,6 +19,7 @@ export default function Canvas({ className }: { className?: string }) {
   const [messages, setMessages] = useState<string[]>([]);
   const [blockType, setBlockType] = useState<string>("");
   const [blockContent, setBlockContent] = useState<BlockContent[]>([]);
+  const { topic, subtopic, grade } = useAppState();
 
   const specObject = {
     accept: "Box",
@@ -72,8 +73,10 @@ export default function Canvas({ className }: { className?: string }) {
       }`}
     >
       <header className="font-medium text-emerald-500 text-center border-b border-solid border-emerald-700 pb-2">
-        <p className="uppercase">Canvas</p>
+        <h1 className="text-xl">{subtopic}</h1>
+        <p className=" text-base  text-slate-600">Chapter: {topic}</p>
       </header>
+
       {blockType && (
         <CanvasBlock
           text={messages}
