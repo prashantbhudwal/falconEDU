@@ -44,7 +44,8 @@ export default function Canvas({ className }: { className?: string }) {
     `Can you ${blockType} the topic ${chatSubtopic} from the chapter ${chatTopic} of grade ${chatGrade} NCERT Textbook.`,
     handleNewMessage,
     fetchNow,
-    () => setFetchNow(false)
+    () => setFetchNow(false),
+    blockType
   );
 
   useEffect(() => {
