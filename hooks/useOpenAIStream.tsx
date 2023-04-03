@@ -1,15 +1,27 @@
 import { useState, useEffect, useRef } from "react";
+import { useAppState } from "@/app/context/app-context";
 
 const ROUTE = "/api/falconStream";
 
-const fetchStream = async function (prompt: any, onMessage: any) {
+type RequestBody = {
+  topic: string;
+  subtopic: string;
+  grade: string;
+  promptType: string;
+};
+
+const fetchStream = async function (
+  prompt: any,
+  onMessage: any,
+  body: RequestBody
+) {
   try {
     const response = await fetch(ROUTE, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ prompt }),
+      body: JSON.stringify(body),
     });
 
     if (!response.body) {
@@ -21,7 +33,7 @@ const fetchStream = async function (prompt: any, onMessage: any) {
 
     while (true) {
       const { done, value } = await reader.read();
-      
+
       if (done) {
         console.log("Stream has completed");
         break;
@@ -40,12 +52,21 @@ export default function useFalconStream(
   prompt: string,
   onMessage: (message: string) => void,
   fetchNow: boolean,
-  fetchComplete: ()=> void 
+  fetchComplete: () => void,
+  blockType: string
 ) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const promptRef = useRef(prompt);
   const onMessageRef = useRef(onMessage);
+  const { topic, subtopic, grade } = useAppState();
+
+  const body = {
+    topic: topic,
+    subtopic: subtopic,
+    grade: grade,
+    promptType: blockType,
+  };
 
   useEffect(() => {
     promptRef.current = prompt;
@@ -56,7 +77,7 @@ export default function useFalconStream(
     if (fetchNow) {
       const fetchData = async () => {
         try {
-          await fetchStream(promptRef.current, onMessageRef.current);
+          await fetchStream(promptRef.current, onMessageRef.current, body);
         } catch (error) {
           setError("Error reading stream");
         } finally {
@@ -64,7 +85,7 @@ export default function useFalconStream(
         }
       };
       fetchData();
-      fetchComplete()
+      fetchComplete();
     }
   }, [fetchNow]);
 
