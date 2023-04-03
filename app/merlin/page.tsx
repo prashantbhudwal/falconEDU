@@ -19,7 +19,7 @@ export default function Merlin() {
       <div className="grid grid-cols-12 gap-4 w-full">
         <Sidebar
           className="col-start-1 col-span-2 row-start-1"
-          heading={"Blocks"}
+          heading={"Lesson Blocks"}
         >
           {promptsArray.map((buttonText: string) => (
             <Chip key={buttonText} text={buttonText} />
