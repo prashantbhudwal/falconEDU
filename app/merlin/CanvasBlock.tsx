@@ -15,9 +15,9 @@ export default function CanvasBlock({
         blockType
       )} max-w-4xl w-full`}
     >
-      <header className="text-xs font-medium text-slate-500 text-right flex justify-between items-baseline border-b border-solid border-slate-700 pb-2 ">
-        <p className="uppercase">{blockType}</p>
+      <header className="text-xs font-medium text-slate-500 gap-3 text-right flex items-baseline border-b border-solid border-slate-700 pb-2 ">
         <p className="text-base">{blockEmoji}</p>
+        <p className="uppercase">{blockType}</p>
       </header>
       <p className="leading-7 text-lg pt-2">{displayText}</p>
     </div>
