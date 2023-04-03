@@ -10,10 +10,8 @@ export const dynamic = "force-dynamic";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
-  console.log(body);
   const { topic, subtopic, grade, promptType } = body;
   const prompt = getPrompt(promptType);
-  console.log(topic);
 
   const messages: ChatCompletionRequestMessage[] = [
     {
