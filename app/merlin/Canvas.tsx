@@ -19,11 +19,6 @@ export default function Canvas({ className }: { className?: string }) {
   const [messages, setMessages] = useState<string[]>([]);
   const [blockType, setBlockType] = useState<string>("");
   const [blockContent, setBlockContent] = useState<BlockContent[]>([]);
-  const {
-    topic: chatTopic,
-    subtopic: chatSubtopic,
-    grade: chatGrade,
-  } = useAppState();
 
   const specObject = {
     accept: "Box",
@@ -41,7 +36,6 @@ export default function Canvas({ className }: { className?: string }) {
   }, []);
 
   const { isLoading, error } = useFalconStream(
-    `Can you ${blockType} the topic ${chatSubtopic} from the chapter ${chatTopic} of grade ${chatGrade} NCERT Textbook.`,
     handleNewMessage,
     fetchNow,
     () => setFetchNow(false),

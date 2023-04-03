@@ -10,11 +10,7 @@ type RequestBody = {
   promptType: string;
 };
 
-const fetchStream = async function (
-  prompt: any,
-  onMessage: any,
-  body: RequestBody
-) {
+const fetchStream = async function (onMessage: any, body: RequestBody) {
   try {
     const response = await fetch(ROUTE, {
       method: "POST",
@@ -49,7 +45,6 @@ const fetchStream = async function (
 };
 
 export default function useFalconStream(
-  prompt: string,
   onMessage: (message: string) => void,
   fetchNow: boolean,
   fetchComplete: () => void,
@@ -57,7 +52,6 @@ export default function useFalconStream(
 ) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const promptRef = useRef(prompt);
   const onMessageRef = useRef(onMessage);
   const { topic, subtopic, grade } = useAppState();
 
@@ -69,15 +63,14 @@ export default function useFalconStream(
   };
 
   useEffect(() => {
-    promptRef.current = prompt;
     onMessageRef.current = onMessage;
-  }, [prompt, onMessage]);
+  }, [onMessage]);
 
   useEffect(() => {
     if (fetchNow) {
       const fetchData = async () => {
         try {
-          await fetchStream(promptRef.current, onMessageRef.current, body);
+          await fetchStream(onMessageRef.current, body);
         } catch (error) {
           setError("Error reading stream");
         } finally {
