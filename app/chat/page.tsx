@@ -2,9 +2,11 @@
 import Block from "@/components/Block";
 import ButtonPanel from "@/components/ButtonPanel";
 import { useEffect, useState } from "react";
-import { getEmoji } from "./utils";
+import { getEmoji } from "../utils";
 import { buttonsArray } from "@/app/schema";
 import useOpenAI from "@/hooks/useOpenAI";
+import { useAppState } from "../context/app-context";
+
 interface BlockContent {
   text: string;
   id: string;
@@ -12,15 +14,12 @@ interface BlockContent {
   emoji: string;
 }
 
-export default function Chat({
-  chatTopic,
-  chatSubtopic,
-  chatGrade,
-}: {
-  chatTopic: string;
-  chatSubtopic: string;
-  chatGrade: string;
-}) {
+export default function Chat() {
+  const {
+    topic: chatTopic,
+    subtopic: chatSubtopic,
+    grade: chatGrade,
+  } = useAppState();
   const [chatBlocks, setChatBlocks] = useState<JSX.Element[]>([]);
   const [blockType, setBlockType] = useState("");
   const [blockContent, setBlockContent] = useState<BlockContent[]>([]);
@@ -69,8 +68,8 @@ export default function Chat({
   return (
     <div className="flex flex-col gap-4 items-center max-w-xl">
       <div className="flex flex-col items-center border-b border-solid border-slate-800 text-slate-400 p-4">
-        <h1 className="text-xl">{chatTopic}</h1>
-        <p className=" text-base  text-slate-600">Topic: {chatSubtopic}</p>
+        <h1 className="text-xl">{chatSubtopic}</h1>
+        <p className=" text-base  text-slate-600">Chapter: {chatTopic}</p>
       </div>
       {chatBlocks}
       {isValidating && <h1>Loading...</h1>}

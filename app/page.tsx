@@ -1,14 +1,12 @@
 "use client";
-import Chat from "./chat";
-import { useState } from "react";
 import grades from "./data/grades.json";
-import Button from "@/components/Button";
 import { useAppState } from "./context/app-context";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
   const { topic, subtopic, grade, setTopic, setSubtopic, setGrade } =
     useAppState();
-  const [started, setStarted] = useState(false);
 
   const handleGradeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setGrade(e.target.value);
@@ -22,64 +20,65 @@ export default function Home() {
     setSubtopic(e.target.value);
   };
 
-  const handleClick = () => {
-    setStarted(true);
-  };
-
-  if (!started) {
-    return (
-      <div className="flex flex-col gap-4 items-center m-4">
-        <select
-          onChange={handleGradeChange}
-          value={grade}
-          className="border-slate-700 rounded-md bg-slate-300 text-black p-4 w-96"
-        >
-          <option value="">Select a grade</option>
-          {grades.map((g) => (
-            <option key={g.id} value={g.grade}>
-              Grade {g.grade}
+  return (
+    <div className="flex flex-col gap-4 items-center m-4">
+      <select
+        onChange={handleGradeChange}
+        value={grade}
+        className="border-slate-700 rounded-md bg-slate-300 text-black p-4 w-96"
+      >
+        <option value="">Select a grade</option>
+        {grades.map((g) => (
+          <option key={g.id} value={g.grade}>
+            Grade {g.grade}
+          </option>
+        ))}
+      </select>
+      <select
+        onChange={handleChapterChange}
+        value={topic}
+        className="border-slate-700 rounded-md bg-slate-300 text-black p-4 w-96"
+      >
+        <option value="">Select a chapter</option>
+        {grades
+          .find((g) => g.grade === grade)
+          ?.chapters.map((c) => (
+            <option key={c.id} value={c.name}>
+              {c.name}
             </option>
           ))}
-        </select>
-        <select
-          onChange={handleChapterChange}
-          value={topic}
-          className="border-slate-700 rounded-md bg-slate-300 text-black p-4 w-96"
-        >
-          <option value="">Select a chapter</option>
-          {grades
-            .find((g) => g.grade === grade)
-            ?.chapters.map((c) => (
-              <option key={c.id} value={c.name}>
-                {c.name}
-              </option>
-            ))}
-        </select>
-        <select
-          onChange={handleTopicChange}
-          value={subtopic}
-          className="border-slate-700 rounded-md bg-slate-300 text-black p-4 w-96"
-        >
-          <option value="">Select a topic</option>
-          {grades
-            .find((g) => g.grade === grade)
-            ?.chapters.find((c) => c.name === topic)
-            ?.topics.map((t) => (
-              <option key={t.id} value={t.name}>
-                {t.name}
-              </option>
-            ))}
-        </select>
+      </select>
+      <select
+        onChange={handleTopicChange}
+        value={subtopic}
+        className="border-slate-700 rounded-md bg-slate-300 text-black p-4 w-96"
+      >
+        <option value="">Select a topic</option>
+        {grades
+          .find((g) => g.grade === grade)
+          ?.chapters.find((c) => c.name === topic)
+          ?.topics.map((t) => (
+            <option key={t.id} value={t.name}>
+              {t.name}
+            </option>
+          ))}
+      </select>
+      <div className="flex flex-row gap-4">
         <button
           className="bg-emerald-500 ring-1 ring-slate-700 text-slate-700 rounded-md px-8 py-2 text-lg font-medium capitalize"
-          onClick={handleClick}
+          onClick={() => router.push("/chat")}
           disabled={!topic || !subtopic || !grade}
         >
-          Start
+          Mobile
+        </button>
+        <button
+          className="bg-blue-400 ring-1 ring-slate-700 text-slate-700 rounded-md px-8 py-2 text-lg font-medium capitalize"
+          onClick={() => router.push("/merlin")}
+          disabled={!topic || !subtopic || !grade}
+        >
+          Desktop
         </button>
       </div>
-    );
-  }
-
-  return <Chat chatTopic={topic} chatSubtopic={subtopic} chatGrade={grade} />;
+    </div>
+  );
 }
