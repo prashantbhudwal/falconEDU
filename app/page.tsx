@@ -64,19 +64,19 @@ export default function Home() {
           ))}
       </select>
       <div className="flex flex-row gap-4">
-        <button
+        {/* <button
           className="bg-emerald-500 ring-1 ring-slate-700 text-slate-700 rounded-md px-8 py-2 text-lg font-medium capitalize"
           onClick={() => router.push("/chat")}
           disabled={!topic || !subtopic || !grade}
         >
           Mobile
-        </button>
+        </button> */}
         <button
-          className="bg-blue-400 ring-1 ring-slate-700 text-slate-700 rounded-md px-8 py-2 text-lg font-medium capitalize"
+          className="bg-emerald-400 ring-1 ring-slate-700 text-slate-700 rounded-md px-8 py-2 text-lg font-medium capitalize"
           onClick={() => router.push("/merlin")}
           disabled={!topic || !subtopic || !grade}
         >
-          Desktop
+          Desktop App
         </button>
       </div>
     </div>
