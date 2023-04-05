@@ -18,9 +18,6 @@ export default function Header() {
           {grade && (
             <span className="text-base ml-2 font-semibold">{`NCERT, Grade ${grade}`}</span>
           )}
-          <Link href="/preferences" className="text-base font-semibold">
-            ⚙️
-          </Link>
         </div>
       </div>
     </header>
