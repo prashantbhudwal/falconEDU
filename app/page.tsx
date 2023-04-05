@@ -1,84 +1,28 @@
 "use client";
-import grades from "./data/grades.json";
-import { useAppState } from "./context/app-context";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
-export default function Home() {
-  const router = useRouter();
-  const { topic, subtopic, grade, setTopic, setSubtopic, setGrade } =
-    useAppState();
-
-  const handleGradeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setGrade(e.target.value);
-  };
-
-  const handleChapterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setTopic(e.target.value);
-  };
-
-  const handleTopicChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSubtopic(e.target.value);
-  };
-
+const LandingPage = () => {
   return (
-    <div className="flex flex-col gap-4 items-center m-4">
-      <select
-        onChange={handleGradeChange}
-        value={grade}
-        className="border-slate-700 rounded-md bg-slate-300 text-black p-4 w-96"
+    <div className="flex flex-col items-center justify-center text-center">
+      <h1
+        className={
+          "my-6 text-4xl md:text-6xl text-slate-300 max-w-xl leading-10"
+        }
       >
-        <option value="">Select a grade</option>
-        {grades.map((g) => (
-          <option key={g.id} value={g.grade}>
-            Grade {g.grade}
-          </option>
-        ))}
-      </select>
-      <select
-        onChange={handleChapterChange}
-        value={topic}
-        className="border-slate-700 rounded-md bg-slate-300 text-black p-4 w-96"
+        <p className="">Plan Your Next Lesson in Seconds</p>
+      </h1>
+      <p className={"mb-12 text-lg text-gray-300 md:text-2xl max-w-xl"}>
+        Generate lessons personalized to the interests and levels of your
+        students with minimal effort.
+      </p>
+      <Link
+        href={"/preferences"}
+        className={`bg-emerald-500 text-slate-200 px-28 py-4 rounded-full text-lg font-semibold hover:bg-emerald-600 transition duration-200 ease-in-out`}
       >
-        <option value="">Select a chapter</option>
-        {grades
-          .find((g) => g.grade === grade)
-          ?.chapters.map((c) => (
-            <option key={c.id} value={c.name}>
-              {c.name}
-            </option>
-          ))}
-      </select>
-      <select
-        onChange={handleTopicChange}
-        value={subtopic}
-        className="border-slate-700 rounded-md bg-slate-300 text-black p-4 w-96"
-      >
-        <option value="">Select a topic</option>
-        {grades
-          .find((g) => g.grade === grade)
-          ?.chapters.find((c) => c.name === topic)
-          ?.topics.map((t) => (
-            <option key={t.id} value={t.name}>
-              {t.name}
-            </option>
-          ))}
-      </select>
-      <div className="flex flex-row gap-4">
-        {/* <button
-          className="bg-emerald-500 ring-1 ring-slate-700 text-slate-700 rounded-md px-8 py-2 text-lg font-medium capitalize"
-          onClick={() => router.push("/chat")}
-          disabled={!topic || !subtopic || !grade}
-        >
-          Mobile
-        </button> */}
-        <button
-          className="bg-emerald-400 ring-1 ring-slate-700 text-slate-700 rounded-md px-8 py-2 text-lg font-medium capitalize"
-          onClick={() => router.push("/merlin")}
-          disabled={!topic || !subtopic || !grade}
-        >
-          Desktop App
-        </button>
-      </div>
+        Start Now
+      </Link>
     </div>
   );
-}
+};
+
+export default LandingPage;
