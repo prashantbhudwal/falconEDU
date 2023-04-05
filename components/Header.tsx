@@ -11,7 +11,7 @@ export default function Header() {
         <Link href="/">
           <div>
             <h1 className="text-xl">Falcon One</h1>
-            <p className="text-sm  text-slate-600">Your Teaching CoPilot</p>
+            <p className="text-sm  text-slate-600">Your Teaching Assistant</p>
           </div>
         </Link>
         <div className="flex items-center gap-6">
