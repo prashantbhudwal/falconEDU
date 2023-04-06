@@ -5,8 +5,15 @@ import { useRouter } from "next/navigation";
 
 export default function Home() {
   const router = useRouter();
-  const { topic, subtopic, grade, setTopic, setSubtopic, setGrade } =
-    useAppState();
+  const {
+    topic,
+    subtopic,
+    grade,
+    setTopic,
+    setSubtopic,
+    setGrade,
+    setStarted,
+  } = useAppState();
 
   const handleGradeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setGrade(e.target.value);
@@ -18,6 +25,11 @@ export default function Home() {
 
   const handleTopicChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSubtopic(e.target.value);
+  };
+
+  const handleStart = () => {
+    router.push("/merlin");
+    setStarted(true);
   };
 
   return (
@@ -73,7 +85,7 @@ export default function Home() {
         </button> */}
         <button
           className="bg-emerald-400 ring-1 ring-slate-700 text-slate-700 rounded-md px-8 py-2 text-lg font-medium capitalize disabled:opacity-50"
-          onClick={() => router.push("/merlin")}
+          onClick={handleStart}
           disabled={!topic || !subtopic || !grade}
         >
           New Lesson
