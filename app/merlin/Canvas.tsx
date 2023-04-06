@@ -19,8 +19,13 @@ export default function Canvas({ className }: { className?: string }) {
   const [fetchNow, setFetchNow] = useState(false);
   const [messages, setMessages] = useState<string[]>([]);
   const [blockType, setBlockType] = useState<string>("");
-  const [blockContent, setBlockContent] = useState<BlockContent[]>([]);
-  const { topic, subtopic, grade, setCurrentLesson } = useAppState();
+  const {
+    topic,
+    subtopic,
+    grade,
+    currentLesson: blockContent,
+    setCurrentLesson: setBlockContent,
+  } = useAppState();
   const specObject = {
     accept: "Box",
     drop: (item: any) => setBlockType(item.text.toLowerCase()),
