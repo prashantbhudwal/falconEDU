@@ -50,7 +50,7 @@ export default function useFalconStream(
   fetchComplete: () => void,
   blockType: string
 ) {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(!fetchNow);
   const [error, setError] = useState<string | null>(null);
   const onMessageRef = useRef(onMessage);
   const { topic, subtopic, grade } = useAppState();
@@ -65,6 +65,10 @@ export default function useFalconStream(
   useEffect(() => {
     onMessageRef.current = onMessage;
   }, [onMessage]);
+  
+  useEffect(() => {
+    setIsLoading(fetchNow);
+  }, [fetchNow]);
 
   useEffect(() => {
     if (fetchNow) {
