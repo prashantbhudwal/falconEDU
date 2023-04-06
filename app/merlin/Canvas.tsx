@@ -2,10 +2,11 @@
 import { useDrop, DropTargetMonitor } from "react-dnd";
 import { useState, useEffect, useCallback } from "react";
 import CanvasBlock from "./CanvasBlock";
-import useFalconStream from "@/hooks/useOpenAIStream";
+import useFalconStream from "@/hooks/useFalconStream";
 import { useAppState } from "../context/app-context";
 import { getEmoji } from "../utils";
 import { v4 as uuid } from "uuid";
+import LiveBlock from "./LiveBlock";
 
 interface BlockContent {
   text: string | string[];
@@ -19,8 +20,7 @@ export default function Canvas({ className }: { className?: string }) {
   const [messages, setMessages] = useState<string[]>([]);
   const [blockType, setBlockType] = useState<string>("");
   const [blockContent, setBlockContent] = useState<BlockContent[]>([]);
-  const { topic, subtopic, grade } = useAppState();
-
+  const { topic, subtopic, grade, setCurrentLesson } = useAppState();
   const specObject = {
     accept: "Box",
     drop: (item: any) => setBlockType(item.text.toLowerCase()),
@@ -53,13 +53,15 @@ export default function Canvas({ className }: { className?: string }) {
   useEffect(() => {
     if (isLoading === false && messages.length > 0) {
       const randomId = uuid();
+      const emoji = getEmoji(blockType);
+
       setBlockContent((prevBlockContent) => [
         ...prevBlockContent,
         {
           text: messages,
           id: randomId,
           type: blockType,
-          emoji: getEmoji(blockType),
+          emoji: emoji,
         },
       ]);
     }
@@ -78,7 +80,7 @@ export default function Canvas({ className }: { className?: string }) {
       </header>
 
       {blockType && (
-        <CanvasBlock
+        <LiveBlock
           text={messages}
           emoji={getEmoji(blockType)}
           type={blockType}
