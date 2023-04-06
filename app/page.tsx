@@ -12,8 +12,8 @@ const LandingPage = () => {
         <p className="">Plan Your Next Lesson in Seconds</p>
       </h1>
       <p className={"mb-12 text-lg text-gray-300 md:text-2xl max-w-xl"}>
-        Generate lessons personalized to the interests and levels of your
-        students with minimal effort.
+        Generate high-quality lessons personalized to the interests and levels
+        of your students with minimal effort.
       </p>
       <Link
         href={"/preferences"}
