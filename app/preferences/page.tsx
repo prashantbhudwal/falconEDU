@@ -5,12 +5,15 @@ import { useRouter } from "next/navigation";
 
 export default function Home() {
   const boards = ["NCERT", "JKBOSE", "MHSE"];
+  const subjects = ["Science"];
   const router = useRouter();
   const {
     topic,
     subtopic,
     grade,
     board,
+    subject,
+    setSubject,
     setBoard,
     setTopic,
     setSubtopic,
@@ -30,6 +33,9 @@ export default function Home() {
 
   const handleTopicChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSubtopic(e.target.value);
+  };
+  const handleSubjectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSubject(e.target.value);
   };
 
   const handleStart = () => {
@@ -60,6 +66,18 @@ export default function Home() {
         {grades.map((g) => (
           <option key={g.id} value={g.grade}>
             Grade {g.grade}
+          </option>
+        ))}
+      </select>
+      <select
+        onChange={handleSubjectChange}
+        value={subject}
+        className="border-slate-700 rounded-md bg-slate-300 text-black p-4 w-96"
+      >
+        <option value="">Subject</option>
+        {subjects.map((s) => (
+          <option key={s} value={s}>
+            {s}
           </option>
         ))}
       </select>
