@@ -8,6 +8,7 @@ import { getEmoji } from "../utils";
 import { v4 as uuid } from "uuid";
 import LiveBlock from "../merlin/LiveBlock";
 import useLessonStream from "@/hooks/useLessonStream";
+import LessonCanvasBlock from "./LessonCanvasBlock";
 
 interface BlockContent {
   text: string | string[];
@@ -73,14 +74,9 @@ export default function Canvas({ className }: { className?: string }) {
     >
       <header className="font-medium text-emerald-500 text-center border-b border-solid border-emerald-700 pb-2">
         <h1 className="text-xl">{subtopic}</h1>
-        <p className=" text-base  text-slate-600">Chapter: {topic}</p>
+        <p className=" text-base  text-slate-400">Chapter: {topic}</p>
       </header>
-      <LiveBlock
-        text={messages}
-        emoji={"📝"}
-        type={"application"}
-        key={"test"}
-      />
+      <LessonCanvasBlock text={messages} />
     </div>
   );
 }
