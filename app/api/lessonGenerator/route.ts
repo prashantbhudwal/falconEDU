@@ -1,6 +1,9 @@
 // app/api/route.ts
 import { NextRequest } from "next/server";
-import { getLessonCompletionStream, handleGPT3TurboStreamData } from "../openAI";
+import {
+  getLessonCompletionStream,
+  handleGPT3TurboStreamData,
+} from "../openAI";
 import { ChatCompletionRequestMessage } from "openai";
 import { getPrompt } from "@/app/utils";
 
@@ -10,7 +13,7 @@ export const dynamic = "force-dynamic";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
-  const { topic, subtopic, grade, promptType, ideaArray } = body;
+  const { topic, subtopic, grade, ideaArray } = body;
   // const prompt = getPrompt(promptType);
 
   const messages: ChatCompletionRequestMessage[] = [
