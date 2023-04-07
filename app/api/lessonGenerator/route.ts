@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
     },
     {
       role: "user",
-      content: `Give me a step-by-step lesson plan. Make SURE that you use these ${ideas}. And start with Objectives, no need to give the subject and topic.`,
+      content: `Give me a lesson plan. Make SURE that you use these ${ideas}. And start with Objectives, no need to give the subject and topic.`,
     },
   ];
   let responseStream = new TransformStream();
