@@ -9,6 +9,7 @@ import { DndProvider } from "react-dnd";
 import { useAppState } from "../context/app-context";
 import useDesktop from "@/hooks/useDesktop";
 import DesktopOnly from "@/components/DesktopOnly";
+import { getEmoji } from "../utils";
 
 export default function Merlin() {
   const isDesktop = useDesktop();
@@ -16,8 +17,9 @@ export default function Merlin() {
     topic: chatTopic,
     subtopic: chatSubtopic,
     grade: chatGrade,
+    currentLesson,
   } = useAppState();
-  
+
   if (!isDesktop) {
     return <DesktopOnly />;
   }
@@ -34,10 +36,15 @@ export default function Merlin() {
         </Sidebar>
         <Canvas className="col-start-3 col-span-8 h-screen overflow-y-auto custom-scrollbar" />
         <Sidebar className="col-start-11 col-span-2" heading={"Outline"}>
-          <OutlineBlock>
-            1. Outline will <br /> 2. Appear here <br />
-            3. Very Very <br /> 4. Soon <br />
-          </OutlineBlock>
+          {currentLesson &&
+            currentLesson
+              .slice()
+              .reverse()
+              .map((block, index) => (
+                <OutlineBlock key={block.id}>{`${getEmoji(
+                  block.type
+                )} ${" "}   ${block.type}`}</OutlineBlock>
+              ))}
         </Sidebar>
       </div>
     </DndProvider>
