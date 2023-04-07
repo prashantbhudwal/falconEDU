@@ -47,7 +47,7 @@ export const getPrompt = function (promptType: string) {
 export const getBlockShadow = function (blockType: string) {
   switch (blockType) {
     case "story":
-      return "shadow-emerald-600";
+      return "shadow-green-600";
     case "example":
       return "shadow-amber-600";
     case "analogy":
