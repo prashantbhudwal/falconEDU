@@ -22,6 +22,11 @@ export default function Canvas({ className }: { className?: string }) {
   const [streamCompleted, setStreamCompleted] = useState<boolean>();
   const [currentBlockId, setCurrentBlockId] = useState<string>("");
   const [lastBlockId, setLastBlockId] = useState<string>("");
+  const removeBlock = (id: string) => {
+    setBlockContent((prevBlockContent) =>
+      prevBlockContent.filter((block) => block.id !== id)
+    );
+  };
 
   const startGeneration = function (item: any) {
     setMessages([]);
@@ -110,7 +115,9 @@ export default function Canvas({ className }: { className?: string }) {
         .slice()
         .reverse()
         .map((block: BlockContent) => {
-          return <CanvasBlock {...block} key={block.id} />;
+          return (
+            <CanvasBlock {...block} key={block.id} onRemove={removeBlock} />
+          );
         })}
     </div>
   );
