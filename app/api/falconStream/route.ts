@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
   const writer = responseStream.writable.getWriter();
   try {
     const openaiRes = await getCompletionStream(messages);
-    console.log(openaiRes.headers["x-request-id"]);
+    // console.log(openaiRes.headers["x-request-id"]);
     // @ts-ignore
     openaiRes.data.on("data", (data: Buffer) =>
       handleGPT3TurboStreamData(data, writer)
