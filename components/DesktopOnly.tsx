@@ -5,7 +5,7 @@ export default function DesktopOnly() {
         Oops! 🙈
       </p>
       <p className="text-lg text-gray-700 text-center">
-        This app is currently optimized for desktop usage only.
+        This app is currently works only on a desktop.
       </p>
     </>
   );
