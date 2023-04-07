@@ -11,11 +11,35 @@ export const runtime = "nodejs";
 // This is required to enable streaming
 export const dynamic = "force-dynamic";
 
+interface Idea {
+  ideaType: string;
+  text: string;
+}
+
+function generateGptPrompt(ideas: Idea[]): string {
+  const promptText = ideas.reduce((acc, idea) => {
+    // Add a separator between ideas
+    if (acc.length > 0) {
+      acc += "\n\n";
+    }
+    // Add the idea type as a heading
+    acc += `## ${idea.ideaType}\n\n`;
+    // Add the idea text as a paragraph
+    acc += `${idea.text}\n`;
+    return acc;
+  }, "");
+
+  return `ideas:\n\n${promptText}`;
+}
+
 export async function POST(request: NextRequest) {
   const body = await request.json();
   const { topic, subtopic, grade, ideaArray } = body;
-  // const prompt = getPrompt(promptType);
-
+  const newArray = ideaArray.map((obj: any) => ({
+    ideaType: obj.type,
+    text: obj.text.join(" "),
+  }));
+  const ideas = generateGptPrompt(newArray);
   const messages: ChatCompletionRequestMessage[] = [
     {
       role: "system",
@@ -23,7 +47,7 @@ export async function POST(request: NextRequest) {
     },
     {
       role: "user",
-      content: `Give me a lesson plan, that uses the following ideas that I have come up with ${ideaArray}`,
+      content: `Give me a lesson plan. Make SURE that you use these ${ideas}. And start with Objectives, no need to give the subject and topic. Add an oral quiz.`,
     },
   ];
   let responseStream = new TransformStream();
