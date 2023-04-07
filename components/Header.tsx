@@ -10,8 +10,8 @@ export default function Header() {
       <div className="flex items-center justify-between">
         <Link href="/">
           <div>
-            <h1 className="text-xl">Falcon One</h1>
-            <p className="text-sm  text-slate-600">Your Teaching Assistant</p>
+            <h1 className="text-xl">Falcon</h1>
+            <p className="text-sm  text-slate-600">AI Co-Teacher</p>
           </div>
         </Link>
         <div className="flex items-center gap-6">
