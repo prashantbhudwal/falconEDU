@@ -72,10 +72,6 @@ export default function Canvas({ className }: { className?: string }) {
     <div
       className={`${className} flex flex-col items-center gap-4   text-slate-300 px-5 py-3 rounded-lg ring-2 ring-emerald-500 shadow-emerald-500 ${"shadow-md bg-slate-900"}`}
     >
-      <header className="font-medium text-emerald-500 text-center border-b border-solid border-emerald-700 pb-2">
-        <h1 className="text-xl">{subtopic}</h1>
-        <p className=" text-base  text-slate-400">Chapter: {topic}</p>
-      </header>
       <LessonCanvasBlock text={messages} />
     </div>
   );
