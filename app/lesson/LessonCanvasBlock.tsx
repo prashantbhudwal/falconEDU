@@ -11,7 +11,7 @@ export default function LessonCanvasBlock({
     <div
       className={`bg-slate-100 text-slate-900 px-5 py-5 rounded-lg shadow-sm shadow-slate-200 max-w-4xl w-full`}
     >
-      <header className="font-medium text-slate-900 text-center pb-2">
+      <header className="font-medium text-slate-900 text-center border-b border-solid border-slate-700 pb-2">
         <h1 className="text-3xl">{subtopic}</h1>
         <p className=" text-lg  text-slate-600">Chapter: {topic}</p>
       </header>
