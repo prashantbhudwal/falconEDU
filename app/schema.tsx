@@ -1,5 +1,5 @@
 export const buttonsArray = [
-  "Define",
+  "Definition",
   "Example",
   "Story",
   "Analogy",
@@ -10,7 +10,7 @@ export const buttonsArray = [
 ];
 
 export const emojis = {
-  define: "📖",
+  definition: "📖",
   explain: "📝",
   example: "🧩",
   story: "🏜",
