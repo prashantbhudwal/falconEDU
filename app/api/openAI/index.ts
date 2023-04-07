@@ -1,6 +1,6 @@
 import { OpenAIApi, Configuration } from "openai";
 import { ChatCompletionRequestMessage } from "openai";
-import { options } from "./options";
+import { options, lessonOptions } from "./options";
 
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
@@ -24,6 +24,23 @@ export async function getCompletionStream(
   messages: ChatCompletionRequestMessage[]
 ) {
   const { MODEL, TEMPERATURE, MAX_TOKENS, STREAM } = options;
+  const completion = await model.createChatCompletion(
+    {
+      model: MODEL,
+      temperature: TEMPERATURE,
+      max_tokens: MAX_TOKENS,
+      messages: messages,
+      stream: STREAM,
+    },
+    { responseType: "stream" }
+  );
+  return completion;
+}
+
+export async function getLessonCompletionStream(
+  messages: ChatCompletionRequestMessage[]
+) {
+  const { MODEL, TEMPERATURE, MAX_TOKENS, STREAM } = lessonOptions;
   const completion = await model.createChatCompletion(
     {
       model: MODEL,
