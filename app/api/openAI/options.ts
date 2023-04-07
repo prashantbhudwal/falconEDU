@@ -6,6 +6,14 @@ export const options: OpenAIOptions = {
   STREAM: true,
 };
 
+export const lessonOptions: OpenAIOptions = {
+  MODEL: "gpt-3.5-turbo",
+  TEMPERATURE: 0.9,
+  MAX_TOKENS: 2000,
+  N: 1,
+  STREAM: true,
+};
+
 type OpenAIOptions = {
   MODEL: string;
   // ID of the model to use (e.g., "gpt-3.5-turbo")
