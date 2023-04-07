@@ -19,23 +19,33 @@ export default function Canvas({ className }: { className?: string }) {
   const [fetchNow, setFetchNow] = useState(false);
   const [messages, setMessages] = useState<string[]>([]);
   const [blockType, setBlockType] = useState<string>("");
+  const [streamCompleted, setStreamCompleted] = useState<boolean>();
+  const [currentBlockId, setCurrentBlockId] = useState<string>("");
+  const [lastBlockId, setLastBlockId] = useState<string>("");
+
+  const startGeneration = function (item: any) {
+    setMessages([]);
+    setBlockType(item.text.toLowerCase());
+    setStreamCompleted(false);
+    setFetchNow(true);
+  };
+
   const {
     topic,
     subtopic,
-    grade,
     currentLesson: blockContent,
     setCurrentLesson: setBlockContent,
   } = useAppState();
   const specObject = {
     accept: "Box",
-    drop: (item: any) => setBlockType(item.text.toLowerCase()),
+    drop: (item: any) => startGeneration(item),
     collect: (monitor: DropTargetMonitor) => ({
       isOver: monitor.isOver(),
       canDrop: monitor.canDrop(),
     }),
   };
 
-  const [{ isOver }, drop] = useDrop(() => specObject);
+  const [{ isOver, canDrop }, drop] = useDrop(() => specObject);
 
   const handleNewMessage = useCallback((message: string) => {
     setMessages((prevMessages) => [...prevMessages, message]);
@@ -45,21 +55,19 @@ export default function Canvas({ className }: { className?: string }) {
     handleNewMessage,
     fetchNow,
     () => setFetchNow(false),
+    () => setStreamCompleted(true),
+    () => setCurrentBlockId(uuid()),
     blockType
   );
 
   useEffect(() => {
-    if (blockType) {
-      setMessages([]);
-      setFetchNow(true);
-    }
-  }, [blockType]);
-
-  useEffect(() => {
-    if (isLoading === false && messages.length > 0) {
+    if (
+      streamCompleted === true &&
+      messages.length > 0 &&
+      currentBlockId != lastBlockId
+    ) {
       const randomId = uuid();
       const emoji = getEmoji(blockType);
-
       setBlockContent((prevBlockContent) => [
         ...prevBlockContent,
         {
@@ -69,8 +77,10 @@ export default function Canvas({ className }: { className?: string }) {
           emoji: emoji,
         },
       ]);
+      setLastBlockId(currentBlockId);
     }
-  }, [isLoading, blockType]);
+  }, [streamCompleted]);
+
   return (
     <div
       ref={drop}
@@ -83,8 +93,12 @@ export default function Canvas({ className }: { className?: string }) {
         <h1 className="text-xl">{subtopic}</h1>
         <p className=" text-base  text-slate-600">Chapter: {topic}</p>
       </header>
-
-      {blockType && (
+      {!blockType && (
+        <div className="text-emerald-500 text-center">
+          <p>Drag a Lesson Block & Drop it Here</p>
+        </div>
+      )}
+      {streamCompleted === false && (
         <LiveBlock
           text={messages}
           emoji={getEmoji(blockType)}
@@ -92,9 +106,12 @@ export default function Canvas({ className }: { className?: string }) {
           key={"test"}
         />
       )}
-      {blockContent.map((block: any) => {
-        return <CanvasBlock {...block} key={block.id} />;
-      })}
+      {blockContent
+        .slice()
+        .reverse()
+        .map((block: BlockContent) => {
+          return <CanvasBlock {...block} key={block.id} />;
+        })}
     </div>
   );
 }

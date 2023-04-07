@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useAppState } from "@/app/context/app-context";
+import { v4 as uuid } from "uuid";
 
 const ROUTE = "/api/falconStream";
 
@@ -10,7 +11,12 @@ type RequestBody = {
   promptType: string;
 };
 
-const fetchStream = async function (onMessage: any, body: RequestBody) {
+const fetchStream = async function (
+  onMessage: any,
+  body: RequestBody,
+  streamComplete: () => void,
+  setCurrentBlockId: () => void
+) {
   try {
     const response = await fetch(ROUTE, {
       method: "POST",
@@ -32,6 +38,8 @@ const fetchStream = async function (onMessage: any, body: RequestBody) {
 
       if (done) {
         console.log("Stream has completed");
+        streamComplete();
+        setCurrentBlockId();
         break;
       }
 
@@ -48,6 +56,8 @@ export default function useFalconStream(
   onMessage: (message: string) => void,
   fetchNow: boolean,
   fetchComplete: () => void,
+  streamComplete: () => void,
+  setCurrentBlockId: () => void,
   blockType: string
 ) {
   const [isLoading, setIsLoading] = useState(!fetchNow);
@@ -65,7 +75,7 @@ export default function useFalconStream(
   useEffect(() => {
     onMessageRef.current = onMessage;
   }, [onMessage]);
-  
+
   useEffect(() => {
     setIsLoading(fetchNow);
   }, [fetchNow]);
@@ -74,7 +84,12 @@ export default function useFalconStream(
     if (fetchNow) {
       const fetchData = async () => {
         try {
-          await fetchStream(onMessageRef.current, body);
+          await fetchStream(
+            onMessageRef.current,
+            body,
+            streamComplete,
+            setCurrentBlockId
+          );
         } catch (error) {
           setError("Error reading stream");
         } finally {
