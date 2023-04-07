@@ -1,5 +1,3 @@
-import { getBlockShadow } from "../utils";
-
 export default function LiveBlock({
   text: displayText,
   emoji: blockEmoji,
