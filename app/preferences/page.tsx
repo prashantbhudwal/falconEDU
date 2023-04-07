@@ -44,7 +44,7 @@ export default function Home() {
         value={board}
         className="border-slate-700 rounded-md bg-slate-300 text-black p-4 w-96"
       >
-        <option value="">Select a board</option>
+        <option value="">Curriculum</option>
         {boards.map((b) => (
           <option key={b} value={b}>
             {b}
@@ -56,7 +56,7 @@ export default function Home() {
         value={grade}
         className="border-slate-700 rounded-md bg-slate-300 text-black p-4 w-96"
       >
-        <option value="">Select a grade</option>
+        <option value="">Grade</option>
         {grades.map((g) => (
           <option key={g.id} value={g.grade}>
             Grade {g.grade}
@@ -68,7 +68,7 @@ export default function Home() {
         value={topic}
         className="border-slate-700 rounded-md bg-slate-300 text-black p-4 w-96"
       >
-        <option value="">Select a chapter</option>
+        <option value="">Chapter</option>
         {grades
           .find((g) => g.grade === grade)
           ?.chapters.map((c) => (
@@ -82,7 +82,7 @@ export default function Home() {
         value={subtopic}
         className="border-slate-700 rounded-md bg-slate-300 text-black p-4 w-96"
       >
-        <option value="">Select a topic</option>
+        <option value="">Topic</option>
         {grades
           .find((g) => g.grade === grade)
           ?.chapters.find((c) => c.name === topic)
