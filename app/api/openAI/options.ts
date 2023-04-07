@@ -8,7 +8,7 @@ export const options: OpenAIOptions = {
 
 export const lessonOptions: OpenAIOptions = {
   MODEL: "gpt-3.5-turbo",
-  TEMPERATURE: 0.9,
+  TEMPERATURE: 1,
   MAX_TOKENS: 3000,
   N: 1,
   STREAM: true,
