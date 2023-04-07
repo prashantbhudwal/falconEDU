@@ -43,11 +43,11 @@ export async function POST(request: NextRequest) {
   const messages: ChatCompletionRequestMessage[] = [
     {
       role: "system",
-      content: `You are a knowledgeable teaching assistant. I am a teacher in India teaching grade ${grade} science at a school that follows NCERT textbooks. I am teaching the chapter "${subtopic}" from the chapter "${topic}". My students' primary language is not English.`,
+      content: `You are a knowledgeable teaching expert. I am a teacher in India teaching grade ${grade} science at a school that follows NCERT textbooks. I am teaching the chapter "${subtopic}" from the chapter "${topic}". My students' primary language is not English.`,
     },
     {
       role: "user",
-      content: `Give me a lesson plan. Make SURE that you use these ${ideas}. And start with Objectives, no need to give the subject and topic. Add an oral quiz.`,
+      content: `Give me a step-by-step lesson plan. Make SURE that you use these ${ideas}. And start with Objectives, no need to give the subject and topic.`,
     },
   ];
   let responseStream = new TransformStream();
