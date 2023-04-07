@@ -4,17 +4,22 @@ import { useAppState } from "../context/app-context";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const boards = ["NCERT", "JKBOSE", "MHSE"];
   const router = useRouter();
   const {
     topic,
     subtopic,
     grade,
+    board,
+    setBoard,
     setTopic,
     setSubtopic,
     setGrade,
     setStarted,
   } = useAppState();
-
+  const handleBoardChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setBoard(e.target.value);
+  };
   const handleGradeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setGrade(e.target.value);
   };
@@ -34,6 +39,18 @@ export default function Home() {
 
   return (
     <div className="flex flex-col gap-4 items-center m-4">
+      <select
+        onChange={handleBoardChange}
+        value={board}
+        className="border-slate-700 rounded-md bg-slate-300 text-black p-4 w-96"
+      >
+        <option value="">Select a board</option>
+        {boards.map((b) => (
+          <option key={b} value={b}>
+            {b}
+          </option>
+        ))}
+      </select>
       <select
         onChange={handleGradeChange}
         value={grade}
