@@ -94,8 +94,8 @@ export default function Canvas({ className }: { className?: string }) {
         <p className=" text-base  text-slate-600">Chapter: {topic}</p>
       </header>
       {!blockType && (
-        <div className="text-emerald-500 text-center">
-          <p>Drag a Lesson Block & Drop it Here</p>
+        <div className="text-emerald-900 text-center text-4xl pt-24">
+          <p>Drop a Lesson Block Here</p>
         </div>
       )}
       {streamCompleted === false && (
