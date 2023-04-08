@@ -28,11 +28,11 @@ export default function LessonCanvasBlock({
       </p>
       {lessonStreamCompleted && (
         <p
-          className="text-emerald-600 cursor-pointer underline ml-auto text-center"
+          className="text-emerald-600 cursor-pointer underline underline-offset-2 ml-auto text-center font-semibold"
           onMouseEnter={() => setShowNote(true)}
           onMouseLeave={() => setShowNote(false)}
         >
-          Incomplete lesson?
+          Got an incomplete lesson?
         </p>
       )}
       {showNote && <Issue />}
