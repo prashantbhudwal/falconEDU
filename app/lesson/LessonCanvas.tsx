@@ -76,7 +76,7 @@ export default function Canvas({ className }: { className?: string }) {
           onMouseEnter={() => setShowNote(true)}
           onMouseLeave={() => setShowNote(false)}
         >
-          Facing issues?
+          Incomplete lesson?
         </p>
       )}
       {showNote && <Issue />}
