@@ -4,7 +4,7 @@ import { useAppState } from "../context/app-context";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
-  const boards = ["NCERT", "JKBOSE", "MHSE"];
+  const boards = ["NCERT"];
   const subjects = ["Science"];
   const router = useRouter();
   const {
