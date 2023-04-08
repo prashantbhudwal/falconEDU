@@ -19,7 +19,7 @@ export default function Canvas({ className }: { className?: string }) {
   const [fetchNow, setFetchNow] = useState(false);
   const [messages, setMessages] = useState<string[]>([]);
   const [blockType, setBlockType] = useState<string>("");
-  const [streamCompleted, setStreamCompleted] = useState<boolean>();
+  const [streamCompleted, setStreamCompleted] = useState<boolean>(true);
   const [currentBlockId, setCurrentBlockId] = useState<string>("");
   const [lastBlockId, setLastBlockId] = useState<string>("");
   const removeBlock = (id: string) => {
@@ -88,7 +88,7 @@ export default function Canvas({ className }: { className?: string }) {
 
   return (
     <div
-      ref={drop}
+      ref={streamCompleted ? drop : null}
       role={"Board"}
       className={`${className} flex flex-col items-center gap-4   text-slate-300 px-5 py-3 rounded-lg ring-2 ring-emerald-500 shadow-emerald-500 ${
         isOver ? "shadow-inner bg-emerald-900" : "shadow-md bg-slate-900"
