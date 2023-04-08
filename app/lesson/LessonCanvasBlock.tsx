@@ -1,12 +1,20 @@
 "use client";
 import { useAppState } from "@/app/context/app-context";
+import { useState } from "react";
+import Issue from "./Issue";
 
 export default function LessonCanvasBlock({
   text: displayText,
 }: {
   text: string | string[];
 }) {
-  const { topic, subtopic, currentLesson: blockContent } = useAppState();
+  const [showNote, setShowNote] = useState(false);
+  const {
+    topic,
+    subtopic,
+    currentLesson: blockContent,
+    lessonStreamCompleted,
+  } = useAppState();
   return (
     <div
       className={`bg-slate-100 text-slate-900 px-5 py-5 rounded-lg shadow-sm shadow-slate-200 max-w-4xl w-full`}
@@ -18,6 +26,16 @@ export default function LessonCanvasBlock({
       <p className="leading-7 text-lg pt-8 py-5 whitespace-pre-wrap">
         {displayText}
       </p>
+      {lessonStreamCompleted && (
+        <p
+          className="text-emerald-600 cursor-pointer underline ml-auto text-center"
+          onMouseEnter={() => setShowNote(true)}
+          onMouseLeave={() => setShowNote(false)}
+        >
+          Incomplete lesson?
+        </p>
+      )}
+      {showNote && <Issue />}
     </div>
   );
 }
