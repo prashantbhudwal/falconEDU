@@ -13,6 +13,7 @@ export default function Home() {
     grade,
     board,
     subject,
+    setCurrentLesson,
     setSubject,
     setBoard,
     setTopic,
@@ -41,6 +42,7 @@ export default function Home() {
   const handleStart = () => {
     router.push("/merlin");
     setStarted(true);
+    setCurrentLesson([]);
   };
 
   return (
