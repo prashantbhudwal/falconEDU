@@ -1,7 +1,14 @@
 "use client";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 const LandingPage = () => {
+  const router = useRouter();
+  useEffect(() => {
+    router.prefetch("/preferences");
+    router.prefetch("/merlin");
+  }, []);
   return (
     <div className="flex flex-col items-center justify-center text-center">
       <h1
