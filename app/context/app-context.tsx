@@ -15,6 +15,8 @@ interface AppState {
   topic: string;
   subtopic: string;
   currentLesson: BlockContent[];
+  lessonStreamCompleted: boolean;
+  setLessonStreamCompleted: React.Dispatch<React.SetStateAction<boolean>>;
   setStarted: React.Dispatch<React.SetStateAction<boolean>>;
   setGrade: React.Dispatch<React.SetStateAction<string>>;
   setBoard: React.Dispatch<React.SetStateAction<string>>;
@@ -32,6 +34,7 @@ const AppContext = createContext<AppState>({
   topic: "",
   subtopic: "",
   currentLesson: [],
+  lessonStreamCompleted: false,
   setStarted: () => {},
   setGrade: () => {},
   setBoard: () => {},
@@ -39,6 +42,7 @@ const AppContext = createContext<AppState>({
   setTopic: () => {},
   setSubtopic: () => {},
   setCurrentLesson: () => {},
+  setLessonStreamCompleted: () => {},
 });
 
 export const useAppState = () => useContext(AppContext);
@@ -53,6 +57,7 @@ export const AppProvider: React.FC<React.PropsWithChildren<{}>> = ({
   const [subtopic, setSubtopic] = useState<string>("");
   const [currentLesson, setCurrentLesson] = useState<BlockContent[]>([]);
   const [started, setStarted] = useState<boolean>(false);
+  const [lessonStreamCompleted, setLessonStreamCompleted] = useState<boolean>(false)
 
   return (
     <AppContext.Provider
@@ -64,6 +69,7 @@ export const AppProvider: React.FC<React.PropsWithChildren<{}>> = ({
         topic,
         subtopic,
         currentLesson,
+        lessonStreamCompleted,
         setStarted,
         setGrade,
         setBoard,
@@ -71,6 +77,7 @@ export const AppProvider: React.FC<React.PropsWithChildren<{}>> = ({
         setTopic,
         setSubtopic,
         setCurrentLesson,
+        setLessonStreamCompleted
       }}
     >
       {children}

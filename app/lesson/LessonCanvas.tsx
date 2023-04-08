@@ -16,22 +16,20 @@ interface BlockContent {
 export default function Canvas({ className }: { className?: string }) {
   const [fetchNow, setFetchNow] = useState(false);
   const [messages, setMessages] = useState<string[]>([]);
-  const [streamCompleted, setStreamCompleted] = useState<boolean>();
+
   const [currentBlockId, setCurrentBlockId] = useState<string>("");
   const [lastBlockId, setLastBlockId] = useState<string>("");
   const [showNote, setShowNote] = useState(false);
-
+  const { lessonStreamCompleted, setLessonStreamCompleted } = useAppState();
   const [lessonPlanBlockContent, setLessonPlanBlockContent] = useState<
     BlockContent[]
   >([]);
 
   useEffect(() => {
     setMessages([]);
-    setStreamCompleted(false);
+    setLessonStreamCompleted(false);
     setFetchNow(true);
   }, []);
-
-  const { topic, subtopic, currentLesson: blockContent } = useAppState();
 
   const handleNewMessage = useCallback((message: string) => {
     setMessages((prevMessages) => [...prevMessages, message]);
@@ -41,13 +39,13 @@ export default function Canvas({ className }: { className?: string }) {
     handleNewMessage,
     fetchNow,
     () => setFetchNow(false),
-    () => setStreamCompleted(true),
+    () => setLessonStreamCompleted(true),
     () => setCurrentBlockId(uuid())
   );
 
   useEffect(() => {
     if (
-      streamCompleted === true &&
+      lessonStreamCompleted === true &&
       messages.length > 0 &&
       currentBlockId != lastBlockId
     ) {
@@ -64,13 +62,13 @@ export default function Canvas({ className }: { className?: string }) {
       ]);
       setLastBlockId(currentBlockId);
     }
-  }, [streamCompleted]);
+  }, [lessonStreamCompleted]);
 
   return (
     <div
       className={`${className} flex flex-col items-center gap-4   text-slate-300 px-5 py-3 rounded-lg ring-2 ring-emerald-500 shadow-emerald-500 ${"shadow-md bg-slate-900"}`}
     >
-      {streamCompleted && (
+      {lessonStreamCompleted && (
         <p
           className="text-gray-600 cursor-pointer hover:underline ml-auto text-sm"
           onMouseEnter={() => setShowNote(true)}
