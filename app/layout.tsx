@@ -2,6 +2,7 @@ import { AppProvider } from "./context/app-context";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/react";
 
 export const metadata = {
   title: "Falcon",
@@ -23,6 +24,7 @@ export default function RootLayout({
           </main>
           <Footer />
         </AppProvider>
+        <Analytics />
       </body>
     </html>
   );
