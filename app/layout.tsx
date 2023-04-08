@@ -4,8 +4,8 @@ import Footer from "@/components/Footer";
 import "./globals.css";
 
 export const metadata = {
-  title: "FalconOne",
-  description: "Learn Something New Today",
+  title: "Falcon",
+  description: "Your AI Co-Teacher",
 };
 
 export default function RootLayout({
