@@ -1,6 +1,6 @@
 export default function Issue() {
   return (
-    <div className="absolute top-5 left-0 z-10 w-3/5 px-4 py-4 bg-slate-900 ring-emerald-500 rounded ring-1 shadow-md shadow-emerald-400">
+    <div className="absolute bottom-10 right-0 z-10 w-3/5 px-4 py-4 bg-slate-900 ring-emerald-500 rounded ring-1 shadow-md shadow-emerald-400">
       <ul className="text-base text-slate-300 flex flex-col gap-2">
         <li>
           <span className="font-semibold text-emerald-600 block pb-1">
