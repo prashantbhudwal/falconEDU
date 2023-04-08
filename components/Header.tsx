@@ -3,7 +3,7 @@ import { useAppState } from "@/app/context/app-context";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 export default function Header() {
-  const { grade, started, currentLesson } = useAppState();
+  const { grade, started, board, currentLesson } = useAppState();
   const pathname = usePathname();
 
   return (
@@ -17,7 +17,7 @@ export default function Header() {
         </Link>
         <div className="flex items-center gap-6">
           {grade && (
-            <span className="text-base ml-2 font-semibold">{`NCERT, Grade ${grade}`}</span>
+            <span className="text-base ml-2 font-semibold">{`${board}, Grade ${grade}`}</span>
           )}
           {started && currentLesson.length !== 0 && pathname === "/merlin" && (
             <Link
