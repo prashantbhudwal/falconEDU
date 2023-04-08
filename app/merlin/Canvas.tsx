@@ -7,6 +7,7 @@ import { useAppState } from "../context/app-context";
 import { getEmoji } from "../utils";
 import { v4 as uuid } from "uuid";
 import LiveBlock from "./LiveBlock";
+import { useRouter } from "next/navigation";
 
 interface BlockContent {
   text: string | string[];
@@ -16,6 +17,7 @@ interface BlockContent {
 }
 
 export default function Canvas({ className }: { className?: string }) {
+  const router = useRouter();
   const [fetchNow, setFetchNow] = useState(false);
   const [messages, setMessages] = useState<string[]>([]);
   const [blockType, setBlockType] = useState<string>("");
@@ -41,6 +43,11 @@ export default function Canvas({ className }: { className?: string }) {
     currentLesson: blockContent,
     setCurrentLesson: setBlockContent,
   } = useAppState();
+
+  if (topic === "" || subtopic === "") {
+    router.push("/preferences");
+  }
+
   const specObject = {
     accept: "Box",
     drop: (item: any) => startGeneration(item),
