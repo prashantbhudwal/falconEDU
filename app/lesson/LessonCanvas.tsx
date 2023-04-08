@@ -4,7 +4,6 @@ import { useAppState } from "../context/app-context";
 import { v4 as uuid } from "uuid";
 import useLessonStream from "@/hooks/useLessonStream";
 import LessonCanvasBlock from "./LessonCanvasBlock";
-import Issue from "./Issue";
 
 interface BlockContent {
   text: string | string[];
@@ -19,7 +18,7 @@ export default function Canvas({ className }: { className?: string }) {
 
   const [currentBlockId, setCurrentBlockId] = useState<string>("");
   const [lastBlockId, setLastBlockId] = useState<string>("");
-  const [showNote, setShowNote] = useState(false);
+
   const { lessonStreamCompleted, setLessonStreamCompleted } = useAppState();
   const [lessonPlanBlockContent, setLessonPlanBlockContent] = useState<
     BlockContent[]
@@ -68,16 +67,6 @@ export default function Canvas({ className }: { className?: string }) {
     <div
       className={`${className} flex flex-col items-center gap-4   text-slate-300 px-5 py-3 rounded-lg ring-2 ring-emerald-500 shadow-emerald-500 ${"shadow-md bg-slate-900"}`}
     >
-      {lessonStreamCompleted && (
-        <p
-          className="text-gray-600 cursor-pointer hover:underline ml-auto text-sm"
-          onMouseEnter={() => setShowNote(true)}
-          onMouseLeave={() => setShowNote(false)}
-        >
-          Incomplete lesson?
-        </p>
-      )}
-      {showNote && <Issue />}
       <LessonCanvasBlock text={messages} />
     </div>
   );
