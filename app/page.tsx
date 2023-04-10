@@ -20,7 +20,7 @@ const LandingPage = () => {
       </h1>
       <p className={"mb-12 text-lg text-gray-300 md:text-2xl max-w-xl"}>
         Use Falcon AI to create lesson plans specific to your book, curriculum
-        or board, with effortless drag-and-drop.
+        or board, with effortless drag and drop.
       </p>
       <Link
         href={"/preferences"}
