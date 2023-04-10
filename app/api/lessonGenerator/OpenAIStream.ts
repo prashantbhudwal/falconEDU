@@ -27,7 +27,6 @@ export async function OpenAIStream(messages: any) {
     }),
   };
   const response = await fetch(API_URL, requestOptions);
-  console.log(response);
 
   const stream = new ReadableStream({
     async start(controller) {
@@ -41,11 +40,8 @@ export async function OpenAIStream(messages: any) {
           }
           try {
             const json = JSON.parse(data);
-            console.log(json);
             const text = json.choices[0]?.delta?.content || "";
-            console.log(text);
             const queue = encoder.encode(text);
-            console.log(queue);
             controller.enqueue(queue);
           } catch (e) {
             controller.error(e);
