@@ -19,8 +19,8 @@ const LandingPage = () => {
         <p className="">Plan Your Next Lesson in Seconds</p>
       </h1>
       <p className={"mb-12 text-lg text-gray-300 md:text-2xl max-w-xl"}>
-        Use Falcon AI to create custom, Indian curriculum-specific lessons with
-        effortless drag-and-drop.
+        Use Falcon AI to create lesson plans specific to your book, curriculum
+        or board, with effortless drag-and-drop.
       </p>
       <Link
         href={"/preferences"}
