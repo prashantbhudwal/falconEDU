@@ -4,6 +4,7 @@ import { useAppState } from "../context/app-context";
 import { v4 as uuid } from "uuid";
 import useLessonStream from "@/hooks/useLessonStream";
 import LessonCanvasBlock from "./LessonCanvasBlock";
+import { useRouter } from "next/navigation";
 
 interface BlockContent {
   text: string | string[];
@@ -13,18 +14,30 @@ interface BlockContent {
 }
 
 export default function Canvas({ className }: { className?: string }) {
+  const router = useRouter();
+
   const [fetchNow, setFetchNow] = useState(false);
   const [messages, setMessages] = useState<string[]>([]);
 
   const [currentBlockId, setCurrentBlockId] = useState<string>("");
   const [lastBlockId, setLastBlockId] = useState<string>("");
 
-  const { lessonStreamCompleted, setLessonStreamCompleted } = useAppState();
+  const {
+    lessonStreamCompleted,
+    setLessonStreamCompleted,
+    setLessonToDownload,
+    topic,
+    subtopic,
+  } = useAppState();
+
   const [lessonPlanBlockContent, setLessonPlanBlockContent] = useState<
     BlockContent[]
   >([]);
 
   useEffect(() => {
+    if (topic === "" || subtopic === "") {
+      router.push("/preferences");
+    }
     setMessages([]);
     setLessonStreamCompleted(false);
     setFetchNow(true);
@@ -60,6 +73,7 @@ export default function Canvas({ className }: { className?: string }) {
         },
       ]);
       setLastBlockId(currentBlockId);
+      setLessonToDownload(messages);
     }
   }, [lessonStreamCompleted]);
 
