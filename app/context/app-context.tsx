@@ -16,6 +16,7 @@ interface AppState {
   subtopic: string;
   currentLesson: BlockContent[];
   lessonStreamCompleted: boolean;
+  lessonToDownload: string[];
   setLessonStreamCompleted: React.Dispatch<React.SetStateAction<boolean>>;
   setStarted: React.Dispatch<React.SetStateAction<boolean>>;
   setGrade: React.Dispatch<React.SetStateAction<string>>;
@@ -24,6 +25,7 @@ interface AppState {
   setTopic: React.Dispatch<React.SetStateAction<string>>;
   setSubtopic: React.Dispatch<React.SetStateAction<string>>;
   setCurrentLesson: React.Dispatch<React.SetStateAction<BlockContent[]>>;
+  setLessonToDownload: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 const AppContext = createContext<AppState>({
@@ -35,6 +37,7 @@ const AppContext = createContext<AppState>({
   subtopic: "",
   currentLesson: [],
   lessonStreamCompleted: false,
+  lessonToDownload: [],
   setStarted: () => {},
   setGrade: () => {},
   setBoard: () => {},
@@ -43,6 +46,7 @@ const AppContext = createContext<AppState>({
   setSubtopic: () => {},
   setCurrentLesson: () => {},
   setLessonStreamCompleted: () => {},
+  setLessonToDownload: () => {},
 });
 
 export const useAppState = () => useContext(AppContext);
@@ -58,7 +62,7 @@ export const AppProvider: React.FC<React.PropsWithChildren<{}>> = ({
   const [currentLesson, setCurrentLesson] = useState<BlockContent[]>([]);
   const [started, setStarted] = useState<boolean>(false);
   const [lessonStreamCompleted, setLessonStreamCompleted] = useState<boolean>(false)
-
+  const [lessonToDownload, setLessonToDownload] = useState<string[]>([])
   return (
     <AppContext.Provider
       value={{
@@ -70,6 +74,7 @@ export const AppProvider: React.FC<React.PropsWithChildren<{}>> = ({
         subtopic,
         currentLesson,
         lessonStreamCompleted,
+        lessonToDownload,
         setStarted,
         setGrade,
         setBoard,
@@ -77,7 +82,8 @@ export const AppProvider: React.FC<React.PropsWithChildren<{}>> = ({
         setTopic,
         setSubtopic,
         setCurrentLesson,
-        setLessonStreamCompleted
+        setLessonStreamCompleted,
+        setLessonToDownload
       }}
     >
       {children}
