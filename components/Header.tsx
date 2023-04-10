@@ -3,8 +3,19 @@ import { useAppState } from "@/app/context/app-context";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
+import { generateDocx } from "@/app/utils/generateDocx";
+
 export default function Header() {
-  const { grade, started, board, currentLesson } = useAppState();
+  const {
+    grade,
+    started,
+    board,
+    currentLesson,
+    topic,
+    subtopic,
+    lessonToDownload,
+    lessonStreamCompleted,
+  } = useAppState();
   const pathname = usePathname();
   const router = useRouter();
 
@@ -30,15 +41,29 @@ export default function Header() {
               Generate Lesson
             </Link>
           )}
-          {started && currentLesson.length !== 0 && pathname === "/lesson" && (
-            <Link
-              href={"/preferences"}
-              key={pathname} //rerenders the component when the path changes
-              className="bg-emerald-500 hover:bg-emerald-600 text-white font-medium py-2 px-4 rounded"
-            >
-              New Lesson
-            </Link>
-          )}
+          {lessonStreamCompleted &&
+            currentLesson.length !== 0 &&
+            pathname === "/lesson" && (
+              <button
+                onClick={() =>
+                  generateDocx({ topic, subtopic, lessonToDownload })
+                }
+                className="bg-fuchsia-500 hover:bg-fuchsia-600 text-white font-medium py-2 px-4 rounded"
+              >
+                Download Lesson
+              </button>
+            )}
+          {lessonStreamCompleted &&
+            currentLesson.length !== 0 &&
+            pathname === "/lesson" && (
+              <Link
+                href={"/preferences"}
+                key={pathname} //rerenders the component when the path changes
+                className="bg-emerald-500 hover:bg-emerald-600 text-white font-medium py-2 px-4 rounded"
+              >
+                New Lesson
+              </Link>
+            )}
         </div>
       </div>
     </header>
