@@ -32,7 +32,7 @@ export default function LessonCanvasBlock({
           onMouseEnter={() => setShowNote(true)}
           onMouseLeave={() => setShowNote(false)}
         >
-          Got an incomplete lesson?
+          Facing Issues?
         </p>
       )}
       {showNote && <Issue />}
