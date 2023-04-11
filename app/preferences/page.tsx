@@ -1,28 +1,29 @@
 "use client";
 import grades from "../data/grades.json";
-import { useAppState } from "../context/app-context";
 import { useRouter } from "next/navigation";
 import { useAtom } from "jotai";
-import { boardAtom } from "../atoms/preferences";
+import {
+  boardAtom,
+  topicAtom,
+  subjectAtom,
+  subtopicAtom,
+  gradeAtom,
+} from "../atoms/preferences";
+import { currentLessonAtom } from "../atoms/lesson";
+import { startedAtom } from "../atoms/app";
 
 export default function Home() {
   const boards = ["NCERT"];
   const subjects = ["Science"];
   const router = useRouter();
   const [board, setBoard] = useAtom(boardAtom);
+  const [topic, setTopic] = useAtom(topicAtom);
+  const [subtopic, setSubtopic] = useAtom(subtopicAtom);
+  const [subject, setSubject] = useAtom(subjectAtom);
+  const [grade, setGrade] = useAtom(gradeAtom);
+  const [currentLesson, setCurrentLesson] = useAtom(currentLessonAtom);
+  const [started, setStarted] = useAtom(startedAtom);
 
-  const {
-    topic,
-    subtopic,
-    grade,
-    subject,
-    setCurrentLesson,
-    setSubject,
-    setTopic,
-    setSubtopic,
-    setGrade,
-    setStarted,
-  } = useAppState();
   const handleBoardChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setBoard(e.target.value);
   };
