@@ -4,12 +4,14 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { generateDocx } from "@/app/utils/generateDocx";
+import { useAtom } from "jotai";
+import { boardAtom } from "./atoms/preferences";
 
 export default function Header() {
+  const [board] = useAtom(boardAtom);
   const {
     grade,
     started,
-    board,
     currentLesson,
     topic,
     subtopic,

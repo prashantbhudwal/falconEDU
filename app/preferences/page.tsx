@@ -2,20 +2,22 @@
 import grades from "../data/grades.json";
 import { useAppState } from "../context/app-context";
 import { useRouter } from "next/navigation";
+import { useAtom } from "jotai";
+import { boardAtom } from "../atoms/preferences";
 
 export default function Home() {
   const boards = ["NCERT"];
   const subjects = ["Science"];
   const router = useRouter();
+  const [board, setBoard] = useAtom(boardAtom);
+
   const {
     topic,
     subtopic,
     grade,
-    board,
     subject,
     setCurrentLesson,
     setSubject,
-    setBoard,
     setTopic,
     setSubtopic,
     setGrade,
