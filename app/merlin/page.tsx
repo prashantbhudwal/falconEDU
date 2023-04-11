@@ -29,7 +29,7 @@ export default function Merlin() {
             <Chip key={buttonText} text={buttonText} />
           ))}
         </Sidebar>
-        <Canvas className="col-start-3 col-span-8 h-screen overflow-y-auto custom-scrollbar" />
+        <Canvas className="col-start-3 col-span-8 min-h-screen" />
         <Sidebar className="col-start-11 col-span-2" heading={"Outline"}>
           {currentLesson &&
             currentLesson
