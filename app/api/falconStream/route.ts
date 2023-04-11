@@ -1,6 +1,6 @@
 // app/api/route.ts
 import { NextRequest } from "next/server";
-import { getCompletionStream, handleGPT3TurboStreamData } from "../openAI";
+import { getCompletionStream, handleGPT3TurboStreamData } from "../lib/openAI";
 import { ChatCompletionRequestMessage } from "openai";
 import { getPrompt } from "@/app/utils";
 
