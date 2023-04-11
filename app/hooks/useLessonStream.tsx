@@ -1,14 +1,9 @@
 import { useState, useEffect, useRef } from "react";
-import { useAppState } from "@/app/context/app-context";
-
+import { useAtom } from "jotai";
+import { topicAtom, subjectAtom, gradeAtom } from "../atoms/preferences";
+import { currentLessonAtom } from "../atoms/lesson";
+import { BlockContent } from "@/types";
 const ROUTE = "/api/lessonGenerator";
-
-interface BlockContent {
-  text: string | string[];
-  id: string;
-  type: string;
-  emoji: string;
-}
 
 type LessonRequestBody = {
   topic: string;
@@ -68,7 +63,10 @@ export default function useLessonStream(
   const [isLoading, setIsLoading] = useState(!fetchNow);
   const [error, setError] = useState<string | null>(null);
   const onMessageRef = useRef(onMessage);
-  const { topic, subtopic, grade, currentLesson } = useAppState();
+  const [topic] = useAtom(topicAtom);
+  const [subtopic] = useAtom(subjectAtom);
+  const [grade] = useAtom(gradeAtom);
+  const [currentLesson] = useAtom(currentLessonAtom);
 
   const body = {
     topic: topic,

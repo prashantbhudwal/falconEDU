@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
-import { useAppState } from "@/app/context/app-context";
 import { v4 as uuid } from "uuid";
+import { useAtom } from "jotai";
+import { topicAtom, subtopicAtom, gradeAtom } from "../atoms/preferences";
 
 const ROUTE = "/api/falconStream";
 
@@ -63,7 +64,9 @@ export default function useFalconStream(
   const [isLoading, setIsLoading] = useState(!fetchNow);
   const [error, setError] = useState<string | null>(null);
   const onMessageRef = useRef(onMessage);
-  const { topic, subtopic, grade } = useAppState();
+  const [topic] = useAtom(topicAtom);
+  const [subtopic] = useAtom(subtopicAtom);
+  const [grade] = useAtom(gradeAtom);
 
   const body = {
     topic: topic,
