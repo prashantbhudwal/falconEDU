@@ -1,7 +1,9 @@
 "use client";
-import { useAppState } from "@/app/context/app-context";
 import { useState } from "react";
 import Issue from "./Issue";
+import { useAtom } from "jotai";
+import { topicAtom, subtopicAtom } from "../atoms/preferences";
+import { lessonStreamCompletedAtom } from "../atoms/lesson";
 
 export default function LessonCanvasBlock({
   text: displayText,
@@ -9,12 +11,9 @@ export default function LessonCanvasBlock({
   text: string | string[];
 }) {
   const [showNote, setShowNote] = useState(false);
-  const {
-    topic,
-    subtopic,
-    currentLesson: blockContent,
-    lessonStreamCompleted,
-  } = useAppState();
+  const [topic] = useAtom(topicAtom);
+  const [subtopic] = useAtom(subtopicAtom);
+  const [lessonStreamCompleted] = useAtom(lessonStreamCompletedAtom);
   return (
     <div
       className={`bg-slate-100 text-slate-900 px-5 py-5 rounded-lg shadow-sm shadow-slate-200 max-w-4xl w-full`}
