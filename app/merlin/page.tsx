@@ -6,20 +6,15 @@ import OutlineBlock from "./OutlineBlock";
 import { buttonsArray as promptsArray } from "../data/schema";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
-import { useAppState } from "../context/app-context";
 import useDesktop from "@/app/hooks/useDesktop";
 import DesktopOnly from "@/app/components/DesktopOnly";
 import { getEmoji } from "../utils";
+import { useAtom } from "jotai";
+import { currentLessonAtom } from "../atoms/lesson";
 
 export default function Merlin() {
+  const [currentLesson] = useAtom(currentLessonAtom);
   const isDesktop = useDesktop();
-  const {
-    topic: chatTopic,
-    subtopic: chatSubtopic,
-    grade: chatGrade,
-    currentLesson,
-  } = useAppState();
-
   if (!isDesktop) {
     return <DesktopOnly />;
   }
