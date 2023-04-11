@@ -1,10 +1,10 @@
 "use client";
-import Block from "@/components/Block";
-import ButtonPanel from "@/components/ButtonPanel";
+import Block from "@/app/mobile/Block";
+import ButtonPanel from "@/app/components/ButtonPanel";
 import { useEffect, useState } from "react";
 import { getEmoji } from "../utils";
-import { buttonsArray } from "@/app/schema";
-import useOpenAI from "@/hooks/useOpenAI";
+import { buttonsArray } from "@/app/data/schema";
+import useOpenAI from "@/app/hooks/useOpenAI";
 import { useAppState } from "../context/app-context";
 
 interface BlockContent {

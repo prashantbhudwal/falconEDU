@@ -3,12 +3,12 @@ import Canvas from "./Canvas";
 import Chip from "./Chip";
 import Sidebar from "./Sidebar";
 import OutlineBlock from "./OutlineBlock";
-import { buttonsArray as promptsArray } from "../schema";
+import { buttonsArray as promptsArray } from "../data/schema";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
 import { useAppState } from "../context/app-context";
-import useDesktop from "@/hooks/useDesktop";
-import DesktopOnly from "@/components/DesktopOnly";
+import useDesktop from "@/app/hooks/useDesktop";
+import DesktopOnly from "@/app/components/DesktopOnly";
 import { getEmoji } from "../utils";
 
 export default function Merlin() {

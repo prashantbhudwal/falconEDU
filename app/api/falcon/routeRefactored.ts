@@ -1,6 +1,6 @@
 import { getPrompt } from "@/app/utils";
 import { NextRequest, NextResponse } from "next/server";
-import getCompletion from "@/app/api/openAI";
+import getCompletion from "@/app/api/lib/openAI";
 import { ChatCompletionRequestMessage } from "openai";
 
 export async function POST(request: NextRequest) {

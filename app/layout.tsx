@@ -1,6 +1,6 @@
 import { AppProvider } from "./context/app-context";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import Header from "@/app/Header";
+import Footer from "@/app/Footer";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/react";
 
