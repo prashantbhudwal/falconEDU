@@ -1,23 +1,31 @@
 "use client";
-import { useAppState } from "@/app/context/app-context";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { generateDocx } from "@/app/utils/generateDocx";
-
+import { useAtom } from "jotai";
+import {
+  boardAtom,
+  topicAtom,
+  subtopicAtom,
+  gradeAtom,
+} from "./atoms/preferences";
+import {
+  currentLessonAtom,
+  lessonToDownloadAtom,
+  lessonStreamCompletedAtom,
+} from "./atoms/lesson";
+import { startedAtom } from "./atoms/app";
 export default function Header() {
-  const {
-    grade,
-    started,
-    board,
-    currentLesson,
-    topic,
-    subtopic,
-    lessonToDownload,
-    lessonStreamCompleted,
-  } = useAppState();
+  const [board] = useAtom(boardAtom);
+  const [grade] = useAtom(gradeAtom);
+  const [topic] = useAtom(topicAtom);
+  const [subtopic] = useAtom(subtopicAtom);
+  const [currentLesson] = useAtom(currentLessonAtom);
+  const [lessonToDownload] = useAtom(lessonToDownloadAtom);
+  const [lessonStreamCompleted] = useAtom(lessonStreamCompletedAtom);
+  const [started] = useAtom(startedAtom);
   const pathname = usePathname();
-  const router = useRouter();
 
   return (
     <header className="border-b border-solid border-slate-700 text-slate-200 py-3 pl-4 pr-6">

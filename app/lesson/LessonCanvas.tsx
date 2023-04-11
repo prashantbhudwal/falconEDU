@@ -1,34 +1,29 @@
 "use client";
 import { useState, useEffect, useCallback } from "react";
-import { useAppState } from "../context/app-context";
 import { v4 as uuid } from "uuid";
 import useLessonStream from "@/app/hooks/useLessonStream";
 import LessonCanvasBlock from "./LessonCanvasBlock";
 import { useRouter } from "next/navigation";
-
-interface BlockContent {
-  text: string | string[];
-  id: string;
-  type: string;
-  emoji: string;
-}
+import { useAtom } from "jotai";
+import {
+  lessonStreamCompletedAtom,
+  lessonToDownloadAtom,
+} from "../atoms/lesson";
+import { topicAtom, subtopicAtom } from "../atoms/preferences";
+import { BlockContent } from "@/types";
 
 export default function Canvas({ className }: { className?: string }) {
   const router = useRouter();
-
   const [fetchNow, setFetchNow] = useState(false);
   const [messages, setMessages] = useState<string[]>([]);
-
   const [currentBlockId, setCurrentBlockId] = useState<string>("");
   const [lastBlockId, setLastBlockId] = useState<string>("");
-
-  const {
-    lessonStreamCompleted,
-    setLessonStreamCompleted,
-    setLessonToDownload,
-    topic,
-    subtopic,
-  } = useAppState();
+  const [lessonStreamCompleted, setLessonStreamCompleted] = useAtom(
+    lessonStreamCompletedAtom
+  );
+  const [lessonToDownload, setLessonToDownload] = useAtom(lessonToDownloadAtom);
+  const [topic] = useAtom(topicAtom);
+  const [subtopic] = useAtom(subtopicAtom);
 
   const [lessonPlanBlockContent, setLessonPlanBlockContent] = useState<
     BlockContent[]

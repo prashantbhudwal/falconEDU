@@ -3,18 +3,14 @@ import { useDrop, DropTargetMonitor } from "react-dnd";
 import { useState, useEffect, useCallback } from "react";
 import CanvasBlock from "./CanvasBlock";
 import useFalconStream from "@/app/hooks/useFalconStream";
-import { useAppState } from "../context/app-context";
 import { getEmoji } from "../utils";
 import { v4 as uuid } from "uuid";
 import LiveBlock from "./LiveBlock";
 import { useRouter } from "next/navigation";
-
-interface BlockContent {
-  text: string | string[];
-  id: string;
-  type: string;
-  emoji: string;
-}
+import { BlockContent } from "@/types";
+import { topicAtom, subtopicAtom } from "../atoms/preferences";
+import { useAtom } from "jotai";
+import { currentLessonAtom } from "../atoms/lesson";
 
 export default function Canvas({ className }: { className?: string }) {
   const router = useRouter();
@@ -24,6 +20,10 @@ export default function Canvas({ className }: { className?: string }) {
   const [streamCompleted, setStreamCompleted] = useState<boolean>(true);
   const [currentBlockId, setCurrentBlockId] = useState<string>("");
   const [lastBlockId, setLastBlockId] = useState<string>("");
+  const [topic] = useAtom(topicAtom);
+  const [subtopic] = useAtom(subtopicAtom);
+  const [blockContent, setBlockContent] = useAtom(currentLessonAtom);
+
   const removeBlock = (id: string) => {
     setBlockContent((prevBlockContent) =>
       prevBlockContent.filter((block) => block.id !== id)
@@ -36,13 +36,6 @@ export default function Canvas({ className }: { className?: string }) {
     setStreamCompleted(false);
     setFetchNow(true);
   };
-
-  const {
-    topic,
-    subtopic,
-    currentLesson: blockContent,
-    setCurrentLesson: setBlockContent,
-  } = useAppState();
 
   if (topic === "" || subtopic === "") {
     router.push("/preferences");

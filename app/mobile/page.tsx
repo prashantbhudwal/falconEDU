@@ -5,21 +5,15 @@ import { useEffect, useState } from "react";
 import { getEmoji } from "../utils";
 import { buttonsArray } from "@/app/data/schema";
 import useOpenAI from "@/app/hooks/useOpenAI";
-import { useAppState } from "../context/app-context";
-
-interface BlockContent {
-  text: string;
-  id: string;
-  type: string;
-  emoji: string;
-}
+import { useAtom } from "jotai";
+import { topicAtom, subtopicAtom, gradeAtom } from "../atoms/preferences";
+import { BlockContent } from "@/types";
 
 export default function Chat() {
-  const {
-    topic: chatTopic,
-    subtopic: chatSubtopic,
-    grade: chatGrade,
-  } = useAppState();
+  const [chatTopic, setTopic] = useAtom(topicAtom);
+  const [chatSubtopic, setSubtopic] = useAtom(subtopicAtom);
+  const [chatGrade, setGrade] = useAtom(gradeAtom);
+
   const [chatBlocks, setChatBlocks] = useState<JSX.Element[]>([]);
   const [blockType, setBlockType] = useState("");
   const [blockContent, setBlockContent] = useState<BlockContent[]>([]);
