@@ -2,7 +2,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useAppState } from "../context/app-context";
 import { v4 as uuid } from "uuid";
-import useLessonStream from "@/hooks/useLessonStream";
+import useLessonStream from "@/app/hooks/useLessonStream";
 import LessonCanvasBlock from "./LessonCanvasBlock";
 import { useRouter } from "next/navigation";
 

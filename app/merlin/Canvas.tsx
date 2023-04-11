@@ -2,7 +2,7 @@
 import { useDrop, DropTargetMonitor } from "react-dnd";
 import { useState, useEffect, useCallback } from "react";
 import CanvasBlock from "./CanvasBlock";
-import useFalconStream from "@/hooks/useFalconStream";
+import useFalconStream from "@/app/hooks/useFalconStream";
 import { useAppState } from "../context/app-context";
 import { getEmoji } from "../utils";
 import { v4 as uuid } from "uuid";
