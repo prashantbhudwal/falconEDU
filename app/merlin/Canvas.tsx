@@ -107,7 +107,7 @@ export default function Canvas({ className }: { className?: string }) {
         <div>{`Grade ${grade}, ${subject}`}</div>
         <div className="text-center">
           <h1 className="text-3xl">{subtopic}</h1>
-          <p className=" text-lg  text-slate-600">Chapter: {topic}</p>
+          <p className=" text-lg  text-slate-600">{topic}</p>
         </div>
         <div>{board}</div>
       </header>
