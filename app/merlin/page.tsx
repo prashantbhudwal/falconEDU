@@ -3,7 +3,7 @@ import Canvas from "./Canvas";
 import Chip from "./Chip";
 import Sidebar from "./Sidebar";
 import OutlineBlock from "./OutlineBlock";
-import { buttonsArray as promptsArray } from "../data/schema";
+import { buttonsArray as promptsArray } from "../utils";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
 import useDesktop from "@/app/hooks/useDesktop";

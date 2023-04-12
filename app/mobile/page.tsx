@@ -3,7 +3,7 @@ import Block from "@/app/mobile/Block";
 import ButtonPanel from "@/app/components/ButtonPanel";
 import { useEffect, useState } from "react";
 import { getEmoji } from "../utils";
-import { buttonsArray } from "@/app/data/schema";
+import { buttonsArray } from "../utils";
 import useOpenAI from "@/app/hooks/useOpenAI";
 import { useAtom } from "jotai";
 import { topicAtom, subtopicAtom, gradeAtom } from "../atoms/preferences";
