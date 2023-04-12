@@ -1,13 +1,4 @@
-export const buttonsArray = [
-  "Definition",
-  "Example",
-  "Story",
-  "Analogy",
-  "History",
-  "Application",
-  // "Anti-Example",
-  "Contrast",
-];
+
 
 export const emojis = {
   definition: "📖",
