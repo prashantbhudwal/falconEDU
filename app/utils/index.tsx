@@ -16,6 +16,10 @@ export const getEmoji = function (blockType: string) {
       return "🔀";
     case "definition":
       return "📝";
+    case "activity":
+      return "🏄";
+    case "quiz":
+      return "🏆";
     default:
       return "Oops!! AI is on Strike. Try Again?";
   }
@@ -39,6 +43,10 @@ export const getPrompt = function (promptType: string) {
       return "Compare and contrast this concept with other closely related topics to help students distinguish between them";
     case "definition":
       return "Define the concept in a clear and concise manner for students";
+    case "activity":
+      return "Be creative and suggest one engaging and exciting small group activity that helps students understand";
+    case "quiz":
+      return "Make a MCQ quiz of 5 questions to assess the students on the topic of";
     default:
       return "Explain the concept in a way that is easy for students to understand";
   }
@@ -62,6 +70,10 @@ export const getBlockShadow = function (blockType: string) {
       return "shadow-lime-600";
     case "definition":
       return "shadow-fuchsia-600";
+    case "activity":
+      return "shadow-blue-600";
+    case "quiz":
+      return "shadow-violet-600";
     default:
       return "shadow-none";
   }
@@ -76,6 +88,8 @@ export const buttonsArray = [
   "Application",
   // "Anti-Example",
   "Contrast",
+  "Activity",
+  "Quiz",
 ];
 
 export const emojis = {
