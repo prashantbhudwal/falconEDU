@@ -8,7 +8,13 @@ import { v4 as uuid } from "uuid";
 import LiveBlock from "./LiveBlock";
 import { useRouter } from "next/navigation";
 import { BlockContent } from "@/types";
-import { topicAtom, subtopicAtom } from "../atoms/preferences";
+import {
+  topicAtom,
+  subtopicAtom,
+  gradeAtom,
+  boardAtom,
+  subjectAtom,
+} from "../atoms/preferences";
 import { useAtom } from "jotai";
 import { currentLessonAtom } from "../atoms/lesson";
 
@@ -22,6 +28,9 @@ export default function Canvas({ className }: { className?: string }) {
   const [lastBlockId, setLastBlockId] = useState<string>("");
   const [topic] = useAtom(topicAtom);
   const [subtopic] = useAtom(subtopicAtom);
+  const [grade] = useAtom(gradeAtom);
+  const [board] = useAtom(boardAtom);
+  const [subject] = useAtom(subjectAtom);
   const [blockContent, setBlockContent] = useAtom(currentLessonAtom);
 
   const removeBlock = (id: string) => {
@@ -94,9 +103,13 @@ export default function Canvas({ className }: { className?: string }) {
         isOver ? "shadow-inner bg-emerald-900" : "shadow-md bg-slate-900"
       }`}
     >
-      <header className="font-medium text-emerald-500 text-center border-b border-solid border-emerald-700 pb-2">
-        <h1 className="text-xl">{subtopic}</h1>
-        <p className=" text-base  text-slate-600">Chapter: {topic}</p>
+      <header className="font-medium text-emerald-500 border-b border-solid border-emerald-700 pb-2 flex flex-row justify-between w-full items-baseline">
+        <div>{`Grade ${grade}, ${subject}`}</div>
+        <div className="text-center">
+          <h1 className="text-3xl">{subtopic}</h1>
+          <p className=" text-lg  text-slate-600">Chapter: {topic}</p>
+        </div>
+        <div>{board}</div>
       </header>
       {!blockType && (
         <div className="text-emerald-900 text-center text-4xl pt-24">
