@@ -103,13 +103,16 @@ export default function Canvas({ className }: { className?: string }) {
         isOver ? "shadow-inner bg-emerald-900" : "shadow-md bg-slate-900"
       }`}
     >
-      <header className="font-medium text-emerald-500 border-b border-solid border-emerald-700 pb-2 flex flex-row justify-between w-full items-baseline">
-        <div>{`Grade ${grade}, ${subject}`}</div>
+      <header className="font-medium text-emerald-500 border-b border-solid border-emerald-700 pb-2 flex flex-row justify-between w-full items-center">
+        <div className="text-sm text-left text-emerald-600">
+          {`Grade ${grade}`}
+          <p>{subject}</p>
+        </div>
         <div className="text-center">
           <h1 className="text-3xl">{subtopic}</h1>
           <p className=" text-lg  text-slate-600">{topic}</p>
         </div>
-        <div>{board}</div>
+        <div className="text-sm text-left text-emerald-600">{board}</div>
       </header>
       {!blockType && (
         <div className="text-emerald-900 text-center text-4xl pt-24">
