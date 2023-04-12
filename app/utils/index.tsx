@@ -67,6 +67,17 @@ export const getBlockShadow = function (blockType: string) {
   }
 };
 
+export const buttonsArray = [
+  "Definition",
+  "Example",
+  "Story",
+  "Analogy",
+  "History",
+  "Application",
+  // "Anti-Example",
+  "Contrast",
+];
+
 export const blockContentArray = [
   {
     text: "This is a short description of a Pikachu.",
