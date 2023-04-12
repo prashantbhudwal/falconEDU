@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { generateDocx } from "@/app/utils/generateDocx";
 import { useAtom } from "jotai";
+import Image from "next/image";
 import {
   boardAtom,
   topicAtom,
@@ -28,12 +29,23 @@ export default function Header() {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-50 border-b border-solid border-slate-700 text-slate-200 py-3 pl-4 pr-6 bg-slate-900">
+    <header className="sticky top-0 z-50  text-slate-200 pt-5 pl-4 pr-6 bg-slate-900">
       <div className="flex items-center justify-between">
         <Link href="/">
-          <div>
-            <h1 className="text-xl">Falcon</h1>
-            <p className="text-sm  text-slate-600">AI Co-Teacher</p>
+          <div className="flex gap-4">
+            <div>
+              <Image
+                src={"/chubbi.png"}
+                height={45}
+                width={45}
+                alt="Falcon Logo"
+                // className="w-10 h-10 mr-2"
+              />
+            </div>
+            <div>
+              <h1 className="text-xl">Falcon</h1>
+              <p className="text-sm  text-slate-600">AI Co-Teacher</p>
+            </div>
           </div>
         </Link>
         <div className="flex items-center gap-6">
