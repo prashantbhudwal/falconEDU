@@ -78,6 +78,18 @@ export const buttonsArray = [
   "Contrast",
 ];
 
+export const emojis = {
+  definition: "📖",
+  explain: "📝",
+  example: "🧩",
+  story: "🏜",
+  analogy: "🪢",
+  history: "📜",
+  application: "🎯",
+  antiExample: "☣️",
+  contrast: "🔀",
+};
+
 export const blockContentArray = [
   {
     text: "This is a short description of a Pikachu.",
