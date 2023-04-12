@@ -13,7 +13,7 @@ export default function Chip({ text }: { text: string }) {
   return (
     <div
       ref={dragPreview}
-      className={` text-slate-300 px-3 py-3 rounded-xl ${
+      className={` text-slate-300 px-3 py-2 rounded-xl ${
         isDragging
           ? "opacity-100 ring-emerald-500 ring-4 bg-emerald-800 "
           : "opacity-100 ring-slate-500 ring-1 bg-slate-800"
