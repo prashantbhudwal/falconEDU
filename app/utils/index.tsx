@@ -20,6 +20,12 @@ export const getEmoji = function (blockType: string) {
       return "🏄";
     case "quiz":
       return "🏆";
+    case "lessonPlan":
+      return "🧑‍🏫";
+    case "lessonOutline":
+      return "🪄";
+    case "slides":
+      return "🎬 ";
     default:
       return "Oops!! AI is on Strike. Try Again?";
   }
@@ -92,17 +98,10 @@ export const buttonsArray = [
   "Quiz",
 ];
 
-export const emojis = {
-  definition: "📖",
-  explain: "📝",
-  example: "🧩",
-  story: "🏜",
-  analogy: "🪢",
-  history: "📜",
-  application: "🎯",
-  antiExample: "☣️",
-  contrast: "🔀",
-};
+
+
+
+
 
 export const blockContentArray = [
   {
