@@ -1,35 +1,30 @@
-"use Client";
-import { useRouter } from "next/navigation";
-import AidBlock from "./AidBlock";
-import { useContentStream } from "./useContentStream";
-import { topicAtom, subtopicAtom } from "@/app/atoms/preferences";
-import { useAtom } from "jotai";
-import { useEffect } from "react";
-import { lessonToDownloadAtom } from "../atoms/lesson";
-
-export default function Aid({ className }: { className?: string }) {
-  const [lessonToDownload, setLessonToDownload] = useAtom(lessonToDownloadAtom);
-  const router = useRouter();
-  const [topic] = useAtom(topicAtom);
-  const [subtopic] = useAtom(subtopicAtom);
-  const { contentStream, lessonStreamCompleted } =
-    useContentStream();
-
-  useEffect(() => {
-    if (topic === "" || subtopic === "") {
-      router.push("/preferences");
-    }
-  }, [topic, subtopic]);
-
+"use client";
+type Aid = {
+  id: string;
+  isHandout: boolean;
+  name:
+    | "lessonOutline"
+    | "lessonPlan"
+    | "slides"
+    | "story"
+    | "assessment"
+    | "activity";
+  content: string | string[];
+};
+import AidHeader from "./AidHeader";
+export default function AidBlock({
+  content,
+}: {
+  content: string | string[];
+}) {
   return (
     <div
-      className={`${className} flex flex-col items-center gap-4 text-slate-300 px-5 py-3 rounded-lg ring-2 ring-emerald-500 shadow-emerald-500 ${"shadow-md bg-slate-900"}`}
+      className={`bg-slate-100 text-slate-900 px-8 py-5 rounded-lg shadow-sm shadow-slate-200 max-w-4xl w-full`}
     >
-      {lessonStreamCompleted ? (
-        <AidBlock content={lessonToDownload} />
-      ) : (
-        <AidBlock content={contentStream} />
-      )}
+      <AidHeader />
+      <p className="leading-7 text-lg pt-8 py-5 whitespace-pre-wrap">
+        {content}
+      </p>
     </div>
   );
 }
