@@ -9,7 +9,7 @@ import {
   subtopicAtom,
   gradeAtom,
 } from "../atoms/preferences";
-import { currentLessonAtom } from "../atoms/lesson";
+import { lessonIdeasAtom } from "../atoms/lesson";
 import { startedAtom } from "../atoms/app";
 
 export default function Home() {
@@ -21,7 +21,7 @@ export default function Home() {
   const [subtopic, setSubtopic] = useAtom(subtopicAtom);
   const [subject, setSubject] = useAtom(subjectAtom);
   const [grade, setGrade] = useAtom(gradeAtom);
-  const [currentLesson, setCurrentLesson] = useAtom(currentLessonAtom);
+  const [lessonIdeas, setLessonIdeas] = useAtom(lessonIdeasAtom);
   const [started, setStarted] = useAtom(startedAtom);
 
   const handleBoardChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -45,7 +45,7 @@ export default function Home() {
   const handleStart = () => {
     router.push("/merlin");
     setStarted(true);
-    setCurrentLesson([]);
+    setLessonIdeas([]);
   };
 
   return (

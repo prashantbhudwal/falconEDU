@@ -6,7 +6,7 @@ import { useAtom } from "jotai";
 import Image from "next/image";
 import { topicAtom, subtopicAtom } from "./atoms/preferences";
 import {
-  currentLessonAtom,
+  lessonIdeasAtom,
   lessonToDownloadAtom,
   lessonStreamCompletedAtom,
 } from "./atoms/lesson";
@@ -14,7 +14,7 @@ import { startedAtom } from "./atoms/app";
 export default function Header() {
   const [topic] = useAtom(topicAtom);
   const [subtopic] = useAtom(subtopicAtom);
-  const [currentLesson] = useAtom(currentLessonAtom);
+  const [lessonIdeas] = useAtom(lessonIdeasAtom);
   const [lessonToDownload] = useAtom(lessonToDownloadAtom);
   const [lessonStreamCompleted] = useAtom(lessonStreamCompletedAtom);
   const [started] = useAtom(startedAtom);
@@ -40,7 +40,7 @@ export default function Header() {
           </div>
         </Link>
         <div className="flex items-center gap-6">
-          {started && currentLesson.length !== 0 && pathname === "/merlin" && (
+          {started && lessonIdeas.length !== 0 && pathname === "/merlin" && (
             <Link
               href={"/lesson"}
               key={pathname} //rerenders the component when the path changes
@@ -50,7 +50,7 @@ export default function Header() {
             </Link>
           )}
           {lessonStreamCompleted &&
-            currentLesson.length !== 0 &&
+            lessonIdeas.length !== 0 &&
             pathname === "/lesson" && (
               <button
                 onClick={() =>
@@ -62,7 +62,7 @@ export default function Header() {
               </button>
             )}
           {lessonStreamCompleted &&
-            currentLesson.length !== 0 &&
+            lessonIdeas.length !== 0 &&
             pathname === "/lesson" && (
               <Link
                 href={"/preferences"}
