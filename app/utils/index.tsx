@@ -1,5 +1,6 @@
 export const getEmoji = function (blockType: string) {
-  switch (blockType) {
+  const loweCaseBlockType = blockType.toLowerCase();
+  switch (loweCaseBlockType) {
     case "story":
       return "🏜";
     case "example":
@@ -20,9 +21,9 @@ export const getEmoji = function (blockType: string) {
       return "🏄";
     case "quiz":
       return "🏆";
-    case "lessonPlan":
+    case "lessonplan":
       return "🧑‍🏫";
-    case "lessonOutline":
+    case "lessonoutline":
       return "🪄";
     case "slides":
       return "🎬 ";
@@ -97,11 +98,6 @@ export const buttonsArray = [
   "Activity",
   "Quiz",
 ];
-
-
-
-
-
 
 export const blockContentArray = [
   {
