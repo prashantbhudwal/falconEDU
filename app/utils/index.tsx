@@ -21,9 +21,9 @@ export const getEmoji = function (blockType: string) {
       return "🏄";
     case "quiz":
       return "🏆";
-    case "lessonplan":
+    case "lesson":
       return "🧑‍🏫";
-    case "lessonoutline":
+    case "outline":
       return "🪄";
     case "slides":
       return "🎬 ";

@@ -1,9 +1,8 @@
 export const teachingAids = [
-  "🪄 Outline",
-  "🧑‍🏫 Lesson Plan",
-  "🎬 Slides [pro]",
-  "Handouts",
-  "🏞 Story",
-  "🏄 Activity",
-  "🏆 Assessment",
+  "Outline",
+  "Lesson",
+  "Slides",
+  "Story",
+  "Activity",
+  "quiz",
 ];
