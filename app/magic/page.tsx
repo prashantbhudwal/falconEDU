@@ -8,10 +8,12 @@ import { useAtom } from "jotai";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Aid from "./Aid";
+import { visibleAidAtom } from "../atoms/lesson";
 export default function Lesson() {
   const router = useRouter();
   const [topic] = useAtom(topicAtom);
   const [subtopic] = useAtom(subtopicAtom);
+  const [visibleAid, setVisibleAid] = useAtom(visibleAidAtom);
 
   useEffect(() => {
     if (topic === "" || subtopic === "") {
@@ -26,7 +28,7 @@ export default function Lesson() {
         heading={"Teaching Aids"}
       >
         {teachingAids.map((aid: string) => (
-          <AidChip key={aid} aid={aid} />
+          <AidChip key={aid} aid={aid} onClick={() => setVisibleAid(aid)} />
         ))}
       </Sidebar>
       <AidCanvas className="col-start-3 col-span-8 min-h-screen">
