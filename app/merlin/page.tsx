@@ -10,10 +10,10 @@ import useDesktop from "@/app/hooks/useDesktop";
 import DesktopOnly from "@/app/components/DesktopOnly";
 import { getEmoji } from "../utils";
 import { useAtom } from "jotai";
-import { currentLessonAtom } from "../atoms/lesson";
+import { lessonIdeasAtom } from "../atoms/lesson";
 
 export default function Merlin() {
-  const [currentLesson] = useAtom(currentLessonAtom);
+  const [lessonIdeas] = useAtom(lessonIdeasAtom);
   const isDesktop = useDesktop();
   if (!isDesktop) {
     return <DesktopOnly />;
@@ -31,8 +31,8 @@ export default function Merlin() {
         </Sidebar>
         <Canvas className="col-start-3 col-span-8 min-h-screen" />
         <Sidebar className="col-start-11 col-span-2" heading={"Outline"}>
-          {currentLesson &&
-            currentLesson
+          {lessonIdeas &&
+            lessonIdeas
               .slice()
               .reverse()
               .map((block, index) => (
