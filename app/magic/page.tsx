@@ -1,6 +1,5 @@
 "use client";
 import Aid from "./Aid";
-import AidNew from "./AidNew";
 import Sidebar from "@/app/components/Sidebar";
 import AidChip from "./AidChip";
 import { teachingAids } from "./teachingAidsGenerator";
@@ -16,7 +15,7 @@ export default function Lesson() {
           <AidChip key={aid} text={aid} />
         ))}
       </Sidebar>
-      <AidNew className="col-start-3 col-span-8 min-h-screen" />
+      <Aid className="col-start-3 col-span-8 min-h-screen" />
     </div>
   );
 }
