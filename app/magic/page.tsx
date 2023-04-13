@@ -8,16 +8,10 @@ import { useAtom } from "jotai";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Aid from "./Aid";
-import { lessonToDownloadAtom } from "../atoms/lesson";
-import { useContentStream } from "./useContentStream";
-
 export default function Lesson() {
-  const [lessonToDownload, setLessonToDownload] = useAtom(lessonToDownloadAtom);
-
   const router = useRouter();
   const [topic] = useAtom(topicAtom);
   const [subtopic] = useAtom(subtopicAtom);
-  const { contentStream, lessonStreamCompleted } = useContentStream();
 
   useEffect(() => {
     if (topic === "" || subtopic === "") {
@@ -36,11 +30,7 @@ export default function Lesson() {
         ))}
       </Sidebar>
       <AidCanvas className="col-start-3 col-span-8 min-h-screen">
-        {lessonStreamCompleted ? (
-          <Aid content={lessonToDownload} />
-        ) : (
-          <Aid content={contentStream} />
-        )}
+        <Aid />
       </AidCanvas>
     </div>
   );
