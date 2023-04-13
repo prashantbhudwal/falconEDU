@@ -16,12 +16,12 @@ import {
   subjectAtom,
 } from "../atoms/preferences";
 import { useAtom } from "jotai";
-import { currentLessonAtom } from "../atoms/lesson";
+import { lessonIdeasAtom } from "../atoms/lesson";
 
 export default function Canvas({ className }: { className?: string }) {
   const router = useRouter();
   const [fetchNow, setFetchNow] = useState(false);
-  const [messages, setMessages] = useState<string[]>([]);
+  const [ideaStream, setIdeaStream] = useState<string[]>([]);
   const [blockType, setBlockType] = useState<string>("");
   const [streamCompleted, setStreamCompleted] = useState<boolean>(true);
   const [currentBlockId, setCurrentBlockId] = useState<string>("");
@@ -31,16 +31,16 @@ export default function Canvas({ className }: { className?: string }) {
   const [grade] = useAtom(gradeAtom);
   const [board] = useAtom(boardAtom);
   const [subject] = useAtom(subjectAtom);
-  const [blockContent, setBlockContent] = useAtom(currentLessonAtom);
+  const [lessonIdeas, setLessonIdeas] = useAtom(lessonIdeasAtom);
 
   const removeBlock = (id: string) => {
-    setBlockContent((prevBlockContent) =>
-      prevBlockContent.filter((block) => block.id !== id)
+    setLessonIdeas((prevLessonIdeas) =>
+      prevLessonIdeas.filter((idea) => idea.id !== id)
     );
   };
 
   const startGeneration = function (item: any) {
-    setMessages([]);
+    setIdeaStream([]);
     setBlockType(item.text.toLowerCase());
     setStreamCompleted(false);
     setFetchNow(true);
@@ -61,8 +61,8 @@ export default function Canvas({ className }: { className?: string }) {
 
   const [{ isOver, canDrop }, drop] = useDrop(() => specObject);
 
-  const handleNewMessage = useCallback((message: string) => {
-    setMessages((prevMessages) => [...prevMessages, message]);
+  const handleNewMessage = useCallback((chunk: string) => {
+    setIdeaStream((prevChunk) => [...prevChunk, chunk]);
   }, []);
 
   const { isLoading, error } = useFalconStream(
@@ -77,15 +77,15 @@ export default function Canvas({ className }: { className?: string }) {
   useEffect(() => {
     if (
       streamCompleted === true &&
-      messages.length > 0 &&
+      ideaStream.length > 0 &&
       currentBlockId != lastBlockId
     ) {
       const randomId = uuid();
       const emoji = getEmoji(blockType);
-      setBlockContent((prevBlockContent) => [
-        ...prevBlockContent,
+      setLessonIdeas((prevIdeas) => [
+        ...prevIdeas,
         {
-          text: messages,
+          text: ideaStream,
           id: randomId,
           type: blockType,
           emoji: emoji,
@@ -121,13 +121,13 @@ export default function Canvas({ className }: { className?: string }) {
       )}
       {streamCompleted === false && (
         <LiveBlock
-          text={messages}
+          text={ideaStream}
           emoji={getEmoji(blockType)}
           type={blockType}
           key={"test"}
         />
       )}
-      {blockContent
+      {lessonIdeas
         .slice()
         .reverse()
         .map((block: BlockContent) => {
