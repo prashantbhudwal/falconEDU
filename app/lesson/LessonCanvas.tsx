@@ -76,7 +76,11 @@ export default function Canvas({ className }: { className?: string }) {
     <div
       className={`${className} flex flex-col items-center gap-4   text-slate-300 px-5 py-3 rounded-lg ring-2 ring-emerald-500 shadow-emerald-500 ${"shadow-md bg-slate-900"}`}
     >
-      <LessonCanvasBlock text={messages} />
+      {lessonStreamCompleted ? (
+        <LessonCanvasBlock text={lessonToDownload} />
+      ) : (
+        <LessonCanvasBlock text={messages} />
+      )}
     </div>
   );
 }
