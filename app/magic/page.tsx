@@ -26,7 +26,7 @@ export default function Lesson() {
         heading={"Teaching Aids"}
       >
         {teachingAids.map((aid: string) => (
-          <AidChip key={aid} text={aid} />
+          <AidChip key={aid} aid={aid} />
         ))}
       </Sidebar>
       <AidCanvas className="col-start-3 col-span-8 min-h-screen">
