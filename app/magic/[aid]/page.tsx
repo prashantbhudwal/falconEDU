@@ -1,12 +1,18 @@
 "use client";
 import { useAid } from "@/app/hooks/useAid";
 import AidHeader from "../components/AidHeader";
+import Issue from "@/app/lesson/Issue";
+import { contentStreamCompletedAtom } from "@/app/atoms/lesson";
+import { useAtom } from "jotai";
+import { useState } from "react";
 
 export default function Page({
   params,
 }: {
   params: { aid: "lesson" | "outline" };
 }) {
+  const [showNote, setShowNote] = useState(false);
+  const [contentStreamCompleted] = useAtom(contentStreamCompletedAtom);
   const { content } = useAid(params.aid);
 
   return (
@@ -17,6 +23,16 @@ export default function Page({
       <p className="leading-7 text-lg pt-8 py-5 whitespace-pre-wrap">
         {content}
       </p>
+      {contentStreamCompleted && (
+        <p
+          className="text-emerald-600 cursor-pointer underline underline-offset-2 ml-auto text-center font-semibold"
+          onMouseEnter={() => setShowNote(true)}
+          onMouseLeave={() => setShowNote(false)}
+        >
+          Facing Issues?
+        </p>
+      )}
+      {showNote && <Issue />}
     </div>
   );
 }
