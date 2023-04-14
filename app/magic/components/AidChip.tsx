@@ -1,6 +1,12 @@
-import { getEmoji } from "../utils";
+import { getEmoji } from "../../utils";
 
-export default function AidChip({ aid, onClick }: { aid: string, onClick: () => void }) {
+export default function AidChip({
+  aid,
+  onClick,
+}: {
+  aid: string;
+  onClick: () => void;
+}) {
   return (
     <div
       onClick={onClick}
