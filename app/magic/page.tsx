@@ -34,13 +34,20 @@ export default function Aid() {
     topic: "",
     subtopic: "",
     grade: "",
-    ideaArray: [],
+    data: [],
+    payloadType: "lesson",
   });
 
   useEffect(() => {
     if (visibleAid === "lesson") {
       setFetchNow(true);
-      setPayload({ topic, subtopic, grade, ideaArray: lessonIdeas });
+      setPayload({
+        topic,
+        subtopic,
+        grade,
+        data: lessonIdeas,
+        payloadType: "lesson",
+      });
     } else {
       setFetchNow(false);
     }
