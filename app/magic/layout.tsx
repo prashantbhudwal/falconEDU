@@ -16,7 +16,6 @@ export default function AidLayout({
   const router = useRouter();
   const [topic] = useAtom(topicAtom);
   const [subtopic] = useAtom(subtopicAtom);
-  const [visibleAid, setVisibleAid] = useAtom(visibleAidAtom);
 
   useEffect(() => {
     if (topic === "" || subtopic === "") {
@@ -31,7 +30,7 @@ export default function AidLayout({
         heading={"Teaching Aids"}
       >
         {teachingAids.map((aid: string) => (
-          <AidChip key={aid} aid={aid} onClick={() => setVisibleAid(aid)} />
+          <AidChip key={aid} aid={aid} />
         ))}
       </Sidebar>
       <AidCanvas className="col-start-3 col-span-8 min-h-screen">
