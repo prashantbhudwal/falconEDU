@@ -6,12 +6,12 @@ import {
   lessonToDownloadAtom,
   contentStreamAtom,
   teachingAidsAtom,
-  currentLessonAtom,
 } from "@/app/atoms/lesson";
+import { BlockContent } from "@/types";
 import { topicAtom, subtopicAtom, gradeAtom } from "@/app/atoms/preferences";
 import fetchContentStream from "@/app/utils/fetchContentStream";
 
-export function useContentStream() {
+export function useContentStream(fetchNow: boolean, payload: BlockContent[]) {
   const [currentBlockId, setCurrentBlockId] = useState<string>("");
   const [lastBlockId, setLastBlockId] = useState<string>("");
   const [contentStream, setContentStream] = useAtom(contentStreamAtom);
@@ -19,7 +19,6 @@ export function useContentStream() {
   const [lessonStreamCompleted, setLessonStreamCompleted] = useAtom(
     lessonStreamCompletedAtom
   );
-  const [currentLesson] = useAtom(currentLessonAtom);
   const [lessonToDownload, setLessonToDownload] = useAtom(lessonToDownloadAtom);
   const [topic] = useAtom(topicAtom);
   const [subtopic] = useAtom(subtopicAtom);
@@ -27,30 +26,30 @@ export function useContentStream() {
   const [error, setError] = useState<string | null>(null);
   const [grade] = useAtom(gradeAtom);
 
+  const fetchData = async () => {
+    setIsLoading(true);
+    try {
+      await fetchContentStream(
+        (message: string) => {
+          setContentStream((prevContent) => [...prevContent, message]);
+        },
+        { topic, subtopic, grade, ideaArray: payload },
+        () => setLessonStreamCompleted(true),
+        () => setCurrentBlockId(uuid())
+      );
+    } catch (error) {
+      setError("Error reading stream");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
+    if (fetchNow === false) return;
     setContentStream([]);
     setLessonStreamCompleted(false);
-
-    const fetchData = async () => {
-      setIsLoading(true);
-      try {
-        await fetchContentStream(
-          (message: string) => {
-            setContentStream((prevContent) => [...prevContent, message]);
-          },
-          { topic, subtopic, grade, ideaArray: currentLesson },
-          () => setLessonStreamCompleted(true),
-          () => setCurrentBlockId(uuid())
-        );
-      } catch (error) {
-        setError("Error reading stream");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
     fetchData();
-  }, [subtopic]);
+  }, [subtopic, fetchNow]);
 
   useEffect(() => {
     if (

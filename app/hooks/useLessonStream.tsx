@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useAtom } from "jotai";
 import { topicAtom, subjectAtom, gradeAtom } from "../atoms/preferences";
-import { currentLessonAtom } from "../atoms/lesson";
+import { lessonIdeasAtom } from "../atoms/lesson";
 import { BlockContent } from "@/types";
 const ROUTE = "/api/lessonGenerator";
 
@@ -66,13 +66,13 @@ export default function useLessonStream(
   const [topic] = useAtom(topicAtom);
   const [subtopic] = useAtom(subjectAtom);
   const [grade] = useAtom(gradeAtom);
-  const [currentLesson] = useAtom(currentLessonAtom);
+  const [lessonIdeas] = useAtom(lessonIdeasAtom);
 
   const body = {
     topic: topic,
     subtopic: subtopic,
     grade: grade,
-    ideaArray: currentLesson,
+    ideaArray: lessonIdeas,
   };
 
   useEffect(() => {

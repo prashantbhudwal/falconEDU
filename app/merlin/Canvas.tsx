@@ -16,7 +16,7 @@ import {
   subjectAtom,
 } from "../atoms/preferences";
 import { useAtom } from "jotai";
-import { currentLessonAtom } from "../atoms/lesson";
+import { lessonIdeasAtom } from "../atoms/lesson";
 
 export default function Canvas({ className }: { className?: string }) {
   const router = useRouter();
@@ -31,12 +31,10 @@ export default function Canvas({ className }: { className?: string }) {
   const [grade] = useAtom(gradeAtom);
   const [board] = useAtom(boardAtom);
   const [subject] = useAtom(subjectAtom);
-  const [blockContent, setBlockContent] = useAtom(currentLessonAtom);
+  const [lessonIdeas, setLessonIdeas] = useAtom(lessonIdeasAtom);
 
   const removeBlock = (id: string) => {
-    setBlockContent((prevBlockContent) =>
-      prevBlockContent.filter((block) => block.id !== id)
-    );
+    setLessonIdeas((prevIdeas) => prevIdeas.filter((idea) => idea.id !== id));
   };
 
   const startGeneration = function (item: any) {
@@ -82,8 +80,8 @@ export default function Canvas({ className }: { className?: string }) {
     ) {
       const randomId = uuid();
       const emoji = getEmoji(blockType);
-      setBlockContent((prevBlockContent) => [
-        ...prevBlockContent,
+      setLessonIdeas((prevIdeas) => [
+        ...prevIdeas,
         {
           text: messages,
           id: randomId,
@@ -127,7 +125,7 @@ export default function Canvas({ className }: { className?: string }) {
           key={"test"}
         />
       )}
-      {blockContent
+      {lessonIdeas
         .slice()
         .reverse()
         .map((block: BlockContent) => {

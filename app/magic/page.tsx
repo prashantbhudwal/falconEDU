@@ -13,14 +13,30 @@ type Aid = {
 };
 import AidHeader from "./components/AidHeader";
 import { useContentStream } from "./useContentStream";
-import { lessonToDownloadAtom } from "../atoms/lesson";
+import { lessonToDownloadAtom, lessonIdeasAtom } from "../atoms/lesson";
 import { useAtom } from "jotai";
 import { visibleAidAtom } from "../atoms/lesson";
+import { useState, useEffect } from "react";
+import { BlockContent } from "@/types";
 
 export default function Aid() {
-  const { contentStream, lessonStreamCompleted } = useContentStream();
+  const [lessonIdeas] = useAtom(lessonIdeasAtom);
+  const [fetchNow, setFetchNow] = useState(false);
   const [lessonToDownload, setLessonToDownload] = useAtom(lessonToDownloadAtom);
   const [visibleAid] = useAtom(visibleAidAtom);
+  const [payload, setPayload] = useState<BlockContent[]>([]);
+  useEffect(() => {
+    if (visibleAid === "lesson") {
+      setFetchNow(true);
+      setPayload(lessonIdeas);
+    } else {
+      setFetchNow(false);
+    }
+  }, [visibleAid, lessonIdeas]);
+  const { contentStream, lessonStreamCompleted } = useContentStream(
+    fetchNow,
+    payload
+  );
 
   return (
     <div
