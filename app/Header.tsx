@@ -8,7 +8,7 @@ import { topicAtom, subtopicAtom } from "./atoms/preferences";
 import {
   lessonIdeasAtom,
   lessonToDownloadAtom,
-  lessonStreamCompletedAtom,
+  contentStreamCompletedAtom,
 } from "./atoms/lesson";
 import { startedAtom } from "./atoms/app";
 export default function Header() {
@@ -16,7 +16,7 @@ export default function Header() {
   const [subtopic] = useAtom(subtopicAtom);
   const [lessonIdeas] = useAtom(lessonIdeasAtom);
   const [lessonToDownload] = useAtom(lessonToDownloadAtom);
-  const [lessonStreamCompleted] = useAtom(lessonStreamCompletedAtom);
+  const [contentStreamCompleted] = useAtom(contentStreamCompletedAtom);
   const [started] = useAtom(startedAtom);
   const pathname = usePathname();
 
@@ -49,7 +49,7 @@ export default function Header() {
               Generate Lesson
             </Link>
           )}
-          {lessonStreamCompleted &&
+          {contentStreamCompleted &&
             lessonIdeas.length !== 0 &&
             pathname === "/lesson" && (
               <button
@@ -61,7 +61,7 @@ export default function Header() {
                 Download
               </button>
             )}
-          {lessonStreamCompleted &&
+          {contentStreamCompleted &&
             lessonIdeas.length !== 0 &&
             pathname === "/lesson" && (
               <Link

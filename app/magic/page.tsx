@@ -53,7 +53,7 @@ export default function Aid() {
     }
   }, [visibleAid, lessonIdeas, grade, topic, subtopic]);
 
-  const { contentStream, lessonStreamCompleted } = useContentStream(
+  const { contentStream, contentStreamCompleted } = useContentStream(
     fetchNow,
     payload
   );
@@ -64,7 +64,7 @@ export default function Aid() {
     >
       <AidHeader />
       <p className="leading-7 text-lg pt-8 py-5 whitespace-pre-wrap">
-        {lessonStreamCompleted ? lessonToDownload : contentStream}
+        {contentStreamCompleted ? lessonToDownload : contentStream}
       </p>
     </div>
   );

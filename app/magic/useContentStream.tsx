@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { v4 as uuid } from "uuid";
 import { useAtom } from "jotai";
 import {
-  lessonStreamCompletedAtom,
+  contentStreamCompletedAtom,
   lessonToDownloadAtom,
   contentStreamAtom,
   teachingAidsAtom,
@@ -15,8 +15,8 @@ export function useContentStream(fetchNow: boolean, payload: StreamPayload) {
   const [lastBlockId, setLastBlockId] = useState<string>("");
   const [contentStream, setContentStream] = useAtom(contentStreamAtom);
   const [teachingAids, setTeachingAids] = useAtom(teachingAidsAtom);
-  const [lessonStreamCompleted, setLessonStreamCompleted] = useAtom(
-    lessonStreamCompletedAtom
+  const [contentStreamCompleted, setContentStreamCompleted] = useAtom(
+    contentStreamCompletedAtom
   );
   const [lessonToDownload, setLessonToDownload] = useAtom(lessonToDownloadAtom);
   const [isLoading, setIsLoading] = useState(false);
@@ -30,7 +30,7 @@ export function useContentStream(fetchNow: boolean, payload: StreamPayload) {
           setContentStream((prevContent) => [...prevContent, message]);
         },
         payload,
-        () => setLessonStreamCompleted(true),
+        () => setContentStreamCompleted(true),
         () => setCurrentBlockId(uuid())
       );
     } catch (error) {
@@ -43,13 +43,13 @@ export function useContentStream(fetchNow: boolean, payload: StreamPayload) {
   useEffect(() => {
     if (fetchNow === false) return;
     setContentStream([]);
-    setLessonStreamCompleted(false);
+    setContentStreamCompleted(false);
     fetchData();
   }, [fetchNow]);
 
   useEffect(() => {
     if (
-      lessonStreamCompleted === true &&
+      contentStreamCompleted === true &&
       contentStream.length > 0 &&
       currentBlockId != lastBlockId
     ) {
@@ -65,10 +65,10 @@ export function useContentStream(fetchNow: boolean, payload: StreamPayload) {
       setLastBlockId(currentBlockId);
       setLessonToDownload(contentStream);
     }
-  }, [lessonStreamCompleted]);
+  }, [contentStreamCompleted]);
 
   return {
     contentStream,
-    lessonStreamCompleted,
+    contentStreamCompleted,
   };
 }
