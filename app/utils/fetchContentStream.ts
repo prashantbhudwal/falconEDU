@@ -1,17 +1,12 @@
-import { BlockContent } from "@/types";
+import { BlockContent, StreamPayload } from "@/types";
 
 const ROUTE = "/api/contentStreamOnEdge";
 
-type RequestBody = {
-  topic: string;
-  subtopic: string;
-  grade: string;
-  ideaArray: BlockContent[];
-};
+
 
 export default async function fetchContentStream(
   onMessage: any,
-  body: RequestBody,
+  body: StreamPayload,
   streamComplete: () => void,
   setCurrentBlockId: () => void
 ) {
