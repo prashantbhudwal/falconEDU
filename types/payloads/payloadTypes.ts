@@ -4,5 +4,6 @@ export type StreamPayload = {
   topic: string;
   subtopic: string;
   grade: string;
-  ideaArray: BlockContent[];
+  data: BlockContent[];
+  payloadType: "lesson" | "outline";
 };
