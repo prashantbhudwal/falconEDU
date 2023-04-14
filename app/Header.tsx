@@ -42,7 +42,7 @@ export default function Header() {
         <div className="flex items-center gap-6">
           {started && lessonIdeas.length !== 0 && pathname === "/merlin" && (
             <Link
-              href={"/magic"}
+              href={"/magic/lesson"}
               key={pathname} //rerenders the component when the path changes
               className="bg-emerald-600 hover:bg-emerald-700 text-slate-200 font-medium py-2 px-4 rounded"
             >
