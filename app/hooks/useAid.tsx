@@ -13,7 +13,7 @@ export function useAid(aidType: "lesson" | "outline") {
 
   const [lessonIdeas] = useAtom(lessonIdeasAtom);
   const [fetchNow, setFetchNow] = useState(false);
-  const [lessonToDownload, setLessonToDownload] = useAtom(lessonToDownloadAtom);
+  const [lessonToDownload] = useAtom(lessonToDownloadAtom);
   const [visibleAid] = useAtom(visibleAidAtom);
   const [payload, setPayload] = useState<StreamPayload>({
     topic: "",
