@@ -1,39 +1,35 @@
 "use client";
-import AidCanvas from "./AidCanvas";
-import Sidebar from "@/app/components/Sidebar";
-import AidChip from "./AidChip";
-import { teachingAids } from "./teachingAidsGenerator";
-import { topicAtom, subtopicAtom } from "@/app/atoms/preferences";
+type Aid = {
+  id: string;
+  isHandout: boolean;
+  name:
+    | "lessonOutline"
+    | "lessonPlan"
+    | "slides"
+    | "story"
+    | "assessment"
+    | "activity";
+  content: string | string[];
+};
+import AidHeader from "./components/AidHeader";
+import { useContentStream } from "./useContentStream";
+import { lessonToDownloadAtom } from "../atoms/lesson";
 import { useAtom } from "jotai";
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
-import Aid from "./Aid";
 import { visibleAidAtom } from "../atoms/lesson";
-export default function Lesson() {
-  const router = useRouter();
-  const [topic] = useAtom(topicAtom);
-  const [subtopic] = useAtom(subtopicAtom);
-  const [visibleAid, setVisibleAid] = useAtom(visibleAidAtom);
 
-  useEffect(() => {
-    if (topic === "" || subtopic === "") {
-      router.push("/preferences");
-    }
-  }, [topic, subtopic, router]);
+export default function Aid() {
+  const { contentStream, lessonStreamCompleted } = useContentStream();
+  const [lessonToDownload, setLessonToDownload] = useAtom(lessonToDownloadAtom);
+  const [visibleAid] = useAtom(visibleAidAtom);
 
   return (
-    <div className="grid grid-cols-12 gap-4 w-full">
-      <Sidebar
-        className="col-start-1 col-span-2 row-start-1"
-        heading={"Teaching Aids"}
-      >
-        {teachingAids.map((aid: string) => (
-          <AidChip key={aid} aid={aid} onClick={() => setVisibleAid(aid)} />
-        ))}
-      </Sidebar>
-      <AidCanvas className="col-start-3 col-span-8 min-h-screen">
-        <Aid />
-      </AidCanvas>
+    <div
+      className={`bg-slate-100 text-slate-900 px-8 py-5 rounded-lg shadow-sm shadow-slate-200 max-w-4xl w-full`}
+    >
+      <AidHeader />
+      <p className="leading-7 text-lg pt-8 py-5 whitespace-pre-wrap">
+        {lessonStreamCompleted ? lessonToDownload : contentStream}
+      </p>
     </div>
   );
 }
