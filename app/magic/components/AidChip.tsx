@@ -1,5 +1,5 @@
 "use client";
-import { getEmoji } from "../../utils";
+import { getEmoji } from "@/app/utils";
 import Link from "next/link";
 import { useAtom } from "jotai";
 import { contentStreamCompletedAtom } from "@/app/atoms/lesson";
