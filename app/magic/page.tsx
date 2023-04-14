@@ -12,7 +12,7 @@ type Aid = {
   content: string | string[];
 };
 import AidHeader from "./components/AidHeader";
-import { useContentStream } from "./useContentStream";
+import { useContentStream } from "../hooks/useContentStream";
 import { lessonToDownloadAtom, lessonIdeasAtom } from "../atoms/lesson";
 import { useAtom } from "jotai";
 import { visibleAidAtom } from "../atoms/lesson";
