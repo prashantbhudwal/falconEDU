@@ -2,12 +2,11 @@
 import AidCanvas from "./components/AidCanvas";
 import Sidebar from "@/app/components/Sidebar";
 import AidChip from "./components/AidChip";
-import { teachingAids } from "./teachingAidsGenerator";
 import { topicAtom, subtopicAtom } from "@/app/atoms/preferences";
 import { useAtom } from "jotai";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { visibleAidAtom } from "../atoms/lesson";
+import useTeachingAids from "./useTeachingAids";
 export default function AidLayout({
   children, // will be a page or nested layout
 }: {
@@ -16,6 +15,7 @@ export default function AidLayout({
   const router = useRouter();
   const [topic] = useAtom(topicAtom);
   const [subtopic] = useAtom(subtopicAtom);
+  const teachingAids = useTeachingAids();
 
   useEffect(() => {
     if (topic === "" || subtopic === "") {
