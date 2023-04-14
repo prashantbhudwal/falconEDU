@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useAtom } from "jotai";
 import { useContentStream } from "./useContentStream";
-import { lessonToDownloadAtom, lessonIdeasAtom } from "../atoms/lesson";
+import { fetchedContentAtom, lessonIdeasAtom } from "../atoms/lesson";
 import { topicAtom, subtopicAtom, gradeAtom } from "@/app/atoms/preferences";
 import { StreamPayload } from "@/types";
 
@@ -12,7 +12,7 @@ export function useAid(aidType: "lesson" | "outline") {
 
   const [lessonIdeas] = useAtom(lessonIdeasAtom);
   const [fetchNow, setFetchNow] = useState(false);
-  const [lessonToDownload] = useAtom(lessonToDownloadAtom);
+  const [fetchedContent] = useAtom(fetchedContentAtom);
   const [payload, setPayload] = useState<StreamPayload>({
     topic: "",
     subtopic: "",
@@ -42,6 +42,6 @@ export function useAid(aidType: "lesson" | "outline") {
   );
 
   return {
-    content: contentStreamCompleted ? lessonToDownload : contentStream,
+    content: contentStreamCompleted ? fetchedContent : contentStream,
   };
 }

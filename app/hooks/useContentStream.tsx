@@ -3,7 +3,7 @@ import { v4 as uuid } from "uuid";
 import { useAtom } from "jotai";
 import {
   contentStreamCompletedAtom,
-  lessonToDownloadAtom,
+  fetchedContentAtom,
   contentStreamAtom,
   teachingAidsAtom,
 } from "@/app/atoms/lesson";
@@ -18,7 +18,7 @@ export function useContentStream(fetchNow: boolean, payload: StreamPayload) {
   const [contentStreamCompleted, setContentStreamCompleted] = useAtom(
     contentStreamCompletedAtom
   );
-  const [lessonToDownload, setLessonToDownload] = useAtom(lessonToDownloadAtom);
+  const [fetchedContent, setFectchedContent] = useAtom(fetchedContentAtom);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -63,7 +63,7 @@ export function useContentStream(fetchNow: boolean, payload: StreamPayload) {
         },
       ]);
       setLastBlockId(currentBlockId);
-      setLessonToDownload(contentStream);
+      setFectchedContent(contentStream);
     }
   }, [contentStreamCompleted]);
 

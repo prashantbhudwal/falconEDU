@@ -18,9 +18,9 @@ type Aid = {
   content: string | string[];
 };
 
-export const lessonToDownloadAtom = atom<string[]>([]);
 export const contentStreamAtom = atom<string[]>([]);
 export const teachingAidsAtom = atom<teachingAids[]>([]);
-export const visibleAidAtom = atom<StreamPayload["payloadType"]>("none");
+export const visibleAidAtom = atom<StreamPayload["payloadType"]>("lesson");
 export const lessonIdeasAtom = atom<BlockContent[]>([]);
 export const contentStreamCompletedAtom = atom(false);
+export const fetchedContentAtom = atom<string[]>([]);

@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { useAtom } from "jotai";
 import {
   contentStreamCompletedAtom,
-  lessonToDownloadAtom,
+  fetchedContentAtom,
 } from "../atoms/lesson";
 import { topicAtom, subtopicAtom } from "../atoms/preferences";
 import { BlockContent } from "@/types";
@@ -21,7 +21,7 @@ export default function Canvas({ className }: { className?: string }) {
   const [lessonStreamCompleted, setLessonStreamCompleted] = useAtom(
     contentStreamCompletedAtom
   );
-  const [lessonToDownload, setLessonToDownload] = useAtom(lessonToDownloadAtom);
+  const [lessonToDownload, setLessonToDownload] = useAtom(fetchedContentAtom);
   const [topic] = useAtom(topicAtom);
   const [subtopic] = useAtom(subtopicAtom);
 

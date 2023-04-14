@@ -7,7 +7,7 @@ import Image from "next/image";
 import { topicAtom, subtopicAtom } from "./atoms/preferences";
 import {
   lessonIdeasAtom,
-  lessonToDownloadAtom,
+  fetchedContentAtom,
   contentStreamCompletedAtom,
 } from "./atoms/lesson";
 import { startedAtom } from "./atoms/app";
@@ -15,7 +15,7 @@ export default function Header() {
   const [topic] = useAtom(topicAtom);
   const [subtopic] = useAtom(subtopicAtom);
   const [lessonIdeas] = useAtom(lessonIdeasAtom);
-  const [lessonToDownload] = useAtom(lessonToDownloadAtom);
+  const [fetchedContent] = useAtom(fetchedContentAtom);
   const [contentStreamCompleted] = useAtom(contentStreamCompletedAtom);
   const [started] = useAtom(startedAtom);
   const pathname = usePathname();
@@ -54,7 +54,7 @@ export default function Header() {
             pathname === "/lesson" && (
               <button
                 onClick={() =>
-                  generateDocx({ topic, subtopic, lessonToDownload })
+                  generateDocx({ topic, subtopic, fetchedContent })
                 }
                 className="bg-purple-600 hover:bg-purple-700 text-slate-100 font-medium py-2 px-4 rounded"
               >
