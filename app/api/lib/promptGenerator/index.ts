@@ -1,6 +1,7 @@
 import { StreamPayload } from "@/types";
 
 import getLessonPlanMessages from "./lessonPlan";
+import getOutlineMessages from "./outline";
 
 export default function getChatCompletionRequestMessages(
   payload: StreamPayload
@@ -11,7 +12,7 @@ export default function getChatCompletionRequestMessages(
     case "lesson":
       return getLessonPlanMessages(payload);
     case "outline":
-      return getLessonPlanMessages(payload);
+      return getOutlineMessages(payload);
     default:
       return [];
   }
