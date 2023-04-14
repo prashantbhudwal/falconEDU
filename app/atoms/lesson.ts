@@ -1,5 +1,6 @@
 import { atom } from "jotai";
-import { BlockContent } from "../../types";
+import { BlockContent, StreamPayload } from "../../types";
+
 type teachingAids = {
   name: string;
   content: string[];
@@ -20,6 +21,6 @@ type Aid = {
 export const lessonToDownloadAtom = atom<string[]>([]);
 export const contentStreamAtom = atom<string[]>([]);
 export const teachingAidsAtom = atom<teachingAids[]>([]);
-export const visibleAidAtom = atom<string>("");
+export const visibleAidAtom = atom<StreamPayload["payloadType"]>("none");
 export const lessonIdeasAtom = atom<BlockContent[]>([]);
 export const contentStreamCompletedAtom = atom(false);
