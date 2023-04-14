@@ -1,6 +1,6 @@
 export const teachingAids = [
-  "outline",
   "lesson",
+  "outline",
   "slides",
   "story",
   "activity",
