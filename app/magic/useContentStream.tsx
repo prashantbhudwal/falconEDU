@@ -7,11 +7,10 @@ import {
   contentStreamAtom,
   teachingAidsAtom,
 } from "@/app/atoms/lesson";
-import { BlockContent } from "@/types";
-import { topicAtom, subtopicAtom, gradeAtom } from "@/app/atoms/preferences";
 import fetchContentStream from "@/app/utils/fetchContentStream";
+import { StreamPayload } from "@/types";
 
-export function useContentStream(fetchNow: boolean, payload: BlockContent[]) {
+export function useContentStream(fetchNow: boolean, payload: StreamPayload) {
   const [currentBlockId, setCurrentBlockId] = useState<string>("");
   const [lastBlockId, setLastBlockId] = useState<string>("");
   const [contentStream, setContentStream] = useAtom(contentStreamAtom);
@@ -20,11 +19,8 @@ export function useContentStream(fetchNow: boolean, payload: BlockContent[]) {
     lessonStreamCompletedAtom
   );
   const [lessonToDownload, setLessonToDownload] = useAtom(lessonToDownloadAtom);
-  const [topic] = useAtom(topicAtom);
-  const [subtopic] = useAtom(subtopicAtom);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [grade] = useAtom(gradeAtom);
 
   const fetchData = async () => {
     setIsLoading(true);
@@ -33,7 +29,7 @@ export function useContentStream(fetchNow: boolean, payload: BlockContent[]) {
         (message: string) => {
           setContentStream((prevContent) => [...prevContent, message]);
         },
-        { topic, subtopic, grade, ideaArray: payload },
+        payload,
         () => setLessonStreamCompleted(true),
         () => setCurrentBlockId(uuid())
       );
@@ -49,7 +45,7 @@ export function useContentStream(fetchNow: boolean, payload: BlockContent[]) {
     setContentStream([]);
     setLessonStreamCompleted(false);
     fetchData();
-  }, [subtopic, fetchNow]);
+  }, [fetchNow]);
 
   useEffect(() => {
     if (

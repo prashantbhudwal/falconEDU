@@ -1,9 +1,6 @@
-import { BlockContent, StreamPayload } from "@/types";
+import { StreamPayload } from "@/types";
 
 const ROUTE = "/api/contentStreamOnEdge";
-
-
-
 export default async function fetchContentStream(
   onMessage: any,
   body: StreamPayload,
