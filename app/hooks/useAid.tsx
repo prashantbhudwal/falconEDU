@@ -28,7 +28,7 @@ export function useAid(aidType: "lesson" | "outline") {
         topic,
         subtopic,
         grade,
-        data: lessonIdeas,
+        data: aidType === "lesson" ? lessonIdeas : fetchedContent,
         payloadType: aidType,
       });
     } else {
