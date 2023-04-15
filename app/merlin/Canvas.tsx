@@ -112,7 +112,7 @@ export default function Canvas({ className }: { className?: string }) {
         </div>
         <div className="text-sm text-left text-emerald-600">{board}</div>
       </header>
-      {!blockType && (
+      {!blockType && lessonIdeas.length === 0 && (
         <div className="text-emerald-900 text-center text-4xl pt-24">
           <p>Drop a Lesson Block Here</p>
         </div>
