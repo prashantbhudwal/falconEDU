@@ -1,11 +1,11 @@
 "use client";
 import { useDrop, DropTargetMonitor } from "react-dnd";
 import { useState, useEffect, useCallback } from "react";
-import CanvasBlock from "./CanvasBlock";
+import CanvasBlock from "./components/CanvasBlock";
 import useFalconStream from "@/app/hooks/useFalconStream";
 import { getEmoji } from "../utils";
 import { v4 as uuid } from "uuid";
-import LiveBlock from "./LiveBlock";
+import LiveBlock from "./components/LiveBlock";
 import { useRouter } from "next/navigation";
 import { BlockContent } from "@/types";
 import {
