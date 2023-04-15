@@ -6,7 +6,9 @@ import { topicAtom, subtopicAtom } from "@/app/atoms/preferences";
 import { useAtom } from "jotai";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import useTeachingAids from "./useTeachingAids";
+import { teachingAids } from "./useTeachingAids";
+import useHandouts from "./useHandouts";
+import HandoutChip from "./components/HandoutChip";
 export default function AidLayout({
   children, // will be a page or nested layout
 }: {
@@ -15,7 +17,7 @@ export default function AidLayout({
   const router = useRouter();
   const [topic] = useAtom(topicAtom);
   const [subtopic] = useAtom(subtopicAtom);
-  const teachingAids = useTeachingAids();
+  const handouts = useHandouts();
 
   useEffect(() => {
     if (topic === "" || subtopic === "") {
@@ -32,6 +34,10 @@ export default function AidLayout({
         {teachingAids.map((aid: string) => (
           <AidChip key={aid} aid={aid} />
         ))}
+        {handouts.length != 0 &&
+          handouts.map((handout: string) => (
+            <HandoutChip key={handout} aid={handout} />
+          ))}
       </Sidebar>
       <AidCanvas className="col-start-3 col-span-8 min-h-screen">
         {children}
