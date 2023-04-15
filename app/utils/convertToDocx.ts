@@ -31,7 +31,7 @@ export async function convertToDocx(content: string[]) {
     children: [
       new TextRun({
         // text: `Chapter: ${data.topic}`,
-        text: `Chapter: Name`,
+        text: `Generated With Falcon AI`,
         size: 24, // equivalent to text-lg in Tailwind CSS
         color: "6B7280", // equivalent to text-slate-600 in Tailwind CSS
         font: "Helvetica",
@@ -70,7 +70,7 @@ export async function convertToDocx(content: string[]) {
         },
         children: [
           new Paragraph({
-            text: `Topic: Name`,
+            text: `Teaching Aid`,
             heading: HeadingLevel.HEADING_1,
             alignment: AlignmentType.CENTER,
           }),
