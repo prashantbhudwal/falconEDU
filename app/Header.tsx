@@ -9,6 +9,7 @@ import {
   lessonIdeasAtom,
   fetchedContentAtom,
   contentStreamCompletedAtom,
+  teachingAidsAtom,
 } from "./atoms/lesson";
 import { startedAtom } from "./atoms/app";
 export default function Header() {
@@ -19,6 +20,7 @@ export default function Header() {
   const [contentStreamCompleted] = useAtom(contentStreamCompletedAtom);
   const [started] = useAtom(startedAtom);
   const pathname = usePathname();
+  const [teachingAids] = useAtom(teachingAidsAtom);
 
   return (
     <header className="sticky top-0 z-50  text-slate-200 pt-5 pl-4 pr-6 bg-slate-900">
@@ -51,11 +53,12 @@ export default function Header() {
           )}
           {contentStreamCompleted &&
             lessonIdeas.length !== 0 &&
-            pathname === "/lesson" && (
+            /^\/magic\/.*$/.test(pathname) && (
               <button
-                onClick={() =>
-                  generateDocx({ topic, subtopic, fetchedContent })
-                }
+                onClick={() => {
+                  generateDocx({ topic, subtopic, fetchedContent });
+                  console.log(teachingAids);
+                }}
                 className="bg-purple-600 hover:bg-purple-700 text-slate-100 font-medium py-2 px-4 rounded"
               >
                 Download
