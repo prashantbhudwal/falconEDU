@@ -59,7 +59,7 @@ export function useContentStream(fetchNow: boolean, payload: StreamPayload) {
         {
           content: contentStream,
           id: randomId,
-          name: "lessonPlan",
+          name: payload.payloadType,
         },
       ]);
       setLastBlockId(currentBlockId);
