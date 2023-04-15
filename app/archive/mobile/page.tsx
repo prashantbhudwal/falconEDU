@@ -1,6 +1,6 @@
 "use client";
 import Block from "@/app/archive/mobile/Block";
-import ButtonPanel from "@/app/components/ButtonPanel";
+import ButtonPanel from "@/app/archive/archivedComponents/ButtonPanel";
 import { useEffect, useState } from "react";
 import { getEmoji } from "../../utils";
 import { buttonsArray } from "../../utils";
