@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import {downloadZip} from "@/app/utils/downloadZip";
 import { usePathname } from "next/navigation";
 import { generateDocx } from "@/app/utils/generateDocx";
 import { useAtom } from "jotai";
@@ -12,6 +13,7 @@ import {
   teachingAidsAtom,
 } from "./atoms/lesson";
 import { startedAtom } from "./atoms/app";
+import useDownloadContent from "./hooks/useDownloadContent";
 export default function Header() {
   const [topic] = useAtom(topicAtom);
   const [subtopic] = useAtom(subtopicAtom);
@@ -21,7 +23,7 @@ export default function Header() {
   const [started] = useAtom(startedAtom);
   const pathname = usePathname();
   const [teachingAids] = useAtom(teachingAidsAtom);
-
+  const docxArray = useDownloadContent();
   return (
     <header className="sticky top-0 z-50  text-slate-200 pt-5 pl-4 pr-6 bg-slate-900">
       <div className="flex items-center justify-between">
@@ -56,8 +58,7 @@ export default function Header() {
             /^\/magic\/.*$/.test(pathname) && (
               <button
                 onClick={() => {
-                  generateDocx({ topic, subtopic, fetchedContent });
-                  console.log(teachingAids);
+                  downloadZip(docxArray);
                 }}
                 className="bg-purple-600 hover:bg-purple-700 text-slate-100 font-medium py-2 px-4 rounded"
               >
