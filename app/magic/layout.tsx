@@ -6,8 +6,8 @@ import { topicAtom, subtopicAtom } from "@/app/atoms/preferences";
 import { useAtom } from "jotai";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { teachingAids } from "./useTeachingAids";
-import useHandouts from "./useHandouts";
+import { teachingAids } from "../hooks/useTeachingAids";
+import useHandouts from "@/app/hooks/useHandouts";
 import HandoutChip from "./components/HandoutChip";
 export default function AidLayout({
   children, // will be a page or nested layout
