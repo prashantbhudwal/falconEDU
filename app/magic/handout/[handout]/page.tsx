@@ -1,34 +1,24 @@
 "use client";
-import AidHeader from "../../components/AidHeader";
 import HandoutHeader from "../../components/HandoutHeader";
 import { useAtom } from "jotai";
-import { BlockContent } from "@/types";
 import { lessonIdeasAtom } from "@/app/atoms/lesson";
-type Aid = {
-  id: string;
-  aid: string;
-  content: string | string[];
-};
-const ideasToAids = (ideas: BlockContent[]): Aid[] => {
-  return ideas.map(({ id, type, text }) => ({
-    id,
-    aid: type,
-    content: text,
-  }));
-};
+import ideasToHandouts from "@/app/utils/ideasToHandouts";
+
 export default function Page({
   params,
 }: {
   params: { handout: "story" | "activity" | "quiz" };
 }) {
   const [lessonIdeas] = useAtom(lessonIdeasAtom);
-  const aids = ideasToAids(lessonIdeas);
-  const newAids = aids.filter((aid) => aid.aid === params.handout);
+  const handouts = ideasToHandouts(lessonIdeas);
+  const filteredHandouts = handouts.filter(
+    (handout) => handout.aid === params.handout
+  );
 
   return (
     <div>
       <HandoutHeader />
-      {newAids.map((aid) => (
+      {filteredHandouts.map((aid) => (
         <div
           key={aid.id}
           className={`bg-slate-100 text-slate-900 px-8 py-5 rounded-lg shadow-sm shadow-slate-200 max-w-4xl w-full`}
