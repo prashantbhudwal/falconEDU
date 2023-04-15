@@ -20,7 +20,7 @@ export default function AidChip({ aid }: { aid: string }) {
   );
 
   return contentStreamCompleted ? (
-    <Link href={`/magic/${aid}`}>{linkContent}</Link>
+    <Link href={`/magic/aid/${aid}`}>{linkContent}</Link>
   ) : (
     <>{linkContent}</>
   );
