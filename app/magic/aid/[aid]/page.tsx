@@ -1,7 +1,7 @@
 "use client";
 import { useAid } from "@/app/hooks/useAid";
 import AidHeader from "../../components/AidHeader";
-import Issue from "@/app/lesson/Issue";
+import Issue from "@/app/components/Issue";
 import { contentStreamCompletedAtom } from "@/app/atoms/lesson";
 import { useAtom } from "jotai";
 import { useState } from "react";

@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import Issue from "./Issue";
+import Issue from "../components/Issue";
 import { useAtom } from "jotai";
 import {
   topicAtom,
