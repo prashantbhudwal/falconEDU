@@ -1,9 +1,7 @@
 "use client";
 import AidHeader from "../../components/AidHeader";
 import HandoutHeader from "../../components/HandoutHeader";
-import Issue from "@/app/lesson/Issue";
 import { useAtom } from "jotai";
-import { useState } from "react";
 import { BlockContent } from "@/types";
 import { lessonIdeasAtom } from "@/app/atoms/lesson";
 type Aid = {
@@ -23,7 +21,6 @@ export default function Page({
 }: {
   params: { handout: "story" | "activity" | "quiz" };
 }) {
-  const [showNote, setShowNote] = useState(false);
   const [lessonIdeas] = useAtom(lessonIdeasAtom);
   const aids = ideasToAids(lessonIdeas);
   const newAids = aids.filter((aid) => aid.aid === params.handout);
