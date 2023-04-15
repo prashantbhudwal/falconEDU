@@ -18,7 +18,7 @@ export function useContentStream(fetchNow: boolean, payload: StreamPayload) {
   const [contentStreamCompleted, setContentStreamCompleted] = useAtom(
     contentStreamCompletedAtom
   );
-  const [fetchedContent, setFectchedContent] = useAtom(fetchedContentAtom);
+  const [fetchedContent, setFetchedContent] = useAtom(fetchedContentAtom);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -63,7 +63,7 @@ export function useContentStream(fetchNow: boolean, payload: StreamPayload) {
         },
       ]);
       setLastBlockId(currentBlockId);
-      setFectchedContent(contentStream);
+      setFetchedContent(contentStream);
     }
   }, [contentStreamCompleted]);
 
