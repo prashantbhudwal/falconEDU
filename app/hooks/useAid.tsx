@@ -42,6 +42,6 @@ export function useAid(aidType: "lesson" | "outline") {
   );
 
   return {
-    content: contentStreamCompleted ? fetchedContent : contentStream,
+    content: contentStream,
   };
 }
