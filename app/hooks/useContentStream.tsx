@@ -9,6 +9,7 @@ import {
 } from "@/app/atoms/lesson";
 import fetchContentStream from "@/app/utils/fetchContentStream";
 import { StreamPayload } from "@/types";
+import useLatestAid from "./useLatestAid";
 
 export function useContentStream(fetchNow: boolean, payload: StreamPayload) {
   const [currentBlockId, setCurrentBlockId] = useState<string>("");
@@ -21,6 +22,7 @@ export function useContentStream(fetchNow: boolean, payload: StreamPayload) {
   const [fetchedContent, setFetchedContent] = useAtom(fetchedContentAtom);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const latestAid = useLatestAid(payload.payloadType);
 
   const fetchData = async () => {
     setIsLoading(true);
@@ -41,7 +43,7 @@ export function useContentStream(fetchNow: boolean, payload: StreamPayload) {
   };
 
   useEffect(() => {
-    if (fetchNow === false) return;
+    if (fetchNow === false || latestAid) return;
     setContentStream([]);
     setContentStreamCompleted(false);
     fetchData();
