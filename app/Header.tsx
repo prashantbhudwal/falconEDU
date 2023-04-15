@@ -20,7 +20,7 @@ export default function Header() {
   const [subtopic] = useAtom(subtopicAtom);
   const [lessonIdeas] = useAtom(lessonIdeasAtom);
   const [fetchedContent] = useAtom(fetchedContentAtom);
-  const [contentStreamCompleted] = useAtom(contentStreamCompletedAtom);
+  const [contentStreamCompleted, setContentStreamCompleted] = useAtom(contentStreamCompletedAtom);
   const [started] = useAtom(startedAtom);
   const pathname = usePathname();
   const [teachingAids, setTeachingAids] = useAtom(teachingAidsAtom);
@@ -71,6 +71,20 @@ export default function Header() {
                 Back to Planner
               </button>
             )}
+          {/* {contentStreamCompleted &&
+            lessonIdeas.length !== 0 &&
+            /^\/magic\/.*$/.test(pathname) && (
+              <button
+                onClick={() => {
+                  setTeachingAids([]);
+                  setContentStreamCompleted(false);
+                  router.refresh();
+                }}
+                className="bg-teal-600 hover:bg-teal-700 text-slate-100 font-medium py-2 px-4 rounded"
+              >
+                Regenerate
+              </button>
+            )} */}
           {contentStreamCompleted &&
             lessonIdeas.length !== 0 &&
             /^\/magic\/.*$/.test(pathname) && (
