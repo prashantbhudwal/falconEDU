@@ -9,8 +9,10 @@ export default function useDownloadContent() {
   const latestLesson = useLatestAid("lesson");
   contentToDownload.push(latestLesson);
   const latestOutline = useLatestAid("outline");
-  contentToDownload.push(latestOutline);
-  if (lessonIdeas.length === 0 || !latestLesson || !latestOutline) return;
+  if (latestOutline && latestOutline.length > 0) {
+    contentToDownload.push(latestOutline);
+  }
+  if (lessonIdeas.length === 0 || !latestLesson) return;
   const handoutArray = lessonIdeas.filter((idea) => {
     return (
       idea.type === "story" || idea.type === "quiz" || idea.type === "activity"
