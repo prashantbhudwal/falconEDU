@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useAtom } from "jotai";
-import { topicAtom, subjectAtom, gradeAtom } from "../atoms/preferences";
-import { lessonIdeasAtom } from "../atoms/lesson";
+import { topicAtom, subjectAtom, gradeAtom } from "../../atoms/preferences";
+import { lessonIdeasAtom } from "../../atoms/lesson";
 import { BlockContent } from "@/types";
 const ROUTE = "/api/lessonGenerator";
 

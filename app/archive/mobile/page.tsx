@@ -1,12 +1,12 @@
 "use client";
-import Block from "@/app/mobile/Block";
+import Block from "@/app/archive/mobile/Block";
 import ButtonPanel from "@/app/components/ButtonPanel";
 import { useEffect, useState } from "react";
-import { getEmoji } from "../utils";
-import { buttonsArray } from "../utils";
+import { getEmoji } from "../../utils";
+import { buttonsArray } from "../../utils";
 import useOpenAI from "@/app/hooks/useOpenAI";
 import { useAtom } from "jotai";
-import { topicAtom, subtopicAtom, gradeAtom } from "../atoms/preferences";
+import { topicAtom, subtopicAtom, gradeAtom } from "../../atoms/preferences";
 import { BlockContent } from "@/types";
 
 export default function Chat() {

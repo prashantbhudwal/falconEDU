@@ -1,15 +1,15 @@
 "use client";
 import { useState, useEffect, useCallback } from "react";
 import { v4 as uuid } from "uuid";
-import useLessonStream from "@/app/hooks/useLessonStream";
+import useLessonStream from "@/app/archive/archivedHooks/useLessonStream";
 import LessonCanvasBlock from "./LessonCanvasBlock";
 import { useRouter } from "next/navigation";
 import { useAtom } from "jotai";
 import {
   contentStreamCompletedAtom,
   fetchedContentAtom,
-} from "../atoms/lesson";
-import { topicAtom, subtopicAtom } from "../atoms/preferences";
+} from "../../atoms/lesson";
+import { topicAtom, subtopicAtom } from "../../atoms/preferences";
 import { BlockContent } from "@/types";
 
 export default function Canvas({ className }: { className?: string }) {

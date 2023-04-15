@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import Issue from "../components/Issue";
+import Issue from "../../components/Issue";
 import { useAtom } from "jotai";
 import {
   topicAtom,
@@ -8,8 +8,8 @@ import {
   boardAtom,
   gradeAtom,
   subjectAtom,
-} from "../atoms/preferences";
-import { contentStreamCompletedAtom } from "../atoms/lesson";
+} from "../../atoms/preferences";
+import { contentStreamCompletedAtom } from "../../atoms/lesson";
 
 export default function LessonCanvasBlock({
   text: displayText,
