@@ -4,6 +4,7 @@ import { BlockContent, StreamPayload } from "../../types";
 type teachingAids = {
   name: string;
   content: string[];
+  id: string;
 };
 
 type Aid = {
