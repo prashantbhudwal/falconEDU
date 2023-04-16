@@ -1,5 +1,6 @@
 export const getEmoji = function (blockType: string) {
-  switch (blockType) {
+  const loweCaseBlockType = blockType.toLowerCase();
+  switch (loweCaseBlockType) {
     case "story":
       return "🏜";
     case "example":
@@ -20,6 +21,12 @@ export const getEmoji = function (blockType: string) {
       return "🏄";
     case "quiz":
       return "🏆";
+    case "lesson":
+      return "🧑‍🏫";
+    case "outline":
+      return "🪄";
+    case "slides":
+      return "🎬 ";
     default:
       return "Oops!! AI is on Strike. Try Again?";
   }
@@ -91,18 +98,6 @@ export const buttonsArray = [
   "Activity",
   "Quiz",
 ];
-
-export const emojis = {
-  definition: "📖",
-  explain: "📝",
-  example: "🧩",
-  story: "🏜",
-  analogy: "🪢",
-  history: "📜",
-  application: "🎯",
-  antiExample: "☣️",
-  contrast: "🔀",
-};
 
 export const blockContentArray = [
   {

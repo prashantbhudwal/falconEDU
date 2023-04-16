@@ -1,4 +1,3 @@
-// generateDocx.ts
 import {
   Document,
   Packer,
@@ -11,16 +10,9 @@ import {
   Header,
   Footer,
 } from "docx";
-import { saveAs } from "file-saver";
 
-interface DocData {
-  topic: string;
-  subtopic: string;
-  fetchedContent: string[];
-}
-
-export async function generateDocx(data: DocData): Promise<void> {
-  const text = data.fetchedContent.join("");
+export async function convertToDocx(content: string[]) {
+  const text = content.join("");
   const paragraphs = text.split("\n").map((paragraphContent) => {
     return new Paragraph({
       children: [
@@ -38,7 +30,8 @@ export async function generateDocx(data: DocData): Promise<void> {
   const headerParagraph = new Paragraph({
     children: [
       new TextRun({
-        text: `Chapter: ${data.topic}`,
+        // text: `Chapter: ${data.topic}`,
+        text: `Generated With Falcon AI`,
         size: 24, // equivalent to text-lg in Tailwind CSS
         color: "6B7280", // equivalent to text-slate-600 in Tailwind CSS
         font: "Helvetica",
@@ -77,7 +70,7 @@ export async function generateDocx(data: DocData): Promise<void> {
         },
         children: [
           new Paragraph({
-            text: data.subtopic,
+            text: `Teaching Aid`,
             heading: HeadingLevel.HEADING_1,
             alignment: AlignmentType.CENTER,
           }),
@@ -106,5 +99,5 @@ export async function generateDocx(data: DocData): Promise<void> {
   const blob = new Blob([buffer], {
     type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
   });
-  saveAs(blob, `${data.subtopic}.docx`);
+  return blob;
 }

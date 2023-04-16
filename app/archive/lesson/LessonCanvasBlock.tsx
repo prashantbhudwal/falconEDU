@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import Issue from "./Issue";
+import Issue from "../../components/Issue";
 import { useAtom } from "jotai";
 import {
   topicAtom,
@@ -8,8 +8,8 @@ import {
   boardAtom,
   gradeAtom,
   subjectAtom,
-} from "../atoms/preferences";
-import { lessonStreamCompletedAtom } from "../atoms/lesson";
+} from "../../atoms/preferences";
+import { contentStreamCompletedAtom } from "../../atoms/lesson";
 
 export default function LessonCanvasBlock({
   text: displayText,
@@ -22,7 +22,7 @@ export default function LessonCanvasBlock({
   const [board] = useAtom(boardAtom);
   const [grade] = useAtom(gradeAtom);
   const [subject] = useAtom(subjectAtom);
-  const [lessonStreamCompleted] = useAtom(lessonStreamCompletedAtom);
+  const [lessonStreamCompleted] = useAtom(contentStreamCompletedAtom);
   return (
     <div
       className={`bg-slate-100 text-slate-900 px-8 py-5 rounded-lg shadow-sm shadow-slate-200 max-w-4xl w-full`}

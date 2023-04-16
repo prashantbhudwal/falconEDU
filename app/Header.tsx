@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { downloadZip } from "@/app/utils/downloadZip";
 import { usePathname } from "next/navigation";
 import { generateDocx } from "@/app/utils/generateDocx";
 import { useAtom } from "jotai";
@@ -7,19 +8,24 @@ import Image from "next/image";
 import { topicAtom, subtopicAtom } from "./atoms/preferences";
 import {
   lessonIdeasAtom,
-  lessonToDownloadAtom,
-  lessonStreamCompletedAtom,
+  fetchedContentAtom,
+  contentStreamCompletedAtom,
+  teachingAidsAtom,
 } from "./atoms/lesson";
 import { startedAtom } from "./atoms/app";
+import useDownloadContent from "./hooks/useDownloadContent";
+import { useRouter } from "next/navigation";
 export default function Header() {
   const [topic] = useAtom(topicAtom);
   const [subtopic] = useAtom(subtopicAtom);
   const [lessonIdeas] = useAtom(lessonIdeasAtom);
-  const [lessonToDownload] = useAtom(lessonToDownloadAtom);
-  const [lessonStreamCompleted] = useAtom(lessonStreamCompletedAtom);
+  const [fetchedContent] = useAtom(fetchedContentAtom);
+  const [contentStreamCompleted, setContentStreamCompleted] = useAtom(contentStreamCompletedAtom);
   const [started] = useAtom(startedAtom);
   const pathname = usePathname();
-
+  const [teachingAids, setTeachingAids] = useAtom(teachingAidsAtom);
+  const docxArray = useDownloadContent();
+  const router = useRouter();
   return (
     <header className="sticky top-0 z-50  text-slate-200 pt-5 pl-4 pr-6 bg-slate-900">
       <div className="flex items-center justify-between">
@@ -42,26 +48,56 @@ export default function Header() {
         <div className="flex items-center gap-6">
           {started && lessonIdeas.length !== 0 && pathname === "/merlin" && (
             <Link
-              href={"/lesson"}
+              href={"/magic/aid/lesson"}
+              onClick={() => {
+                setTeachingAids([]);
+              }}
               key={pathname} //rerenders the component when the path changes
               className="bg-emerald-600 hover:bg-emerald-700 text-slate-200 font-medium py-2 px-4 rounded"
             >
               Generate Lesson
             </Link>
           )}
-          {lessonStreamCompleted &&
+          {contentStreamCompleted &&
             lessonIdeas.length !== 0 &&
-            pathname === "/lesson" && (
+            /^\/magic\/.*$/.test(pathname) && (
               <button
-                onClick={() =>
-                  generateDocx({ topic, subtopic, lessonToDownload })
-                }
+                onClick={() => {
+                  setTeachingAids([]);
+                  router.push("/merlin");
+                }}
+                className="bg-emerald-600 hover:bg-emerald-700 text-slate-100 font-medium py-2 px-4 rounded"
+              >
+                Back to Planner
+              </button>
+            )}
+          {/* {contentStreamCompleted &&
+            lessonIdeas.length !== 0 &&
+            /^\/magic\/.*$/.test(pathname) && (
+              <button
+                onClick={() => {
+                  setTeachingAids([]);
+                  setContentStreamCompleted(false);
+                  router.refresh();
+                }}
+                className="bg-teal-600 hover:bg-teal-700 text-slate-100 font-medium py-2 px-4 rounded"
+              >
+                Regenerate
+              </button>
+            )} */}
+          {contentStreamCompleted &&
+            lessonIdeas.length !== 0 &&
+            /^\/magic\/.*$/.test(pathname) && (
+              <button
+                onClick={() => {
+                  downloadZip(docxArray);
+                }}
                 className="bg-purple-600 hover:bg-purple-700 text-slate-100 font-medium py-2 px-4 rounded"
               >
                 Download
               </button>
             )}
-          {lessonStreamCompleted &&
+          {contentStreamCompleted &&
             lessonIdeas.length !== 0 &&
             pathname === "/lesson" && (
               <Link

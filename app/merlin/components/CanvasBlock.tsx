@@ -1,4 +1,4 @@
-import { getBlockShadow } from "../utils";
+import { getBlockShadow } from "../../utils";
 
 interface CanvasBlockProps {
   text: string | string[];

@@ -1,15 +1,15 @@
 "use client";
 import { useState, useEffect, useCallback } from "react";
 import { v4 as uuid } from "uuid";
-import useLessonStream from "@/app/hooks/useLessonStream";
+import useLessonStream from "@/app/archive/archivedHooks/useLessonStream";
 import LessonCanvasBlock from "./LessonCanvasBlock";
 import { useRouter } from "next/navigation";
 import { useAtom } from "jotai";
 import {
-  lessonStreamCompletedAtom,
-  lessonToDownloadAtom,
-} from "../atoms/lesson";
-import { topicAtom, subtopicAtom } from "../atoms/preferences";
+  contentStreamCompletedAtom,
+  fetchedContentAtom,
+} from "../../atoms/lesson";
+import { topicAtom, subtopicAtom } from "../../atoms/preferences";
 import { BlockContent } from "@/types";
 
 export default function Canvas({ className }: { className?: string }) {
@@ -19,9 +19,9 @@ export default function Canvas({ className }: { className?: string }) {
   const [currentBlockId, setCurrentBlockId] = useState<string>("");
   const [lastBlockId, setLastBlockId] = useState<string>("");
   const [lessonStreamCompleted, setLessonStreamCompleted] = useAtom(
-    lessonStreamCompletedAtom
+    contentStreamCompletedAtom
   );
-  const [lessonToDownload, setLessonToDownload] = useAtom(lessonToDownloadAtom);
+  const [lessonToDownload, setLessonToDownload] = useAtom(fetchedContentAtom);
   const [topic] = useAtom(topicAtom);
   const [subtopic] = useAtom(subtopicAtom);
 
@@ -76,7 +76,11 @@ export default function Canvas({ className }: { className?: string }) {
     <div
       className={`${className} flex flex-col items-center gap-4   text-slate-300 px-5 py-3 rounded-lg ring-2 ring-emerald-500 shadow-emerald-500 ${"shadow-md bg-slate-900"}`}
     >
-      <LessonCanvasBlock text={messages} />
+      {lessonStreamCompleted ? (
+        <LessonCanvasBlock text={lessonToDownload} />
+      ) : (
+        <LessonCanvasBlock text={messages} />
+      )}
     </div>
   );
 }

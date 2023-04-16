@@ -1,11 +1,11 @@
 "use client";
 import { useDrop, DropTargetMonitor } from "react-dnd";
 import { useState, useEffect, useCallback } from "react";
-import CanvasBlock from "./CanvasBlock";
+import CanvasBlock from "./components/CanvasBlock";
 import useFalconStream from "@/app/hooks/useFalconStream";
 import { getEmoji } from "../utils";
 import { v4 as uuid } from "uuid";
-import LiveBlock from "./LiveBlock";
+import LiveBlock from "./components/LiveBlock";
 import { useRouter } from "next/navigation";
 import { BlockContent } from "@/types";
 import {
@@ -34,9 +34,7 @@ export default function Canvas({ className }: { className?: string }) {
   const [lessonIdeas, setLessonIdeas] = useAtom(lessonIdeasAtom);
 
   const removeBlock = (id: string) => {
-    setLessonIdeas((prevLessonIdeas) =>
-      prevLessonIdeas.filter((idea) => idea.id !== id)
-    );
+    setLessonIdeas((prevIdeas) => prevIdeas.filter((idea) => idea.id !== id));
   };
 
   const startGeneration = function (item: any) {
@@ -114,7 +112,7 @@ export default function Canvas({ className }: { className?: string }) {
         </div>
         <div className="text-sm text-left text-emerald-600">{board}</div>
       </header>
-      {!blockType && (
+      {!blockType && lessonIdeas.length === 0 && (
         <div className="text-emerald-900 text-center text-4xl pt-24">
           <p>Drop a Lesson Block Here</p>
         </div>
