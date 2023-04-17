@@ -3,7 +3,7 @@ import {
   ParsedEvent,
   ReconnectInterval,
 } from "eventsource-parser";
-import { lessonOptions } from "../lib/openAI/options";
+import { lessonOptions } from "../../../app/api/lib/openAI/options";
 
 export async function OpenAIStream(messages: any) {
   const encoder = new TextEncoder();

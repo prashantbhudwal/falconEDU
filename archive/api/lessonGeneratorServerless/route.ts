@@ -3,7 +3,7 @@ import { NextRequest } from "next/server";
 import {
   getLessonCompletionStream,
   handleGPT3TurboStreamData,
-} from "../lib/openAI";
+} from "../../../app/api/lib/openAI";
 import { ChatCompletionRequestMessage } from "openai";
 import { getPrompt } from "@/app/utils";
 
