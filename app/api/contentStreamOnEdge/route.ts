@@ -2,7 +2,7 @@ import { NextRequest } from "next/server";
 import { StreamPayload } from "@/types";
 import { ChatCompletionRequestMessage } from "openai";
 import { OpenAIStream } from "./OpenAIStream";
-import getChatCompletionRequestMessages from "../lib/promptGenerator";
+import getChatCompletionRequestMessages from "../lib/chatGenerator";
 
 export const config = {
   runtime: "edge",
