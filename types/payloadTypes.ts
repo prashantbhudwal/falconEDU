@@ -1,11 +1,12 @@
 import { BlockContent } from "./blockTypes";
 import { ideaType } from "./ideaTypes";
+import { aidType } from "./ideaTypes";
 export type StreamPayload = {
   topic: string;
   subtopic: string;
   grade: string;
   data: BlockContent[] | string[];
-  payloadType: "lesson" | "outline";
+  payloadType: aidType;
 };
 
 export type IdeaStreamPayload = {

@@ -1,6 +1,6 @@
 import { useAtom } from "jotai";
 import { teachingAidsAtom } from "../atoms/lesson";
-
+import { aidType } from "@/types";
 interface Content {
   content: string[];
   id: string;
@@ -16,7 +16,7 @@ function findLatestContent(arr: Content[], name: string): Content | null {
   return null; // If no content with the given name is found
 }
 
-export default function useLatestAid(aidType: string): string[] | null {
+export default function useLatestAid(aidType: aidType): string[] | null {
   const [teachingAids] = useAtom(teachingAidsAtom);
   const latestAid = findLatestContent(teachingAids, aidType);
 
