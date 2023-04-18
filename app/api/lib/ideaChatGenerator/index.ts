@@ -55,7 +55,7 @@ export function getChatMessages(
         },
         {
           role: "user",
-          content: `Summarize the historical context of: ${subtopic} from the chapter ${topic} of grade ${grade} NCERT science textbook, focusing on its impact on scientific advancements and understanding. Keep your answers concise, as short as possible.`,
+          content: `Discuss the historical context or background of: ${subtopic} from the chapter ${topic} of grade ${grade} NCERT science textbook. Keep your answers concise, as short as possible.`,
         },
       ];
     case "application":
@@ -66,7 +66,7 @@ export function getChatMessages(
         },
         {
           role: "user",
-          content: `Explain one real-life application of: ${subtopic} from the chapter ${topic} of grade ${grade} NCERT science textbook that students encounter in their daily lives, demonstrating the concept's practical relevance. Keep your answers concise, as short as possible.`,
+          content: `Describe a real-world application of this concept that students can relate to: ${subtopic} from the chapter ${topic} of grade ${grade} NCERT science textbook. Keep your answers concise, as short as possible.`,
         },
       ];
     case "antiExample":
@@ -88,7 +88,7 @@ export function getChatMessages(
         },
         {
           role: "user",
-          content: `Explain the similarities and differences between the concept of: ${subtopic} and related topics from the chapter ${topic} of grade ${grade} NCERT science textbook, using clear examples to aid comprehension. Keep your answers concise, as short as possible.`,
+          content: `Compare and contrast this concept with other closely related topics to help students distinguish between them: ${subtopic} from the chapter ${topic} of grade ${grade} NCERT science textbook. Keep your answers concise, as short as possible.`,
         },
       ];
     case "definition":
@@ -99,7 +99,7 @@ export function getChatMessages(
         },
         {
           role: "user",
-          content: `Define the concept in a clear and concise manner for students: ${subtopic} from the chapter ${topic} of grade ${grade} NCERT science textbook. Keep your answers concise, as short as possible. Keep your answers concise, as short as possible.`,
+          content: `Define the concept in a clear and concise manner for students: ${subtopic} from the chapter ${topic} of grade ${grade} NCERT science textbook. Keep your answers concise, as short as possible.`,
         },
       ];
     case "activity":
@@ -110,7 +110,7 @@ export function getChatMessages(
         },
         {
           role: "user",
-          content: `Be creative and suggest one hands-on, interactive small group activity that fosters deeper comprehension of: ${subtopic} from the chapter ${topic} of grade ${grade} NCERT science textbook, encouraging experiential learning. Keep your answers concise, as short as possible.`,
+          content: `Be creative and suggest one engaging and exciting small group activity that helps students understand: ${subtopic} from the chapter ${topic} of grade ${grade} NCERT science textbook. Keep your answers concise, as short as possible.`,
         },
       ];
     case "quiz":
