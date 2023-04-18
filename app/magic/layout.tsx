@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { teachingAids } from "../hooks/useTeachingAids";
 import useHandouts from "@/app/hooks/useHandouts";
 import HandoutChip from "./components/HandoutChip";
+import { aidType, handoutType } from "@/types";
 export default function AidLayout({
   children, // will be a page or nested layout
 }: {
@@ -31,11 +32,11 @@ export default function AidLayout({
         className="col-start-1 col-span-2 row-start-1"
         heading={"Teaching Aids"}
       >
-        {teachingAids.map((aid: string) => (
+        {teachingAids.map((aid: aidType) => (
           <AidChip key={aid} aid={aid} />
         ))}
         {handouts.length != 0 &&
-          handouts.map((handout: string) => (
+          handouts.map((handout: handoutType) => (
             <HandoutChip key={handout} aid={handout} />
           ))}
       </Sidebar>
