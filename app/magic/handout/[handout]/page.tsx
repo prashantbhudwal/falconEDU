@@ -1,5 +1,5 @@
 "use client";
-import HandoutHeader from "../../components/HandoutHeader";
+import HandoutHeader from "./HandoutHeader";
 import { useAtom } from "jotai";
 import { lessonIdeasAtom } from "@/app/atoms/lesson";
 import ideasToHandouts from "@/app/utils/ideasToHandouts";

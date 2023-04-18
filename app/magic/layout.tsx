@@ -1,14 +1,14 @@
 "use client";
-import AidCanvas from "./components/AidCanvas";
+import AidCanvas from "./aid/[aid]/AidCanvas";
 import Sidebar from "@/app/components/Sidebar";
-import AidChip from "./components/AidChip";
+import AidChip from "./aid/[aid]/AidChip";
 import { topicAtom, subtopicAtom } from "@/app/atoms/preferences";
 import { useAtom } from "jotai";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { teachingAids } from "../hooks/useTeachingAids";
 import useHandouts from "@/app/hooks/useHandouts";
-import HandoutChip from "./components/HandoutChip";
+import HandoutChip from "./handout/[handout]/HandoutChip";
 import { aidType, handoutType } from "@/types";
 export default function AidLayout({
   children, // will be a page or nested layout
