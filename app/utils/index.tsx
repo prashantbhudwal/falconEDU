@@ -62,7 +62,7 @@ export const getBlockShadow = function (ideaType: ideaType) {
   }
 };
 
-export const buttonsArray = [
+export const buttonsArray: ideaType[] = [
   "definition",
   "example",
   "story",
