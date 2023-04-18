@@ -1,17 +1,13 @@
 "use client";
 import { useAid } from "@/app/hooks/useAid";
-import AidHeader from "../../components/AidHeader";
+import AidHeader from "./AidHeader";
 import Issue from "@/app/components/Issue";
 import { contentStreamCompletedAtom } from "@/app/atoms/lesson";
 import { useAtom } from "jotai";
 import { useState } from "react";
 import useLatestAid from "@/app/hooks/useLatestAid";
-
-export default function Page({
-  params,
-}: {
-  params: { aid: "lesson" | "outline" };
-}) {
+import { aidType } from "@/types";
+export default function Page({ params }: { params: { aid: aidType } }) {
   const [showNote, setShowNote] = useState(false);
   const [contentStreamCompleted] = useAtom(contentStreamCompletedAtom);
   const { content } = useAid(params.aid);

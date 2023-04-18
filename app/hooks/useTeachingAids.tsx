@@ -1,1 +1,3 @@
-export const teachingAids = ["lesson", "outline"];
+import { aidType } from "@/types";
+
+export const teachingAids: aidType[] = ["lesson", "outline"];

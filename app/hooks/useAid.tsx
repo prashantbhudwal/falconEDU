@@ -4,8 +4,9 @@ import { useContentStream } from "./useContentStream";
 import { fetchedContentAtom, lessonIdeasAtom } from "../atoms/lesson";
 import { topicAtom, subtopicAtom, gradeAtom } from "@/app/atoms/preferences";
 import { StreamPayload } from "@/types";
+import { aidType } from "@/types";
 
-export function useAid(aidType: "lesson" | "outline") {
+export function useAid(aidType: aidType) {
   const [topic] = useAtom(topicAtom);
   const [subtopic] = useAtom(subtopicAtom);
   const [grade] = useAtom(gradeAtom);

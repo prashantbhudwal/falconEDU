@@ -1,6 +1,7 @@
 import { lessonIdeasAtom } from "../atoms/lesson";
 import { useAtom } from "jotai";
 import { BlockContent } from "@/types";
+import { handoutType } from "@/types";
 
 type Aid = {
   id: string;
@@ -15,13 +16,13 @@ const ideasToAids = (ideas: BlockContent[]): Aid[] => {
     content: text,
   }));
 };
-function getUniqueValues(arr: string[]) {
+function getUniqueValues(arr: handoutType[]) {
   return arr.filter((value, index) => arr.indexOf(value) === index);
 }
 export default function useHandouts() {
   const [lessonIdeas] = useAtom(lessonIdeasAtom);
   const aids = ideasToAids(lessonIdeas);
-  let aidNames: string[] = [];
+  let aidNames: handoutType[] = [];
   aids.forEach((aid) => {
     if (aid.aid === "story") {
       aidNames.push(aid.aid);

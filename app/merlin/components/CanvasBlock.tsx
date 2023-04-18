@@ -1,9 +1,10 @@
 import { getBlockShadow } from "../../utils";
+import { ideaType } from "@/types";
 
 interface CanvasBlockProps {
   text: string | string[];
   id: string;
-  type: string;
+  type: ideaType;
   emoji: string;
   onRemove: (id: string) => void;
 }

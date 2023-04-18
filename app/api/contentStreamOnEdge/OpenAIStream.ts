@@ -21,7 +21,7 @@ export async function OpenAIStream(messages: any) {
     body: JSON.stringify({
       model: MODEL,
       temperature: TEMPERATURE,
-      max_tokens: MAX_TOKENS, //TODO Change to variable
+      // max_tokens: MAX_TOKENS, //TODO Change to variable
       messages: messages,
       stream: STREAM,
     }),

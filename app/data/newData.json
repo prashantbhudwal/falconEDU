@@ -1,0 +1,177 @@
+[
+  {
+    "id": 1,
+    "grade": "6",
+    "chapters": [
+      {
+        "id": 1,
+        "name": "Food: Where Does It Come From?",
+        "topics": [
+          {
+            "id": 1,
+            "name": "Sources of food"
+          },
+          {
+            "id": 2,
+            "name": "Components of food"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "Components of Food",
+        "topics": [
+          {
+            "id": 1,
+            "name": "Nutrients"
+          },
+          {
+            "id": 2,
+            "name": "Balanced diet"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "name": "Fibre to Fabric",
+        "topics": [
+          {
+            "id": 1,
+            "name": "Fibres"
+          },
+          {
+            "id": 2,
+            "name": "Fabrics"
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "name": "Sorting Materials into Groups",
+        "topics": [
+          {
+            "id": 1,
+            "name": "Classification of objects"
+          },
+          {
+            "id": 2,
+            "name": "Properties of materials"
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "name": "Separation of Substances",
+        "topics": [
+          {
+            "id": 1,
+            "name": "Methods of separation"
+          },
+          {
+            "id": 2,
+            "name": "Separation of solids from solids"
+          },
+          {
+            "id": 3,
+            "name": "Separation of solids from liquids"
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "grade": "5",
+        "name": "Natural Resources",
+        "topics": [
+          {
+            "id": 1,
+            "name": "Air and water"
+          },
+          {
+            "id": 2,
+            "name": "Soil and its properties"
+          },
+          {
+            "id": 3,
+            "name": "Forests and wildlife"
+          }
+        ]
+      },
+      {
+        "id": 7,
+        "grade": "5",
+        "name": "Our Environment",
+        "topics": [
+          {
+            "id": 1,
+            "name": "Ecosystems"
+          },
+          {
+            "id": 2,
+            "name": "Pollution"
+          },
+          {
+            "id": 3,
+            "name": "Conservation"
+          }
+        ]
+      },
+      {
+        "id": 8,
+        "grade": "5",
+        "name": "Food and Health",
+        "topics": [
+          {
+            "id": 1,
+            "name": "Food safety"
+          },
+          {
+            "id": 2,
+            "name": "Diseases and prevention"
+          },
+          {
+            "id": 3,
+            "name": "Maintaining good health"
+          }
+        ]
+      },
+      {
+        "id": 9,
+        "grade": "5",
+        "name": "Energy and Work",
+        "topics": [
+          {
+            "id": 1,
+            "name": "Forms of energy"
+          },
+          {
+            "id": 2,
+            "name": "Energy conservation"
+          },
+          {
+            "id": 3,
+            "name": "Work and force"
+          }
+        ]
+      },
+      {
+        "id": 10,
+        "grade": "5",
+        "name": "Light and Sound",
+        "topics": [
+          {
+            "id": 1,
+            "name": "Properties of light"
+          },
+          {
+            "id": 2,
+            "name": "Reflection and refraction"
+          },
+          {
+            "id": 3,
+            "name": "Properties of sound"
+          }
+        ]
+      }
+    ]
+  }
+]

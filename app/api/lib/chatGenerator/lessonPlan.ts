@@ -1,26 +1,26 @@
 import { StreamPayload } from "@/types";
 import { ChatCompletionRequestMessage } from "openai";
 import { processStreamText } from "../utils";
+import { getLessonChatMessages } from "../chatMessages";
 
 interface Idea {
   ideaType: string;
   text: string;
 }
-function generateGptPrompt(ideas: Idea[]): string {
-  const promptText = ideas.reduce((acc, idea) => {
+function generateMarkdown(ideas: Idea[]): string {
+  const markdown = ideas.reduce((acc, idea) => {
     // Add a separator between ideas
     if (acc.length > 0) {
       acc += "\n\n";
     }
     // Add the idea type as a heading
     acc += `## ${idea.ideaType}\n\n`;
-
     // Add the cleaned idea text as a paragraph
     acc += `${idea.text}\n`;
     return acc;
   }, "");
 
-  return `ideas:\n\n${promptText}`;
+  return `ideas:\n\n${markdown}`;
 }
 
 export default function getLessonPlanMessages(payload: StreamPayload) {
@@ -29,17 +29,12 @@ export default function getLessonPlanMessages(payload: StreamPayload) {
     ideaType: obj.type,
     text: processStreamText(obj.text),
   }));
-  const ideas = generateGptPrompt(newArray);
-
-  const messages: ChatCompletionRequestMessage[] = [
-    {
-      role: "system",
-      content: `You are a knowledgeable teaching expert. I am a teacher in India teaching grade ${grade} science at a school that follows NCERT textbooks. I am teaching the chapter "${subtopic}" from the chapter "${topic}". My students' primary language is not English.`,
-    },
-    {
-      role: "user",
-      content: `Give me a lesson plan. Make SURE that you use these ${ideas}. And start with Objectives, no need to give the subject and topic.`,
-    },
-  ];
+  const ideas = generateMarkdown(newArray);
+  const messages: ChatCompletionRequestMessage[] = getLessonChatMessages({
+    grade,
+    topic,
+    subtopic,
+    ideas,
+  });
   return messages;
 }

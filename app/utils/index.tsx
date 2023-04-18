@@ -1,5 +1,8 @@
-export const getEmoji = function (blockType: string) {
-  const loweCaseBlockType = blockType.toLowerCase();
+import { ideaType } from "@/types/ideaTypes";
+import { aidType } from "@/types/ideaTypes";
+
+export const getEmoji = function (ideaType: ideaType | aidType) {
+  const loweCaseBlockType = ideaType.toLowerCase();
   switch (loweCaseBlockType) {
     case "story":
       return "🏜";
@@ -26,41 +29,14 @@ export const getEmoji = function (blockType: string) {
     case "outline":
       return "🪄";
     case "slides":
-      return "🎬 ";
+      return "🎬";
     default:
       return "Oops!! AI is on Strike. Try Again?";
   }
 };
 
-export const getPrompt = function (promptType: string) {
-  switch (promptType) {
-    case "story":
-      return "Tell me a story that helps students understand";
-    case "example":
-      return "Provide an example that clarifies the concept for students";
-    case "analogy":
-      return "Share an analogy that makes the concept easier for students to grasp";
-    case "history":
-      return "Discuss the historical context or background of";
-    case "application":
-      return "Describe a real-world application of this concept that students can relate to";
-    case "antiExample":
-      return "Explain a counterexample that helps students differentiate between correct and incorrect understanding of";
-    case "contrast":
-      return "Compare and contrast this concept with other closely related topics to help students distinguish between them";
-    case "definition":
-      return "Define the concept in a clear and concise manner for students";
-    case "activity":
-      return "Be creative and suggest one engaging and exciting small group activity that helps students understand";
-    case "quiz":
-      return "Make a MCQ quiz of 5 questions to assess the students on the topic of";
-    default:
-      return "Explain the concept in a way that is easy for students to understand";
-  }
-};
-
-export const getBlockShadow = function (blockType: string) {
-  switch (blockType) {
+export const getBlockShadow = function (ideaType: ideaType) {
+  switch (ideaType) {
     case "story":
       return "shadow-green-600";
     case "example":
@@ -86,17 +62,17 @@ export const getBlockShadow = function (blockType: string) {
   }
 };
 
-export const buttonsArray = [
-  "Definition",
-  "Example",
-  "Story",
-  "Analogy",
-  "History",
-  "Application",
+export const buttonsArray: ideaType[] = [
+  "definition",
+  "example",
+  "story",
+  "analogy",
+  "history",
+  "application",
   // "Anti-Example",
-  "Contrast",
-  "Activity",
-  "Quiz",
+  "contrast",
+  "activity",
+  "quiz",
 ];
 
 export const blockContentArray = [
