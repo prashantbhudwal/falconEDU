@@ -22,7 +22,7 @@ export function getChatMessages(
         },
         {
           role: "user",
-          content: `Provide an example that clarifies the concept for students: ${subtopic} from the chapter ${topic} of grade ${grade} NCERT science textbook. Keep your answers concise, as short as possible.`,
+          content: `Compose a concise, engaging story that illuminates the concept of: ${subtopic} from the chapter ${topic} of grade ${grade} NCERT science textbook, using straightforward language to aid understanding.`,
         },
       ];
     case "example":
@@ -33,7 +33,7 @@ export function getChatMessages(
         },
         {
           role: "user",
-          content: `Provide an example that clarifies the concept for students: ${subtopic} from the chapter ${topic} of grade ${grade} NCERT science textbook. Keep your answers concise, as short as possible.`,
+          content: `Provide a succinct example that visually illustrates the concept of: ${subtopic} from the chapter ${topic} of grade ${grade} NCERT science textbook, helping students to better visualize the idea.`,
         },
       ];
     case "analogy":
@@ -44,7 +44,7 @@ export function getChatMessages(
         },
         {
           role: "user",
-          content: `Share an analogy that makes the concept easier for students to grasp: ${subtopic} from the chapter ${topic} of grade ${grade} NCERT science textbook. Keep your answers concise, as short as possible.`,
+          content: `Present an everyday analogy that simplifies the concept of: ${subtopic} from the chapter ${topic} of grade ${grade} NCERT science textbook, using familiar situations to make the idea more relatable.`,
         },
       ];
     case "history":
@@ -55,7 +55,7 @@ export function getChatMessages(
         },
         {
           role: "user",
-          content: `Discuss the historical context or background of: ${subtopic} from the chapter ${topic} of grade ${grade} NCERT science textbook. Keep your answers concise, as short as possible.`,
+          content: `Summarize the historical context of: ${subtopic} from the chapter ${topic} of grade ${grade} NCERT science textbook, focusing on its impact on scientific advancements and understanding.`,
         },
       ];
     case "application":
@@ -66,7 +66,7 @@ export function getChatMessages(
         },
         {
           role: "user",
-          content: `Describe a real-world application of this concept that students can relate to: ${subtopic} from the chapter ${topic} of grade ${grade} NCERT science textbook. Keep your answers concise, as short as possible.`,
+          content: `Explain a real-life application of: ${subtopic} from the chapter ${topic} of grade ${grade} NCERT science textbook that students encounter in their daily lives, demonstrating the concept's practical relevance.`,
         },
       ];
     case "antiExample":
@@ -88,7 +88,7 @@ export function getChatMessages(
         },
         {
           role: "user",
-          content: `Compare and contrast this concept with other closely related topics to help students distinguish between them: ${subtopic} from the chapter ${topic} of grade ${grade} NCERT science textbook. Keep your answers concise, as short as possible.`,
+          content: `Explain the similarities and differences between the concept of: ${subtopic} and related topics from the chapter ${topic} of grade ${grade} NCERT science textbook, using clear examples to aid comprehension.`,
         },
       ];
     case "definition":
@@ -110,7 +110,7 @@ export function getChatMessages(
         },
         {
           role: "user",
-          content: `Be creative and suggest one engaging and exciting small group activity that helps students understand: ${subtopic} from the chapter ${topic} of grade ${grade} NCERT science textbook. Keep your answers concise, as short as possible.`,
+          content: `Be creative and suggest a hands-on, interactive small group activity that fosters deeper comprehension of: ${subtopic} from the chapter ${topic} of grade ${grade} NCERT science textbook, encouraging experiential learning.`,
         },
       ];
     case "quiz":
@@ -121,7 +121,7 @@ export function getChatMessages(
         },
         {
           role: "user",
-          content: `Make a MCQ quiz of 5 questions to assess the students on the topic of: ${subtopic} from the chapter ${topic} of grade ${grade} NCERT science textbook. Keep your answers concise, as short as possible.`,
+          content: `Design a 5-question MCQ quiz that targets the core ideas and principles of: ${subtopic} from the chapter ${topic} of grade ${grade} NCERT science textbook, ensuring students grasp the most important aspects.`,
         },
       ];
     default:
