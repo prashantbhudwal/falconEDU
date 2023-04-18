@@ -17,12 +17,13 @@ import {
 } from "../atoms/preferences";
 import { useAtom } from "jotai";
 import { lessonIdeasAtom } from "../atoms/lesson";
+import { ideaType } from "@/types";
 
 export default function Canvas({ className }: { className?: string }) {
   const router = useRouter();
   const [fetchNow, setFetchNow] = useState(false);
   const [ideaStream, setIdeaStream] = useState<string[]>([]);
-  const [blockType, setBlockType] = useState<string>("");
+  const [blockType, setBlockType] = useState<ideaType>("");
   const [streamCompleted, setStreamCompleted] = useState<boolean>(true);
   const [currentBlockId, setCurrentBlockId] = useState<string>("");
   const [lastBlockId, setLastBlockId] = useState<string>("");
