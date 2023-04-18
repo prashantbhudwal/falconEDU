@@ -6,7 +6,7 @@ function getSystemMessage(
   topic: string,
   subtopic: string
 ): string {
-  return `You are a teaching assistant. I am a teacher in India teaching teaching the topic "${subtopic}" from the chapter "${topic}" from the Grade ${grade}, NCERT Science Textbook. My students' primary language is not English. Help me brainstorm ideas and strategies for effectively teaching this topic in my classroom. Make sure you adhere to the textbook mentioned.`;
+  return `You are a teaching assistant. I am a teacher in India teaching teaching the topic "${subtopic}" from the chapter "${topic}" from the Grade ${grade}, NCERT Science Textbook. My students' primary language is not English. Help me brainstorm ideas and strategies for effectively teaching this topic in my classroom. Make sure you adhere to the Grade ${grade}, NCERT Science Textbook.`;
 }
 
 export function getChatMessages(
