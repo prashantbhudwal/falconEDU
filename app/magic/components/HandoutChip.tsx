@@ -3,8 +3,9 @@ import { getEmoji } from "@/app/utils";
 import Link from "next/link";
 import { useAtom } from "jotai";
 import { contentStreamCompletedAtom } from "@/app/atoms/lesson";
+import { handoutType } from "@/types";
 
-export default function HandoutChip({ aid }: { aid: string }) {
+export default function HandoutChip({ aid }: { aid: handoutType }) {
   const [contentStreamCompleted] = useAtom(contentStreamCompletedAtom);
 
   const linkContent = (
