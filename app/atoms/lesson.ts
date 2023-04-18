@@ -7,18 +7,6 @@ type teachingAids = {
   id: string;
 };
 
-type Aid = {
-  id: string;
-  name:
-    | "lessonOutline"
-    | "lessonPlan"
-    | "slides"
-    | "story"
-    | "assessment"
-    | "activity";
-  content: string | string[];
-};
-
 export const contentStreamAtom = atom<string[]>([]);
 export const teachingAidsAtom = atom<teachingAids[]>([]);
 export const visibleAidAtom = atom<StreamPayload["payloadType"]>("lesson");
