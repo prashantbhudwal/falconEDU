@@ -2,19 +2,14 @@ import { useState, useEffect, useRef } from "react";
 import { v4 as uuid } from "uuid";
 import { useAtom } from "jotai";
 import { topicAtom, subtopicAtom, gradeAtom } from "../atoms/preferences";
+import { IdeaStreamPayload } from "@/types";
+import { ideaType } from "@/types";
 
 const ROUTE = "/api/falconStream";
 
-type RequestBody = {
-  topic: string;
-  subtopic: string;
-  grade: string;
-  promptType: string;
-};
-
 const fetchStream = async function (
   onMessage: any,
-  body: RequestBody,
+  body: IdeaStreamPayload,
   streamComplete: () => void,
   setCurrentBlockId: () => void
 ) {
@@ -59,7 +54,7 @@ export default function useFalconStream(
   fetchComplete: () => void,
   streamComplete: () => void,
   setCurrentBlockId: () => void,
-  blockType: string
+  blockType: ideaType
 ) {
   const [isLoading, setIsLoading] = useState(!fetchNow);
   const [error, setError] = useState<string | null>(null);
@@ -68,7 +63,7 @@ export default function useFalconStream(
   const [subtopic] = useAtom(subtopicAtom);
   const [grade] = useAtom(gradeAtom);
 
-  const body = {
+  const body: IdeaStreamPayload = {
     topic: topic,
     subtopic: subtopic,
     grade: grade,
