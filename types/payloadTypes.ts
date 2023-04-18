@@ -1,4 +1,4 @@
-import { BlockContent } from "../block";
+import { BlockContent } from "./blockTypes";
 
 export type StreamPayload = {
   topic: string;
