@@ -6,7 +6,7 @@ function getSystemMessage(
   topic: string,
   subtopic: string
 ): string {
-  return `You are a knowledgeable teaching assistant. I am a teacher in India teaching grade ${grade} science at a school that follows NCERT textbooks. I am teaching the topic "${subtopic}" from the chapter "${topic}". My students' primary language is not English. Help me brainstorm ideas and strategies for effectively teaching this topic in my classroom.`;
+  return `You are a teaching assistant. I am a teacher in India teaching teaching the topic "${subtopic}" from the chapter "${topic}" from the Grade ${grade}, NCERT Science Textbook. My students' primary language is not English. Help me brainstorm ideas and strategies for effectively teaching this topic in my classroom. Make sure you adhere to the textbook mentioned.`;
 }
 
 export function getChatMessages(
@@ -22,7 +22,7 @@ export function getChatMessages(
         },
         {
           role: "user",
-          content: `Compose a concise, engaging story that illuminates the concept of: ${subtopic} from the chapter ${topic} of grade ${grade} NCERT science textbook, using straightforward language to aid understanding. Keep your answers concise, as short as possible.`,
+          content: `Tell me a story that helps students understand: ${subtopic}. Keep your answers concise, as short as possible.`,
         },
       ];
     case "example":
@@ -33,7 +33,7 @@ export function getChatMessages(
         },
         {
           role: "user",
-          content: `Provide one engaging example that explains the concept of: ${subtopic} from the chapter ${topic} of grade ${grade} NCERT science textbook, helping students to better visualize the idea. Keep your answers concise, as short as possible. Start with, "Here is an example..."`,
+          content: `Provide one engaging example that explains the concept of: ${subtopic}, helping students to better visualize the idea. Keep your answers concise, as short as possible. Start with, "Here is an example..."`,
         },
       ];
     case "analogy":
@@ -44,7 +44,7 @@ export function getChatMessages(
         },
         {
           role: "user",
-          content: `Present one everyday analogy that simplifies the concept of: ${subtopic} from the chapter ${topic} of grade ${grade} NCERT science textbook, using familiar situations to make the idea more relatable. Keep your answers concise, as short as possible.`,
+          content: `Present one everyday analogy that simplifies the concept of: ${subtopic}, using familiar situations to make the idea more relatable. Keep your answers concise, as short as possible.`,
         },
       ];
     case "history":
@@ -55,7 +55,7 @@ export function getChatMessages(
         },
         {
           role: "user",
-          content: `Discuss the historical context of the concept of: ${subtopic}. The concept is from the chapter ${topic} of grade ${grade} NCERT science textbook. Keep your answers concise, as short as possible.`,
+          content: `Discuss the historical context of the concept of: ${subtopic}. Keep your answers concise, as short as possible.`,
         },
       ];
     case "application":
@@ -66,7 +66,7 @@ export function getChatMessages(
         },
         {
           role: "user",
-          content: `Describe a real-world application of this concept that students can relate to: ${subtopic} from the chapter ${topic} of grade ${grade} NCERT science textbook. Keep your answers concise, as short as possible.`,
+          content: `Describe a real-world application of this concept that students can relate to: ${subtopic}. Keep your answers concise, as short as possible.`,
         },
       ];
     case "antiExample":
@@ -77,7 +77,7 @@ export function getChatMessages(
         },
         {
           role: "user",
-          content: `Explain one counterexample that helps students differentiate between correct and incorrect understanding of: ${subtopic} from the chapter ${topic} of grade ${grade} NCERT science textbook. Keep your answers concise, as short as possible.`,
+          content: `Explain one counterexample that helps students differentiate between correct and incorrect understanding of: ${subtopic}. Keep your answers concise, as short as possible.`,
         },
       ];
     case "contrast":
@@ -88,7 +88,7 @@ export function getChatMessages(
         },
         {
           role: "user",
-          content: `Compare and contrast this concept with other closely related topics to help students distinguish between them: ${subtopic} from the chapter ${topic} of grade ${grade} NCERT science textbook. Keep your answers concise, as short as possible.`,
+          content: `Compare and contrast this concept with other closely related topics to help students distinguish between them: ${subtopic}. Keep your answers concise, as short as possible.`,
         },
       ];
     case "definition":
@@ -99,7 +99,7 @@ export function getChatMessages(
         },
         {
           role: "user",
-          content: `Define the concept in a clear and concise manner for students: ${subtopic} from the chapter ${topic} of grade ${grade} NCERT science textbook. Keep your answers concise, as short as possible.`,
+          content: `Define the concept in a clear and concise manner for students: ${subtopic}. Keep your answers concise, as short as possible.`,
         },
       ];
     case "activity":
@@ -110,7 +110,7 @@ export function getChatMessages(
         },
         {
           role: "user",
-          content: `Be creative and suggest one engaging and exciting small group activity that helps students understand: ${subtopic} from the chapter ${topic} of grade ${grade} NCERT science textbook. Keep your answers concise, as short as possible.`,
+          content: `Be creative and suggest one engaging and exciting small group activity that helps students understand: ${subtopic}. Keep your answers concise, as short as possible.`,
         },
       ];
     case "quiz":
@@ -121,7 +121,7 @@ export function getChatMessages(
         },
         {
           role: "user",
-          content: `Design a 5-question MCQ quiz that targets the core ideas and principles of: ${subtopic} from the chapter ${topic} of grade ${grade} NCERT science textbook, ensuring students grasp the most important aspects. Keep your answers concise, as short as possible.`,
+          content: `Design a 5-question MCQ quiz that targets the core ideas and principles of: ${subtopic}, ensuring students grasp the most important aspects. Keep your answers concise, as short as possible.`,
         },
       ];
     default:
@@ -132,7 +132,7 @@ export function getChatMessages(
         },
         {
           role: "user",
-          content: `Provide an example that clarifies the concept for students: ${subtopic} from the chapter ${topic} of grade ${grade} NCERT science textbook. Keep your answers concise, as short as possible. Keep your answers concise, as short as possible.`,
+          content: `Provide an example that clarifies the concept for students: ${subtopic}. Keep your answers concise, as short as possible. Keep your answers concise, as short as possible.`,
         },
       ];
   }
