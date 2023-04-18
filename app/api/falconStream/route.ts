@@ -3,13 +3,14 @@ import { NextRequest } from "next/server";
 import { getCompletionStream, handleGPT3TurboStreamData } from "../lib/openAI";
 import { ChatCompletionRequestMessage } from "openai";
 import { getPrompt } from "@/app/utils";
+import { IdeaStreamPayload } from "@/types";
 
 export const runtime = "nodejs";
 // This is required to enable streaming
 export const dynamic = "force-dynamic";
 
 export async function POST(request: NextRequest) {
-  const body = await request.json();
+  const body: IdeaStreamPayload = await request.json();
   const { topic, subtopic, grade, promptType } = body;
   const prompt = getPrompt(promptType);
 
