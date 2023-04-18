@@ -55,7 +55,7 @@ export function getChatMessages(
         },
         {
           role: "user",
-          content: `Discuss the historical context or background of: ${subtopic} from the chapter ${topic} of grade ${grade} NCERT science textbook. Keep your answers concise, as short as possible.`,
+          content: `Discuss the historical context of the concept of: ${subtopic}. The concept is from the chapter ${topic} of grade ${grade} NCERT science textbook. Keep your answers concise, as short as possible.`,
         },
       ];
     case "application":
