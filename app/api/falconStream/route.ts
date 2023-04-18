@@ -2,28 +2,16 @@
 import { NextRequest } from "next/server";
 import { getCompletionStream, handleGPT3TurboStreamData } from "../lib/openAI";
 import { ChatCompletionRequestMessage } from "openai";
-import { getPrompt } from "@/app/utils";
 import { IdeaStreamPayload } from "@/types";
+import { getChatMessages } from "../lib/ideaChatGenerator";
 
 export const runtime = "nodejs";
 // This is required to enable streaming
 export const dynamic = "force-dynamic";
 
 export async function POST(request: NextRequest) {
-  const body: IdeaStreamPayload = await request.json();
-  const { topic, subtopic, grade, promptType } = body;
-  const prompt = getPrompt(promptType);
-
-  const messages: ChatCompletionRequestMessage[] = [
-    {
-      role: "system",
-      content: `You are a knowledgeable teaching assistant. I am a teacher in India teaching grade ${grade} science at a school that follows NCERT textbooks. I am teaching the topic "${subtopic}" from the chapter "${topic}". My students' primary language is not English. Help me brainstorm ideas and strategies for effectively teaching this topic in my classroom. `,
-    },
-    {
-      role: "user",
-      content: `${prompt}: ${subtopic} from the chapter ${topic} of grade ${grade} NCERT science textbook. Keep your answers concise, as short as possible.`,
-    },
-  ];
+  const payload: IdeaStreamPayload = await request.json();
+  const messages: ChatCompletionRequestMessage[] = getChatMessages(payload);
   let responseStream = new TransformStream();
   const writer = responseStream.writable.getWriter();
   try {
