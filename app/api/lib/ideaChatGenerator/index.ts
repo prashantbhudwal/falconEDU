@@ -33,7 +33,7 @@ export function getChatMessages(
         },
         {
           role: "user",
-          content: `Provide an engaging example that explains the concept of: ${subtopic} from the chapter ${topic} of grade ${grade} NCERT science textbook, helping students to better visualize the idea. Start with, "Here is an example..."`,
+          content: `Provide an engaging example that explains the concept of: ${subtopic} from the chapter ${topic} of grade ${grade} NCERT science textbook, helping students to better visualize the idea. Keep your answers concise, as short as possible. Start with, "Here is an example..."`,
         },
       ];
     case "analogy":
