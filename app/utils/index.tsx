@@ -1,5 +1,8 @@
-export const getEmoji = function (blockType: string) {
-  const loweCaseBlockType = blockType.toLowerCase();
+import { ideaType } from "@/types/ideaTypes";
+import { aidType } from "@/types/ideaTypes";
+
+export const getEmoji = function (ideaType: ideaType | aidType) {
+  const loweCaseBlockType = ideaType.toLowerCase();
   switch (loweCaseBlockType) {
     case "story":
       return "🏜";
@@ -26,14 +29,14 @@ export const getEmoji = function (blockType: string) {
     case "outline":
       return "🪄";
     case "slides":
-      return "🎬 ";
+      return "🎬";
     default:
       return "Oops!! AI is on Strike. Try Again?";
   }
 };
 
-export const getPrompt = function (promptType: string) {
-  switch (promptType) {
+export const getPrompt = function (ideaType: ideaType) {
+  switch (ideaType) {
     case "story":
       return "Tell me a story that helps students understand";
     case "example":
@@ -59,8 +62,8 @@ export const getPrompt = function (promptType: string) {
   }
 };
 
-export const getBlockShadow = function (blockType: string) {
-  switch (blockType) {
+export const getBlockShadow = function (ideaType: ideaType) {
+  switch (ideaType) {
     case "story":
       return "shadow-green-600";
     case "example":
@@ -87,16 +90,16 @@ export const getBlockShadow = function (blockType: string) {
 };
 
 export const buttonsArray = [
-  "Definition",
-  "Example",
-  "Story",
-  "Analogy",
-  "History",
-  "Application",
+  "definition",
+  "example",
+  "story",
+  "analogy",
+  "history",
+  "application",
   // "Anti-Example",
-  "Contrast",
-  "Activity",
-  "Quiz",
+  "contrast",
+  "activity",
+  "quiz",
 ];
 
 export const blockContentArray = [
