@@ -3,30 +3,12 @@ import {
   ParsedEvent,
   ReconnectInterval,
 } from "eventsource-parser";
-import { lessonOptions } from "../lib/openAI/options";
 
-export async function OpenAIStream(messages: any) {
+export async function streamFromOpenAI(payload: any) {
   const encoder = new TextEncoder();
   const decoder = new TextDecoder();
-  const { MODEL, TEMPERATURE, MAX_TOKENS, STREAM } = lessonOptions;
   const API_URL = "https://api.openai.com/v1/chat/completions";
-
-  const requestOptions = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
-    },
-    responseType: "stream",
-    body: JSON.stringify({
-      model: MODEL,
-      temperature: TEMPERATURE,
-      // max_tokens: MAX_TOKENS, //TODO Change to variable
-      messages: messages,
-      stream: STREAM,
-    }),
-  };
-  const response = await fetch(API_URL, requestOptions);
+  const response = await fetch(API_URL, payload);
 
   const stream = new ReadableStream({
     async start(controller) {
