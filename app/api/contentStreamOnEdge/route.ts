@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import { StreamPayload } from "@/types";
 import { ChatCompletionRequestMessage } from "openai";
-import { streamFromOpenAI } from "./OpenAIStream";
+import { streamFromOpenAI } from "../lib/openAI";
 import getChatCompletionRequestMessages from "../lib/chatGenerator";
 import { lessonOptions } from "../lib/openAI/options";
 export const config = {
