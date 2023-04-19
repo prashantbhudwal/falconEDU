@@ -1,17 +1,19 @@
+// app/api/route.ts
 import { NextRequest } from "next/server";
-import { StreamPayload } from "@/types";
 import { ChatCompletionRequestMessage } from "openai";
+import { IdeaStreamPayload } from "@/types";
+import { getChatMessages } from "../lib/ideaChatGenerator";
+import { ideaOptions } from "../lib/openAI/options";
 import { streamFromOpenAI } from "../lib/openAI";
-import getChatCompletionRequestMessages from "../lib/aidChatGenerator/chatGenerator";
-import { lessonOptions } from "../lib/openAI/options";
+
 export const config = {
   runtime: "edge",
 };
 // This is required to enable streaming
 export const dynamic = "force-dynamic";
 
-const getAidRequestPayload = (messages: any) => {
-  const { MODEL, TEMPERATURE, MAX_TOKENS, STREAM } = lessonOptions;
+const getIdeaRequestPayload = (messages: any) => {
+  const { MODEL, TEMPERATURE, MAX_TOKENS, STREAM } = ideaOptions;
   const requestOptions = {
     method: "POST",
     headers: {
@@ -31,10 +33,11 @@ const getAidRequestPayload = (messages: any) => {
 };
 
 export async function POST(request: NextRequest) {
-  const body: StreamPayload = await request.json();
-  const messages: ChatCompletionRequestMessage[] =
-    getChatCompletionRequestMessages(body);
-  const aidPayload = getAidRequestPayload(messages);
+  const payload: IdeaStreamPayload = await request.json();
+  const messages: ChatCompletionRequestMessage[] = getChatMessages(payload);
+
+  const aidPayload = getIdeaRequestPayload(messages);
   const stream = await streamFromOpenAI(aidPayload);
+
   return new Response(stream);
 }

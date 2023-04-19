@@ -5,7 +5,7 @@ import { topicAtom, subtopicAtom, gradeAtom } from "../atoms/preferences";
 import { IdeaStreamPayload } from "@/types";
 import { ideaType } from "@/types";
 
-const ROUTE = "/api/falconStream";
+const ROUTE = "/api/falconStreamOnEdge";
 
 const fetchStream = async function (
   onMessage: any,

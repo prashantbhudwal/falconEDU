@@ -1,84 +1,45 @@
-import { OpenAIApi, Configuration } from "openai";
-import { ChatCompletionRequestMessage } from "openai";
-import { options, lessonOptions } from "./options";
+import {
+  createParser,
+  ParsedEvent,
+  ReconnectInterval,
+} from "eventsource-parser";
 
-const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-const model = new OpenAIApi(configuration);
-
-export default async function getCompletion(
-  messages: ChatCompletionRequestMessage[]
-) {
-  const { MODEL, TEMPERATURE, MAX_TOKENS } = options;
-  const completion = await model.createChatCompletion({
-    model: MODEL,
-    temperature: TEMPERATURE,
-    max_tokens: MAX_TOKENS,
-    messages: messages,
-  });
-  return completion.data;
-}
-
-export async function getCompletionStream(
-  messages: ChatCompletionRequestMessage[]
-) {
-  const { MODEL, TEMPERATURE, MAX_TOKENS, STREAM } = options;
-  const completion = await model.createChatCompletion(
-    {
-      model: MODEL,
-      temperature: TEMPERATURE,
-      max_tokens: MAX_TOKENS,
-      messages: messages,
-      stream: STREAM,
-    },
-    { responseType: "stream" }
-  );
-  return completion;
-}
-
-export async function getLessonCompletionStream(
-  messages: ChatCompletionRequestMessage[]
-) {
-  const { MODEL, TEMPERATURE, MAX_TOKENS, STREAM } = lessonOptions;
-  const completion = await model.createChatCompletion(
-    {
-      model: MODEL,
-      temperature: TEMPERATURE,
-      max_tokens: MAX_TOKENS,
-      messages: messages,
-      stream: STREAM,
-    },
-    { responseType: "stream" }
-  );
-  return completion;
-}
-
-export async function handleGPT3TurboStreamData(
-  data: Buffer,
-  writer: WritableStreamDefaultWriter<Uint8Array>
-) {
+export async function streamFromOpenAI(payload: any) {
   const encoder = new TextEncoder();
-  const lines = data
-    .toString()
-    .split("\n")
-    .filter((line) => line.trim() !== "");
+  const decoder = new TextDecoder();
+  const API_URL = "https://api.openai.com/v1/chat/completions";
+  const response = await fetch(API_URL, payload);
 
-  for (const line of lines) {
-    const message = line.replace(/^data: /, "");
-    if (message === "[DONE]") {
-      console.log("Stream completed");
-      writer.close();
-      return;
-    }
+  const stream = new ReadableStream({
+    async start(controller) {
+      function onParse(event: ParsedEvent | ReconnectInterval) {
+        if (event.type === "event") {
+          const data = event.data;
+          if (data === "[DONE]") {
+            controller.close();
+            return;
+          }
+          try {
+            const json = JSON.parse(data);
+            const text = json.choices[0]?.delta?.content || "";
+            const queue = encoder.encode(text);
+            controller.enqueue(queue);
+          } catch (e) {
+            controller.error(e);
+          }
+        }
+      }
 
-    try {
-      const parsed = JSON.parse(message);
-      const filteredContent = parsed.choices[0]?.delta?.content || "";
+      // stream response (SSE) from OpenAI may be fragmented into multiple chunks
+      // this ensures we properly read chunks & invoke an event for each SSE event stream
+      const parser = createParser(onParse);
 
-      await writer.write(encoder.encode(filteredContent));
-    } catch (error) {
-      console.error("Could not JSON parse stream message", message, error);
-    }
-  }
+      // https://web.dev/streams/#asynchronous-iteration
+      for await (const chunk of response.body as any) {
+        parser.feed(decoder.decode(chunk));
+      }
+    },
+  });
+
+  return stream;
 }
