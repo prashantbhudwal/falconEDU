@@ -1,6 +1,6 @@
 import { StreamPayload } from "@/types";
 import { ChatCompletionRequestMessage } from "openai";
-import { processStreamText } from "../utils";
+import { processStreamText } from "../../utils";
 import { getLessonChatMessages } from "../chatMessages";
 
 interface Idea {

@@ -1,6 +1,6 @@
 import { StreamPayload } from "@/types";
 import { ChatCompletionRequestMessage } from "openai";
-import { processStreamText } from "../utils";
+import { processStreamText } from "../../utils";
 import getOutlineChatMessages from "../chatMessages";
 
 export default function getOutlineMessages(payload: StreamPayload) {
