@@ -6,7 +6,9 @@ import { getChatMessages } from "../lib/ideaChatGenerator";
 import { ideaOptions } from "../lib/openAI/options";
 import { streamFromOpenAI } from "../lib/openAI";
 
-export const runtime = "nodejs";
+export const config = {
+  runtime: "edge",
+};
 // This is required to enable streaming
 export const dynamic = "force-dynamic";
 
