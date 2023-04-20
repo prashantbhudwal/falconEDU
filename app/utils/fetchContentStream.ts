@@ -1,9 +1,9 @@
-import { StreamPayload } from "@/types";
+import { StreamPayload, PredictionPayload } from "@/types";
 
 const ROUTE = "/api/contentStreamOnEdge";
 export default async function fetchContentStream(
   onMessage: any,
-  payload: StreamPayload
+  payload: StreamPayload | PredictionPayload
 ): Promise<boolean> {
   try {
     const response = await fetch(ROUTE, {
