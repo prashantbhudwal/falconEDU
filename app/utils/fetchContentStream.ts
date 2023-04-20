@@ -5,7 +5,7 @@ export default async function fetchContentStream(
   onMessage: any,
   body: StreamPayload,
   streamComplete: () => void,
-  setCurrentBlockId: () => void
+  setCurrentStreamId: () => void
 ) {
   try {
     const response = await fetch(ROUTE, {
@@ -29,8 +29,8 @@ export default async function fetchContentStream(
       if (done) {
         console.log("Stream has completed");
         streamComplete();
-        setCurrentBlockId();
-        break;
+        setCurrentStreamId();
+        break;  
       }
 
       const chunk = decoder.decode(value);
