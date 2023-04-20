@@ -14,6 +14,14 @@ export const lessonOptions: OpenAIOptions = {
   STREAM: true,
 };
 
+export const predictorOptions: OpenAIOptions = {
+  MODEL: "gpt-3.5-turbo",
+  TEMPERATURE: 0.5,
+  MAX_TOKENS: 500,
+  N: 1,
+  STREAM: true,
+};
+
 type OpenAIOptions = {
   MODEL: string;
   // ID of the model to use (e.g., "gpt-3.5-turbo")
