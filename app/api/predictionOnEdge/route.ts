@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import { ChatCompletionRequestMessage } from "openai";
 import { streamFromOpenAI } from "../lib/openAI";
-import { lessonOptions } from "../lib/openAI/options";
+import { predictionOptions } from "../lib/openAI/options";
 import { PredictionPayload } from "@/types";
 export const config = {
   runtime: "edge",
@@ -10,7 +10,7 @@ export const config = {
 export const dynamic = "force-dynamic";
 
 const getAidRequestPayload = (messages: any) => {
-  const { MODEL, TEMPERATURE, MAX_TOKENS, STREAM } = lessonOptions;
+  const { MODEL, TEMPERATURE, MAX_TOKENS, STREAM } = predictionOptions;
   const requestOptions = {
     method: "POST",
     headers: {
