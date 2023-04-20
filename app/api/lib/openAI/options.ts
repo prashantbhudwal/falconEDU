@@ -14,7 +14,7 @@ export const lessonOptions: OpenAIOptions = {
   STREAM: true,
 };
 
-export const predictorOptions: OpenAIOptions = {
+export const predictionOptions: OpenAIOptions = {
   MODEL: "gpt-3.5-turbo",
   TEMPERATURE: 0.5,
   MAX_TOKENS: 500,
