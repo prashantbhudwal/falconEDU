@@ -7,7 +7,7 @@ import {
   contentStreamAtom,
 } from "@/app/atoms/lesson";
 import fetchContentStream from "@/app/utils/fetchContentStream";
-import { aidType, StreamPayload } from "@/types";
+import { aidType, PredictionPayload, StreamPayload } from "@/types";
 
 export function useContentStream() {
   const [currentStreamId, setCurrentStreamId] = useState<string>("");
@@ -18,7 +18,7 @@ export function useContentStream() {
   );
   const [fetchedContent, setFetchedContent] = useAtom(fetchedContentAtom);
 
-  const fetchData = async (payload: StreamPayload) => {
+  const fetchData = async (payload: StreamPayload | PredictionPayload) => {
     try {
       const done = await fetchContentStream((message: string) => {
         setContentStream((prevContent) => [...prevContent, message]);
@@ -32,7 +32,7 @@ export function useContentStream() {
     }
   };
 
-  const startGeneration = (payload: StreamPayload) => {
+  const startGeneration = (payload: StreamPayload | PredictionPayload) => {
     setContentStream([]);
     setContentStreamCompleted(false);
     fetchData(payload);
