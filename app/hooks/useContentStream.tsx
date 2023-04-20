@@ -20,14 +20,13 @@ export function useContentStream() {
 
   const fetchData = async (payload: StreamPayload) => {
     try {
-      fetchContentStream(
-        (message: string) => {
-          setContentStream((prevContent) => [...prevContent, message]);
-        },
-        payload,
-        () => setContentStreamCompleted(true),
-        () => setCurrentStreamId(uuid())
-      );
+      const done = await fetchContentStream((message: string) => {
+        setContentStream((prevContent) => [...prevContent, message]);
+      }, payload);
+      if (done) {
+        setContentStreamCompleted(true);
+        setCurrentStreamId(uuid());
+      }
     } catch (error) {
       console.error(error);
     }
@@ -40,7 +39,7 @@ export function useContentStream() {
   };
 
   useEffect(() => {
-    setPrevStreamId(currentStreamId);
+    setPrevStreamId(uuid()); // Jugaad here -> the previous id should be generated from actual previous stream
     setFetchedContent(contentStream);
   }, [contentStreamCompleted]);
 

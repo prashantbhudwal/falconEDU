@@ -3,17 +3,15 @@ import { StreamPayload } from "@/types";
 const ROUTE = "/api/contentStreamOnEdge";
 export default async function fetchContentStream(
   onMessage: any,
-  body: StreamPayload,
-  streamComplete: () => void,
-  setCurrentStreamId: () => void
-) {
+  payload: StreamPayload
+): Promise<boolean> {
   try {
     const response = await fetch(ROUTE, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(body),
+      body: JSON.stringify(payload),
     });
 
     if (!response.body) {
@@ -25,14 +23,9 @@ export default async function fetchContentStream(
 
     while (true) {
       const { done, value } = await reader.read();
-
       if (done) {
-        console.log("Stream has completed");
-        streamComplete();
-        setCurrentStreamId();
-        break;  
+        return done;
       }
-
       const chunk = decoder.decode(value);
       onMessage(chunk);
     }
