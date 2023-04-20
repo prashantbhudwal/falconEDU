@@ -12,6 +12,7 @@ import { topicAtom, subtopicAtom, gradeAtom } from "@/app/atoms/preferences";
 import { StreamPayload } from "@/types";
 import { aidType } from "@/types";
 import useLatestAid from "./useLatestAid";
+import { shouldRegenerateAtom } from "../atoms/lesson";
 
 export function useAid(aidType: aidType) {
   const [topic] = useAtom(topicAtom);
@@ -19,6 +20,7 @@ export function useAid(aidType: aidType) {
   const [grade] = useAtom(gradeAtom);
   const [lessonIdeas] = useAtom(lessonIdeasAtom);
   const [fetchedContent] = useAtom(fetchedContentAtom);
+  const [shouldRegenerate, setShouldRegenerate] = useAtom(shouldRegenerateAtom);
 
   const [contentStreamCompleted, setContentStreamCompleted] = useAtom(
     contentStreamCompletedAtom
@@ -29,8 +31,8 @@ export function useAid(aidType: aidType) {
     useContentStream();
   const latestAid = useLatestAid(aidType);
 
-  useEffect(() => {
-    if (latestAid || topic == "") return;
+  const startStreaming = () => {
+    if ((latestAid && !shouldRegenerate) || topic == "") return;
     if (aidType === "lesson" || "outline") {
       const payload: StreamPayload = {
         topic,
@@ -39,9 +41,11 @@ export function useAid(aidType: aidType) {
         data: aidType === "lesson" ? lessonIdeas : fetchedContent,
         payloadType: aidType,
       };
+      console.log("startStreaming");
       startGeneration(payload);
+      setShouldRegenerate(false);
     }
-  }, [lessonIdeas, grade, topic, subtopic, aidType]);
+  };
 
   useEffect(() => {
     if (
@@ -63,5 +67,6 @@ export function useAid(aidType: aidType) {
 
   return {
     content: contentStream,
+    startStreaming,
   };
 }

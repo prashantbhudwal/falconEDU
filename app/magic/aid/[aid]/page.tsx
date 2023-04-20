@@ -7,16 +7,35 @@ import { useAtom } from "jotai";
 import { useState } from "react";
 import useLatestAid from "@/app/hooks/useLatestAid";
 import { aidType } from "@/types";
+import { useEffect } from "react";
+import { shouldRegenerateAtom } from "@/app/atoms/lesson";
 export default function Page({ params }: { params: { aid: aidType } }) {
   const [showNote, setShowNote] = useState(false);
   const [contentStreamCompleted] = useAtom(contentStreamCompletedAtom);
-  const { content } = useAid(params.aid);
+  const { content, startStreaming } = useAid(params.aid);
   const latestAid = useLatestAid(params.aid);
+  const [shouldRegenerate, setShouldRegenerate] = useAtom(shouldRegenerateAtom);
+
+  useEffect(() => {
+    startStreaming();
+  }, []);
+  useEffect(() => {
+    if (shouldRegenerate) {
+      startStreaming();
+    }
+  }, [shouldRegenerate]);
+
   return (
     <div
       className={`bg-slate-100 text-slate-900 px-8 py-5 rounded-lg shadow-sm shadow-slate-200 max-w-4xl w-full`}
     >
       <AidHeader />
+      {/* <button
+        onClick={() => setShouldRegenerate(true)}
+        className={`text-green-500`}
+      >
+        Regenerate
+      </button> */}
       <p className="leading-7 text-lg pt-8 py-5 whitespace-pre-wrap">
         {contentStreamCompleted ? latestAid : content}
       </p>
