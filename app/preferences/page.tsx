@@ -23,7 +23,7 @@ export default function Home() {
   };
 
   const startPrediction = () => {
-    router.push(`/preferences/predict/${subject}`);
+    router.push(`/preferences/topic/`);
   };
 
   return (
