@@ -17,7 +17,7 @@ const getChapterMessages = (
   return [
     {
       role: "system",
-      content: `I want to teach "Properties of Matter" to grade 6 students in India.  Give me a list of topics to focus on, and make sure that you reply with just the underscore separated values of the topics, each topic starts with a $$ and ends with a $$, and nothing else, no comments, no conclusions, nothing. No adding comments like, here is a list. The response should just have a list and that's it. I am putting this output directly in code, so don't mess it up. No spaces after commas.`,
+      content: `I want to teach "Properties of Matter" to grade 6 students in India.  Give me a list of topics to focus on, and make sure that you reply with just the "Underscore Separated Values" of the topics, each topic starts with a $$ and ends with a $$, and nothing else, no comments, no conclusions, nothing. No adding comments like, here is a list. The response should just have a list and that's it. I am putting this output directly in code, so don't mess it up. No spaces after commas.`,
     },
     {
       role: "assistant",
@@ -25,7 +25,7 @@ const getChapterMessages = (
     },
     {
       role: "user",
-      content: `Okay, perfect format. Now, I want to teach "${subject}" to grade ${grade}, ${board} students in India.  Give me a list of chapters to focus on, in the same format.`,
+      content: `Okay, perfect format. Here is sample output: "$$Value$$_$$Value$$_$$Value$$" Now, I want to teach "${subject}" to grade ${grade}, ${board} students in India.  Give me a list of chapters to focus on, in the same format.`,
     },
   ];
 };
@@ -53,6 +53,7 @@ const getAidRequestPayload = (messages: any) => {
 export async function POST(request: NextRequest) {
   const body: PredictionPayload = await request.json();
   const messages: ChatCompletionRequestMessage[] = getChapterMessages(body);
+  console.log("messages ", messages);
   const aidPayload = getAidRequestPayload(messages);
   const stream = await streamFromOpenAI(aidPayload);
   return new Response(stream);
