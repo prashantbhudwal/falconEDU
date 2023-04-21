@@ -15,6 +15,7 @@ const getRadioButtons = function (
 ) {
   console.log("topics", topics);
   const topicArray = topics
+    .replace(/\n/g, "")
     .replace(/\$\$(?:(?!\$\$|\n).)*\$\$/g, (match) => match.slice(2, -2))
     .split("_");
   console.log("topicArray", topicArray);
@@ -51,14 +52,28 @@ const getRadioButtons = function (
   );
   return optionsGrid;
 };
+import { topicAtom, subtopicAtom } from "@/app/atoms/preferences";
+import { startedAtom } from "@/app/atoms/app";
+import { lessonIdeasAtom } from "@/app/atoms/lesson";
+import { useRouter } from "next/navigation";
 
-export default function Page({ params }: { params: { topic: string } }) {
+export default function Page({ params }: { params: { slug: string } }) {
   const [contentStreamCompleted] = useAtom(contentStreamCompletedAtom);
-  const topic = decodeURIComponent(params.topic.replace(/%20/g, " "));
-  const { content, startStreaming } = usePrediction(topic);
+  const decodedSlug = decodeURIComponent(params.slug.replace(/%20/g, " "));
+  const { content, startStreaming } = usePrediction(decodedSlug);
   const [selectedTopic, setSelectedTopic] = useState("");
   const [topics, setTopics] = useState("");
+  const [topic, setTopic] = useAtom(topicAtom);
+  const [subtopic, setSubtopic] = useAtom(subtopicAtom);
+  const [started, setStarted] = useAtom(startedAtom);
+  const [lessonIdeas, setLessonIdeas] = useAtom(lessonIdeasAtom);
+  const router = useRouter();
 
+  const handleStart = () => {
+    router.push("/merlin");
+    setStarted(true);
+    setLessonIdeas([]);
+  };
   const handleTopicChange = (event: any) => {
     setSelectedTopic(event.target.value);
   };
@@ -85,13 +100,23 @@ export default function Page({ params }: { params: { topic: string } }) {
           className="border-slate-700 rounded-md bg-slate-300 text-black p-4 w-96"
           placeholder="Enter a topic"
         />
-        <button
-          className="bg-emerald-500 ring-1 ring-slate-700 text-slate-700 rounded-md px-8 py-2 text-lg font-medium capitalize disabled:opacity-50"
-          // onClick={}
-          disabled={!selectedTopic}
-        >
-          Next
-        </button>
+        {topic && subtopic ? (
+          <button
+            className="bg-emerald-400 ring-1 ring-slate-700 text-slate-700 rounded-md px-8 py-2 text-lg font-medium capitalize disabled:opacity-50"
+            onClick={handleStart}
+            disabled={!topic || !subtopic}
+          >
+            New Lesson
+          </button>
+        ) : (
+          <button
+            className="bg-emerald-500 ring-1 ring-slate-700 text-slate-700 rounded-md px-8 py-2 text-lg font-medium capitalize disabled:opacity-50"
+            // onClick={}
+            disabled={!selectedTopic}
+          >
+            Next
+          </button>
+        )}
       </div>
 
       {!contentStreamCompleted ? (
