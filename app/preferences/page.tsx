@@ -1,28 +1,15 @@
 "use client";
 import gradeData from "../data/subjects.json";
-
 import { useRouter } from "next/navigation";
 import { useAtom } from "jotai";
-import {
-  boardAtom,
-  topicAtom,
-  subjectAtom,
-  subtopicAtom,
-  gradeAtom,
-} from "../atoms/preferences";
-import { lessonIdeasAtom } from "../atoms/lesson";
-import { startedAtom } from "../atoms/app";
+import { boardAtom, subjectAtom, gradeAtom } from "../atoms/preferences";
 
 export default function Home() {
   const boards = ["CBSE", "ICSE"];
   const router = useRouter();
   const [board, setBoard] = useAtom(boardAtom);
-  const [topic, setTopic] = useAtom(topicAtom);
-  const [subtopic, setSubtopic] = useAtom(subtopicAtom);
   const [subject, setSubject] = useAtom(subjectAtom);
   const [grade, setGrade] = useAtom(gradeAtom);
-  const [lessonIdeas, setLessonIdeas] = useAtom(lessonIdeasAtom);
-  const [started, setStarted] = useAtom(startedAtom);
 
   const handleBoardChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setBoard(e.target.value);
@@ -35,14 +22,15 @@ export default function Home() {
     setSubject(e.target.value);
   };
 
-  const handleStart = () => {
-    router.push("/merlin");
-    setStarted(true);
-    setLessonIdeas([]);
+  const startPrediction = () => {
+    router.push(`/preferences/predict/${subject}`);
   };
 
   return (
     <div className="flex flex-col gap-4 items-center m-4">
+      <div className="text-4xl text-slate-300 mb-6">
+        What are you teaching today?
+      </div>
       <select
         onChange={handleBoardChange}
         value={board}
@@ -84,18 +72,11 @@ export default function Home() {
 
       <div className="flex flex-row gap-4">
         <button
-          className="bg-blue-500 ring-1 ring-slate-700 text-slate-700 rounded-md px-8 py-2 text-lg font-medium capitalize disabled:opacity-50"
-          onClick={() => router.push(`/predict/topic/${subject}`)}
+          className="bg-emerald-500 ring-1 ring-slate-700 text-slate-700 rounded-md px-8 py-2 text-lg font-medium capitalize disabled:opacity-50"
+          onClick={startPrediction}
           disabled={!board || !subject || !grade}
         >
-          Predict
-        </button>
-        <button
-          className="bg-emerald-400 ring-1 ring-slate-700 text-slate-700 rounded-md px-8 py-2 text-lg font-medium capitalize disabled:opacity-50"
-          onClick={handleStart}
-          disabled={!topic || !subtopic || !grade}
-        >
-          New Lesson
+          Next
         </button>
       </div>
     </div>
