@@ -4,9 +4,10 @@ import { useContentStream } from "./useContentStream";
 import { v4 as uuid } from "uuid";
 import { contentStreamCompletedAtom } from "../atoms/lesson";
 import { gradeAtom } from "@/app/atoms/preferences";
-import { PredictionPayload } from "@/types";
+import { PredictionPayload, APIRoute } from "@/types";
 import { shouldRegenerateAtom } from "../atoms/lesson";
 import { boardAtom } from "@/app/atoms/preferences";
+const ROUTE: APIRoute = "/api/predictionOnEdge";
 
 export function usePrediction(node: string) {
   const [grade] = useAtom(gradeAtom);
@@ -16,7 +17,7 @@ export function usePrediction(node: string) {
   );
 
   const { contentStream, startGeneration, currentStreamId, prevStreamId } =
-    useContentStream();
+    useContentStream(ROUTE);
   const [shouldRegenerate, setShouldRegenerate] = useAtom(shouldRegenerateAtom);
 
   const startStreaming = () => {
