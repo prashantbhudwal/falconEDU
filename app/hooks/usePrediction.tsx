@@ -8,10 +8,13 @@ import { PredictionPayload, APIRoute } from "@/types";
 import { shouldRegenerateAtom } from "../atoms/lesson";
 import { boardAtom } from "@/app/atoms/preferences";
 const ROUTE: APIRoute = "/api/predictionOnEdge";
+import { subjectAtom } from "@/app/atoms/preferences";
 
 export function usePrediction(node: string) {
   const [grade] = useAtom(gradeAtom);
   const [board] = useAtom(boardAtom);
+  const [subject] = useAtom(subjectAtom);
+
   const [contentStreamCompleted, setContentStreamCompleted] = useAtom(
     contentStreamCompletedAtom
   );
@@ -23,10 +26,13 @@ export function usePrediction(node: string) {
   const startStreaming = () => {
     if (node == "") return;
     const payload: PredictionPayload = {
-      topic: node,
-      grade,
-      board,
+      subject: subject,
+      grade: grade,
+      board: board,
+      predictionType: "chapter",
+      predictionContent: node,
     };
+    console.log(payload);
     startGeneration(payload);
     setShouldRegenerate(false);
   };
