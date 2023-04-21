@@ -116,13 +116,13 @@ export default function Home() {
           ))}
       </select>
       <div className="flex flex-row gap-4">
-        {/* <button
-          className="bg-emerald-500 ring-1 ring-slate-700 text-slate-700 rounded-md px-8 py-2 text-lg font-medium capitalize"
-          onClick={() => router.push("/chat")}
+        <button
+          className="bg-blue-500 ring-1 ring-slate-700 text-slate-700 rounded-md px-8 py-2 text-lg font-medium capitalize disabled:opacity-50"
+          onClick={() => router.push(`/predict/topic/${topic}`)}
           disabled={!topic || !subtopic || !grade}
         >
-          Mobile
-        </button> */}
+          Predict
+        </button>
         <button
           className="bg-emerald-400 ring-1 ring-slate-700 text-slate-700 rounded-md px-8 py-2 text-lg font-medium capitalize disabled:opacity-50"
           onClick={handleStart}
