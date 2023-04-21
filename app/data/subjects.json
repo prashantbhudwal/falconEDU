@@ -1,0 +1,34 @@
+[
+  {
+    "grade": "1",
+    "subjects": ["English Grammar", "English", "Environmental Studies"]
+  },
+  {
+    "grade": "2",
+    "subjects": ["English Grammar", "English", "Environmental Studies"]
+  },
+  {
+    "grade": "3",
+    "subjects": ["English Grammar", "English", "Environmental Studies"]
+  },
+  {
+    "grade": "4",
+    "subjects": ["English Grammar", "English", "Environmental Studies"]
+  },
+  {
+    "grade": "5",
+    "subjects": ["English Grammar", "English", "Environmental Studies"]
+  },
+  {
+    "grade": "6",
+    "subjects": ["English Grammar", "Science", "Social Science", "English"]
+  },
+  {
+    "grade": "7",
+    "subjects": ["English Grammar", "Science", "Social Science", "English"]
+  },
+  {
+    "grade": "8",
+    "subjects": ["English Grammar", "Science", "Social Science", "English"]
+  }
+]
