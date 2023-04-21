@@ -1,5 +1,6 @@
 "use client";
-import grades from "../data/grades.json";
+import gradeData from "../data/subjects.json";
+
 import { useRouter } from "next/navigation";
 import { useAtom } from "jotai";
 import {
@@ -14,7 +15,6 @@ import { startedAtom } from "../atoms/app";
 
 export default function Home() {
   const boards = ["CBSE", "ICSE"];
-  const subjects = ["Science", "English Grammar"];
   const router = useRouter();
   const [board, setBoard] = useAtom(boardAtom);
   const [topic, setTopic] = useAtom(topicAtom);
@@ -31,13 +31,6 @@ export default function Home() {
     setGrade(e.target.value);
   };
 
-  const handleChapterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setTopic(e.target.value);
-  };
-
-  const handleTopicChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSubtopic(e.target.value);
-  };
   const handleSubjectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSubject(e.target.value);
   };
@@ -68,8 +61,8 @@ export default function Home() {
         className="border-slate-700 rounded-md bg-slate-300 text-black p-4 w-96"
       >
         <option value="">Grade</option>
-        {grades.map((g) => (
-          <option key={g.id} value={g.grade}>
+        {gradeData.map((g) => (
+          <option key={g.grade} value={g.grade}>
             Grade {g.grade}
           </option>
         ))}
@@ -80,46 +73,20 @@ export default function Home() {
         className="border-slate-700 rounded-md bg-slate-300 text-black p-4 w-96"
       >
         <option value="">Subject</option>
-        {subjects.map((s) => (
-          <option key={s} value={s}>
-            {s}
-          </option>
-        ))}
-      </select>
-      <select
-        onChange={handleChapterChange}
-        value={topic}
-        className="border-slate-700 rounded-md bg-slate-300 text-black p-4 w-96"
-      >
-        <option value="">Chapter</option>
-        {grades
+        {gradeData
           .find((g) => g.grade === grade)
-          ?.chapters.map((c) => (
-            <option key={c.id} value={c.name}>
-              {c.name}
+          ?.subjects.map((s) => (
+            <option key={s} value={s}>
+              {s}
             </option>
           ))}
       </select>
-      <select
-        onChange={handleTopicChange}
-        value={subtopic}
-        className="border-slate-700 rounded-md bg-slate-300 text-black p-4 w-96"
-      >
-        <option value="">Topic</option>
-        {grades
-          .find((g) => g.grade === grade)
-          ?.chapters.find((c) => c.name === topic)
-          ?.topics.map((t) => (
-            <option key={t.id} value={t.name}>
-              {t.name}
-            </option>
-          ))}
-      </select>
+
       <div className="flex flex-row gap-4">
         <button
           className="bg-blue-500 ring-1 ring-slate-700 text-slate-700 rounded-md px-8 py-2 text-lg font-medium capitalize disabled:opacity-50"
           onClick={() => router.push(`/predict/topic/${subject}`)}
-          disabled={!topic || !subtopic || !grade}
+          disabled={!board || !subject || !grade}
         >
           Predict
         </button>
