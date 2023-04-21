@@ -13,8 +13,8 @@ import { lessonIdeasAtom } from "../atoms/lesson";
 import { startedAtom } from "../atoms/app";
 
 export default function Home() {
-  const boards = ["NCERT"];
-  const subjects = ["Science"];
+  const boards = ["CBSE", "ICSE"];
+  const subjects = ["Science", "English Grammar"];
   const router = useRouter();
   const [board, setBoard] = useAtom(boardAtom);
   const [topic, setTopic] = useAtom(topicAtom);
@@ -118,7 +118,7 @@ export default function Home() {
       <div className="flex flex-row gap-4">
         <button
           className="bg-blue-500 ring-1 ring-slate-700 text-slate-700 rounded-md px-8 py-2 text-lg font-medium capitalize disabled:opacity-50"
-          onClick={() => router.push(`/predict/topic/${topic}`)}
+          onClick={() => router.push(`/predict/topic/${subject}`)}
           disabled={!topic || !subtopic || !grade}
         >
           Predict
