@@ -9,10 +9,11 @@ import {
   teachingAidsAtom,
 } from "../atoms/lesson";
 import { topicAtom, subtopicAtom, gradeAtom } from "@/app/atoms/preferences";
-import { StreamPayload } from "@/types";
+import { APIRoute, StreamPayload } from "@/types";
 import { aidType } from "@/types";
 import useLatestAid from "./useLatestAid";
 import { shouldRegenerateAtom } from "../atoms/lesson";
+const ROUTE: APIRoute = "/api/contentStreamOnEdge";
 
 export function useAid(aidType: aidType) {
   const [topic] = useAtom(topicAtom);
@@ -28,7 +29,7 @@ export function useAid(aidType: aidType) {
   const [teachingAids, setTeachingAids] = useAtom(teachingAidsAtom);
 
   const { contentStream, startGeneration, currentStreamId, prevStreamId } =
-    useContentStream();
+    useContentStream(ROUTE);
   const latestAid = useLatestAid(aidType);
 
   const startStreaming = () => {
