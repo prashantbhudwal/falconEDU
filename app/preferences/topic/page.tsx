@@ -5,16 +5,17 @@ import { contentStreamCompletedAtom } from "@/app/atoms/lesson";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
 import { shouldRegenerateAtom } from "@/app/atoms/lesson";
-import PredictionGrid from "../../PredictionGrid";
+import PredictionGrid from "../PredictionGrid";
 import { topicAtom, subtopicAtom } from "@/app/atoms/preferences";
 import { startedAtom } from "@/app/atoms/app";
 import { lessonIdeasAtom } from "@/app/atoms/lesson";
 import { useRouter } from "next/navigation";
+import { subjectAtom } from "../../atoms/preferences";
 
 export default function Page({ params }: { params: { slug: string } }) {
   const [contentStreamCompleted] = useAtom(contentStreamCompletedAtom);
-  const decodedSlug = decodeURIComponent(params.slug.replace(/%20/g, " "));
-  const { content, startStreaming } = usePrediction(decodedSlug);
+  const [subject] = useAtom(subjectAtom);
+  const { content, startStreaming } = usePrediction(subject);
   const [selectedTopic, setSelectedTopic] = useState("");
   const [allContent, setAllContent] = useState([""]);
   const [topic, setTopic] = useAtom(topicAtom);
