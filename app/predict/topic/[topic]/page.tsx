@@ -13,10 +13,11 @@ const getRadioButtons = function (
   selectedTopic: string,
   handleTopicChange: (event: any) => void
 ) {
+  console.log("topics", topics);
   const topicArray = topics
-    .replace(/\$\$(?:(?!\$\$).)*\$\$/g, (match) => match.slice(2, -2))
+    .replace(/\$\$(?:(?!\$\$|\n).)*\$\$/g, (match) => match.slice(2, -2))
     .split("_");
-
+  console.log("topicArray", topicArray);
   const topicRadioButtons = topicArray.map((topic, index) => (
     <label
       key={index}
@@ -85,7 +86,7 @@ export default function Page({ params }: { params: { topic: string } }) {
           placeholder="Enter a topic"
         />
         <button
-          className="bg-emerald-400 ring-1 ring-slate-700 text-slate-700 rounded-md px-8 py-2 text-lg font-medium capitalize disabled:opacity-50"
+          className="bg-emerald-500 ring-1 ring-slate-700 text-slate-700 rounded-md px-8 py-2 text-lg font-medium capitalize disabled:opacity-50"
           // onClick={}
           disabled={!selectedTopic}
         >
