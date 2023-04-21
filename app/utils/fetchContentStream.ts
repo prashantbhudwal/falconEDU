@@ -1,12 +1,13 @@
 import { StreamPayload, PredictionPayload } from "@/types";
+import { APIRoute } from "@/types";
 
-const ROUTE = "/api/contentStreamOnEdge";
 export default async function fetchContentStream(
   onMessage: any,
-  payload: StreamPayload | PredictionPayload
+  payload: StreamPayload | PredictionPayload,
+  route: APIRoute
 ): Promise<boolean> {
   try {
-    const response = await fetch(ROUTE, {
+    const response = await fetch(route, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
