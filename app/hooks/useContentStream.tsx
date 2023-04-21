@@ -7,9 +7,9 @@ import {
   contentStreamAtom,
 } from "@/app/atoms/lesson";
 import fetchContentStream from "@/app/utils/fetchContentStream";
-import { aidType, PredictionPayload, StreamPayload } from "@/types";
+import { aidType, APIRoute, PredictionPayload, StreamPayload } from "@/types";
 
-export function useContentStream() {
+export function useContentStream(apiRoute: APIRoute) {
   const [currentStreamId, setCurrentStreamId] = useState<string>("");
   const [prevStreamId, setPrevStreamId] = useState<string>("");
   const [contentStream, setContentStream] = useAtom(contentStreamAtom);
@@ -20,9 +20,13 @@ export function useContentStream() {
 
   const fetchData = async (payload: StreamPayload | PredictionPayload) => {
     try {
-      const done = await fetchContentStream((message: string) => {
-        setContentStream((prevContent) => [...prevContent, message]);
-      }, payload);
+      const done = await fetchContentStream(
+        (message: string) => {
+          setContentStream((prevContent) => [...prevContent, message]);
+        },
+        payload,
+        apiRoute
+      );
       if (done) {
         setContentStreamCompleted(true);
         setCurrentStreamId(uuid());
