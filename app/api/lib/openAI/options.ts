@@ -16,7 +16,7 @@ export const lessonOptions: OpenAIOptions = {
 
 export const predictionOptions: OpenAIOptions = {
   MODEL: "gpt-3.5-turbo",
-  TEMPERATURE: 0.5,
+  TEMPERATURE: 0,
   MAX_TOKENS: 500,
   N: 1,
   STREAM: true,
