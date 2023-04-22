@@ -10,6 +10,8 @@ export type StreamPayload = {
 };
 
 export type IdeaStreamPayload = {
+  board: string;
+  subject: string;
   topic: string;
   subtopic: string;
   grade: string;
