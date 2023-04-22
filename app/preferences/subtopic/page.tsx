@@ -4,23 +4,21 @@ import { usePrediction } from "@/app/hooks/usePrediction";
 import { contentStreamCompletedAtom } from "@/app/atoms/lesson";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
-import { shouldRegenerateAtom } from "@/app/atoms/lesson";
 import PredictionGrid from "../PredictionGrid";
 import { topicAtom, subtopicAtom } from "@/app/atoms/preferences";
 import { startedAtom } from "@/app/atoms/app";
 import { lessonIdeasAtom } from "@/app/atoms/lesson";
 import { useRouter } from "next/navigation";
-import { subjectAtom } from "../../atoms/preferences";
 
 export default function Page() {
   const [contentStreamCompleted] = useAtom(contentStreamCompletedAtom);
-  const [topic, setTopic] = useAtom(topicAtom);
-  const { content, startStreaming } = usePrediction(topic);
+  const [topic] = useAtom(topicAtom);
   const [allContent, setAllContent] = useState([""]);
   const [subtopic, setSubtopic] = useAtom(subtopicAtom);
-  const [started, setStarted] = useAtom(startedAtom);
-  const [lessonIdeas, setLessonIdeas] = useAtom(lessonIdeasAtom);
+  const [_, setStarted] = useAtom(startedAtom);
+  const [__, setLessonIdeas] = useAtom(lessonIdeasAtom);
   const router = useRouter();
+  const { content, startStreaming } = usePrediction(topic, "predictSubtopics");
 
   const handleStart = () => {
     router.push("/merlin");
