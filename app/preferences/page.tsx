@@ -34,9 +34,6 @@ export default function Home() {
 
   return (
     <div className="flex flex-col gap-4 items-center m-4">
-      <div className="text-4xl text-slate-300 mb-6">
-        What are you teaching today?
-      </div>
       <select
         onChange={handleBoardChange}
         value={board}
