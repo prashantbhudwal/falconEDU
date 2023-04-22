@@ -22,16 +22,16 @@ export default function PredictionGrid({
 
   return (
     <div className="flex flex-col items-center gap-4">
-      <div className="text-xl text-slate-600">Or just select one...</div>
+      <div className="text-xl text-slate-500">Or just select one...</div>
       <div className="flex flex-row gap-2 flex-wrap w-4/5 justify-center">
         {contentArray.map((topic, index) => (
           <label
             key={index}
             htmlFor={`topic-${index}`}
-            className={`py-3 px-6 w-96 rounded-full cursor-pointer shadow-md shadow-slate-800 ${
+            className={`py-3 px-6 w-96 rounded-full cursor-pointer ${
               selectedOption === topic
-                ? "bg-emerald-500 text-slate-900"
-                : "bg-slate-300 text-slate-900"
+                ? "bg-emerald-500 text-slate-800"
+                : "bg-slate-800 text-slate-300"
             }`}
           >
             <input
