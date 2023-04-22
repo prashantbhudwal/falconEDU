@@ -26,11 +26,12 @@ export function usePrediction(node: string) {
   const startStreaming = () => {
     if (node == "") return;
     const payload: PredictionPayload = {
-      subject: subject,
-      grade: grade,
-      board: board,
-      predictionType: "chapter",
-      predictionContent: node,
+      action: "predictChapters",
+      data: {
+        subject: subject,
+        grade: grade,
+        board: board,
+      },
     };
     console.log(payload);
     startGeneration(payload);
