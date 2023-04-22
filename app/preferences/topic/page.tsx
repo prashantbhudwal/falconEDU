@@ -8,7 +8,8 @@ import PredictionGrid from "../PredictionGrid";
 import { topicAtom, subtopicAtom } from "@/app/atoms/preferences";
 import { useRouter } from "next/navigation";
 import { gradeAtom, boardAtom, subjectAtom } from "@/app/atoms/preferences";
-
+import TextInput from "../TextInput";
+import Button from "../../components/Button";
 export default function Page() {
   const [contentStreamCompleted] = useAtom(contentStreamCompletedAtom);
   const [subject] = useAtom(subjectAtom);
@@ -39,21 +40,17 @@ export default function Page() {
   return (
     <div className="flex flex-col gap-6 items-center m-4">
       <div className="mt-4 flex gap-2">
-        <input
-          type="text"
-          id="inputText"
+        <TextInput
           value={topic}
           onChange={handleTopicChange}
-          className="border-slate-700 rounded-md bg-slate-300 text-black p-4 w-96"
           placeholder="Enter a chapter..."
         />
-        <button
-          className="bg-emerald-500 ring-1 ring-slate-700 text-slate-700 rounded-md px-8 py-2 text-lg font-medium capitalize disabled:opacity-50"
+        <Button
           onClick={() => router.push("/preferences/subtopic")}
           disabled={!topic}
         >
           Next
-        </button>
+        </Button>
       </div>
 
       {!contentStreamCompleted ? (
