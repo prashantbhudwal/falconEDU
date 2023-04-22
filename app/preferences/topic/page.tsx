@@ -19,12 +19,12 @@ export default function Page() {
   const [topic, setTopic] = useAtom(topicAtom);
   const router = useRouter();
   const { content, startStreaming } = usePrediction(subject, "predictChapters");
-
   const handleTopicChange = (event: any) => {
     setTopic(event.target.value);
   };
 
   useEffect(() => {
+    setTopic("");
     startStreaming();
   }, []);
 
@@ -43,7 +43,7 @@ export default function Page() {
           value={topic}
           onChange={handleTopicChange}
           className="border-slate-700 rounded-md bg-slate-300 text-black p-4 w-96"
-          placeholder="Enter a topic"
+          placeholder="Enter a chapter..."
         />
         <button
           className="bg-emerald-500 ring-1 ring-slate-700 text-slate-700 rounded-md px-8 py-2 text-lg font-medium capitalize disabled:opacity-50"

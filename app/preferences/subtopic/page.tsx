@@ -30,6 +30,7 @@ export default function Page() {
   };
 
   useEffect(() => {
+    setSubtopic("");
     startStreaming();
   }, []);
 
@@ -48,7 +49,7 @@ export default function Page() {
           value={subtopic}
           onChange={handleChange}
           className="border-slate-700 rounded-md bg-slate-300 text-black p-4 w-96"
-          placeholder="Enter a topic"
+          placeholder="Enter any topic..."
         />
 
         <button
