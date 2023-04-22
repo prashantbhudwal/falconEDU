@@ -8,7 +8,7 @@ const getTitle = (pathname: string) => {
     case "/preferences/topic":
       return "What chapter are you teaching?";
     case "/preferences/subtopic":
-      return "What topic are you teaching?";
+      return "What topic are you focusing on?";
     default:
       return "What are you teaching today?";
   }
@@ -22,8 +22,8 @@ export default function PreferencesLayout({
   const pathname = usePathname();
 
   return (
-    <div className="flex flex-col gap-4 items-center mt-7">
-      <div className="text-4xl text-slate-400">{getTitle(pathname)}</div>
+    <div className="flex flex-col gap-8 items-center mt-7">
+      <div className="text-4xl text-emerald-500">{getTitle(pathname)}</div>
       {children}
     </div>
   );
