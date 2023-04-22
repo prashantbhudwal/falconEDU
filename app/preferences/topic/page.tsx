@@ -38,8 +38,8 @@ export default function Page() {
   }, [contentStreamCompleted]);
 
   return (
-    <div className="flex flex-col gap-6 items-center m-4">
-      <div className="mt-4 flex gap-2">
+    <div className="flex flex-col gap-10 items-center m-4">
+      <div className="flex gap-3">
         <TextInput
           value={topic}
           onChange={handleTopicChange}
