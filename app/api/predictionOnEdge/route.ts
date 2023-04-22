@@ -3,34 +3,17 @@ import { ChatCompletionRequestMessage } from "openai";
 import { streamFromOpenAI } from "../lib/openAI";
 import { predictionOptions } from "../lib/openAI/options";
 import { PredictionPayload } from "@/types";
+import {
+  getChapterMessages,
+  getSubtopicMessages,
+} from "../lib/predictionChatGenerator";
 export const config = {
   runtime: "edge",
 };
 // This is required to enable streaming
 export const dynamic = "force-dynamic";
 
-const getChapterMessages = (
-  payload: PredictionPayload
-): ChatCompletionRequestMessage[] => {
-  const { grade, subject, board } = payload;
-  console.log("board ", board);
-  return [
-    {
-      role: "system",
-      content: `I want to teach "Properties of Matter" to grade 6 students in India.  Give me a list of topics to focus on, and make sure that you reply with just the "Underscore Separated Values" of the topics, each topic starts with a $$ and ends with a $$, and nothing else, no comments, no conclusions, nothing. No adding comments like, here is a list. The response should just have a list and that's it. I am putting this output directly in code, so don't mess it up. No spaces after commas.`,
-    },
-    {
-      role: "assistant",
-      content: `$$States of matter$$_$$Physical and chemical properties of matter$$_$$Density and buoyancy$$_$$Solids, liquids, gases and plasma$$_$$Changes in states of matter (melting, freezing, boiling)$$_$$Mixtures and solutions$$`,
-    },
-    {
-      role: "user",
-      content: `Okay, perfect format. Here is sample output: "$$Value$$_$$Value$$_$$Value$$" Now, I want to teach "${subject}" to grade ${grade}, ${board} students in India.  Give me a list of chapters to focus on, in the same format.`,
-    },
-  ];
-};
-
-const getAidRequestPayload = (messages: any) => {
+const getRequestPayload = (messages: any) => {
   const { MODEL, TEMPERATURE, MAX_TOKENS, STREAM } = predictionOptions;
   const requestOptions = {
     method: "POST",
@@ -52,24 +35,17 @@ const getAidRequestPayload = (messages: any) => {
 
 export async function POST(request: NextRequest) {
   const body: PredictionPayload = await request.json();
-  const messages: ChatCompletionRequestMessage[] = getChapterMessages(body);
-  console.log("messages ", messages);
-  const aidPayload = getAidRequestPayload(messages);
+  const { action } = body;
+  let messages: ChatCompletionRequestMessage[] = [];
+  switch (action) {
+    case "predictChapters":
+      messages = getChapterMessages(body);
+    case "predictSubtopics":
+      messages = getSubtopicMessages(body);
+    default:
+      messages = [];
+  }
+  const aidPayload = getRequestPayload(messages);
   const stream = await streamFromOpenAI(aidPayload);
   return new Response(stream);
 }
-
-// [
-//     {
-//       role: "system",
-//       content: `I want to teach "Properties of Matter" to grade 6 students in India.  Give me a list of topics to focus on, and make sure that you reply with just the underscore separated values of the topics, each topic starts with a $$ and ends with a $$, and nothing else, no comments, no conclusions, nothing. No adding comments like, here is a list. The response should just have a list and that's it. I am putting this output directly in code, so don't mess it up. No spaces after commas.`,
-//     },
-//     {
-//       role: "assistant",
-//       content: `$$States of matter$$_$$Physical and chemical properties of matter$$_$$Density and buoyancy$$_$$Solids, liquids, gases and plasma$$_$$Changes in states of matter (melting, freezing, boiling)$$_$$Mixtures and solutions$$`,
-//     },
-//     {
-//       role: "user",
-//       content: `Okay, perfect format. I am a ${board} teacher teaching "${topic}" from Science to "Grade ${grade}" students. Give me a list of topics to focus on, in the same format.`,
-//     },
-//   ];
