@@ -4,11 +4,27 @@ import { usePathname } from "next/navigation";
 const getTitle = (pathname: string) => {
   switch (pathname) {
     case "/preferences":
-      return "What are you teaching today?";
+      return <>What are you teaching today?</>;
     case "/preferences/topic":
-      return "What chapter are you teaching?";
+      return (
+        <>
+          What{" "}
+          <span className=" underline underline-offset-8 decoration-emerald-500">
+            chapter
+          </span>{" "}
+          are you focusing on?
+        </>
+      );
     case "/preferences/subtopic":
-      return "What topic are you focusing on?";
+      return (
+        <>
+          What{" "}
+          <span className=" underline underline-offset-8 decoration-emerald-500">
+            topic
+          </span>{" "}
+          are you focusing on?
+        </>
+      );
     default:
       return "What are you teaching today?";
   }
@@ -23,7 +39,7 @@ export default function PreferencesLayout({
 
   return (
     <div className="flex flex-col gap-8 items-center mt-7">
-      <div className="text-4xl text-emerald-500">{getTitle(pathname)}</div>
+      <div className="text-4xl text-slate-300">{getTitle(pathname)}</div>
       {children}
     </div>
   );
