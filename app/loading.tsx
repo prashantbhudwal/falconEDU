@@ -1,6 +1,6 @@
 export default function Loading() {
   return (
-    <div className="bg-slate-900 text-slate-900 px-5 py-3 rounded-lg ring-2 ring-emerald-500 shadow-emerald-500 w-screen h-5/6">
+    <div className="bg-slate-900 text-slate-900 px-5 py-3 rounded-lg w-screen h-screen">
       <div className="animate-pulse flex flex-col items-center gap-4">
         <div className="w-full h-6 bg-slate-900 rounded-full animate-pulse"></div>
         <div className="w-full h-48 bg-slate-900 rounded-lg animate-pulse">
