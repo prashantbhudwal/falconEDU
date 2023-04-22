@@ -17,7 +17,7 @@ const TextInput: React.FC<TextInputProps> = ({
       type="text"
       value={value}
       onChange={onChange}
-      className="border-slate-700 rounded-md bg-slate-300 text-black p-4 w-96"
+      className="border-slate-700 rounded-md bg-slate-300 text-slate-900 px-6 py-4 w-96 text-xl "
       placeholder={placeholder}
     />
   );
