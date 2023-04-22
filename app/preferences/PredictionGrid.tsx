@@ -11,6 +11,9 @@ export default function PredictionGrid({
 }: PredictionGridProps) {
   const contentString = content.join("");
   console.log("topics", contentString);
+
+  const contentWithoutNewLines = contentString.replace(/\n/g, "");
+  console.log(contentWithoutNewLines);
   const contentArray = contentString
     .replace(/\n/g, "")
     .replace(/\$\$(?:(?!\$\$|\n).)*\$\$/g, (match) => match.slice(2, -2))
