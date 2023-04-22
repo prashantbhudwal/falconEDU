@@ -9,7 +9,7 @@ import { topicAtom, subtopicAtom } from "@/app/atoms/preferences";
 import { startedAtom } from "@/app/atoms/app";
 import { lessonIdeasAtom } from "@/app/atoms/lesson";
 import { useRouter } from "next/navigation";
-
+import { gradeAtom, boardAtom, subjectAtom } from "@/app/atoms/preferences";
 export default function Page() {
   const [contentStreamCompleted] = useAtom(contentStreamCompletedAtom);
   const [topic] = useAtom(topicAtom);
@@ -19,6 +19,13 @@ export default function Page() {
   const [__, setLessonIdeas] = useAtom(lessonIdeasAtom);
   const router = useRouter();
   const { content, startStreaming } = usePrediction(topic, "predictSubtopics");
+  const [board] = useAtom(boardAtom);
+  const [subject] = useAtom(subjectAtom);
+  const [grade] = useAtom(gradeAtom);
+
+  if (board === "" || subject === "" || grade === "") {
+    router.push("/preferences");
+  }
 
   const handleStart = () => {
     router.push("/merlin");

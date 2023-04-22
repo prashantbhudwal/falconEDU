@@ -4,13 +4,10 @@ import { usePrediction } from "@/app/hooks/usePrediction";
 import { contentStreamCompletedAtom } from "@/app/atoms/lesson";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
-import { shouldRegenerateAtom } from "@/app/atoms/lesson";
 import PredictionGrid from "../PredictionGrid";
 import { topicAtom, subtopicAtom } from "@/app/atoms/preferences";
-import { startedAtom } from "@/app/atoms/app";
-import { lessonIdeasAtom } from "@/app/atoms/lesson";
 import { useRouter } from "next/navigation";
-import { subjectAtom } from "../../atoms/preferences";
+import { gradeAtom, boardAtom, subjectAtom } from "@/app/atoms/preferences";
 
 export default function Page() {
   const [contentStreamCompleted] = useAtom(contentStreamCompletedAtom);
@@ -19,6 +16,11 @@ export default function Page() {
   const [topic, setTopic] = useAtom(topicAtom);
   const router = useRouter();
   const { content, startStreaming } = usePrediction(subject, "predictChapters");
+  const [board] = useAtom(boardAtom);
+  const [grade] = useAtom(gradeAtom);
+  if (board === "" || subject === "" || grade === "") {
+    router.push("/preferences");
+  }
   const handleTopicChange = (event: any) => {
     setTopic(event.target.value);
   };
