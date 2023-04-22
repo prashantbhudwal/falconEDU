@@ -14,11 +14,11 @@ function getFormatEngineeredMessages(): ChatCompletionRequestMessage[] {
     },
     {
       role: "user",
-      content: `Always answer in "Underscore Separated Values", each value starts with a $$ and ends with a $$, and nothing else, no comments, no conclusions, nothing. No adding comments like, here is a list. The response should just have a list and that's it. That is your responses are always continuous strings. For example: "$$Topic1$$_$$Topic2$$_$$Topic3$$_$$Topic4$$". Show me you know the format by giving me any four topics.`,
+      content: `Always answer in "Underscore Separated Values", each value starts with a $$ and ends with a $$, and nothing else, no comments, no conclusions, nothing. No adding comments like, here is a list. The response should just have a list and that's it. That is your responses are always continuous strings. For example: "$$Topic 1$$_$$Topic 2$$_$$Topic 3$$_$$Topic 4$$". Show me you know the format by giving me any four topics.`,
     },
     {
       role: "assistant",
-      content: `$$Topic1$$_$$Topic2$$_$$Topic3$$_$$Topic4$$`,
+      content: `$$Topic 1$$_$$Topic 2$$_$$Topic 3$$_$$Topic 4$$`,
     },
   ];
 }
