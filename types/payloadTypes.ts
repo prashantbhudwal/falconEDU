@@ -17,7 +17,7 @@ export type IdeaStreamPayload = {
 };
 
 export type PredictionPayload = {
-  action: string;
+  action: PredictionAction;
   data: {
     board: string;
     grade: string;
@@ -26,3 +26,5 @@ export type PredictionPayload = {
     subtopic?: string;
   };
 };
+
+export type PredictionAction = "predictChapters" | "predictSubtopics";
