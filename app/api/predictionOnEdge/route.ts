@@ -40,8 +40,10 @@ export async function POST(request: NextRequest) {
   switch (action) {
     case "predictChapters":
       messages = getChapterMessages(body);
+      break;
     case "predictSubtopics":
       messages = getSubtopicMessages(body);
+      break;
     default:
       messages = [];
   }
