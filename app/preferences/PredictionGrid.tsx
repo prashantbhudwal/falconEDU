@@ -10,25 +10,25 @@ export default function PredictionGrid({
   handleChange,
 }: PredictionGridProps) {
   const contentString = content.join("");
-  console.log("topics", contentString);
+  // console.log("topics", contentString);
 
   const contentWithoutNewLines = contentString.replace(/\n/g, "");
-  console.log(contentWithoutNewLines);
+  // console.log(contentWithoutNewLines);
   const contentArray = contentString
     .replace(/\n/g, "")
     .replace(/\$\$(?:(?!\$\$|\n).)*\$\$/g, (match) => match.slice(2, -2))
     .split("_");
-  console.log("topicArray", contentArray);
+  // console.log("topicArray", contentArray);
 
   return (
-    <div className="flex flex-col items-center gap-4">
+    <div className="flex flex-col items-center gap-4 mt-6">
       <div className="text-xl text-slate-400">Or just select one...</div>
       <div className="flex flex-row gap-2 flex-wrap w-4/5 justify-center">
         {contentArray.map((topic, index) => (
           <label
             key={index}
             htmlFor={`topic-${index}`}
-            className={`p-3 w-96 border rounded cursor-pointer ${
+            className={`py-3 px-6 w-96 border rounded-full cursor-pointer shadow-md shadow-slate-800 ${
               selectedOption === topic
                 ? "bg-emerald-500 text-slate-900"
                 : "bg-slate-300 text-slate-900"
