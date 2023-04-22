@@ -5,6 +5,7 @@ import { useAtom } from "jotai";
 import { boardAtom, subjectAtom, gradeAtom } from "../atoms/preferences";
 import useDesktop from "../hooks/useDesktop";
 import DesktopOnly from "../components/DesktopOnly";
+import Button from "../components/Button";
 export default function Home() {
   const boards = ["CBSE", "ICSE"];
   const router = useRouter();
@@ -33,7 +34,7 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col gap-4 items-center m-4">
+    <div className="flex flex-col gap-5 items-center m-4">
       <select
         onChange={handleBoardChange}
         value={board}
@@ -73,15 +74,9 @@ export default function Home() {
           ))}
       </select>
 
-      <div className="flex flex-row gap-4">
-        <button
-          className="bg-emerald-500 ring-1 ring-slate-700 text-slate-700 rounded-md px-8 py-2 text-lg font-medium capitalize disabled:opacity-50"
-          onClick={startPrediction}
-          disabled={!board || !subject || !grade}
-        >
-          Next
-        </button>
-      </div>
+      <Button onClick={startPrediction} disabled={!board || !subject || !grade}>
+        Next
+      </Button>
     </div>
   );
 }
