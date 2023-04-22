@@ -15,10 +15,10 @@ import { subjectAtom } from "../../atoms/preferences";
 export default function Page() {
   const [contentStreamCompleted] = useAtom(contentStreamCompletedAtom);
   const [subject] = useAtom(subjectAtom);
-  const { content, startStreaming } = usePrediction(subject);
   const [allContent, setAllContent] = useState([""]);
   const [topic, setTopic] = useAtom(topicAtom);
   const router = useRouter();
+  const { content, startStreaming } = usePrediction(subject, "predictChapters");
 
   const handleTopicChange = (event: any) => {
     setTopic(event.target.value);
