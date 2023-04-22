@@ -103,12 +103,12 @@ export default function Canvas({ className }: { className?: string }) {
       }`}
     >
       <header className="font-medium text-emerald-500 border-b border-solid border-emerald-700 pb-2 flex flex-row justify-between w-full items-center">
-        <div className="text-sm text-left text-emerald-600">
+        <div className="text-left text-emerald-600">
           {`Grade ${grade}`}
-          <p>{subject}</p>
+          <p className="text-sm w-10">{subject}</p>
         </div>
-        <div className="text-center">
-          <h1 className="text-3xl">{subtopic}</h1>
+        <div className="text-center max-w-xl">
+          <h1 className="text-2xl">{subtopic}</h1>
           <p className=" text-lg  text-slate-600">{topic}</p>
         </div>
         <div className="text-sm text-left text-emerald-600">{board}</div>
