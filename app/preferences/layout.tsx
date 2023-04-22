@@ -38,7 +38,7 @@ export default function PreferencesLayout({
   const pathname = usePathname();
 
   return (
-    <div className="flex flex-col gap-8 items-center mt-7">
+    <div className="flex flex-col gap-10 items-center mt-7">
       <div className="text-4xl text-slate-300">{getTitle(pathname)}</div>
       {children}
     </div>
