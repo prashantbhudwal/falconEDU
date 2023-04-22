@@ -17,9 +17,12 @@ export type IdeaStreamPayload = {
 };
 
 export type PredictionPayload = {
-  board: string;
-  subject: string;
-  grade: string;
-  predictionType: string;
-  predictionContent: string;
+  action: string;
+  data: {
+    board: string;
+    grade: string;
+    subject: string;
+    topic?: string;
+    subtopic?: string;
+  };
 };
