@@ -4,7 +4,15 @@ import { usePathname } from "next/navigation";
 const getTitle = (pathname: string) => {
   switch (pathname) {
     case "/preferences":
-      return <>What are you teaching today?</>;
+      return (
+        <>
+          What are you{" "}
+          <span className=" underline underline-offset-8 decoration-emerald-500">
+            teaching
+          </span>{" "}
+          today?
+        </>
+      );
     case "/preferences/topic":
       return (
         <>
