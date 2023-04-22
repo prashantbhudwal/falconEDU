@@ -3,13 +3,19 @@ import gradeData from "../data/subjects.json";
 import { useRouter } from "next/navigation";
 import { useAtom } from "jotai";
 import { boardAtom, subjectAtom, gradeAtom } from "../atoms/preferences";
-
+import useDesktop from "../hooks/useDesktop";
+import DesktopOnly from "../components/DesktopOnly";
 export default function Home() {
   const boards = ["CBSE", "ICSE"];
   const router = useRouter();
   const [board, setBoard] = useAtom(boardAtom);
   const [subject, setSubject] = useAtom(subjectAtom);
   const [grade, setGrade] = useAtom(gradeAtom);
+
+  const isDesktop = useDesktop();
+  if (!isDesktop) {
+    return <DesktopOnly />;
+  }
 
   const handleBoardChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setBoard(e.target.value);
