@@ -19,9 +19,11 @@ export default function Page() {
   const { content, startStreaming } = usePrediction(subject, "predictChapters");
   const [board] = useAtom(boardAtom);
   const [grade] = useAtom(gradeAtom);
-  if (board === "" || subject === "" || grade === "") {
-    router.push("/preferences");
-  }
+  useEffect(() => {
+    if (board === "" || subject === "" || grade === "") {
+      router.push("/preferences");
+    }
+  }, [board, subject, grade, router]);
   const handleTopicChange = (event: any) => {
     setTopic(event.target.value);
   };
