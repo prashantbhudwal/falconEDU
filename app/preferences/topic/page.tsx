@@ -19,6 +19,8 @@ export default function Page() {
   const { content, startStreaming } = usePrediction(subject, "predictChapters");
   const [board] = useAtom(boardAtom);
   const [grade] = useAtom(gradeAtom);
+
+  //Todo Replace this with a custom hook
   useEffect(() => {
     if (board === "" || subject === "" || grade === "") {
       router.push("/preferences");
