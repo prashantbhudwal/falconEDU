@@ -25,9 +25,13 @@ export default function Page() {
   const [subject] = useAtom(subjectAtom);
   const [grade] = useAtom(gradeAtom);
 
+useEffect(() => {
   if (board === "" || subject === "" || grade === "") {
     router.push("/preferences");
   }
+}, [board, subject, grade, router]);
+
+
 
   const handleStart = () => {
     router.push("/merlin");
