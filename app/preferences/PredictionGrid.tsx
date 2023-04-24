@@ -1,3 +1,5 @@
+import { motion } from "framer-motion";
+
 type PredictionGridProps = {
   content: string[];
   selectedOption: string;
@@ -23,9 +25,10 @@ export default function PredictionGrid({
   return (
     <div className="flex flex-col items-center gap-4">
       <div className="text-xl text-slate-500">Or just select one...</div>
-      <div className="flex flex-row gap-2 flex-wrap w-4/5 justify-center">
+      <div className="flex flex-row gap-3 flex-wrap w-4/5 justify-center">
         {contentArray.map((topic, index) => (
-          <label
+          <motion.label
+            whileHover={{ scale: 1.05 }}
             key={index}
             htmlFor={`topic-${index}`}
             className={`py-3 px-6 w-96 rounded-full cursor-pointer ${
@@ -44,7 +47,7 @@ export default function PredictionGrid({
               className="hidden" // This hides the default radio button
             />
             {topic}
-          </label>
+          </motion.label>
         ))}
       </div>
     </div>
