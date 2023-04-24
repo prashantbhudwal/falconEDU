@@ -3,6 +3,8 @@ import Link from "next/link";
 import { downloadZip } from "@/app/utils/downloadZip";
 import { usePathname } from "next/navigation";
 import { generateDocx } from "@/app/utils/generateDocx";
+import LinkButton from "@/app/components/LinkButton";
+import Button from "@/app/components/Button";
 import { useAtom } from "jotai";
 import Image from "next/image";
 import { topicAtom, subtopicAtom } from "./atoms/preferences";
@@ -20,7 +22,9 @@ export default function Header() {
   const [subtopic] = useAtom(subtopicAtom);
   const [lessonIdeas] = useAtom(lessonIdeasAtom);
   const [fetchedContent] = useAtom(fetchedContentAtom);
-  const [contentStreamCompleted, setContentStreamCompleted] = useAtom(contentStreamCompletedAtom);
+  const [contentStreamCompleted, setContentStreamCompleted] = useAtom(
+    contentStreamCompletedAtom
+  );
   const [started] = useAtom(startedAtom);
   const pathname = usePathname();
   const [teachingAids, setTeachingAids] = useAtom(teachingAidsAtom);
@@ -47,29 +51,27 @@ export default function Header() {
         </Link>
         <div className="flex items-center gap-6">
           {started && lessonIdeas.length !== 0 && pathname === "/merlin" && (
-            <Link
+            <LinkButton
               href={"/magic/aid/lesson"}
               onClick={() => {
                 setTeachingAids([]);
               }}
               key={pathname} //rerenders the component when the path changes
-              className="bg-emerald-600 hover:bg-emerald-700 text-slate-200 font-medium py-2 px-4 rounded"
             >
               Generate Lesson
-            </Link>
+            </LinkButton>
           )}
           {contentStreamCompleted &&
             lessonIdeas.length !== 0 &&
             /^\/magic\/.*$/.test(pathname) && (
-              <button
+              <Button
                 onClick={() => {
                   setTeachingAids([]);
                   router.push("/merlin");
                 }}
-                className="bg-emerald-600 hover:bg-emerald-700 text-slate-100 font-medium py-2 px-4 rounded"
               >
                 Back to Planner
-              </button>
+              </Button>
             )}
           {/* {contentStreamCompleted &&
             lessonIdeas.length !== 0 &&
@@ -100,13 +102,12 @@ export default function Header() {
           {contentStreamCompleted &&
             lessonIdeas.length !== 0 &&
             pathname === "/lesson" && (
-              <Link
+              <LinkButton
                 href={"/preferences"}
                 key={pathname} //rerenders the component when the path changes
-                className="bg-emerald-600 hover:bg-emerald-700 text-slate-200 font-medium py-2 px-4 rounded"
               >
                 New Lesson
-              </Link>
+              </LinkButton>
             )}
         </div>
       </div>
