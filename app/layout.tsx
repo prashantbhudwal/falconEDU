@@ -11,8 +11,9 @@ const inter = Inter({
 });
 
 export const metadata = {
-  title: "Falcon",
-  description: "Your AI Co-Teacher",
+  title: "FalconAI Co-Teacher",
+  description:
+    "Create lesson plans specific to your curriculum, with effortless drag and drop.",
 };
 
 export default function RootLayout({
