@@ -110,7 +110,7 @@ export function getChatMessages(
         ...engineeredMessages,
         {
           role: "user",
-          content: `Be creative and suggest one engaging and exciting small group activity that helps students understand: ${subtopic}. Keep your answers concise, as short as possible. Start your response with "Activity:"`,
+          content: `Be creative and suggest one engaging and exciting small group activity that helps students understand: ${subtopic}. The activity should always have numbered steps. Keep your answers concise, as short as possible. Start your response with "Activity:"`,
         },
       ];
     case "quiz":
