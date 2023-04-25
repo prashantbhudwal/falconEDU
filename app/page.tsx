@@ -7,6 +7,8 @@ const LandingPage = () => {
   const router = useRouter();
   useEffect(() => {
     router.prefetch("/preferences");
+    router.prefetch("/preferences/topic");
+    router.prefetch("/preferences/subtopic");
     router.prefetch("/merlin");
   }, []);
   return (
