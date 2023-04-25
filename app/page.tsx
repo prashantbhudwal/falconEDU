@@ -10,10 +10,10 @@ const LandingPage = () => {
     router.prefetch("/merlin");
   }, []);
   return (
-    <div className="flex flex-col items-center justify-center text-center">
+    <div className="flex flex-col items-center justify-center text-center pt-8">
       <h1
         className={
-          "my-8 text-4xl md:text-6xl text-slate-300 max-w-xl leading-10"
+          "my-6 text-4xl md:text-6xl text-slate-300 max-w-xl leading-10"
         }
       >
         <p className="">Plan Your Next Lesson in Seconds</p>
