@@ -20,7 +20,7 @@ export default function Merlin() {
   }
   return (
     <DndProvider backend={HTML5Backend}>
-      <div className="grid grid-cols-12 gap-4 w-full">
+      <div className="grid grid-cols-12 gap-4 w-full select-none">
         <Sidebar
           className="col-start-1 col-span-2 row-start-1"
           heading={"Lesson Blocks"}

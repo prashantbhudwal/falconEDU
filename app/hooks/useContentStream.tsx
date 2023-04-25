@@ -5,72 +5,52 @@ import {
   contentStreamCompletedAtom,
   fetchedContentAtom,
   contentStreamAtom,
-  teachingAidsAtom,
 } from "@/app/atoms/lesson";
 import fetchContentStream from "@/app/utils/fetchContentStream";
-import { StreamPayload } from "@/types";
-import useLatestAid from "./useLatestAid";
+import { aidType, APIRoute, PredictionPayload, StreamPayload } from "@/types";
 
-export function useContentStream(fetchNow: boolean, payload: StreamPayload) {
-  const [currentBlockId, setCurrentBlockId] = useState<string>("");
-  const [lastBlockId, setLastBlockId] = useState<string>("");
+export function useContentStream(apiRoute: APIRoute) {
+  const [currentStreamId, setCurrentStreamId] = useState<string>("");
+  const [prevStreamId, setPrevStreamId] = useState<string>("");
   const [contentStream, setContentStream] = useAtom(contentStreamAtom);
-  const [teachingAids, setTeachingAids] = useAtom(teachingAidsAtom);
   const [contentStreamCompleted, setContentStreamCompleted] = useAtom(
     contentStreamCompletedAtom
   );
   const [fetchedContent, setFetchedContent] = useAtom(fetchedContentAtom);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const latestAid = useLatestAid(payload.payloadType);
 
-  const fetchData = async () => {
-    setIsLoading(true);
+  const fetchData = async (payload: StreamPayload | PredictionPayload) => {
     try {
-      await fetchContentStream(
+      const done = await fetchContentStream(
         (message: string) => {
           setContentStream((prevContent) => [...prevContent, message]);
         },
         payload,
-        () => setContentStreamCompleted(true),
-        () => setCurrentBlockId(uuid())
+        apiRoute
       );
+      if (done) {
+        setContentStreamCompleted(true);
+        setCurrentStreamId(uuid());
+      }
     } catch (error) {
-      setError("Error reading stream");
-    } finally {
-      setIsLoading(false);
+      console.error(error);
     }
   };
 
-  useEffect(() => {
-    if (fetchNow === false || latestAid) return;
+  const startGeneration = (payload: StreamPayload | PredictionPayload) => {
     setContentStream([]);
     setContentStreamCompleted(false);
-    fetchData();
-  }, [fetchNow]);
+    fetchData(payload);
+  };
 
   useEffect(() => {
-    if (
-      contentStreamCompleted === true &&
-      contentStream.length > 0 &&
-      currentBlockId != lastBlockId
-    ) {
-      const randomId = uuid();
-      setTeachingAids((prevAid) => [
-        ...prevAid,
-        {
-          content: contentStream,
-          id: randomId,
-          name: payload.payloadType,
-        },
-      ]);
-      setLastBlockId(currentBlockId);
-      setFetchedContent(contentStream);
-    }
+    setPrevStreamId(uuid()); // Jugaad here -> the previous id should be generated from actual previous stream
+    setFetchedContent(contentStream);
   }, [contentStreamCompleted]);
 
   return {
     contentStream,
-    contentStreamCompleted,
+    startGeneration,
+    currentStreamId,
+    prevStreamId,
   };
 }

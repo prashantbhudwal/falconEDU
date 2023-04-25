@@ -10,8 +10,23 @@ export type StreamPayload = {
 };
 
 export type IdeaStreamPayload = {
+  board: string;
+  subject: string;
   topic: string;
   subtopic: string;
   grade: string;
   promptType: ideaType;
 };
+
+export type PredictionPayload = {
+  action: PredictionAction;
+  data: {
+    board: string;
+    grade: string;
+    subject: string;
+    topic?: string;
+    subtopic?: string;
+  };
+};
+
+export type PredictionAction = "predictChapters" | "predictSubtopics";

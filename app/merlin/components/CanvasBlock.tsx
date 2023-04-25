@@ -20,7 +20,7 @@ export default function CanvasBlock({
     <div
       className={`bg-slate-800 text-neutral-300 px-5 py-3 rounded-lg shadow-sm ${getBlockShadow(
         blockType
-      )} max-w-4xl w-full relative`}
+      )} max-w-4xl w-full relative select-text`}
     >
       <div className="flex justify-between items-start border-b border-solid border-slate-700 pb-2">
         <header className="text-xs font-medium text-slate-500 gap-3 text-right flex items-baseline">

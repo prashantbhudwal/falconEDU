@@ -1,7 +1,13 @@
 import { useState, useEffect, useRef } from "react";
 import { v4 as uuid } from "uuid";
 import { useAtom } from "jotai";
-import { topicAtom, subtopicAtom, gradeAtom } from "../atoms/preferences";
+import {
+  topicAtom,
+  subtopicAtom,
+  gradeAtom,
+  boardAtom,
+  subjectAtom,
+} from "../atoms/preferences";
 import { IdeaStreamPayload } from "@/types";
 import { ideaType } from "@/types";
 
@@ -62,9 +68,13 @@ export default function useFalconStream(
   const [topic] = useAtom(topicAtom);
   const [subtopic] = useAtom(subtopicAtom);
   const [grade] = useAtom(gradeAtom);
+  const [board] = useAtom(boardAtom);
+  const [subject] = useAtom(subjectAtom);
 
   const body: IdeaStreamPayload = {
+    board: board,
     topic: topic,
+    subject: subject,
     subtopic: subtopic,
     grade: grade,
     promptType: blockType,

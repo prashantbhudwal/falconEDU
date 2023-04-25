@@ -1,5 +1,6 @@
 "use client";
 import { useDrag, DragSourceMonitor } from "react-dnd";
+import { motion } from "framer-motion";
 
 export default function Chip({ text }: { text: string }) {
   const specObject = {
@@ -10,13 +11,15 @@ export default function Chip({ text }: { text: string }) {
     }),
   };
   const [{ isDragging }, drag, dragPreview] = useDrag(() => specObject);
+
   return (
-    <div
+    <motion.div
       ref={dragPreview}
-      className={` text-slate-300 px-3 py-2 rounded-xl ${
+      whileHover={{ cursor: "grab", scale: 1.1 }}
+      className={`text-slate-300 px-3 py-2 rounded-md hover:ring-1 hover:ring-emerald-500 ${
         isDragging
-          ? "opacity-100 ring-emerald-500 ring-4 bg-emerald-800 "
-          : "opacity-100 ring-slate-500 ring-1 bg-slate-800"
+          ? "opacity-100 ring-emerald-500 ring-4 bg-emerald-800 border-emerald-500 shadow-lg"
+          : "opacity-100 ring-slate-500 ring-1 bg-slate-800 border-slate-500 shadow"
       }`}
     >
       <p
@@ -26,6 +29,6 @@ export default function Chip({ text }: { text: string }) {
       >
         {text}
       </p>
-    </div>
+    </motion.div>
   );
 }

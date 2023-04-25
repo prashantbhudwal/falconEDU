@@ -1,28 +1,15 @@
 "use client";
-import grades from "../data/grades.json";
+import gradeData from "../data/subjects.json";
 import { useRouter } from "next/navigation";
 import { useAtom } from "jotai";
-import {
-  boardAtom,
-  topicAtom,
-  subjectAtom,
-  subtopicAtom,
-  gradeAtom,
-} from "../atoms/preferences";
-import { lessonIdeasAtom } from "../atoms/lesson";
-import { startedAtom } from "../atoms/app";
-
+import { boardAtom, subjectAtom, gradeAtom } from "../atoms/preferences";
+import Button from "../components/Button";
 export default function Home() {
-  const boards = ["NCERT"];
-  const subjects = ["Science"];
+  const boards = ["CBSE", "ICSE"];
   const router = useRouter();
   const [board, setBoard] = useAtom(boardAtom);
-  const [topic, setTopic] = useAtom(topicAtom);
-  const [subtopic, setSubtopic] = useAtom(subtopicAtom);
   const [subject, setSubject] = useAtom(subjectAtom);
   const [grade, setGrade] = useAtom(gradeAtom);
-  const [lessonIdeas, setLessonIdeas] = useAtom(lessonIdeasAtom);
-  const [started, setStarted] = useAtom(startedAtom);
 
   const handleBoardChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setBoard(e.target.value);
@@ -31,25 +18,16 @@ export default function Home() {
     setGrade(e.target.value);
   };
 
-  const handleChapterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setTopic(e.target.value);
-  };
-
-  const handleTopicChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSubtopic(e.target.value);
-  };
   const handleSubjectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSubject(e.target.value);
   };
 
-  const handleStart = () => {
-    router.push("/merlin");
-    setStarted(true);
-    setLessonIdeas([]);
+  const startPrediction = () => {
+    router.push(`/preferences/topic/`);
   };
 
   return (
-    <div className="flex flex-col gap-4 items-center m-4">
+    <div className="flex flex-col gap-5 items-center m-4">
       <select
         onChange={handleBoardChange}
         value={board}
@@ -68,8 +46,8 @@ export default function Home() {
         className="border-slate-700 rounded-md bg-slate-300 text-black p-4 w-96"
       >
         <option value="">Grade</option>
-        {grades.map((g) => (
-          <option key={g.id} value={g.grade}>
+        {gradeData.map((g) => (
+          <option key={g.grade} value={g.grade}>
             Grade {g.grade}
           </option>
         ))}
@@ -80,57 +58,18 @@ export default function Home() {
         className="border-slate-700 rounded-md bg-slate-300 text-black p-4 w-96"
       >
         <option value="">Subject</option>
-        {subjects.map((s) => (
-          <option key={s} value={s}>
-            {s}
-          </option>
-        ))}
-      </select>
-      <select
-        onChange={handleChapterChange}
-        value={topic}
-        className="border-slate-700 rounded-md bg-slate-300 text-black p-4 w-96"
-      >
-        <option value="">Chapter</option>
-        {grades
+        {gradeData
           .find((g) => g.grade === grade)
-          ?.chapters.map((c) => (
-            <option key={c.id} value={c.name}>
-              {c.name}
+          ?.subjects.map((s) => (
+            <option key={s} value={s}>
+              {s}
             </option>
           ))}
       </select>
-      <select
-        onChange={handleTopicChange}
-        value={subtopic}
-        className="border-slate-700 rounded-md bg-slate-300 text-black p-4 w-96"
-      >
-        <option value="">Topic</option>
-        {grades
-          .find((g) => g.grade === grade)
-          ?.chapters.find((c) => c.name === topic)
-          ?.topics.map((t) => (
-            <option key={t.id} value={t.name}>
-              {t.name}
-            </option>
-          ))}
-      </select>
-      <div className="flex flex-row gap-4">
-        {/* <button
-          className="bg-emerald-500 ring-1 ring-slate-700 text-slate-700 rounded-md px-8 py-2 text-lg font-medium capitalize"
-          onClick={() => router.push("/chat")}
-          disabled={!topic || !subtopic || !grade}
-        >
-          Mobile
-        </button> */}
-        <button
-          className="bg-emerald-400 ring-1 ring-slate-700 text-slate-700 rounded-md px-8 py-2 text-lg font-medium capitalize disabled:opacity-50"
-          onClick={handleStart}
-          disabled={!topic || !subtopic || !grade}
-        >
-          New Lesson
-        </button>
-      </div>
+
+      <Button onClick={startPrediction} disabled={!board || !subject || !grade}>
+        Next
+      </Button>
     </div>
   );
 }

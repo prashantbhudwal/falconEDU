@@ -1,19 +1,18 @@
-import { StreamPayload } from "@/types";
+import { StreamPayload, PredictionPayload } from "@/types";
+import { APIRoute } from "@/types";
 
-const ROUTE = "/api/contentStreamOnEdge";
 export default async function fetchContentStream(
   onMessage: any,
-  body: StreamPayload,
-  streamComplete: () => void,
-  setCurrentBlockId: () => void
-) {
+  payload: StreamPayload | PredictionPayload,
+  route: APIRoute
+): Promise<boolean> {
   try {
-    const response = await fetch(ROUTE, {
+    const response = await fetch(route, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(body),
+      body: JSON.stringify(payload),
     });
 
     if (!response.body) {
@@ -25,14 +24,9 @@ export default async function fetchContentStream(
 
     while (true) {
       const { done, value } = await reader.read();
-
       if (done) {
-        console.log("Stream has completed");
-        streamComplete();
-        setCurrentBlockId();
-        break;
+        return done;
       }
-
       const chunk = decoder.decode(value);
       onMessage(chunk);
     }
