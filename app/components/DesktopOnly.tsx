@@ -5,7 +5,7 @@ export default function DesktopOnly() {
         Oops! 🙈
       </p>
       <p className="text-lg text-gray-700 text-center">
-        This app is currently works only on a desktop.
+        Falcon works on 👩‍💻 laptops and 🖥 larger screen sizes, for now.
       </p>
     </div>
   );
