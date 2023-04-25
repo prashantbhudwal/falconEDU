@@ -1,6 +1,8 @@
 "use client";
 import { usePathname } from "next/navigation";
-
+import DesktopOnly from "../components/DesktopOnly";
+import useDesktop from "../hooks/useDesktop";
+import { useEffect } from "react";
 const getTitle = (pathname: string) => {
   switch (pathname) {
     case "/preferences":
@@ -44,6 +46,10 @@ export default function PreferencesLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+  const isDesktop = useDesktop();
+  if (!isDesktop) {
+    return <DesktopOnly />;
+  }
 
   return (
     <div className="flex flex-col gap-10 items-center mt-7">
