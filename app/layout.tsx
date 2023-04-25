@@ -11,7 +11,7 @@ const inter = Inter({
 });
 
 export const metadata = {
-  title: "FalconAI Co-Teacher",
+  title: "FalconAI | Your Personal Teaching Assistant",
   description:
     "Create lesson plans specific to your curriculum, with effortless drag and drop.",
 };
