@@ -21,7 +21,7 @@ const LandingPage = () => {
         <p className="">Create Your Next Lesson in Seconds</p>
       </h1>
       <p className={"mb-12 text-lg text-gray-400 md:text-2xl max-w-xl mt-6"}>
-        Use Falcon AI to create lesson plans specific to your curriculum, with
+        Use FalconAI to create lesson plans specific to your curriculum, with
         effortless drag and drop.
       </p>
       <Link
