@@ -4,9 +4,8 @@ import { ChatCompletionRequestMessage } from "openai";
 import { streamFromOpenAI } from "../lib/openAI";
 import getChatCompletionRequestMessages from "../lib/aidChatGenerator/chatGenerator";
 import { lessonOptions } from "../lib/openAI/options";
-export const config = {
-  runtime: "edge",
-};
+export const runtime = "edge";
+
 // This is required to enable streaming
 export const dynamic = "force-dynamic";
 
