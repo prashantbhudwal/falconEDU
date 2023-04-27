@@ -44,8 +44,8 @@ export default function Header() {
               />
             </div>
             <div>
-              <h1 className="text-xl">Falcon</h1>
-              <p className="text-sm  text-slate-400">AI Co-Teacher</p>
+              <h1 className="text-lg">FalconAI</h1>
+              <p className="text-sm  text-slate-400">Teaching Assistant</p>
             </div>
           </div>
         </Link>
