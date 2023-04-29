@@ -15,14 +15,14 @@ const LandingPage = () => {
     <div className="flex flex-col items-center text-center pt-8 min-h-screen">
       <h1
         className={
-          "my-5 text-4xl md:text-5xl text-slate-300 max-w-3xl leading-10"
+          "my-6 text-4xl md:text-6xl text-slate-300 max-w-xl leading-10"
         }
       >
-        Create Lessons, Handouts, and Assessments in Seconds, with AI
+        <p className="">Create Your Next Lesson in Seconds</p>
       </h1>
-      <p className={"mb-12 text-lg text-gray-400 md:text-2xl max-w-3xl mt-6"}>
-        Never Google, or open a textbook. FalconAI follows the syllabus and
-        generates everything you need for your class.
+      <p className={"mb-12 text-lg text-gray-400 md:text-2xl max-w-xl mt-6"}>
+        Use FalconAI to create lesson plans specific to your curriculum, with
+        effortless drag and drop.
       </p>
       <Link
         href={"/preferences"}
