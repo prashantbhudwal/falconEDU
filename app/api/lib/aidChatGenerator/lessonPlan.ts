@@ -1,7 +1,6 @@
 import { StreamPayload } from "@/types";
 import { ChatCompletionRequestMessage } from "openai";
-import { processStreamText } from "../../utils";
-import { getLessonChatMessages } from "../chatMessages";
+import { processStreamText } from "@/app/api/lib/utils";
 
 interface Idea {
   ideaType: string;
@@ -30,11 +29,15 @@ export default function getLessonPlanMessages(payload: StreamPayload) {
     text: processStreamText(obj.text),
   }));
   const ideas = generateMarkdown(newArray);
-  const messages: ChatCompletionRequestMessage[] = getLessonChatMessages({
-    grade,
-    topic,
-    subtopic,
-    ideas,
-  });
+  const messages: ChatCompletionRequestMessage[] = [
+    {
+      role: "system",
+      content: `You are a knowledgeable teaching expert. I am a teacher in India teaching grade ${grade} science at a school that follows NCERT textbooks. I am teaching the chapter "${subtopic}" from the chapter "${topic}". My students' primary language is not English.`,
+    },
+    {
+      role: "user",
+      content: `Give me a lesson plan. Make SURE that you use these ${ideas}. And start with Objectives, no need to give the subject and topic.`,
+    },
+  ];
   return messages;
 }
