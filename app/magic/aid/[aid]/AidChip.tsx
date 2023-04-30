@@ -1,5 +1,5 @@
 "use client";
-import { getEmoji } from "@/app/utils";
+import { getEmoji, getName } from "@/app/utils";
 import Link from "next/link";
 import { useAtom } from "jotai";
 import { contentStreamCompletedAtom } from "@/app/atoms/lesson";
@@ -16,7 +16,7 @@ export default function AidChip({ aid }: { aid: aidType }) {
           : "opacity-50 cursor-not-allowed"
       }`}
     >
-      <p className={`text-lg capitalize`}>{`${getEmoji(aid)} ${aid}`}</p>
+      <p className={` capitalize`}>{`${getEmoji(aid)} ${getName(aid)}`}</p>
     </div>
   );
 
