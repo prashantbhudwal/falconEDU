@@ -8,7 +8,13 @@ import {
   contentStreamCompletedAtom,
   teachingAidsAtom,
 } from "../atoms/lesson";
-import { topicAtom, subtopicAtom, gradeAtom } from "@/app/atoms/preferences";
+import {
+  topicAtom,
+  subtopicAtom,
+  gradeAtom,
+  boardAtom,
+  subjectAtom,
+} from "@/app/atoms/preferences";
 import { APIRoute, StreamPayload } from "@/types";
 import { aidType } from "@/types";
 import useLatestAid from "./useLatestAid";
@@ -19,6 +25,8 @@ export function useAid(aidType: aidType) {
   const [topic] = useAtom(topicAtom);
   const [subtopic] = useAtom(subtopicAtom);
   const [grade] = useAtom(gradeAtom);
+  const [board] = useAtom(boardAtom);
+  const [subject] = useAtom(subjectAtom);
   const [lessonIdeas] = useAtom(lessonIdeasAtom);
   const [fetchedContent] = useAtom(fetchedContentAtom);
   const [shouldRegenerate, setShouldRegenerate] = useAtom(shouldRegenerateAtom);
@@ -36,6 +44,8 @@ export function useAid(aidType: aidType) {
     if ((latestAid && !shouldRegenerate) || topic == "") return;
     if (aidType === "lesson" || "outline") {
       const payload: StreamPayload = {
+        board,
+        subject,
         topic,
         subtopic,
         grade,

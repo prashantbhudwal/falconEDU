@@ -2,6 +2,8 @@ import { BlockContent } from "./blockTypes";
 import { ideaType } from "./ideaTypes";
 import { aidType } from "./ideaTypes";
 export type StreamPayload = {
+  board: string;
+  subject: string;
   topic: string;
   subtopic: string;
   grade: string;

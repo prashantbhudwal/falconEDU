@@ -18,7 +18,7 @@ export default function HandoutHeader() {
     <header className="font-medium text-emerald-500 border-b border-solid border-emerald-700 pb-2 flex flex-row justify-between w-full items-center mb-2">
       <div className="text-sm text-left text-emerald-600">
         {`Grade ${grade}`}
-        <p>{subject}</p>
+        <p className="text-sm w-10">{subject}</p>{" "}
       </div>
       <div className="text-center">
         <h1 className="text-3xl">{subtopic}</h1>

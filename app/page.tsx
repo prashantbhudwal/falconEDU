@@ -12,7 +12,7 @@ const LandingPage = () => {
     router.prefetch("/merlin");
   }, []);
   return (
-    <div className="flex flex-col items-center justify-center text-center pt-8">
+    <div className="flex flex-col items-center text-center pt-8 min-h-screen">
       <h1
         className={
           "my-6 text-4xl md:text-6xl text-slate-300 max-w-xl leading-10"
@@ -21,7 +21,7 @@ const LandingPage = () => {
         <p className="">Create Your Next Lesson in Seconds</p>
       </h1>
       <p className={"mb-12 text-lg text-gray-400 md:text-2xl max-w-xl mt-6"}>
-        Use Falcon AI to create lesson plans specific to your curriculum, with
+        Use FalconAI to create lesson plans specific to your curriculum, with
         effortless drag and drop.
       </p>
       <Link

@@ -31,7 +31,7 @@ export default function Header() {
   const docxArray = useDownloadContent();
   const router = useRouter();
   return (
-    <header className="sticky top-0 z-50  text-slate-200 pt-5 pl-4 pr-6 bg-slate-900">
+    <header className="sticky top-0 z-50  text-slate-200 pt-5 pl-4 pr-6 pb-2 bg-slate-900">
       <div className="flex items-center justify-between">
         <Link href="/">
           <div className="flex gap-4">
@@ -44,8 +44,8 @@ export default function Header() {
               />
             </div>
             <div>
-              <h1 className="text-xl">Falcon</h1>
-              <p className="text-sm  text-slate-400">AI Co-Teacher</p>
+              <h1 className="text-lg">FalconAI</h1>
+              <p className="text-sm  text-slate-400">Teaching Assistant</p>
             </div>
           </div>
         </Link>
