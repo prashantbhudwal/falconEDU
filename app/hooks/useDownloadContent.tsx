@@ -12,6 +12,14 @@ export default function useDownloadContent() {
   if (latestOutline && latestOutline.length > 0) {
     contentToDownload.push(latestOutline);
   }
+  const latestBlackboard = useLatestAid("blackboard");
+  if (latestBlackboard && latestBlackboard.length > 0) {
+    contentToDownload.push(latestBlackboard);
+  }
+  const latestShortVideoScript = useLatestAid("shortVideoScript");
+  if (latestShortVideoScript && latestShortVideoScript.length > 0) {
+    contentToDownload.push(latestShortVideoScript);
+  }
   if (lessonIdeas.length === 0 || !latestLesson) return;
   const handoutArray = lessonIdeas.filter((idea) => {
     return (
