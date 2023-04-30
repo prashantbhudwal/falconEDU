@@ -42,14 +42,22 @@ export function useAid(aidType: aidType) {
 
   const startStreaming = () => {
     if ((latestAid && !shouldRegenerate) || topic == "") return;
-    if (aidType === "lesson" || "outline") {
+    if (
+      aidType === "lesson" ||
+      "outline" ||
+      "blackboard" ||
+      "shortVideoScript"
+    ) {
       const payload: StreamPayload = {
         board,
         subject,
         topic,
         subtopic,
         grade,
-        data: aidType === "lesson" ? lessonIdeas : fetchedContent,
+        data:
+          aidType === "lesson" || "shortVideoScript"
+            ? lessonIdeas
+            : fetchedContent,
         payloadType: aidType,
       };
       console.log("startStreaming");
