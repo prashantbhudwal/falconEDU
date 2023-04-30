@@ -4,9 +4,11 @@ import Link from "next/link";
 import { useAtom } from "jotai";
 import { contentStreamCompletedAtom } from "@/app/atoms/lesson";
 import { aidType } from "@/types/ideaTypes";
+import { usePathname } from "next/navigation";
 
 export default function AidChip({ aid }: { aid: aidType }) {
   const [contentStreamCompleted] = useAtom(contentStreamCompletedAtom);
+  const pathname = usePathname();
 
   const linkContent = (
     <div
