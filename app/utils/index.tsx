@@ -30,6 +30,10 @@ export const getEmoji = function (ideaType: ideaType | aidType) {
       return "🪄";
     case "slides":
       return "🎬";
+    case "blackboard":
+      return "⬛️";
+    case "shortVideoScript":
+      return "🎬";
     default:
       return "Oops!! AI is on Strike. Try Again?";
   }
