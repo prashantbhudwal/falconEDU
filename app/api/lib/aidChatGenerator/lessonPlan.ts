@@ -8,13 +8,13 @@ interface Idea {
 }
 
 export default function getLessonPlanMessages(payload: StreamPayload) {
-  const { topic, subtopic, grade, data } = payload;
+  const { topic, subtopic, grade, data, board, subject } = payload;
   const newArray = processIdeas(data);
   const ideas = generateMarkdown(newArray);
   const messages: ChatCompletionRequestMessage[] = [
     {
       role: "system",
-      content: `You are a knowledgeable teaching expert. I am a teacher in India teaching grade ${grade} science at a school that follows NCERT textbooks. I am teaching the chapter "${subtopic}" from the chapter "${topic}". My students' primary language is not English.`,
+      content: `You are a knowledgeable teaching expert. I am a teacher in India teaching grade ${grade} ${subject} at a school that follows "${board}" textbooks. I am teaching the chapter "${subtopic}" from the chapter "${topic}". My students' primary language is not English.`,
     },
     {
       role: "user",

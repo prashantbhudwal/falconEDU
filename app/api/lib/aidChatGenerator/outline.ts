@@ -9,7 +9,7 @@ export default function getOutlineMessages(payload: StreamPayload) {
   const messages: ChatCompletionRequestMessage[] = [
     {
       role: "system",
-      content: `You are a teaching assistant. Give me an outline of this lesson plan in a list. Be concise.`,
+      content: `You are a teaching assistant. Give me an outline of this lesson plan in a list. Be concise. Don't mention objectives or materials needed.`,
     },
     {
       role: "user",
