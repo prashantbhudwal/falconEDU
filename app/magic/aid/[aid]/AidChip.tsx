@@ -16,9 +16,11 @@ export default function AidChip({ aid }: { aid: aidType }) {
         contentStreamCompleted
           ? "opacity-100 hover:bg-slate-800 hover:cursor-pointer"
           : "opacity-50 cursor-not-allowed"
-      }`}
+      }
+      ${pathname === `/magic/aid/${aid}` ? "bg-slate-700" : ""}
+      `}
     >
-      <p className={` capitalize`}>{`${getEmoji(aid)} ${getName(aid)}`}</p>
+      <p className={`capitalize `}>{`${getEmoji(aid)} ${getName(aid)}`}</p>
     </div>
   );
 
