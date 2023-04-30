@@ -18,7 +18,7 @@ export default function getShortVideoScriptMessages(payload: StreamPayload) {
     },
     {
       role: "user",
-      content: `Give script for a 3 minute video for my children in the style of Kurzgesagt. Make it fun and engaging. Also remember that I will be recording this video on my phone'e selfie camera. So, no use of any graphics or animations. The whole video will be in one shot, so no cuts because no editors will be used in post. Make SURE that you use some or all of these ${ideas}.`,
+      content: `Give script for a 2-minute youtube short video.  I will be recording this video on my phone's selfie camera, with me speaking all the time. So, no use of any graphics or animations. The whole video will be in one shot, so no cuts because no editors will be used in the post. Make SURE that you use some or all of these ideas. Remember that you DON'T have to use all the ideas. Skip the ideas if they are not interesting. Add more if you want. Be creative, fun, and imaginative. Here are the ideas - ${ideas}.`,
     },
   ];
   return messages;
