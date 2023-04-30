@@ -18,7 +18,7 @@ export default function AidHeader() {
     <header className="font-medium text-slate-900 text-center border-b border-solid border-slate-700 pb-2 flex flex-row justify-between items-center">
       <div className=" text-slate-500 text-left">
         {`Grade ${grade}`}
-        <p>{subject}</p>
+        <p className="text-sm w-10">{subject}</p>{" "}
       </div>
       <div>
         <h1 className="text-3xl">{subtopic}</h1>
