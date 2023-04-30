@@ -13,7 +13,9 @@ export default function Page({ params }: { params: { aid: aidType } }) {
   const [showNote, setShowNote] = useState(false);
   const [contentStreamCompleted] = useAtom(contentStreamCompletedAtom);
   const { content, startStreaming } = useAid(params.aid);
+  // console.log(params.aid);
   const latestAid = useLatestAid(params.aid);
+  // console.log(latestAid);
   const [shouldRegenerate, setShouldRegenerate] = useAtom(shouldRegenerateAtom);
 
   useEffect(() => {
