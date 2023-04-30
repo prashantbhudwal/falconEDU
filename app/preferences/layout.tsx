@@ -18,7 +18,7 @@ const getTitle = (pathname: string) => {
     case "/preferences/topic":
       return (
         <>
-          What{" "}
+          Which{" "}
           <span className=" underline underline-offset-8 decoration-emerald-500">
             chapter
           </span>{" "}
@@ -28,7 +28,7 @@ const getTitle = (pathname: string) => {
     case "/preferences/subtopic":
       return (
         <>
-          What{" "}
+          Which{" "}
           <span className=" underline underline-offset-8 decoration-emerald-500">
             topic
           </span>{" "}
