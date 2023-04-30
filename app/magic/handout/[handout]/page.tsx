@@ -16,7 +16,7 @@ export default function Page({
   );
 
   return (
-    <div>
+    <div className="flex flex-col gap-2">
       <HandoutHeader />
       {filteredHandouts.map((aid) => (
         <div
