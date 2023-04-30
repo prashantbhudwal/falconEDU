@@ -3,6 +3,7 @@ import { ChatCompletionRequestMessage } from "openai";
 
 const skipIntroduction = `Do not refer to yourself in your answers. Or give any introductory text. Do not say stuff like "As an AI language model..." or "Sure, here is ..."`;
 
+const SHORT_RESPONSES = `Keep your answers concise, as short as possible.`;
 function getEngineeredMessages(
   grade: string,
   topic: string,
@@ -56,7 +57,7 @@ export function getChatMessages(
         ...engineeredMessages,
         {
           role: "user",
-          content: `Provide an example that clarifies the topic of ${subtopic} for students. Keep your answers concise, as short as possible. ${skipIntroduction}`,
+          content: `Provide an example that clarifies the topic of ${subtopic} for students. ${SHORT_RESPONSES} ${skipIntroduction}`,
         },
       ];
     case "analogy":
@@ -64,7 +65,7 @@ export function getChatMessages(
         ...engineeredMessages,
         {
           role: "user",
-          content: `Present one everyday analogy that simplifies the topic of: ${subtopic}, using familiar situations to make the idea more relatable. Keep your answers concise, as short as possible. ${skipIntroduction}`,
+          content: `Present one everyday analogy that simplifies the topic of: ${subtopic}, using familiar situations to make the idea more relatable. ${SHORT_RESPONSES} ${skipIntroduction}`,
         },
       ];
     case "history":
@@ -72,7 +73,7 @@ export function getChatMessages(
         ...engineeredMessages,
         {
           role: "user",
-          content: `Discuss the historical context of the topic of: ${subtopic}. Keep your answers concise, as short as possible. ${skipIntroduction}`,
+          content: `Discuss the historical context of the topic of: ${subtopic}. ${SHORT_RESPONSES} ${skipIntroduction}`,
         },
       ];
     case "application":
@@ -80,7 +81,7 @@ export function getChatMessages(
         ...engineeredMessages,
         {
           role: "user",
-          content: `Describe a real-world application of the topic "${subtopic}", that students can relate to. Keep your answers concise, as short as possible. ${skipIntroduction}`,
+          content: `Describe a real-world application of the topic "${subtopic}", that students can relate to. ${SHORT_RESPONSES} ${skipIntroduction}`,
         },
       ];
     case "antiExample":
@@ -88,7 +89,7 @@ export function getChatMessages(
         ...engineeredMessages,
         {
           role: "user",
-          content: `Explain one counterexample that helps students differentiate between correct and incorrect understanding of: ${subtopic}. Keep your answers concise, as short as possible. ${skipIntroduction}`,
+          content: `Explain one counterexample that helps students differentiate between correct and incorrect understanding of: ${subtopic}. ${SHORT_RESPONSES} ${skipIntroduction}`,
         },
       ];
     case "contrast":
@@ -96,7 +97,7 @@ export function getChatMessages(
         ...engineeredMessages,
         {
           role: "user",
-          content: `Compare and contrast this topic with other closely related topics to help students distinguish between them: ${subtopic}. Keep your answers concise, as short as possible. ${skipIntroduction}`,
+          content: `Compare and contrast this topic with other closely related topics to help students distinguish between them: ${subtopic}. ${SHORT_RESPONSES} ${skipIntroduction}`,
         },
       ];
     case "definition":
@@ -104,7 +105,7 @@ export function getChatMessages(
         ...engineeredMessages,
         {
           role: "user",
-          content: `Define the topic in a clear and concise manner for students: ${subtopic}. Keep your answers concise, as short as possible. ${skipIntroduction}`,
+          content: `Define the topic in a clear and concise manner for students: ${subtopic}. ${SHORT_RESPONSES} ${skipIntroduction}`,
         },
       ];
     case "activity":
@@ -112,7 +113,7 @@ export function getChatMessages(
         ...engineeredMessages,
         {
           role: "user",
-          content: `Be creative and suggest one engaging and exciting small group activity that helps students understand: ${subtopic}. The activity should always have numbered steps. Keep your answers concise, as short as possible. ${skipIntroduction}`,
+          content: `Be creative and suggest one engaging and exciting small group activity that helps students understand: ${subtopic}. The activity should always have numbered steps. ${SHORT_RESPONSES} ${skipIntroduction}`,
         },
       ];
     case "quiz":
@@ -120,7 +121,7 @@ export function getChatMessages(
         ...engineeredMessages,
         {
           role: "user",
-          content: `Design a 5-question MCQ quiz that targets the core ideas and principles of: ${subtopic}, ensuring students grasp the most important aspects. Keep your answers concise, as short as possible. ${skipIntroduction}`,
+          content: `Design a 5-question MCQ quiz that targets the core ideas and principles of: ${subtopic}, ensuring students grasp the most important aspects. Give answers at the end. ${SHORT_RESPONSES} ${skipIntroduction}`,
         },
       ];
     default:
@@ -128,7 +129,7 @@ export function getChatMessages(
         ...engineeredMessages,
         {
           role: "user",
-          content: `Provide an example that clarifies the topic for students: ${subtopic}. Keep your answers concise, as short as possible. Keep your answers concise, as short as possible. ${skipIntroduction}`,
+          content: `Provide an example that clarifies the topic for students: ${subtopic}. ${SHORT_RESPONSES} ${skipIntroduction}`,
         },
       ];
   }
