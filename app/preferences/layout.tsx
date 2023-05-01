@@ -2,7 +2,6 @@
 import { usePathname } from "next/navigation";
 import DesktopOnly from "../components/DesktopOnly";
 import useDesktop from "../hooks/useDesktop";
-import { useEffect } from "react";
 const getTitle = (pathname: string) => {
   switch (pathname) {
     case "/preferences":
