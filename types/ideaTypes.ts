@@ -11,5 +11,11 @@ export type ideaType =
   | "quiz"
   | "";
 
-export type aidType = "lesson" | "outline" | "slides" | "";
+export type aidType =
+  | "lesson"
+  | "outline"
+  | "slides"
+  | "blackboard"
+  | "shortVideoScript"
+  | "";
 export type handoutType = "story" | "activity" | "quiz" | "";

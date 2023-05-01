@@ -28,7 +28,6 @@ export function useAid(aidType: aidType) {
   const [board] = useAtom(boardAtom);
   const [subject] = useAtom(subjectAtom);
   const [lessonIdeas] = useAtom(lessonIdeasAtom);
-  const [fetchedContent] = useAtom(fetchedContentAtom);
   const [shouldRegenerate, setShouldRegenerate] = useAtom(shouldRegenerateAtom);
 
   const [contentStreamCompleted, setContentStreamCompleted] = useAtom(
@@ -39,20 +38,29 @@ export function useAid(aidType: aidType) {
   const { contentStream, startGeneration, currentStreamId, prevStreamId } =
     useContentStream(ROUTE);
   const latestAid = useLatestAid(aidType);
-
+  const latestLesson = useLatestAid("lesson");
   const startStreaming = () => {
     if ((latestAid && !shouldRegenerate) || topic == "") return;
-    if (aidType === "lesson" || "outline") {
+    if (
+      aidType === "lesson" ||
+      "outline" ||
+      "blackboard" ||
+      "shortVideoScript"
+    ) {
       const payload: StreamPayload = {
         board,
         subject,
         topic,
         subtopic,
         grade,
-        data: aidType === "lesson" ? lessonIdeas : fetchedContent,
+        data:
+          aidType === "lesson" || aidType === "shortVideoScript"
+            ? lessonIdeas
+            : latestLesson,
         payloadType: aidType,
       };
-      console.log("startStreaming");
+      // console.log(latestLesson);
+      // console.log(payload);
       startGeneration(payload);
       setShouldRegenerate(false);
     }

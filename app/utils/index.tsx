@@ -30,6 +30,48 @@ export const getEmoji = function (ideaType: ideaType | aidType) {
       return "🪄";
     case "slides":
       return "🎬";
+    case "blackboard":
+      return "⬛️";
+    case "shortvideoscript":
+      return "🎬";
+    default:
+      return "Oops!! AI is on Strike. Try Again?";
+  }
+};
+
+export const getName = function (ideaType: ideaType | aidType) {
+  const loweCaseBlockType = ideaType.toLowerCase();
+  switch (loweCaseBlockType) {
+    case "story":
+      return "Story";
+    case "example":
+      return "Example";
+    case "analogy":
+      return "Analogy";
+    case "history":
+      return "History";
+    case "application":
+      return "Application";
+    case "antiExample":
+      return "Anti-Example";
+    case "contrast":
+      return "Contrast";
+    case "definition":
+      return "Definition";
+    case "activity":
+      return "Activity";
+    case "quiz":
+      return "Quiz";
+    case "lesson":
+      return "Lesson";
+    case "outline":
+      return "Summary";
+    case "slides":
+      return "Slides";
+    case "blackboard":
+      return "Blackboard";
+    case "shortvideoscript":
+      return "Video Script";
     default:
       return "Oops!! AI is on Strike. Try Again?";
   }

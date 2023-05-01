@@ -1,12 +1,14 @@
 "use client";
-import { getEmoji } from "@/app/utils";
+import { getEmoji, getName } from "@/app/utils";
 import Link from "next/link";
 import { useAtom } from "jotai";
 import { contentStreamCompletedAtom } from "@/app/atoms/lesson";
 import { aidType } from "@/types/ideaTypes";
+import { usePathname } from "next/navigation";
 
 export default function AidChip({ aid }: { aid: aidType }) {
   const [contentStreamCompleted] = useAtom(contentStreamCompletedAtom);
+  const pathname = usePathname();
 
   const linkContent = (
     <div
@@ -14,9 +16,11 @@ export default function AidChip({ aid }: { aid: aidType }) {
         contentStreamCompleted
           ? "opacity-100 hover:bg-slate-800 hover:cursor-pointer"
           : "opacity-50 cursor-not-allowed"
-      }`}
+      }
+      ${pathname === `/magic/aid/${aid}` ? "bg-slate-700" : ""}
+      `}
     >
-      <p className={`text-lg capitalize`}>{`${getEmoji(aid)} ${aid}`}</p>
+      <p className={`capitalize `}>{`${getEmoji(aid)} ${getName(aid)}`}</p>
     </div>
   );
 
