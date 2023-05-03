@@ -13,22 +13,23 @@ const LandingPage = () => {
   }, []);
   return (
     <div className="flex flex-col items-center text-center pt-8 min-h-screen">
-      <h1
-        className={
-          "my-6 text-4xl md:text-6xl text-slate-300 max-w-xl leading-10"
-        }
-      >
-        <p className="">Create Your Next Lesson in Seconds</p>
+      <h1 className="my-6 text-4xl md:text-5xl text-slate-300 max-w-xl leading-10">
+        <div className="inline-flex items-start">
+          <p className="">Welcome to FalconAI</p>
+          <span className="text-sm font-semibold bg-yellow-300 text-yellow-800 px-2 py-1 rounded -mt-1 ml-2">
+            beta
+          </span>
+        </div>
       </h1>
-      <p className={"mb-12 text-lg text-gray-400 md:text-2xl max-w-xl mt-6"}>
-        Use FalconAI to create lesson plans specific to your curriculum, with
-        effortless drag and drop.
+      <p className={"mb-12 text-lg text-gray-500 md:text-xl max-w-xl mt-6"}>
+        For any help or suggestions, call us or drop a WhatsApp message at +91
+        8879881971.
       </p>
       <Link
         href={"/preferences"}
         className={`bg-emerald-500 text-slate-800 px-28 py-4 rounded-lg text-lg font-semibold hover:bg-emerald-600 transition duration-200 ease-in-out`}
       >
-        Start Now
+        Start App
       </Link>
     </div>
   );
