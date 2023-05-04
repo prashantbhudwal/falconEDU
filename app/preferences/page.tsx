@@ -5,12 +5,15 @@ import { useAtom } from "jotai";
 import { boardAtom, subjectAtom, gradeAtom } from "../atoms/preferences";
 import Button from "../components/Button";
 import ButtonPanel from "../components/ButtonPanel";
+import { userFlowAtom } from "../atoms/app";
+
 export default function Home() {
   const boards = ["CBSE", "ICSE"];
   const router = useRouter();
   const [board, setBoard] = useAtom(boardAtom);
   const [subject, setSubject] = useAtom(subjectAtom);
   const [grade, setGrade] = useAtom(gradeAtom);
+  const [, setUserFlow] = useAtom(userFlowAtom);
 
   const handleBoardChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setBoard(e.target.value);
@@ -24,9 +27,11 @@ export default function Home() {
   };
 
   const startLessonFlow = () => {
+    setUserFlow("lesson");
     router.push(`/preferences/topic/`);
   };
   const startWorksheetFlow = () => {
+    setUserFlow("worksheet");
     router.push(`/preferences/topic/`);
   };
 
