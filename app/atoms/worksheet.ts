@@ -1,3 +1,3 @@
 import { atom } from "jotai";
 
-export const worksheetSubtopics = atom([""]);
+export const worksheetSubtopicsAtom = atom([""]);
