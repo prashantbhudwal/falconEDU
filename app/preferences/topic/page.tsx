@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { gradeAtom, boardAtom, subjectAtom } from "@/app/atoms/preferences";
 import TextInput from "../TextInput";
 import Button from "../../components/Button";
+import { userFlowAtom } from "../../atoms/app";
 export default function Page() {
   const [contentStreamCompleted] = useAtom(contentStreamCompletedAtom);
   const [subject] = useAtom(subjectAtom);
@@ -19,6 +20,7 @@ export default function Page() {
   const { content, startStreaming } = usePrediction(subject, "predictChapters");
   const [board] = useAtom(boardAtom);
   const [grade] = useAtom(gradeAtom);
+  const [userFlow] = useAtom(userFlowAtom);
 
   //Todo Replace this with a custom hook
   useEffect(() => {
@@ -28,6 +30,14 @@ export default function Page() {
   }, [board, subject, grade, router]);
   const handleTopicChange = (event: any) => {
     setTopic(event.target.value);
+  };
+
+  const handleClick = () => {
+    if (userFlow === "lesson") {
+      router.push("/preferences/subtopic");
+    } else if (userFlow === "worksheet") {
+      router.push("/preferences/multipleSubtopics");
+    }
   };
 
   useEffect(() => {
@@ -49,10 +59,7 @@ export default function Page() {
           onChange={handleTopicChange}
           placeholder="Enter a chapter..."
         />
-        <Button
-          onClick={() => router.push("/preferences/subtopic")}
-          disabled={!topic}
-        >
+        <Button onClick={handleClick} disabled={!topic}>
           Next
         </Button>
       </div>
