@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useAtom } from "jotai";
 import { boardAtom, subjectAtom, gradeAtom } from "../atoms/preferences";
 import Button from "../components/Button";
+import ButtonPanel from "../components/ButtonPanel";
 export default function Home() {
   const boards = ["CBSE", "ICSE"];
   const router = useRouter();
@@ -22,7 +23,10 @@ export default function Home() {
     setSubject(e.target.value);
   };
 
-  const startPrediction = () => {
+  const startLessonFlow = () => {
+    router.push(`/preferences/topic/`);
+  };
+  const startWorksheetFlow = () => {
     router.push(`/preferences/topic/`);
   };
 
@@ -66,10 +70,21 @@ export default function Home() {
             </option>
           ))}
       </select>
-
-      <Button onClick={startPrediction} disabled={!board || !subject || !grade}>
-        Next
-      </Button>
+      <ButtonPanel>
+        <Button
+          onClick={startLessonFlow}
+          disabled={!board || !subject || !grade}
+        >
+          Lesson
+        </Button>
+        <Button
+          secondary
+          onClick={startWorksheetFlow}
+          disabled={!board || !subject || !grade}
+        >
+          Worksheets
+        </Button>
+      </ButtonPanel>
     </div>
   );
 }
