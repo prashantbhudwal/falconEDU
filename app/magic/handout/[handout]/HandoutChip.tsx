@@ -28,7 +28,7 @@ export default function HandoutChip({ aid }: { aid: handoutType }) {
       ${pathname === `/magic/handout/${aid}` ? "bg-slate-700" : ""}
       `}
     >
-      <p className={`text-lg capitalize`}>{`${getEmoji(aid)} ${aid}`}</p>
+      <p className={`capitalize text-left`}>{`${getEmoji(aid)} ${aid}`}</p>
     </button>
   );
 }
