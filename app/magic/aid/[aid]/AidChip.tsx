@@ -21,7 +21,7 @@ export default function AidChip({ aid }: { aid: aidType }) {
   return (
     <button
       onClick={handleClick}
-      className={`text-slate-300 px-3 py-2 rounded-md ${
+      className={`text-slate-300 px-3 py-2 rounded-md text-left ${
         contentStreamCompleted
           ? "opacity-100 hover:bg-slate-800 hover:cursor-pointer"
           : "opacity-50 cursor-not-allowed"
