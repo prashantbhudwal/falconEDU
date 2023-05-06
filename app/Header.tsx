@@ -22,6 +22,7 @@ export default function Header() {
   const [subtopic] = useAtom(subtopicAtom);
   const [lessonIdeas] = useAtom(lessonIdeasAtom);
   const [fetchedContent] = useAtom(fetchedContentAtom);
+
   const [contentStreamCompleted, setContentStreamCompleted] = useAtom(
     contentStreamCompletedAtom
   );
@@ -30,6 +31,10 @@ export default function Header() {
   const [teachingAids, setTeachingAids] = useAtom(teachingAidsAtom);
   const docxArray = useDownloadContent();
   const router = useRouter();
+  const handleClick = () => {
+    setTeachingAids([]);
+    router.push("/magic/aid/lesson");
+  };
   return (
     <header className="sticky top-0 z-50  text-slate-200 pt-5 pl-4 pr-6 pb-2 bg-slate-900">
       <div className="flex items-center justify-between">
@@ -51,15 +56,12 @@ export default function Header() {
         </Link>
         <div className="flex items-center gap-6">
           {started && lessonIdeas.length !== 0 && pathname === "/merlin" && (
-            <LinkButton
-              href={"/magic/aid/lesson"}
-              onClick={() => {
-                setTeachingAids([]);
-              }}
+            <Button
+              onClick={handleClick}
               key={pathname} //rerenders the component when the path changes
             >
               Generate Lesson
-            </LinkButton>
+            </Button>
           )}
           {contentStreamCompleted &&
             lessonIdeas.length !== 0 &&
