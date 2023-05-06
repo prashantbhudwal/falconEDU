@@ -11,7 +11,7 @@ export default function HandoutChip({ aid }: { aid: handoutType }) {
   const pathname = usePathname();
 
   const linkContent = (
-    <div
+    <button
       className={`text-slate-300 px-3 py-2 rounded-md ${
         contentStreamCompleted
           ? "opacity-100 hover:bg-slate-800 hover:cursor-pointer"
@@ -21,7 +21,7 @@ export default function HandoutChip({ aid }: { aid: handoutType }) {
       `}
     >
       <p className={`text-lg capitalize`}>{`${getEmoji(aid)} ${aid}`}</p>
-    </div>
+    </button>
   );
 
   return <Link href={`/magic/handout/${aid}`}>{linkContent}</Link>;
