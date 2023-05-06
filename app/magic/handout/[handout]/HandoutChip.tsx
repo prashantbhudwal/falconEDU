@@ -24,9 +24,5 @@ export default function HandoutChip({ aid }: { aid: handoutType }) {
     </div>
   );
 
-  return contentStreamCompleted ? (
-    <Link href={`/magic/handout/${aid}`}>{linkContent}</Link>
-  ) : (
-    <>{linkContent}</>
-  );
+  return <Link href={`/magic/handout/${aid}`}>{linkContent}</Link>;
 }

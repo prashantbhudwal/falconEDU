@@ -23,10 +23,5 @@ export default function AidChip({ aid }: { aid: aidType }) {
       <p className={`capitalize `}>{`${getEmoji(aid)} ${getName(aid)}`}</p>
     </div>
   );
-
-  return contentStreamCompleted ? (
-    <Link href={`/magic/aid/${aid}`}>{linkContent}</Link>
-  ) : (
-    <>{linkContent}</>
-  );
+  return <Link href={`/magic/aid/${aid}`}>{linkContent}</Link>;
 }
