@@ -5,7 +5,7 @@ export const getEmoji = function (ideaType: ideaType | aidType) {
   const loweCaseBlockType = ideaType.toLowerCase();
   switch (loweCaseBlockType) {
     case "story":
-      return "🏜";
+      return "📖";
     case "example":
       return "🧩";
     case "analogy":
@@ -25,9 +25,9 @@ export const getEmoji = function (ideaType: ideaType | aidType) {
     case "quiz":
       return "🏆";
     case "lesson":
-      return "🧑‍🏫";
+      return "👩‍🏫";
     case "outline":
-      return "🪄";
+      return "📋";
     case "slides":
       return "🎬";
     case "blackboard":
