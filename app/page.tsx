@@ -10,6 +10,7 @@ const LandingPage = () => {
     router.prefetch("/preferences/topic");
     router.prefetch("/preferences/subtopic");
     router.prefetch("/merlin");
+    router.prefetch("/magic/aid/lesson");
   }, []);
   return (
     <div className="flex flex-col items-center text-center pt-8 min-h-screen">
