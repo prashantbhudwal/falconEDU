@@ -1,7 +1,9 @@
 "use client";
 import { signIn, useSession } from "next-auth/react";
 import { useState, FormEvent } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+
 import TextInput from "@/app/preferences/TextInput";
 type SignInResult =
   | {
@@ -33,6 +35,15 @@ export default function Login() {
       console.error(e);
     }
   };
+
+  useEffect(() => {
+    router.prefetch("/preferences");
+    router.prefetch("/preferences/topic");
+    router.prefetch("/preferences/subtopic");
+    router.prefetch("/merlin");
+    router.prefetch("/magic/aid/lesson");
+  }, []);
+
   if (session && sessionStatus === "authenticated") {
     router.push("/preferences");
     return null;
