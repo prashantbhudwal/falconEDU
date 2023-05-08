@@ -2,11 +2,10 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 
 const LandingPage = () => {
   const router = useRouter();
-  const { data: session } = useSession();
   useEffect(() => {
     router.prefetch("/auth/login");
     router.prefetch("/preferences");
@@ -16,11 +15,6 @@ const LandingPage = () => {
     router.prefetch("/magic/aid/lesson");
   }, []);
 
- useEffect(() => {
-   if (session) {
-     router.push("/preferences");
-   }
- }, [session, router]);
   return (
     <div className="flex flex-col items-center text-center pt-8 min-h-screen">
       <h1 className="my-6 text-4xl md:text-5xl text-slate-300 max-w-xl leading-10">
