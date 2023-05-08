@@ -3,7 +3,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { signIn, useSession } from "next-auth/react";
-import Button from "./components/Button";
 
 const LandingPage = () => {
   const router = useRouter();
