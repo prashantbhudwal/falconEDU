@@ -16,8 +16,11 @@ const LandingPage = () => {
     router.prefetch("/magic/aid/lesson");
   }, []);
 
-  if (session) router.push("/preferences");
-
+ useEffect(() => {
+   if (session) {
+     router.push("/preferences");
+   }
+ }, [session, router]);
   return (
     <div className="flex flex-col items-center text-center pt-8 min-h-screen">
       <h1 className="my-6 text-4xl md:text-5xl text-slate-300 max-w-xl leading-10">
