@@ -1,4 +1,4 @@
 export { default } from "next-auth/middleware";
 export const config = {
-  matcher: ["/NextAuth/Protected/:path*"],
+  matcher: ["/preferences/:path*", "/magic/:path*", "/merlin/:path*"],
 };
