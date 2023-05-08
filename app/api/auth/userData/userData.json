@@ -12,12 +12,6 @@
     "password": "janepassword"
   },
   {
-    "id": 3,
-    "name": "Jim Doe",
-    "email": "jim@doe.com",
-    "password": "jimpassword"
-  },
-  {
     "id": 4,
     "name": "Test User",
     "email": "test@test.com",
