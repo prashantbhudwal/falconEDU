@@ -9,6 +9,7 @@ const LandingPage = () => {
   const router = useRouter();
   const { data: session } = useSession();
   useEffect(() => {
+    router.prefetch("/auth/login");
     router.prefetch("/preferences");
     router.prefetch("/preferences/topic");
     router.prefetch("/preferences/subtopic");
