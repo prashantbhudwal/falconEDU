@@ -1,4 +1,6 @@
+"use client";
 import Link from "next/link";
+import { signOut } from "next-auth/react";
 export default function Footer() {
   return (
     <footer className="flex flex-col text-slate-700 items-center gap-4 py-6 border-t border-slate-700">
@@ -14,6 +16,12 @@ export default function Footer() {
       >
         Watch the demo
       </Link>
+      <button
+        onClick={() => signOut()}
+        className="hover:text-slate-500 underline underline-offset-4 block"
+      >
+        Sign Out
+      </button>
     </footer>
   );
 }
