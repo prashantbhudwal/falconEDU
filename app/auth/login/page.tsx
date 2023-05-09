@@ -14,6 +14,8 @@ type SignInResult =
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
   const { data: session, status: sessionStatus } = useSession();
   const router = useRouter();
   const handleSubmit = async (
@@ -23,15 +25,13 @@ export default function Login() {
     let result: SignInResult = undefined;
     try {
       result = await signIn("credentials", {
-        redirect: true,
+        redirect: false,
         callbackUrl: "/preferences",
         username: email,
         password,
       });
       if (result?.error) {
-        alert(result.error);
-      } else {
-        window.location.href = "/preferences";
+        setError("Invalid email or password");
       }
     } catch (e) {
       console.error(e);
@@ -44,17 +44,17 @@ export default function Login() {
     router.prefetch("/preferences/subtopic");
     router.prefetch("/merlin");
     router.prefetch("/magic/aid/lesson");
-  }, []);
+    if (session && sessionStatus === "authenticated") {
+      router.push("/preferences");
+    }
+  }, [session, sessionStatus]);
 
-  if (session && sessionStatus === "authenticated") {
-    router.push("/preferences");
-    return null;
-  }
   return (
     <form
       onSubmit={handleSubmit}
       className="flex flex-col gap-8 rounded p-8 mt-4"
     >
+      {error && <p className="text-red-500">{error}</p>}
       <TextInput
         id="email"
         type="email"
