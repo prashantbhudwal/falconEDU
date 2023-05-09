@@ -5,6 +5,8 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 import TextInput from "@/app/preferences/TextInput";
+import useDesktop from "@/app/hooks/useDesktop";
+import DesktopOnly from "@/app/components/DesktopOnly";
 type SignInResult =
   | {
       error?: string;
@@ -15,6 +17,7 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const isDesktop = useDesktop();
 
   const { data: session, status: sessionStatus } = useSession();
   const router = useRouter();
@@ -50,6 +53,10 @@ export default function Login() {
       router.push("/preferences");
     }
   }, [session, sessionStatus]);
+
+  if (!isDesktop) {
+    return <DesktopOnly />;
+  }
 
   return (
     <form
