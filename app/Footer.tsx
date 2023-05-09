@@ -6,7 +6,7 @@ export default function Footer() {
   const { data: session, status: sessionStatus } = useSession();
   const router = useRouter();
   return (
-    <footer className="grid grid-cols-1 md:grid-cols-3 gap-4 py-6 pl-12 border-t border-slate-700 text-center">
+    <footer className="grid grid-cols-1 md:grid-cols-3 gap-12 py-6 pl-12 border-t border-slate-700 text-center">
       <div className="flex flex-col items-start gap-3">
         <h2 className="font-bold text-lg mb-2">FalconAI</h2>
         <Link
