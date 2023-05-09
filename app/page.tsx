@@ -1,19 +1,29 @@
 "use client";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 
 const LandingPage = () => {
+  const { data: session, status: sessionStatus } = useSession();
   const router = useRouter();
+
+
   useEffect(() => {
-    router.prefetch("/auth/login");
-    router.prefetch("/preferences");
-    router.prefetch("/preferences/topic");
-    router.prefetch("/preferences/subtopic");
-    router.prefetch("/merlin");
-    router.prefetch("/magic/aid/lesson");
-  }, []);
+    if (session && sessionStatus === "authenticated") {
+      router.push("/preferences");
+    }
+  }, [session, sessionStatus]);
+
+   useEffect(() => {
+     router.prefetch("/auth/login");
+     router.prefetch("/preferences");
+     if (session && sessionStatus === "authenticated") {
+       router.prefetch("/preferences/topic");
+       router.prefetch("/preferences/subtopic");
+       router.prefetch("/merlin");
+       router.prefetch("/magic/aid/lesson");
+     }
+   }, []);
 
   return (
     <div className="flex flex-col items-center text-center pt-8 min-h-screen">
