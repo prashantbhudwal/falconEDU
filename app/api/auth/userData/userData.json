@@ -1,14 +1,44 @@
 [
   {
-    "id": 1,
-    "name": "John Doe",
-    "email": "john@doe.com",
-    "password": "johnpassword"
-  },
-  {
-    "id": 4,
+    "id": "hGcLxY",
     "name": "Test User",
     "email": "test@test.com",
-    "password": "12345"
+    "phone": "8888888888",
+    "password": "greenapplejuice"
+  },
+  {
+    "id": "aKcDzX",
+    "name": "Disha Bhandula",
+    "email": "disha.bh27@gmail.com",
+    "phone": "8447647605",
+    "password": "happysingingbird"
+  },
+  {
+    "id": "yJnBqW",
+    "name": "Kamini Ganguli",
+    "email": "kamini.ganguli2012@teacherforindia.org",
+    "phone": "8390387091",
+    "password": "blueskyparadise"
+  },
+  {
+    "id": "tMnWsR",
+    "name": "Supriya Dhir",
+    "email": "connectingsupriya@gmail.com",
+    "phone": "9818524165",
+    "password": "purpleflowermeadow"
+  },
+  {
+    "id": "bRnSmX",
+    "name": "Shemran Rizwi",
+    "email": "shemranrizwi16@gmail.com",
+    "phone": "8116560074",
+    "password": "redbutterflydance"
+  },
+  {
+    "id": "fMnTjP",
+    "name": "Shefali Ahlawat",
+    "email": "shefali4ahlawat@gmail.com",
+    "phone": "9873435483",
+    "password": "yellowbeachsun"
   }
 ]
