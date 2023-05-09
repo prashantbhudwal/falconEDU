@@ -16,7 +16,9 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const { data: session, status: sessionStatus } = useSession();
   const router = useRouter();
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (
+    event: React.KeyboardEvent<HTMLInputElement> | FormEvent<HTMLFormElement>
+  ) => {
     event.preventDefault();
     let result: SignInResult = undefined;
     try {
@@ -68,6 +70,11 @@ export default function Login() {
         required
         value={password}
         onChange={(event) => setPassword(event.target.value)}
+        onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => {
+          if (event.key === "Enter") {
+            handleSubmit(event);
+          }
+        }}
       />
       <button
         type="submit"
