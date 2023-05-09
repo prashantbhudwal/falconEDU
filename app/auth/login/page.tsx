@@ -32,6 +32,8 @@ export default function Login() {
       });
       if (result?.error) {
         setError("Invalid email or password");
+      } else {
+        window.location.href = "/preferences";
       }
     } catch (e) {
       console.error(e);
