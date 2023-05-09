@@ -54,5 +54,12 @@
     "email": "anushka.prabhu@gmail.com",
     "phone": "9833045490",
     "password": "purplefalcon"
+  },
+  {
+    "id": "987654321",
+    "name": "YC Admin",
+    "email": "falcon@yc.com",
+    "phone": "987654321",
+    "password": "orangefalcon"
   }
 ]
