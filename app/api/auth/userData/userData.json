@@ -40,5 +40,19 @@
     "email": "shefali4ahlawat@gmail.com",
     "phone": "9873435483",
     "password": "yellowbeachsun"
+  },
+  {
+    "id": "8879881971",
+    "name": "Prashant Bhudwal",
+    "email": "prashant.bhudwal@gmail.com",
+    "phone": "8879881971",
+    "password": "greenfalcon"
+  },
+  {
+    "id": "9833045490",
+    "name": "Anushka Prabhu",
+    "email": "anushka.prabhu@gmail.com",
+    "phone": "9833045490",
+    "password": "purplefalcon"
   }
 ]
