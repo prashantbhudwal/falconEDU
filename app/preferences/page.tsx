@@ -4,12 +4,20 @@ import { useRouter } from "next/navigation";
 import { useAtom } from "jotai";
 import { boardAtom, subjectAtom, gradeAtom } from "../atoms/preferences";
 import Button from "../components/Button";
+import { useEffect } from "react";
 export default function Home() {
   const boards = ["CBSE", "ICSE"];
   const router = useRouter();
   const [board, setBoard] = useAtom(boardAtom);
   const [subject, setSubject] = useAtom(subjectAtom);
   const [grade, setGrade] = useAtom(gradeAtom);
+
+  useEffect(() => {
+    router.prefetch("/preferences/topic");
+    router.prefetch("/preferences/subtopic");
+    router.prefetch("/merlin");
+    router.prefetch("/magic/aid/lesson");
+  }, []);
 
   const handleBoardChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setBoard(e.target.value);

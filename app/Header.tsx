@@ -8,6 +8,8 @@ import Button from "@/app/components/Button";
 import { useAtom } from "jotai";
 import Image from "next/image";
 import { topicAtom, subtopicAtom } from "./atoms/preferences";
+import { signOut, useSession } from "next-auth/react";
+
 import {
   lessonIdeasAtom,
   fetchedContentAtom,
@@ -18,6 +20,7 @@ import { startedAtom } from "./atoms/app";
 import useDownloadContent from "./hooks/useDownloadContent";
 import { useRouter } from "next/navigation";
 export default function Header() {
+  const { data: session, status: sessionStatus } = useSession();
   const [topic] = useAtom(topicAtom);
   const [subtopic] = useAtom(subtopicAtom);
   const [lessonIdeas] = useAtom(lessonIdeasAtom);
@@ -50,7 +53,11 @@ export default function Header() {
             </div>
             <div>
               <h1 className="text-lg">FalconAI</h1>
-              <p className="text-sm  text-slate-400">Teaching Assistant</p>
+              <p className="text-sm  text-slate-400">
+                {session
+                  ? `${session?.user?.name?.split(" ")[0]}'s Assistant`
+                  : `Teaching Assistant`}
+              </p>
             </div>
           </div>
         </Link>
