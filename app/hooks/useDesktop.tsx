@@ -2,11 +2,13 @@
 import { useEffect, useState } from "react";
 
 export default function useDesktop(breakpoint = 1024) {
-  const [isDesktop, setIsDesktop] = useState(
-    typeof window !== "undefined" && window.innerWidth >= breakpoint
-  );
+  const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
     const handleResize = () => {
       setIsDesktop(window.innerWidth >= breakpoint);
     };
