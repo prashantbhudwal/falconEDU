@@ -7,6 +7,8 @@ import Chip from "./components/ChipDrag";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
 import Checkbox from "./components/Checkbox";
+import Box from "./components/Box";
+import Header from "./components/Header";
 
 export default function Raptor() {
   const questionTypes = [
@@ -24,7 +26,14 @@ export default function Raptor() {
     "Robotics",
     "Artificial Neural Networks",
   ];
-
+  const levels = [
+    "Remembering",
+    "Understanding",
+    "Applying",
+    "Analyzing",
+    "Evaluating",
+    "Creating",
+  ];
   const [checkedQuestionTypes, setCheckedQuestionTypes] = useState<string[]>(
     []
   );
@@ -59,7 +68,23 @@ export default function Raptor() {
           leftTop={<span className="text-sm">0/10</span>}
           rightTop={<span className="text-sm">0/10</span>}
         >
-          hello I am Raptor
+          {checkedQuestionTypes.map((questionType) => (
+            <Box color="gray" key={questionType}>
+              <Section title={questionType}>
+                <div className="flex gap-2">
+                  {levels.map((level, index) => (
+                    <Box
+                      color="gray"
+                      key="index"
+                      className="text-sm hover:scale-110"
+                    >
+                      {level}
+                    </Box>
+                  ))}
+                </div>
+              </Section>
+            </Box>
+          ))}
         </Canvas>
         <Sidebar className="col-start-11 col-span-2">
           <Section title={"Types"}>
