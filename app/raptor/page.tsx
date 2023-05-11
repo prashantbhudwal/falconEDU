@@ -1,10 +1,13 @@
 "use client";
+import React, { useState } from "react";
 import Sidebar from "./components/Sidebar";
 import Section from "./components/Section";
 import Canvas from "./components/Canvas";
 import Chip from "./components/ChipDrag";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
+import Checkbox from "./components/Checkbox";
+
 export default function Raptor() {
   const questionTypes = [
     { value: "fillInTheBlanks", label: "Fill in the Blanks" },
@@ -21,6 +24,20 @@ export default function Raptor() {
     "Robotics",
     "Artificial Neural Networks",
   ];
+
+  const [checkedQuestionTypes, setCheckedQuestionTypes] = useState<string[]>(
+    []
+  );
+
+  const handleCheckboxChange = (value: string) => {
+    if (checkedQuestionTypes.includes(value)) {
+      setCheckedQuestionTypes(
+        checkedQuestionTypes.filter((val) => val !== value)
+      );
+    } else {
+      setCheckedQuestionTypes([...checkedQuestionTypes, value]);
+    }
+  };
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -47,14 +64,13 @@ export default function Raptor() {
         <Sidebar className="col-start-11 col-span-2">
           <Section title={"Types"}>
             {questionTypes.map((questionType) => (
-              <label key={questionType.value}>
-                <input
-                  type="checkbox"
-                  name="questionType"
-                  value={questionType.value}
-                />{" "}
-                {questionType.label}
-              </label>
+              <Checkbox
+                key={questionType.value}
+                value={questionType.value}
+                label={questionType.label}
+                checked={checkedQuestionTypes.includes(questionType.value)}
+                onChange={handleCheckboxChange}
+              />
             ))}
           </Section>
         </Sidebar>
