@@ -1,0 +1,17 @@
+type SectionProps = {
+  title: string;
+  children: React.ReactNode;
+};
+
+const Section: React.FC<SectionProps> = ({ title, children }) => {
+  return (
+    <div className="pt-3">
+      <header className="text-left font-medium text-slate-500 border-b border-solid border-slate-700 pb-2 mb-4">
+        <p className="capitalize">{title}</p>
+      </header>
+      <div className="flex flex-col gap-3">{children}</div>
+    </div>
+  );
+};
+
+export default Section;
