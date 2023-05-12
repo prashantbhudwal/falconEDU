@@ -3,12 +3,11 @@ import React, { useState } from "react";
 import Sidebar from "./components/Sidebar";
 import Section from "./components/Section";
 import Canvas from "./components/Canvas";
-import Chip from "./components/ChipDrag";
+import ChipDrag from "./components/ChipDrag";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
 import Checkbox from "./components/Checkbox";
-import Box from "./components/Box";
-import Header from "./components/Header";
+import BloomBox from "./components/BloomBox";
 
 export default function Raptor() {
   const questionTypes = [
@@ -27,12 +26,12 @@ export default function Raptor() {
     "Artificial Neural Networks",
   ];
   const levels = [
-    "Remembering",
-    "Understanding",
-    "Applying",
-    "Analyzing",
-    "Evaluating",
-    "Creating",
+    "Remember",
+    "Understand",
+    "Apply",
+    "Analyze",
+    "Evaluate",
+    "Create",
   ];
   const [checkedQuestionTypes, setCheckedQuestionTypes] = useState<string[]>(
     []
@@ -54,9 +53,9 @@ export default function Raptor() {
         <Sidebar className="col-start-1 col-span-3 row-start-1">
           <Section title={"Topics"}>
             {topics.map((topic, index) => (
-              <Chip key={index} color="secondary">
+              <ChipDrag key={index} color="secondary">
                 {topic}
-              </Chip>
+              </ChipDrag>
             ))}
           </Section>
         </Sidebar>
@@ -69,21 +68,27 @@ export default function Raptor() {
           rightTop={<span className="text-sm">0/10</span>}
         >
           {checkedQuestionTypes.map((questionType) => (
-            <Box color="gray" key={questionType}>
-              <Section title={questionType}>
-                <div className="flex gap-2">
-                  {levels.map((level, index) => (
-                    <Box
-                      color="gray"
-                      key="index"
-                      className="text-sm hover:scale-110"
-                    >
-                      {level}
-                    </Box>
-                  ))}
+            <Section title={questionType} key={questionType}>
+              <div className="grid grid-cols-6 divide-x divide-slate-800 text-slate-600">
+                {levels.map((level, index) => (
+                  <BloomBox
+                    key={index}
+                    questionType={questionType}
+                    bloomLevel={level}
+                  >
+                    {level}
+                  </BloomBox>
+                ))}
+              </div>
+              <div className="flex flex-col gap-2">
+                <div className="border-b-2 border-gray-700  p-2">
+                  Questions will appear here
                 </div>
-              </Section>
-            </Box>
+                <div className="border-b-2 border-gray-700  p-2">
+                  Questions will appear here
+                </div>
+              </div>
+            </Section>
           ))}
         </Canvas>
         <Sidebar className="col-start-11 col-span-2">
