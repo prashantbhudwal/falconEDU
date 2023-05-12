@@ -12,7 +12,7 @@ import BloomBox from "./components/BloomBox";
 export default function Raptor() {
   const questionTypes = [
     { value: "fillInTheBlanks", label: "Fill in the Blanks" },
-    { value: "multipleChoice", label: "Multiple Choice" },
+    { value: "multipleChoiceSingleCorrect", label: "Multiple Choice" },
     { value: "trueFalse", label: "True/False" },
     { value: "shortAnswer", label: "Short Answer" },
     { value: "essay", label: "Essay" },
