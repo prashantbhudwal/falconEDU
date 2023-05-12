@@ -55,14 +55,6 @@ export default function Raptor() {
     { value: "shortAnswer", label: "Short Answer" },
     { value: "essay", label: "Essay" },
   ] as { value: QuestionType; label: string }[];
-
-  const topics = [
-    "Machine Learning",
-    "Natural Language Processing And Other Stuff Because Long Text",
-    "Computer Vision",
-    "Robotics",
-    "Artificial Neural Networks",
-  ];
   const levels = [
     "Remember",
     "Understand",
