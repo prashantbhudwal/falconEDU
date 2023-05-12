@@ -8,15 +8,38 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
 import Checkbox from "./components/Checkbox";
 import BloomBox from "./components/BloomBox";
-import { QuestionType } from "@/types";
+import { QuestionType } from '@/types';
 import { currentQuestionAtom } from "../atoms/worksheet";
 import { useAtom } from "jotai";
 import { useQuestionGeneration } from "../hooks/useQuestionGeneration";
+import { contentStreamCompletedAtom } from "@/app/atoms/lesson";
+
 export default function Raptor() {
   const [currentQuestion, setCurrentQuestion] = useAtom(currentQuestionAtom);
-
+  const [contentStreamCompleted, setContentStreamCompleted] = useAtom(
+    contentStreamCompletedAtom
+  );
   const { content, startStreaming } = useQuestionGeneration("getQuestion");
+  const [parsedContent, setParsedContent] = useState<any>(null);
 
+  const isJson = (str: string) => {
+    try {
+      JSON.parse(str);
+    } catch (e) {
+      return false;
+    }
+    return true;
+  };
+
+  useEffect(() => {
+    if ( content) {
+      const jsonString = content.join("");
+      if (isJson(jsonString)) {
+        const jsonObject = JSON.parse(jsonString);
+        setParsedContent(jsonObject);
+      }
+    }
+  }, [content]);
   useEffect(() => {
     startStreaming();
   }, [currentQuestion]);
@@ -58,6 +81,8 @@ export default function Raptor() {
     }
   };
 
+  console.log(content);
+
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="grid grid-cols-12 gap-4 w-full select-none">
@@ -93,9 +118,11 @@ export default function Raptor() {
               </div>
               <div className="flex flex-col gap-2">
                 <div className="border-b-2 border-gray-700  p-2">{content}</div>
-                <div className="border-b-2 border-gray-700  p-2">
-                  Questions will appear here
-                </div>
+                {parsedContent && (
+                  <div className="border-b-2 border-gray-700 p-2">
+                    1: {parsedContent.question}
+                  </div>
+                )}
               </div>
             </Section>
           ))}
