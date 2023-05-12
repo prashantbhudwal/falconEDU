@@ -37,7 +37,7 @@ export default function Page() {
   }, [board, subject, grade, router]);
 
   const handleStart = () => {
-    router.push("/merlin");
+    router.push("/raptor");
     setStarted(true);
     setLessonIdeas([]);
   };
@@ -65,37 +65,53 @@ export default function Page() {
   }, [contentStreamCompleted]);
 
   return (
-    <div className="flex flex-col gap-10 items-center m-4">
-      <div className="flex gap-3">
-        <TextInput
-          value={inputValue}
-          onChange={handleChange}
-          placeholder="Enter any topic..."
-        />
-
-        <Button onClick={handleAddSubtopic} disabled={!inputValue}>
-          Add Subtopic
-        </Button>
-
-        <Button
-          onClick={handleStart}
-          disabled={worksheetSubtopics.length === 0}
-        >
-          New Lesson
-        </Button>
-      </div>
-      {/* {worksheetSubtopics.length > 0 && ( */}
-        <div className="flex flex-row flex-wrap gap-2 mt-4 p-6 rounded-lg ring-2 ring-emerald-500 w-3/5">
+    <div className="flex flex-col gap-10 items-center m-4 w-full">
+      <div className="flex gap-3 w-5/6">
+        <div className="flex flex-row flex-wrap gap-2 px-6 py-4 rounded-lg ring-2 ring-fuchsia-500 w-full">
           {worksheetSubtopics.map((subtopic, index) => (
             <div
               key={index}
-              className="px-4 py-2 rounded-lg bg-emerald-500 text-slate-800"
+              className="px-2 py-1 rounded-sm bg-fuchsia-500 text-slate-800"
             >
               {subtopic}
             </div>
           ))}
         </div>
-      {/* )} */}
+        <Button
+          secondary
+          onClick={handleStart}
+          disabled={worksheetSubtopics.length === 0}
+        >
+          Worksheet
+        </Button>
+      </div>
+      <div className="flex gap-3">
+        <TextInput
+          value={inputValue}
+          onChange={handleChange}
+          placeholder="Enter topics..."
+        />
+        <button
+          className=" text-white font-bold py-2 px-4 rounded ring-2 ring-slate-500 hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50"
+          onClick={handleAddSubtopic}
+          disabled={!inputValue}
+        >
+          <svg
+            className="h-6 w-6 fill-current"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M12 4v16m8-8H4"
+            />
+          </svg>
+        </button>
+      </div>
 
       {!contentStreamCompleted ? (
         <div className="flex flex-col items-center justify-center gap-2 h-12">
