@@ -1,4 +1,7 @@
 import { useDrop, DropTargetMonitor } from "react-dnd";
+import { useAtom } from "jotai";
+import { currentQuestionAtom } from "../../atoms/worksheet";
+import { QuestionType } from "@/types";
 
 export default function BoxDrop({
   children,
@@ -7,12 +10,18 @@ export default function BoxDrop({
   bloomLevel,
 }: React.PropsWithChildren<{
   className?: string;
-  questionType: string;
+  questionType: QuestionType;
   bloomLevel: string;
 }>) {
+  const [currentQuestion, setCurrentQuestion] = useAtom(currentQuestionAtom);
   const specObject = {
     accept: "topic",
-    drop: (item: any) => console.log(item, questionType, bloomLevel),
+    drop: (item: any) =>
+      setCurrentQuestion({
+        questionType: questionType,
+        bloomLevel: bloomLevel,
+        subtopic: item.text,
+      }),
     collect: (monitor: DropTargetMonitor) => ({
       isOver: monitor.isOver(),
       canDrop: monitor.canDrop(),
