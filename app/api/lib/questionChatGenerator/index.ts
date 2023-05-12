@@ -14,7 +14,7 @@ function getEngineeredMessages(
   return [
     {
       role: "system",
-      content: `You are a question generator that generates question at a particular "Bloom Level" for children. You always reply in JSON. Here is a sample JSON response: 
+      content: `You are a question generator that generates question at a particular "Bloom Level" for children. You only reply in JSON. Here is a sample JSON response: 
       {
       "question": <question>,
       "type":<questionType>,
@@ -38,6 +38,7 @@ export function getQuestionMessages(
 ): ChatCompletionRequestMessage[] {
   const { grade, topic, subtopic, board, questionType, bloomLevel, subject } =
     payload.data;
+    console.log(payload.data)
   const engineeredMessages = getEngineeredMessages(
     grade,
     topic,
