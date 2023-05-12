@@ -71,7 +71,7 @@ export default function Page() {
           {worksheetSubtopics.map((subtopic, index) => (
             <div
               key={index}
-              className="px-2 py-1 rounded-sm bg-fuchsia-500 text-slate-800"
+              className="px-2 py-1 rounded-sm bg-emerald-500 text-slate-800"
             >
               {subtopic}
             </div>
