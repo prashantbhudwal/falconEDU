@@ -10,7 +10,7 @@ export default function ChipDrag({
   color?: "primary" | "secondary" | "gray";
 }) {
   const specObject = {
-    type: "Box",
+    type: "topic",
     item: { text: children },
     collect: (monitor: DragSourceMonitor) => ({
       isDragging: monitor.isDragging(),
