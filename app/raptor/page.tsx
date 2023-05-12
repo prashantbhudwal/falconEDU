@@ -8,7 +8,7 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
 import Checkbox from "./components/Checkbox";
 import BloomBox from "./components/BloomBox";
-import { QuestionType } from '@/types';
+import { QuestionType } from "@/types";
 import { currentQuestionAtom } from "../atoms/worksheet";
 import { useAtom } from "jotai";
 import { useQuestionGeneration } from "../hooks/useQuestionGeneration";
@@ -32,14 +32,14 @@ export default function Raptor() {
   };
 
   useEffect(() => {
-    if ( content) {
+    if (contentStreamCompleted && content) {
       const jsonString = content.join("");
       if (isJson(jsonString)) {
         const jsonObject = JSON.parse(jsonString);
         setParsedContent(jsonObject);
       }
     }
-  }, [content]);
+  }, [content, contentStreamCompleted]);
   useEffect(() => {
     startStreaming();
   }, [currentQuestion]);
