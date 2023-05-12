@@ -13,6 +13,7 @@ import { currentQuestionAtom } from "../atoms/worksheet";
 import { useAtom } from "jotai";
 import { useQuestionGeneration } from "../hooks/useQuestionGeneration";
 import { contentStreamCompletedAtom } from "@/app/atoms/lesson";
+import { worksheetSubtopicsAtom } from "../atoms/worksheet";
 
 export default function Raptor() {
   const [currentQuestion, setCurrentQuestion] = useAtom(currentQuestionAtom);
@@ -21,6 +22,9 @@ export default function Raptor() {
   );
   const { content, startStreaming } = useQuestionGeneration("getQuestion");
   const [parsedContent, setParsedContent] = useState<any>(null);
+  const [worksheetSubtopics, setWorksheetSubtopics] = useAtom(
+    worksheetSubtopicsAtom
+  );
 
   const isJson = (str: string) => {
     try {
@@ -88,11 +92,12 @@ export default function Raptor() {
       <div className="grid grid-cols-12 gap-4 w-full select-none">
         <Sidebar className="col-start-1 col-span-3 row-start-1">
           <Section title={"Topics"}>
-            {topics.map((topic, index) => (
-              <ChipDrag key={index} color="secondary">
-                {topic}
-              </ChipDrag>
-            ))}
+            {worksheetSubtopics.length > 0 &&
+              worksheetSubtopics.map((topic, index) => (
+                <ChipDrag key={index} color="secondary">
+                  {topic}
+                </ChipDrag>
+              ))}
           </Section>
         </Sidebar>
         <Canvas
