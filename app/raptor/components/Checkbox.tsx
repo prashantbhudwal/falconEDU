@@ -1,11 +1,12 @@
 "use client";
 import React from "react";
+import { QuestionType } from "@/types";
 
 type CheckboxProps = {
-  value: string;
+  value: QuestionType;
   label: string;
   checked: boolean;
-  onChange: (value: string, checked: boolean) => void;
+  onChange: (value: QuestionType, checked: boolean) => void;
 };
 
 const Checkbox: React.FC<CheckboxProps> = ({
