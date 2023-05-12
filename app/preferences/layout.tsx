@@ -34,6 +34,16 @@ const getTitle = (pathname: string) => {
           are you focusing on?
         </>
       );
+    case "/preferences/multipleSubtopics":
+      return (
+        <>
+          Which{" "}
+          <span className=" underline underline-offset-8 decoration-emerald-500">
+            topics
+          </span>{" "}
+          are you focusing on?
+        </>
+      );
     default:
       return "What are you teaching today?";
   }
@@ -51,7 +61,7 @@ export default function PreferencesLayout({
   }
 
   return (
-    <div className="flex flex-col gap-10 items-center mt-7">
+    <div className="flex flex-col gap-10 items-center mt-7 w-full">
       <div className="text-4xl text-slate-300">{getTitle(pathname)}</div>
       {children}
     </div>
