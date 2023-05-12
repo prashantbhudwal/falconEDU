@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Sidebar from "./components/Sidebar";
 import Section from "./components/Section";
 import Canvas from "./components/Canvas";
@@ -8,15 +8,26 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
 import Checkbox from "./components/Checkbox";
 import BloomBox from "./components/BloomBox";
-
+import { QuestionType } from "@/types";
+import { currentQuestionAtom } from "../atoms/worksheet";
+import { useAtom } from "jotai";
+import { useQuestionGeneration } from "../hooks/useQuestionGeneration";
 export default function Raptor() {
+  const [currentQuestion, setCurrentQuestion] = useAtom(currentQuestionAtom);
+
+  const { content, startStreaming } = useQuestionGeneration("getQuestion");
+
+  useEffect(() => {
+    startStreaming();
+  }, [currentQuestion]);
+
   const questionTypes = [
     { value: "fillInTheBlanks", label: "Fill in the Blanks" },
     { value: "multipleChoiceSingleCorrect", label: "Multiple Choice" },
     { value: "trueFalse", label: "True/False" },
     { value: "shortAnswer", label: "Short Answer" },
     { value: "essay", label: "Essay" },
-  ];
+  ] as { value: QuestionType; label: string }[];
 
   const topics = [
     "Machine Learning",
@@ -33,11 +44,11 @@ export default function Raptor() {
     "Evaluate",
     "Create",
   ];
-  const [checkedQuestionTypes, setCheckedQuestionTypes] = useState<string[]>(
-    []
-  );
+  const [checkedQuestionTypes, setCheckedQuestionTypes] = useState<
+    QuestionType[]
+  >([]);
 
-  const handleCheckboxChange = (value: string) => {
+  const handleCheckboxChange = (value: QuestionType) => {
     if (checkedQuestionTypes.includes(value)) {
       setCheckedQuestionTypes(
         checkedQuestionTypes.filter((val) => val !== value)
@@ -81,9 +92,7 @@ export default function Raptor() {
                 ))}
               </div>
               <div className="flex flex-col gap-2">
-                <div className="border-b-2 border-gray-700  p-2">
-                  Questions will appear here
-                </div>
+                <div className="border-b-2 border-gray-700  p-2">{content}</div>
                 <div className="border-b-2 border-gray-700  p-2">
                   Questions will appear here
                 </div>
