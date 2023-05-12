@@ -1,9 +1,9 @@
-import { StreamPayload, PredictionPayload } from "@/types";
+import { StreamPayload, PredictionPayload, QuestionPayload } from "@/types";
 import { APIRoute } from "@/types";
 
 export default async function fetchContentStream(
   onMessage: any,
-  payload: StreamPayload | PredictionPayload,
+  payload: StreamPayload | PredictionPayload | QuestionPayload,
   route: APIRoute
 ): Promise<boolean> {
   try {
