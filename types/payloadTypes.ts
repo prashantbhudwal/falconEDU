@@ -30,5 +30,26 @@ export type PredictionPayload = {
     subtopic?: string;
   };
 };
+export type QuestionPayload = {
+  action: QuestionAction;
+  data: {
+    questionType: QuestionType;
+    bloomLevel: string;
+    grade: string;
+    board: string;
+    subject: string;
+    topic: string;
+    subtopic: string;
+  };
+};
+
+export type QuestionType =
+  | "fillInTheBlanks"
+  | "multipleChoiceSingleCorrect"
+  | "trueFalse"
+  | "shortAnswer"
+  | "essay";
+
+export type QuestionAction = "getQuestion";
 
 export type PredictionAction = "predictChapters" | "predictSubtopics";
