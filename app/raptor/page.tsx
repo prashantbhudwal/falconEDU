@@ -54,6 +54,7 @@ export default function Raptor() {
   useEffect(() => {
     if (contentStreamCompleted && content) {
       const jsonString = content.join("");
+      console.log(jsonString);
       if (isJson(jsonString)) {
         const jsonObject = JSON.parse(jsonString);
         setParsedContent(jsonObject);
