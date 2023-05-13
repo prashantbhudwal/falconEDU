@@ -15,7 +15,23 @@ import { useQuestionGeneration } from "../hooks/useQuestionGeneration";
 import { contentStreamCompletedAtom } from "@/app/atoms/lesson";
 import { worksheetSubtopicsAtom } from "../atoms/worksheet";
 
+type Question = {
+  question: string;
+  answer?: string | boolean;
+  options?: string[];
+};
+type SavedQuestions = {
+  [K in QuestionType]: Question[];
+};
+
 export default function Raptor() {
+  const [savedQuestions, setSavedQuestions] = useState<SavedQuestions>({
+    fillInTheBlanks: [],
+    multipleChoiceSingleCorrect: [],
+    trueFalse: [],
+    shortAnswer: [],
+    essay: [],
+  });
   const [currentQuestion, setCurrentQuestion] = useAtom(currentQuestionAtom);
   const [contentStreamCompleted, setContentStreamCompleted] = useAtom(
     contentStreamCompletedAtom
@@ -48,6 +64,21 @@ export default function Raptor() {
     startStreaming();
   }, [currentQuestion]);
 
+  useEffect(() => {
+    if (parsedContent && "type" in parsedContent) {
+      const parsedQuestionType = parsedContent.type as QuestionType;
+      if (Object.keys(savedQuestions).includes(parsedQuestionType)) {
+        setSavedQuestions((prevState) => ({
+          ...prevState,
+          [parsedQuestionType]: [
+            ...prevState[parsedQuestionType],
+            parsedContent,
+          ],
+        }));
+      }
+    }
+  }, [parsedContent]);
+
   const questionTypes = [
     { value: "fillInTheBlanks", label: "Fill in the Blanks" },
     { value: "multipleChoiceSingleCorrect", label: "Multiple Choice" },
@@ -55,6 +86,7 @@ export default function Raptor() {
     { value: "shortAnswer", label: "Short Answer" },
     { value: "essay", label: "Essay" },
   ] as { value: QuestionType; label: string }[];
+
   const levels = [
     "Remember",
     "Understand",
@@ -93,36 +125,57 @@ export default function Raptor() {
           </Section>
         </Sidebar>
         <Canvas
-          className="col-start-4 col-span-7 min-h-screen"
+          className="col-start-4 col-span-7 h-screen scroll-smooth overflow-y-auto scroll-pb-96 pb-96"
           color="secondary"
           heading="Canvas"
           subheading="Drag and drop your ideas here"
           leftTop={<span className="text-sm">0/10</span>}
           rightTop={<span className="text-sm">0/10</span>}
         >
-          {checkedQuestionTypes.map((questionType) => (
-            <Section title={questionType} key={questionType}>
-              <div className="grid grid-cols-6 divide-x divide-slate-800 text-slate-600">
-                {levels.map((level, index) => (
-                  <BloomBox
-                    key={index}
-                    questionType={questionType}
-                    bloomLevel={level}
-                  >
-                    {level}
-                  </BloomBox>
-                ))}
-              </div>
-              <div className="flex flex-col gap-2">
-                <div className="border-b-2 border-gray-700  p-2">{content}</div>
-                {parsedContent && (
-                  <div className="border-b-2 border-gray-700 p-2">
-                    1: {parsedContent.question}
+          {Object.keys(savedQuestions).map((questionType) => {
+            const questionTypeKey = questionType as QuestionType;
+            // If the questionType is not in checkedQuestionTypes, return null
+            if (!checkedQuestionTypes.includes(questionTypeKey)) {
+              return null;
+            }
+
+            return (
+              <Section title={questionTypeKey} key={questionTypeKey}>
+                <div className="grid grid-cols-6 divide-x divide-slate-800 text-slate-600">
+                  {levels.map((level, index) => (
+                    <BloomBox
+                      key={index}
+                      questionType={questionTypeKey}
+                      bloomLevel={level}
+                    >
+                      {level}
+                    </BloomBox>
+                  ))}
+                </div>
+                {savedQuestions[questionTypeKey].map((question, index) => (
+                  <div className="flex flex-col gap-2" key={index}>
+                    <div className="">
+                      {index + 1}: {question.question}
+                      <div className="pt-2">
+                        {"options" in question &&
+                          Array.isArray(question.options) && // type guard
+                          question.options.map(
+                            (option: string, optIndex: number) => (
+                              <div
+                                key={optIndex}
+                                className="flex flex-row gap-2"
+                              >
+                                <div>{option}</div>
+                              </div>
+                            )
+                          )}
+                      </div>
+                    </div>
                   </div>
-                )}
-              </div>
-            </Section>
-          ))}
+                ))}
+              </Section>
+            );
+          })}
         </Canvas>
         <Sidebar className="col-start-11 col-span-2">
           <Section title={"Types"}>
