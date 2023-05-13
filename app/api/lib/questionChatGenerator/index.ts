@@ -22,7 +22,7 @@ function getJsonPayload(payload: QuestionPayload): string {
     question: "<question>",
     type: questionType,
     bloomLevel,
-    levelExplanation: "<whyLevelWasAssigned>",
+    // levelExplanation: "<whyLevelWasAssigned>",
     topic,
     subtopic,
     grade,
@@ -33,19 +33,24 @@ function getJsonPayload(payload: QuestionPayload): string {
 
   switch (questionType) {
     case "fillInTheBlanks":
+      specificPayload = {
+        ...basePayload,
+        answer: "<correctOption>",
+      };
+      break;
     case "multipleChoiceSingleCorrect":
     case "trueFalse":
       specificPayload = {
         ...basePayload,
         options: "<options>",
-        correctOption: "<correctOption>",
+        answer: "<correctOption>",
       };
       break;
     case "shortAnswer":
     case "essay":
       specificPayload = {
         ...basePayload,
-        sampleAnswer: "<SampleAnswer>",
+        answer: "<SampleAnswer>",
       };
       break;
     default:
@@ -77,9 +82,9 @@ export function getQuestionMessages(
     ...engineeredMessages,
     {
       role: "user",
-      content: `${JSON_DIRECTIVE} Give me one question ${getJsonPayload(
+      content: `${JSON_DIRECTIVE} Give me one question for the following data <${getJsonPayload(
         payload
-      )}`,
+      )}>. Reply with ONLY JSON in the following format: {"type":<questionType>,"question":<question>, "options":<options>}`,
     },
   ];
 }
