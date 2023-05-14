@@ -1,7 +1,8 @@
 import { atom } from "jotai";
 import { QuestionType } from "@/types";
+import { Question } from "@/types";
 type CurrentQuestion = {
-  questionType: QuestionType;
+  type: QuestionType;
   bloomLevel: string;
   subtopic: string;
 };
@@ -9,7 +10,7 @@ type CurrentQuestion = {
 export const worksheetSubtopicsAtom = atom([""]);
 
 export const currentQuestionAtom = atom<CurrentQuestion>({
-  questionType: "fillInTheBlanks",
+  type: "fillInTheBlanks",
   bloomLevel: "",
   subtopic: "",
 });
