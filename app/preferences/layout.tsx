@@ -62,7 +62,9 @@ export default function PreferencesLayout({
 
   return (
     <div className="flex flex-col gap-10 items-center mt-7 w-full">
-      <div className="text-4xl text-slate-300">{getTitle(pathname)}</div>
+      <div className="text-4xl text-slate-300">
+        {pathname && getTitle(pathname)}
+      </div>
       {children}
     </div>
   );
