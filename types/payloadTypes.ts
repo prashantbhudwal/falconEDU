@@ -1,3 +1,4 @@
+import { QuestionType, Question } from "./questionTypes";
 import { BlockContent } from "./blockTypes";
 import { ideaType } from "./ideaTypes";
 import { aidType } from "./ideaTypes";
@@ -32,23 +33,8 @@ export type PredictionPayload = {
 };
 export type QuestionPayload = {
   action: QuestionAction;
-  data: {
-    questionType: QuestionType;
-    bloomLevel: string;
-    grade: string;
-    board: string;
-    subject: string;
-    topic: string;
-    subtopic: string;
-  };
+  data: Question;
 };
-
-export type QuestionType =
-  | "fillInTheBlanks"
-  | "multipleChoiceSingleCorrect"
-  | "trueFalse"
-  | "shortAnswer"
-  | "essay";
 
 export type QuestionAction = "getQuestion";
 
