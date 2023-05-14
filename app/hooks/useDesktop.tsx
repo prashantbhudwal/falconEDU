@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 
 export default function useDesktop(breakpoint = 1024) {
-  const [isDesktop, setIsDesktop] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(true);
 
   useEffect(() => {
     if (typeof window === "undefined") {
