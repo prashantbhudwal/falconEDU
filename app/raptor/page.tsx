@@ -8,24 +8,15 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
 import Checkbox from "./components/Checkbox";
 import BloomBox from "./components/BloomBox";
-import { QuestionType } from "@/types";
+import { QuestionType, Questions, Question } from "@/types";
 import { currentQuestionAtom } from "../atoms/worksheet";
 import { useAtom } from "jotai";
 import { useQuestionGeneration } from "../hooks/useQuestionGeneration";
 import { contentStreamCompletedAtom } from "@/app/atoms/lesson";
 import { worksheetSubtopicsAtom } from "../atoms/worksheet";
 
-type Question = {
-  question: string;
-  answer?: string | boolean;
-  options?: string[];
-};
-type SavedQuestions = {
-  [K in QuestionType]: Question[];
-};
-
 export default function Raptor() {
-  const [savedQuestions, setSavedQuestions] = useState<SavedQuestions>({
+  const [savedQuestions, setSavedQuestions] = useState<Questions>({
     fillInTheBlanks: [],
     multipleChoiceSingleCorrect: [],
     trueFalse: [],
@@ -37,11 +28,13 @@ export default function Raptor() {
     contentStreamCompletedAtom
   );
   const { content, startStreaming } = useQuestionGeneration("getQuestion");
-  const [parsedContent, setParsedContent] = useState<any>(null);
+  const [parsedContent, setParsedContent] = useState<Question>();
   const [worksheetSubtopics, setWorksheetSubtopics] = useAtom(
     worksheetSubtopicsAtom
   );
-
+  function isKeyOfQuestions(key: string): key is keyof Questions {
+    return key in savedQuestions;
+  }
   const isJson = (str: string) => {
     try {
       JSON.parse(str);
@@ -61,21 +54,26 @@ export default function Raptor() {
       }
     }
   }, [content, contentStreamCompleted]);
+
   useEffect(() => {
-    startStreaming();
+    if (currentQuestion.bloomLevel.length > 0) {
+      //Stops code from running when the page first loads
+      startStreaming();
+    }
   }, [currentQuestion]);
 
   useEffect(() => {
     if (parsedContent && "type" in parsedContent) {
-      const parsedQuestionType = parsedContent.type as QuestionType;
+      const parsedQuestionType = parsedContent.type as keyof Questions;
       if (Object.keys(savedQuestions).includes(parsedQuestionType)) {
-        setSavedQuestions((prevState) => ({
-          ...prevState,
-          [parsedQuestionType]: [
-            ...prevState[parsedQuestionType],
-            parsedContent,
-          ],
-        }));
+        const questionArray = savedQuestions[parsedQuestionType];
+        if (Array.isArray(questionArray)) {
+          // type guard
+          setSavedQuestions((prevState: Questions) => ({
+            ...prevState,
+            [parsedQuestionType]: [...questionArray, parsedContent],
+          }));
+        }
       }
     }
   }, [parsedContent]);
@@ -139,43 +137,44 @@ export default function Raptor() {
             if (!checkedQuestionTypes.includes(questionTypeKey)) {
               return null;
             }
-
-            return (
-              <Section title={questionTypeKey} key={questionTypeKey}>
-                <div className="grid grid-cols-6 divide-x divide-slate-800 text-slate-600">
-                  {levels.map((level, index) => (
-                    <BloomBox
-                      key={index}
-                      questionType={questionTypeKey}
-                      bloomLevel={level}
-                    >
-                      {level}
-                    </BloomBox>
-                  ))}
-                </div>
-                {savedQuestions[questionTypeKey].map((question, index) => (
-                  <div className="flex flex-col gap-2" key={index}>
-                    <div className="">
-                      {index + 1}. {question.question}
-                      <div className="pt-2">
-                        {"options" in question &&
-                          Array.isArray(question.options) && // type guard
-                          question.options.map(
-                            (option: string, optIndex: number) => (
-                              <div
-                                key={optIndex}
-                                className="flex flex-row gap-2"
-                              >
-                                <div>{option}</div>
-                              </div>
-                            )
-                          )}
+            if (isKeyOfQuestions(questionTypeKey)) {
+              return (
+                <Section title={questionTypeKey} key={questionTypeKey}>
+                  <div className="grid grid-cols-6 divide-x divide-slate-800 text-slate-600">
+                    {levels.map((level, index) => (
+                      <BloomBox
+                        key={index}
+                        type={questionTypeKey}
+                        bloomLevel={level}
+                      >
+                        {level}
+                      </BloomBox>
+                    ))}
+                  </div>
+                  {savedQuestions[questionTypeKey]?.map((question, index) => (
+                    <div className="flex flex-col gap-2" key={index}>
+                      <div className="">
+                        {index + 1}. {question.question}
+                        <div className="pt-2">
+                          {"options" in question &&
+                            Array.isArray(question.options) && // type guard
+                            question.options.map(
+                              (option: string, optIndex: number) => (
+                                <div
+                                  key={optIndex}
+                                  className="flex flex-row gap-2"
+                                >
+                                  <div>{option}</div>
+                                </div>
+                              )
+                            )}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
-              </Section>
-            );
+                  ))}
+                </Section>
+              );
+            }
           })}
         </Canvas>
         <Sidebar className="col-start-11 col-span-2">
