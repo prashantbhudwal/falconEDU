@@ -11,6 +11,6 @@ export const contentStreamAtom = atom<string[]>([]);
 export const teachingAidsAtom = atom<teachingAids[]>([]);
 export const visibleAidAtom = atom<StreamPayload["payloadType"]>("lesson");
 export const lessonIdeasAtom = atom<BlockContent[]>([]);
-export const contentStreamCompletedAtom = atom(false);
+export const contentStreamCompletedAtom = atom(true);
 export const fetchedContentAtom = atom<string[]>([]);
 export const shouldRegenerateAtom = atom(false);
