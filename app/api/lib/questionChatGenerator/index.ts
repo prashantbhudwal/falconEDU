@@ -29,16 +29,16 @@ function getQuestionResponseFormat(questionType: QuestionType): string {
     case "multipleChoiceSingleCorrect":
       return `{"type":"multipleChoiceSingleCorrect","question":<question>, "options":<options>, "answer":<correctOption>}`;
     case "shortAnswer":
-      return `{"type":"shortAnswer","question":<question>, "answer":<sampleAnswer>}`;
+      return `{"type":"shortAnswer","question":<question>}`;
     case "essay":
-      return `{"type":"essay","question":<question>, "answer":<sampleAnswer>}`;
+      return `{"type":"essay","question":<question>}`;
     default:
       throw new Error("Invalid question type");
   }
 }
 
-function getBloomLevelPrompt(bloomLevel: string): string {
-  const lowerCaseBloomLevel = bloomLevel.toLowerCase();
+function getBloomLevelPrompt(bloomLevel: string | undefined): string {
+  const lowerCaseBloomLevel = bloomLevel?.toLowerCase();
   switch (lowerCaseBloomLevel) {
     case "remember":
       return "Remembering";
@@ -69,18 +69,17 @@ function getSystemMessage(
 }
 
 function getInitialUserMessage(payload: QuestionPayload): string {
-  const { bloomLevel, topic, subtopic, grade, board, questionType } =
-    payload.data;
-  const prompt_QuestionType = getQuestionTypePrompt(questionType);
+  const { bloomLevel, topic, subtopic, grade, board, type } = payload.data;
+  const prompt_QuestionType = getQuestionTypePrompt(type);
   const prompt_BloomLevel = getBloomLevelPrompt(bloomLevel);
-  const questionFormat = getQuestionResponseFormat(questionType);
-  return `${prompt_QuestionType} The question should be for the topic "${subtopic}" from the chapter "${topic}". The students are prescribed, """${board}""" Textbook. Make sure you adhere to """Bloom's taxonomy""", and give the the question at the Bloom level of '''${prompt_BloomLevel}'''. Don't mention the textbook, or bloom level in the response. Reply with ONLY JSON in the following format: ${questionFormat}`;
+  const questionFormat = getQuestionResponseFormat(type);
+  return `${prompt_QuestionType} The question should be for the topic "${subtopic}" from the chapter "${topic}". The students are in grade ${grade} and they are prescribed, """${board}""" Textbook. Make sure you adhere to """Bloom's taxonomy""", and give the the question at the Bloom level of '''${prompt_BloomLevel}'''. Don't mention the textbook, or bloom level in the response. Reply with ONLY JSON in the following format: ${questionFormat}`;
 }
 
 export function getQuestionMessages(
   payload: QuestionPayload
 ): ChatCompletionRequestMessage[] {
-  const questionType = payload.data.questionType;
+  const questionType = payload.data.type;
   const systemMessage = getSystemMessage(payload);
   const initialUserMessage = getInitialUserMessage(payload);
   switch (questionType) {
@@ -136,12 +135,11 @@ export function getQuestionMessages(
 }
 
 function getJsonPayload(payload: QuestionPayload): string {
-  const { bloomLevel, topic, subtopic, grade, board, questionType } =
-    payload.data;
+  const { bloomLevel, topic, subtopic, grade, board, type } = payload.data;
 
   let basePayload = {
     question: "<question>",
-    type: questionType,
+    type: type,
     bloomLevel,
     // levelExplanation: "<whyLevelWasAssigned>",
     topic,
@@ -152,7 +150,7 @@ function getJsonPayload(payload: QuestionPayload): string {
 
   let specificPayload;
 
-  switch (questionType) {
+  switch (type) {
     case "fillInTheBlanks":
       specificPayload = {
         ...basePayload,
