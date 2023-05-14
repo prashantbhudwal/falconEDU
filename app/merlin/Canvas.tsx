@@ -45,9 +45,11 @@ export default function Canvas({ className }: { className?: string }) {
     setFetchNow(true);
   };
 
-  if (topic === "" || subtopic === "") {
-    router.push("/preferences");
-  }
+  useEffect(() => {
+    if (topic === "" || subtopic === "") {
+      router.push("/preferences");
+    }
+  }, [topic, subtopic]);
 
   const specObject = {
     accept: "Box",
