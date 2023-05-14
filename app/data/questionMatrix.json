@@ -1,0 +1,142 @@
+[
+  {
+    "type": "fillInTheBlanks",
+    "title": "Fill in the Blanks",
+    "description": "Complete a sentence or paragraph by filling in missing words.",
+    "bloomLevels": ["remembering", "understanding"]
+  },
+  {
+    "type": "multipleChoiceSingleCorrect",
+    "title": "Multiple Choice (Single Correct)",
+    "description": "Select one correct answer from a list of options.",
+    "bloomLevels": ["remembering", "understanding"]
+  },
+  {
+    "type": "trueFalse",
+    "title": "True/False",
+    "description": "Determine whether a statement is true or false.",
+    "bloomLevels": ["remembering", "understanding"]
+  },
+  {
+    "type": "shortAnswer",
+    "title": "Short Answer",
+    "description": "Provide a brief response to a question or prompt.",
+    "bloomLevels": [
+      "remembering",
+      "understanding",
+      "applying",
+      "analyzing",
+      "evaluating",
+      "creating"
+    ]
+  },
+  {
+    "type": "essay",
+    "title": "Essay",
+    "description": "Write a detailed response to a topic or prompt.",
+    "bloomLevels": ["analyzing", "evaluating", "creating"]
+  },
+  {
+    "type": "longAnswer",
+    "title": "Long Answer",
+    "description": "Provide an in-depth and comprehensive response.",
+    "bloomLevels": [
+      "remembering",
+      "understanding",
+      "applying",
+      "analyzing",
+      "evaluating",
+      "creating"
+    ]
+  },
+  {
+    "type": "matchTheFollowing",
+    "title": "Match the Following",
+    "description": "Match items from two lists based on specific criteria.",
+    "bloomLevels": ["understanding", "applying"]
+  },
+  {
+    "type": "multipleChoiceMultipleCorrect",
+    "title": "Multiple Choice (Multiple Correct)",
+    "description": "Select multiple correct answers from a list of options.",
+    "bloomLevels": ["understanding", "applying"]
+  },
+  {
+    "type": "oralTest",
+    "title": "Oral Test",
+    "description": "Evaluate through spoken responses in a conversation-like setting.",
+    "bloomLevels": ["understanding", "applying", "evaluating"]
+  },
+  {
+    "type": "project",
+    "title": "Project",
+    "description": "Undertake a task involving planning, research, and a tangible output.",
+    "bloomLevels": ["applying", "analyzing", "evaluating", "creating"]
+  },
+  {
+    "type": "caseStudy",
+    "title": "Case Study",
+    "description": "Analyze and evaluate a real-life scenario or situation.",
+    "bloomLevels": ["analyzing", "evaluating", "creating"]
+  },
+  {
+    "type": "debate",
+    "title": "Debate",
+    "description": "Engage in a structured argumentative discussion on a specific topic.",
+    "bloomLevels": ["analyzing", "evaluating", "creating"]
+  },
+  {
+    "type": "brainstorming",
+    "title": "Brainstorming",
+    "description": "Generate creative ideas or solutions in a group setting.",
+    "bloomLevels": ["creating"]
+  },
+  {
+    "type": "groupDiscussion",
+    "title": "Group Discussion",
+    "description": "Engage in a collaborative conversation on a specific topic.",
+    "bloomLevels": [
+      "understanding",
+      "applying",
+      "analyzing",
+      "evaluating",
+      "creating"
+    ]
+  },
+  {
+    "type": "workshop",
+    "title": "Workshop",
+    "description": "Participate in a hands-on learning session or training.",
+    "bloomLevels": [
+      "understanding",
+      "applying",
+      "analyzing",
+      "evaluating",
+      "creating"
+    ]
+  },
+  {
+    "type": "symposium",
+    "title": "Symposium",
+    "description": "Participate in a formal meeting or conference where experts present and discuss on a specific topic.",
+    "bloomLevels": [
+      "understanding",
+      "applying",
+      "analyzing",
+      "evaluating",
+      "creating"
+    ]
+  },
+  {
+    "type": "panelDiscussion",
+    "title": "Panel Discussion",
+    "description": "Engage in a structured discussion among a group of experts on a specific topic.",
+    "bloomLevels": [
+      "understanding",
+      "applying",
+      "analyzing",
+      "evaluating",
+      "creating"
+    ]
+  }
+]

@@ -2,6 +2,28 @@ import { useDrop, DropTargetMonitor } from "react-dnd";
 import { useAtom } from "jotai";
 import { currentQuestionAtom } from "../../atoms/worksheet";
 import { QuestionType } from "@/types";
+import questionData from "../../data/questionMatrix.json";
+import { useState, useEffect } from "react";
+
+function getBloomLevel(bloomLevel: string | undefined): string {
+  const lowerCaseBloomLevel = bloomLevel?.toLowerCase();
+  switch (lowerCaseBloomLevel) {
+    case "remember":
+      return "Remembering";
+    case "understand":
+      return "Understanding";
+    case "apply":
+      return "Applying";
+    case "analyze":
+      return "Analyzing";
+    case "evaluate":
+      return "Evaluating";
+    case "create":
+      return "Creating";
+    default:
+      throw new Error("Invalid bloom level");
+  }
+}
 
 export default function BoxDrop({
   children,
@@ -14,6 +36,7 @@ export default function BoxDrop({
   bloomLevel: string;
 }>) {
   const [currentQuestion, setCurrentQuestion] = useAtom(currentQuestionAtom);
+  const [inactive, setInactive] = useState(false);
   const specObject = {
     accept: "topic",
     drop: (item: any) =>
@@ -27,16 +50,28 @@ export default function BoxDrop({
       canDrop: monitor.canDrop(),
     }),
   };
+  const applicableBloomLevels = questionData.find(
+    (question) => question.type === type
+  )?.bloomLevels;
+
+  const fullBloomLevel = getBloomLevel(bloomLevel);
+
+  console.log(applicableBloomLevels);
 
   const [{ isOver, canDrop }, drop] = useDrop(() => specObject);
 
+  useEffect(() => {
+    if (!applicableBloomLevels?.includes(fullBloomLevel.toLowerCase())) {
+      setInactive(true);
+    }
+  }, []);
   return (
     <div
       className={`${className} text-center text-sm pb-2 ${
         isOver ? "bg-fuchsia-500 scale-150 rounded-md" : ""
-      }`}
+      } ${inactive ? "opacity-30" : ""}`}
     >
-      <div ref={drop}>{children}</div>
+      <div ref={!inactive ? drop : null}>{children}</div>
     </div>
   );
 }
