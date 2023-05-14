@@ -156,7 +156,7 @@ export default function Raptor() {
                 {savedQuestions[questionTypeKey].map((question, index) => (
                   <div className="flex flex-col gap-2" key={index}>
                     <div className="">
-                      {index + 1}: {question.question}
+                      {index + 1}. {question.question}
                       <div className="pt-2">
                         {"options" in question &&
                           Array.isArray(question.options) && // type guard
