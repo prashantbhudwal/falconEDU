@@ -1,12 +1,9 @@
 import { NextRequest } from "next/server";
 import { ChatCompletionRequestMessage } from "openai";
 import { streamFromOpenAI } from "../lib/openAI";
-import { predictionOptions } from "../lib/openAI/options";
+import { questionOptions } from "../lib/openAI/options";
 import { QuestionPayload } from "@/types";
-import {
-  getQuestionMessages,
-} from "../lib/questionChatGenerator";
-
+import { getQuestionMessages } from "../lib/questionChatGenerator";
 
 export const runtime = "edge";
 
@@ -14,7 +11,7 @@ export const runtime = "edge";
 export const dynamic = "force-dynamic";
 
 const getRequestPayload = (messages: any) => {
-  const { MODEL, TEMPERATURE, MAX_TOKENS, STREAM } = predictionOptions;
+  const { MODEL, TEMPERATURE, MAX_TOKENS, STREAM } = questionOptions;
   const requestOptions = {
     method: "POST",
     headers: {
