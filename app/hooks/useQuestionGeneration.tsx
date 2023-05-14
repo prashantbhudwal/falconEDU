@@ -6,8 +6,7 @@ import { QuestionPayload, APIRoute } from "@/types";
 import { shouldRegenerateAtom } from "../atoms/lesson";
 import { boardAtom } from "@/app/atoms/preferences";
 import { subjectAtom } from "@/app/atoms/preferences";
-import { QuestionAction } from "@/types";
-import { QuestionType } from "../../types/payloadTypes";
+import { QuestionAction, QuestionType } from "@/types";
 import { currentQuestionAtom } from "../atoms/worksheet";
 import { topicAtom } from "../atoms/preferences";
 
@@ -16,7 +15,7 @@ const getPayload = function (
   grade: string,
   board: string,
   subject: string,
-  questionType: QuestionType,
+  type: QuestionType,
   bloomLevel: string,
   topic: string,
   subtopic: string
@@ -29,7 +28,7 @@ const getPayload = function (
           subject: subject,
           grade: grade,
           board: board,
-          questionType: questionType,
+          type: type,
           bloomLevel: bloomLevel,
           topic: topic,
           subtopic: subtopic,
@@ -42,7 +41,7 @@ const getPayload = function (
           subject: subject,
           grade: grade,
           board: board,
-          questionType: questionType,
+          type: type,
           bloomLevel: bloomLevel,
           topic: topic,
           subtopic: subtopic,
@@ -73,7 +72,7 @@ export function useQuestionGeneration(action: QuestionAction) {
       grade,
       board,
       subject,
-      currentQuestion.questionType,
+      currentQuestion.type,
       currentQuestion.bloomLevel,
       topic,
       currentQuestion.subtopic
