@@ -25,7 +25,7 @@ export default function Box({
 
   return (
     <div
-      className={`px-3 py-3 rounded-lg ring-2 ${ringColorClass} ${shadowColorClass} shadow-sm max-w-4xl w-full ${className}`}
+      className={`px-3 py-3 rounded-lg ring-2 ${ringColorClass} ${shadowColorClass} shadow-sm w-full ${className}`}
       {...rest}
     >
       {children}
