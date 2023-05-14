@@ -6,11 +6,11 @@ import { QuestionType } from "@/types";
 export default function BoxDrop({
   children,
   className,
-  questionType,
+  type,
   bloomLevel,
 }: React.PropsWithChildren<{
   className?: string;
-  questionType: QuestionType;
+  type: QuestionType;
   bloomLevel: string;
 }>) {
   const [currentQuestion, setCurrentQuestion] = useAtom(currentQuestionAtom);
@@ -18,7 +18,7 @@ export default function BoxDrop({
     accept: "topic",
     drop: (item: any) =>
       setCurrentQuestion({
-        questionType: questionType,
+        type: type,
         bloomLevel: bloomLevel,
         subtopic: item.text,
       }),
