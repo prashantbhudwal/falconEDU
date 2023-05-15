@@ -39,9 +39,9 @@ export default function Header({
     <header
       className={`font-medium ${textColorClass} border-b border-solid ${borderClass} pb-2 flex flex-row justify-between w-full items-center ${className}`}
     >
-      <div className="text-left">
-        {leftTop}
-        {leftBottom}
+      <div className="text-sm text-left flex flex-col gap-1">
+        <div>{leftTop}</div>
+        <div>{leftBottom}</div>
       </div>
       <div className="text-center max-w-xl">
         {heading && <h1 className="text-2xl">{heading}</h1>}
@@ -49,9 +49,9 @@ export default function Header({
           <p className={`text-lg ${textColorClass}`}>{subheading}</p>
         )}
       </div>
-      <div className="text-sm text-left">
-        {rightTop}
-        {rightBottom}
+      <div className="text-sm text-left flex-col flex gap-1">
+        <div>{rightTop}</div>
+        <div>{rightBottom}</div>
       </div>
     </header>
   );
