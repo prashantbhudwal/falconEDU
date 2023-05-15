@@ -37,7 +37,7 @@ export default function Header({
 
   return (
     <header
-      className={`font-medium ${textColorClass} border-b border-solid ${borderClass} pb-2 flex flex-row justify-between w-full items-center ${className}`}
+      className={`font-medium ${textColorClass} border-b border-solid ${borderClass} py-3 flex flex-row justify-between w-full sticky top-0 z-50 bg-slate-900 items-center ${className}`}
     >
       <div className="text-sm text-left flex flex-col gap-1">
         <div>{leftTop}</div>
