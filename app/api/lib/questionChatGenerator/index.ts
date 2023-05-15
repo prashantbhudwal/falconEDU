@@ -2,19 +2,18 @@ import { QuestionPayload, QuestionType } from "@/types";
 import { ChatCompletionRequestMessage } from "openai";
 
 const JSON_DIRECTIVE = "Only respond with JSON.";
-
 function getQuestionTypePrompt(questionType: string) {
   switch (questionType) {
     case "fillInTheBlanks":
-      return "Generate a '''fill in the blank question'''.";
+      return "Design a fill-in-the-blank question within a specified academic topic. Your question should involve a sentence, paragraph, or passage with an intentional blank where a key term, event, or concept should be inserted by the student. Make sure the question evaluates the student's comprehension and knowledge of the topic. The missing information should be crucial enough that its inclusion or exclusion alters the understanding or interpretation of the topic.";
     case "multipleChoiceSingleCorrect":
-      return "Generate a '''multiple choice question with a single correct answer'''.";
+      return "Create a multiple choice question within a given academic topic. The question should have multiple plausible options, but only one correct answer. Ensure the options are structured to assess the student's understanding and knowledge of the topic.";
     case "trueFalse":
-      return "Generate a '''true or false question'''.";
+      return "Craft a declarative statement related to a chosen academic topic that can be judged as either true or false. The statement should be clear, unambiguous, and designed to test the student's understanding and knowledge of the topic.";
     case "shortAnswer":
-      return "Generate a '''short answer type question'''.";
+      return "Create a short-answer question related to a specified academic topic. The question should be open-ended, encouraging the student to express their understanding and knowledge of the topic in their own words.";
     case "essay":
-      return "Generate a '''essay type'''.";
+      return "Develop an essay prompt within a specified academic topic. The prompt should encourage deep thinking and extensive elaboration on the topic, allowing the student to demonstrate their understanding, knowledge, and ability to construct and support an argument.";
     default:
       throw new Error("Invalid question type");
   }
