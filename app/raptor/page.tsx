@@ -13,7 +13,6 @@ import { useAtom } from "jotai";
 import { useQuestionGeneration } from "../hooks/useQuestionGeneration";
 import { contentStreamCompletedAtom } from "@/app/atoms/lesson";
 import { worksheetSubtopicsAtom } from "../atoms/worksheet";
-import questionData from "../data/questionMatrix.json";
 import {
   topicAtom,
   gradeAtom,

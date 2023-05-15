@@ -2,7 +2,7 @@ import React from "react";
 import Section from "./Section";
 import BloomBoxes from "./BloomBoxes";
 import questionData from "@/app/data/questionMatrix.json";
-import { QuestionType, Questions, Question } from "@/types";
+import { QuestionType, Questions } from "@/types";
 
 const getQuestionTypeTitle = (questionType: QuestionType) => {
   const title = questionData.find(
