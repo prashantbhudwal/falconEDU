@@ -14,8 +14,19 @@ import { useAtom } from "jotai";
 import { useQuestionGeneration } from "../hooks/useQuestionGeneration";
 import { contentStreamCompletedAtom } from "@/app/atoms/lesson";
 import { worksheetSubtopicsAtom } from "../atoms/worksheet";
+import {
+  topicAtom,
+  gradeAtom,
+  boardAtom,
+  subjectAtom,
+} from "../atoms/preferences";
+import { RiseLoader } from "react-spinners";
 
 export default function Raptor() {
+  const [topic] = useAtom(topicAtom);
+  const [grade] = useAtom(gradeAtom);
+  const [board] = useAtom(boardAtom);
+  const [subject] = useAtom(subjectAtom);
   const [savedQuestions, setSavedQuestions] = useState<Questions>({
     fillInTheBlanks: [],
     multipleChoiceSingleCorrect: [],
@@ -126,10 +137,12 @@ export default function Raptor() {
         <Canvas
           className="col-start-4 col-span-7 h-screen scroll-smooth overflow-y-auto scroll-pb-96 pb-96"
           color="secondary"
-          heading="Canvas"
-          subheading="Drag and drop your ideas here"
-          leftTop={<span className="text-sm">0/10</span>}
-          rightTop={<span className="text-sm">0/10</span>}
+          heading={
+            contentStreamCompleted ? topic : <RiseLoader color="#D946EF" />
+          }
+          leftTop={`Grade ${grade}`}
+          leftBottom={subject}
+          rightTop={board}
         >
           {Object.keys(savedQuestions).map((questionType) => {
             const questionTypeKey = questionType as QuestionType;
