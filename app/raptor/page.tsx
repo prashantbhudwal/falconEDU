@@ -153,7 +153,7 @@ export default function Raptor() {
             if (isKeyOfQuestions(questionTypeKey)) {
               return (
                 <Section title={questionTypeKey} key={questionTypeKey}>
-                  <div className="grid grid-cols-6 divide-x divide-slate-800 text-slate-600">
+                  <div className="grid grid-cols-6 divide-x divide-slate-800 text-slate-500">
                     {levels.map((level, index) => (
                       <BloomBox
                         key={index}
@@ -165,7 +165,7 @@ export default function Raptor() {
                     ))}
                   </div>
                   {savedQuestions[questionTypeKey]?.map((question, index) => (
-                    <div className="flex flex-col gap-2" key={index}>
+                    <div className="flex flex-col gap-1 pt-2 px-4" key={index}>
                       <div className="">
                         {index + 1}. {question.question}
                         <div className="pt-2">
