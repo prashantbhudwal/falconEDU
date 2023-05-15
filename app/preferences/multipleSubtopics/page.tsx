@@ -66,8 +66,8 @@ export default function Page() {
 
   return (
     <div className="flex flex-col gap-10 items-center m-4 w-full">
-      <div className="flex gap-3 w-5/6">
-        <div className="flex flex-row flex-wrap gap-2 px-6 py-4 rounded-lg ring-2 ring-fuchsia-500 w-full">
+      <div className="flex gap-3 w-5/6  justify-center">
+        <div className="flex flex-row flex-wrap gap-2 px-6 py-4 rounded-lg ring-2 ring-fuchsia-500 w-4/6 h-16 overflow-y-auto">
           {worksheetSubtopics.map((subtopic, index) => (
             <div
               key={index}
