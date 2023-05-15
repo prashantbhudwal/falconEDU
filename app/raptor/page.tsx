@@ -14,6 +14,7 @@ import { useAtom } from "jotai";
 import { useQuestionGeneration } from "../hooks/useQuestionGeneration";
 import { contentStreamCompletedAtom } from "@/app/atoms/lesson";
 import { worksheetSubtopicsAtom } from "../atoms/worksheet";
+import questionData from "../data/questionMatrix.json";
 import {
   topicAtom,
   gradeAtom,
@@ -21,6 +22,13 @@ import {
   subjectAtom,
 } from "../atoms/preferences";
 import { RiseLoader } from "react-spinners";
+
+const getQuestionTypeTitle = (questionType: QuestionType) => {
+  const title = questionData.find(
+    (question) => question.type === questionType
+  )?.title;
+  return title ? title : "";
+};
 
 export default function Raptor() {
   const [topic] = useAtom(topicAtom);
@@ -152,7 +160,10 @@ export default function Raptor() {
             }
             if (isKeyOfQuestions(questionTypeKey)) {
               return (
-                <Section title={questionTypeKey} key={questionTypeKey}>
+                <Section
+                  title={getQuestionTypeTitle(questionTypeKey)}
+                  key={questionTypeKey}
+                >
                   <div className="grid grid-cols-6 divide-x divide-slate-800 text-slate-500">
                     {levels.map((level, index) => (
                       <BloomBox
