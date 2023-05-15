@@ -143,7 +143,7 @@ export default function Raptor() {
           </Section>
         </Sidebar>
         <Canvas
-          className="col-start-4 col-span-7 h-screen scroll-smooth overflow-y-auto scroll-pb-96 pb-96"
+          className="col-start-4 col-span-7 h-screen scroll-smooth overflow-y-auto scroll-pb-96 pb-96 custom-scrollbar"
           color="secondary"
           heading={
             contentStreamCompleted ? topic : <RiseLoader color="#D946EF" />
