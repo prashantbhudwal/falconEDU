@@ -7,7 +7,6 @@ import ChipDrag from "./components/ChipDrag";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
 import Checkbox from "./components/Checkbox";
-import BloomBox from "./components/BloomBox";
 import { QuestionType, Questions, Question } from "@/types";
 import { currentQuestionAtom } from "../atoms/worksheet";
 import { useAtom } from "jotai";
@@ -22,19 +21,19 @@ import {
   subjectAtom,
 } from "../atoms/preferences";
 import { RiseLoader } from "react-spinners";
+import QuestionSection from "./components/QuestionSection";
+import useJsonParsing from "../hooks/useJsonParsing";
 
-const getQuestionTypeTitle = (questionType: QuestionType) => {
-  const title = questionData.find(
-    (question) => question.type === questionType
-  )?.title;
-  return title ? title : "";
-};
+const questionTypes = [
+  { value: "fillInTheBlanks", label: "Fill in the Blanks" },
+  { value: "multipleChoiceSingleCorrect", label: "Multiple Choice" },
+  { value: "trueFalse", label: "True/False" },
+  { value: "shortAnswer", label: "Short Answer" },
+  { value: "essay", label: "Essay" },
+] as { value: QuestionType; label: string }[];
 
 export default function Raptor() {
-  const [topic] = useAtom(topicAtom);
-  const [grade] = useAtom(gradeAtom);
-  const [board] = useAtom(boardAtom);
-  const [subject] = useAtom(subjectAtom);
+  const { content, startStreaming } = useQuestionGeneration("getQuestion");
   const [savedQuestions, setSavedQuestions] = useState<Questions>({
     fillInTheBlanks: [],
     multipleChoiceSingleCorrect: [],
@@ -42,37 +41,32 @@ export default function Raptor() {
     shortAnswer: [],
     essay: [],
   });
-  const [currentQuestion, setCurrentQuestion] = useAtom(currentQuestionAtom);
-  const [contentStreamCompleted, setContentStreamCompleted] = useAtom(
-    contentStreamCompletedAtom
-  );
-  const { content, startStreaming } = useQuestionGeneration("getQuestion");
-  const [parsedContent, setParsedContent] = useState<Question>();
-  const [worksheetSubtopics, setWorksheetSubtopics] = useAtom(
-    worksheetSubtopicsAtom
-  );
+  const [topic] = useAtom(topicAtom);
+  const [grade] = useAtom(gradeAtom);
+  const [board] = useAtom(boardAtom);
+  const [subject] = useAtom(subjectAtom);
+  const [currentQuestion] = useAtom(currentQuestionAtom);
+  const [contentStreamCompleted] = useAtom(contentStreamCompletedAtom);
+  const [worksheetSubtopics] = useAtom(worksheetSubtopicsAtom);
+  const [checkedQuestionTypes, setCheckedQuestionTypes] = useState<
+    QuestionType[]
+  >([]);
+
   function isKeyOfQuestions(key: string): key is keyof Questions {
     return key in savedQuestions;
   }
-  const isJson = (str: string) => {
-    try {
-      JSON.parse(str);
-    } catch (e) {
-      return false;
+  const handleCheckboxChange = (value: QuestionType) => {
+    if (checkedQuestionTypes.includes(value)) {
+      setCheckedQuestionTypes(
+        checkedQuestionTypes.filter((val) => val !== value)
+      );
+    } else {
+      setCheckedQuestionTypes([...checkedQuestionTypes, value]);
     }
-    return true;
   };
 
-  useEffect(() => {
-    if (contentStreamCompleted && content) {
-      const jsonString = content.join("");
-      console.log(jsonString);
-      if (isJson(jsonString)) {
-        const jsonObject = JSON.parse(jsonString);
-        setParsedContent(jsonObject);
-      }
-    }
-  }, [content, contentStreamCompleted]);
+  const parsedContent = useJsonParsing({ contentStreamCompleted, content });
+
 
   useEffect(() => {
     if (currentQuestion.bloomLevel.length > 0) {
@@ -96,38 +90,6 @@ export default function Raptor() {
       }
     }
   }, [parsedContent]);
-
-  const questionTypes = [
-    { value: "fillInTheBlanks", label: "Fill in the Blanks" },
-    { value: "multipleChoiceSingleCorrect", label: "Multiple Choice" },
-    { value: "trueFalse", label: "True/False" },
-    { value: "shortAnswer", label: "Short Answer" },
-    { value: "essay", label: "Essay" },
-  ] as { value: QuestionType; label: string }[];
-
-  const levels = [
-    "Remember",
-    "Understand",
-    "Apply",
-    "Analyze",
-    "Evaluate",
-    "Create",
-  ];
-  const [checkedQuestionTypes, setCheckedQuestionTypes] = useState<
-    QuestionType[]
-  >([]);
-
-  const handleCheckboxChange = (value: QuestionType) => {
-    if (checkedQuestionTypes.includes(value)) {
-      setCheckedQuestionTypes(
-        checkedQuestionTypes.filter((val) => val !== value)
-      );
-    } else {
-      setCheckedQuestionTypes([...checkedQuestionTypes, value]);
-    }
-  };
-
-  console.log(content);
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -160,43 +122,11 @@ export default function Raptor() {
             }
             if (isKeyOfQuestions(questionTypeKey)) {
               return (
-                <Section
-                  title={getQuestionTypeTitle(questionTypeKey)}
+                <QuestionSection
+                  questionTypeKey={questionTypeKey}
+                  savedQuestions={savedQuestions}
                   key={questionTypeKey}
-                >
-                  <div className="grid grid-cols-6 divide-x divide-slate-800 text-slate-500">
-                    {levels.map((level, index) => (
-                      <BloomBox
-                        key={index}
-                        type={questionTypeKey}
-                        bloomLevel={level}
-                      >
-                        {level}
-                      </BloomBox>
-                    ))}
-                  </div>
-                  {savedQuestions[questionTypeKey]?.map((question, index) => (
-                    <div className="flex flex-col gap-1 pt-2 px-4" key={index}>
-                      <div className="">
-                        {index + 1}. {question.question}
-                        <div className="pt-2">
-                          {"options" in question &&
-                            Array.isArray(question.options) && // type guard
-                            question.options.map(
-                              (option: string, optIndex: number) => (
-                                <div
-                                  key={optIndex}
-                                  className="flex flex-row gap-2"
-                                >
-                                  <div>{option}</div>
-                                </div>
-                              )
-                            )}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </Section>
+                />
               );
             }
           })}
