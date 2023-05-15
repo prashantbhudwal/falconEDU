@@ -55,9 +55,6 @@ export default function BoxDrop({
   )?.bloomLevels;
 
   const fullBloomLevel = getBloomLevel(bloomLevel);
-
-  console.log(applicableBloomLevels);
-
   const [{ isOver, canDrop }, drop] = useDrop(() => specObject);
 
   useEffect(() => {
