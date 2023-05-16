@@ -22,6 +22,9 @@ export default function Box({
   } else if (color === "gray") {
     ringColorClass = "ring-slate-500";
     shadowColorClass = "shadow-slate-500";
+  } else if (color === "black") {
+    ringColorClass = "ring-slate-500";
+    shadowColorClass = "shadow-slate-500";
   }
 
   return (
