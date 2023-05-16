@@ -1,14 +1,26 @@
 "use client";
-import HandoutHeader from "./HandoutHeader";
 import { useAtom } from "jotai";
 import { lessonIdeasAtom } from "@/app/atoms/lesson";
 import ideasToHandouts from "@/app/utils/ideasToHandouts";
+import {
+  topicAtom,
+  subtopicAtom,
+  boardAtom,
+  gradeAtom,
+  subjectAtom,
+} from "@/app/atoms/preferences";
+import Header from "@/app/components/Header";
 
 export default function Page({
   params,
 }: {
   params: { handout: "story" | "activity" | "quiz" };
 }) {
+  const [topic] = useAtom(topicAtom);
+  const [subtopic] = useAtom(subtopicAtom);
+  const [board] = useAtom(boardAtom);
+  const [grade] = useAtom(gradeAtom);
+  const [subject] = useAtom(subjectAtom);
   const [lessonIdeas] = useAtom(lessonIdeasAtom);
   const handouts = ideasToHandouts(lessonIdeas);
   const filteredHandouts = handouts.filter(
@@ -17,7 +29,14 @@ export default function Page({
 
   return (
     <div className="flex flex-col gap-2">
-      <HandoutHeader />
+      <Header
+        leftTop={`Grade ${grade}`}
+        leftBottom={subject}
+        rightTop={board}
+        heading={subtopic}
+        subheading={topic}
+        color={"primary"}
+      />
       {filteredHandouts.map((aid) => (
         <div
           key={aid.id}

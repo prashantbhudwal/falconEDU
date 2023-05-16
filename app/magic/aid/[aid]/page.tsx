@@ -1,6 +1,5 @@
 "use client";
 import { useAid } from "@/app/hooks/useAid";
-import AidHeader from "./AidHeader";
 import Issue from "@/app/components/Issue";
 import { contentStreamCompletedAtom } from "@/app/atoms/lesson";
 import { useAtom } from "jotai";
@@ -9,7 +8,20 @@ import useLatestAid from "@/app/hooks/useLatestAid";
 import { aidType } from "@/types";
 import { useEffect } from "react";
 import { shouldRegenerateAtom } from "@/app/atoms/lesson";
+import {
+  topicAtom,
+  subtopicAtom,
+  boardAtom,
+  gradeAtom,
+  subjectAtom,
+} from "@/app/atoms/preferences";
+import Header from "@/app/components/Header";
 export default function Page({ params }: { params: { aid: aidType } }) {
+  const [topic] = useAtom(topicAtom);
+  const [subtopic] = useAtom(subtopicAtom);
+  const [board] = useAtom(boardAtom);
+  const [grade] = useAtom(gradeAtom);
+  const [subject] = useAtom(subjectAtom);
   const [showNote, setShowNote] = useState(false);
   const [contentStreamCompleted] = useAtom(contentStreamCompletedAtom);
   const { content, startStreaming } = useAid(params.aid);
@@ -31,7 +43,14 @@ export default function Page({ params }: { params: { aid: aidType } }) {
     <div
       className={`bg-slate-100 text-slate-900 px-8 py-5 rounded-lg shadow-sm shadow-slate-200 max-w-4xl w-full`}
     >
-      <AidHeader />
+      <Header
+        leftTop={`Grade ${grade}`}
+        leftBottom={subject}
+        rightTop={board}
+        heading={subtopic}
+        subheading={topic}
+        color={"black"}
+      />
       <p className="leading-7 text-lg pt-8 py-5 whitespace-pre-wrap">
         {contentStreamCompleted ? latestAid : content}
       </p>
