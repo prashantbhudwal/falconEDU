@@ -1,21 +1,24 @@
 "use client";
 import AidCanvas from "./aid/[aid]/AidCanvas";
 import Sidebar from "@/app/components/Sidebar";
-import AidChip from "./aid/[aid]/AidChip";
 import { topicAtom, subtopicAtom } from "@/app/atoms/preferences";
 import { useAtom } from "jotai";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
+
 import { teachingAids } from "../hooks/useTeachingAids";
 import useHandouts from "@/app/hooks/useHandouts";
-import HandoutChip from "./handout/[handout]/HandoutChip";
 import { aidType, handoutType } from "@/types";
+import SidebarButton from "./components/SidebarButton";
+import { getEmoji, getName } from "@/app/utils";
 export default function AidLayout({
   children, // will be a page or nested layout
 }: {
   children: React.ReactNode;
 }) {
   const router = useRouter();
+  const pathname = usePathname();
   const [topic] = useAtom(topicAtom);
   const [subtopic] = useAtom(subtopicAtom);
   const handouts = useHandouts();
@@ -33,11 +36,24 @@ export default function AidLayout({
         heading={"Teaching Aids"}
       >
         {teachingAids.map((aid: aidType) => (
-          <AidChip key={aid} aid={aid} />
+          <SidebarButton
+            onClick={() => router.push(`/magic/aid/${aid}`)}
+            isActive={pathname === `/magic/aid/${aid}`}
+            key={aid}
+          >
+            {`${getEmoji(aid)} ${getName(aid)}`}
+          </SidebarButton>
         ))}
+
         {handouts.length != 0 &&
           handouts.map((handout: handoutType) => (
-            <HandoutChip key={handout} aid={handout} />
+            <SidebarButton
+              onClick={() => router.push(`/magic/handout/${handout}`)}
+              isActive={pathname === `/magic/handout/${handout}`}
+              key={handout}
+            >
+              {`${getEmoji(handout)} ${getName(handout)}`}
+            </SidebarButton>
           ))}
       </Sidebar>
       <AidCanvas className="col-start-3 col-span-8 min-h-screen">
