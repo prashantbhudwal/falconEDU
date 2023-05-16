@@ -9,31 +9,33 @@ import { DndProvider } from "react-dnd";
 import { getEmoji } from "../utils";
 import { useAtom } from "jotai";
 import { lessonIdeasAtom } from "../atoms/lesson";
+import Section from "../components/Section";
 
 export default function Merlin() {
   const [lessonIdeas] = useAtom(lessonIdeasAtom);
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="grid grid-cols-12 gap-4 w-full select-none">
-        <Sidebar
-          className="col-start-1 col-span-2 row-start-1"
-          heading={"Lesson Blocks"}
-        >
-          {promptsArray.map((buttonText: string) => (
-            <Chip key={buttonText} text={buttonText} />
-          ))}
+        <Sidebar className="col-start-1 col-span-2 row-start-1">
+          <Section title="Lesson Blocks">
+            {promptsArray.map((buttonText: string) => (
+              <Chip key={buttonText} text={buttonText} />
+            ))}
+          </Section>
         </Sidebar>
         <Canvas className="col-start-3 col-span-8 min-h-screen" />
-        <Sidebar className="col-start-11 col-span-2" heading={"Outline"}>
-          {lessonIdeas &&
-            lessonIdeas
-              .slice()
-              .reverse()
-              .map((block, index) => (
-                <OutlineBlock key={block.id}>{`${getEmoji(
-                  block.type
-                )} ${" "}   ${block.type}`}</OutlineBlock>
-              ))}
+        <Sidebar className="col-start-11 col-span-2">
+          <Section title="Outline">
+            {lessonIdeas &&
+              lessonIdeas
+                .slice()
+                .reverse()
+                .map((block, index) => (
+                  <OutlineBlock key={block.id}>{`${getEmoji(
+                    block.type
+                  )} ${" "}   ${block.type}`}</OutlineBlock>
+                ))}
+          </Section>
         </Sidebar>
       </div>
     </DndProvider>

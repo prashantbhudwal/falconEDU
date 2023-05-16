@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import Sidebar from "./components/Sidebar";
+import Sidebar from "../components/Sidebar";
 import Section from "./components/Section";
 import Canvas from "./components/Canvas";
 import ChipDrag from "./components/ChipDrag";
@@ -65,7 +65,6 @@ export default function Raptor() {
   };
 
   const parsedContent = useJsonParsing({ contentStreamCompleted, content });
-
 
   useEffect(() => {
     if (currentQuestion.bloomLevel.length > 0) {
