@@ -1,5 +1,4 @@
-export type ColorOption = "primary" | "secondary" | "gray" | "black";
-
+import { ColorOption } from "@/types";
 export type HeaderProps = {
   className?: string;
   color?: ColorOption;

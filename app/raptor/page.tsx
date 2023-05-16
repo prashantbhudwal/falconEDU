@@ -1,12 +1,12 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Sidebar from "../components/Sidebar";
-import Section from "./components/Section";
+import Section from "../components/Section";
 import Canvas from "./components/Canvas";
 import ChipDrag from "./components/ChipDrag";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
-import Checkbox from "./components/Checkbox";
+import Checkbox from "../components/Checkbox";
 import { QuestionType, Questions, Question } from "@/types";
 import { currentQuestionAtom } from "../atoms/worksheet";
 import { useAtom } from "jotai";

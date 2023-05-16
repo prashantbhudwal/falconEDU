@@ -1,5 +1,6 @@
-import Box from "./Box";
-import Header, { HeaderProps, ColorOption } from "./Header";
+import Box from "@/app/components/Box";
+import Header, { HeaderProps } from "@/app/components/Header";
+import { ColorOption } from "@/types";
 
 export default function Canvas({
   children,

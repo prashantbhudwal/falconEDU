@@ -1,5 +1,5 @@
 import React from "react";
-import Section from "./Section";
+import Section from "@/app/components/Section";
 import BloomBoxes from "./BloomBoxes";
 import questionData from "@/app/data/questionMatrix.json";
 import { QuestionType, Questions } from "@/types";

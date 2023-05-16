@@ -1,3 +1,4 @@
+import { ColorOption } from "@/types";
 export default function Box({
   children,
   className,
@@ -6,7 +7,7 @@ export default function Box({
 }: {
   children: React.ReactNode;
   className?: string;
-  color?: "primary" | "secondary" | "gray";
+  color?: ColorOption;
   rest?: any;
 }) {
   let ringColorClass = "";
