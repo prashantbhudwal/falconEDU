@@ -2,7 +2,6 @@
 import Canvas from "./Canvas";
 import Chip from "./components/Chip";
 import Sidebar from "../components/Sidebar";
-import OutlineBlock from "./components/OutlineBlock";
 import { buttonsArray as promptsArray } from "../utils";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
@@ -31,9 +30,10 @@ export default function Merlin() {
                 .slice()
                 .reverse()
                 .map((block, index) => (
-                  <OutlineBlock key={block.id}>{`${getEmoji(
-                    block.type
-                  )} ${" "}   ${block.type}`}</OutlineBlock>
+                  <div
+                    className="text-lg text-slate-400 leading-7 capitalize pl-4"
+                    key={block.id}
+                  >{`${getEmoji(block.type)} ${" "}   ${block.type}`}</div>
                 ))}
           </Section>
         </Sidebar>
