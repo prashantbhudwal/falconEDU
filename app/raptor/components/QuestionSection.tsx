@@ -2,7 +2,7 @@ import React from "react";
 import Section from "@/app/components/Section";
 import BloomBoxes from "./BloomBoxes";
 import questionData from "@/app/data/questionMatrix.json";
-import { QuestionType, Questions } from "@/types";
+import { QuestionType, Question } from "@/types";
 
 const getQuestionTypeTitle = (questionType: QuestionType) => {
   const title = questionData.find(
@@ -12,23 +12,20 @@ const getQuestionTypeTitle = (questionType: QuestionType) => {
 };
 
 type Props = {
-  questionTypeKey: QuestionType;
-  savedQuestions: Questions;
+  questionType: QuestionType;
+  questions: Question[];
   withBloom?: boolean;
 };
 
 const QuestionSection: React.FC<Props> = ({
-  questionTypeKey,
-  savedQuestions,
+  questionType,
+  questions,
   withBloom = false,
 }) => {
   return (
-    <Section
-      title={getQuestionTypeTitle(questionTypeKey)}
-      key={questionTypeKey}
-    >
-      {withBloom && <BloomBoxes questionTypeKey={questionTypeKey} />}
-      {savedQuestions[questionTypeKey]?.map((question, index) => (
+    <Section title={getQuestionTypeTitle(questionType)} key={questionType}>
+      {withBloom && <BloomBoxes questionTypeKey={questionType} />}
+      {questions.map((question, index) => (
         <div className="flex flex-col gap-1 pt-2 px-4" key={index}>
           <div className="">
             {index + 1}. {question.question}

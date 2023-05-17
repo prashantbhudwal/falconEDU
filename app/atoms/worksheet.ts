@@ -15,10 +15,25 @@ export const currentQuestionAtom = atom<CurrentQuestion>({
   subtopic: "",
 });
 
-export const savedQuestionsAtom = atom<Questions>({
-  fillInTheBlanks: [],
-  multipleChoiceSingleCorrect: [],
-  trueFalse: [],
-  shortAnswer: [],
-  essay: [],
-});
+export const savedQuestionsAtom = atom<Questions>([
+  {
+    type: "fillInTheBlanks",
+    questions: [],
+  },
+  {
+    type: "multipleChoiceSingleCorrect",
+    questions: [],
+  },
+  {
+    type: "trueFalse",
+    questions: [],
+  },
+  {
+    type: "shortAnswer",
+    questions: [],
+  },
+  {
+    type: "essay",
+    questions: [],
+  },
+]);

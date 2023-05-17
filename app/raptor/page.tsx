@@ -7,7 +7,7 @@ import ChipDrag from "./components/ChipDrag";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
 import Checkbox from "../components/Checkbox";
-import { QuestionType, Questions, Question } from "@/types";
+import { QuestionType, Questions, Question, QuestionObject } from "@/types";
 import { currentQuestionAtom } from "../atoms/worksheet";
 import { useAtom } from "jotai";
 import { useQuestionGeneration } from "../hooks/useQuestionGeneration";
@@ -46,9 +46,6 @@ export default function Raptor() {
   >([]);
   const [isAdvancedMode, setIsAdvancedMode] = useState(true);
 
-  function isKeyOfQuestions(key: string): key is keyof Questions {
-    return key in savedQuestions;
-  }
   const handleCheckboxChange = (value: QuestionType) => {
     if (checkedQuestionTypes.includes(value)) {
       setCheckedQuestionTypes(
@@ -70,16 +67,21 @@ export default function Raptor() {
 
   useEffect(() => {
     if (parsedContent && "type" in parsedContent) {
-      const parsedQuestionType = parsedContent.type as keyof Questions;
-      if (Object.keys(savedQuestions).includes(parsedQuestionType)) {
-        const questionArray = savedQuestions[parsedQuestionType];
-        if (Array.isArray(questionArray)) {
-          // type guard
-          setSavedQuestions((prevState: Questions) => ({
-            ...prevState,
-            [parsedQuestionType]: [...questionArray, parsedContent],
-          }));
-        }
+      const parsedQuestionType = parsedContent.type;
+      const questionIndex = savedQuestions.findIndex(
+        (q) => q.type === parsedQuestionType
+      );
+
+      if (questionIndex !== -1) {
+        const updatedQuestions = [...savedQuestions];
+        const questionArray = [...updatedQuestions[questionIndex].questions];
+        questionArray.push(parsedContent as unknown as Question);
+        updatedQuestions[questionIndex] = {
+          ...updatedQuestions[questionIndex],
+          questions: questionArray,
+        };
+
+        setSavedQuestions(updatedQuestions);
       }
     }
   }, [parsedContent]);
@@ -107,22 +109,17 @@ export default function Raptor() {
           leftBottom={subject}
           rightTop={board}
         >
-          {Object.keys(savedQuestions).map((questionType) => {
-            const questionTypeKey = questionType as QuestionType;
-            // If the questionType is not in checkedQuestionTypes, return null
-            if (!checkedQuestionTypes.includes(questionTypeKey)) {
-              return null;
-            }
-            if (isKeyOfQuestions(questionTypeKey)) {
-              return (
-                <QuestionSection
-                  questionTypeKey={questionTypeKey}
-                  savedQuestions={savedQuestions}
-                  withBloom={isAdvancedMode}
-                  key={questionTypeKey}
-                />
-              );
-            }
+          {savedQuestions.map((questionObject: QuestionObject) => {
+            return !checkedQuestionTypes.includes(
+              questionObject.type
+            ) ? null : (
+              <QuestionSection
+                questionType={questionObject.type}
+                questions={questionObject.questions}
+                withBloom={isAdvancedMode}
+                key={questionObject.type}
+              />
+            );
           })}
         </Canvas>
         <Sidebar className="col-start-11 col-span-2">
