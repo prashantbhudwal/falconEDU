@@ -7,7 +7,7 @@ import { DropTargetMonitor, useDrop } from "react-dnd";
 type Props = {
   questions: Question[];
   type: QuestionType;
-  droppable: boolean;
+  droppable?: boolean;
 };
 
 const Questions: React.FC<Props> = ({ questions, type, droppable = false }) => {
