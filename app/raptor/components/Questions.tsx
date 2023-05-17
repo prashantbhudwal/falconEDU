@@ -8,9 +8,15 @@ type Props = {
   questions: Question[];
   type: QuestionType;
   droppable?: boolean;
+  className?: string;
 };
 
-const Questions: React.FC<Props> = ({ questions, type, droppable = false }) => {
+const Questions: React.FC<Props> = ({
+  questions,
+  type,
+  droppable = false,
+  className,
+}) => {
   const [_, setCurrentQuestion] = useAtom(currentQuestionAtom);
 
   const specObject = {
@@ -28,14 +34,27 @@ const Questions: React.FC<Props> = ({ questions, type, droppable = false }) => {
   };
   const [{ isOver, canDrop }, drop] = useDrop(() => specObject);
   return (
-    <div>
-      {questions.map((question, index) => (
+    <div
+      ref={droppable ? drop : null}
+      className={`text-neutral-300 ${className} ${
+        isOver ? "bg-fuchsia-500" : "bg-slate-800"
+      } `}
+    >
+      {questions.length === 0 && (
         <div
-          className={`flex flex-col gap-1 pt-2 px-4 ${
+          className={`flex flex-col gap-1 pt-2 px-4 ${className} ${
             isOver ? "bg-fuchsia-500" : ""
           }`}
+        >
+          Drop a Question here
+        </div>
+      )}
+      {questions.map((question, index) => (
+        <div
           key={index}
-          ref={droppable ? drop : null}
+          className={`flex flex-col gap-1 pt-2 px-4 ${className} ${
+            isOver ? "bg-fuchsia-500" : ""
+          }`}
         >
           <div className="">
             {index + 1}. {question.question}
