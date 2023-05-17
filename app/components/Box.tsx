@@ -1,4 +1,6 @@
 import { ColorOption } from "@/types";
+import { colors } from "../theme/colors";
+import { ThemeColor } from "@/types";
 export default function Box({
   children,
   className,
@@ -10,26 +12,11 @@ export default function Box({
   color?: ColorOption;
   rest?: any;
 }) {
-  let ringColorClass = "";
-  let shadowColorClass = "";
-
-  if (color === "primary") {
-    ringColorClass = "ring-emerald-500";
-    shadowColorClass = "shadow-emerald-500";
-  } else if (color === "secondary") {
-    ringColorClass = "ring-fuchsia-500";
-    shadowColorClass = "shadow-fuchsia-500";
-  } else if (color === "gray") {
-    ringColorClass = "ring-slate-500";
-    shadowColorClass = "shadow-slate-500";
-  } else if (color === "black") {
-    ringColorClass = "ring-slate-500";
-    shadowColorClass = "shadow-slate-500";
-  }
+  const { ring, shadow } = colors[color] as ThemeColor;
 
   return (
     <div
-      className={`px-3 py-3 rounded-lg ring-2 ${ringColorClass} ${shadowColorClass} shadow-sm w-full ${className}`}
+      className={`px-3 py-3 rounded-lg ring-2 ${ring} ${shadow} shadow-sm w-full ${className}`}
       {...rest}
     >
       {children}
