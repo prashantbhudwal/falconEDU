@@ -1,23 +1,3 @@
-export type Questions = {
-  fillInTheBlanks?: FillInTheBlanks[];
-  multipleChoiceSingleCorrect?: MultipleChoiceSingleCorrect[];
-  trueFalse?: TrueFalse[];
-  shortAnswer?: ShortAnswer[];
-  essay?: Essay[];
-  longAnswer?: LongAnswer[];
-  matchTheFollowing?: MatchTheFollowing[];
-  multipleChoiceMultipleCorrect?: MultipleChoiceMultipleCorrect[];
-  oralTest?: OralTest[];
-  project?: Project[];
-  caseStudy?: CaseStudy[];
-  debate?: Debate[];
-  brainstorming?: Brainstorming[];
-  groupDiscussion?: GroupDiscussion[];
-  workshop?: Workshop[];
-  symposium?: Symposium[];
-  panelDiscussion?: PanelDiscussion[];
-};
-
 export type QuestionType =
   | "fillInTheBlanks"
   | "multipleChoiceSingleCorrect"
@@ -36,6 +16,7 @@ export type QuestionType =
   | "workshop"
   | "symposium"
   | "panelDiscussion";
+
 export interface BaseQuestion {
   type: QuestionType;
   questionId?: string;
@@ -142,3 +123,10 @@ export type Question =
   | Workshop
   | Symposium
   | PanelDiscussion;
+
+export type QuestionObject = {
+  type: QuestionType;
+  questions: Question[] | [];
+};
+
+export type Questions = QuestionObject[];
