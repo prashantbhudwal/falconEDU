@@ -38,7 +38,7 @@ export async function generateDocx(data: DocData): Promise<void> {
   const headerParagraph = new Paragraph({
     children: [
       new TextRun({
-        text: `Chapter: ${data.topic}`,
+        text: `${data.topic}`,
         size: 24, // equivalent to text-lg in Tailwind CSS
         color: "6B7280", // equivalent to text-slate-600 in Tailwind CSS
         font: "Helvetica",
@@ -54,7 +54,7 @@ export async function generateDocx(data: DocData): Promise<void> {
   const footerParagraph = new Paragraph({
     children: [
       new TextRun({
-        text: "Lesson Generated with Falcon AI",
+        text: "Generated with Falcon AI",
         size: 24,
         font: "Helvetica",
       }),
@@ -106,5 +106,10 @@ export async function generateDocx(data: DocData): Promise<void> {
   const blob = new Blob([buffer], {
     type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
   });
-  saveAs(blob, `${data.subtopic}.docx`);
+  saveAs(
+    blob,
+    `${data.topic.charAt(0).toUpperCase() + data.topic.slice(1)}-${
+      data.subtopic
+    }.docx`
+  );
 }

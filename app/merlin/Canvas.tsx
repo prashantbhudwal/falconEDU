@@ -18,6 +18,7 @@ import {
 import { useAtom } from "jotai";
 import { lessonIdeasAtom } from "../atoms/lesson";
 import { ideaType } from "@/types";
+import { generateDocx } from "../utils/generateDocx";
 
 export default function Canvas({ className }: { className?: string }) {
   const router = useRouter();
@@ -36,6 +37,17 @@ export default function Canvas({ className }: { className?: string }) {
 
   const removeBlock = (id: string) => {
     setLessonIdeas((prevIdeas) => prevIdeas.filter((idea) => idea.id !== id));
+  };
+
+  const downloadBlock = (id: string) => {
+    const blockToDownload = lessonIdeas.filter((idea) => idea.id == id);
+    const content = blockToDownload[0].text as string[];
+    const payload = {
+      topic: blockToDownload[0].type,
+      subtopic,
+      fetchedContent: content,
+    };
+    generateDocx(payload);
   };
 
   const startGeneration = function (item: any) {
@@ -133,7 +145,12 @@ export default function Canvas({ className }: { className?: string }) {
         .reverse()
         .map((block: BlockContent) => {
           return (
-            <CanvasBlock {...block} key={block.id} onRemove={removeBlock} />
+            <CanvasBlock
+              {...block}
+              key={block.id}
+              onRemove={removeBlock}
+              onDownload={downloadBlock}
+            />
           );
         })}
     </div>
