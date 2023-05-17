@@ -12,7 +12,7 @@ import { currentQuestionAtom } from "../atoms/worksheet";
 import { useAtom } from "jotai";
 import { useQuestionGeneration } from "../hooks/useQuestionGeneration";
 import { contentStreamCompletedAtom } from "@/app/atoms/lesson";
-import { worksheetSubtopicsAtom } from "../atoms/worksheet";
+import { worksheetSubtopicsAtom, savedQuestionsAtom } from "../atoms/worksheet";
 import {
   topicAtom,
   gradeAtom,
@@ -33,13 +33,7 @@ const questionTypes = [
 
 export default function Raptor() {
   const { content, startStreaming } = useQuestionGeneration("getQuestion");
-  const [savedQuestions, setSavedQuestions] = useState<Questions>({
-    fillInTheBlanks: [],
-    multipleChoiceSingleCorrect: [],
-    trueFalse: [],
-    shortAnswer: [],
-    essay: [],
-  });
+  const [savedQuestions, setSavedQuestions] = useAtom(savedQuestionsAtom);
   const [topic] = useAtom(topicAtom);
   const [grade] = useAtom(gradeAtom);
   const [board] = useAtom(boardAtom);
