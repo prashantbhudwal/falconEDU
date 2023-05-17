@@ -1,7 +1,10 @@
 import { ideaType } from "@/types/ideaTypes";
 import { aidType } from "@/types/ideaTypes";
+import { worksheetAidType } from "@/types/ideaTypes";
 
-export const getEmoji = function (ideaType: ideaType | aidType) {
+export const getEmoji = function (
+  ideaType: ideaType | aidType | worksheetAidType
+) {
   const loweCaseBlockType = ideaType.toLowerCase();
   switch (loweCaseBlockType) {
     case "story":
@@ -34,12 +37,20 @@ export const getEmoji = function (ideaType: ideaType | aidType) {
       return "⬛️";
     case "shortvideoscript":
       return "🎬";
+    case "worksheet":
+      return "📝";
+    case "answer key":
+      return "🔑";
+    case "support":
+      return "👩‍🏫";
     default:
       return "Oops!! AI is on Strike. Try Again?";
   }
 };
 
-export const getName = function (ideaType: ideaType | aidType) {
+export const getName = function (
+  ideaType: ideaType | aidType | worksheetAidType
+) {
   const loweCaseBlockType = ideaType.toLowerCase();
   switch (loweCaseBlockType) {
     case "story":
@@ -72,6 +83,12 @@ export const getName = function (ideaType: ideaType | aidType) {
       return "Blackboard";
     case "shortvideoscript":
       return "Video Script";
+    case "worksheet":
+      return "Worksheet";
+    case "answer key":
+      return "Answer Key";
+    case "support":
+      return "Support";
     default:
       return "Oops!! AI is on Strike. Try Again?";
   }
