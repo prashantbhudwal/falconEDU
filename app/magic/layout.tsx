@@ -7,7 +7,6 @@ import { useAtom } from "jotai";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
-
 import { teachingAids } from "../hooks/useTeachingAids";
 import useHandouts from "@/app/hooks/useHandouts";
 import { aidType, handoutType } from "@/types";
