@@ -7,6 +7,7 @@ interface CanvasBlockProps {
   type: ideaType;
   emoji: string;
   onRemove: (id: string) => void;
+  onDownload: (id: string) => void;
 }
 
 export default function CanvasBlock({
@@ -15,6 +16,7 @@ export default function CanvasBlock({
   emoji: blockEmoji,
   type: blockType,
   onRemove,
+  onDownload,
 }: CanvasBlockProps) {
   return (
     <div
@@ -27,12 +29,20 @@ export default function CanvasBlock({
           <p className="text-base">{blockEmoji}</p>
           <p className="uppercase">{blockType}</p>
         </header>
-        <button
-          className="text-red-500 p-1 text-sm"
-          onClick={() => onRemove(id)}
-        >
-          ❌
-        </button>
+        <div className="flex gap-3">
+          <button
+            className="text-green-500 p-1 text-sm"
+            onClick={() => onDownload(id)}
+          >
+            📥
+          </button>
+          <button
+            className="text-red-500 p-1 text-sm"
+            onClick={() => onRemove(id)}
+          >
+            ❌
+          </button>
+        </div>
       </div>
       <p className="leading-7 text-lg pt-2 whitespace-pre-wrap">
         {displayText}
