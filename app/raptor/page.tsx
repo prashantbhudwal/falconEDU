@@ -23,14 +23,8 @@ import questionData from "@/app/data/questionMatrix.json";
 import { RiseLoader } from "react-spinners";
 import QuestionsBlock from "./components/Questions";
 import useJsonParsing from "../hooks/useJsonParsing";
-import BloomBoxes from "./components/BloomBoxes";
 import Button from "../components/Button";
-const getQuestionTypeTitle = (questionType: QuestionType) => {
-  const title = questionData.find(
-    (question) => question.type === questionType
-  )?.title;
-  return title ? title : "";
-};
+
 
 const questionTypes = [
   { value: "fillInTheBlanks", label: "Fill in the Blanks" },
@@ -122,21 +116,13 @@ export default function Raptor() {
             return !checkedQuestionTypes.includes(
               questionObject.type
             ) ? null : (
-              <Section
-                title={getQuestionTypeTitle(questionObject.type)}
+              <QuestionsBlock
+                questions={questionObject.questions}
+                type={questionObject.type}
                 key={questionObject.type}
-                color="secondaryGray"
-              >
-                {isAdvancedMode && (
-                  <BloomBoxes questionTypeKey={questionObject.type} />
-                )}
-                <QuestionsBlock
-                  questions={questionObject.questions}
-                  type={questionObject.type}
-                  key={questionObject.type}
-                  droppable={isAdvancedMode ? false : true}
-                />
-              </Section>
+                droppable={isAdvancedMode ? false : true}
+                hasBloom={isAdvancedMode}
+              />
             );
           })}
         </Canvas>
