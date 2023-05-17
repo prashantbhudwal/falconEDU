@@ -5,6 +5,8 @@ export type ThemeColor = {
   h1: string;
   border: string;
   bg: string;
+  ring: string;
+  shadow: string;
 };
 
 export type Theme = {
