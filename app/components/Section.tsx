@@ -12,7 +12,7 @@ const Section: React.FC<SectionProps> = ({
   children,
   color = "primary",
 }) => {
-  const { text, h1, border, bg } = colors[color] as ThemeColor;
+  const { text, border, bg } = colors[color] as ThemeColor;
 
   return (
     <div className="pt-3">
