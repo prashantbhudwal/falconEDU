@@ -1,4 +1,12 @@
-export type ColorOption = "primary" | "secondary" | "gray" | "white" | "";
+export type ColorOption =
+  | "primary"
+  | "secondary"
+  | "gray"
+  | "white"
+  | "primaryGray"
+  | "secondaryGray"
+  | "";
+
 export type ThemeColor = {
   text: string;
   h2: string;
@@ -7,6 +15,7 @@ export type ThemeColor = {
   bg: string;
   ring: string;
   shadow: string;
+  textBase: string;
 };
 
 export type Theme = {
