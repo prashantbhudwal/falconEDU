@@ -28,7 +28,7 @@ export default function Page() {
     >
       {savedQuestions.map((questionObject: QuestionObject) => (
         <QuestionSection
-          questionType={questionObject.type}
+          type={questionObject.type}
           questions={questionObject.questions}
           key={questionObject.type}
         />
