@@ -5,19 +5,26 @@ type SectionProps = {
   title: string;
   children: React.ReactNode;
   color?: ColorOption;
+  className?: string;
+  headingColor?: string;
+  dividerColor?: string;
 };
 
 const Section: React.FC<SectionProps> = ({
   title,
   children,
   color = "primary",
+  className,
+  headingColor,
+  dividerColor,
 }) => {
   const { text, border, bg } = colors[color] as ThemeColor;
-
+  if (!headingColor) headingColor = text;
+  if (!dividerColor) dividerColor = border;
   return (
-    <div className="pt-3">
+    <div className={`pt-3  ${bg} ${className}`}>
       <header
-        className={`${text} ${bg} ${border} text-left font-medium border-b border-solid pb-2 mb-4`}
+        className={` ${dividerColor} ${headingColor} text-left font-medium border-b border-solid pb-2 mb-4`}
       >
         <p className="capitalize">{title}</p>
       </header>
