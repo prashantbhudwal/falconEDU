@@ -21,7 +21,7 @@ import {
 } from "../atoms/preferences";
 import questionData from "@/app/data/questionMatrix.json";
 import { RiseLoader } from "react-spinners";
-import QuestionSection from "./components/QuestionSection";
+import QuestionsBlock from "./components/Questions";
 import useJsonParsing from "../hooks/useJsonParsing";
 import BloomBoxes from "./components/BloomBoxes";
 import Button from "../components/Button";
@@ -99,7 +99,7 @@ export default function Raptor() {
     <DndProvider backend={HTML5Backend}>
       <div className="grid grid-cols-12 gap-4 w-full select-none">
         <Sidebar className="col-start-1 col-span-3 row-start-1">
-          <Section title={"Topics"}>
+          <Section title={"Topics"} color={"gray"}>
             {worksheetSubtopics.length > 0 &&
               worksheetSubtopics.map((topic, index) => (
                 <ChipDrag key={index} color="secondary">
@@ -125,11 +125,12 @@ export default function Raptor() {
               <Section
                 title={getQuestionTypeTitle(questionObject.type)}
                 key={questionObject.type}
+                color="secondaryGray"
               >
                 {isAdvancedMode && (
                   <BloomBoxes questionTypeKey={questionObject.type} />
                 )}
-                <QuestionSection
+                <QuestionsBlock
                   questions={questionObject.questions}
                   type={questionObject.type}
                   key={questionObject.type}
@@ -140,7 +141,7 @@ export default function Raptor() {
           })}
         </Canvas>
         <Sidebar className="col-start-11 col-span-2">
-          <Section title={"Types"}>
+          <Section title={"Types"} color={"gray"}>
             <Button
               onClick={() => setIsAdvancedMode(!isAdvancedMode)}
               secondary
