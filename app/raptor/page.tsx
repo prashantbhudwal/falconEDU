@@ -117,6 +117,7 @@ export default function Raptor() {
                 <QuestionSection
                   questionTypeKey={questionTypeKey}
                   savedQuestions={savedQuestions}
+                  withBloom={true}
                   key={questionTypeKey}
                 />
               );

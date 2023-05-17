@@ -14,15 +14,20 @@ const getQuestionTypeTitle = (questionType: QuestionType) => {
 type Props = {
   questionTypeKey: QuestionType;
   savedQuestions: Questions;
+  withBloom?: boolean;
 };
 
-const QuestionSection: React.FC<Props> = ({ questionTypeKey, savedQuestions }) => {
+const QuestionSection: React.FC<Props> = ({
+  questionTypeKey,
+  savedQuestions,
+  withBloom = false,
+}) => {
   return (
     <Section
       title={getQuestionTypeTitle(questionTypeKey)}
       key={questionTypeKey}
     >
-      <BloomBoxes questionTypeKey={questionTypeKey} />
+      {withBloom && <BloomBoxes questionTypeKey={questionTypeKey} />}
       {savedQuestions[questionTypeKey]?.map((question, index) => (
         <div className="flex flex-col gap-1 pt-2 px-4" key={index}>
           <div className="">
