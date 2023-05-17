@@ -44,6 +44,7 @@ export default function Raptor() {
   const [checkedQuestionTypes, setCheckedQuestionTypes] = useState<
     QuestionType[]
   >([]);
+  const [isAdvancedMode, setIsAdvancedMode] = useState(true);
 
   function isKeyOfQuestions(key: string): key is keyof Questions {
     return key in savedQuestions;
@@ -117,7 +118,7 @@ export default function Raptor() {
                 <QuestionSection
                   questionTypeKey={questionTypeKey}
                   savedQuestions={savedQuestions}
-                  withBloom={true}
+                  withBloom={isAdvancedMode}
                   key={questionTypeKey}
                 />
               );
