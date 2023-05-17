@@ -1,32 +1,42 @@
 import React from "react";
-import Section from "@/app/components/Section";
-import BloomBoxes from "./BloomBoxes";
-import questionData from "@/app/data/questionMatrix.json";
 import { QuestionType, Question } from "@/types";
-
-const getQuestionTypeTitle = (questionType: QuestionType) => {
-  const title = questionData.find(
-    (question) => question.type === questionType
-  )?.title;
-  return title ? title : "";
-};
+import { currentQuestionAtom } from "@/app/atoms/worksheet";
+import { useAtom } from "jotai";
+import { DropTargetMonitor, useDrop } from "react-dnd";
 
 type Props = {
-  questionType: QuestionType;
   questions: Question[];
-  withBloom?: boolean;
+  type: QuestionType;
+  droppable: boolean;
 };
 
-const QuestionSection: React.FC<Props> = ({
-  questionType,
-  questions,
-  withBloom = false,
-}) => {
+const Questions: React.FC<Props> = ({ questions, type, droppable = false }) => {
+  const [_, setCurrentQuestion] = useAtom(currentQuestionAtom);
+
+  const specObject = {
+    accept: "topic",
+    drop: (item: any) =>
+      setCurrentQuestion({
+        type: type,
+        bloomLevel: "Remember",
+        subtopic: item.text,
+      }),
+    collect: (monitor: DropTargetMonitor) => ({
+      isOver: monitor.isOver(),
+      canDrop: monitor.canDrop(),
+    }),
+  };
+  const [{ isOver, canDrop }, drop] = useDrop(() => specObject);
   return (
-    <Section title={getQuestionTypeTitle(questionType)} key={questionType}>
-      {withBloom && <BloomBoxes questionTypeKey={questionType} />}
+    <div>
       {questions.map((question, index) => (
-        <div className="flex flex-col gap-1 pt-2 px-4" key={index}>
+        <div
+          className={`flex flex-col gap-1 pt-2 px-4 ${
+            isOver ? "bg-fuchsia-500" : ""
+          }`}
+          key={index}
+          ref={droppable ? drop : null}
+        >
           <div className="">
             {index + 1}. {question.question}
             <div className="pt-2">
@@ -41,8 +51,8 @@ const QuestionSection: React.FC<Props> = ({
           </div>
         </div>
       ))}
-    </Section>
+    </div>
   );
 };
 
-export default QuestionSection;
+export default Questions;

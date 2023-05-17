@@ -19,9 +19,18 @@ import {
   boardAtom,
   subjectAtom,
 } from "../atoms/preferences";
+import questionData from "@/app/data/questionMatrix.json";
 import { RiseLoader } from "react-spinners";
 import QuestionSection from "./components/QuestionSection";
 import useJsonParsing from "../hooks/useJsonParsing";
+import BloomBoxes from "./components/BloomBoxes";
+import Button from "../components/Button";
+const getQuestionTypeTitle = (questionType: QuestionType) => {
+  const title = questionData.find(
+    (question) => question.type === questionType
+  )?.title;
+  return title ? title : "";
+};
 
 const questionTypes = [
   { value: "fillInTheBlanks", label: "Fill in the Blanks" },
@@ -38,7 +47,7 @@ export default function Raptor() {
   const [grade] = useAtom(gradeAtom);
   const [board] = useAtom(boardAtom);
   const [subject] = useAtom(subjectAtom);
-  const [currentQuestion] = useAtom(currentQuestionAtom);
+  const [currentQuestion, setCurrentQuestion] = useAtom(currentQuestionAtom);
   const [contentStreamCompleted] = useAtom(contentStreamCompletedAtom);
   const [worksheetSubtopics] = useAtom(worksheetSubtopicsAtom);
   const [checkedQuestionTypes, setCheckedQuestionTypes] = useState<
@@ -113,17 +122,31 @@ export default function Raptor() {
             return !checkedQuestionTypes.includes(
               questionObject.type
             ) ? null : (
-              <QuestionSection
-                questionType={questionObject.type}
-                questions={questionObject.questions}
-                withBloom={isAdvancedMode}
+              <Section
+                title={getQuestionTypeTitle(questionObject.type)}
                 key={questionObject.type}
-              />
+              >
+                {isAdvancedMode && (
+                  <BloomBoxes questionTypeKey={questionObject.type} />
+                )}
+                <QuestionSection
+                  questions={questionObject.questions}
+                  type={questionObject.type}
+                  key={questionObject.type}
+                  droppable={isAdvancedMode ? false : true}
+                />
+              </Section>
             );
           })}
         </Canvas>
         <Sidebar className="col-start-11 col-span-2">
           <Section title={"Types"}>
+            <Button
+              onClick={() => setIsAdvancedMode(!isAdvancedMode)}
+              secondary
+            >
+              {isAdvancedMode ? "Simple" : "Advanced"}
+            </Button>
             {questionTypes.map((questionType) => (
               <Checkbox
                 key={questionType.value}
