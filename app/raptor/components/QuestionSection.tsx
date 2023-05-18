@@ -1,6 +1,6 @@
 import React from "react";
 import { QuestionType, QuestionItem } from "@/types";
-import { currentQuestionAtom } from "@/app/atoms/worksheet";
+import { currentQuestionAtom, isAdvancedModeAtom } from "@/app/atoms/worksheet";
 import { useAtom } from "jotai";
 import { DropTargetMonitor, useDrop } from "react-dnd";
 import questionData from "@/app/data/questionMatrix.json";
@@ -34,6 +34,7 @@ const Questions: React.FC<Props> = ({
   hasBloom,
 }) => {
   const [_, setCurrentQuestion] = useAtom(currentQuestionAtom);
+  const [isAdvancedMode] = useAtom(isAdvancedModeAtom);
 
   const specObject = {
     accept: "topic",
@@ -68,7 +69,7 @@ const Questions: React.FC<Props> = ({
           isOver ? "bg-fuchsia-500" : "bg-slate-800"
         } `}
       >
-        {questions.length === 0 && (
+        {questions.length === 0 && !isAdvancedMode && (
           <div
             className={`flex flex-col gap-1 pt-2 px-4 ${className} ${
               isOver ? "bg-fuchsia-500 rounded-lg" : ""
