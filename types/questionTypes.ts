@@ -105,7 +105,7 @@ export interface PanelDiscussion extends BaseQuestion {
   teacherSupport?: string;
 }
 
-export type Question =
+export type QuestionItem =
   | FillInTheBlanks
   | MultipleChoiceSingleCorrect
   | TrueFalse
@@ -126,7 +126,7 @@ export type Question =
 
 export type QuestionObject = {
   type: QuestionType;
-  questions: Question[] | [];
+  questions: QuestionItem[] | [];
 };
 
-export type Questions = QuestionObject[];
+export type QuestionBank = QuestionObject[];

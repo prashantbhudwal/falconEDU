@@ -7,7 +7,7 @@ import ChipDrag from "./components/ChipDrag";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
 import Checkbox from "../components/Checkbox";
-import { QuestionType, Questions, Question, QuestionObject } from "@/types";
+import { QuestionType, QuestionItem, QuestionObject } from "@/types";
 import { currentQuestionAtom } from "../atoms/worksheet";
 import { useAtom } from "jotai";
 import { useQuestionGeneration } from "../hooks/useQuestionGeneration";
@@ -23,11 +23,9 @@ import {
   boardAtom,
   subjectAtom,
 } from "../atoms/preferences";
-import questionData from "@/app/data/questionMatrix.json";
 import { RiseLoader } from "react-spinners";
-import QuestionsBlock from "./components/Questions";
+import QuestionsBlock from "./components/QuestionSection";
 import useJsonParsing from "../hooks/useJsonParsing";
-import Button from "../components/Button";
 import { ModeToggle } from "./components/ModeToggle";
 import { motion, useAnimation } from "framer-motion";
 
@@ -78,13 +76,13 @@ export default function Raptor() {
     if (parsedContent && "type" in parsedContent) {
       const parsedQuestionType = parsedContent.type;
       const questionIndex = savedQuestions.findIndex(
-        (q) => q.type === parsedQuestionType
+        (q: any) => q.type === parsedQuestionType
       );
 
       if (questionIndex !== -1) {
         const updatedQuestions = [...savedQuestions];
         const questionArray = [...updatedQuestions[questionIndex].questions];
-        questionArray.push(parsedContent as unknown as Question);
+        questionArray.push(parsedContent as unknown as QuestionItem);
         updatedQuestions[questionIndex] = {
           ...updatedQuestions[questionIndex],
           questions: questionArray,

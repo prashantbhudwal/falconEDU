@@ -1,6 +1,5 @@
 import { atom } from "jotai";
-import { Questions, QuestionType } from "@/types";
-import { Question } from "@/types";
+import { QuestionBank, QuestionType } from "@/types";
 type CurrentQuestion = {
   type: QuestionType;
   bloomLevel: string;
@@ -15,7 +14,7 @@ export const currentQuestionAtom = atom<CurrentQuestion>({
   subtopic: "",
 });
 
-export const savedQuestionsAtom = atom<Questions>([
+export const savedQuestionsAtom = atom<QuestionBank>([
   {
     type: "fillInTheBlanks",
     questions: [],
