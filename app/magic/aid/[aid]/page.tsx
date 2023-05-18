@@ -49,7 +49,7 @@ export default function Page({ params }: { params: { aid: aidType } }) {
         rightTop={board}
         heading={subtopic}
         subheading={topic}
-        color={"black"}
+        color={"white"}
       />
       <p className="leading-7 text-lg pt-8 py-5 whitespace-pre-wrap">
         {contentStreamCompleted ? latestAid : content}
