@@ -9,7 +9,7 @@ type QuestionProps = {
 const Question: React.FC<QuestionProps> = ({ index, question }) => {
   return (
     <div className="">
-      {index + 1}. {question.question}
+      {index}. {question.question}
       <div className="pt-2">
         {"options" in question &&
           Array.isArray(question.options) && // type guard
