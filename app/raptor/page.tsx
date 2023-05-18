@@ -12,7 +12,11 @@ import { currentQuestionAtom } from "../atoms/worksheet";
 import { useAtom } from "jotai";
 import { useQuestionGeneration } from "../hooks/useQuestionGeneration";
 import { contentStreamCompletedAtom } from "@/app/atoms/lesson";
-import { worksheetSubtopicsAtom, savedQuestionsAtom } from "../atoms/worksheet";
+import {
+  worksheetSubtopicsAtom,
+  savedQuestionsAtom,
+  isAdvancedModeAtom,
+} from "../atoms/worksheet";
 import {
   topicAtom,
   gradeAtom,
@@ -24,7 +28,8 @@ import { RiseLoader } from "react-spinners";
 import QuestionsBlock from "./components/Questions";
 import useJsonParsing from "../hooks/useJsonParsing";
 import Button from "../components/Button";
-
+import { ModeToggle } from "./components/ModeToggle";
+import { motion, useAnimation } from "framer-motion";
 
 const questionTypes = [
   { value: "fillInTheBlanks", label: "Fill in the Blanks" },
@@ -35,6 +40,7 @@ const questionTypes = [
 ] as { value: QuestionType; label: string }[];
 
 export default function Raptor() {
+  const controls = useAnimation();
   const { content, startStreaming } = useQuestionGeneration("getQuestion");
   const [savedQuestions, setSavedQuestions] = useAtom(savedQuestionsAtom);
   const [topic] = useAtom(topicAtom);
@@ -47,7 +53,7 @@ export default function Raptor() {
   const [checkedQuestionTypes, setCheckedQuestionTypes] = useState<
     QuestionType[]
   >([]);
-  const [isAdvancedMode, setIsAdvancedMode] = useState(true);
+  const [isAdvancedMode, setIsAdvancedMode] = useAtom(isAdvancedModeAtom);
 
   const handleCheckboxChange = (value: QuestionType) => {
     if (checkedQuestionTypes.includes(value)) {
@@ -89,9 +95,21 @@ export default function Raptor() {
     }
   }, [parsedContent]);
 
+  useEffect(() => {
+    if (isAdvancedMode) {
+      controls.start({
+        scale: [1, 0.9, 1],
+        transition: { duration: 0.6 },
+      });
+    }
+  }, [isAdvancedMode, controls]);
+
   return (
     <DndProvider backend={HTML5Backend}>
-      <div className="grid grid-cols-12 gap-4 w-full select-none">
+      <motion.div
+        className="grid grid-cols-12 gap-4 w-full select-none"
+        animate={controls}
+      >
         <Sidebar className="col-start-1 col-span-3 row-start-1">
           <Section title={"Topics"} color={"gray"}>
             {worksheetSubtopics.length > 0 &&
@@ -103,7 +121,7 @@ export default function Raptor() {
           </Section>
         </Sidebar>
         <Canvas
-          className="col-start-4 col-span-7 h-screen scroll-smooth overflow-y-auto scroll-pb-96 pb-96 custom-scrollbar"
+          className={`col-start-4 col-span-7 h-screen scroll-smooth overflow-y-auto scroll-pb-96 pb-96 custom-scrollbar items-center gap-4 }`}
           color="secondary"
           heading={
             contentStreamCompleted ? topic : <RiseLoader color="#D946EF" />
@@ -112,6 +130,10 @@ export default function Raptor() {
           leftBottom={subject}
           rightTop={board}
         >
+          <ModeToggle
+            isAdvancedMode={isAdvancedMode}
+            setIsAdvancedMode={setIsAdvancedMode}
+          />
           {savedQuestions.map((questionObject: QuestionObject) => {
             return !checkedQuestionTypes.includes(
               questionObject.type
@@ -128,12 +150,6 @@ export default function Raptor() {
         </Canvas>
         <Sidebar className="col-start-11 col-span-2">
           <Section title={"Types"} color={"gray"}>
-            <Button
-              onClick={() => setIsAdvancedMode(!isAdvancedMode)}
-              secondary
-            >
-              {isAdvancedMode ? "Simple" : "Advanced"}
-            </Button>
             {questionTypes.map((questionType) => (
               <Checkbox
                 key={questionType.value}
@@ -145,7 +161,7 @@ export default function Raptor() {
             ))}
           </Section>
         </Sidebar>
-      </div>
+      </motion.div>
     </DndProvider>
   );
 }
