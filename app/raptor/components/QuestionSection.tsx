@@ -1,5 +1,5 @@
 import React from "react";
-import { QuestionType, Question } from "@/types";
+import { QuestionType, QuestionItem } from "@/types";
 import { currentQuestionAtom } from "@/app/atoms/worksheet";
 import { useAtom } from "jotai";
 import { DropTargetMonitor, useDrop } from "react-dnd";
@@ -11,7 +11,7 @@ import {
   getQuestionSectionBorderColor,
   getQuestionSectionTextColor,
 } from "@/app/utils/index";
-
+import Question from "./Question";
 const getQuestionTypeTitle = (questionType: QuestionType) => {
   const title = questionData.find(
     (question) => question.type === questionType
@@ -19,7 +19,7 @@ const getQuestionTypeTitle = (questionType: QuestionType) => {
   return title ? title : "";
 };
 type Props = {
-  questions: Question[];
+  questions: QuestionItem[];
   type: QuestionType;
   droppable?: boolean;
   className?: string;
@@ -84,18 +84,7 @@ const Questions: React.FC<Props> = ({
               isOver ? "bg-fuchsia-500 rounded-lg" : ""
             }`}
           >
-            <div className="">
-              {index + 1}. {question.question}
-              <div className="pt-2">
-                {"options" in question &&
-                  Array.isArray(question.options) && // type guard
-                  question.options.map((option: string, optIndex: number) => (
-                    <div key={optIndex} className="flex flex-row gap-2">
-                      <div>{option}</div>
-                    </div>
-                  ))}
-              </div>
-            </div>
+            <Question key={index} index={index + 1} question={question} />
           </div>
         ))}
       </div>
