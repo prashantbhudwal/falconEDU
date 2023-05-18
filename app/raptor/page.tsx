@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import { v4 as uuidv4 } from "uuid";
 import Sidebar from "../components/Sidebar";
 import Section from "../components/Section";
 import Canvas from "./components/Canvas";
@@ -82,13 +83,26 @@ export default function Raptor() {
       if (questionIndex !== -1) {
         const updatedQuestions = [...savedQuestions];
         const questionArray = [...updatedQuestions[questionIndex].questions];
-        questionArray.push(parsedContent as unknown as QuestionItem);
+
+        // Adding id property
+        const parsedContentWithId = {
+          ...parsedContent,
+          questionId: uuidv4(),
+          bloomLevel: currentQuestion.bloomLevel,
+          topic: topic,
+          subtopic: currentQuestion.subtopic,
+          grade: grade,
+          board: board,
+        };
+
+        questionArray.push(parsedContentWithId as unknown as QuestionItem);
         updatedQuestions[questionIndex] = {
           ...updatedQuestions[questionIndex],
           questions: questionArray,
         };
 
         setSavedQuestions(updatedQuestions);
+        console.log("Saved Questions", savedQuestions);
       }
     }
   }, [parsedContent]);
