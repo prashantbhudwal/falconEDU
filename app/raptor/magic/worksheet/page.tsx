@@ -19,20 +19,23 @@ export default function Page() {
   const [savedQuestions] = useAtom(savedQuestionsAtom);
   return (
     <Canvas
-      className="col-start-4 col-span-7 min-h-screen"
+      className="col-start-4 col-span-7 min-h-screen gap-4"
       color="secondary"
       heading={topic}
       leftTop={`Grade ${grade}`}
       leftBottom={subject}
       rightTop={board}
     >
-      {savedQuestions.map((questionObject: QuestionObject) => (
-        <QuestionSection
-          type={questionObject.type}
-          questions={questionObject.questions}
-          key={questionObject.type}
-        />
-      ))}
+      {savedQuestions.map(
+        (questionObject: QuestionObject) =>
+          questionObject.questions.length > 0 && (
+            <QuestionSection
+              type={questionObject.type}
+              questions={questionObject.questions}
+              key={questionObject.type}
+            />
+          )
+      )}
     </Canvas>
   );
 }
