@@ -2,17 +2,14 @@
 import Link from "next/link";
 import { downloadZip } from "@/app/utils/downloadZip";
 import { usePathname } from "next/navigation";
-import { generateDocx } from "@/app/utils/generateDocx";
 import LinkButton from "@/app/components/LinkButton";
 import Button from "@/app/components/Button";
 import { useAtom } from "jotai";
 import Image from "next/image";
-import { topicAtom, subtopicAtom } from "./atoms/preferences";
-import { signOut, useSession } from "next-auth/react";
-
+import { useSession } from "next-auth/react";
+import { currentQuestionAtom } from "./atoms/worksheet";
 import {
   lessonIdeasAtom,
-  fetchedContentAtom,
   contentStreamCompletedAtom,
   teachingAidsAtom,
 } from "./atoms/lesson";
@@ -21,10 +18,8 @@ import useDownloadContent from "./hooks/useDownloadContent";
 import { useRouter } from "next/navigation";
 export default function Header() {
   const { data: session, status: sessionStatus } = useSession();
-  const [topic] = useAtom(topicAtom);
-  const [subtopic] = useAtom(subtopicAtom);
   const [lessonIdeas] = useAtom(lessonIdeasAtom);
-  const [fetchedContent] = useAtom(fetchedContentAtom);
+  const [currentQuestion] = useAtom(currentQuestionAtom);
 
   const [contentStreamCompleted, setContentStreamCompleted] = useAtom(
     contentStreamCompletedAtom
@@ -34,20 +29,22 @@ export default function Header() {
   const [teachingAids, setTeachingAids] = useAtom(teachingAidsAtom);
   const docxArray = useDownloadContent();
   const router = useRouter();
-  const handleClick = () => {
+  const handleLessonGeneration = () => {
     setTeachingAids([]);
     router.push("/magic/aid/lesson");
   };
+
+  const handleWorksheetGeneration = () => {
+    router.push("/raptor/magic/worksheet");
+  };
+
   return (
     <header className="sticky top-0 z-50  text-slate-200 pt-5 pl-4 pr-6 pb-2 bg-slate-900">
       <div className="flex items-center justify-between">
         <Link href="/">
           <div className={`flex gap-4`}>
             <div
-              className={`${
-                !contentStreamCompleted &&
-                "animate-breath"
-              }
+              className={`${!contentStreamCompleted && "animate-breath"}
             `}
             >
               <Image
@@ -70,10 +67,18 @@ export default function Header() {
         <div className="flex items-center gap-6">
           {started && lessonIdeas.length !== 0 && pathname === "/merlin" && (
             <Button
-              onClick={handleClick}
+              onClick={handleLessonGeneration}
               key={pathname} //rerenders the component when the path changes
             >
               Generate Lesson
+            </Button>
+          )}
+          {currentQuestion.bloomLevel.length > 0 && pathname === "/raptor" && (
+            <Button
+              onClick={handleWorksheetGeneration}
+              key={pathname} //rerenders the component when the path changes
+            >
+              Generate Worksheet
             </Button>
           )}
           {contentStreamCompleted &&
