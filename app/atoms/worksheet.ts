@@ -37,3 +37,5 @@ export const savedQuestionsAtom = atom<Questions>([
     questions: [],
   },
 ]);
+
+export const isAdvancedModeAtom = atom(false);
