@@ -85,7 +85,11 @@ const Questions: React.FC<Props> = ({
               isOver ? "bg-fuchsia-500 rounded-lg" : ""
             }`}
           >
-            <Question key={index} index={index + 1} question={question} />
+            <Question
+              key={question.questionId}
+              index={index + 1}
+              question={question}
+            />
           </div>
         ))}
       </div>
