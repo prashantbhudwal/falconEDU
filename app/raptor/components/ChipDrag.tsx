@@ -44,10 +44,10 @@ export default function ChipDrag({
     <motion.div
       ref={dragPreview}
       whileHover={{ cursor: "grab", scale: 1.1 }}
-      className={`text-slate-300 px-3 py-2 rounded-md ring-1 ${ringColorClass} hover:${bgClass} hover:${borderClass} hover:${shadowClass} ${
+      className={`text-slate-300  px-3 py-2 rounded-md ring-1 hover:${bgClass} hover:${borderClass} hover:${shadowClass} ${
         isDragging
           ? `opacity-100 ${ringColorClass} ring-4 ${bgClass} ${borderClass} ${shadowClass}`
-          : "opacity-100 bg-slate-900 border-slate-500 text-slate-200"
+          : "opacity-100 bg-slate-800 ring-slate-700 border-slate-500 text-slate-200"
       }`}
     >
       <p
