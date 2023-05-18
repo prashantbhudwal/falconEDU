@@ -53,6 +53,7 @@ export default function Raptor() {
     QuestionType[]
   >([]);
   const [isAdvancedMode, setIsAdvancedMode] = useAtom(isAdvancedModeAtom);
+  const [firstRender, setFirstRender] = useState(true);
 
   const handleCheckboxChange = (value: QuestionType) => {
     if (checkedQuestionTypes.includes(value)) {
@@ -67,8 +68,11 @@ export default function Raptor() {
   const parsedContent = useJsonParsing({ contentStreamCompleted, content });
 
   useEffect(() => {
-    if (currentQuestion.bloomLevel.length > 0) {
-      //Stops code from running when the page first loads
+    if (firstRender) {
+      // Skipping first render
+      setFirstRender(false);
+    } else if (currentQuestion.bloomLevel.length > 0) {
+      // This code won't run on the first render
       startStreaming();
     }
   }, [currentQuestion]);
@@ -102,7 +106,6 @@ export default function Raptor() {
         };
 
         setSavedQuestions(updatedQuestions);
-        console.log("Saved Questions", savedQuestions);
       }
     }
   }, [parsedContent]);
