@@ -6,7 +6,11 @@ import { DropTargetMonitor, useDrop } from "react-dnd";
 import questionData from "@/app/data/questionMatrix.json";
 import BloomBoxes from "./BloomBoxes";
 import Section from "@/app/components/Section";
-import { getQuestionSectionShadow, getQuestionSectionBorderColor, getQuestionSectionTextColor } from "@/app/utils/index";
+import {
+  getQuestionSectionShadow,
+  getQuestionSectionBorderColor,
+  getQuestionSectionTextColor,
+} from "@/app/utils/index";
 
 const getQuestionTypeTitle = (questionType: QuestionType) => {
   const title = questionData.find(
@@ -52,7 +56,7 @@ const Questions: React.FC<Props> = ({
       color="secondaryGray"
       headingColor={getQuestionSectionTextColor(type)}
       dividerColor={getQuestionSectionBorderColor(type)}
-      className={`px-5 py-3 rounded-lg shadow-sm ${getQuestionSectionShadow(
+      className={`w-full px-5 py-3 rounded-lg shadow-sm ${getQuestionSectionShadow(
         type
       )}`}
     >
@@ -67,7 +71,7 @@ const Questions: React.FC<Props> = ({
         {questions.length === 0 && (
           <div
             className={`flex flex-col gap-1 pt-2 px-4 ${className} ${
-              isOver ? "bg-fuchsia-500" : ""
+              isOver ? "bg-fuchsia-500 rounded-lg" : ""
             }`}
           >
             Drop a Question here
@@ -77,7 +81,7 @@ const Questions: React.FC<Props> = ({
           <div
             key={index}
             className={`flex flex-col gap-1 pt-2 px-4 ${className} ${
-              isOver ? "bg-fuchsia-500" : ""
+              isOver ? "bg-fuchsia-500 rounded-lg" : ""
             }`}
           >
             <div className="">
