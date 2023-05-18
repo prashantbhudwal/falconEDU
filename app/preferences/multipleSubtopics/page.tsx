@@ -13,6 +13,7 @@ import { gradeAtom, boardAtom, subjectAtom } from "@/app/atoms/preferences";
 import Button from "@/app/components/Button";
 import TextInput from "../TextInput";
 import { worksheetSubtopicsAtom } from "@/app/atoms/worksheet";
+import { savedQuestionsAtom } from "@/app/atoms/worksheet";
 
 export default function Page() {
   const [contentStreamCompleted] = useAtom(contentStreamCompletedAtom);
@@ -29,6 +30,7 @@ export default function Page() {
   const [worksheetSubtopics, setWorksheetSubtopics] = useAtom(
     worksheetSubtopicsAtom
   );
+  const [savedQuestions, setSavedQuestions] = useAtom(savedQuestionsAtom);
 
   useEffect(() => {
     if (board === "" || subject === "" || grade === "") {
@@ -39,7 +41,28 @@ export default function Page() {
   const handleStart = () => {
     router.push("/raptor");
     setStarted(true);
-    setLessonIdeas([]);
+    setSavedQuestions([
+      {
+        type: "fillInTheBlanks",
+        questions: [],
+      },
+      {
+        type: "multipleChoiceSingleCorrect",
+        questions: [],
+      },
+      {
+        type: "trueFalse",
+        questions: [],
+      },
+      {
+        type: "shortAnswer",
+        questions: [],
+      },
+      {
+        type: "essay",
+        questions: [],
+      },
+    ]);
   };
 
   const handleChange = (event: any) => {
