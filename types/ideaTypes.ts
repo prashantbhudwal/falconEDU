@@ -20,4 +20,4 @@ export type aidType =
   | "";
 export type handoutType = "story" | "activity" | "quiz" | "";
 
-export type worksheetAidType = "worksheet" | "answer key" | "support";
+export type worksheetAidType = "worksheet" | "answerKey" | "support";
