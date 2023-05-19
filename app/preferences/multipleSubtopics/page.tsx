@@ -16,6 +16,7 @@ import { worksheetSubtopicsAtom } from "@/app/atoms/worksheet";
 import { savedQuestionsAtom } from "@/app/atoms/worksheet";
 
 export default function Page() {
+  const [hoverIndex, setHoverIndex] = useState<number | null>(null);
   const [contentStreamCompleted] = useAtom(contentStreamCompletedAtom);
   const [topic] = useAtom(topicAtom);
   const [allContent, setAllContent] = useState([""]);
@@ -75,6 +76,9 @@ export default function Page() {
       setInputValue("");
     }
   };
+  const handleDeleteSubtopic = (index: number) => {
+    setWorksheetSubtopics(worksheetSubtopics.filter((_, i) => i !== index));
+  };
 
   useEffect(() => {
     setWorksheetSubtopics([]);
@@ -89,24 +93,38 @@ export default function Page() {
 
   return (
     <div className="flex flex-col gap-10 items-center m-4 w-full">
-      <div className="flex gap-3 w-5/6  justify-center">
-        <div className="flex flex-row flex-wrap gap-2 px-6 py-4 rounded-lg ring-2 ring-fuchsia-500 w-4/6 h-16 overflow-y-auto">
+      <div className="flex gap-3 w-5/6  justify-center items-center">
+        <div className="flex flex-row flex-wrap gap-3 px-6 py-4 rounded-lg ring-2 ring-fuchsia-500 w-4/6 min-h-full">
           {worksheetSubtopics.map((subtopic, index) => (
             <div
+              className="relative"
               key={index}
-              className="px-2 py-1 rounded-sm bg-emerald-500 text-slate-800"
+              onMouseEnter={() => setHoverIndex(index)}
+              onMouseLeave={() => setHoverIndex(null)}
             >
-              {subtopic}
+              <div
+                className="px-2 py-2 rounded-sm bg-slate-800 text-fuchsia-500 cursor-pointer"
+                onClick={() => handleDeleteSubtopic(index)}
+              >
+                {subtopic}
+              </div>
+              {hoverIndex === index && (
+                <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center text-white text-lg pointer-events-none">
+                  ❌
+                </div>
+              )}
             </div>
           ))}
         </div>
-        <Button
-          secondary
-          onClick={handleStart}
-          disabled={worksheetSubtopics.length === 0}
-        >
-          Worksheet
-        </Button>
+        <div className="place-content-center">
+          <Button
+            secondary
+            onClick={handleStart}
+            disabled={worksheetSubtopics.length === 0}
+          >
+            Worksheet
+          </Button>
+        </div>
       </div>
       <div className="flex gap-3">
         <TextInput
