@@ -1,4 +1,4 @@
-import { QuestionType, QuestionItem } from "./questionTypes";
+import { QuestionType, QuestionItem, QuestionBank } from "./questionTypes";
 import { BlockContent } from "./blockTypes";
 import { ideaType } from "./ideaTypes";
 import { aidType } from "./ideaTypes";
@@ -31,6 +31,9 @@ export type PredictionPayload = {
     subtopic?: string;
   };
 };
+
+export type PredictionAction = "predictChapters" | "predictSubtopics";
+
 export type QuestionPayload = {
   action: QuestionAction;
   data: QuestionItem;
@@ -38,4 +41,15 @@ export type QuestionPayload = {
 
 export type QuestionAction = "getQuestion";
 
-export type PredictionAction = "predictChapters" | "predictSubtopics";
+export type QuestionBankPayload = {
+  action: QuestionBankAction;
+  data: QuestionBank;
+};
+
+export type QuestionBankAction = "generateAnswers";
+
+export type ContentStreamPayload =
+  | StreamPayload
+  | PredictionPayload
+  | QuestionPayload
+  | QuestionBankPayload;
