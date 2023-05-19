@@ -1,10 +1,6 @@
 "use client";
 import { worksheetAidType } from "@/types";
-const worksheetAids: worksheetAidType[] = [
-  "worksheet",
-  "answer key",
-  "support",
-];
+const worksheetAids: worksheetAidType[] = ["worksheet", "answerKey"];
 import Section from "@/app/components/Section";
 import Sidebar from "@/app/components/Sidebar";
 import SidebarButton from "@/app/magic/components/SidebarButton";
@@ -20,7 +16,7 @@ export default function AidLayout({ children }: { children: React.ReactNode }) {
     <DndProvider backend={HTML5Backend}>
       <div className="grid grid-cols-12 gap-4 w-full">
         <Sidebar className="col-start-1 col-span-2 row-start-1">
-          <Section title="Teaching Aids">
+          <Section title="Teaching Aids" color="secondary">
             <SidebarButton
               onClick={() => router.push(`raptor/magic/worksheet`)}
               isActive={pathname === `raptor/magic/worksheet`}
@@ -31,8 +27,8 @@ export default function AidLayout({ children }: { children: React.ReactNode }) {
               (aid: worksheetAidType) =>
                 aid != "worksheet" && (
                   <SidebarButton
-                    onClick={() => router.push(`/magic/aid/${aid}`)}
-                    isActive={pathname === `/magic/aid/${aid}`}
+                    onClick={() => router.push(`/raptor/magic/aid/${aid}`)}
+                    isActive={pathname === `/raptor/magic/aid/${aid}`}
                     key={aid}
                   >
                     {`${getEmoji(aid)} ${getName(aid)}`}
