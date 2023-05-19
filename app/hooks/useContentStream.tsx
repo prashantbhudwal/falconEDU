@@ -13,6 +13,7 @@ import {
   PredictionPayload,
   StreamPayload,
   QuestionPayload,
+  ContentStreamPayload
 } from "@/types";
 
 export function useContentStream(apiRoute: APIRoute) {
@@ -24,9 +25,7 @@ export function useContentStream(apiRoute: APIRoute) {
   );
   const [fetchedContent, setFetchedContent] = useAtom(fetchedContentAtom);
 
-  const fetchData = async (
-    payload: StreamPayload | PredictionPayload | QuestionPayload
-  ) => {
+  const fetchData = async (payload: ContentStreamPayload) => {
     try {
       const done = await fetchContentStream(
         (message: string) => {
@@ -44,9 +43,7 @@ export function useContentStream(apiRoute: APIRoute) {
     }
   };
 
-  const startGeneration = (
-    payload: StreamPayload | PredictionPayload | QuestionPayload
-  ) => {
+  const startGeneration = (payload: ContentStreamPayload) => {
     setContentStream([]);
     setContentStreamCompleted(false);
     fetchData(payload);
