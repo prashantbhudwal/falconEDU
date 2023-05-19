@@ -7,7 +7,7 @@ import Button from "@/app/components/Button";
 import { useAtom } from "jotai";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
-import { currentQuestionAtom } from "./atoms/worksheet";
+import { currentQuestionAtom, worksheetAnswerKeyAtom } from "./atoms/worksheet";
 import {
   lessonIdeasAtom,
   contentStreamCompletedAtom,
@@ -20,7 +20,7 @@ export default function Header() {
   const { data: session, status: sessionStatus } = useSession();
   const [lessonIdeas] = useAtom(lessonIdeasAtom);
   const [currentQuestion] = useAtom(currentQuestionAtom);
-
+  const [_, setWorksheetAnswerKey] = useAtom(worksheetAnswerKeyAtom);
   const [contentStreamCompleted, setContentStreamCompleted] = useAtom(
     contentStreamCompletedAtom
   );
@@ -35,6 +35,7 @@ export default function Header() {
   };
 
   const handleWorksheetGeneration = () => {
+    setWorksheetAnswerKey([]);
     router.push("/raptor/magic/worksheet");
   };
 
@@ -93,20 +94,7 @@ export default function Header() {
                 Back to Planner
               </Button>
             )}
-          {/* {contentStreamCompleted &&
-            lessonIdeas.length !== 0 &&
-            /^\/magic\/.*$/.test(pathname) && (
-              <button
-                onClick={() => {
-                  setTeachingAids([]);
-                  setContentStreamCompleted(false);
-                  router.refresh();
-                }}
-                className="bg-teal-600 hover:bg-teal-700 text-slate-100 font-medium py-2 px-4 rounded"
-              >
-                Regenerate
-              </button>
-            )} */}
+
           {contentStreamCompleted &&
             lessonIdeas.length !== 0 &&
             /^\/magic\/.*$/.test(pathname) && (
@@ -119,6 +107,26 @@ export default function Header() {
                 Download
               </button>
             )}
+          {contentStreamCompleted && /^\/raptor\/magic\/.*$/.test(pathname) && (
+            <Button
+              onClick={() => {
+                setTeachingAids([]);
+                router.push("/raptor");
+              }}
+            >
+              Back to Planner
+            </Button>
+          )}
+          {contentStreamCompleted && /^\/raptor\/magic\/.*$/.test(pathname) && (
+            <button
+              onClick={() => {
+                console.log("download");
+              }}
+              className="bg-purple-600 hover:bg-purple-700 text-slate-100 font-medium py-2 px-4 rounded"
+            >
+              Download
+            </button>
+          )}
           {contentStreamCompleted &&
             lessonIdeas.length !== 0 &&
             pathname === "/lesson" && (
