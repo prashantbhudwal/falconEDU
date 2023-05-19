@@ -40,7 +40,7 @@ export const getEmoji = function (
       return "🎬";
     case "worksheet":
       return "📝";
-    case "answer key":
+    case "answerkey":
       return "🔑";
     case "support":
       return "👩‍🏫";
@@ -86,7 +86,7 @@ export const getName = function (
       return "Video Script";
     case "worksheet":
       return "Worksheet";
-    case "answer key":
+    case "answerkey":
       return "Answer Key";
     case "support":
       return "Support";
@@ -247,7 +247,6 @@ export const getQuestionSectionBorderColor = function (
       return "border-none";
   }
 };
-
 
 export const buttonsArray: ideaType[] = [
   "definition",
