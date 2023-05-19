@@ -1,10 +1,10 @@
 "use client";
-import { useAid } from "@/app/hooks/useAid";
+import { useAid } from "../../hooks/useAid";
 import Issue from "@/app/components/Issue";
 import { contentStreamCompletedAtom } from "@/app/atoms/lesson";
 import { useAtom } from "jotai";
 import { useState } from "react";
-import useLatestAid from "@/app/hooks/useLatestAid";
+import useLatestAid from "../../hooks/useLatestAid";
 import { aidType } from "@/types";
 import { useEffect } from "react";
 import { shouldRegenerateAtom } from "@/app/atoms/lesson";

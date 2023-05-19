@@ -11,7 +11,7 @@ import Checkbox from "../components/Checkbox";
 import { QuestionType, QuestionItem, QuestionObject } from "@/types";
 import { currentQuestionAtom } from "../atoms/worksheet";
 import { useAtom } from "jotai";
-import { useQuestionGeneration } from "../hooks/useQuestionGeneration";
+import { useQuestionGeneration } from "./hooks/useQuestionGeneration";
 import { contentStreamCompletedAtom } from "@/app/atoms/lesson";
 import {
   worksheetSubtopicsAtom,

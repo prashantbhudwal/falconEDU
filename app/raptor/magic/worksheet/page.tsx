@@ -17,6 +17,7 @@ export default function Page() {
   const [grade] = useAtom(gradeAtom);
   const [subject] = useAtom(subjectAtom);
   const [savedQuestions] = useAtom(savedQuestionsAtom);
+  console.log(savedQuestions)
   return (
     <Canvas
       className="col-start-4 col-span-7 min-h-screen gap-4"

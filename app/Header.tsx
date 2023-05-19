@@ -14,7 +14,7 @@ import {
   teachingAidsAtom,
 } from "./atoms/lesson";
 import { startedAtom } from "./atoms/app";
-import useDownloadContent from "./hooks/useDownloadContent";
+import useDownloadContent from "./magic/hooks/useDownloadContent";
 import { useRouter } from "next/navigation";
 export default function Header() {
   const { data: session, status: sessionStatus } = useSession();

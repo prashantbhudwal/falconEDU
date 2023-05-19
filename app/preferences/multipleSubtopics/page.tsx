@@ -1,6 +1,6 @@
 "use client";
 import { PropagateLoader } from "react-spinners";
-import { usePrediction } from "@/app/hooks/usePrediction";
+import { usePrediction } from "@/app/preferences/hooks/usePrediction";
 import { contentStreamCompletedAtom } from "@/app/atoms/lesson";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
