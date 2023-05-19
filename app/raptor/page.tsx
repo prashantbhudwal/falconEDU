@@ -51,7 +51,7 @@ export default function Raptor() {
   const [worksheetSubtopics] = useAtom(worksheetSubtopicsAtom);
   const [checkedQuestionTypes, setCheckedQuestionTypes] = useState<
     QuestionType[]
-  >([]);
+  >(["fillInTheBlanks"]);
   const [isAdvancedMode, setIsAdvancedMode] = useAtom(isAdvancedModeAtom);
   const [firstRender, setFirstRender] = useState(true);
 
