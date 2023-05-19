@@ -144,6 +144,7 @@ export default function Raptor() {
           leftTop={`Grade ${grade}`}
           leftBottom={subject}
           rightTop={board}
+          isSticky={true}
         >
           <ModeToggle
             isAdvancedMode={isAdvancedMode}

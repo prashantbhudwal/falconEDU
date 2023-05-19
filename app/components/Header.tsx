@@ -9,6 +9,7 @@ export type HeaderProps = {
   leftBottom?: React.ReactNode;
   rightTop?: React.ReactNode;
   rightBottom?: React.ReactNode;
+  isSticky?: boolean;
 };
 
 export default function Header({
@@ -20,11 +21,14 @@ export default function Header({
   leftBottom,
   rightTop,
   rightBottom,
+  isSticky = false,
 }: HeaderProps) {
   const { text, h1, h2, border, bg } = colors[color] as ThemeColor;
   return (
     <header
-      className={`font-medium ${text} border-b border-solid ${border} py-3 flex flex-row justify-between w-full sticky top-0 z-50 ${bg} items-center ${className}`}
+      className={`font-medium ${text} border-b border-solid ${border} py-3 flex flex-row justify-between w-full ${
+        isSticky && "sticky top-0 z-50"
+      } ${bg} items-center ${className}`}
     >
       <div className="text-sm text-left flex flex-col gap-1">
         <div>{leftTop}</div>
