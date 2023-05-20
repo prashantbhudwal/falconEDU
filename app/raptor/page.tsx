@@ -28,7 +28,12 @@ import { RiseLoader } from "react-spinners";
 import QuestionsBlock from "./components/QuestionSection";
 import useJsonParsing from "../hooks/useJsonParsing";
 import { ModeToggle } from "./components/ModeToggle";
-import { motion, useAnimation } from "framer-motion";
+import {
+  motion,
+  useAnimation,
+  AnimatePresence,
+  MotionStyle,
+} from "framer-motion";
 
 const questionTypes = [
   { value: "fillInTheBlanks", label: "Fill in the Blanks" },
@@ -112,15 +117,53 @@ export default function Raptor() {
 
   useEffect(() => {
     if (isAdvancedMode) {
-      controls.start({
-        scale: [1, 0.9, 1],
-        transition: { duration: 0.6 },
-      });
+      controls.start("visible");
+    } else {
+      controls.start("hidden");
     }
   }, [isAdvancedMode, controls]);
 
+  const circleVariants = {
+    hidden: {
+      scale: 0,
+      opacity: 0,
+    },
+    visible: {
+      scale: [0, 1, 1, 2, 3, 5, 8, 13],
+      opacity: [1, 0.75, 0.75, 0.5, 0.25, 0.1, 0.05, 0],
+      transition: {
+        duration: 1,
+        ease: [0.17, 0.84, 0.44, 1],
+        times: [0, 0.05, 0.15, 0.25, 0.35, 0.45, 0.55, 1],
+      },
+    },
+  };
+
+  const styles: MotionStyle = {
+    position: "fixed",
+    top: "50%",
+    left: "50%",
+    width: "150px",
+    height: "150px",
+    borderRadius: "50%",
+    backgroundColor: "#D946EF",
+    zIndex: -1,
+    transform: "translate(-50%, -50%)",
+  };
+
   return (
     <DndProvider backend={HTML5Backend}>
+      <AnimatePresence>
+        {isAdvancedMode && (
+          <motion.div
+            variants={circleVariants}
+            initial="hidden"
+            animate={controls}
+            exit="hidden"
+            style={styles}
+          />
+        )}
+      </AnimatePresence>
       <motion.div
         className="grid grid-cols-12 gap-4 w-full select-none"
         animate={controls}
