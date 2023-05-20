@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { QuestionType, QuestionItem } from "@/types";
 import { currentQuestionAtom, isAdvancedModeAtom } from "@/app/atoms/worksheet";
 import { useAtom } from "jotai";
@@ -24,6 +24,7 @@ type Props = {
   droppable?: boolean;
   className?: string;
   hasBloom?: boolean;
+  handleQuestionClick?: (question: QuestionItem) => void;
 };
 
 const Questions: React.FC<Props> = ({
@@ -32,9 +33,11 @@ const Questions: React.FC<Props> = ({
   droppable = false,
   className,
   hasBloom,
+  handleQuestionClick = () => {},
 }) => {
   const [_, setCurrentQuestion] = useAtom(currentQuestionAtom);
   const [isAdvancedMode] = useAtom(isAdvancedModeAtom);
+  const [hoverIndex, setHoverIndex] = useState<number | null>(null);
 
   const specObject = {
     accept: "topic",
@@ -80,8 +83,10 @@ const Questions: React.FC<Props> = ({
         )}
         {questions.map((question, index) => (
           <div
+            onMouseEnter={() => setHoverIndex(index)}
+            onMouseLeave={() => setHoverIndex(null)}
             key={index}
-            className={`flex flex-col gap-1 pt-2 px-4 ${className} ${
+            className={`relative flex flex-col gap-1 pt-2 px-4 ${className} ${
               isOver ? "bg-fuchsia-500 rounded-lg" : ""
             }`}
           >
@@ -89,7 +94,13 @@ const Questions: React.FC<Props> = ({
               key={question.questionId}
               index={index + 1}
               question={question}
+              onClick={() => handleQuestionClick(question)}
             />
+            {hoverIndex === index && (
+              <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-60 rounded-md flex items-center justify-center text-white text-lg pointer-events-none">
+                ❌
+              </div>
+            )}
           </div>
         ))}
       </div>

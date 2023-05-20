@@ -151,6 +151,22 @@ export default function Raptor() {
     transform: "translate(-50%, -50%)",
   };
 
+const handleDelete = (question: QuestionItem) => {
+  setSavedQuestions((prevSavedQuestions) => {
+    return prevSavedQuestions.map((questionObject) => {
+      if (questionObject.type === question.type) {
+        return {
+          ...questionObject,
+          questions: questionObject.questions.filter(
+            (q) => q.questionId !== question.questionId
+          ),
+        };
+      }
+      return questionObject;
+    });
+  });
+};
+
   return (
     <DndProvider backend={HTML5Backend}>
       <AnimatePresence>
@@ -203,6 +219,7 @@ export default function Raptor() {
                 key={questionObject.type}
                 droppable={isAdvancedMode ? false : true}
                 hasBloom={isAdvancedMode}
+                handleQuestionClick={handleDelete}
               />
             );
           })}

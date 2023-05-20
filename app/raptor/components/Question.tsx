@@ -4,11 +4,12 @@ type QuestionProps = {
     question?: string;
     options?: string[];
   };
+  onClick?: () => void;
 };
 
-const Question: React.FC<QuestionProps> = ({ index, question }) => {
+const Question: React.FC<QuestionProps> = ({ index, question, onClick }) => {
   return (
-    <div className="">
+    <div className="" onClick={onClick}>
       {index}. {question.question}
       <div className="pt-2">
         {"options" in question &&
