@@ -7,7 +7,11 @@ import Button from "@/app/components/Button";
 import { useAtom } from "jotai";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
-import { currentQuestionAtom, worksheetAnswerKeyAtom } from "./atoms/worksheet";
+import {
+  currentQuestionAtom,
+  worksheetAnswerKeyAtom,
+  savedQuestionsAtom,
+} from "./atoms/worksheet";
 import {
   lessonIdeasAtom,
   contentStreamCompletedAtom,
@@ -16,6 +20,8 @@ import {
 import { startedAtom } from "./atoms/app";
 import useDownloadContent from "./magic/hooks/useDownloadContent";
 import { useRouter } from "next/navigation";
+import { getWorksheetDocx } from "./utils/getWorksheetDocx";
+
 export default function Header() {
   const { data: session, status: sessionStatus } = useSession();
   const [lessonIdeas] = useAtom(lessonIdeasAtom);
@@ -29,6 +35,7 @@ export default function Header() {
   const [teachingAids, setTeachingAids] = useAtom(teachingAidsAtom);
   const docxArray = useDownloadContent();
   const router = useRouter();
+  const [savedQuestions] = useAtom(savedQuestionsAtom);
   const handleLessonGeneration = () => {
     setTeachingAids([]);
     router.push("/magic/aid/lesson");
@@ -120,7 +127,8 @@ export default function Header() {
           {contentStreamCompleted && /^\/raptor\/magic\/.*$/.test(pathname) && (
             <button
               onClick={() => {
-                console.log("download");
+                savedQuestions.length > 0 && getWorksheetDocx(savedQuestions);
+                savedQuestions.length > 0 && getWorksheetDocx(savedQuestions);
               }}
               className="bg-purple-600 hover:bg-purple-700 text-slate-100 font-medium py-2 px-4 rounded"
             >
