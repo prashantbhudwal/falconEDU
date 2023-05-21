@@ -2,7 +2,9 @@
 import { usePathname } from "next/navigation";
 import DesktopOnly from "../components/DesktopOnly";
 import useDesktop from "../hooks/useDesktop";
-const getTitle = (pathname: string) => {
+import { userFlowAtom } from "../atoms/app";
+import { useAtom } from "jotai";
+const getTitle = (pathname: string, userFlow: string) => {
   switch (pathname) {
     case "/preferences":
       return (
@@ -18,7 +20,13 @@ const getTitle = (pathname: string) => {
       return (
         <>
           Which{" "}
-          <span className=" underline underline-offset-8 decoration-emerald-500">
+          <span
+            className={` underline underline-offset-8 ${
+              userFlow === "worksheet"
+                ? "decoration-fuchsia-500"
+                : "decoration-emerald-500"
+            } `}
+          >
             chapter
           </span>{" "}
           are you focusing on?
@@ -54,6 +62,7 @@ export default function PreferencesLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const [userFlow] = useAtom(userFlowAtom);
   const pathname = usePathname();
   const isDesktop = useDesktop();
   if (!isDesktop) {
@@ -63,7 +72,7 @@ export default function PreferencesLayout({
   return (
     <div className="flex flex-col gap-10 items-center mt-7 w-full">
       <div className="text-4xl text-slate-300">
-        {pathname && getTitle(pathname)}
+        {pathname && getTitle(pathname, userFlow)}
       </div>
       {children}
     </div>
