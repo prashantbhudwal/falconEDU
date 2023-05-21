@@ -63,6 +63,22 @@ export default function Page() {
         type: "essay",
         questions: [],
       },
+      {
+        type: "project",
+        questions: [],
+      },
+      {
+        type: "debate",
+        questions: [],
+      },
+      {
+        type: "brainstorming",
+        questions: [],
+      },
+      {
+        type: "groupDiscussion",
+        questions: [],
+      },
     ]);
   };
 

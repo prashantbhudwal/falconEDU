@@ -41,6 +41,10 @@ const questionTypes = [
   { value: "trueFalse", label: "True/False" },
   { value: "shortAnswer", label: "Short Answer" },
   { value: "essay", label: "Essay" },
+  { value: "project", label: "Project" },
+  { value: "debate", label: "Debate" },
+  { value: "brainstorming", label: "Brainstorming" },
+  { value: "groupDiscussion", label: "Group Discussion" },
 ] as { value: QuestionType; label: string }[];
 
 export default function Raptor() {
@@ -151,21 +155,21 @@ export default function Raptor() {
     transform: "translate(-50%, -50%)",
   };
 
-const handleDelete = (question: QuestionItem) => {
-  setSavedQuestions((prevSavedQuestions) => {
-    return prevSavedQuestions.map((questionObject) => {
-      if (questionObject.type === question.type) {
-        return {
-          ...questionObject,
-          questions: questionObject.questions.filter(
-            (q) => q.questionId !== question.questionId
-          ),
-        };
-      }
-      return questionObject;
+  const handleDelete = (question: QuestionItem) => {
+    setSavedQuestions((prevSavedQuestions) => {
+      return prevSavedQuestions.map((questionObject) => {
+        if (questionObject.type === question.type) {
+          return {
+            ...questionObject,
+            questions: questionObject.questions.filter(
+              (q) => q.questionId !== question.questionId
+            ),
+          };
+        }
+        return questionObject;
+      });
     });
-  });
-};
+  };
 
   return (
     <DndProvider backend={HTML5Backend}>

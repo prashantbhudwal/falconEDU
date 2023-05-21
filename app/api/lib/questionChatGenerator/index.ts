@@ -14,6 +14,14 @@ function getQuestionTypePrompt(questionType: string) {
       return "Create a short-answer question related to a specified academic topic. The question should be open-ended, encouraging the student to express their understanding and knowledge of the topic in their own words.";
     case "essay":
       return "Develop an essay prompt within a specified academic topic. The prompt should encourage deep thinking and extensive elaboration on the topic, allowing the student to demonstrate their understanding, knowledge, and ability to construct and support an argument.";
+    case "project":
+      return "Create a project based task related to a specific academic topic.";
+    case "debate":
+      return "Design a debate topic within a chosen academic topic. The debate topic should be controversial enough to have two distinct sides.";
+    case "brainstorming":
+      return "Formulate a topic for a brainstorming session within a certain academic topic. The topic should be broad and challenging enough to allow for diverse ideas and creative thinking.";
+    case "groupDiscussion":
+      return "Generate a discussion topic within a specific academic domain. The topic should provoke thought and facilitate meaningful dialogue among students, encouraging them to share, listen, and build upon ideas.";
     default:
       throw new Error("Invalid question type");
   }
@@ -31,6 +39,14 @@ function getQuestionResponseFormat(questionType: QuestionType): string {
       return `{"type":"shortAnswer","question":<question>}`;
     case "essay":
       return `{"type":"essay","question":<question>}`;
+    case "project":
+      return `{"type":"project","question":<task>`;
+    case "debate":
+      return `{"type":"debate","question":<topicForDebate>}`;
+    case "brainstorming":
+      return `{"type":"brainstorming","question":<topic>}`;
+    case "groupDiscussion":
+      return `{"type":"groupDiscussion","question":<topic>}`;
     default:
       throw new Error("Invalid question type");
   }
@@ -115,6 +131,17 @@ export function getQuestionMessages(
         },
       ];
     case "essay":
+      return [
+        ...systemMessage,
+        {
+          role: "user",
+          content: initialUserMessage,
+        },
+      ];
+    case "project":
+    case "debate":
+    case "brainstorming":
+    case "groupDiscussion":
       return [
         ...systemMessage,
         {

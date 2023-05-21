@@ -35,6 +35,22 @@ export const savedQuestionsAtom = atom<QuestionBank>([
     type: "essay",
     questions: [],
   },
+  {
+    type: "project",
+    questions: [],
+  },
+  {
+    type: "debate",
+    questions: [],
+  },
+  {
+    type: "brainstorming",
+    questions: [],
+  },
+  {
+    type: "groupDiscussion",
+    questions: [],
+  },
 ]);
 
 export const isAdvancedModeAtom = atom(false);
