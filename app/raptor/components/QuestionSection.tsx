@@ -12,12 +12,7 @@ import {
   getQuestionSectionTextColor,
 } from "@/app/utils/index";
 import Question from "./Question";
-const getQuestionTypeTitle = (questionType: QuestionType) => {
-  const title = questionData.find(
-    (question) => question.type === questionType
-  )?.title;
-  return title ? title : "";
-};
+import { getQuestionTypeTitle } from "@/app/utils/index";
 type Props = {
   questions: QuestionItem[];
   type: QuestionType;
