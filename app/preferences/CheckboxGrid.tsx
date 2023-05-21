@@ -29,7 +29,7 @@ export default function CheckboxGrid({
             htmlFor={`topic-${index}`}
             className={`py-3 px-6 w-96 rounded-full cursor-pointer ${
               selectedOptions.includes(topic)
-                ? "bg-emerald-500 text-slate-800"
+                ? "bg-fuchsia-500 text-slate-800"
                 : "bg-slate-800 text-slate-300"
             }`}
           >
