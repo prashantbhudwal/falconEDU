@@ -29,6 +29,78 @@
   },
   {
     "grade": "8",
-    "subjects": ["Science", "Social Science", "English Grammar"]
+    "subjects": [
+      "English Grammar",
+      "Social Science - History",
+      "Social Science - Civics",
+      "Social Science - Geography",
+      "Science - Physics",
+      "Science - Chemistry",
+      "Science - Biology"
+    ]
+  },
+  {
+    "grade": "9",
+    "subjects": [
+      "English Grammar",
+      "Social Science - History",
+      "Social Science - Political Science",
+      "Social Science - Geography",
+      "Social Science - Economics",
+      "Science - Physics",
+      "Science - Chemistry",
+      "Science - Biology"
+    ]
+  },
+  {
+    "grade": "10",
+    "subjects": [
+      "English Grammar",
+      "Social Science - History",
+      "Social Science - Political Science",
+      "Social Science - Geography",
+      "Social Science - Economics",
+      "Science - Physics",
+      "Science - Chemistry",
+      "Science - Biology"
+    ]
+  },
+  {
+    "grade": "11",
+    "subjects": [
+      "Hindi",
+      "English Grammar",
+      "Physics",
+      "Chemistry",
+      "Biology",
+      "Computer Science",
+      "Economics",
+      "Business Studies",
+      "Accountancy",
+      "Geography",
+      "History",
+      "Political Science",
+      "Sociology",
+      "Psychology"
+    ]
+  },
+  {
+    "grade": "12",
+    "subjects": [
+      "Hindi",
+      "English Grammar",
+      "Physics",
+      "Chemistry",
+      "Biology",
+      "Computer Science",
+      "Economics",
+      "Business Studies",
+      "Accountancy",
+      "Geography",
+      "History",
+      "Political Science",
+      "Sociology",
+      "Psychology"
+    ]
   }
 ]
