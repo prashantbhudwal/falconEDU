@@ -16,6 +16,7 @@ import { worksheetSubtopicsAtom } from "@/app/atoms/worksheet";
 import { savedQuestionsAtom } from "@/app/atoms/worksheet";
 
 export default function Page() {
+  const [lastIndex, setLastIndex] = useState<number | null>(null);
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
   const [contentStreamCompleted] = useAtom(contentStreamCompletedAtom);
   const [topic] = useAtom(topicAtom);
@@ -73,6 +74,7 @@ export default function Page() {
     if (inputValue) {
       setWorksheetSubtopics([...worksheetSubtopics, inputValue]);
       setInputValue("");
+      setHoverIndex(null); // Add this line to reset hoverIndex
     }
   };
   const handleDeleteSubtopic = (index: number) => {
@@ -98,8 +100,14 @@ export default function Page() {
             <div
               className="relative"
               key={index}
-              onMouseEnter={() => setHoverIndex(index)}
-              onMouseLeave={() => setHoverIndex(null)}
+              onMouseEnter={() => {
+                setHoverIndex(index);
+                setLastIndex(index);
+              }}
+              onMouseLeave={() => {
+                setHoverIndex(null);
+                setLastIndex(null);
+              }}
             >
               <div
                 className="px-2 py-2 rounded-sm bg-slate-800 text-fuchsia-500 cursor-pointer"
@@ -107,7 +115,7 @@ export default function Page() {
               >
                 {subtopic}
               </div>
-              {hoverIndex === index && (
+              {hoverIndex === index && lastIndex === index && (
                 <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center text-white text-lg pointer-events-none">
                   ❌
                 </div>
