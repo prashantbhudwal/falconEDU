@@ -12,6 +12,7 @@ import {
   Footer,
 } from "docx";
 import { saveAs } from "file-saver";
+import { getQuestionTypeTitle } from "@/app/utils/index";
 
 export async function getWorksheetDocx(questionBank: QuestionBank) {
   const headerParagraph = new Paragraph({
@@ -59,7 +60,7 @@ export async function getWorksheetDocx(questionBank: QuestionBank) {
           },
         }),
         new Paragraph({
-          text: `Section: ${questionObject.type}`,
+          text: `Section: ${getQuestionTypeTitle(questionObject.type)}`,
           heading: HeadingLevel.HEADING_2,
           alignment: AlignmentType.LEFT,
           spacing: {
