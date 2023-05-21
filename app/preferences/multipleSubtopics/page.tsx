@@ -22,7 +22,6 @@ export default function Page() {
   const [allContent, setAllContent] = useState([""]);
   const [inputValue, setInputValue] = useState("");
   const [_, setStarted] = useAtom(startedAtom);
-  const [__, setLessonIdeas] = useAtom(lessonIdeasAtom);
   const router = useRouter();
   const { content, startStreaming } = usePrediction(topic, "predictSubtopics");
   const [board] = useAtom(boardAtom);
@@ -94,7 +93,7 @@ export default function Page() {
   return (
     <div className="flex flex-col gap-10 items-center m-4 w-full">
       <div className="flex gap-3 w-5/6  justify-center items-center">
-        <div className="flex flex-row flex-wrap gap-3 px-6 py-4 rounded-lg ring-2 ring-fuchsia-500 w-4/6 min-h-full">
+        <div className="flex flex-row flex-wrap gap-3 px-6 py-4 rounded-lg ring-2 ring-fuchsia-500 w-4/6 min-h-[4rem]">
           {worksheetSubtopics.map((subtopic, index) => (
             <div
               className="relative"
@@ -130,7 +129,7 @@ export default function Page() {
         <TextInput
           value={inputValue}
           onChange={handleChange}
-          placeholder="Enter topics..."
+          placeholder="Add custom..."
         />
         <button
           className=" text-white font-bold py-2 px-4 rounded ring-2 ring-slate-500 hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50"
