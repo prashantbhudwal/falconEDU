@@ -1,4 +1,4 @@
-import { QuestionBankPayload } from "@/types";
+import { QuestionBank, QuestionBankPayload, QuestionObject } from "@/types";
 import { ChatCompletionRequestMessage } from "openai";
 
 function getEngineeredMessages(): ChatCompletionRequestMessage[] {
@@ -9,12 +9,15 @@ function getEngineeredMessages(): ChatCompletionRequestMessage[] {
     },
   ];
 }
-
+export function filterEmptyQuestions(questionBank: QuestionBank): QuestionBank {
+  return questionBank.filter((qo: QuestionObject) => qo.questions.length !== 0);
+}
 export function getWorksheetAnswersMessages(
   payload: QuestionBankPayload
 ): ChatCompletionRequestMessage[] {
   const questionBank = payload.data;
-  const questionBankString = JSON.stringify(questionBank);
+  const filteredQuestionBank = filterEmptyQuestions(questionBank);
+  const questionBankString = JSON.stringify(filteredQuestionBank);
   const engineeredMessages = getEngineeredMessages();
   return [
     ...engineeredMessages,
