@@ -2,6 +2,7 @@ import { QuestionType } from "@/types";
 import { ideaType } from "@/types/ideaTypes";
 import { aidType } from "@/types/ideaTypes";
 import { worksheetAidType } from "@/types/ideaTypes";
+import questionData from "@/app/data/questionMatrix.json";
 
 export const getEmoji = function (
   ideaType: ideaType | aidType | worksheetAidType
@@ -323,3 +324,11 @@ export const blockContentArray = [
     emoji: "🧩",
   },
 ];
+
+
+export const getQuestionTypeTitle = (questionType: QuestionType) => {
+  const title = questionData.find(
+    (question) => question.type === questionType
+  )?.title;
+  return title ? title : "";
+};
