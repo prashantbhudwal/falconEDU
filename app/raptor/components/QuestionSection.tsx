@@ -69,11 +69,11 @@ const Questions: React.FC<Props> = ({
       >
         {questions.length === 0 && !isAdvancedMode && (
           <div
-            className={`flex flex-col gap-1 pt-2 px-4 ${className} ${
+            className={`flex text-slate-500 text-center flex-col gap-1 pt-2 px-4 ${className} ${
               isOver ? "bg-fuchsia-500 rounded-lg" : ""
             }`}
           >
-            Drop a Question here
+            Drop a topic here
           </div>
         )}
         {questions.map((question, index) => (
