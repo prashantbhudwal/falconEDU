@@ -156,7 +156,7 @@ export default function Page() {
           placeholder="Add custom..."
         />
         <button
-          className=" text-white font-bold py-2 px-4 rounded ring-2 ring-slate-500 hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50"
+          className=" text-white font-bold py-2 px-4 rounded ring-2 ring-slate-500 hover:bg-fuchsia-600 focus:outline-none focus:ring-2 focus:ring-fuchsia-500 focus:ring-opacity-50"
           onClick={handleAddSubtopic}
           disabled={!inputValue}
         >
