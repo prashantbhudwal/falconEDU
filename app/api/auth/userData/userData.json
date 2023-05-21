@@ -16,7 +16,7 @@
   {
     "id": "yJnBqW",
     "name": "Kamini Ganguli",
-    "email": "kamini.ganguli2012@teacherforindia.org",
+    "email": "kamini.ganguli2012@teachforindia.org",
     "phone": "8390387091",
     "password": "blueskyparadise"
   },
@@ -61,5 +61,26 @@
     "email": "falcon@yc.com",
     "phone": "987654321",
     "password": "orangefalcon"
+  },
+  {
+    "id": "EsdTfG",
+    "name": "Arjunsingh Jaysing Rajput",
+    "email": "arjunsingh.rajput20_mae@apu.edu.in",
+    "phone": "08779725485",
+    "password": "blueelephantdance"
+  },
+  {
+    "id": "GhiUjK",
+    "name": "Vaishnavi Mohan",
+    "email": "mvaishnavi8@gmail.com",
+    "phone": "+918075861295",
+    "password": "purpleparadisebird"
+  },
+  {
+    "id": "LmnOpQ",
+    "name": "Chetana P L",
+    "email": "chetanaplnaidu@gmail.com",
+    "phone": "08792833781",
+    "password": "greenbutterflysong"
   }
 ]
