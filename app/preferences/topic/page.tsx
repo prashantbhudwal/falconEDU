@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import { gradeAtom, boardAtom, subjectAtom } from "@/app/atoms/preferences";
 import TextInput from "../TextInput";
 import Button from "../../components/Button";
-import { userFlowAtom } from "../../atoms/app";
+import { userFlowAtom } from "@/app/atoms/app";
 export default function Page() {
   const [contentStreamCompleted] = useAtom(contentStreamCompletedAtom);
   const [subject] = useAtom(subjectAtom);
@@ -59,14 +59,21 @@ export default function Page() {
           onChange={handleTopicChange}
           placeholder="Enter a chapter..."
         />
-        <Button onClick={handleClick} disabled={!topic}>
+        <Button
+          onClick={handleClick}
+          disabled={!topic}
+          secondary={userFlow === "worksheet"}
+          primary={userFlow !== "worksheet"}
+        >
           Next
         </Button>
       </div>
 
       {!contentStreamCompleted ? (
         <div className="flex flex-col items-center justify-center gap-2 h-12">
-          <PropagateLoader color="#10B981" />
+          <PropagateLoader
+            color={`${userFlow === "worksheet" ? "#D946EF" : "#10B981"}`}
+        />
         </div>
       ) : (
         contentStreamCompleted &&

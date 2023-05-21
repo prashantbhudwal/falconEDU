@@ -179,7 +179,7 @@ export default function Page() {
 
       {!contentStreamCompleted ? (
         <div className="flex flex-col items-center justify-center gap-2 h-12">
-          <PropagateLoader color="#10B981" />
+          <PropagateLoader color="#D946EF" />
         </div>
       ) : (
         contentStreamCompleted &&
