@@ -18,8 +18,8 @@ export default function AidLayout({ children }: { children: React.ReactNode }) {
         <Sidebar className="col-start-1 col-span-2 row-start-1">
           <Section title="Teaching Aids" color="secondary">
             <SidebarButton
-              onClick={() => router.push(`raptor/magic/worksheet`)}
-              isActive={pathname === `raptor/magic/worksheet`}
+              onClick={() => router.push(`/raptor/magic/worksheet`)}
+              isActive={pathname === `/raptor/magic/worksheet`}
             >
               {`${getEmoji("worksheet")} ${getName("worksheet")}`}
             </SidebarButton>
