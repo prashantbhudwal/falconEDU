@@ -38,7 +38,7 @@ const getTitle = (pathname: string) => {
       return (
         <>
           Which{" "}
-          <span className=" underline underline-offset-8 decoration-emerald-500">
+          <span className=" underline underline-offset-8 decoration-fuchsia-500">
             topics
           </span>{" "}
           are you focusing on?
