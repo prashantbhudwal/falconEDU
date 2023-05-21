@@ -21,9 +21,12 @@ import { startedAtom } from "./atoms/app";
 import useDownloadContent from "./magic/hooks/useDownloadContent";
 import { useRouter } from "next/navigation";
 import { getWorksheetDocx } from "./utils/getWorksheetDocx";
-
+import { generateAnswerKeyDocx } from "./utils/generateAnswerKeyDocx";
+import { topicAtom } from "./atoms/preferences";
 export default function Header() {
   const { data: session, status: sessionStatus } = useSession();
+  const [topic] = useAtom(topicAtom);
+  const [worksheetAnswerKey] = useAtom(worksheetAnswerKeyAtom);
   const [lessonIdeas] = useAtom(lessonIdeasAtom);
   const [currentQuestion] = useAtom(currentQuestionAtom);
   const [_, setWorksheetAnswerKey] = useAtom(worksheetAnswerKeyAtom);
@@ -128,7 +131,13 @@ export default function Header() {
             <button
               onClick={() => {
                 savedQuestions.length > 0 && getWorksheetDocx(savedQuestions);
-                savedQuestions.length > 0 && getWorksheetDocx(savedQuestions);
+                savedQuestions.length > 0 &&
+                  worksheetAnswerKey.length > 0 &&
+                  generateAnswerKeyDocx({
+                    topic,
+                    title: "Answer Key",
+                    fetchedContent: worksheetAnswerKey as string[],
+                  });
               }}
               className="bg-purple-600 hover:bg-purple-700 text-slate-100 font-medium py-2 px-4 rounded"
             >
