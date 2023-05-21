@@ -102,7 +102,7 @@ export default function Home() {
           onClick={startWorksheetFlow}
           disabled={!board || !subject || !grade}
         >
-          Worksheets
+          Worksheet
         </Button>
       </ButtonPanel>
     </div>
