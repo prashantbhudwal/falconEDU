@@ -17,10 +17,9 @@ export default function Page() {
   const [grade] = useAtom(gradeAtom);
   const [subject] = useAtom(subjectAtom);
   const [savedQuestions] = useAtom(savedQuestionsAtom);
-  console.log(savedQuestions)
   return (
     <Canvas
-      className="col-start-4 col-span-7 min-h-screen gap-4"
+      className="col-start-4 col-span-7 min-h-screen gap-4 max-w-4xl"
       color="secondary"
       heading={topic}
       leftTop={`Grade ${grade}`}
