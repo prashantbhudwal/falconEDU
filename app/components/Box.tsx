@@ -12,11 +12,11 @@ export default function Box({
   color?: ColorOption;
   rest?: any;
 }) {
-  const { ring, shadow } = colors[color] as ThemeColor;
+  const { ring, shadow, bg, textBase } = colors[color] as ThemeColor;
 
   return (
     <div
-      className={`px-3 py-3 rounded-lg ring-2 ${ring} ${shadow} shadow-sm w-full ${className}`}
+      className={`px-3 py-3 rounded-lg ring-2 ${ring} ${shadow} ${bg} ${textBase} shadow-sm w-full ${className}`}
       {...rest}
     >
       {children}
