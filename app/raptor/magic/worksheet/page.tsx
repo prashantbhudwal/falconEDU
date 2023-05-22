@@ -33,6 +33,7 @@ export default function Page() {
               type={questionObject.type}
               questions={questionObject.questions}
               key={questionObject.type}
+              hasDelete={false}
             />
           )
       )}

@@ -20,6 +20,7 @@ type Props = {
   className?: string;
   hasBloom?: boolean;
   handleQuestionClick?: (question: QuestionItem) => void;
+  hasDelete?: boolean;
 };
 
 const Questions: React.FC<Props> = ({
@@ -28,20 +29,25 @@ const Questions: React.FC<Props> = ({
   droppable = false,
   className,
   hasBloom,
+  hasDelete = true,
   handleQuestionClick = () => {},
 }) => {
   const [_, setCurrentQuestion] = useAtom(currentQuestionAtom);
   const [isAdvancedMode] = useAtom(isAdvancedModeAtom);
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
+  const [lastIndex, setLastIndex] = useState<number | null>(null);
 
+  const handleDrop = (item: any) => {
+    setCurrentQuestion({
+      type: type,
+      bloomLevel: "Remember",
+      subtopic: item.text,
+    });
+    setHoverIndex(null);
+  };
   const specObject = {
     accept: "topic",
-    drop: (item: any) =>
-      setCurrentQuestion({
-        type: type,
-        bloomLevel: "Remember",
-        subtopic: item.text,
-      }),
+    drop: (item: any) => handleDrop(item),
     collect: (monitor: DropTargetMonitor) => ({
       isOver: monitor.isOver(),
       canDrop: monitor.canDrop(),
@@ -78,8 +84,14 @@ const Questions: React.FC<Props> = ({
         )}
         {questions.map((question, index) => (
           <div
-            onMouseEnter={() => setHoverIndex(index)}
-            onMouseLeave={() => setHoverIndex(null)}
+            onMouseEnter={() => {
+              setHoverIndex(index);
+              setLastIndex(index);
+            }}
+            onMouseLeave={() => {
+              setHoverIndex(null);
+              setLastIndex(null);
+            }}
             key={index}
             className={`relative flex flex-col gap-1 pt-2 px-4 ${className} ${
               isOver ? "bg-fuchsia-500 rounded-lg" : ""
@@ -91,7 +103,7 @@ const Questions: React.FC<Props> = ({
               question={question}
               onClick={() => handleQuestionClick(question)}
             />
-            {hoverIndex === index && (
+            {hasDelete && hoverIndex === index && (
               <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-60 rounded-md flex items-center justify-center text-white text-lg pointer-events-none">
                 ❌
               </div>
