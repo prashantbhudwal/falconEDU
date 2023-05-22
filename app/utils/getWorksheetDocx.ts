@@ -119,6 +119,6 @@ export async function getWorksheetDocx(questionBank: QuestionBank) {
   const blob = new Blob([buffer], {
     type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
   });
-  saveAs(blob, `test.docx`);
+  saveAs(blob, `Worksheet.docx`);
   return blob;
 }
