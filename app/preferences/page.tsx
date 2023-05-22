@@ -14,20 +14,20 @@ export default function Home() {
   const [board, setBoard] = useAtom(boardAtom);
   const [subject, setSubject] = useAtom(subjectAtom);
   const [grade, setGrade] = useAtom(gradeAtom);
-  const [, setUserFlow] = useAtom(userFlowAtom);
+  const [userFlow, setUserFlow] = useAtom(userFlowAtom);
 
   useEffect(() => {
     router.prefetch("/preferences/topic");
-    router.prefetch("/preferences/subtopic");
-    router.prefetch("/merlin");
-    router.prefetch("/magic/aid/lesson");
-  }, []);
-
-  useEffect(() => {
-    router.prefetch("/preferences/topic");
-    router.prefetch("/preferences/subtopic");
-    router.prefetch("/merlin");
-    router.prefetch("/magic/aid/lesson");
+    if (userFlow === "lesson") {
+      router.prefetch("/preferences/subtopic");
+      router.prefetch("/merlin");
+      router.prefetch("/magic/aid/lesson");
+    } else if (userFlow === "worksheet") {
+    router.prefetch("/preferences/multipleSubtopics");
+      router.prefetch("/raptor");
+      router.prefetch("/raptor/magic/worksheet");
+      router.prefetch("/raptor/magic/aid/answerKey");
+    }
   }, []);
 
   const handleBoardChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
