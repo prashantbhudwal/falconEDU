@@ -27,7 +27,7 @@ export default function Header({
   return (
     <header
       className={`font-medium ${text} border-b border-solid ${border} py-3 flex flex-row justify-between w-full ${
-        isSticky && "sticky top-0 z-50"
+        isSticky && "sticky top-0 z-40"
       } ${bg} items-center ${className}`}
     >
       <div className="text-sm text-left flex flex-col gap-1">
