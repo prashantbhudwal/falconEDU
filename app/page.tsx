@@ -2,6 +2,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { signIn, useSession } from "next-auth/react";
+import { PropagateLoader } from "react-spinners";
 
 const LandingPage = () => {
   const { data: session, status: sessionStatus } = useSession();
@@ -42,8 +43,17 @@ const LandingPage = () => {
         onClick={() => signIn()}
         className={`bg-emerald-500 text-slate-800 px-28 py-4 rounded-lg text-lg font-semibold hover:bg-emerald-600 transition duration-200 ease-in-out`}
       >
-        Sign In
+        {sessionStatus === "loading"
+          ? "Signing you in..."
+          : sessionStatus === "authenticated"
+          ? "Taking you to the app..."
+          : "Sign In"}
       </button>
+      {(sessionStatus === "loading" || sessionStatus === "authenticated") && (
+        <div className="flex flex-col items-center justify-center gap-2 h-12">
+          <PropagateLoader color={"#10B981"} />
+        </div>
+      )}
     </div>
   );
 };
