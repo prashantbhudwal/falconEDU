@@ -16,6 +16,7 @@ export type ThemeColor = {
   ring: string;
   shadow: string;
   textBase: string;
+  bgColor: string;
 };
 
 export type Theme = {

@@ -11,6 +11,7 @@ import { gradeAtom, boardAtom, subjectAtom } from "@/app/atoms/preferences";
 import TextInput from "../TextInput";
 import Button from "../../components/Button";
 import { userFlowAtom } from "@/app/atoms/app";
+
 export default function Page() {
   const [contentStreamCompleted] = useAtom(contentStreamCompletedAtom);
   const [subject] = useAtom(subjectAtom);
@@ -73,12 +74,13 @@ export default function Page() {
         <div className="flex flex-col items-center justify-center gap-2 h-12">
           <PropagateLoader
             color={`${userFlow === "worksheet" ? "#D946EF" : "#10B981"}`}
-        />
+          />
         </div>
       ) : (
         contentStreamCompleted &&
         allContent && (
           <PredictionGrid
+            color="secondary"
             content={allContent}
             selectedOption={topic}
             handleChange={handleTopicChange}

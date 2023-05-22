@@ -9,6 +9,7 @@ export const colors: Theme = {
     bg: "bg-slate-900",
     ring: "ring-emerald-500",
     shadow: "shadow-emerald-500",
+    bgColor: "bg-emerald-500",
   },
   secondary: {
     text: "text-fuchsia-500",
@@ -19,6 +20,7 @@ export const colors: Theme = {
     bg: "bg-slate-900",
     ring: "ring-fuchsia-500",
     shadow: "shadow-fuchsia-500",
+    bgColor: "bg-fuchsia-500",
   },
   gray: {
     text: "text-slate-500",
@@ -29,6 +31,7 @@ export const colors: Theme = {
     bg: "bg-slate-900",
     ring: "ring-slate-500",
     shadow: "shadow-slate-500",
+    bgColor: "bg-slate-500",
   },
   white: {
     text: "text-slate-500",
@@ -39,6 +42,7 @@ export const colors: Theme = {
     bg: "bg-slate-100",
     ring: "ring-slate-500",
     shadow: "shadow-slate-500",
+    bgColor: "bg-slate-500",
   },
   primaryGray: {
     text: "text-emerald-500",
@@ -49,6 +53,7 @@ export const colors: Theme = {
     bg: "bg-slate-800",
     ring: "ring-emerald-500",
     shadow: "shadow-emerald-500",
+    bgColor: "bg-emerald-500",
   },
   secondaryGray: {
     text: "text-fuchsia-500",
@@ -59,5 +64,6 @@ export const colors: Theme = {
     bg: "bg-slate-800",
     ring: "ring-fuchsia-500",
     shadow: "shadow-fuchsia-500",
+    bgColor: "bg-fuchsia-500",
   },
 };
