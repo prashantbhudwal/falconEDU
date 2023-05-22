@@ -23,7 +23,7 @@ export function getWorksheetAnswersMessages(
     ...engineeredMessages,
     {
       role: "user",
-      content: `Reply only with the answer key. Each question type should be in its own section. ${questionBankString}`,
+      content: `DON'T Reply in JSON. Reply only with the answer key. Each question type should be in its own section. ${questionBankString}`,
     },
   ];
 }
