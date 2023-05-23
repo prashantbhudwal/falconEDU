@@ -37,6 +37,7 @@ export type PredictionAction = "predictChapters" | "predictSubtopics";
 export type QuestionPayload = {
   action: QuestionAction;
   data: QuestionItem;
+  generatedQuestions: QuestionItem[];
 };
 
 export type QuestionAction = "getQuestion";

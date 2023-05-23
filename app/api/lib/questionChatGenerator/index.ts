@@ -1,4 +1,4 @@
-import { QuestionPayload, QuestionType } from "@/types";
+import { QuestionItem, QuestionPayload, QuestionType } from "@/types";
 import { ChatCompletionRequestMessage } from "openai";
 
 const JSON_DIRECTIVE = "Only respond with JSON.";
@@ -71,6 +71,18 @@ function getBloomLevelPrompt(bloomLevel: string | undefined): string {
       throw new Error("Invalid bloom level");
   }
 }
+function getPreviousQuestionsMessage(previousQuestions: QuestionItem[]) {
+  const previousQuestionsArray = previousQuestions.map((question) => {
+    return question.question;
+  });
+
+  const previousQuestionsString = JSON.stringify(previousQuestionsArray);
+  if (previousQuestions.length === 0) {
+    return "";
+  } else {
+    return `Make sure that the question is different from the questions previously generated. Previous questions: """${previousQuestionsString}""".`;
+  }
+}
 
 function getSystemMessage(
   payload: QuestionPayload
@@ -84,11 +96,14 @@ function getSystemMessage(
 }
 
 function getInitialUserMessage(payload: QuestionPayload): string {
+  const previousQuestionsMessage = getPreviousQuestionsMessage(
+    payload.generatedQuestions
+  );
   const { bloomLevel, topic, subtopic, grade, board, type } = payload.data;
   const prompt_QuestionType = getQuestionTypePrompt(type);
   const prompt_BloomLevel = getBloomLevelPrompt(bloomLevel);
   const questionFormat = getQuestionResponseFormat(type);
-  return `${prompt_QuestionType} The question should be for the topic "${subtopic}" from the chapter "${topic}". The students are in grade ${grade} and they are prescribed, """${board}""" Textbook. Make sure you adhere to """Bloom's taxonomy""", and give the the question at the Bloom level of '''${prompt_BloomLevel}'''. Don't mention the textbook, or bloom level in the response. Reply with ONLY JSON in the following format: ${questionFormat}`;
+  return `${prompt_QuestionType} The question should be for the topic "${subtopic}" from the chapter "${topic}". The students are in grade ${grade} and they are prescribed, """${board}""" Textbook. Make sure you adhere to """Bloom's taxonomy""", and give the the question at the Bloom level of '''${prompt_BloomLevel}'''. Don't mention the textbook, or bloom level in the response. ${previousQuestionsMessage} Reply with ONLY JSON in the following format: ${questionFormat}`;
 }
 
 export function getQuestionMessages(
@@ -97,6 +112,7 @@ export function getQuestionMessages(
   const questionType = payload.data.type;
   const systemMessage = getSystemMessage(payload);
   const initialUserMessage = getInitialUserMessage(payload);
+  console.log("initialUserMessage", initialUserMessage);
   switch (questionType) {
     case "fillInTheBlanks":
       return [
