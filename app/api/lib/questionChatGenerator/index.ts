@@ -245,6 +245,19 @@ function getPreviousQuestionsMessage(previousQuestions: QuestionItem[]) {
   }
 }
 
+function getTextbookName(board: string | undefined) {
+  switch (board) {
+    case "CBSE":
+      return "NCERT";
+    case "ICSE":
+      return "ICSE";
+    case "State Board":
+      return "State Board";
+    default:
+      throw new Error("Invalid board");
+  }
+}
+
 function getSystemMessage(
   payload: QuestionPayload
 ): ChatCompletionRequestMessage[] {
@@ -264,7 +277,14 @@ function getInitialUserMessage(payload: QuestionPayload): string {
   const prompt_QuestionType = getQuestionTypePrompt(type);
   const prompt_BloomLevel = getBloomLevelPrompt(bloomLevel);
   const questionFormat = getQuestionResponseFormat(type);
-  return `${prompt_QuestionType} The question should be for the topic "${subtopic}" from the chapter "${topic}". The students are in grade ${grade} and they are prescribed, """${board}""" Textbook. Make sure you adhere to """Bloom's taxonomy""", and give the the question at the Bloom level of '''${prompt_BloomLevel}'''. Don't mention the textbook, or bloom level in the response. ${previousQuestionsMessage} Reply with ONLY JSON in the following format: ${questionFormat}`;
+  const textbookName = getTextbookName(board);
+  return `${prompt_QuestionType} The question should be for the topic "${subtopic}" from the chapter "${topic}". The questions are for students in grade ${grade}. The students follow  """${board}""" curriculum. So, always adhere to the """${textbookName}""" textbook. 
+  
+  While generating the question, follow """Bloom's taxonomy""", and give the the question at the Bloom level of '''${prompt_BloomLevel}'''. In your response, DON'T mention the textbook, or bloom level. 
+  
+  ${previousQuestionsMessage} 
+  
+  Reply with ONLY JSON in the following format: ${questionFormat}`;
 }
 
 export function getQuestionMessages(
