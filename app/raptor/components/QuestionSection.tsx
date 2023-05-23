@@ -13,6 +13,7 @@ import {
 } from "@/app/utils/index";
 import Question from "./Question";
 import { getQuestionTypeTitle } from "@/app/utils/index";
+import { contentStreamCompletedAtom } from "@/app/atoms/lesson";
 type Props = {
   questions: QuestionItem[];
   type: QuestionType;
@@ -36,7 +37,7 @@ const Questions: React.FC<Props> = ({
   const [isAdvancedMode] = useAtom(isAdvancedModeAtom);
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
   const [lastIndex, setLastIndex] = useState<number | null>(null);
-
+  const [contentStreamCompleted] = useAtom(contentStreamCompletedAtom);
   const handleDrop = (item: any) => {
     setCurrentQuestion({
       type: type,
@@ -68,7 +69,7 @@ const Questions: React.FC<Props> = ({
       {hasBloom && <BloomBoxes questionTypeKey={type} />}
 
       <div
-        ref={droppable ? drop : null}
+        ref={contentStreamCompleted && droppable ? drop : null}
         className={`text-neutral-300 ${className} ${
           isOver ? "bg-fuchsia-500" : "bg-slate-800"
         } `}

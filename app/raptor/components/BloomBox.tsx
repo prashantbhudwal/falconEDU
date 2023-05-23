@@ -4,7 +4,7 @@ import { currentQuestionAtom } from "../../atoms/worksheet";
 import { QuestionType } from "@/types";
 import questionData from "../../data/questionMatrix.json";
 import { useState, useEffect } from "react";
-
+import { contentStreamCompletedAtom } from "@/app/atoms/lesson";
 function getBloomLevel(bloomLevel: string | undefined): string {
   const lowerCaseBloomLevel = bloomLevel?.toLowerCase();
   switch (lowerCaseBloomLevel) {
@@ -35,6 +35,7 @@ export default function BoxDrop({
   type: QuestionType;
   bloomLevel: string;
 }>) {
+  const [contentStreamCompleted] = useAtom(contentStreamCompletedAtom);
   const [currentQuestion, setCurrentQuestion] = useAtom(currentQuestionAtom);
   const [inactive, setInactive] = useState(false);
   const specObject = {
@@ -68,7 +69,9 @@ export default function BoxDrop({
         isOver ? "bg-fuchsia-500 scale-150 rounded-md" : ""
       } ${inactive ? "opacity-30" : ""}`}
     >
-      <div ref={!inactive ? drop : null}>{children}</div>
+      <div ref={!inactive && contentStreamCompleted ? drop : null}>
+        {children}
+      </div>
     </div>
   );
 }
