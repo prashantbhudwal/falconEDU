@@ -293,7 +293,7 @@ export function getQuestionMessages(
   const questionType = payload.data.type;
   const systemMessage = getSystemMessage(payload);
   const initialUserMessage = getInitialUserMessage(payload);
-  console.log("initialUserMessage", initialUserMessage);
+  // console.log("initialUserMessage", initialUserMessage);
   switch (questionType) {
     case "fillInTheBlanks":
       return [

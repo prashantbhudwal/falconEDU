@@ -67,7 +67,7 @@ export async function handleGPT3TurboStreamData(
   for (const line of lines) {
     const message = line.replace(/^data: /, "");
     if (message === "[DONE]") {
-      console.log("Stream completed");
+      // console.log("Stream completed");
       writer.close();
       return;
     }
