@@ -2,30 +2,34 @@
 import Link from "next/link";
 import { downloadZip } from "@/app/utils/downloadZip";
 import { usePathname } from "next/navigation";
-import { generateDocx } from "@/app/utils/generateDocx";
 import LinkButton from "@/app/components/LinkButton";
 import Button from "@/app/components/Button";
 import { useAtom } from "jotai";
 import Image from "next/image";
-import { topicAtom, subtopicAtom } from "./atoms/preferences";
-import { signOut, useSession } from "next-auth/react";
-
+import { useSession } from "next-auth/react";
+import {
+  currentQuestionAtom,
+  worksheetAnswerKeyAtom,
+  savedQuestionsAtom,
+} from "./atoms/worksheet";
 import {
   lessonIdeasAtom,
-  fetchedContentAtom,
   contentStreamCompletedAtom,
   teachingAidsAtom,
 } from "./atoms/lesson";
 import { startedAtom } from "./atoms/app";
-import useDownloadContent from "./hooks/useDownloadContent";
+import useDownloadContent from "./magic/hooks/useDownloadContent";
 import { useRouter } from "next/navigation";
+import { getWorksheetDocx } from "./utils/getWorksheetDocx";
+import { generateAnswerKeyDocx } from "./utils/generateAnswerKeyDocx";
+import { topicAtom } from "./atoms/preferences";
 export default function Header() {
   const { data: session, status: sessionStatus } = useSession();
   const [topic] = useAtom(topicAtom);
-  const [subtopic] = useAtom(subtopicAtom);
+  const [worksheetAnswerKey] = useAtom(worksheetAnswerKeyAtom);
   const [lessonIdeas] = useAtom(lessonIdeasAtom);
-  const [fetchedContent] = useAtom(fetchedContentAtom);
-
+  const [currentQuestion] = useAtom(currentQuestionAtom);
+  const [_, setWorksheetAnswerKey] = useAtom(worksheetAnswerKeyAtom);
   const [contentStreamCompleted, setContentStreamCompleted] = useAtom(
     contentStreamCompletedAtom
   );
@@ -34,16 +38,26 @@ export default function Header() {
   const [teachingAids, setTeachingAids] = useAtom(teachingAidsAtom);
   const docxArray = useDownloadContent();
   const router = useRouter();
-  const handleClick = () => {
+  const [savedQuestions] = useAtom(savedQuestionsAtom);
+  const handleLessonGeneration = () => {
     setTeachingAids([]);
     router.push("/magic/aid/lesson");
   };
+
+  const handleWorksheetGeneration = () => {
+    setWorksheetAnswerKey([]);
+    router.push("/raptor/magic/worksheet");
+  };
+
   return (
     <header className="sticky top-0 z-50  text-slate-200 pt-5 pl-4 pr-6 pb-2 bg-slate-900">
       <div className="flex items-center justify-between">
         <Link href="/">
-          <div className="flex gap-4">
-            <div>
+          <div className={`flex gap-4`}>
+            <div
+              className={`${!contentStreamCompleted && "animate-breath"}
+            `}
+            >
               <Image
                 src={"/chubbi.png"}
                 height={45}
@@ -64,10 +78,18 @@ export default function Header() {
         <div className="flex items-center gap-6">
           {started && lessonIdeas.length !== 0 && pathname === "/merlin" && (
             <Button
-              onClick={handleClick}
+              onClick={handleLessonGeneration}
               key={pathname} //rerenders the component when the path changes
             >
               Generate Lesson
+            </Button>
+          )}
+          {currentQuestion.bloomLevel.length > 0 && pathname === "/raptor" && (
+            <Button
+              onClick={handleWorksheetGeneration}
+              key={pathname} //rerenders the component when the path changes
+            >
+              Generate Worksheet
             </Button>
           )}
           {contentStreamCompleted &&
@@ -82,20 +104,7 @@ export default function Header() {
                 Back to Planner
               </Button>
             )}
-          {/* {contentStreamCompleted &&
-            lessonIdeas.length !== 0 &&
-            /^\/magic\/.*$/.test(pathname) && (
-              <button
-                onClick={() => {
-                  setTeachingAids([]);
-                  setContentStreamCompleted(false);
-                  router.refresh();
-                }}
-                className="bg-teal-600 hover:bg-teal-700 text-slate-100 font-medium py-2 px-4 rounded"
-              >
-                Regenerate
-              </button>
-            )} */}
+
           {contentStreamCompleted &&
             lessonIdeas.length !== 0 &&
             /^\/magic\/.*$/.test(pathname) && (
@@ -108,6 +117,33 @@ export default function Header() {
                 Download
               </button>
             )}
+          {contentStreamCompleted && /^\/raptor\/magic\/.*$/.test(pathname) && (
+            <Button
+              onClick={() => {
+                setTeachingAids([]);
+                router.push("/raptor");
+              }}
+            >
+              Back to Planner
+            </Button>
+          )}
+          {contentStreamCompleted && /^\/raptor\/magic\/.*$/.test(pathname) && (
+            <button
+              onClick={() => {
+                savedQuestions.length > 0 && getWorksheetDocx(savedQuestions);
+                savedQuestions.length > 0 &&
+                  worksheetAnswerKey.length > 0 &&
+                  generateAnswerKeyDocx({
+                    topic,
+                    title: "Answer Key",
+                    fetchedContent: worksheetAnswerKey as string[],
+                  });
+              }}
+              className="bg-purple-600 hover:bg-purple-700 text-slate-100 font-medium py-2 px-4 rounded"
+            >
+              Download
+            </button>
+          )}
           {contentStreamCompleted &&
             lessonIdeas.length !== 0 &&
             pathname === "/lesson" && (

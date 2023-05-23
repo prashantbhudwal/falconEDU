@@ -3,7 +3,6 @@ import { signIn, useSession } from "next-auth/react";
 import { useState, FormEvent } from "react";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-
 import TextInput from "@/app/preferences/TextInput";
 import useDesktop from "@/app/hooks/useDesktop";
 import DesktopOnly from "@/app/components/DesktopOnly";
@@ -53,6 +52,9 @@ export default function Login() {
       router.push("/preferences");
     }
   }, [session, sessionStatus]);
+
+  // If session check is in progress, don't render anything
+  if (sessionStatus === "loading") return null;
 
   if (!isDesktop) {
     return <DesktopOnly />;

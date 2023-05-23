@@ -2,7 +2,7 @@
 import { useDrop, DropTargetMonitor } from "react-dnd";
 import { useState, useEffect, useCallback } from "react";
 import CanvasBlock from "./components/CanvasBlock";
-import useFalconStream from "@/app/hooks/useFalconStream";
+import useFalconStream from "@/app/merlin/hooks/useFalconStream";
 import { getEmoji } from "../utils";
 import { v4 as uuid } from "uuid";
 import LiveBlock from "./components/LiveBlock";
@@ -57,9 +57,11 @@ export default function Canvas({ className }: { className?: string }) {
     setFetchNow(true);
   };
 
-  if (topic === "" || subtopic === "") {
-    router.push("/preferences");
-  }
+  useEffect(() => {
+    if (topic === "" || subtopic === "") {
+      router.push("/preferences");
+    }
+  }, [topic, subtopic]);
 
   const specObject = {
     accept: "Box",

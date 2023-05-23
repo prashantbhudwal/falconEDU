@@ -4,6 +4,9 @@ import { useRouter } from "next/navigation";
 import { useAtom } from "jotai";
 import { boardAtom, subjectAtom, gradeAtom } from "../atoms/preferences";
 import Button from "../components/Button";
+import ButtonPanel from "../components/ButtonPanel";
+import { userFlowAtom } from "../atoms/app";
+
 import { useEffect } from "react";
 export default function Home() {
   const boards = ["CBSE", "ICSE"];
@@ -11,12 +14,20 @@ export default function Home() {
   const [board, setBoard] = useAtom(boardAtom);
   const [subject, setSubject] = useAtom(subjectAtom);
   const [grade, setGrade] = useAtom(gradeAtom);
+  const [userFlow, setUserFlow] = useAtom(userFlowAtom);
 
   useEffect(() => {
     router.prefetch("/preferences/topic");
-    router.prefetch("/preferences/subtopic");
-    router.prefetch("/merlin");
-    router.prefetch("/magic/aid/lesson");
+    if (userFlow === "lesson") {
+      router.prefetch("/preferences/subtopic");
+      router.prefetch("/merlin");
+      router.prefetch("/magic/aid/lesson");
+    } else if (userFlow === "worksheet") {
+    router.prefetch("/preferences/multipleSubtopics");
+      router.prefetch("/raptor");
+      router.prefetch("/raptor/magic/worksheet");
+      router.prefetch("/raptor/magic/aid/answerKey");
+    }
   }, []);
 
   const handleBoardChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -30,7 +41,12 @@ export default function Home() {
     setSubject(e.target.value);
   };
 
-  const startPrediction = () => {
+  const startLessonFlow = () => {
+    setUserFlow("lesson");
+    router.push(`/preferences/topic/`);
+  };
+  const startWorksheetFlow = () => {
+    setUserFlow("worksheet");
     router.push(`/preferences/topic/`);
   };
 
@@ -74,10 +90,21 @@ export default function Home() {
             </option>
           ))}
       </select>
-
-      <Button onClick={startPrediction} disabled={!board || !subject || !grade}>
-        Next
-      </Button>
+      <ButtonPanel>
+        <Button
+          onClick={startLessonFlow}
+          disabled={!board || !subject || !grade}
+        >
+          Lesson
+        </Button>
+        <Button
+          secondary
+          onClick={startWorksheetFlow}
+          disabled={!board || !subject || !grade}
+        >
+          Worksheet
+        </Button>
+      </ButtonPanel>
     </div>
   );
 }

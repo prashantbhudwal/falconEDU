@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import { useAtom } from "jotai";
-import { useContentStream } from "./useContentStream";
+import { useContentStream } from "@/app/hooks/useContentStream";
 import { v4 as uuid } from "uuid";
 import {
   fetchedContentAtom,
   lessonIdeasAtom,
   contentStreamCompletedAtom,
   teachingAidsAtom,
-} from "../atoms/lesson";
+} from "@/app/atoms/lesson";
 import {
   topicAtom,
   subtopicAtom,
@@ -18,7 +18,7 @@ import {
 import { APIRoute, StreamPayload } from "@/types";
 import { aidType } from "@/types";
 import useLatestAid from "./useLatestAid";
-import { shouldRegenerateAtom } from "../atoms/lesson";
+import { shouldRegenerateAtom } from "@/app/atoms/lesson";
 const ROUTE: APIRoute = "/api/contentStreamOnEdge";
 
 export function useAid(aidType: aidType) {

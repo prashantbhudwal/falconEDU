@@ -1,15 +1,18 @@
+import { ColorOption, Theme, ThemeColor } from "@/types";
 import { motion } from "framer-motion";
-
+import { colors } from "../theme/colors";
 type PredictionGridProps = {
   content: string[];
   selectedOption: string;
   handleChange: (event: any) => void;
+  color?: ColorOption;
 };
 
 export default function PredictionGrid({
   content,
   selectedOption,
   handleChange,
+  color = "primary",
 }: PredictionGridProps) {
   const contentString = content.join("");
   // console.log("topics", contentString);
@@ -21,7 +24,7 @@ export default function PredictionGrid({
     .replace(/\$\$(?:(?!\$\$|\n).)*\$\$/g, (match) => match.slice(2, -2))
     .split("_");
   // console.log("topicArray", contentArray);
-
+  const { bgColor } = colors[color] as ThemeColor;
   return (
     <div className="flex flex-col items-center gap-4">
       <div className="text-xl text-slate-500">Or just select one...</div>
@@ -33,7 +36,7 @@ export default function PredictionGrid({
             htmlFor={`topic-${index}`}
             className={`py-3 px-6 w-96 rounded-full cursor-pointer ${
               selectedOption === topic
-                ? "bg-emerald-500 text-slate-800"
+                ? `${bgColor} text-slate-900`
                 : "bg-slate-800 text-slate-300"
             }`}
           >

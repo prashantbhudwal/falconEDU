@@ -1,6 +1,6 @@
 "use client";
 import { PropagateLoader } from "react-spinners";
-import { usePrediction } from "@/app/hooks/usePrediction";
+import { usePrediction } from "@/app/preferences/hooks/usePrediction";
 import { contentStreamCompletedAtom } from "@/app/atoms/lesson";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
@@ -25,13 +25,11 @@ export default function Page() {
   const [subject] = useAtom(subjectAtom);
   const [grade] = useAtom(gradeAtom);
 
-useEffect(() => {
-  if (board === "" || subject === "" || grade === "") {
-    router.push("/preferences");
-  }
-}, [board, subject, grade, router]);
-
-
+  useEffect(() => {
+    if (board === "" || subject === "" || grade === "") {
+      router.push("/preferences");
+    }
+  }, [board, subject, grade, router]);
 
   const handleStart = () => {
     router.push("/merlin");
@@ -62,9 +60,12 @@ useEffect(() => {
           placeholder="Enter any topic..."
         />
 
-        <Button onClick={handleStart} disabled={!subtopic}>
+        <Button
+          onClick={handleStart}
+          disabled={!subtopic || !contentStreamCompleted}
+        >
           New Lesson
-        </Button>
+      </Button>
       </div>
 
       {!contentStreamCompleted ? (

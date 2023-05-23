@@ -19,3 +19,5 @@ export type aidType =
   | "shortVideoScript"
   | "";
 export type handoutType = "story" | "activity" | "quiz" | "";
+
+export type worksheetAidType = "worksheet" | "answerKey" | "support";

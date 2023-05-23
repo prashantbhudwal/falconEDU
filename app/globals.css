@@ -7,7 +7,7 @@
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-    background-color: #10B981;
+    background-color: #D946EF;
     border-radius: 4px;
 }
 
@@ -21,6 +21,6 @@
 }
 
 .custom-scrollbar::-webkit-scrollbar-corner {
-    background-color: #10B981;
+    background-color: #D946EF;
     ;
 }

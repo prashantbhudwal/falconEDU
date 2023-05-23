@@ -22,6 +22,22 @@ export const predictionOptions: OpenAIOptions = {
   STREAM: true,
 };
 
+export const questionOptions: OpenAIOptions = {
+  MODEL: "gpt-3.5-turbo",
+  TEMPERATURE: 1.0,
+  MAX_TOKENS: 500,
+  N: 1,
+  STREAM: true,
+};
+
+export const worksheetOptions: OpenAIOptions = {
+  MODEL: "gpt-3.5-turbo",
+  TEMPERATURE: 1,
+  MAX_TOKENS: 2000,
+  N: 1,
+  STREAM: true,
+};
+
 type OpenAIOptions = {
   MODEL: string;
   // ID of the model to use (e.g., "gpt-3.5-turbo")
