@@ -143,7 +143,9 @@ export default function Page() {
           <Button
             secondary
             onClick={handleStart}
-            disabled={worksheetSubtopics.length === 0}
+            disabled={
+              worksheetSubtopics.length === 0 || !contentStreamCompleted
+            }
           >
             Worksheet
           </Button>

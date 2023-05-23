@@ -62,7 +62,7 @@ export default function Page() {
         />
         <Button
           onClick={handleClick}
-          disabled={!topic}
+          disabled={!topic || !contentStreamCompleted}
           secondary={userFlow === "worksheet"}
           primary={userFlow !== "worksheet"}
         >

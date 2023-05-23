@@ -60,9 +60,12 @@ export default function Page() {
           placeholder="Enter any topic..."
         />
 
-        <Button onClick={handleStart} disabled={!subtopic}>
+        <Button
+          onClick={handleStart}
+          disabled={!subtopic || !contentStreamCompleted}
+        >
           New Lesson
-        </Button>
+      </Button>
       </div>
 
       {!contentStreamCompleted ? (
