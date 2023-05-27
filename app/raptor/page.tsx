@@ -1,6 +1,6 @@
 "use client";
+import objectHash from "object-hash";
 import React, { useState, useEffect } from "react";
-import { v4 as uuidv4 } from "uuid";
 import Sidebar from "../components/Sidebar";
 import Section from "../components/Section";
 import Canvas from "./components/Canvas";
@@ -64,6 +64,8 @@ export default function Raptor() {
   const [isAdvancedMode, setIsAdvancedMode] = useAtom(isAdvancedModeAtom);
   const [firstRender, setFirstRender] = useState(true);
 
+  // console.log(savedQuestions);
+
   const handleCheckboxChange = (value: QuestionType) => {
     if (checkedQuestionTypes.includes(value)) {
       setCheckedQuestionTypes(
@@ -97,24 +99,38 @@ export default function Raptor() {
         const updatedQuestions = [...savedQuestions];
         const questionArray = [...updatedQuestions[questionIndex].questions];
 
-        // Adding id property
-        const parsedContentWithId = {
-          ...parsedContent,
-          questionId: uuidv4(),
-          bloomLevel: currentQuestion.bloomLevel,
-          topic: topic,
-          subtopic: currentQuestion.subtopic,
-          grade: grade,
-          board: board,
-        };
+        // Create a copy of the object, excluding any fields that are not related to the question content
+        const contentForHashing = { ...parsedContent };
+        delete contentForHashing.questionId;
 
-        questionArray.push(parsedContentWithId as unknown as QuestionItem);
-        updatedQuestions[questionIndex] = {
-          ...updatedQuestions[questionIndex],
-          questions: questionArray,
-        };
+        // Generate a hash of the entire object
+        const questionId = objectHash(contentForHashing);
 
-        setSavedQuestions(updatedQuestions);
+        // Check if a question with the same hash already exists
+        const existingQuestion = questionArray.find(
+          (q) => q.questionId === questionId
+        );
+
+        if (!existingQuestion) {
+          // Adding id property
+          const parsedContentWithId = {
+            ...parsedContent,
+            questionId: questionId,
+            bloomLevel: currentQuestion.bloomLevel,
+            topic: topic,
+            subtopic: currentQuestion.subtopic,
+            grade: grade,
+            board: board,
+          };
+
+          questionArray.push(parsedContentWithId as unknown as QuestionItem);
+          updatedQuestions[questionIndex] = {
+            ...updatedQuestions[questionIndex],
+            questions: questionArray,
+          };
+
+          setSavedQuestions(updatedQuestions);
+        }
       }
     }
   }, [parsedContent]);

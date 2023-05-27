@@ -1,4 +1,9 @@
-import { QuestionBank, QuestionItem, QuestionObject } from "@/types";
+import {
+  QuestionBank,
+  QuestionItem,
+  QuestionObject,
+  MultipleChoiceSingleCorrect,
+} from "@/types";
 import {
   Document,
   Packer,
@@ -19,8 +24,8 @@ export async function getWorksheetDocx(questionBank: QuestionBank) {
     children: [
       new TextRun({
         text: `Worksheet Generated With Falcon AI`,
-        size: 24, // equivalent to text-lg in Tailwind CSS
-        color: "6B7280", // equivalent to text-slate-600 in Tailwind CSS
+        size: 24,
+        color: "6B7280",
         font: "Helvetica",
       }),
     ],
@@ -41,7 +46,7 @@ export async function getWorksheetDocx(questionBank: QuestionBank) {
     ],
     alignment: AlignmentType.CENTER,
     spacing: {
-      before: 500, // Add spacing before the footer
+      before: 500,
     },
   });
 
@@ -56,7 +61,7 @@ export async function getWorksheetDocx(questionBank: QuestionBank) {
       const sectionParagraphs = [
         new Paragraph({
           spacing: {
-            before: 500, // Add spacing before the section title
+            before: 500,
           },
         }),
         new Paragraph({
@@ -64,13 +69,13 @@ export async function getWorksheetDocx(questionBank: QuestionBank) {
           heading: HeadingLevel.HEADING_2,
           alignment: AlignmentType.LEFT,
           spacing: {
-            after: 100, // Reduce spacing after the section title
+            after: 100,
           },
         }),
         new Paragraph({
           border: {
             bottom: {
-              color: "4B5563", // equivalent to border-slate-700 in Tailwind CSS
+              color: "4B5563",
               size: 2,
               space: 2,
               style: BorderStyle.SINGLE,
@@ -85,15 +90,36 @@ export async function getWorksheetDocx(questionBank: QuestionBank) {
             children: [
               new TextRun({
                 text: `${index + 1}. ${question.question}`,
-                size: 24, // equivalent to text-lg in Tailwind CSS
+                size: 24,
               }),
             ],
             spacing: {
-              line: 336, // equivalent to leading-7 in Tailwind CSS
+              line: 336,
             },
           });
 
           sectionParagraphs.push(questionParagraph);
+
+          if (question.type === "multipleChoiceSingleCorrect") {
+            const mcqQuestion = question as MultipleChoiceSingleCorrect;
+            if (mcqQuestion.options && mcqQuestion.options.length > 0) {
+              mcqQuestion.options.forEach((option) => {
+                const optionParagraph = new Paragraph({
+                  children: [
+                    new TextRun({
+                      text: option.charAt(0).toUpperCase() + option.slice(1),
+                    }),
+                  ],
+                  spacing: {
+                    line: 336,
+                  },
+                });
+                sectionParagraphs.push(optionParagraph);
+              });
+
+              sectionParagraphs.push(new Paragraph({})); // Add an empty paragraph for spacing after options
+            }
+          }
         }
       );
 
