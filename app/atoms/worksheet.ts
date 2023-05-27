@@ -56,3 +56,4 @@ export const savedQuestionsAtom = atom<QuestionBank>([
 export const isAdvancedModeAtom = atom(false);
 
 export const worksheetAnswerKeyAtom = atom<string | string[]>([]);
+export const batchSizeAtom = atom(1);
