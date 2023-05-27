@@ -191,23 +191,23 @@ function getQuestionTypePrompt(questionType: string) {
 function getQuestionResponseFormat(questionType: QuestionType): string {
   switch (questionType) {
     case "trueFalse":
-      return `{"type":"trueFalse","question":<question>}`;
+      return `[{"type":"trueFalse","question":<question>}]`;
     case "fillInTheBlanks":
-      return `{"type":"fillInTheBlanks","question":<question>}`;
+      return `[{"type":"fillInTheBlanks","question":<question>}]`;
     case "multipleChoiceSingleCorrect":
-      return `{"type":"multipleChoiceSingleCorrect","question":<question>, "options":<options>, "answer":<correctOption>}`;
+      return `[{"type":"multipleChoiceSingleCorrect","question":<question>, "options":<options>, "answer":<correctOption>}]`;
     case "shortAnswer":
-      return `{"type":"shortAnswer","question":<question>}`;
+      return `[{"type":"shortAnswer","question":<question>}]`;
     case "essay":
-      return `{"type":"essay","question":<question>}`;
+      return `[{"type":"essay","question":<question>}]`;
     case "project":
-      return `{"type":"project","question":<task>`;
+      return `[{"type":"project","question":<task>}]`;
     case "debate":
-      return `{"type":"debate","question":<topicForDebate>}`;
+      return `[{"type":"debate","question":<topicForDebate>}]`;
     case "brainstorming":
-      return `{"type":"brainstorming","question":<topic>}`;
+      return `[{"type":"brainstorming","question":<topic>}]`;
     case "groupDiscussion":
-      return `{"type":"groupDiscussion","question":<topic>}`;
+      return `[{"type":"groupDiscussion","question":<topic>}]`;
     default:
       throw new Error("Invalid question type");
   }

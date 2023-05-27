@@ -89,49 +89,57 @@ export default function Raptor() {
   }, [currentQuestion]);
 
   useEffect(() => {
-    if (parsedContent && "type" in parsedContent) {
-      const parsedQuestionType = parsedContent.type;
-      const questionIndex = savedQuestions.findIndex(
-        (q: any) => q.type === parsedQuestionType
-      );
+    if (Array.isArray(parsedContent)) {
+      let updatedQuestions = [...savedQuestions];
 
-      if (questionIndex !== -1) {
-        const updatedQuestions = [...savedQuestions];
-        const questionArray = [...updatedQuestions[questionIndex].questions];
+      parsedContent.forEach((content, index) => {
+        if ("type" in content) {
+          const parsedQuestionType = content.type;
+          const questionIndex = updatedQuestions.findIndex(
+            (q: any) => q.type === parsedQuestionType
+          );
 
-        // Create a copy of the object, excluding any fields that are not related to the question content
-        const contentForHashing = { ...parsedContent };
-        delete contentForHashing.questionId;
+          if (questionIndex !== -1) {
+            const questionArray = [
+              ...updatedQuestions[questionIndex].questions,
+            ];
 
-        // Generate a hash of the entire object
-        const questionId = objectHash(contentForHashing);
+            // Create a copy of the object, excluding any fields that are not related to the question content
+            const contentForHashing = { ...content, index };
 
-        // Check if a question with the same hash already exists
-        const existingQuestion = questionArray.find(
-          (q) => q.questionId === questionId
-        );
+            // Generate a hash of the entire object
+            const questionId = objectHash(contentForHashing);
 
-        if (!existingQuestion) {
-          // Adding id property
-          const parsedContentWithId = {
-            ...parsedContent,
-            questionId: questionId,
-            bloomLevel: currentQuestion.bloomLevel,
-            topic: topic,
-            subtopic: currentQuestion.subtopic,
-            grade: grade,
-            board: board,
-          };
+            // Check if a question with the same hash already exists
+            const existingQuestion = questionArray.find(
+              (q) => q.questionId === questionId
+            );
 
-          questionArray.push(parsedContentWithId as unknown as QuestionItem);
-          updatedQuestions[questionIndex] = {
-            ...updatedQuestions[questionIndex],
-            questions: questionArray,
-          };
+            if (!existingQuestion) {
+              // Adding id property
+              const parsedContentWithId = {
+                ...content,
+                questionId: questionId,
+                bloomLevel: currentQuestion.bloomLevel,
+                topic: topic,
+                subtopic: currentQuestion.subtopic,
+                grade: grade,
+                board: board,
+              };
 
-          setSavedQuestions(updatedQuestions);
+              questionArray.push(
+                parsedContentWithId as unknown as QuestionItem
+              );
+              updatedQuestions[questionIndex] = {
+                ...updatedQuestions[questionIndex],
+                questions: questionArray,
+              };
+            }
+          }
         }
-      }
+      });
+
+      setSavedQuestions(updatedQuestions);
     }
   }, [parsedContent]);
 
