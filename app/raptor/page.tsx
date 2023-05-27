@@ -17,6 +17,7 @@ import {
   worksheetSubtopicsAtom,
   savedQuestionsAtom,
   isAdvancedModeAtom,
+  batchSizeAtom,
 } from "../atoms/worksheet";
 import {
   topicAtom,
@@ -24,7 +25,10 @@ import {
   boardAtom,
   subjectAtom,
 } from "../atoms/preferences";
-import { RiseLoader } from "react-spinners";
+import {
+  RiseLoader,
+  SyncLoader,
+} from "react-spinners";
 import QuestionsBlock from "./components/QuestionSection";
 import useJsonParsing from "../hooks/useJsonParsing";
 import { ModeToggle } from "./components/ModeToggle";
@@ -34,6 +38,7 @@ import {
   AnimatePresence,
   MotionStyle,
 } from "framer-motion";
+import { BatchSize } from "./components/BatchSize";
 
 const questionTypes = [
   { value: "fillInTheBlanks", label: "Fill in the Blanks" },
@@ -63,7 +68,7 @@ export default function Raptor() {
   >(["fillInTheBlanks"]);
   const [isAdvancedMode, setIsAdvancedMode] = useAtom(isAdvancedModeAtom);
   const [firstRender, setFirstRender] = useState(true);
-
+  const [batchSize, setBatchSize] = useAtom(batchSizeAtom);
   // console.log(savedQuestions);
 
   const handleCheckboxChange = (value: QuestionType) => {
@@ -89,49 +94,57 @@ export default function Raptor() {
   }, [currentQuestion]);
 
   useEffect(() => {
-    if (parsedContent && "type" in parsedContent) {
-      const parsedQuestionType = parsedContent.type;
-      const questionIndex = savedQuestions.findIndex(
-        (q: any) => q.type === parsedQuestionType
-      );
+    if (Array.isArray(parsedContent)) {
+      let updatedQuestions = [...savedQuestions];
 
-      if (questionIndex !== -1) {
-        const updatedQuestions = [...savedQuestions];
-        const questionArray = [...updatedQuestions[questionIndex].questions];
+      parsedContent.forEach((content, index) => {
+        if ("type" in content) {
+          const parsedQuestionType = content.type;
+          const questionIndex = updatedQuestions.findIndex(
+            (q: any) => q.type === parsedQuestionType
+          );
 
-        // Create a copy of the object, excluding any fields that are not related to the question content
-        const contentForHashing = { ...parsedContent };
-        delete contentForHashing.questionId;
+          if (questionIndex !== -1) {
+            const questionArray = [
+              ...updatedQuestions[questionIndex].questions,
+            ];
 
-        // Generate a hash of the entire object
-        const questionId = objectHash(contentForHashing);
+            // Create a copy of the object, excluding any fields that are not related to the question content
+            const contentForHashing = { ...content, index };
 
-        // Check if a question with the same hash already exists
-        const existingQuestion = questionArray.find(
-          (q) => q.questionId === questionId
-        );
+            // Generate a hash of the entire object
+            const questionId = objectHash(contentForHashing);
 
-        if (!existingQuestion) {
-          // Adding id property
-          const parsedContentWithId = {
-            ...parsedContent,
-            questionId: questionId,
-            bloomLevel: currentQuestion.bloomLevel,
-            topic: topic,
-            subtopic: currentQuestion.subtopic,
-            grade: grade,
-            board: board,
-          };
+            // Check if a question with the same hash already exists
+            const existingQuestion = questionArray.find(
+              (q) => q.questionId === questionId
+            );
 
-          questionArray.push(parsedContentWithId as unknown as QuestionItem);
-          updatedQuestions[questionIndex] = {
-            ...updatedQuestions[questionIndex],
-            questions: questionArray,
-          };
+            if (!existingQuestion) {
+              // Adding id property
+              const parsedContentWithId = {
+                ...content,
+                questionId: questionId,
+                bloomLevel: currentQuestion.bloomLevel,
+                topic: topic,
+                subtopic: currentQuestion.subtopic,
+                grade: grade,
+                board: board,
+              };
 
-          setSavedQuestions(updatedQuestions);
+              questionArray.push(
+                parsedContentWithId as unknown as QuestionItem
+              );
+              updatedQuestions[questionIndex] = {
+                ...updatedQuestions[questionIndex],
+                questions: questionArray,
+              };
+            }
+          }
         }
-      }
+      });
+
+      setSavedQuestions(updatedQuestions);
     }
   }, [parsedContent]);
 
@@ -218,17 +231,27 @@ export default function Raptor() {
           className={`col-start-4 col-span-7 h-screen scroll-smooth overflow-y-auto scroll-pb-96 pb-96 custom-scrollbar items-center gap-4 }`}
           color="secondary"
           heading={
-            contentStreamCompleted ? topic : <RiseLoader color="#D946EF" />
+            contentStreamCompleted ? (
+              topic
+            ) : batchSize > 1 ? (
+              <SyncLoader color="#D946EF" />
+            ) : (
+              <RiseLoader color="#D946EF" />
+            )
           }
           leftTop={`Grade ${grade}`}
           leftBottom={subject}
           rightTop={board}
           isSticky={true}
         >
-          <ModeToggle
-            isAdvancedMode={isAdvancedMode}
-            setIsAdvancedMode={setIsAdvancedMode}
-          />
+          <div className="flex flex-row items-center gap-12">
+            <ModeToggle
+              isAdvancedMode={isAdvancedMode}
+              setIsAdvancedMode={setIsAdvancedMode}
+            />
+            <BatchSize />
+          </div>
+
           {savedQuestions.map((questionObject: QuestionObject) => {
             return !checkedQuestionTypes.includes(
               questionObject.type
