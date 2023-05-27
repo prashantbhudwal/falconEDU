@@ -163,26 +163,36 @@ const bloomLevels = [
   },
 ];
 const JSON_DIRECTIVE = "Only respond with JSON.";
-function getQuestionTypePrompt(questionType: string) {
+function getQuestionTypePrompt(questionType: string, batchSize: number) {
+  let batchSizeString = "";
+  let questionTypePlural = "";
+
+  if (batchSize > 1) {
+    batchSizeString = `'''${batchSize}''' different `;
+    questionTypePlural = "s";
+  } else {
+    batchSizeString = "a ";
+  }
+
   switch (questionType) {
     case "fillInTheBlanks":
-      return "Design a fill-in-the-blank question within a specified academic topic. Your question should involve a sentence, paragraph, or passage with an intentional blank where a key term, event, or concept should be inserted by the student. Make sure the question evaluates the student's comprehension and knowledge of the topic. The missing information should be crucial enough that its inclusion or exclusion alters the understanding or interpretation of the topic.";
+      return `Design ${batchSizeString}fill-in-the-blank question${questionTypePlural} within a specified academic topic. Your question${questionTypePlural} should involve a sentence, paragraph, or passage with an intentional blank where a key term, event, or concept should be inserted by the student. Make sure the question${questionTypePlural} evaluate${questionTypePlural} the students' comprehension and knowledge of the topic. The missing information should be crucial enough that its inclusion or exclusion alters the understanding or interpretation of the topic.`;
     case "multipleChoiceSingleCorrect":
-      return "Create a multiple choice question within a given academic topic. The question should have multiple plausible options, but only one correct answer. Ensure the options are structured to assess the student's understanding and knowledge of the topic.";
+      return `Create ${batchSizeString}multiple choice question${questionTypePlural} within a given academic topic. The question${questionTypePlural} should have multiple plausible options, but only one correct answer. Ensure the option${questionTypePlural} are structured to assess the students' understanding and knowledge of the topic.`;
     case "trueFalse":
-      return "Craft a declarative statement related to a chosen academic topic that can be judged as either true or false. The statement should be clear, unambiguous, and designed to test the student's understanding and knowledge of the topic.";
+      return `Craft ${batchSizeString}declarative statement${questionTypePlural} related to a chosen academic topic that can be judged as either true or false. The statement${questionTypePlural} should be clear, unambiguous, and designed to test the students' understanding and knowledge of the topic.`;
     case "shortAnswer":
-      return "Create a short-answer question related to a specified academic topic. The question should be open-ended, encouraging the student to express their understanding and knowledge of the topic in their own words.";
+      return `Create ${batchSizeString}short-answer question${questionTypePlural} related to a specified academic topic. The question${questionTypePlural} should be open-ended, encouraging the students to express their understanding and knowledge of the topic in their own words.`;
     case "essay":
-      return "Develop an essay prompt within a specified academic topic. The prompt should encourage deep thinking and extensive elaboration on the topic, allowing the student to demonstrate their understanding, knowledge, and ability to construct and support an argument.";
+      return `Develop ${batchSizeString}essay prompt${questionTypePlural} within a specified academic topic. The prompt${questionTypePlural} should encourage deep thinking and extensive elaboration on the topic, allowing the students to demonstrate their understanding, knowledge, and ability to construct and support an argument.`;
     case "project":
-      return "Create a project based task related to a specific academic topic.";
+      return `Create ${batchSizeString}project based task${questionTypePlural} related to a specific academic topic.`;
     case "debate":
-      return "Design a debate topic within a chosen academic topic. The debate topic should be controversial enough to have two distinct sides.";
+      return `Design ${batchSizeString}debate topic${questionTypePlural} within a chosen academic topic. The debate topic${questionTypePlural} should be controversial enough to have two distinct sides.`;
     case "brainstorming":
-      return "Formulate a topic for a brainstorming session within a certain academic topic. The topic should be broad and challenging enough to allow for diverse ideas and creative thinking.";
+      return `Formulate ${batchSizeString}topic for a brainstorming session${questionTypePlural} within a certain academic topic. The topic${questionTypePlural} should be broad and challenging enough to allow for diverse ideas and creative thinking.`;
     case "groupDiscussion":
-      return "Generate a discussion topic within a specific academic domain. The topic should provoke thought and facilitate meaningful dialogue among students, encouraging them to share, listen, and build upon ideas.";
+      return `Generate ${batchSizeString}discussion topic${questionTypePlural} within a specific academic domain. The topic${questionTypePlural} should provoke thought and facilitate meaningful dialogue among students, encouraging them to share, listen, and build upon ideas.`;
     default:
       throw new Error("Invalid question type");
   }
@@ -191,23 +201,23 @@ function getQuestionTypePrompt(questionType: string) {
 function getQuestionResponseFormat(questionType: QuestionType): string {
   switch (questionType) {
     case "trueFalse":
-      return `{"type":"trueFalse","question":<question>}`;
+      return `[{"type":"trueFalse","question":<question>}]`;
     case "fillInTheBlanks":
-      return `{"type":"fillInTheBlanks","question":<question>}`;
+      return `[{"type":"fillInTheBlanks","question":<question>}]`;
     case "multipleChoiceSingleCorrect":
-      return `{"type":"multipleChoiceSingleCorrect","question":<question>, "options":<options>, "answer":<correctOption>}`;
+      return `[{"type":"multipleChoiceSingleCorrect","question":<question>, "options":<options>, "answer":<correctOption>}]`;
     case "shortAnswer":
-      return `{"type":"shortAnswer","question":<question>}`;
+      return `[{"type":"shortAnswer","question":<question>}]`;
     case "essay":
-      return `{"type":"essay","question":<question>}`;
+      return `[{"type":"essay","question":<question>}]`;
     case "project":
-      return `{"type":"project","question":<task>`;
+      return `[{"type":"project","question":<task>}]`;
     case "debate":
-      return `{"type":"debate","question":<topicForDebate>}`;
+      return `[{"type":"debate","question":<topicForDebate>}]`;
     case "brainstorming":
-      return `{"type":"brainstorming","question":<topic>}`;
+      return `[{"type":"brainstorming","question":<topic>}]`;
     case "groupDiscussion":
-      return `{"type":"groupDiscussion","question":<topic>}`;
+      return `[{"type":"groupDiscussion","question":<topic>}]`;
     default:
       throw new Error("Invalid question type");
   }
@@ -274,7 +284,8 @@ function getInitialUserMessage(payload: QuestionPayload): string {
     payload.generatedQuestions
   );
   const { bloomLevel, topic, subtopic, grade, board, type } = payload.data;
-  const prompt_QuestionType = getQuestionTypePrompt(type);
+  const { batchSize } = payload;
+  const prompt_QuestionType = getQuestionTypePrompt(type, batchSize);
   const prompt_BloomLevel = getBloomLevelPrompt(bloomLevel);
   const questionFormat = getQuestionResponseFormat(type);
   const textbookName = getTextbookName(board);

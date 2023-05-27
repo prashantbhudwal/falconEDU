@@ -38,6 +38,7 @@ export type QuestionPayload = {
   action: QuestionAction;
   data: QuestionItem;
   generatedQuestions: QuestionItem[];
+  batchSize: number;
 };
 
 export type QuestionAction = "getQuestion";

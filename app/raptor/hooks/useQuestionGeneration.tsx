@@ -7,7 +7,11 @@ import { shouldRegenerateAtom } from "../../atoms/lesson";
 import { boardAtom } from "@/app/atoms/preferences";
 import { subjectAtom } from "@/app/atoms/preferences";
 import { QuestionAction, QuestionType } from "@/types";
-import { currentQuestionAtom, savedQuestionsAtom } from "../../atoms/worksheet";
+import {
+  currentQuestionAtom,
+  savedQuestionsAtom,
+  batchSizeAtom,
+} from "../../atoms/worksheet";
 import { topicAtom } from "../../atoms/preferences";
 
 export function getQuestionsByType(
@@ -28,7 +32,8 @@ const getPayload = function (
   bloomLevel: string,
   topic: string,
   subtopic: string,
-  generatedQuestions: QuestionItem[]
+  generatedQuestions: QuestionItem[],
+  batchSize: number = 1
 ) {
   switch (action) {
     case "getQuestion":
@@ -44,6 +49,7 @@ const getPayload = function (
           subtopic: subtopic,
         },
         generatedQuestions: generatedQuestions,
+        batchSize: batchSize,
       };
     default:
       return {
@@ -58,6 +64,7 @@ const getPayload = function (
           subtopic: subtopic,
         },
         generatedQuestions: generatedQuestions,
+        batchSize: batchSize,
       };
   }
 };
@@ -73,6 +80,7 @@ export function useQuestionGeneration(action: QuestionAction) {
   const [contentStreamCompleted, setContentStreamCompleted] = useAtom(
     contentStreamCompletedAtom
   );
+  const [batchSize] = useAtom(batchSizeAtom);
 
   const { contentStream, startGeneration, currentStreamId, prevStreamId } =
     useContentStream(ROUTE);
@@ -92,7 +100,8 @@ export function useQuestionGeneration(action: QuestionAction) {
       currentQuestion.bloomLevel,
       topic,
       currentQuestion.subtopic,
-      generatedQuestions
+      generatedQuestions,
+      batchSize
     );
     startGeneration(payload);
     setShouldRegenerate(false);
