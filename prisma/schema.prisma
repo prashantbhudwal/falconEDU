@@ -16,6 +16,7 @@ model Teacher {
   name        String
   email       String          @unique
   password    String
+  phone       String
   profile     TeacherProfile?
   avatar      String          @default("chubby.png")
   accountType AccountType
