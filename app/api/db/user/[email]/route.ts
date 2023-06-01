@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import prisma from "@/prisma";
+import { Teacher } from "@prisma/client";
 
 export async function GET(
   request: Request,
@@ -16,13 +17,13 @@ export async function GET(
       email: email,
     },
     select: {
-        id: true,
-        name: true,
-        email: true,
-        phone: true,
-        avatar: true,
-        accountType: true,
-    }
+      id: true,
+      name: true,
+      email: true,
+      phone: true,
+      avatar: true,
+      accountType: true,
+    },
   });
 
   return NextResponse.json(user);
