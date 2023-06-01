@@ -17,7 +17,7 @@ const handler = NextAuth({
       async authorize(credentials, req) {
         // Add logic here to look up the user from the credentials supplied
 
-        const res = await fetch(
+        const res: any = await fetch(
           `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/auth/login`,
           {
             method: "POST",

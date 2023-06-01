@@ -1,4 +1,6 @@
-import users from "../userData/userData.json";
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
 
 type LoginRequestBody = {
   username: string;
@@ -9,19 +11,33 @@ export async function POST(request: Request) {
   const body: LoginRequestBody = await request.json();
   const { username, password } = body;
 
-  const user = users.find(
-    (user) => user.email === username && user.password === password
-  );
+  try {
+    const user = await prisma.teacher.findUnique({
+      where: {
+        email: username,
+      },
+    });
 
-  if (user && user.password === password) {
-    const { password, ...userWithoutPassword } = user;
-    return new Response(JSON.stringify(userWithoutPassword));
-  } else {
+    if (user && user.password === password) {
+      const { password, ...userWithoutPassword } = user;
+      return new Response(JSON.stringify(userWithoutPassword));
+    } else {
+      return new Response(
+        JSON.stringify({ message: "Username or password is incorrect" }),
+        {
+          status: 401,
+        }
+      );
+    }
+  } catch (error) {
+    console.error("Error retrieving user data:", error);
     return new Response(
-      JSON.stringify({ message: "Username or password is incorrect" }),
+      JSON.stringify({ message: "Error retrieving user data" }),
       {
-        status: 401,
+        status: 500,
       }
     );
+  } finally {
+    await prisma.$disconnect();
   }
 }
