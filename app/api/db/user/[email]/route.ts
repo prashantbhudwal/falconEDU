@@ -16,14 +16,6 @@ export async function GET(
     where: {
       email: email,
     },
-    select: {
-      id: true,
-      name: true,
-      email: true,
-      phone: true,
-      avatar: true,
-      accountType: true,
-    },
   });
 
   return NextResponse.json(user);
