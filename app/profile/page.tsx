@@ -32,15 +32,15 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-200 p-4 w-full">
+    <div className="min-h-screen bg-slate-950 text-slate-200 p-4 w-5/6 rounded-lg">
       <div className="max-w-4xl mx-auto">
-        <div className="p-6  mb-6 flex items-center space-x-6 ">
+        <div className="p-6  mb-6 flex items-center space-x-6 border-b-2 border-emerald-700">
           <div className="flex-shrink-0">
             <Image
               className="rounded-full object-cover"
               src={"/chubbi.png"}
-              height={45}
-              width={45}
+              height={75}
+              width={75}
               alt="Falcon Logo"
             />
           </div>
@@ -55,7 +55,7 @@ export default function ProfilePage() {
             </div>
           </div>
         </div>
-        <div className="p-6 rounded-lg shadow-md border-2 border-emerald-500">
+        <div className="p-6 rounded-lg shadow-md bg-slate-900">
           <p className="text-xl mb-2">Email: {user?.email}</p>
           <p className="text-xl mb-2">Phone: {user?.phone}</p>
         </div>
