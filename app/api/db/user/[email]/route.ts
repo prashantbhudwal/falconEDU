@@ -11,7 +11,6 @@ export async function GET(
   }
 ) {
   const email = params.email;
-  console.log("email", email);
   let user = await prisma.teacher.findUnique({
     where: {
       email: email,
