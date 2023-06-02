@@ -4,11 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "npm run build",
+    "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
-    "seed": "node scripts/seed.mjs",
-    "postinstall": "prisma generate"
+    "seed": "node scripts/seed.mjs"
   },
   "dependencies": {
     "@prisma/client": "^4.15.0",
