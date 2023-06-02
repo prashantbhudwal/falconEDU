@@ -1,6 +1,4 @@
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import prisma from "@/prisma";
 
 type LoginRequestBody = {
   username: string;
@@ -37,7 +35,5 @@ export async function POST(request: Request) {
         status: 500,
       }
     );
-  } finally {
-    await prisma.$disconnect();
   }
 }
