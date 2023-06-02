@@ -4,6 +4,8 @@ import useSWR from "swr";
 import axios from "axios";
 import { Teacher } from "@prisma/client";
 import Image from "next/image";
+import Section from "../components/Section";
+import { RotateLoader } from "react-spinners";
 
 async function fetchUserData(url: any) {
   try {
@@ -18,13 +20,18 @@ export default function ProfilePage() {
   const { data: session, status: sessionStatus } = useSession();
   const email = session?.user?.email;
 
-  const { data: user, error } = useSWR<Teacher>(
-    email ? `/api/db/user/${email}` : null,
-    fetchUserData
-  );
+  const {
+    data: user,
+    error,
+    isLoading,
+  } = useSWR<Teacher>(email ? `/api/db/user/${email}` : null, fetchUserData);
 
-  if (sessionStatus === "loading") {
-    return <div>Loading...</div>;
+  if (sessionStatus === "loading" || isLoading) {
+    return (
+      <div className="flex justify-center items-center">
+        <RotateLoader color="#2d9c6d" />
+      </div>
+    );
   }
 
   if (error) {
@@ -34,7 +41,7 @@ export default function ProfilePage() {
   return (
     <div className="min-h-screen bg-slate-950 text-slate-200 p-4 w-5/6 rounded-lg">
       <div className="max-w-4xl mx-auto">
-        <div className="p-6  mb-6 flex items-center space-x-6 border-b-2 border-emerald-700">
+        <div className="p-6  mb-6 flex items-center space-x-6 ">
           <div className="flex-shrink-0">
             <Image
               className="rounded-full object-cover"
@@ -55,10 +62,20 @@ export default function ProfilePage() {
             </div>
           </div>
         </div>
-        <div className="p-6 rounded-lg shadow-md bg-slate-900">
-          <p className="text-xl mb-2">Email: {user?.email}</p>
-          <p className="text-xl mb-2">Phone: {user?.phone}</p>
-        </div>
+        <Section title="Contact" className="p-6 rounded-md text-slate-400">
+          <table className="text-xl mb-2">
+            <tbody>
+              <tr className="mb-8">
+                <td className="font-bold text-slate-200 mr-4">Email</td>
+                <td>{user?.email}</td>
+              </tr>
+              <tr className="mb-8">
+                <td className="font-bold text-slate-200 mr-4">Phone</td>
+                <td>{user?.phone}</td>
+              </tr>
+            </tbody>
+          </table>
+        </Section>
       </div>
     </div>
   );
