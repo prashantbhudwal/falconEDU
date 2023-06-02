@@ -33,7 +33,6 @@ const useJsonParsing = ({
       }
     }
   }, [content, contentStreamCompleted]);
-  console.log(parsedContent);
   return parsedContent;
 };
 
