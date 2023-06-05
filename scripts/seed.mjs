@@ -110,7 +110,7 @@ async function seedData() {
             email: item.email,
             password: item.password,
             phone: item.phone,
-            accountType: "PRO",
+            accountType: "INDIVIDUAL",
           },
         });
       }
