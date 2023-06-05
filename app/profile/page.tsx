@@ -39,9 +39,9 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-200 p-4 w-5/6 rounded-lg">
+    <div className="min-h-screen bg-slate-900 text-slate-200 p-4 w-5/6 rounded-lg ring ring-primary shadow-sm ">
       <div className="max-w-4xl mx-auto">
-        <div className="p-6  mb-6 flex items-center space-x-6 ">
+        <div className="px-6 py-10 mb-6 flex items-center space-x-6 bg-emerald-900 w-full rounded-lg">
           <div className="flex-shrink-0">
             <Image
               className="rounded-full object-cover"
@@ -51,15 +51,14 @@ export default function ProfilePage() {
               alt="Falcon Logo"
             />
           </div>
-          <div>
+          <div className="flex flex-col gap-2">
             <div className="inline-flex items-start space-x-2">
-              <h2 className="text-3xl font-bold">{user?.name}</h2>
+              <h2 className="text-3xl">{user?.name}</h2>
               {user?.accountType === "PRO" && (
-                <span className="text-sm bg-emerald-300 text-emerald-800 px-2 py-1 rounded -mt-1 ml-2">
-                  Pro
-                </span>
+                <span className="badge badge-accent -mt-1 ml-2">Pro</span>
               )}
             </div>
+            <p className="text-xl text-slate-300">{user?.email}</p>
           </div>
         </div>
         <Section title="Contact" className="p-6 rounded-md text-slate-400">
