@@ -12,16 +12,19 @@ datasource db {
 }
 
 model Teacher {
-  id          Int             @id @default(autoincrement())
-  name        String
-  email       String          @unique
-  password    String
-  phone       String
-  profile     TeacherProfile?
-  avatar      String          @default("chubby.png")
-  accountType AccountType
-  school      School?         @relation(fields: [schoolId], references: [id])
-  schoolId    Int?
+  id                   Int                     @id @default(autoincrement())
+  name                 String
+  email                String                  @unique
+  password             String
+  phone                String
+  profile              TeacherProfile?
+  avatar               String                  @default("chubby.png")
+  accountType          AccountType
+  individualSub        IndividualSubscription?
+  school               School?                 @relation(fields: [schoolId], references: [id])
+  schoolId             Int?
+  schoolSub            SchoolSubscription?     @relation(fields: [schoolSubscriptionId], references: [id])
+  schoolSubscriptionId Int?
 }
 
 model TeacherProfile {
@@ -32,14 +35,47 @@ model TeacherProfile {
   professionalInterests String[] @default([])
 }
 
+model IndividualSubscription {
+  id        Int                @id @default(autoincrement())
+  startDate DateTime           @default(now())
+  endDate   DateTime
+  plan      IndividualPlanType
+  teacher   Teacher            @relation(fields: [teacherId], references: [id])
+  teacherId Int                @unique
+}
+
+enum IndividualPlanType {
+  MONTHLY
+  THREE_MONTHS
+  SIX_MONTHS
+  YEARLY
+  TRIAL
+}
+
 model School {
-  id       Int       @id @default(autoincrement())
-  name     String
-  teachers Teacher[]
+  id            Int                  @id @default(autoincrement())
+  name          String
+  teachers      Teacher[]
+  subscriptions SchoolSubscription[]
+}
+
+model SchoolSubscription {
+  id        Int            @id @default(autoincrement())
+  startDate DateTime       @default(now())
+  endDate   DateTime
+  plan      SchoolPlanType
+  school    School         @relation(fields: [schoolId], references: [id])
+  schoolId  Int
+  teachers  Teacher[]
+}
+
+enum SchoolPlanType {
+  SCHOOL_MONTHLY
+  SCHOOL_YEARLY
+  TRIAL
 }
 
 enum AccountType {
-  PRO
-  TRIAL
+  INDIVIDUAL
   SCHOOL
 }
