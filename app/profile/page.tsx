@@ -6,6 +6,7 @@ import Image from "next/image";
 import Section from "../components/Section";
 import { RotateLoader } from "react-spinners";
 import { UserProfileData } from "../api/db/user/[email]/route";
+import EditProfileModal from "./EditProfileModal";
 async function fetchUserData(url: any) {
   try {
     const response = await axios.get(url);
@@ -43,7 +44,7 @@ export default function ProfilePage() {
   return (
     <div className="min-h-screen bg-slate-900 text-slate-200 p-4 w-5/6 rounded-lg ring ring-primary shadow-sm max-w-5xl">
       <div className="max-w-4xl mx-auto">
-        <div className="px-6 py-10 mb-6 flex items-center space-x-6 bg-emerald-900 w-full rounded-lg">
+        <div className="relative px-6 py-10 mb-6 flex items-center space-x-6 bg-emerald-900 w-full rounded-lg">
           <div className="flex-shrink-0">
             <Image
               className="rounded-full object-cover"
@@ -63,6 +64,9 @@ export default function ProfilePage() {
             <p className="text-lg text-slate-300">
               {!user?.profile?.bio ? "Your Headline" : user?.profile?.bio}
             </p>
+          </div>
+          <div className="absolute top-0 right-0 mt-4 mr-6 pr-4">
+            <EditProfileModal />
           </div>
         </div>
         <Section title="Contact" className="p-6 rounded-md text-slate-400">
