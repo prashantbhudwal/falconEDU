@@ -2,11 +2,10 @@
 import { useSession } from "next-auth/react";
 import useSWR from "swr";
 import axios from "axios";
-import { Teacher } from "@prisma/client";
 import Image from "next/image";
 import Section from "../components/Section";
 import { RotateLoader } from "react-spinners";
-
+import { UserProfileData } from "../api/db/user/[email]/route";
 async function fetchUserData(url: any) {
   try {
     const response = await axios.get(url);
@@ -24,7 +23,10 @@ export default function ProfilePage() {
     data: user,
     error,
     isLoading,
-  } = useSWR<Teacher>(email ? `/api/db/user/${email}` : null, fetchUserData);
+  } = useSWR<UserProfileData>(
+    email ? `/api/db/user/${email}` : null,
+    fetchUserData
+  );
 
   if (sessionStatus === "loading" || isLoading) {
     return (
@@ -39,7 +41,7 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-900 text-slate-200 p-4 w-5/6 rounded-lg ring ring-primary shadow-sm ">
+    <div className="min-h-screen bg-slate-900 text-slate-200 p-4 w-5/6 rounded-lg ring ring-primary shadow-sm max-w-5xl">
       <div className="max-w-4xl mx-auto">
         <div className="px-6 py-10 mb-6 flex items-center space-x-6 bg-emerald-900 w-full rounded-lg">
           <div className="flex-shrink-0">
@@ -54,26 +56,52 @@ export default function ProfilePage() {
           <div className="flex flex-col gap-2">
             <div className="inline-flex items-start space-x-2">
               <h2 className="text-3xl">{user?.name}</h2>
-              {user?.accountType === "PRO" && (
+              {user?.accountType === "INDIVIDUAL" && (
                 <span className="badge badge-accent -mt-1 ml-2">Pro</span>
               )}
             </div>
-            <p className="text-xl text-slate-300">{user?.email}</p>
+            <p className="text-lg text-slate-300">
+              {!user?.profile?.bio ? "Your Headline" : user?.profile?.bio}
+            </p>
           </div>
         </div>
         <Section title="Contact" className="p-6 rounded-md text-slate-400">
-          <table className="text-xl mb-2">
-            <tbody>
-              <tr className="mb-8">
-                <td className="font-bold text-slate-200 mr-4">Email</td>
-                <td>{user?.email}</td>
-              </tr>
-              <tr className="mb-8">
-                <td className="font-bold text-slate-200 mr-4">Phone</td>
-                <td>{user?.phone}</td>
-              </tr>
-            </tbody>
-          </table>
+          <div className="grid grid-cols-2 gap-4 text-xl">
+            <div>
+              <p className="font-bold text-slate-200">Email</p>
+              <p>{user?.email}</p>
+            </div>
+            <div>
+              <p className="font-bold text-slate-200">Phone</p>
+              <p>{user?.phone}</p>
+            </div>
+          </div>
+        </Section>
+        <Section title="Subscription" className="p-6 rounded-md text-slate-400">
+          <div className="grid grid-cols-2 gap-4 text-xl">
+            <div>
+              <p className="font-bold text-slate-200">Plan</p>
+              <p>
+                {user?.individualSub?.plan ? user?.individualSub?.plan : "Plan"}
+              </p>
+            </div>
+            <div>
+              <p className="font-bold text-slate-200">Start Date</p>
+              <p>
+                {user?.individualSub?.startDate
+                  ? user?.individualSub?.startDate?.getDate.toString()
+                  : "Start Date"}
+              </p>
+            </div>
+            <div>
+              <p className="font-bold text-slate-200">End Date</p>
+              <p>
+                {user?.individualSub?.endDate
+                  ? user?.individualSub?.endDate?.getDate.toString()
+                  : "End Date"}
+              </p>
+            </div>
+          </div>
         </Section>
       </div>
     </div>
