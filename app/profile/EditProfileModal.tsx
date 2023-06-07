@@ -1,8 +1,18 @@
 "use client";
 import { useRef } from "react";
+import { useForm } from "react-hook-form";
+import { useSession } from "next-auth/react";
 function EditProfileModal() {
+  const { data: session, status: sessionStatus } = useSession();
+  console.log(session);
   const modalRef = useRef<HTMLDialogElement | null>(null);
-
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const onSubmit = (data: any) => console.log(data);
+  console.log(errors);
   const openModal = () => {
     if (modalRef.current) {
       modalRef.current.showModal();
@@ -37,17 +47,50 @@ function EditProfileModal() {
 
       <dialog ref={modalRef} className="modal">
         <form
+          onSubmit={handleSubmit(onSubmit)}
           method="dialog"
-          className="modal-box w-11/12 max-w-4xl bg-emerald-800 ring ring-primary"
+          className="modal-box w-11/12 max-w-2xl bg-base-300 ring ring-primary p-12 pb-16 backdrop:opacity-50"
         >
           <button
             onClick={closeModal}
-            className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+            className="btn btn-neutral btn-sm btn-circle btn-ghost absolute right-2 top-2 text-emerald-500 text-lg"
           >
             ✕
           </button>
-          <h3 className="font-bold text-lg">Hello!</h3>
-          <p className="py-4">Press ESC key or click on ✕ button to close</p>
+          <div className="flex flex-col gap-3 max-w-xl items-center">
+            <h1 className="text-3xl font-bold text-slate-200 mb-6">
+              Edit Profile
+            </h1>
+            <input
+              className="input input-bordered w-full max-w-md bg-slate-400 placeholder:text-slate-700 text-slate-900 focus:bg-slate-200"
+              type="text"
+              placeholder="Full Name"
+              {...register("name", { required: true, maxLength: 50 })}
+            />
+            <input
+              className="input input-bordered w-full max-w-md bg-slate-400 placeholder:text-slate-700 text-slate-900 focus:bg-slate-200"
+              type="email"
+              placeholder="Email"
+              {...register("email", { required: true })}
+            />
+            <input
+              className="input input-bordered w-full max-w-md bg-slate-400 placeholder:text-slate-700 text-slate-900 focus:bg-slate-200"
+              type="tel"
+              placeholder="Phone Number"
+              {...register("phone", { required: true })}
+            />
+            <input
+              className="input input-bordered w-full max-w-md bg-slate-400 placeholder:text-slate-700 text-slate-900 focus:bg-slate-200"
+              type="text"
+              placeholder="Headline"
+              {...register("headline", { required: true, maxLength: 100 })}
+            />
+
+            <input
+              className="btn btn-primary w-full max-w-md  placeholder:text-slate-700 text-slate-900"
+              type="submit"
+            />
+          </div>
         </form>
       </dialog>
     </>
