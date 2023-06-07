@@ -2,16 +2,61 @@
 import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useSession } from "next-auth/react";
+import { mutate } from "swr";
+import axios from "axios";
+import useSWR from "swr";
+import { UserProfileData } from "../api/db/user/[email]/route";
+async function fetchUserData(url: any) {
+  try {
+    const response = await axios.get(url);
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to fetch user data");
+  }
+}
 function EditProfileModal() {
   const { data: session, status: sessionStatus } = useSession();
   console.log(session);
+  const email = session?.user?.email;
+
   const modalRef = useRef<HTMLDialogElement | null>(null);
+  const {
+    data: user,
+    error,
+    isLoading,
+  } = useSWR<UserProfileData>(
+    email ? `/api/db/user/${email}` : null,
+    fetchUserData
+  );
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
-  const onSubmit = (data: any) => console.log(data);
+  } = useForm({
+    defaultValues: {
+      name: user?.name,
+      email: user?.email,
+      phone: user?.phone,
+      headline: user?.profile?.bio,
+    },
+  });
+  const onSubmit = async (data: any) => {
+    try {
+      const response = await axios.post(`/api/db/user/${data.email}`, {
+        id: session?.user?.id,
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        headline: data.headline,
+      });
+      console.log("Response", response.data);
+      closeModal();
+      mutate(`/api/db/user/${data.email}`);
+    } catch (error) {
+      console.log("Error", error);
+      console.error(error);
+    }
+  };
   console.log(errors);
   const openModal = () => {
     if (modalRef.current) {
