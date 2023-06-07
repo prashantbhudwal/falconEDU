@@ -111,6 +111,15 @@ async function seedData() {
             password: item.password,
             phone: item.phone,
             accountType: "INDIVIDUAL",
+            profile: {
+              create: {
+                bio: "",
+                professionalInterests: [],
+              },
+            },
+          },
+          include: {
+            profile: true,
           },
         });
       }
