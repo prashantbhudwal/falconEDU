@@ -117,5 +117,12 @@
     "email": "imon.mandal2022@teachforindia.org",
     "phone": "7890608663",
     "password": "orangemarigoldpetal"
+  },
+  {
+    "id": "ImnMndlpg3",
+    "name": "Gagan Goyal",
+    "email": "gagan@indiaquotient.in",
+    "phone": "8888888888",
+    "password": "iamgagan"
   }
 ]
