@@ -30,7 +30,7 @@ export default function Footer() {
         >
           Watch the demo
         </Link>
-        <div>Use WhatsApp Group</div>
+        <div>9833045490</div>
       </div>
       {session && sessionStatus === "authenticated" && (
         <div className="flex flex-col items-start gap-3">
