@@ -89,5 +89,54 @@
     "email": "yasha.avma@adanischools.ac.in",
     "phone": "9340466673",
     "password": "redparrotwings"
+  },
+  {
+    "id": "BjtBmn",
+    "name": "Bijita Barman",
+    "email": "bijita.t190550@gmail.com",
+    "phone": "8888888888",
+    "password": "purpleelephantdance"
+  },
+  {
+    "id": "RshRkhR",
+    "name": "Rashmi Rekha Ray",
+    "email": "rashmi.t210554@gmail.com",
+    "phone": "8888888888",
+    "password": "bluepeacockfeather"
+  },
+  {
+    "id": "ChndrBs",
+    "name": "Chandreyi Basu",
+    "email": "chandreyi.basu@rkmfoundation.org",
+    "phone": "9315104730",
+    "password": "yellowbutterflysong"
+  },
+  {
+    "id": "ImnMndl",
+    "name": "Imon Mandal",
+    "email": "imon.mandal2022@teachforindia.org",
+    "phone": "7890608663",
+    "password": "orangemarigoldpetal"
+  },
+  {
+    "id": "ImnMndlpg3",
+    "name": "Gagan Goyal",
+    "email": "gagan@indiaquotient.in",
+    "phone": "8888888888",
+    "password": "iamgagan"
+  },
+  {
+    "id": "ChrstnGrMrt",
+    "name": "Christeena Grace Martin",
+    "email": "christeena.martin2022@teachforindia.org",
+    "phone": "8888558590",
+    "password": "redrosebudheart"
+  },
+  {
+    "id": "Yshswngnsh",
+    "name": "Yashaswini Ganesh",
+    "email": "yashaswini.ganesh2022@teachforindia.org",
+    "phone": "9591761013",
+    "password": "bluejasminelove"
   }
 ]
