@@ -10,6 +10,7 @@ import { savedQuestionsAtom } from "@/app/atoms/worksheet";
 import Canvas from "../../components/Canvas";
 import { QuestionObject } from "@/types";
 import QuestionSection from "../../components/QuestionSection";
+import { getUserData } from "@/app/actions/actions";
 
 export default function Page() {
   const [topic] = useAtom(topicAtom);
@@ -17,6 +18,10 @@ export default function Page() {
   const [grade] = useAtom(gradeAtom);
   const [subject] = useAtom(subjectAtom);
   const [savedQuestions] = useAtom(savedQuestionsAtom);
+  const handleLog = async () => {
+    const users = await getUserData("prashant.bhudwal@gmail.com");
+    console.log(users);
+  };
   return (
     <Canvas
       className="col-start-4 col-span-7 min-h-screen gap-4 max-w-4xl"
@@ -26,6 +31,9 @@ export default function Page() {
       leftBottom={subject}
       rightTop={board}
     >
+      <button className="btn-primary" onClick={handleLog}>
+        Log users
+      </button>
       {savedQuestions.map(
         (questionObject: QuestionObject) =>
           questionObject.questions.length > 0 && (
