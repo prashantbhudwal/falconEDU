@@ -1,5 +1,10 @@
-## On Worksheet Generator
+## OpenAI Links
+  - Trial & Saving Worksheets: https://chat.openai.com/share/02923dbb-e530-4b0b-b113-85224d1cc43b
+  - Prisma Chats
+    - https://chat.openai.com/share/1c5aeb6f-5069-4a58-9b1f-ba01ec85af0c
+    - 
 
+## On Worksheet Generator
 - Our job is to design an application that allows teachers to use AI, to generate a worksheet.
 - A worksheet is essentially a set of questions.
 - The questions in a worksheet are mostly divided into different sections.
@@ -13,3 +18,10 @@
 - Then I can ask the teacher to choose from those recommendations.
 - Then I can ask teacher for number of questions they want.
 - Then GPT will give them the question of a particular type in a particular type.
+
+## On Database Integration
+- We want the users to be able to
+  - Sign up for trials
+    - With Google
+  - Save data in the the database
+
