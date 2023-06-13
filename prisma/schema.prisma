@@ -1,5 +1,4 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// OpenAI CHAT: https://chat.openai.com/share/1ce7799d-ee4f-44b3-af2c-d57c2b00b1cd
 
 generator client {
   provider = "prisma-client-js"
@@ -9,6 +8,32 @@ datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL_DEV")
   directUrl = env("DIRECT_URL_DEV")
+}
+
+model Subject {
+  id            Int          @id @default(autoincrement())
+  name          String
+  class         Class        @relation(fields: [classId], references: [id])
+  classId       Int
+  topics        Topic[]
+  LessonBlock   LessonBlock? @relation(fields: [lessonBlockId], references: [id])
+  lessonBlockId Int?
+}
+
+model Class {
+  id        Int       @id @default(autoincrement())
+  name      String
+  teacher   Teacher   @relation(fields: [teacherId], references: [id])
+  teacherId Int
+  subjects  Subject[]
+}
+
+model Topic {
+  id                Int                @id @default(autoincrement())
+  name              String
+  subject           Subject            @relation(fields: [subjectId], references: [id])
+  subjectId         Int
+  teachingResources TeachingResource[]
 }
 
 model Teacher {
@@ -25,6 +50,8 @@ model Teacher {
   schoolId             Int?
   schoolSub            SchoolSubscription?     @relation(fields: [schoolSubscriptionId], references: [id])
   schoolSubscriptionId Int?
+  classes              Class[]
+  teachingResources    TeachingResource[]
 }
 
 model TeacherProfile {
@@ -32,6 +59,7 @@ model TeacherProfile {
   teacher               Teacher  @relation(fields: [teacherId], references: [id])
   teacherId             Int      @unique
   bio                   String   @default("")
+  teachingExperience    Int      @default(0)
   professionalInterests String[] @default([])
 }
 
@@ -78,4 +106,111 @@ enum SchoolPlanType {
 enum AccountType {
   INDIVIDUAL
   SCHOOL
+}
+
+model TeachingResource {
+  id             Int            @id @default(autoincrement())
+  title          String
+  teacher        Teacher        @relation(fields: [teacherId], references: [id])
+  teacherId      Int
+  topics         Topic[]
+  difficulty     Int
+  prerequisites  String[]
+  targetedSkills String[]
+  duration       String
+  resourceType   ResourceType
+  lessonBlock    LessonBlock?
+  QuestionBank   QuestionBank[]
+}
+
+enum ResourceType {
+  LESSON_PLAN
+  LESSON_BLOCK
+  QUESTION_BANK
+}
+
+model LessonPlan {
+  id            Int         @id @default(autoincrement())
+  content       String
+  lessonBlock   LessonBlock @relation(fields: [lessonBlockId], references: [id])
+  lessonBlockId Int
+}
+
+model LessonBlock {
+  id                 Int              @id @default(autoincrement())
+  teachingResource   TeachingResource @relation(fields: [teachingResourceId], references: [id])
+  teachingResourceId Int              @unique
+  subjects           Subject[]
+  blockContent       BlockContent[] // Array of BlockContent objects
+  lessonPlans        LessonPlan[]
+}
+
+model BlockContent {
+  id            Int         @id @default(autoincrement())
+  lessonBlock   LessonBlock @relation(fields: [lessonBlockId], references: [id])
+  lessonBlockId Int
+  text          Json
+  type          ideaType
+  emoji         String
+}
+
+enum ideaType {
+  STORY
+  EXAMPLE
+  ANALOGY
+  HISTORY
+  APPLICATION
+  ANTI_EXAMPLE
+  CONTRAST
+  DEFINITION
+  ACTIVITY
+  QUIZ
+}
+
+model QuestionBank {
+  id                 Int              @id @default(autoincrement())
+  teachingResource   TeachingResource @relation(fields: [teachingResourceId], references: [id])
+  teachingResourceId Int
+  questions          Question[]
+}
+
+model Question {
+  id                    Int           @id @default(autoincrement())
+  type                  QuestionType
+  questionId            String?
+  question              String?
+  bloomLevel            String?
+  topic                 String?
+  subtopic              String?
+  grade                 String?
+  bloomLevelExplanation String?
+  board                 String?
+  explanation           String?
+  learningObjectives    String[]
+  tags                  String[]
+  author                String?
+  options               String[]      @default([]) // Empty array by default
+  answerKey             String? // Optional field for answer key
+  QuestionBank          QuestionBank? @relation(fields: [questionBankId], references: [id])
+  questionBankId        Int?
+}
+
+enum QuestionType {
+  FILL_IN_THE_BLANKS
+  MULTIPLE_CHOICE_SINGLE_CORRECT
+  TRUE_FALSE
+  SHORT_ANSWER
+  ESSAY
+  LONG_ANSWER
+  MATCH_THE_FOLLOWING
+  MULTIPLE_CHOICE_MULTIPLE_CORRECT
+  ORAL_TEST
+  PROJECT
+  CASE_STUDY
+  DEBATE
+  BRAINSTORMING
+  GROUP_DISCUSSION
+  WORKSHOP
+  SYMPOSIUM
+  PANEL_DISCUSSION
 }
