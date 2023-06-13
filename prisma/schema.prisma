@@ -186,8 +186,8 @@ model Question {
   bloomLevelExplanation String?
   board                 String?
   explanation           String?
-  learningObjectives    String[]
-  tags                  String[]
+  learningObjectives    String[]      @default([]) // Empty array by default
+  tags                  String[]      @default([]) // Empty array by default
   author                String?
   options               String[]      @default([]) // Empty array by default
   answerKey             String? // Optional field for answer key
