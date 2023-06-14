@@ -138,5 +138,19 @@
     "email": "yashaswini.ganesh2022@teachforindia.org",
     "phone": "9591761013",
     "password": "bluejasminelove"
+  },
+  {
+    "id": "RaviKumar",
+    "name": "Ravi Kumar Konathala",
+    "email": "konathala.ravi1@gmail.com",
+    "phone": "+917702591144",
+    "password": "yellowgoldensun"
+  },
+  {
+    "id": "SanneGandhi",
+    "name": "Sanne Gandhi",
+    "email": "Vanderkaaij.sanne@gmail.com",
+    "phone": "8879366319",
+    "password": "redgoldensun"
   }
 ]
