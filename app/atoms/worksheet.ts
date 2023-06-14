@@ -1,5 +1,6 @@
 import { atom } from "jotai";
-import { QuestionBank, QuestionType } from "@/types";
+import { QuestionBank, QuestionType } from "../../types";
+
 type CurrentQuestion = {
   type: QuestionType;
   bloomLevel: string;
