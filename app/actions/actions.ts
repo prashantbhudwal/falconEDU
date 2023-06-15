@@ -11,7 +11,18 @@ export async function getUserData(email: string) {
   return user;
 }
 
-const saveWorksheet = async () => {
-  //write code to save worksheet to database using prisma
-  
+export const createWorksheet = async (email: string) => {
+  const user = await prisma.teacher.findUnique({
+    where: {
+      email: email,
+    },
+  });
+
+  if (!user) {
+    throw new Error("Teacher not found");
+  }
+
+  const teacherId = user.id;
+
+  return teacherId;
 };

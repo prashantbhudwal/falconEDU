@@ -10,7 +10,7 @@ import { savedQuestionsAtom } from "@/app/atoms/worksheet";
 import Canvas from "../../components/Canvas";
 import { QuestionObject } from "@/types";
 import QuestionSection from "../../components/QuestionSection";
-import { getUserData } from "@/app/actions/actions";
+import { createWorksheet } from "@/app/actions/actions";
 
 export default function Page() {
   const [topic] = useAtom(topicAtom);
@@ -19,7 +19,7 @@ export default function Page() {
   const [subject] = useAtom(subjectAtom);
   const [savedQuestions] = useAtom(savedQuestionsAtom);
   const handleLog = async () => {
-    const users = await getUserData("prashant.bhudwal@gmail.com");
+    const users = await createWorksheet("prashant.bhudwal@gmail.com");
     console.log(users);
   };
   return (
