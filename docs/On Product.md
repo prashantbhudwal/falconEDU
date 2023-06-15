@@ -25,3 +25,9 @@
     - With Google
   - Save data in the the database
 
+## On Resource Tagging
+  - Resource 
+    - Grade - Array
+    - Board - Array
+    - Subject - Array
+    - Topic - Array 

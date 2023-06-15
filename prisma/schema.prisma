@@ -10,67 +10,89 @@ datasource db {
   directUrl = env("DIRECT_URL_DEV")
 }
 
-enum Board {
-  CBSE
-  ICSE
-  IB
-  IGCSE
+model Board {
+  id       Int        @id @default(autoincrement())
+  board    String
+  grades   Grade[]
+  Metadata Metadata[]
 }
 
-enum Grade {
-  GRADE_1
-  GRADE_2
-  GRADE_3
-  GRADE_4
-  GRADE_5
-  GRADE_6
-  GRADE_7
-  GRADE_8
-  GRADE_9
-  GRADE_10
-  GRADE_11
-  GRADE_12
+model Grade {
+  id        Int        @id @default(autoincrement())
+  grade     String
+  board     Board      @relation(fields: [boardId], references: [id])
+  boardId   Int        @unique
+  subjects  Subject[]
+  Teacher   Teacher?   @relation(fields: [teacherId], references: [id])
+  teacherId Int?
+  Metadata  Metadata[]
 }
 
 model Subject {
-  id            Int          @id @default(autoincrement())
-  name          String
-  class         Class        @relation(fields: [classId], references: [id])
-  classId       Int
-  topics        Topic[]
-  LessonBlock   LessonBlock? @relation(fields: [lessonBlockId], references: [id])
-  lessonBlockId Int?
+  id       Int        @id @default(autoincrement())
+  name     String
+  grade    Grade      @relation(fields: [gradeId], references: [id])
+  gradeId  Int
+  modules  Module[]
+  Metadata Metadata[]
 }
 
-model Class {
-  id        Int       @id @default(autoincrement())
+model Module {
+  id        Int        @id @default(autoincrement())
   name      String
-  teacher   Teacher   @relation(fields: [teacherId], references: [id])
-  teacherId Int
-  subjects  Subject[]
+  subject   Subject    @relation(fields: [subjectId], references: [id])
+  subjectId Int
+  topics    Topic[]
+  Metadata  Metadata[]
 }
 
 model Topic {
-  id                Int                @id @default(autoincrement())
-  name              String
-  subject           Subject            @relation(fields: [subjectId], references: [id])
-  subjectId         Int
-  teachingResources TeachingResource[]
+  id        Int        @id @default(autoincrement())
+  name      String
+  module    Module     @relation(fields: [moduleId], references: [id])
+  moduleId  Int
+  subtopics Subtopic[]
+  Metadata  Metadata[]
+}
+
+model Subtopic {
+  id       Int        @id @default(autoincrement())
+  name     String
+  topic    Topic      @relation(fields: [topicId], references: [id])
+  topicId  Int
+  Metadata Metadata[]
+}
+
+model Metadata {
+  id             Int           @id @default(autoincrement())
+  boardId        Int
+  board          Board         @relation(fields: [boardId], references: [id])
+  gradeId        Int
+  grade          Grade         @relation(fields: [gradeId], references: [id])
+  subjectId      Int
+  subject        Subject       @relation(fields: [subjectId], references: [id])
+  moduleId       Int
+  module         Module        @relation(fields: [moduleId], references: [id])
+  topicId        Int
+  topic          Topic         @relation(fields: [topicId], references: [id])
+  subtopicId     Int
+  subtopic       Subtopic      @relation(fields: [subtopicId], references: [id])
+  questionId     Int?
+  question       Question?     @relation(fields: [questionId], references: [id])
+  blockContentId Int?
+  BlockContent   BlockContent? @relation(fields: [blockContentId], references: [id])
+
+  @@unique([boardId, gradeId, moduleId, topicId, subtopicId, questionId, blockContentId])
 }
 
 model TeachingResource {
-  id             Int            @id @default(autoincrement())
-  title          String
-  teacher        Teacher        @relation(fields: [teacherId], references: [id])
-  teacherId      Int
-  topics         Topic[]
-  difficulty     Int
-  prerequisites  String[]
-  targetedSkills String[]
-  duration       String
-  resourceType   ResourceType
-  lessonBlock    LessonBlock?
-  QuestionBank   QuestionBank[]
+  id           Int            @id @default(autoincrement())
+  title        String
+  teacher      Teacher        @relation(fields: [teacherId], references: [id])
+  teacherId    Int
+  resourceType ResourceType
+  lessonBlock  LessonBlock?
+  QuestionBank QuestionBank[]
 }
 
 enum ResourceType {
@@ -90,7 +112,6 @@ model LessonBlock {
   id                 Int              @id @default(autoincrement())
   teachingResource   TeachingResource @relation(fields: [teachingResourceId], references: [id])
   teachingResourceId Int              @unique
-  subjects           Subject[]
   blockContent       BlockContent[] // Array of BlockContent objects
   lessonPlans        LessonPlan[]
 }
@@ -102,6 +123,7 @@ model BlockContent {
   text          Json
   type          ideaType
   emoji         String
+  Metadata      Metadata[]
 }
 
 enum ideaType {
@@ -130,19 +152,13 @@ model Question {
   questionId            String?
   question              String?
   bloomLevel            String?
-  topic                 String?
-  subtopic              String?
-  grade                 String?
   bloomLevelExplanation String?
-  board                 String?
   explanation           String?
-  learningObjectives    String[]      @default([]) // Empty array by default
-  tags                  String[]      @default([]) // Empty array by default
-  author                String?
   options               String[]      @default([]) // Empty array by default
-  answerKey             String? // Optional field for answer key
+  answerKey             String[]      @default([])
   QuestionBank          QuestionBank? @relation(fields: [questionBankId], references: [id])
   questionBankId        Int?
+  Metadata              Metadata[]
 }
 
 enum QuestionType {
@@ -180,7 +196,7 @@ model Teacher {
   schoolId             Int?
   schoolSub            SchoolSubscription?     @relation(fields: [schoolSubscriptionId], references: [id])
   schoolSubscriptionId Int?
-  classes              Class[]
+  classes              Grade[]
   teachingResources    TeachingResource[]
 }
 
