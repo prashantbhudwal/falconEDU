@@ -1,12 +1,5 @@
 import { NextResponse } from "next/server";
 import prisma from "@/prisma";
-import {
-  Teacher,
-  IndividualSubscription,
-  SchoolSubscription,
-  IndividualPlanType,
-  SchoolPlanType,
-} from "@prisma/client"; // import these models from Prisma client
 export interface UserProfileData {
   id: number;
   name: string;
@@ -18,13 +11,13 @@ export interface UserProfileData {
   individualSub: {
     startDate: Date;
     endDate: Date;
-    plan: IndividualPlanType;
+    plan: String;
   } | null;
   school: {
     subscriptions: {
       startDate: Date;
       endDate: Date;
-      plan: SchoolPlanType;
+      plan: String;
     }[];
   } | null;
 }
