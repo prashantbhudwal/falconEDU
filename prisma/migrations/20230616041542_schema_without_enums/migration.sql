@@ -1,6 +1,3 @@
--- CreateEnum
-CREATE TYPE "ResourceType" AS ENUM ('LESSON_PLAN', 'LESSON_BLOCK', 'QUESTION_BANK');
-
 -- CreateTable
 CREATE TABLE "Metadata" (
     "id" SERIAL NOT NULL,
@@ -17,7 +14,7 @@ CREATE TABLE "Metadata" (
 CREATE TABLE "TeachingResource" (
     "id" SERIAL NOT NULL,
     "teacherId" INTEGER NOT NULL,
-    "resourceType" "ResourceType" NOT NULL,
+    "resourceType" TEXT NOT NULL,
 
     CONSTRAINT "TeachingResource_pkey" PRIMARY KEY ("id")
 );

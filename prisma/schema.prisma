@@ -25,15 +25,9 @@ model TeachingResource {
   id           Int            @id @default(autoincrement())
   teacher      Teacher        @relation(fields: [teacherId], references: [id])
   teacherId    Int
-  resourceType ResourceType
+  resourceType String
   lessonBlock  LessonBlock?
   QuestionBank QuestionBank[]
-}
-
-enum ResourceType {
-  LESSON_PLAN
-  LESSON_BLOCK
-  QUESTION_BANK
 }
 
 model LessonPlan {
