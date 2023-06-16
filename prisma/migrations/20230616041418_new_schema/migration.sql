@@ -1,26 +1,11 @@
 -- CreateEnum
-CREATE TYPE "Grade" AS ENUM ('GRADE_1', 'GRADE_2', 'GRADE_3', 'GRADE_4', 'GRADE_5', 'GRADE_6', 'GRADE_7', 'GRADE_8', 'GRADE_9', 'GRADE_10', 'GRADE_11', 'GRADE_12');
-
--- CreateEnum
 CREATE TYPE "ResourceType" AS ENUM ('LESSON_PLAN', 'LESSON_BLOCK', 'QUESTION_BANK');
-
--- CreateEnum
-CREATE TYPE "ideaType" AS ENUM ('STORY', 'EXAMPLE', 'ANALOGY', 'HISTORY', 'APPLICATION', 'ANTI_EXAMPLE', 'CONTRAST', 'DEFINITION', 'ACTIVITY', 'QUIZ');
-
--- CreateEnum
-CREATE TYPE "IndividualPlanType" AS ENUM ('MONTHLY', 'THREE_MONTHS', 'SIX_MONTHS', 'YEARLY', 'TRIAL');
-
--- CreateEnum
-CREATE TYPE "SchoolPlanType" AS ENUM ('SCHOOL_MONTHLY', 'SCHOOL_YEARLY', 'TRIAL');
-
--- CreateEnum
-CREATE TYPE "AccountType" AS ENUM ('INDIVIDUAL', 'SCHOOL');
 
 -- CreateTable
 CREATE TABLE "Metadata" (
     "id" SERIAL NOT NULL,
     "board" TEXT NOT NULL,
-    "grade" "Grade" NOT NULL,
+    "grade" TEXT NOT NULL,
     "subject" TEXT NOT NULL,
     "topic" TEXT NOT NULL,
     "subTopic" TEXT NOT NULL,
@@ -59,7 +44,7 @@ CREATE TABLE "BlockContent" (
     "id" SERIAL NOT NULL,
     "lessonBlockId" INTEGER NOT NULL,
     "text" JSONB NOT NULL,
-    "type" "ideaType" NOT NULL,
+    "type" TEXT NOT NULL,
     "emoji" TEXT NOT NULL,
 
     CONSTRAINT "BlockContent_pkey" PRIMARY KEY ("id")
@@ -96,10 +81,10 @@ CREATE TABLE "Teacher" (
     "password" TEXT NOT NULL,
     "phone" TEXT NOT NULL,
     "avatar" TEXT NOT NULL DEFAULT 'chubby.png',
-    "accountType" "AccountType" NOT NULL,
+    "accountType" TEXT NOT NULL,
     "schoolId" INTEGER,
     "schoolSubscriptionId" INTEGER,
-    "classes" "Grade"[],
+    "classes" TEXT[] DEFAULT ARRAY[]::TEXT[],
 
     CONSTRAINT "Teacher_pkey" PRIMARY KEY ("id")
 );
@@ -120,7 +105,7 @@ CREATE TABLE "IndividualSubscription" (
     "id" SERIAL NOT NULL,
     "startDate" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "endDate" TIMESTAMP(3) NOT NULL,
-    "plan" "IndividualPlanType" NOT NULL,
+    "plan" TEXT NOT NULL,
     "teacherId" INTEGER NOT NULL,
 
     CONSTRAINT "IndividualSubscription_pkey" PRIMARY KEY ("id")
@@ -139,7 +124,7 @@ CREATE TABLE "SchoolSubscription" (
     "id" SERIAL NOT NULL,
     "startDate" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "endDate" TIMESTAMP(3) NOT NULL,
-    "plan" "SchoolPlanType" NOT NULL,
+    "plan" TEXT NOT NULL,
     "schoolId" INTEGER NOT NULL,
 
     CONSTRAINT "SchoolSubscription_pkey" PRIMARY KEY ("id")

@@ -10,25 +10,10 @@ datasource db {
   directUrl = env("DIRECT_URL_DEV")
 }
 
-enum Grade {
-  GRADE_1
-  GRADE_2
-  GRADE_3
-  GRADE_4
-  GRADE_5
-  GRADE_6
-  GRADE_7
-  GRADE_8
-  GRADE_9
-  GRADE_10
-  GRADE_11
-  GRADE_12
-}
-
 model Metadata {
   id           Int            @id @default(autoincrement())
   board        String
-  grade        Grade
+  grade        String
   subject      String
   topic        String
   subTopic     String
@@ -71,22 +56,9 @@ model BlockContent {
   lessonBlock   LessonBlock @relation(fields: [lessonBlockId], references: [id])
   lessonBlockId Int
   text          Json
-  type          ideaType
+  type          String
   emoji         String
   Metadata      Metadata[]  @relation("BlockContentToMetadata")
-}
-
-enum ideaType {
-  STORY
-  EXAMPLE
-  ANALOGY
-  HISTORY
-  APPLICATION
-  ANTI_EXAMPLE
-  CONTRAST
-  DEFINITION
-  ACTIVITY
-  QUIZ
 }
 
 model QuestionBank {
@@ -119,13 +91,13 @@ model Teacher {
   phone                String
   profile              TeacherProfile?
   avatar               String                  @default("chubby.png")
-  accountType          AccountType
+  accountType          String
   individualSub        IndividualSubscription?
   school               School?                 @relation(fields: [schoolId], references: [id])
   schoolId             Int?
   schoolSub            SchoolSubscription?     @relation(fields: [schoolSubscriptionId], references: [id])
   schoolSubscriptionId Int?
-  classes              Grade[]
+  classes              String[]                @default([])
   teachingResources    TeachingResource[]
 }
 
@@ -139,20 +111,12 @@ model TeacherProfile {
 }
 
 model IndividualSubscription {
-  id        Int                @id @default(autoincrement())
-  startDate DateTime           @default(now())
+  id        Int      @id @default(autoincrement())
+  startDate DateTime @default(now())
   endDate   DateTime
-  plan      IndividualPlanType
-  teacher   Teacher            @relation(fields: [teacherId], references: [id])
-  teacherId Int                @unique
-}
-
-enum IndividualPlanType {
-  MONTHLY
-  THREE_MONTHS
-  SIX_MONTHS
-  YEARLY
-  TRIAL
+  plan      String
+  teacher   Teacher  @relation(fields: [teacherId], references: [id])
+  teacherId Int      @unique
 }
 
 model School {
@@ -163,22 +127,11 @@ model School {
 }
 
 model SchoolSubscription {
-  id        Int            @id @default(autoincrement())
-  startDate DateTime       @default(now())
+  id        Int       @id @default(autoincrement())
+  startDate DateTime  @default(now())
   endDate   DateTime
-  plan      SchoolPlanType
-  school    School         @relation(fields: [schoolId], references: [id])
+  plan      String
+  school    School    @relation(fields: [schoolId], references: [id])
   schoolId  Int
   teachers  Teacher[]
-}
-
-enum SchoolPlanType {
-  SCHOOL_MONTHLY
-  SCHOOL_YEARLY
-  TRIAL
-}
-
-enum AccountType {
-  INDIVIDUAL
-  SCHOOL
 }
