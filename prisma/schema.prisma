@@ -10,84 +10,34 @@ datasource db {
   directUrl = env("DIRECT_URL_DEV")
 }
 
-model Board {
-  id       Int        @id @default(autoincrement())
-  board    String
-  grades   Grade[]
-  Metadata Metadata[]
-}
-
-model Grade {
-  id        Int        @id @default(autoincrement())
-  grade     String
-  board     Board      @relation(fields: [boardId], references: [id])
-  boardId   Int        @unique
-  subjects  Subject[]
-  Teacher   Teacher?   @relation(fields: [teacherId], references: [id])
-  teacherId Int?
-  Metadata  Metadata[]
-}
-
-model Subject {
-  id       Int        @id @default(autoincrement())
-  name     String
-  grade    Grade      @relation(fields: [gradeId], references: [id])
-  gradeId  Int
-  modules  Module[]
-  Metadata Metadata[]
-}
-
-model Module {
-  id        Int        @id @default(autoincrement())
-  name      String
-  subject   Subject    @relation(fields: [subjectId], references: [id])
-  subjectId Int
-  topics    Topic[]
-  Metadata  Metadata[]
-}
-
-model Topic {
-  id        Int        @id @default(autoincrement())
-  name      String
-  module    Module     @relation(fields: [moduleId], references: [id])
-  moduleId  Int
-  subtopics Subtopic[]
-  Metadata  Metadata[]
-}
-
-model Subtopic {
-  id       Int        @id @default(autoincrement())
-  name     String
-  topic    Topic      @relation(fields: [topicId], references: [id])
-  topicId  Int
-  Metadata Metadata[]
+enum Grade {
+  GRADE_1
+  GRADE_2
+  GRADE_3
+  GRADE_4
+  GRADE_5
+  GRADE_6
+  GRADE_7
+  GRADE_8
+  GRADE_9
+  GRADE_10
+  GRADE_11
+  GRADE_12
 }
 
 model Metadata {
-  id             Int           @id @default(autoincrement())
-  boardId        Int
-  board          Board         @relation(fields: [boardId], references: [id])
-  gradeId        Int
-  grade          Grade         @relation(fields: [gradeId], references: [id])
-  subjectId      Int
-  subject        Subject       @relation(fields: [subjectId], references: [id])
-  moduleId       Int
-  module         Module        @relation(fields: [moduleId], references: [id])
-  topicId        Int
-  topic          Topic         @relation(fields: [topicId], references: [id])
-  subtopicId     Int
-  subtopic       Subtopic      @relation(fields: [subtopicId], references: [id])
-  questionId     Int?
-  question       Question?     @relation(fields: [questionId], references: [id])
-  blockContentId Int?
-  BlockContent   BlockContent? @relation(fields: [blockContentId], references: [id])
-
-  @@unique([boardId, gradeId, moduleId, topicId, subtopicId, questionId, blockContentId])
+  id           Int            @id @default(autoincrement())
+  board        String
+  grade        Grade
+  subject      String
+  topic        String
+  subTopic     String
+  Question     Question[]     @relation("QuestionToMetadata")
+  BlockContent BlockContent[] @relation("BlockContentToMetadata")
 }
 
 model TeachingResource {
   id           Int            @id @default(autoincrement())
-  title        String
   teacher      Teacher        @relation(fields: [teacherId], references: [id])
   teacherId    Int
   resourceType ResourceType
@@ -112,7 +62,7 @@ model LessonBlock {
   id                 Int              @id @default(autoincrement())
   teachingResource   TeachingResource @relation(fields: [teachingResourceId], references: [id])
   teachingResourceId Int              @unique
-  blockContent       BlockContent[] // Array of BlockContent objects
+  blockContent       BlockContent[]
   lessonPlans        LessonPlan[]
 }
 
@@ -123,7 +73,7 @@ model BlockContent {
   text          Json
   type          ideaType
   emoji         String
-  Metadata      Metadata[]
+  Metadata      Metadata[]  @relation("BlockContentToMetadata")
 }
 
 enum ideaType {
@@ -148,37 +98,16 @@ model QuestionBank {
 
 model Question {
   id                    Int           @id @default(autoincrement())
-  type                  QuestionType
-  questionId            String?
+  type                  String?
   question              String?
   bloomLevel            String?
   bloomLevelExplanation String?
   explanation           String?
-  options               String[]      @default([]) // Empty array by default
+  options               String[]      @default([])
   answerKey             String[]      @default([])
   QuestionBank          QuestionBank? @relation(fields: [questionBankId], references: [id])
   questionBankId        Int?
-  Metadata              Metadata[]
-}
-
-enum QuestionType {
-  FILL_IN_THE_BLANKS
-  MULTIPLE_CHOICE_SINGLE_CORRECT
-  TRUE_FALSE
-  SHORT_ANSWER
-  ESSAY
-  LONG_ANSWER
-  MATCH_THE_FOLLOWING
-  MULTIPLE_CHOICE_MULTIPLE_CORRECT
-  ORAL_TEST
-  PROJECT
-  CASE_STUDY
-  DEBATE
-  BRAINSTORMING
-  GROUP_DISCUSSION
-  WORKSHOP
-  SYMPOSIUM
-  PANEL_DISCUSSION
+  Metadata              Metadata[]    @relation("QuestionToMetadata")
 }
 
 // Users
