@@ -5,7 +5,6 @@ import axios from "axios";
 import Image from "next/image";
 import Section from "../components/Section";
 import { RotateLoader } from "react-spinners";
-import { UserProfileData } from "../api/db/user/[email]/route";
 import EditProfileModal from "./EditProfileModal";
 async function fetchUserData(url: any) {
   try {
@@ -24,10 +23,8 @@ export default function ProfilePage() {
     data: user,
     error,
     isLoading,
-  } = useSWR<UserProfileData>(
-    email ? `/api/db/user/${email}` : null,
-    fetchUserData
-  );
+  } = useSWR(email ? `/api/db/user/${email}` : null, fetchUserData);
+  console.log(user);
 
   if (sessionStatus === "loading" || isLoading) {
     return (
@@ -48,7 +45,7 @@ export default function ProfilePage() {
           <div className="flex-shrink-0">
             <Image
               className="rounded-full object-cover"
-              src={"/chubbi.png"}
+              src={user.image}
               height={75}
               width={75}
               alt="Falcon Logo"
@@ -56,13 +53,16 @@ export default function ProfilePage() {
           </div>
           <div className="flex flex-col gap-2">
             <div className="inline-flex items-start space-x-2">
-              <h2 className="text-3xl">{user?.name}</h2>
-              {user?.accountType === "INDIVIDUAL" && (
-                <span className="badge badge-accent -mt-1 ml-2">Pro</span>
-              )}
+              <h2 className="text-3xl">{user.name}</h2>
+
+              <span className="badge badge-accent -mt-1 ml-2">
+                {user.role === "PRO" ? "PRO" : "TRIAL"}
+              </span>
             </div>
             <p className="text-lg text-slate-300">
-              {!user?.profile?.bio ? "Your Headline" : user?.profile?.bio}
+              {!user?.teacherProfile?.bio
+                ? "Your Headline"
+                : user?.teacherProfile?.bio}
             </p>
           </div>
           <div className="absolute top-0 right-0 mt-4 mr-6 pr-4">
@@ -85,23 +85,23 @@ export default function ProfilePage() {
           <div className="grid grid-cols-2 gap-4 text-xl">
             <div>
               <p className="font-bold text-slate-200">Plan</p>
-              <p>
-                {user?.individualSub?.plan ? user?.individualSub?.plan : "Plan"}
-              </p>
+              <p>{user?.plan ? user?.plan : "Plan"}</p>
             </div>
             <div>
               <p className="font-bold text-slate-200">Start Date</p>
               <p>
-                {user?.individualSub?.startDate
-                  ? user?.individualSub?.startDate?.getDate.toString()
+                {user?.subscriptionStart
+                  ? new Date(user?.subscriptionStart)
+                      .toISOString()
+                      .split("T")[0]
                   : "Start Date"}
               </p>
             </div>
             <div>
               <p className="font-bold text-slate-200">End Date</p>
               <p>
-                {user?.individualSub?.endDate
-                  ? user?.individualSub?.endDate?.getDate.toString()
+                {user?.subscriptionEnd
+                  ? new Date(user?.subscriptionEnd).toISOString().split("T")[0]
                   : "End Date"}
               </p>
             </div>
