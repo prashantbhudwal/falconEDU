@@ -5,7 +5,6 @@ import { useSession } from "next-auth/react";
 import { mutate } from "swr";
 import axios from "axios";
 import useSWR from "swr";
-import { UserProfileData } from "../api/db/user/[email]/route";
 async function fetchUserData(url: any) {
   try {
     const response = await axios.get(url);
@@ -24,7 +23,7 @@ function EditProfileModal() {
     data: user,
     error,
     isLoading,
-  } = useSWR<UserProfileData>(
+  } = useSWR(
     email ? `/api/db/user/${email}` : null,
     fetchUserData
   );
@@ -43,7 +42,6 @@ function EditProfileModal() {
   const onSubmit = async (data: any) => {
     try {
       const response = await axios.post(`/api/db/user/${data.email}`, {
-        id: session?.user?.id,
         name: data.name,
         email: data.email,
         phone: data.phone,
