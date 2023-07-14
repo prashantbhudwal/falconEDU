@@ -34,45 +34,48 @@ export async function GET(
   return NextResponse.json(user);
 }
 
-// export async function POST(
-//   request: Request,
-//   {
-//     params,
-//   }: {
-//     params: { email: string };
-//   }
-// ) {
-//   const email = params.email;
-//   const body = await request.json();
-//   console.log(body);
+export async function POST(
+  request: Request,
+  {
+    params,
+  }: {
+    params: { email: string };
+  }
+) {
+  const email = params.email;
+  const body = await request.json();
 
-//   const { id, name, phone, headline } = body;
+  const { id, name, phone, headline } = body;
 
-//   try {
-//     const updatedTeacher = await prisma.teacher.update({
-//       where: {
-//         email: email,
-//       },
-//       data: {
-//         name: name,
-//         email: email,
-//         phone: phone,
-//         profile: {
-//           update: {
-//             bio: headline,
-//           },
-//         },
-//       },
-//     });
+  try {
+    const updatedTeacher = await prisma.user.update({
+      where: {
+        email: email,
+      },
+      data: {
+        name: name,
+        email: email,
+        teacherProfile: {
+          upsert: {
+            create: {
+              bio: headline,
+            },
+            update: {
+              bio: headline,
+            },
+          },
+        },
+      },
+    });
 
-//     return NextResponse.json(updatedTeacher, { status: 200 });
-//   } catch (error) {
-//     console.error("Error updating teacher's profile:", error);
-//     return NextResponse.json(
-//       {
-//         error: `Unable to update teacher's profile: ${error}`,
-//       },
-//       { status: 500 }
-//     );
-//   }
-// }
+    return NextResponse.json(updatedTeacher, { status: 200 });
+  } catch (error) {
+    console.error("Error updating teacher's profile:", error);
+    return NextResponse.json(
+      {
+        error: `Unable to update teacher's profile: ${error}`,
+      },
+      { status: 500 }
+    );
+  }
+}
