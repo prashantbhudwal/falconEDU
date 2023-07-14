@@ -5,7 +5,7 @@ import axios from "axios";
 import Image from "next/image";
 import Section from "../components/Section";
 import { RotateLoader } from "react-spinners";
-import EditProfileModal from "./EditProfileModal";
+import EditProfileModal from "./edit/Modal";
 async function fetchUserData(url: any) {
   try {
     const response = await axios.get(url);
@@ -74,10 +74,6 @@ export default function ProfilePage() {
             <div>
               <p className="font-bold text-slate-200">Email</p>
               <p>{user?.email}</p>
-            </div>
-            <div>
-              <p className="font-bold text-slate-200">Phone</p>
-              <p>{user?.phone}</p>
             </div>
           </div>
         </Section>
