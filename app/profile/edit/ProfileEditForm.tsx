@@ -22,7 +22,7 @@ function ProfileEditForm({ closeModal }: { closeModal: () => void }) {
     defaultValues: {
       name: user?.name,
       email: user?.email,
-      headline: user?.profile?.bio,
+      headline: user?.teacherProfile?.bio,
     },
   });
   const onSubmit = async (data: any) => {
@@ -53,16 +53,18 @@ function ProfileEditForm({ closeModal }: { closeModal: () => void }) {
       <div className="flex flex-col gap-3 max-w-xl items-center">
         <h1 className="text-3xl font-bold text-slate-200 mb-6">Edit Profile</h1>
         <input
-          className="input input-bordered w-full max-w-md bg-slate-400 placeholder:text-slate-700 text-slate-900 focus:bg-slate-200"
+          className="input input-bordered w-full max-w-md bg-slate-400 placeholder:text-slate-700 text-slate-900 focus:bg-slate-200 disabled:bg-slate-400 disabled:text-slate-700"
           type="text"
           placeholder="Full Name"
           {...register("name", { required: true, maxLength: 50 })}
+          disabled
         />
         <input
-          className="input input-bordered w-full max-w-md bg-slate-400 placeholder:text-slate-700 text-slate-900 focus:bg-slate-200"
+          className="input input-bordered w-full max-w-md bg-slate-400 placeholder:text-slate-700 text-slate-900 focus:bg-slate-200 disabled:bg-slate-400 disabled:text-slate-700"
           type="email"
           placeholder="Email"
           {...register("email", { required: true })}
+          disabled
         />
         <input
           className="input input-bordered w-full max-w-md bg-slate-400 placeholder:text-slate-700 text-slate-900 focus:bg-slate-200"
