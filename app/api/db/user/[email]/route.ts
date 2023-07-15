@@ -1,16 +1,8 @@
 import { NextResponse } from "next/server";
 import prisma from "@/prisma";
 
-export async function GET(
-  request: Request,
-  {
-    params,
-  }: {
-    params: { email: string };
-  }
-) {
-  const email = params.email;
-  let user = await prisma.user.findUnique({
+export const getUser = function (email: any) {
+  return prisma.user.findUnique({
     where: {
       email: email,
     },
@@ -30,6 +22,18 @@ export async function GET(
       },
     },
   });
+};
+
+export async function GET(
+  request: Request,
+  {
+    params,
+  }: {
+    params: { email: string };
+  }
+) {
+  const email = params.email;
+  let user = await getUser(email);
   console.log(user);
   return NextResponse.json(user);
 }
@@ -53,8 +57,6 @@ export async function POST(
         email: email,
       },
       data: {
-        name: name,
-        email: email,
         teacherProfile: {
           upsert: {
             create: {
