@@ -1,6 +1,6 @@
 import { signIn } from "next-auth/react";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../api/auth/[...nextauth]/route";
+import { authOptions } from "../api/auth/[...nextauth]/authOptions";
 import { getUser } from "../api/db/user/[email]/route";
 import LandingPage from "../Landing";
 
