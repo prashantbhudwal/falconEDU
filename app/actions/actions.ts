@@ -3,7 +3,7 @@ import prisma from "@/prisma";
 
 export async function getUserData(email: string) {
   //write code to fetch user data from database using prisma
-  let user = await prisma.teacher.findUnique({
+  let user = await prisma.user.findUnique({
     where: {
       email: email,
     },
@@ -12,7 +12,7 @@ export async function getUserData(email: string) {
 }
 
 export const createWorksheet = async (email: string) => {
-  const user = await prisma.teacher.findUnique({
+  const user = await prisma.user.findUnique({
     where: {
       email: email,
     },
