@@ -4,7 +4,7 @@ import "./globals.css";
 import { Analytics } from "@vercel/analytics/react";
 import Providers from "./providers/providers";
 import { Inter } from "next/font/google";
-import Upgrade from "./upgrade/Upgrade";
+import Upgrade from "./Upgrade";
 
 const inter = Inter({
   subsets: ["latin"],

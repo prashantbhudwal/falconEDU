@@ -1,8 +1,8 @@
 import { signIn } from "next-auth/react";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../api/auth/[...nextauth]/authOptions";
-import { getUser } from "../api/db/user/[email]/route";
-import LandingPage from "../Landing";
+import { authOptions } from "./api/auth/[...nextauth]/authOptions";
+import { getUser } from "./api/db/user/[email]/route";
+import LandingPage from "./Landing";
 
 export const revalidate = 3600; // revalidate every hour
 
