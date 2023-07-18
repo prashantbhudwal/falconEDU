@@ -77,7 +77,7 @@ export const authOptions: AuthOptions = {
   jwt: {
     maxAge: 3 * 24 * 60 * 60, // 3 days
   },
-  //   pages: {
-  //     signIn: "/signIn",
-  //   },
+  pages: {
+    signIn: "/",
+  },
 };
