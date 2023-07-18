@@ -4,7 +4,7 @@ import { authOptions } from "./api/auth/[...nextauth]/authOptions";
 import { getUser } from "./api/db/user/[email]/route";
 import LandingPage from "./Landing";
 
-export const revalidate = 3600; // revalidate every hour
+export const dynamic = `force-dynamic`;
 
 function hasSubscriptionEnded(subscriptionEndDate: any): boolean {
   // Get current date/time
