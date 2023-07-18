@@ -40,7 +40,7 @@ const LandingPage = () => {
         9833045490.
       </p>
       <button
-        onClick={() => signIn()}
+        onClick={() => signIn("google", { callbackUrl: "/preferences" })}
         className={`bg-emerald-500 text-slate-800 px-28 py-4 rounded-lg text-lg font-semibold hover:bg-emerald-600 transition duration-200 ease-in-out`}
       >
         {sessionStatus === "loading"
