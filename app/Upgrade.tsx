@@ -4,7 +4,7 @@ import { authOptions } from "./api/auth/[...nextauth]/authOptions";
 import { getUser } from "./api/db/user/[email]/route";
 import LandingPage from "./Landing";
 
-export const dynamic = `force-dynamic`;
+// export const dynamic = `force-dynamic`;
 export const revalidate = 6000;
 
 function hasSubscriptionEnded(subscriptionEndDate: any): boolean {
