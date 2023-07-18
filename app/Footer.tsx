@@ -35,11 +35,18 @@ export default function Footer() {
       {session && sessionStatus === "authenticated" && (
         <div className="flex flex-col items-start gap-3">
           <h2 className="font-bold text-lg mb-2">Account</h2>
+
           <button
             onClick={() => router.push("/preferences")}
             className="hover:text-slate-500 underline underline-offset-4 block"
           >
             Lesson Settings
+          </button>
+          <button
+            onClick={() => router.push("/profile")}
+            className="hover:text-slate-500 underline underline-offset-4 block"
+          >
+            Profile
           </button>
           <button
             onClick={() => signOut()}

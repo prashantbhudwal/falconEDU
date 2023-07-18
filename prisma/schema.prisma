@@ -1,0 +1,161 @@
+// OpenAI CHAT: https://chat.openai.com/share/1ce7799d-ee4f-44b3-af2c-d57c2b00b1cd
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL_DEV")
+  directUrl = env("DIRECT_URL_DEV")
+}
+
+//**************** Auth Models ****************//
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Custom fields
+  plan              String?
+  isTrialUser       Boolean         @default(true)
+  subscriptionStart DateTime?
+  subscriptionEnd   DateTime?
+  userType          UserType
+  role              Role            @default(TRIAL)
+  teacherProfile    TeacherProfile?
+}
+
+//*********************** App Models *****************************//
+
+//**************** App > User Models ****************//
+
+model TeacherProfile {
+  id                 String             @id @default(cuid())
+  classes            String[]           @default([])
+  teachingResources  TeachingResource[]
+  bio                String             @default("")
+  teachingExperience Int                @default(0)
+  User               User               @relation(fields: [userId], references: [id])
+  userId             String             @unique
+}
+
+enum UserType {
+  TEACHER
+  STUDENT
+}
+
+enum Role {
+  TRIAL
+  PRO
+}
+
+//**************** App > Resource Models ****************//
+
+model Metadata {
+  id           Int            @id @default(autoincrement())
+  board        String
+  grade        String
+  subject      String
+  topic        String
+  subTopic     String
+  Question     Question[]     @relation("QuestionToMetadata")
+  BlockContent BlockContent[] @relation("BlockContentToMetadata")
+}
+
+model TeachingResource {
+  id           Int            @id @default(autoincrement())
+  teacher      TeacherProfile @relation(fields: [teacherId], references: [id])
+  teacherId    String
+  resourceType String
+  lessonBlock  LessonBlock?
+  QuestionBank QuestionBank[]
+}
+
+model LessonPlan {
+  id            Int         @id @default(autoincrement())
+  content       String
+  lessonBlock   LessonBlock @relation(fields: [lessonBlockId], references: [id])
+  lessonBlockId Int
+}
+
+model LessonBlock {
+  id                 Int              @id @default(autoincrement())
+  teachingResource   TeachingResource @relation(fields: [teachingResourceId], references: [id])
+  teachingResourceId Int              @unique
+  blockContent       BlockContent[]
+  lessonPlans        LessonPlan[]
+}
+
+model BlockContent {
+  id            Int         @id @default(autoincrement())
+  lessonBlock   LessonBlock @relation(fields: [lessonBlockId], references: [id])
+  lessonBlockId Int
+  text          String
+  type          String
+  emoji         String
+  Metadata      Metadata[]  @relation("BlockContentToMetadata")
+}
+
+model QuestionBank {
+  id                 Int              @id @default(autoincrement())
+  teachingResource   TeachingResource @relation(fields: [teachingResourceId], references: [id])
+  teachingResourceId Int
+  questions          Question[]
+}
+
+model Question {
+  id                    Int           @id @default(autoincrement())
+  type                  String?
+  question              String?
+  bloomLevel            String?
+  bloomLevelExplanation String?
+  explanation           String?
+  options               String[]      @default([])
+  answerKey             String[]      @default([])
+  QuestionBank          QuestionBank? @relation(fields: [questionBankId], references: [id])
+  questionBankId        Int?
+  Metadata              Metadata[]    @relation("QuestionToMetadata")
+}
