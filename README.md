@@ -4,4 +4,4 @@
 
 Use Falcon AI to create lesson plans specific to your book, curriculum or board, with effortless drag and drop.
 
-Now has auth.
+Now has auth. And database.
