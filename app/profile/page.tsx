@@ -43,13 +43,23 @@ export default function ProfilePage() {
       <div className="max-w-4xl mx-auto">
         <div className="relative px-6 py-10 mb-6 flex items-center space-x-6 bg-emerald-900 w-full rounded-lg">
           <div className="flex-shrink-0">
-            <Image
-              className="rounded-full object-cover"
-              src={user.image}
-              height={75}
-              width={75}
-              alt="Falcon Logo"
-            />
+            {user.image ? (
+              <Image
+                className="rounded-full object-cover"
+                src={user.image}
+                height={75}
+                width={75}
+                alt="Falcon Logo"
+              />
+            ) : (
+              <Image
+                className="rounded-full object-cover"
+                src={"/chubbi.png"}
+                height={75}
+                width={75}
+                alt="Falcon Logo"
+              />
+            )}
           </div>
           <div className="flex flex-col gap-2">
             <div className="inline-flex items-start space-x-2">
