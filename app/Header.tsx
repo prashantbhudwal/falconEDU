@@ -50,24 +50,25 @@ export default function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-50  text-slate-200 pt-5 pl-4 pr-6 pb-2 bg-slate-900">
+    <header className="sticky top-0 z-50  text-slate-200 pt-3 pl-4 pr-6 pb-1 bg-slate-900">
       <div className="flex items-center justify-between">
         <Link href="/">
-          <div className={`flex gap-4`}>
+          <div className={`flex gap-3`}>
             <div
-              className={`${!contentStreamCompleted && "animate-breath"}
+              className={`${!contentStreamCompleted && "animate-breath"} my-auto
             `}
             >
               <Image
                 src={"/chubbi.png"}
-                height={45}
-                width={45}
+                height={35}
+                width={35}
                 alt="Falcon Logo"
+                className="my-auto"
               />
             </div>
             <div>
-              <h1 className="text-lg">FalconAI</h1>
-              <p className="text-sm  text-slate-400">
+              <h1 className="text-sm font-medium">FalconAI</h1>
+              <p className="text-xs  text-slate-400">
                 {session
                   ? `${session?.user?.name?.split(" ")[0]}'s Assistant`
                   : `Teaching Assistant`}
