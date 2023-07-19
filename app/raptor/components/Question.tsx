@@ -9,7 +9,7 @@ type QuestionProps = {
 
 const Question: React.FC<QuestionProps> = ({ index, question, onClick }) => {
   return (
-    <div className="" onClick={onClick}>
+    <div className="text-sm" onClick={onClick}>
       {index}. {question.question}
       <div className="pt-2">
         {"options" in question &&

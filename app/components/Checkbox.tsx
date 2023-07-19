@@ -20,7 +20,7 @@ const Checkbox: React.FC<CheckboxProps> = ({
   };
 
   return (
-    <label className="flex items-center space-x-2">
+    <label className="flex items-center space-x-2 text-sm">
       <input
         type="checkbox"
         name="questionType"
