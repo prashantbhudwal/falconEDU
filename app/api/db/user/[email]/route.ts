@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import prisma from "@/prisma";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 
 export const getUser = function (email: any) {
   return prisma.user.findUnique({
@@ -32,9 +34,12 @@ export async function GET(
     params: { email: string };
   }
 ) {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    return NextResponse.redirect("/");
+  }
   const email = params.email;
   let user = await getUser(email);
-  console.log(user);
   return NextResponse.json(user);
 }
 
@@ -46,6 +51,10 @@ export async function POST(
     params: { email: string };
   }
 ) {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    return NextResponse.redirect("/");
+  }
   const email = params.email;
   const body = await request.json();
 
