@@ -10,8 +10,6 @@ import { startedAtom } from "@/app/atoms/app";
 import { lessonIdeasAtom } from "@/app/atoms/lesson";
 import { useRouter } from "next/navigation";
 import { gradeAtom, boardAtom, subjectAtom } from "@/app/atoms/preferences";
-import Button from "@/app/components/Button";
-import TextInput from "../TextInput";
 export default function Page() {
   const [contentStreamCompleted] = useAtom(contentStreamCompletedAtom);
   const [topic] = useAtom(topicAtom);
@@ -53,19 +51,21 @@ export default function Page() {
 
   return (
     <div className="flex flex-col gap-10 items-center m-4">
-      <div className="flex gap-3">
-        <TextInput
+      <div className="join">
+        <input
+          className="input input-bordered w-96 join-item"
           value={subtopic}
           onChange={handleChange}
           placeholder="Enter any topic..."
         />
 
-        <Button
+        <button
           onClick={handleStart}
           disabled={!subtopic || !contentStreamCompleted}
+          className={`my-auto join-item btn btn-primary`}
         >
           New Lesson
-      </Button>
+        </button>
       </div>
 
       {!contentStreamCompleted ? (

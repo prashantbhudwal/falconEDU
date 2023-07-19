@@ -8,8 +8,6 @@ import PredictionGrid from "../PredictionGrid";
 import { topicAtom, subtopicAtom } from "@/app/atoms/preferences";
 import { useRouter } from "next/navigation";
 import { gradeAtom, boardAtom, subjectAtom } from "@/app/atoms/preferences";
-import TextInput from "../TextInput";
-import Button from "../../components/Button";
 import { userFlowAtom } from "@/app/atoms/app";
 
 export default function Page() {
@@ -54,20 +52,22 @@ export default function Page() {
 
   return (
     <div className="flex flex-col gap-10 items-center m-4">
-      <div className="flex gap-3">
-        <TextInput
+      <div className="join">
+        <input
+          className="input input-bordered w-96 join-item"
           value={topic}
           onChange={handleTopicChange}
           placeholder="Enter a chapter..."
         />
-        <Button
+        <button
           onClick={handleClick}
           disabled={!topic || !contentStreamCompleted}
-          secondary={userFlow === "worksheet"}
-          primary={userFlow !== "worksheet"}
+          className={`my-auto join-item ${
+            userFlow === "worksheet" ? "btn btn-secondary" : "btn btn-primary"
+          }`}
         >
           Next
-        </Button>
+        </button>
       </div>
 
       {!contentStreamCompleted ? (
