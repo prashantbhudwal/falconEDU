@@ -37,7 +37,7 @@ const Button: React.FC<ButtonProps> = ({
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.9 }}
       {...props}
-      className={`${buttonStyle} ring-1 ring-slate-700 rounded-md capitalize disabled:opacity-50 px-6 py-2 ${
+      className={`${buttonStyle} ring-1 ring-slate-700 rounded-md font-medium capitalize disabled:opacity-50 px-8 py-2 ${
         props.className ? props.className : ""
       }`}
     >

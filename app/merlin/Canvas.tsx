@@ -117,15 +117,15 @@ export default function Canvas({ className }: { className?: string }) {
       }`}
     >
       <header className="font-medium text-emerald-500 border-b border-solid border-emerald-700 pb-2 flex flex-row justify-between w-full items-center">
-        <div className="text-left text-emerald-600 text-xs">
+        <div className="text-left text-emerald-600 text-sm">
           {`Grade ${grade}`}
-          <p className="text-xs w-10">{subject}</p>
+          <p className="text-sm w-10">{subject}</p>
         </div>
         <div className="text-center max-w-xl">
           <h1 className="text-lg">{subtopic}</h1>
           <p className=" text-base  text-slate-600">{topic}</p>
         </div>
-        <div className="text-xs text-left text-emerald-600">{board}</div>
+        <div className="text-sm text-left text-emerald-600">{board}</div>
       </header>
       {!blockType && lessonIdeas.length === 0 && (
         <div className="text-emerald-900 text-center text-4xl pt-24">
