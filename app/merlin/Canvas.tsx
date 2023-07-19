@@ -8,6 +8,7 @@ import { v4 as uuid } from "uuid";
 import LiveBlock from "./components/LiveBlock";
 import { useRouter } from "next/navigation";
 import { BlockContent } from "@/types";
+import Header from "../components/Header";
 import {
   topicAtom,
   subtopicAtom,
@@ -116,17 +117,14 @@ export default function Canvas({ className }: { className?: string }) {
         isOver ? "shadow-inner bg-emerald-900" : "shadow-md bg-slate-900"
       }`}
     >
-      <header className="font-medium text-emerald-500 border-b border-solid border-emerald-700 pb-2 flex flex-row justify-between w-full items-center">
-        <div className="text-left text-emerald-600 text-sm">
-          {`Grade ${grade}`}
-          <p className="text-sm w-10">{subject}</p>
-        </div>
-        <div className="text-center max-w-xl">
-          <h1 className="text-lg">{subtopic}</h1>
-          <p className=" text-base  text-slate-600">{topic}</p>
-        </div>
-        <div className="text-sm text-left text-emerald-600">{board}</div>
-      </header>
+      <Header
+        leftTop={`Grade ${grade}`}
+        leftBottom={subject}
+        rightTop={board}
+        heading={subtopic}
+        subheading={topic}
+        color="primary"
+      />
       {!blockType && lessonIdeas.length === 0 && (
         <div className="text-emerald-900 text-center text-4xl pt-24">
           <p>Drop a Lesson Block Here</p>
