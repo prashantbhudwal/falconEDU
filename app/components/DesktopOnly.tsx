@@ -1,4 +1,4 @@
-import LinkButton from "./LinkButton";
+import Link from "next/link";
 
 export default function DesktopOnly() {
   return (
@@ -11,9 +11,12 @@ export default function DesktopOnly() {
         FalconAI works on large screens only. Do not worry, we are working on
         giving it the power to miniaturize itself and join you on the go!
       </p>
-      <LinkButton href="https://www.youtube.com/watch?v=Rh9pBJRJ0zI">
+      <Link
+        className="btn btn-primary"
+        href="https://www.youtube.com/watch?v=Rh9pBJRJ0zI"
+      >
         Watch FalconAI Demo
-      </LinkButton>
+      </Link>
     </div>
   );
 }
