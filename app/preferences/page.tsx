@@ -1,5 +1,6 @@
 "use client";
 import gradeData from "../data/subjects.json";
+import boards from "../data/boards.json";
 import { useRouter } from "next/navigation";
 import { useAtom } from "jotai";
 import { boardAtom, subjectAtom, gradeAtom } from "../atoms/preferences";
@@ -9,7 +10,6 @@ import { userFlowAtom } from "../atoms/app";
 
 import { useEffect } from "react";
 export default function Home() {
-  const boards = ["CBSE", "ICSE"];
   const router = useRouter();
   const [board, setBoard] = useAtom(boardAtom);
   const [subject, setSubject] = useAtom(subjectAtom);
@@ -23,7 +23,7 @@ export default function Home() {
       router.prefetch("/merlin");
       router.prefetch("/magic/aid/lesson");
     } else if (userFlow === "worksheet") {
-    router.prefetch("/preferences/multipleSubtopics");
+      router.prefetch("/preferences/multipleSubtopics");
       router.prefetch("/raptor");
       router.prefetch("/raptor/magic/worksheet");
       router.prefetch("/raptor/magic/aid/answerKey");
