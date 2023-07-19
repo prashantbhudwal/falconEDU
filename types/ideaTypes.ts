@@ -9,6 +9,8 @@ export type ideaType =
   | "definition"
   | "activity"
   | "quiz"
+  | "features"
+  | "glossary"
   | "";
 
 export type aidType =
