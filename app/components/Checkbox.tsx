@@ -20,16 +20,16 @@ const Checkbox: React.FC<CheckboxProps> = ({
   };
 
   return (
-    <label className="flex items-center space-x-2 text-sm">
+    <label className="label text-sm">
+      <span className={"label-text"}>{label}</span>
       <input
         type="checkbox"
         name="questionType"
         value={value}
         checked={checked}
         onChange={handleCheckboxChange}
-        className="appearance-none h-4 w-4 border border-gray-300 rounded-sm checked:bg-fuchsia-600 checked:border-transparent focus:outline-none"
+        className="checkbox checkbox-info checkbox-sm"
       />
-      <span className={checked ? "text-fuchsia-600" : ""}>{label}</span>
     </label>
   );
 };
