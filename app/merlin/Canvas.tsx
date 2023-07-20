@@ -4,7 +4,6 @@ import { useState, useEffect, useCallback } from "react";
 import CanvasBlock from "./components/CanvasBlock";
 import useFalconStream from "@/app/merlin/hooks/useFalconStream";
 import { getEmoji } from "../utils";
-import { v4 as uuid } from "uuid";
 import LiveBlock from "./components/LiveBlock";
 import { useRouter } from "next/navigation";
 import { BlockContent } from "@/types";
@@ -23,6 +22,7 @@ import { generateDocx } from "../utils/generateDocx";
 import { contentStreamCompletedAtom } from "@/app/atoms/lesson";
 
 export default function Canvas({ className }: { className?: string }) {
+  const [selectedBlockId, setSelectedBlockId] = useState<string | null>(null);
   const [contentStreamCompleted] = useAtom(contentStreamCompletedAtom);
   const router = useRouter();
   const [blockType, setBlockType] = useState<ideaType>("");
@@ -36,6 +36,13 @@ export default function Canvas({ className }: { className?: string }) {
   const { startStreaming, content, currentStreamId, prevStreamId } =
     useFalconStream();
 
+  const handleBlockSelect = useCallback(
+    (id: string) => {
+      setSelectedBlockId(id);
+    },
+    [setSelectedBlockId]
+  );
+  
   const removeBlock = (id: string) => {
     setLessonIdeas((prevIdeas) => prevIdeas.filter((idea) => idea.id !== id));
   };
@@ -74,15 +81,11 @@ export default function Canvas({ className }: { className?: string }) {
   const [{ isOver, canDrop }, drop] = useDrop(() => specObject);
 
   useEffect(() => {
-    console.log(currentStreamId, lastBlockId);
-
     if (
       contentStreamCompleted === true &&
       content.length > 0 &&
       currentStreamId !== lastBlockId
     ) {
-      console.log("I ran Man");
-      const randomId = uuid();
       const emoji = getEmoji(blockType);
       setLessonIdeas((prevIdeas) => [
         ...prevIdeas,
@@ -136,6 +139,8 @@ export default function Canvas({ className }: { className?: string }) {
               key={block.id}
               onRemove={removeBlock}
               onDownload={downloadBlock}
+              isSelected={block.id === selectedBlockId}
+              onSelect={handleBlockSelect}
             />
           );
         })}

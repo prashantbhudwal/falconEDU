@@ -15,7 +15,7 @@ export default function Chat() {
         className=" h-12 join-item w-full textarea textarea-bordered textarea-sm overflow-y-hidden resize-none max-h-48"
         placeholder="Type your message here..."
       />
-      <button className="join-item btn-square btn btn-primary text-xl">{`>`}</button>
+      <button className="join-item btn-square btn btn-accent text-xl">{`>`}</button>
     </div>
   );
 }
