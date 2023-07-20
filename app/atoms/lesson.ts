@@ -14,3 +14,6 @@ export const lessonIdeasAtom = atom<BlockContent[]>([]);
 export const contentStreamCompletedAtom = atom(true);
 export const fetchedContentAtom = atom<string[]>([]);
 export const shouldRegenerateAtom = atom(false);
+
+export const currentStreamIdAtom = atom<string>("");
+export const prevStreamIdAtom = atom<string>("");

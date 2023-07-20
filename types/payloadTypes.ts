@@ -54,4 +54,5 @@ export type ContentStreamPayload =
   | StreamPayload
   | PredictionPayload
   | QuestionPayload
-  | QuestionBankPayload;
+  | QuestionBankPayload
+  | IdeaStreamPayload;

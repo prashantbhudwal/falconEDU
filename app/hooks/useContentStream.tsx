@@ -5,6 +5,8 @@ import {
   contentStreamCompletedAtom,
   fetchedContentAtom,
   contentStreamAtom,
+  currentStreamIdAtom,
+  prevStreamIdAtom,
 } from "@/app/atoms/lesson";
 import fetchContentStream from "@/app/utils/fetchContentStream";
 import {
@@ -17,13 +19,13 @@ import {
 } from "@/types";
 
 export function useContentStream(apiRoute: APIRoute) {
-  const [currentStreamId, setCurrentStreamId] = useState<string>("");
-  const [prevStreamId, setPrevStreamId] = useState<string>("");
-  const [contentStream, setContentStream] = useAtom(contentStreamAtom);
+  const [currentStreamId, setCurrentStreamId] = useAtom(currentStreamIdAtom);
+  const [prevStreamId, setPrevStreamId] = useAtom(prevStreamIdAtom);
+  const [contentStream, setContentStream] = useState<string[]>([]);
   const [contentStreamCompleted, setContentStreamCompleted] = useAtom(
     contentStreamCompletedAtom
   );
-  const [fetchedContent, setFetchedContent] = useAtom(fetchedContentAtom);
+  const [fetchedContent, setFetchedContent] = useState<string[]>([]);
 
   const fetchData = async (payload: ContentStreamPayload) => {
     try {

@@ -20,14 +20,12 @@ import { useAtom } from "jotai";
 import { lessonIdeasAtom } from "../atoms/lesson";
 import { ideaType } from "@/types";
 import { generateDocx } from "../utils/generateDocx";
+import { contentStreamCompletedAtom } from "@/app/atoms/lesson";
 
 export default function Canvas({ className }: { className?: string }) {
+  const [contentStreamCompleted] = useAtom(contentStreamCompletedAtom);
   const router = useRouter();
-  const [fetchNow, setFetchNow] = useState(false);
-  const [ideaStream, setIdeaStream] = useState<string[]>([]);
   const [blockType, setBlockType] = useState<ideaType>("");
-  const [streamCompleted, setStreamCompleted] = useState<boolean>(true);
-  const [currentBlockId, setCurrentBlockId] = useState<string>("");
   const [lastBlockId, setLastBlockId] = useState<string>("");
   const [topic] = useAtom(topicAtom);
   const [subtopic] = useAtom(subtopicAtom);
@@ -35,6 +33,8 @@ export default function Canvas({ className }: { className?: string }) {
   const [board] = useAtom(boardAtom);
   const [subject] = useAtom(subjectAtom);
   const [lessonIdeas, setLessonIdeas] = useAtom(lessonIdeasAtom);
+  const { startStreaming, content, currentStreamId, prevStreamId } =
+    useFalconStream();
 
   const removeBlock = (id: string) => {
     setLessonIdeas((prevIdeas) => prevIdeas.filter((idea) => idea.id !== id));
@@ -52,10 +52,8 @@ export default function Canvas({ className }: { className?: string }) {
   };
 
   const startGeneration = function (item: any) {
-    setIdeaStream([]);
-    setBlockType(item.text.toLowerCase());
-    setStreamCompleted(false);
-    setFetchNow(true);
+    setBlockType(item);
+    startStreaming(item);
   };
 
   useEffect(() => {
@@ -66,7 +64,7 @@ export default function Canvas({ className }: { className?: string }) {
 
   const specObject = {
     accept: "Box",
-    drop: (item: any) => startGeneration(item),
+    drop: (item: any) => startGeneration(item.text.toLowerCase()),
     collect: (monitor: DropTargetMonitor) => ({
       isOver: monitor.isOver(),
       canDrop: monitor.canDrop(),
@@ -75,43 +73,33 @@ export default function Canvas({ className }: { className?: string }) {
 
   const [{ isOver, canDrop }, drop] = useDrop(() => specObject);
 
-  const handleNewMessage = useCallback((chunk: string) => {
-    setIdeaStream((prevChunk) => [...prevChunk, chunk]);
-  }, []);
-
-  const { isLoading, error } = useFalconStream(
-    handleNewMessage,
-    fetchNow,
-    () => setFetchNow(false),
-    () => setStreamCompleted(true),
-    () => setCurrentBlockId(uuid()),
-    blockType
-  );
-
   useEffect(() => {
+    console.log(currentStreamId, lastBlockId);
+
     if (
-      streamCompleted === true &&
-      ideaStream.length > 0 &&
-      currentBlockId != lastBlockId
+      contentStreamCompleted === true &&
+      content.length > 0 &&
+      currentStreamId !== lastBlockId
     ) {
+      console.log("I ran Man");
       const randomId = uuid();
       const emoji = getEmoji(blockType);
       setLessonIdeas((prevIdeas) => [
         ...prevIdeas,
         {
-          text: ideaStream,
-          id: randomId,
+          text: content,
+          id: currentStreamId,
           type: blockType,
           emoji: emoji,
         },
       ]);
-      setLastBlockId(currentBlockId);
+      setLastBlockId(currentStreamId);
     }
-  }, [streamCompleted]);
+  }, [contentStreamCompleted]);
 
   return (
     <div
-      ref={streamCompleted ? drop : null}
+      ref={contentStreamCompleted ? drop : null}
       role={"Board"}
       className={`${className} flex flex-col items-center gap-4   text-slate-300 px-5 py-3 rounded-lg ring-2 ring-emerald-500 shadow-emerald-500 ${
         isOver ? "shadow-inner bg-emerald-900" : "shadow-md bg-slate-900"
@@ -130,9 +118,9 @@ export default function Canvas({ className }: { className?: string }) {
           <p>Drop a Lesson Block Here</p>
         </div>
       )}
-      {streamCompleted === false && (
+      {contentStreamCompleted === false && (
         <LiveBlock
-          text={ideaStream}
+          text={content}
           emoji={getEmoji(blockType)}
           type={blockType}
           key={"test"}
