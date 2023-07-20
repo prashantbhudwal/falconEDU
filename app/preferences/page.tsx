@@ -1,15 +1,13 @@
 "use client";
 import gradeData from "../data/subjects.json";
+import boards from "../data/boards.json";
 import { useRouter } from "next/navigation";
 import { useAtom } from "jotai";
 import { boardAtom, subjectAtom, gradeAtom } from "../atoms/preferences";
-import Button from "../components/Button";
-import ButtonPanel from "../components/ButtonPanel";
 import { userFlowAtom } from "../atoms/app";
 
 import { useEffect } from "react";
 export default function Home() {
-  const boards = ["CBSE", "ICSE"];
   const router = useRouter();
   const [board, setBoard] = useAtom(boardAtom);
   const [subject, setSubject] = useAtom(subjectAtom);
@@ -23,7 +21,7 @@ export default function Home() {
       router.prefetch("/merlin");
       router.prefetch("/magic/aid/lesson");
     } else if (userFlow === "worksheet") {
-    router.prefetch("/preferences/multipleSubtopics");
+      router.prefetch("/preferences/multipleSubtopics");
       router.prefetch("/raptor");
       router.prefetch("/raptor/magic/worksheet");
       router.prefetch("/raptor/magic/aid/answerKey");
@@ -55,7 +53,7 @@ export default function Home() {
       <select
         onChange={handleBoardChange}
         value={board}
-        className="border-slate-700 rounded-md bg-slate-300 text-black p-4 w-96"
+        className="select select-bordered w-96"
       >
         <option value="">Curriculum</option>
         {boards.map((b) => (
@@ -67,7 +65,7 @@ export default function Home() {
       <select
         onChange={handleGradeChange}
         value={grade}
-        className="border-slate-700 rounded-md bg-slate-300 text-black p-4 w-96"
+        className="select select-bordered w-96"
       >
         <option value="">Grade</option>
         {gradeData.map((g) => (
@@ -79,7 +77,7 @@ export default function Home() {
       <select
         onChange={handleSubjectChange}
         value={subject}
-        className="border-slate-700 rounded-md bg-slate-300 text-black p-4 w-96"
+        className="select select-bordered w-96"
       >
         <option value="">Subject</option>
         {gradeData
@@ -90,21 +88,22 @@ export default function Home() {
             </option>
           ))}
       </select>
-      <ButtonPanel>
-        <Button
+      <div className="join max-w-full mt-6">
+        <button
           onClick={startLessonFlow}
           disabled={!board || !subject || !grade}
+          className="btn btn-primary btn-wide join-item"
         >
           Lesson
-        </Button>
-        <Button
-          secondary
+        </button>
+        <button
+          className="btn btn-secondary btn-wide join-item"
           onClick={startWorksheetFlow}
           disabled={!board || !subject || !grade}
         >
           Worksheet
-        </Button>
-      </ButtonPanel>
+        </button>
+      </div>
     </div>
   );
 }

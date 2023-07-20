@@ -2,8 +2,6 @@
 import Link from "next/link";
 import { downloadZip } from "@/app/utils/downloadZip";
 import { usePathname } from "next/navigation";
-import LinkButton from "@/app/components/LinkButton";
-import Button from "@/app/components/Button";
 import { useAtom } from "jotai";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
@@ -50,24 +48,24 @@ export default function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-50  text-slate-200 pt-5 pl-4 pr-6 pb-2 bg-slate-900">
+    <header className="sticky top-0 z-50  text-slate-200 pt-4 pl-4 pr-6 pb-1 bg-slate-900">
       <div className="flex items-center justify-between">
-        <Link href="/">
-          <div className={`flex gap-4`}>
+        <Link href={`${session ? "/preferences" : "/"}`}>
+          <div className={`flex gap-2`}>
             <div
               className={`${!contentStreamCompleted && "animate-breath"}
             `}
             >
               <Image
                 src={"/chubbi.png"}
-                height={45}
-                width={45}
+                height={35}
+                width={35}
                 alt="Falcon Logo"
               />
             </div>
             <div>
-              <h1 className="text-lg">FalconAI</h1>
-              <p className="text-sm  text-slate-400">
+              <h1 className="text-sm">FalconAI</h1>
+              <p className="text-xs  text-slate-400">
                 {session
                   ? `${session?.user?.name?.split(" ")[0]}'s Assistant`
                   : `Teaching Assistant`}
@@ -77,32 +75,35 @@ export default function Header() {
         </Link>
         <div className="flex items-center gap-6">
           {started && lessonIdeas.length !== 0 && pathname === "/merlin" && (
-            <Button
+            <button
+              className="btn btn-primary btn-sm"
               onClick={handleLessonGeneration}
               key={pathname} //rerenders the component when the path changes
             >
               Generate Lesson
-            </Button>
+            </button>
           )}
           {currentQuestion.bloomLevel.length > 0 && pathname === "/raptor" && (
-            <Button
+            <button
+              className="btn btn-secondary btn-sm"
               onClick={handleWorksheetGeneration}
               key={pathname} //rerenders the component when the path changes
             >
               Generate Worksheet
-            </Button>
+            </button>
           )}
           {contentStreamCompleted &&
             lessonIdeas.length !== 0 &&
             /^\/magic\/.*$/.test(pathname) && (
-              <Button
+              <button
+                className="btn btn-secondary btn-sm"
                 onClick={() => {
                   setTeachingAids([]);
                   router.push("/merlin");
                 }}
               >
                 Back to Planner
-              </Button>
+              </button>
             )}
 
           {contentStreamCompleted &&
@@ -112,20 +113,21 @@ export default function Header() {
                 onClick={() => {
                   downloadZip(docxArray);
                 }}
-                className="bg-purple-600 hover:bg-purple-700 text-slate-100 font-medium py-2 px-4 rounded"
+                className="btn btn-accent btn-sm"
               >
                 Download
               </button>
             )}
           {contentStreamCompleted && /^\/raptor\/magic\/.*$/.test(pathname) && (
-            <Button
+            <button
+              className="btn btn-primary btn-sm"
               onClick={() => {
                 setTeachingAids([]);
                 router.push("/raptor");
               }}
             >
               Back to Planner
-            </Button>
+            </button>
           )}
           {contentStreamCompleted && /^\/raptor\/magic\/.*$/.test(pathname) && (
             <button
@@ -139,7 +141,7 @@ export default function Header() {
                     fetchedContent: worksheetAnswerKey as string[],
                   });
               }}
-              className="bg-purple-600 hover:bg-purple-700 text-slate-100 font-medium py-2 px-4 rounded"
+              className="btn btn-accent btn-sm"
             >
               Download
             </button>
@@ -147,12 +149,13 @@ export default function Header() {
           {contentStreamCompleted &&
             lessonIdeas.length !== 0 &&
             pathname === "/lesson" && (
-              <LinkButton
+              <Link
+                className="btn btn-primary btn-sm"
                 href={"/preferences"}
                 key={pathname} //rerenders the component when the path changes
               >
                 New Lesson
-              </LinkButton>
+              </Link>
             )}
         </div>
       </div>

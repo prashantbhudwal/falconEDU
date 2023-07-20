@@ -124,6 +124,22 @@ export function getChatMessages(
           content: `Design a 5-question MCQ quiz that targets the core ideas and principles of: ${subtopic}, ensuring students grasp the most important aspects. Give answers at the end. ${SHORT_RESPONSES} ${skipIntroduction}`,
         },
       ];
+    case "features":
+      return [
+        ...engineeredMessages,
+        {
+          role: "user",
+          content: `List the key features of the topic: ${subtopic}. ${SHORT_RESPONSES} ${skipIntroduction}`,
+        },
+      ];
+    case "glossary":
+      return [
+        ...engineeredMessages,
+        {
+          role: "user",
+          content: `Provide a glossary of key terms and concepts related to the topic: ${subtopic}. ${SHORT_RESPONSES} ${skipIntroduction}`,
+        },
+      ];
     default:
       return [
         ...engineeredMessages,

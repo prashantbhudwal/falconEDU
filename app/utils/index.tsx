@@ -45,6 +45,10 @@ export const getEmoji = function (
       return "🔑";
     case "support":
       return "👩‍🏫";
+    case "features":
+      return "✨";
+    case "glossary":
+      return "🎹";
     default:
       return "Oops!! AI is on Strike. Try Again?";
   }
@@ -91,6 +95,10 @@ export const getName = function (
       return "Answer Key";
     case "support":
       return "Support";
+    case "features":
+      return "Features";
+    case "glossary":
+      return "Glossary";
     default:
       return "Oops!! AI is on Strike. Try Again?";
   }
@@ -118,6 +126,10 @@ export const getBlockShadow = function (ideaType: ideaType | QuestionType) {
       return "shadow-blue-600";
     case "quiz":
       return "shadow-violet-600";
+    case "features":
+      return "shadow-amber-500";
+    case "glossary":
+      return "shadow-indigo-500";
     default:
       return "shadow-none";
   }
@@ -260,6 +272,8 @@ export const buttonsArray: ideaType[] = [
   "contrast",
   "activity",
   "quiz",
+  "features",
+  "glossary",
 ];
 
 export const blockContentArray = [
@@ -324,7 +338,6 @@ export const blockContentArray = [
     emoji: "🧩",
   },
 ];
-
 
 export const getQuestionTypeTitle = (questionType: QuestionType) => {
   const title = questionData.find(

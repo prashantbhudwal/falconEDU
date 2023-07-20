@@ -53,7 +53,7 @@ export default function ChipDrag({
       <p
         role={"Handle"}
         ref={drag}
-        className={`leading-6 capitalize text-left`}
+        className={`capitalize text-left text-sm`}
       >
         {children}
       </p>

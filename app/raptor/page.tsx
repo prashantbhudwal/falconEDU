@@ -7,7 +7,6 @@ import Canvas from "./components/Canvas";
 import ChipDrag from "./components/ChipDrag";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
-import Checkbox from "../components/Checkbox";
 import { QuestionType, QuestionItem, QuestionObject } from "@/types";
 import { currentQuestionAtom } from "../atoms/worksheet";
 import { useAtom } from "jotai";
@@ -25,19 +24,11 @@ import {
   boardAtom,
   subjectAtom,
 } from "../atoms/preferences";
-import {
-  RiseLoader,
-  SyncLoader,
-} from "react-spinners";
+import { RiseLoader, SyncLoader } from "react-spinners";
 import QuestionsBlock from "./components/QuestionSection";
 import useJsonParsing from "../hooks/useJsonParsing";
 import { ModeToggle } from "./components/ModeToggle";
-import {
-  motion,
-  useAnimation,
-  AnimatePresence,
-  MotionStyle,
-} from "framer-motion";
+import { motion, useAnimation } from "framer-motion";
 import { BatchSize } from "./components/BatchSize";
 
 const questionTypes = [
@@ -156,34 +147,6 @@ export default function Raptor() {
     }
   }, [isAdvancedMode, controls]);
 
-  const circleVariants = {
-    hidden: {
-      scale: 0,
-      opacity: 0,
-    },
-    visible: {
-      scale: [0, 1, 1, 2, 3, 5, 8, 13],
-      opacity: [1, 0.75, 0.75, 0.5, 0.25, 0.1, 0.05, 0],
-      transition: {
-        duration: 1,
-        ease: [0.17, 0.84, 0.44, 1],
-        times: [0, 0.05, 0.15, 0.25, 0.35, 0.45, 0.55, 1],
-      },
-    },
-  };
-
-  const styles: MotionStyle = {
-    position: "fixed",
-    top: "50%",
-    left: "50%",
-    width: "150px",
-    height: "150px",
-    borderRadius: "50%",
-    backgroundColor: "#D946EF",
-    zIndex: -1,
-    transform: "translate(-50%, -50%)",
-  };
-
   const handleDelete = (question: QuestionItem) => {
     setSavedQuestions((prevSavedQuestions) => {
       return prevSavedQuestions.map((questionObject) => {
@@ -202,17 +165,6 @@ export default function Raptor() {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <AnimatePresence>
-        {isAdvancedMode && (
-          <motion.div
-            variants={circleVariants}
-            initial="hidden"
-            animate={controls}
-            exit="hidden"
-            style={styles}
-          />
-        )}
-      </AnimatePresence>
       <motion.div
         className="grid grid-cols-12 gap-4 w-full select-none"
         animate={controls}
@@ -270,13 +222,17 @@ export default function Raptor() {
         <Sidebar className="col-start-11 col-span-2">
           <Section title={"Types"} color={"gray"}>
             {questionTypes.map((questionType) => (
-              <Checkbox
-                key={questionType.value}
-                value={questionType.value}
-                label={questionType.label}
-                checked={checkedQuestionTypes.includes(questionType.value)}
-                onChange={handleCheckboxChange}
-              />
+              <label className="label text-sm" key={questionType.value}>
+                <span className={"label-text"}>{questionType.label}</span>
+                <input
+                  type="checkbox"
+                  name="questionType"
+                  value={questionType.value}
+                  checked={checkedQuestionTypes.includes(questionType.value)}
+                  onChange={() => handleCheckboxChange(questionType.value)}
+                  className="checkbox checkbox-info checkbox-sm"
+                />
+              </label>
             ))}
           </Section>
         </Sidebar>

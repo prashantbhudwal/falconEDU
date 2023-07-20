@@ -10,8 +10,6 @@ import { startedAtom } from "@/app/atoms/app";
 import { lessonIdeasAtom } from "@/app/atoms/lesson";
 import { useRouter } from "next/navigation";
 import { gradeAtom, boardAtom, subjectAtom } from "@/app/atoms/preferences";
-import Button from "@/app/components/Button";
-import TextInput from "../TextInput";
 import { worksheetSubtopicsAtom } from "@/app/atoms/worksheet";
 import { savedQuestionsAtom } from "@/app/atoms/worksheet";
 
@@ -140,25 +138,26 @@ export default function Page() {
           ))}
         </div>
         <div className="place-content-center">
-          <Button
-            secondary
+          <button
+            className="btn btn-secondary"
             onClick={handleStart}
             disabled={
               worksheetSubtopics.length === 0 || !contentStreamCompleted
             }
           >
             Worksheet
-          </Button>
+          </button>
         </div>
       </div>
-      <div className="flex gap-3">
-        <TextInput
+      <div className="join">
+        <input
+          className="input input-bordered w-96 join-item"
           value={inputValue}
           onChange={handleChange}
           placeholder="Add custom..."
         />
         <button
-          className=" text-white font-bold py-2 px-4 rounded ring-2 ring-slate-500 hover:bg-fuchsia-600 focus:outline-none focus:ring-2 focus:ring-fuchsia-500 focus:ring-opacity-50"
+          className=" join-item btn btn-square btn-neutral"
           onClick={handleAddSubtopic}
           disabled={!inputValue}
         >

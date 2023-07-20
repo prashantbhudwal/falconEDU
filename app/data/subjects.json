@@ -1,5 +1,13 @@
 [
   {
+    "grade": "- Lower KG",
+    "subjects": ["Phonics", "Foundational Numeracy"]
+  },
+  {
+    "grade": "- Upper KG",
+    "subjects": ["Phonics", "Foundational Numeracy"]
+  },
+  {
     "grade": "1",
     "subjects": ["English Grammar", "Environmental Studies"]
   },

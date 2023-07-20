@@ -15,7 +15,7 @@ export default function LiveBlock({
         <p className="text-base">{blockEmoji}</p>
         <p className="uppercase">{blockType}</p>
       </header>
-      <p className="leading-7 text-lg pt-2 whitespace-pre-wrap">
+      <p className="leading-5 text-base pt-2 whitespace-pre-wrap">
         {displayText}
       </p>
     </div>

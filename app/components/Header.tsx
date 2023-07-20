@@ -26,19 +26,19 @@ export default function Header({
   const { text, h1, h2, border, bg } = colors[color] as ThemeColor;
   return (
     <header
-      className={`font-medium ${text} border-b border-solid ${border} py-3 flex flex-row justify-between w-full ${
+      className={`font-medium ${text} border-b border-solid ${border} py-2 flex flex-row justify-between w-full px-1 ${
         isSticky && "sticky top-0 z-40"
       } ${bg} items-center ${className}`}
     >
-      <div className="text-sm text-left flex flex-col gap-1">
+      <div className="text-xs text-left flex flex-col gap-1">
         <div>{leftTop}</div>
-        <div className="text-sm w-10">{leftBottom}</div>
+        <div className=" w-10">{leftBottom}</div>
       </div>
       <div className="text-center max-w-xl">
-        {heading && <h1 className={`text-2xl ${h1}`}>{heading}</h1>}
-        {subheading && <p className={`text-lg ${h2}`}>{subheading}</p>}
+        {heading && <h1 className={`text-lg ${h1}`}>{heading}</h1>}
+        {subheading && <p className={`text-base ${h2}`}>{subheading}</p>}
       </div>
-      <div className="text-sm text-left flex-col flex gap-1">
+      <div className="text-xs text-left flex-col flex gap-1">
         <div>{rightTop}</div>
         <div>{rightBottom}</div>
       </div>

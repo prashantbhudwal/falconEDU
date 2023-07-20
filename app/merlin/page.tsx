@@ -31,7 +31,7 @@ export default function Merlin() {
                 .reverse()
                 .map((block, index) => (
                   <div
-                    className="text-lg text-slate-400 leading-7 capitalize pl-4"
+                    className="text-base text-slate-400 leading-7 capitalize pl-4"
                     key={block.id}
                   >{`${getEmoji(block.type)} ${" "}   ${block.type}`}</div>
                 ))}

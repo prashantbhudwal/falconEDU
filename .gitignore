@@ -37,3 +37,5 @@ next-env.d.ts
 
 # Env. Var
 .env
+.env.production
+.env.development
