@@ -21,7 +21,7 @@ const getAidRequestPayload = (messages: any) => {
     body: JSON.stringify({
       model: MODEL,
       temperature: TEMPERATURE,
-      // max_tokens: MAX_TOKENS, //TODO Change to variable
+      max_tokens: MAX_TOKENS,
       messages: messages,
       stream: STREAM,
     }),
