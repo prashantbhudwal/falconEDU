@@ -140,7 +140,6 @@ export default function Canvas({ className }: { className?: string }) {
       const ideaIndex = prevIdeas.findIndex(
         (idea) => idea.id === selectedRadioButtonId
       );
-      console.log(ideaIndex);
       if (ideaIndex !== -1) {
         // If the idea is found, create a new array with the modified content
         const newIdeas = [...prevIdeas];
