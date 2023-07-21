@@ -14,17 +14,17 @@ export default function Chat({
     }
   };
   return (
-    <div className="fixed bottom-3 w-6/12 shadow-md shadow-base-200 join ">
+    <div className="fixed bottom-3 w-6/12 shadow-sm shadow-base-100 join p-1 bg-base-100">
       <input
         type="text"
         value={input}
         onChange={handleInputChange}
         onKeyDown={(e) => handleKeyDown(e)}
-        className=" h-12 join-item w-full shadow-accent textarea textarea-bordered textarea-md overflow-y-hidden resize-none max-h-48 bg-slate-900 text-base"
+        className=" h-14 join-item w-full shadow-accent textarea textarea-bordered textarea-md overflow-y-hidden resize-none max-h-48 bg-slate-900 text-base"
         placeholder="Type your instruction here..."
       />
       <button
-        className="join-item btn-square btn btn-accent text-xl"
+        className="join-item btn-square btn btn-accent text-xl h-14"
         onClick={handleSubmit}
       >
         {`>`}
