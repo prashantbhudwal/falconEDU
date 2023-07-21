@@ -39,7 +39,6 @@ export default function Merlin() {
           </Section>
         </Sidebar>
       </div>
-      <Chat />
     </DndProvider>
   );
 }

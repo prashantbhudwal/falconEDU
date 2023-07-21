@@ -20,6 +20,9 @@ import { lessonIdeasAtom } from "../atoms/lesson";
 import { ideaType } from "@/types";
 import { generateDocx } from "../utils/generateDocx";
 import { contentStreamCompletedAtom } from "@/app/atoms/lesson";
+import { useChat, useCompletion } from "ai/react";
+import Chat from "./components/Chat";
+const ROUTE = "/api/blockChat";
 
 export default function Canvas({ className }: { className?: string }) {
   const [selectedBlockId, setSelectedBlockId] = useState<string | null>(null);
@@ -36,13 +39,41 @@ export default function Canvas({ className }: { className?: string }) {
   const { startStreaming, content, currentStreamId, prevStreamId } =
     useFalconStream();
 
+  const getSelectedBlockContent = (selectedBlockId: any) => {
+    // Find the block with the selected id
+    const selectedBlock = lessonIdeas.find(
+      (block) => block.id === selectedBlockId
+    );
+
+    // string[].join("") if the selected block is a sting[] or else keep it as it is
+    if (selectedBlock?.text instanceof Array) {
+      return selectedBlock?.text.join("");
+    }
+    return selectedBlock?.text;
+  };
+  const {
+    completion: messages,
+    handleSubmit,
+    input,
+    handleInputChange,
+    setInput,
+  } = useCompletion({
+    api: ROUTE,
+    onFinish: () => {
+      setInput("");
+    },
+    body: {
+      content: getSelectedBlockContent(selectedBlockId),
+    },
+  });
+  // console.log(messages);
   const handleBlockSelect = useCallback(
     (id: string) => {
       setSelectedBlockId(id);
     },
     [setSelectedBlockId]
   );
-  
+
   const removeBlock = (id: string) => {
     setLessonIdeas((prevIdeas) => prevIdeas.filter((idea) => idea.id !== id));
   };
@@ -100,6 +131,36 @@ export default function Canvas({ className }: { className?: string }) {
     }
   }, [contentStreamCompleted]);
 
+  const updateLessonIdea = (
+    selectedRadioButtonId: any,
+    newIdeaContent: string | string[]
+  ) => {
+    setLessonIdeas((prevIdeas: BlockContent[]) => {
+      // Find the index of the idea with the selected id
+      const ideaIndex = prevIdeas.findIndex(
+        (idea) => idea.id === selectedRadioButtonId
+      );
+      console.log(ideaIndex);
+      if (ideaIndex !== -1) {
+        // If the idea is found, create a new array with the modified content
+        const newIdeas = [...prevIdeas];
+        newIdeas[ideaIndex] = {
+          ...newIdeas[ideaIndex], // Keep all other properties the same
+          text: newIdeaContent, // Update the 'text' property with new content
+        };
+
+        return newIdeas;
+      }
+
+      // If the idea isn't found, return the array unmodified
+      return prevIdeas;
+    });
+  };
+
+  useEffect(() => {
+    updateLessonIdea(selectedBlockId, messages);
+  }, [messages]);
+
   return (
     <div
       ref={contentStreamCompleted ? drop : null}
@@ -119,6 +180,7 @@ export default function Canvas({ className }: { className?: string }) {
       {!blockType && lessonIdeas.length === 0 && (
         <div className="text-emerald-900 text-center text-4xl pt-24">
           <p>Drop a Lesson Block Here</p>
+          {messages}
         </div>
       )}
       {contentStreamCompleted === false && (
@@ -144,6 +206,11 @@ export default function Canvas({ className }: { className?: string }) {
             />
           );
         })}
+      <Chat
+        input={input}
+        handleSubmit={handleSubmit}
+        handleInputChange={handleInputChange}
+      />
     </div>
   );
 }
