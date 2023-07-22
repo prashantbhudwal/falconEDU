@@ -108,8 +108,8 @@ export default function Page() {
 
   return (
     <div className="flex flex-col gap-10 items-center m-4 w-full">
-      <div className="flex gap-3 w-5/6  justify-center items-center">
-        <div className="flex flex-row flex-wrap gap-3 px-6 py-4 rounded-lg ring-2 ring-fuchsia-500 w-4/6 min-h-[4rem]">
+      <div className="flex  w-5/6  join justify-center items-center">
+        <div className="join-item flex flex-row flex-wrap gap-3 px-6 py-4 rounded-md ring-base-100 ring-2 w-4/6 min-h-[4rem]">
           {worksheetSubtopics.map((subtopic, index) => (
             <div
               className="relative"
@@ -124,7 +124,7 @@ export default function Page() {
               }}
             >
               <div
-                className="px-2 py-2 rounded-sm bg-slate-800 text-fuchsia-500 cursor-pointer"
+                className="text-sm px-2 py-2 rounded-sm bg-slate-800 text-secondary cursor-pointer"
                 onClick={() => handleDeleteSubtopic(index)}
               >
                 {subtopic}
@@ -137,17 +137,13 @@ export default function Page() {
             </div>
           ))}
         </div>
-        <div className="place-content-center">
-          <button
-            className="btn btn-secondary"
-            onClick={handleStart}
-            disabled={
-              worksheetSubtopics.length === 0 || !contentStreamCompleted
-            }
-          >
-            Worksheet
-          </button>
-        </div>
+        <button
+          className="btn btn-secondary join-item h-full min-h-[4rem]"
+          onClick={handleStart}
+          disabled={worksheetSubtopics.length === 0 || !contentStreamCompleted}
+        >
+          Worksheet
+        </button>
       </div>
       <div className="join">
         <input
