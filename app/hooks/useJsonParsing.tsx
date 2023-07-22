@@ -23,7 +23,7 @@ const useJsonParsing = ({
   const [parsedContent, setParsedContent] = useState<ParsedContent>({});
 
   useEffect(() => {
-    console.log(content);
+    // console.log(content);
     if (contentStreamCompleted && content) {
       const jsonString = content.join("");
       // console.log(jsonString);
