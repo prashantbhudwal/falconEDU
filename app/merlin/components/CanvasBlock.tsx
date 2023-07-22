@@ -58,7 +58,7 @@ export default function CanvasBlock({
           />
         </div>
       </div>
-      <p className="leading-7 text-base pt-2 whitespace-pre-wrap">
+      <p className="leading-6 text-base pt-2 whitespace-pre-wrap">
         {displayText}
       </p>
     </div>
