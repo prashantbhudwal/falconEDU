@@ -57,6 +57,7 @@ export default function Canvas({ className }: { className?: string }) {
     input,
     handleInputChange,
     setInput,
+    isLoading,
   } = useCompletion({
     api: ROUTE,
     onFinish: () => {
@@ -209,6 +210,7 @@ export default function Canvas({ className }: { className?: string }) {
         input={input}
         handleSubmit={handleSubmit}
         handleInputChange={handleInputChange}
+        isLoading={isLoading}
       />
     </div>
   );
