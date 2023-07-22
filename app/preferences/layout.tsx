@@ -10,7 +10,7 @@ const getTitle = (pathname: string, userFlow: string) => {
       return (
         <>
           What are you{" "}
-          <span className=" underline underline-offset-8 decoration-emerald-500">
+          <span className=" underline underline-offset-8 decoration-primary">
             teaching
           </span>{" "}
           today?
@@ -23,8 +23,8 @@ const getTitle = (pathname: string, userFlow: string) => {
           <span
             className={` underline underline-offset-8 ${
               userFlow === "worksheet"
-                ? "decoration-fuchsia-500"
-                : "decoration-emerald-500"
+                ? "decoration-secondary"
+                : "decoration-primary"
             } `}
           >
             chapter
@@ -36,7 +36,7 @@ const getTitle = (pathname: string, userFlow: string) => {
       return (
         <>
           Which{" "}
-          <span className=" underline underline-offset-8 decoration-emerald-500">
+          <span className=" underline underline-offset-8 decoration-primary">
             topic
           </span>{" "}
           are you focusing on?
@@ -46,7 +46,7 @@ const getTitle = (pathname: string, userFlow: string) => {
       return (
         <>
           Which{" "}
-          <span className=" underline underline-offset-8 decoration-fuchsia-500">
+          <span className=" underline underline-offset-8 decoration-secondary">
             topics
           </span>{" "}
           are you focusing on?
@@ -71,7 +71,7 @@ export default function PreferencesLayout({
 
   return (
     <div className="flex flex-col gap-10 items-center mt-7 w-full">
-      <div className="text-4xl text-slate-300">
+      <div className="text-3xl text-slate-300">
         {pathname && getTitle(pathname, userFlow)}
       </div>
       {children}
