@@ -3,7 +3,6 @@ export function processStreamText(text: any) {
     return text;
   }
   let processStreamText = text.join("");
-  console.log("processStreamText", processStreamText);
   return processStreamText;
 }
 
@@ -27,7 +26,6 @@ export function generateMarkdown(ideas: any) {
     acc += `${idea.text}\n`;
     return acc;
   }, "");
-  console.log("markdown", markdown);
   return `ideas:\n\n${markdown}`;
 }
 
