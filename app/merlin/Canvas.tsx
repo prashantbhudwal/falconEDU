@@ -44,8 +44,6 @@ export default function Canvas({ className }: { className?: string }) {
     const selectedBlock = lessonIdeas.find(
       (block) => block.id === selectedBlockId
     );
-
-    // string[].join("") if the selected block is a sting[] or else keep it as it is
     if (selectedBlock?.text instanceof Array) {
       return selectedBlock?.text.join("");
     }
@@ -206,12 +204,17 @@ export default function Canvas({ className }: { className?: string }) {
             />
           );
         })}
-      <Chat
-        input={input}
-        handleSubmit={handleSubmit}
-        handleInputChange={handleInputChange}
-        isLoading={isLoading}
-      />
+      {blockType && lessonIdeas.length !== 0 && (
+        <Chat
+          input={input}
+          handleSubmit={handleSubmit}
+          handleInputChange={handleInputChange}
+          isLoading={isLoading}
+          selectedBlock={lessonIdeas.find(
+            (idea) => idea.id === selectedBlockId
+          )}
+        />
+      )}
     </div>
   );
 }
