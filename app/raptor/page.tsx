@@ -1,10 +1,11 @@
 "use client";
+import { itemTypes } from "../config/itemTypes";
 import objectHash from "object-hash";
 import React, { useState, useEffect } from "react";
 import Sidebar from "../components/Sidebar";
 import Section from "../components/Section";
 import Canvas from "./components/Canvas";
-import ChipDrag from "./components/ChipDrag";
+import DraggableChip from "../components/DraggableChip";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
 import { QuestionType, QuestionItem, QuestionObject } from "@/types";
@@ -173,9 +174,13 @@ export default function Raptor() {
           <Section title={"Topics"} color={"gray"}>
             {worksheetSubtopics.length > 0 &&
               worksheetSubtopics.map((topic, index) => (
-                <ChipDrag key={index} color="secondary">
+                <DraggableChip
+                  key={index}
+                  color="secondary"
+                  type={itemTypes.TOPIC}
+                >
                   {topic}
-                </ChipDrag>
+                </DraggableChip>
               ))}
           </Section>
         </Sidebar>

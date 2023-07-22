@@ -1,6 +1,5 @@
 "use client";
 import Canvas from "./Canvas";
-import Chip from "./components/Chip";
 import Sidebar from "../components/Sidebar";
 import { buttonsArray as promptsArray } from "../utils";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -9,7 +8,8 @@ import { getEmoji } from "../utils";
 import { useAtom } from "jotai";
 import { lessonIdeasAtom } from "../atoms/lesson";
 import Section from "../components/Section";
-import Chat from "./components/Chat";
+import DraggableChip from "../components/DraggableChip";
+import { itemTypes } from "../config/itemTypes";
 
 export default function Merlin() {
   const [lessonIdeas] = useAtom(lessonIdeasAtom);
@@ -19,7 +19,9 @@ export default function Merlin() {
         <Sidebar className="col-start-1 col-span-2 row-start-1">
           <Section title="Lesson Blocks">
             {promptsArray.map((buttonText: string) => (
-              <Chip key={buttonText} text={buttonText} />
+              <DraggableChip key={buttonText} type={itemTypes.BOX} color="primary">
+                {buttonText}
+              </DraggableChip>
             ))}
           </Section>
         </Sidebar>
