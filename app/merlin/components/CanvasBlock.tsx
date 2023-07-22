@@ -8,6 +8,8 @@ interface CanvasBlockProps {
   emoji: string;
   onRemove: (id: string) => void;
   onDownload: (id: string) => void;
+  isSelected: boolean;
+  onSelect: (id: string) => void;
 }
 
 export default function CanvasBlock({
@@ -17,12 +19,17 @@ export default function CanvasBlock({
   type: blockType,
   onRemove,
   onDownload,
+  isSelected,
+  onSelect,
 }: CanvasBlockProps) {
   return (
     <div
-      className={`bg-slate-800 text-neutral-300 px-5 py-3 rounded-lg shadow-sm ${getBlockShadow(
-        blockType
-      )} max-w-4xl w-full relative select-text`}
+      className={`${
+        isSelected ? "shadow-lg" : "shadow-sm"
+      } bg-slate-800 text-neutral-300 px-5 py-3 rounded-lg ${
+        isSelected ? "shadow-accent" : getBlockShadow(blockType)
+      } ${isSelected ? "bg-slate-700" : ""}
+      max-w-4xl w-full relative select-text`}
     >
       <div className="flex justify-between items-start border-b border-solid border-slate-700 pb-2">
         <header className="text-xs font-medium text-slate-500 gap-3 text-right flex items-baseline">
@@ -31,20 +38,27 @@ export default function CanvasBlock({
         </header>
         <div className="flex gap-3">
           <button
-            className="text-green-500 p-1 text-sm"
-            onClick={() => onDownload(id)}
-          >
-            📥
-          </button>
-          <button
             className="text-red-500 p-1 text-sm"
             onClick={() => onRemove(id)}
           >
             ❌
           </button>
+          <button
+            className="text-green-500 p-1 text-sm"
+            onClick={() => onDownload(id)}
+          >
+            📥
+          </button>
+
+          <input
+            className="radio radio-accent"
+            type="radio"
+            checked={isSelected}
+            onChange={() => onSelect(id)}
+          />
         </div>
       </div>
-      <p className="leading-7 text-base pt-2 whitespace-pre-wrap">
+      <p className="leading-6 text-base pt-2 whitespace-pre-wrap">
         {displayText}
       </p>
     </div>

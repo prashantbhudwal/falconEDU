@@ -1,5 +1,8 @@
 export function processStreamText(text: any) {
-  let processStreamText = text.join(" ").replace(/\s+/g, " ");
+  if (!Array.isArray(text)) {
+    return text;
+  }
+  let processStreamText = text.join("");
   return processStreamText;
 }
 
@@ -23,7 +26,6 @@ export function generateMarkdown(ideas: any) {
     acc += `${idea.text}\n`;
     return acc;
   }, "");
-
   return `ideas:\n\n${markdown}`;
 }
 

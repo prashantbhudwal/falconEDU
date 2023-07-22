@@ -7,9 +7,9 @@ export const ideaOptions: OpenAIOptions = {
 };
 
 export const lessonOptions: OpenAIOptions = {
-  MODEL: "gpt-3.5-turbo",
+  MODEL: "gpt-3.5-turbo-16k",
   TEMPERATURE: 1,
-  MAX_TOKENS: 2000,
+  MAX_TOKENS: 10000,
   N: 1,
   STREAM: true,
 };
@@ -25,15 +25,15 @@ export const predictionOptions: OpenAIOptions = {
 export const questionOptions: OpenAIOptions = {
   MODEL: "gpt-3.5-turbo",
   TEMPERATURE: 1.0,
-  MAX_TOKENS: 1000,
+  MAX_TOKENS: 2000,
   N: 1,
   STREAM: true,
 };
 
 export const worksheetOptions: OpenAIOptions = {
-  MODEL: "gpt-3.5-turbo",
+  MODEL: "gpt-3.5-turbo-16k",
   TEMPERATURE: 1,
-  MAX_TOKENS: 2000,
+  MAX_TOKENS: 10000,
   N: 1,
   STREAM: true,
 };

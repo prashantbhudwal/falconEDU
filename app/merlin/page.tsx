@@ -9,6 +9,7 @@ import { getEmoji } from "../utils";
 import { useAtom } from "jotai";
 import { lessonIdeasAtom } from "../atoms/lesson";
 import Section from "../components/Section";
+import Chat from "./components/Chat";
 
 export default function Merlin() {
   const [lessonIdeas] = useAtom(lessonIdeasAtom);
