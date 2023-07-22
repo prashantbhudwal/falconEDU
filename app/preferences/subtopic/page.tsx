@@ -79,6 +79,7 @@ export default function Page() {
             content={allContent}
             selectedOption={subtopic}
             handleChange={handleChange}
+            className = "bg-primary"
           />
         )
       )}

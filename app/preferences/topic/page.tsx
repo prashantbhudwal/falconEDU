@@ -80,7 +80,9 @@ export default function Page() {
         contentStreamCompleted &&
         allContent && (
           <PredictionGrid
-            color="secondary"
+            className={`${
+              userFlow === "worksheet" ? "bg-secondary" : "bg-primary"
+            }`}
             content={allContent}
             selectedOption={topic}
             handleChange={handleTopicChange}
