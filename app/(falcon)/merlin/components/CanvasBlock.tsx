@@ -1,6 +1,6 @@
 import { getBlockShadow } from "../../../../utils";
 import { ideaType } from "@/types";
-
+import { Message } from "./Message";
 interface CanvasBlockProps {
   text: string | string[];
   id: string;
