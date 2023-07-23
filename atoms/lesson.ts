@@ -1,5 +1,5 @@
 import { atom } from "jotai";
-import { BlockContent, StreamPayload } from "../../types";
+import { BlockContent, StreamPayload } from "../types";
 
 type teachingAids = {
   name: string;

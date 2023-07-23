@@ -7,7 +7,7 @@ import {
   contentStreamAtom,
   currentStreamIdAtom,
   prevStreamIdAtom,
-} from "@/app/atoms/lesson";
+} from "@/atoms/lesson";
 import fetchContentStream from "@/utils/fetchContentStream";
 import {
   aidType,

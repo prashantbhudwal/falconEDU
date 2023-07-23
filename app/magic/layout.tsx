@@ -2,7 +2,7 @@
 import AidCanvas from "./aid/[aid]/AidCanvas";
 import Sidebar from "@/components/Sidebar";
 import Section from "../../components/Section";
-import { topicAtom, subtopicAtom } from "@/app/atoms/preferences";
+import { topicAtom, subtopicAtom } from "@/atoms/preferences";
 import { useAtom } from "jotai";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";

@@ -9,18 +9,18 @@ import {
   currentQuestionAtom,
   worksheetAnswerKeyAtom,
   savedQuestionsAtom,
-} from "./atoms/worksheet";
+} from "../atoms/worksheet";
 import {
   lessonIdeasAtom,
   contentStreamCompletedAtom,
   teachingAidsAtom,
-} from "./atoms/lesson";
-import { startedAtom } from "./atoms/app";
+} from "../atoms/lesson";
+import { startedAtom } from "../atoms/app";
 import useDownloadContent from "./magic/hooks/useDownloadContent";
 import { useRouter } from "next/navigation";
 import { getWorksheetDocx } from "../utils/getWorksheetDocx";
 import { generateAnswerKeyDocx } from "../utils/generateAnswerKeyDocx";
-import { topicAtom } from "./atoms/preferences";
+import { topicAtom } from "../atoms/preferences";
 export default function Header() {
   const { data: session, status: sessionStatus } = useSession();
   const [topic] = useAtom(topicAtom);

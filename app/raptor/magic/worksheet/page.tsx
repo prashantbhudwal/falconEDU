@@ -5,8 +5,8 @@ import {
   boardAtom,
   gradeAtom,
   subjectAtom,
-} from "@/app/atoms/preferences";
-import { savedQuestionsAtom } from "@/app/atoms/worksheet";
+} from "@/atoms/preferences";
+import { savedQuestionsAtom } from "@/atoms/worksheet";
 import Canvas from "../../components/Canvas";
 import { QuestionObject } from "@/types";
 import QuestionSection from "../../components/QuestionSection";

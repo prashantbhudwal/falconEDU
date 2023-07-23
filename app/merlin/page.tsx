@@ -6,7 +6,7 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
 import { getEmoji } from "../../utils";
 import { useAtom } from "jotai";
-import { lessonIdeasAtom } from "../atoms/lesson";
+import { lessonIdeasAtom } from "../../atoms/lesson";
 import Section from "../../components/Section";
 import DraggableChip from "../../components/DraggableChip";
 import { itemTypes } from "../../config/itemTypes";

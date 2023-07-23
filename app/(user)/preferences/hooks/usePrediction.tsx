@@ -1,11 +1,11 @@
 import { useAtom } from "jotai";
 import { useContentStream } from "../../../../hooks/useContentStream";
-import { contentStreamCompletedAtom } from "../../../atoms/lesson";
-import { gradeAtom } from "@/app/atoms/preferences";
+import { contentStreamCompletedAtom } from "../../../../atoms/lesson";
+import { gradeAtom } from "@/atoms/preferences";
 import { PredictionPayload, APIRoute } from "@/types";
-import { shouldRegenerateAtom } from "../../../atoms/lesson";
-import { boardAtom } from "@/app/atoms/preferences";
-import { subjectAtom } from "@/app/atoms/preferences";
+import { shouldRegenerateAtom } from "../../../../atoms/lesson";
+import { boardAtom } from "@/atoms/preferences";
+import { subjectAtom } from "@/atoms/preferences";
 import { PredictionAction } from "@/types";
 
 const getPayload = function (

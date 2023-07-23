@@ -14,12 +14,12 @@ import {
   gradeAtom,
   boardAtom,
   subjectAtom,
-} from "../atoms/preferences";
+} from "../../atoms/preferences";
 import { useAtom } from "jotai";
-import { lessonIdeasAtom } from "../atoms/lesson";
+import { lessonIdeasAtom } from "../../atoms/lesson";
 import { ideaType } from "@/types";
 import { generateDocx } from "../../utils/generateDocx";
-import { contentStreamCompletedAtom } from "@/app/atoms/lesson";
+import { contentStreamCompletedAtom } from "@/atoms/lesson";
 import { useChat, useCompletion } from "ai/react";
 import Chat from "./components/Chat";
 const ROUTE = "/api/blockChat";

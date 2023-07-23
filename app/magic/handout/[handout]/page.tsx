@@ -1,6 +1,6 @@
 "use client";
 import { useAtom } from "jotai";
-import { lessonIdeasAtom } from "@/app/atoms/lesson";
+import { lessonIdeasAtom } from "@/atoms/lesson";
 import ideasToHandouts from "@/utils/ideasToHandouts";
 import {
   topicAtom,
@@ -8,7 +8,7 @@ import {
   boardAtom,
   gradeAtom,
   subjectAtom,
-} from "@/app/atoms/preferences";
+} from "@/atoms/preferences";
 import Header from "@/components/Header";
 
 export default function Page({

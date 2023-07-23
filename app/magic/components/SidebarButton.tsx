@@ -1,6 +1,6 @@
 "use client";
 import { useAtom } from "jotai";
-import { contentStreamCompletedAtom } from "@/app/atoms/lesson";
+import { contentStreamCompletedAtom } from "@/atoms/lesson";
 
 type SidebarButtonProps = {
   onClick: () => void;

@@ -1,17 +1,17 @@
 "use client";
 import { PropagateLoader } from "react-spinners";
 import { usePrediction } from "@/app/(user)/preferences/hooks/usePrediction";
-import { contentStreamCompletedAtom } from "@/app/atoms/lesson";
+import { contentStreamCompletedAtom } from "@/atoms/lesson";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
 import CheckboxGrid from "../CheckboxGrid";
-import { topicAtom, subtopicAtom } from "@/app/atoms/preferences";
-import { startedAtom } from "@/app/atoms/app";
-import { lessonIdeasAtom } from "@/app/atoms/lesson";
+import { topicAtom, subtopicAtom } from "@/atoms/preferences";
+import { startedAtom } from "@/atoms/app";
+import { lessonIdeasAtom } from "@/atoms/lesson";
 import { useRouter } from "next/navigation";
-import { gradeAtom, boardAtom, subjectAtom } from "@/app/atoms/preferences";
-import { worksheetSubtopicsAtom } from "@/app/atoms/worksheet";
-import { savedQuestionsAtom } from "@/app/atoms/worksheet";
+import { gradeAtom, boardAtom, subjectAtom } from "@/atoms/preferences";
+import { worksheetSubtopicsAtom } from "@/atoms/worksheet";
+import { savedQuestionsAtom } from "@/atoms/worksheet";
 
 export default function Page() {
   const [lastIndex, setLastIndex] = useState<number | null>(null);

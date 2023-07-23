@@ -7,18 +7,18 @@ import {
   lessonIdeasAtom,
   contentStreamCompletedAtom,
   teachingAidsAtom,
-} from "@/app/atoms/lesson";
+} from "@/atoms/lesson";
 import {
   topicAtom,
   subtopicAtom,
   gradeAtom,
   boardAtom,
   subjectAtom,
-} from "@/app/atoms/preferences";
+} from "@/atoms/preferences";
 import { APIRoute, StreamPayload } from "@/types";
 import { aidType } from "@/types";
 import useLatestAid from "./useLatestAid";
-import { shouldRegenerateAtom } from "@/app/atoms/lesson";
+import { shouldRegenerateAtom } from "@/atoms/lesson";
 const ROUTE: APIRoute = "/api/contentStreamOnEdge";
 
 export function useAid(aidType: aidType) {

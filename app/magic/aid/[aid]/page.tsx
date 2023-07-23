@@ -1,20 +1,20 @@
 "use client";
 import { useAid } from "../../hooks/useAid";
 import Issue from "@/components/Issue";
-import { contentStreamCompletedAtom } from "@/app/atoms/lesson";
+import { contentStreamCompletedAtom } from "@/atoms/lesson";
 import { useAtom } from "jotai";
 import { useState } from "react";
 import useLatestAid from "../../hooks/useLatestAid";
 import { aidType } from "@/types";
 import { useEffect } from "react";
-import { shouldRegenerateAtom } from "@/app/atoms/lesson";
+import { shouldRegenerateAtom } from "@/atoms/lesson";
 import {
   topicAtom,
   subtopicAtom,
   boardAtom,
   gradeAtom,
   subjectAtom,
-} from "@/app/atoms/preferences";
+} from "@/atoms/preferences";
 import Header from "@/components/Header";
 export default function Page({ params }: { params: { aid: aidType } }) {
   const [topic] = useAtom(topicAtom);
