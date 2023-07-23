@@ -1,46 +1,45 @@
 "use client";
 import { PropagateLoader } from "react-spinners";
-import { usePrediction } from "@/app/preferences/hooks/usePrediction";
+import { usePrediction } from "@/app/(user)/preferences/hooks/usePrediction";
 import { contentStreamCompletedAtom } from "@/app/atoms/lesson";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
 import PredictionGrid from "../PredictionGrid";
 import { topicAtom, subtopicAtom } from "@/app/atoms/preferences";
+import { startedAtom } from "@/app/atoms/app";
+import { lessonIdeasAtom } from "@/app/atoms/lesson";
 import { useRouter } from "next/navigation";
 import { gradeAtom, boardAtom, subjectAtom } from "@/app/atoms/preferences";
-import { userFlowAtom } from "@/app/atoms/app";
-
 export default function Page() {
   const [contentStreamCompleted] = useAtom(contentStreamCompletedAtom);
-  const [subject] = useAtom(subjectAtom);
+  const [topic] = useAtom(topicAtom);
   const [allContent, setAllContent] = useState([""]);
-  const [topic, setTopic] = useAtom(topicAtom);
+  const [subtopic, setSubtopic] = useAtom(subtopicAtom);
+  const [_, setStarted] = useAtom(startedAtom);
+  const [__, setLessonIdeas] = useAtom(lessonIdeasAtom);
   const router = useRouter();
-  const { content, startStreaming } = usePrediction(subject, "predictChapters");
+  const { content, startStreaming } = usePrediction(topic, "predictSubtopics");
   const [board] = useAtom(boardAtom);
+  const [subject] = useAtom(subjectAtom);
   const [grade] = useAtom(gradeAtom);
-  const [userFlow] = useAtom(userFlowAtom);
 
-  //Todo Replace this with a custom hook
   useEffect(() => {
     if (board === "" || subject === "" || grade === "") {
       router.push("/preferences");
     }
   }, [board, subject, grade, router]);
-  const handleTopicChange = (event: any) => {
-    setTopic(event.target.value);
-  };
 
-  const handleClick = () => {
-    if (userFlow === "lesson") {
-      router.push("/preferences/subtopic");
-    } else if (userFlow === "worksheet") {
-      router.push("/preferences/multipleSubtopics");
-    }
+  const handleStart = () => {
+    router.push("/merlin");
+    setStarted(true);
+    setLessonIdeas([]);
+  };
+  const handleChange = (event: any) => {
+    setSubtopic(event.target.value);
   };
 
   useEffect(() => {
-    setTopic("");
+    setSubtopic("");
     startStreaming();
   }, []);
 
@@ -55,37 +54,32 @@ export default function Page() {
       <div className="join">
         <input
           className="input input-bordered w-96 join-item"
-          value={topic}
-          onChange={handleTopicChange}
-          placeholder="Enter a chapter..."
+          value={subtopic}
+          onChange={handleChange}
+          placeholder="Enter any topic..."
         />
+
         <button
-          onClick={handleClick}
-          disabled={!topic || !contentStreamCompleted}
-          className={`my-auto join-item ${
-            userFlow === "worksheet" ? "btn btn-secondary" : "btn btn-primary"
-          }`}
+          onClick={handleStart}
+          disabled={!subtopic || !contentStreamCompleted}
+          className={`my-auto join-item btn btn-primary`}
         >
-          Next
+          New Lesson
         </button>
       </div>
 
       {!contentStreamCompleted ? (
         <div className="flex flex-col items-center justify-center gap-2 h-12">
-          <PropagateLoader
-            color={`${userFlow === "worksheet" ? "#D946EF" : "#10B981"}`}
-          />
+          <PropagateLoader color="#10B981" />
         </div>
       ) : (
         contentStreamCompleted &&
         allContent && (
           <PredictionGrid
-            className={`${
-              userFlow === "worksheet" ? "bg-secondary" : "bg-primary"
-            }`}
             content={allContent}
-            selectedOption={topic}
-            handleChange={handleTopicChange}
+            selectedOption={subtopic}
+            handleChange={handleChange}
+            className="bg-primary"
           />
         )
       )}
