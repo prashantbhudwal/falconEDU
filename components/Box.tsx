@@ -1,5 +1,5 @@
 import { ColorOption } from "@/types";
-import { colors } from "../theme/colors";
+import { colors } from "../app/theme/colors";
 import { ThemeColor } from "@/types";
 export default function Box({
   children,

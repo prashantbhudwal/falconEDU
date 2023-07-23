@@ -1,5 +1,5 @@
 "use client";
-import Issue from "@/app/components/Issue";
+import Issue from "@/components/Issue";
 import { contentStreamCompletedAtom } from "@/app/atoms/lesson";
 import { useAtom } from "jotai";
 import { useState } from "react";
@@ -11,7 +11,7 @@ import {
   gradeAtom,
   subjectAtom,
 } from "@/app/atoms/preferences";
-import Header from "@/app/components/Header";
+import Header from "@/components/Header";
 import { useWorksheetStream } from "@/app/raptor/hooks/useWorksheetStream";
 import {
   worksheetAnswerKeyAtom,

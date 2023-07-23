@@ -7,7 +7,7 @@ import { getEmoji } from "../utils";
 import LiveBlock from "./components/LiveBlock";
 import { useRouter } from "next/navigation";
 import { BlockContent } from "@/types";
-import Header from "../components/Header";
+import Header from "../../components/Header";
 import {
   topicAtom,
   subtopicAtom,

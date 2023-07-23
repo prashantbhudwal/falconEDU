@@ -5,7 +5,7 @@ import { useAtom } from "jotai";
 import { DropTargetMonitor, useDrop } from "react-dnd";
 import questionData from "@/app/data/questionMatrix.json";
 import BloomBoxes from "./BloomBoxes";
-import Section from "@/app/components/Section";
+import Section from "@/components/Section";
 import {
   getQuestionSectionShadow,
   getQuestionSectionBorderColor,

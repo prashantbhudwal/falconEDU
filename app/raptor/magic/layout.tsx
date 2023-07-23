@@ -1,8 +1,8 @@
 "use client";
 import { worksheetAidType } from "@/types";
 const worksheetAids: worksheetAidType[] = ["worksheet", "answerKey"];
-import Section from "@/app/components/Section";
-import Sidebar from "@/app/components/Sidebar";
+import Section from "@/components/Section";
+import Sidebar from "@/components/Sidebar";
 import SidebarButton from "@/app/magic/components/SidebarButton";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";

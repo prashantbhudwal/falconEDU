@@ -1,6 +1,6 @@
 "use client";
 import { useAid } from "../../hooks/useAid";
-import Issue from "@/app/components/Issue";
+import Issue from "@/components/Issue";
 import { contentStreamCompletedAtom } from "@/app/atoms/lesson";
 import { useAtom } from "jotai";
 import { useState } from "react";
@@ -15,7 +15,7 @@ import {
   gradeAtom,
   subjectAtom,
 } from "@/app/atoms/preferences";
-import Header from "@/app/components/Header";
+import Header from "@/components/Header";
 export default function Page({ params }: { params: { aid: aidType } }) {
   const [topic] = useAtom(topicAtom);
   const [subtopic] = useAtom(subtopicAtom);

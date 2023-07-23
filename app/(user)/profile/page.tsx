@@ -3,7 +3,7 @@ import { useSession } from "next-auth/react";
 import useSWR from "swr";
 import axios from "axios";
 import Image from "next/image";
-import Section from "@/app/components/Section";
+import Section from "@/components/Section";
 import { RotateLoader } from "react-spinners";
 import EditProfileModal from "./edit/Modal";
 async function fetchUserData(url: any) {

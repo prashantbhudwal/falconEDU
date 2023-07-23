@@ -1,14 +1,14 @@
 "use client";
 import Canvas from "./Canvas";
-import Sidebar from "../components/Sidebar";
+import Sidebar from "../../components/Sidebar";
 import { buttonsArray as promptsArray } from "../utils";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
 import { getEmoji } from "../utils";
 import { useAtom } from "jotai";
 import { lessonIdeasAtom } from "../atoms/lesson";
-import Section from "../components/Section";
-import DraggableChip from "../components/DraggableChip";
+import Section from "../../components/Section";
+import DraggableChip from "../../components/DraggableChip";
 import { itemTypes } from "../config/itemTypes";
 
 export default function Merlin() {
@@ -19,7 +19,11 @@ export default function Merlin() {
         <Sidebar className="col-start-1 col-span-2 row-start-1">
           <Section title="Lesson Blocks">
             {promptsArray.map((buttonText: string) => (
-              <DraggableChip key={buttonText} type={itemTypes.BOX} color="primary">
+              <DraggableChip
+                key={buttonText}
+                type={itemTypes.BOX}
+                color="primary"
+              >
                 {buttonText}
               </DraggableChip>
             ))}

@@ -2,10 +2,10 @@
 import { itemTypes } from "../config/itemTypes";
 import objectHash from "object-hash";
 import React, { useState, useEffect } from "react";
-import Sidebar from "../components/Sidebar";
-import Section from "../components/Section";
+import Sidebar from "../../components/Sidebar";
+import Section from "../../components/Section";
 import Canvas from "./components/Canvas";
-import DraggableChip from "../components/DraggableChip";
+import DraggableChip from "../../components/DraggableChip";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
 import { QuestionType, QuestionItem, QuestionObject } from "@/types";

@@ -1,7 +1,7 @@
 "use client";
 import AidCanvas from "./aid/[aid]/AidCanvas";
-import Sidebar from "@/app/components/Sidebar";
-import Section from "../components/Section";
+import Sidebar from "@/components/Sidebar";
+import Section from "../../components/Section";
 import { topicAtom, subtopicAtom } from "@/app/atoms/preferences";
 import { useAtom } from "jotai";
 import { useEffect } from "react";
