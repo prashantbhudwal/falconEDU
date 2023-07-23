@@ -2,7 +2,7 @@ import Header from "@/app/Header";
 import Footer from "@/app/Footer";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/react";
-import Providers from "./providers/providers";
+import Providers from "../providers/providers";
 import { Inter } from "next/font/google";
 import Upgrade from "./Upgrade";
 
