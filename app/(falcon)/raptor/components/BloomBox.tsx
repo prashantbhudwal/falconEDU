@@ -1,8 +1,8 @@
 import { useDrop, DropTargetMonitor } from "react-dnd";
 import { useAtom } from "jotai";
-import { currentQuestionAtom } from "../../../atoms/worksheet";
+import { currentQuestionAtom } from "../../../../atoms/worksheet";
 import { QuestionType } from "@/types";
-import questionData from "../../data/questionMatrix.json";
+import questionData from "../../../data/questionMatrix.json";
 import { useState, useEffect } from "react";
 import { contentStreamCompletedAtom } from "@/atoms/lesson";
 function getBloomLevel(bloomLevel: string | undefined): string {

@@ -1,15 +1,15 @@
 "use client";
-import { itemTypes } from "../../config/itemTypes";
+import { itemTypes } from "../../../config/itemTypes";
 import objectHash from "object-hash";
 import React, { useState, useEffect } from "react";
-import Sidebar from "../../components/Sidebar";
-import Section from "../../components/Section";
+import Sidebar from "../../../components/Sidebar";
+import Section from "../../../components/Section";
 import Canvas from "./components/Canvas";
-import DraggableChip from "../../components/DraggableChip";
+import DraggableChip from "../../../components/DraggableChip";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
 import { QuestionType, QuestionItem, QuestionObject } from "@/types";
-import { currentQuestionAtom } from "../../atoms/worksheet";
+import { currentQuestionAtom } from "../../../atoms/worksheet";
 import { useAtom } from "jotai";
 import { useQuestionGeneration } from "./hooks/useQuestionGeneration";
 import { contentStreamCompletedAtom } from "@/atoms/lesson";
@@ -18,16 +18,16 @@ import {
   savedQuestionsAtom,
   isAdvancedModeAtom,
   batchSizeAtom,
-} from "../../atoms/worksheet";
+} from "../../../atoms/worksheet";
 import {
   topicAtom,
   gradeAtom,
   boardAtom,
   subjectAtom,
-} from "../../atoms/preferences";
+} from "../../../atoms/preferences";
 import { RiseLoader, SyncLoader } from "react-spinners";
 import QuestionsBlock from "./components/QuestionSection";
-import useJsonParsing from "../../hooks/useJsonParsing";
+import useJsonParsing from "../../../hooks/useJsonParsing";
 import { ModeToggle } from "./components/ModeToggle";
 import { motion, useAnimation } from "framer-motion";
 import { BatchSize } from "./components/BatchSize";

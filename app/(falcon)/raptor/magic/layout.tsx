@@ -3,7 +3,7 @@ import { worksheetAidType } from "@/types";
 const worksheetAids: worksheetAidType[] = ["worksheet", "answerKey"];
 import Section from "@/components/Section";
 import Sidebar from "@/components/Sidebar";
-import SidebarButton from "@/app/magic/components/SidebarButton";
+import SidebarButton from "@/app/(falcon)/magic/components/SidebarButton";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import { getEmoji, getName } from "@/utils";

@@ -6,7 +6,7 @@ import {
   gradeAtom,
   boardAtom,
   subjectAtom,
-} from "../../../atoms/preferences";
+} from "../../../../atoms/preferences";
 import { IdeaStreamPayload } from "@/types";
 import { ideaType } from "@/types";
 import { useChat } from "ai/react";

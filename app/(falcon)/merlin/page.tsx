@@ -1,15 +1,15 @@
 "use client";
 import Canvas from "./Canvas";
-import Sidebar from "../../components/Sidebar";
-import { buttonsArray as promptsArray } from "../../utils";
+import Sidebar from "../../../components/Sidebar";
+import { buttonsArray as promptsArray } from "../../../utils";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
-import { getEmoji } from "../../utils";
+import { getEmoji } from "../../../utils";
 import { useAtom } from "jotai";
-import { lessonIdeasAtom } from "../../atoms/lesson";
-import Section from "../../components/Section";
-import DraggableChip from "../../components/DraggableChip";
-import { itemTypes } from "../../config/itemTypes";
+import { lessonIdeasAtom } from "../../../atoms/lesson";
+import Section from "../../../components/Section";
+import DraggableChip from "../../../components/DraggableChip";
+import { itemTypes } from "../../../config/itemTypes";
 
 export default function Merlin() {
   const [lessonIdeas] = useAtom(lessonIdeasAtom);
