@@ -9,7 +9,7 @@ import { useAtom } from "jotai";
 import { lessonIdeasAtom } from "../atoms/lesson";
 import Section from "../../components/Section";
 import DraggableChip from "../../components/DraggableChip";
-import { itemTypes } from "../config/itemTypes";
+import { itemTypes } from "../../config/itemTypes";
 
 export default function Merlin() {
   const [lessonIdeas] = useAtom(lessonIdeasAtom);

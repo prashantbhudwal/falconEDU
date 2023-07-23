@@ -1,5 +1,5 @@
 "use client";
-import { itemTypes } from "../config/itemTypes";
+import { itemTypes } from "../../config/itemTypes";
 import objectHash from "object-hash";
 import React, { useState, useEffect } from "react";
 import Sidebar from "../../components/Sidebar";
