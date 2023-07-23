@@ -10,7 +10,7 @@ import {
 import { IdeaStreamPayload } from "@/types";
 import { ideaType } from "@/types";
 import { useChat } from "ai/react";
-import { useContentStream } from "@/app/hooks/useContentStream";
+import { useContentStream } from "@/hooks/useContentStream";
 
 const ROUTE = "/api/falconStreamOnEdge";
 

@@ -1,5 +1,5 @@
 import { useAtom } from "jotai";
-import { useContentStream } from "../../../hooks/useContentStream";
+import { useContentStream } from "../../../../hooks/useContentStream";
 import { contentStreamCompletedAtom } from "../../../atoms/lesson";
 import { gradeAtom } from "@/app/atoms/preferences";
 import { PredictionPayload, APIRoute } from "@/types";

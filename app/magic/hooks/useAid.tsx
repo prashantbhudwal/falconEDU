@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useAtom } from "jotai";
-import { useContentStream } from "@/app/hooks/useContentStream";
+import { useContentStream } from "@/hooks/useContentStream";
 import { v4 as uuid } from "uuid";
 import {
   fetchedContentAtom,

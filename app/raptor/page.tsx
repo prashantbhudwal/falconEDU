@@ -27,7 +27,7 @@ import {
 } from "../atoms/preferences";
 import { RiseLoader, SyncLoader } from "react-spinners";
 import QuestionsBlock from "./components/QuestionSection";
-import useJsonParsing from "../hooks/useJsonParsing";
+import useJsonParsing from "../../hooks/useJsonParsing";
 import { ModeToggle } from "./components/ModeToggle";
 import { motion, useAnimation } from "framer-motion";
 import { BatchSize } from "./components/BatchSize";

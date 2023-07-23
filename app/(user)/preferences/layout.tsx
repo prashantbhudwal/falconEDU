@@ -1,7 +1,7 @@
 "use client";
 import { usePathname } from "next/navigation";
 import DesktopOnly from "../../../components/DesktopOnly";
-import useDesktop from "../../hooks/useDesktop";
+import useDesktop from "../../../hooks/useDesktop";
 import { userFlowAtom } from "../../atoms/app";
 import { useAtom } from "jotai";
 const getTitle = (pathname: string, userFlow: string) => {
