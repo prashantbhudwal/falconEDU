@@ -1,6 +1,34 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { BlockContent } from "@/types";
+import { generateDocx } from "../../../utils/generateDocx";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
+
+export const getSelectedBlockContent = (
+  selectedBlockId: any,
+  lessonIdeas: BlockContent[]
+) => {
+  // Find the block with the selected id
+  const selectedBlock = lessonIdeas.find(
+    (block) => block.id === selectedBlockId
+  );
+  return selectedBlock?.text;
+};
+
+export const downloadBlock = (
+  id: string,
+  lessonIdeas: BlockContent[],
+  subtopic: string
+) => {
+  const blockToDownload = lessonIdeas.filter((idea) => idea.id == id);
+  const content = blockToDownload[0].text
+  const payload = {
+    topic: blockToDownload[0].type,
+    subtopic,
+    fetchedContent: content,
+  };
+  generateDocx(payload);
+};

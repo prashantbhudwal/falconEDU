@@ -49,6 +49,7 @@
   },
   "devDependencies": {
     "@swc-jotai/react-refresh": "^0.0.8",
+    "@tailwindcss/typography": "^0.5.9",
     "@types/file-saver": "^2.0.5",
     "@types/object-hash": "^3.0.2",
     "@types/react-syntax-highlighter": "^15.5.7",

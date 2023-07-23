@@ -4,7 +4,6 @@ import { FC, memo } from "react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { coldarkDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
 
-
 interface Props {
   language: string;
   value: string;
@@ -51,7 +50,6 @@ export const generateRandomString = (length: number, lowercase = false) => {
 };
 
 const CodeBlock: FC<Props> = memo(({ language, value }) => {
-
   const downloadAsFile = () => {
     if (typeof window === "undefined") {
       return;
@@ -80,18 +78,16 @@ const CodeBlock: FC<Props> = memo(({ language, value }) => {
     URL.revokeObjectURL(url);
   };
 
-
-
   return (
-    <div className="codeblock relative w-full bg-zinc-950 font-sans">
-      <div className="flex w-full items-center justify-between bg-zinc-800 px-6 py-2 pr-4 text-zinc-100">
+    <div className="codeblock relative w-full bg-slate-950 font-sans">
+      <div className="flex w-full items-center justify-between bg-slate-900 px-6 py-2 pr-4 text-zinc-100">
         <span className="text-xs lowercase">{language}</span>
         <div className="flex items-center space-x-1">
           <button
-            className="btn btn-base-100 btn-square"
+            className="btn btn-base-100 btn-square btn-xs"
             onClick={downloadAsFile}
           >
-            D<span className="sr-only">Download</span>
+            📥<span className="sr-only">Download</span>
           </button>
         </div>
       </div>

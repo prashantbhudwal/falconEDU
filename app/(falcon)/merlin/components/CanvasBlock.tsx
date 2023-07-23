@@ -2,12 +2,12 @@ import { getBlockShadow } from "../../../../utils";
 import { ideaType } from "@/types";
 import { Message } from "./Message";
 interface CanvasBlockProps {
-  text: string | string[];
+  text: string;
   id: string;
   type: ideaType;
   emoji: string;
   onRemove: (id: string) => void;
-  onDownload: (id: string) => void;
+  onDownload: () => void;
   isSelected: boolean;
   onSelect: (id: string) => void;
 }
@@ -45,7 +45,7 @@ export default function CanvasBlock({
           </button>
           <button
             className="text-green-500 p-1 text-sm"
-            onClick={() => onDownload(id)}
+            onClick={() => onDownload()}
           >
             📥
           </button>
@@ -58,9 +58,7 @@ export default function CanvasBlock({
           />
         </div>
       </div>
-      <p className="leading-6 text-base pt-2 whitespace-pre-wrap">
-        {displayText}
-      </p>
+      <Message message={displayText} />
     </div>
   );
 }

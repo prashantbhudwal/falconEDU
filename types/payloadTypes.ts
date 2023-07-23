@@ -18,7 +18,7 @@ export type IdeaStreamPayload = {
   topic: string;
   subtopic: string;
   grade: string;
-  promptType: ideaType;
+  prompt: ideaType;
 };
 
 export type PredictionPayload = {

@@ -43,6 +43,7 @@ export async function POST(request: NextRequest) {
   const { MODEL, TEMPERATURE, MAX_TOKENS, STREAM } = ideaOptions;
 
   const payload: IdeaStreamPayload = await request.json();
+  console.log("payload", payload);
   const messages: ChatCompletionRequestMessage[] = getChatMessages(payload);
 
   const response = await openai.createChatCompletion({

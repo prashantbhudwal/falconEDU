@@ -16,11 +16,11 @@ import { saveAs } from "file-saver";
 interface DocData {
   topic: string;
   subtopic: string;
-  fetchedContent: string[];
+  fetchedContent: string;
 }
 
 export async function generateDocx(data: DocData): Promise<void> {
-  const text = data.fetchedContent.join("");
+  const text = data.fetchedContent;
   const paragraphs = text.split("\n").map((paragraphContent) => {
     return new Paragraph({
       children: [

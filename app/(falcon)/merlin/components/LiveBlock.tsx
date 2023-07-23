@@ -1,9 +1,11 @@
+import { Message } from "./Message";
+
 export default function LiveBlock({
   text: displayText,
   emoji: blockEmoji,
   type: blockType,
 }: {
-  text: string | string[];
+  text: string;
   emoji: string;
   type: string;
 }) {
@@ -15,9 +17,7 @@ export default function LiveBlock({
         <p className="text-base">{blockEmoji}</p>
         <p className="uppercase">{blockType}</p>
       </header>
-      <p className="leading-6 text-base pt-2 whitespace-pre-wrap">
-        {displayText}
-      </p>
+      <Message message={displayText} />
     </div>
   );
 }
