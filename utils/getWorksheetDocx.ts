@@ -17,7 +17,7 @@ import {
   Footer,
 } from "docx";
 import { saveAs } from "file-saver";
-import { getQuestionTypeTitle } from "@/app/utils/index";
+import { getQuestionTypeTitle } from "@/utils/index";
 
 export async function getWorksheetDocx(questionBank: QuestionBank) {
   const headerParagraph = new Paragraph({

@@ -3,7 +3,7 @@ import { useDrop, DropTargetMonitor } from "react-dnd";
 import { useState, useEffect, useCallback } from "react";
 import CanvasBlock from "./components/CanvasBlock";
 import useFalconStream from "@/app/merlin/hooks/useFalconStream";
-import { getEmoji } from "../utils";
+import { getEmoji } from "../../utils";
 import LiveBlock from "./components/LiveBlock";
 import { useRouter } from "next/navigation";
 import { BlockContent } from "@/types";
@@ -18,7 +18,7 @@ import {
 import { useAtom } from "jotai";
 import { lessonIdeasAtom } from "../atoms/lesson";
 import { ideaType } from "@/types";
-import { generateDocx } from "../utils/generateDocx";
+import { generateDocx } from "../../utils/generateDocx";
 import { contentStreamCompletedAtom } from "@/app/atoms/lesson";
 import { useChat, useCompletion } from "ai/react";
 import Chat from "./components/Chat";

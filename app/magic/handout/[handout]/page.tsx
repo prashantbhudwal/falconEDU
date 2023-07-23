@@ -1,7 +1,7 @@
 "use client";
 import { useAtom } from "jotai";
 import { lessonIdeasAtom } from "@/app/atoms/lesson";
-import ideasToHandouts from "@/app/utils/ideasToHandouts";
+import ideasToHandouts from "@/utils/ideasToHandouts";
 import {
   topicAtom,
   subtopicAtom,

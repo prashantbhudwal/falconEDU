@@ -1,4 +1,4 @@
-import { getBlockShadow } from "../../utils";
+import { getBlockShadow } from "../../../utils";
 import { ideaType } from "@/types";
 
 interface CanvasBlockProps {

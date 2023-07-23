@@ -1,7 +1,7 @@
 import { useAtom } from "jotai";
 import useLatestAid from "./useLatestAid";
 import { lessonIdeasAtom } from "../../atoms/lesson";
-import { convertToDocx } from "../../utils/convertToDocx";
+import { convertToDocx } from "../../../utils/convertToDocx";
 
 export default function useDownloadContent() {
   const [lessonIdeas] = useAtom(lessonIdeasAtom);

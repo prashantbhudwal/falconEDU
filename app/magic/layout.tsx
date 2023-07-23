@@ -11,7 +11,7 @@ import { teachingAids } from "./hooks/useTeachingAids";
 import useHandouts from "./hooks/useHandouts";
 import { aidType, handoutType } from "@/types";
 import SidebarButton from "./components/SidebarButton";
-import { getEmoji, getName } from "@/app/utils";
+import { getEmoji, getName } from "@/utils";
 export default function AidLayout({
   children, // will be a page or nested layout
 }: {

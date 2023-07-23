@@ -8,14 +8,14 @@ import {
   currentStreamIdAtom,
   prevStreamIdAtom,
 } from "@/app/atoms/lesson";
-import fetchContentStream from "@/app/utils/fetchContentStream";
+import fetchContentStream from "@/utils/fetchContentStream";
 import {
   aidType,
   APIRoute,
   PredictionPayload,
   StreamPayload,
   QuestionPayload,
-  ContentStreamPayload
+  ContentStreamPayload,
 } from "@/types";
 
 export function useContentStream(apiRoute: APIRoute) {

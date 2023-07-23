@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { downloadZip } from "@/app/utils/downloadZip";
+import { downloadZip } from "@/utils/downloadZip";
 import { usePathname } from "next/navigation";
 import { useAtom } from "jotai";
 import Image from "next/image";
@@ -18,8 +18,8 @@ import {
 import { startedAtom } from "./atoms/app";
 import useDownloadContent from "./magic/hooks/useDownloadContent";
 import { useRouter } from "next/navigation";
-import { getWorksheetDocx } from "./utils/getWorksheetDocx";
-import { generateAnswerKeyDocx } from "./utils/generateAnswerKeyDocx";
+import { getWorksheetDocx } from "../utils/getWorksheetDocx";
+import { generateAnswerKeyDocx } from "../utils/generateAnswerKeyDocx";
 import { topicAtom } from "./atoms/preferences";
 export default function Header() {
   const { data: session, status: sessionStatus } = useSession();
