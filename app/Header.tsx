@@ -15,7 +15,7 @@ import {
   contentStreamCompletedAtom,
   teachingAidsAtom,
 } from "../atoms/lesson";
-import useDownloadContent from "./(falcon)/magic/hooks/useDownloadContent";
+import useDownloadContent from "./(falcon)/(merlin)/magic/hooks/useDownloadContent";
 import { useRouter } from "next/navigation";
 import { getWorksheetDocx } from "../utils/getWorksheetDocx";
 import { generateAnswerKeyDocx } from "../utils/generateAnswerKeyDocx";

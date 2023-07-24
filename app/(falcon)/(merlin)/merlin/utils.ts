@@ -1,7 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { BlockContent } from "@/types";
-import { generateDocx } from "../../../utils/generateDocx";
+import { generateDocx } from "../../../../utils/generateDocx";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -24,7 +24,7 @@ export const downloadBlock = (
   subtopic: string
 ) => {
   const blockToDownload = lessonIdeas.filter((idea) => idea.id == id);
-  const content = blockToDownload[0].text
+  const content = blockToDownload[0].text;
   const payload = {
     topic: blockToDownload[0].type,
     subtopic,

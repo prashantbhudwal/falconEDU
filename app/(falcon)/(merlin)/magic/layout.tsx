@@ -1,9 +1,9 @@
 "use client";
-import useDownloadContent from "@/app/(falcon)/magic/hooks/useDownloadContent";
+import useDownloadContent from "@/app/(falcon)/(merlin)/magic/hooks/useDownloadContent";
 import { contentStreamCompletedAtom, teachingAidsAtom } from "@/atoms/lesson";
 import AidCanvas from "./aid/[aid]/AidCanvas";
 import Sidebar from "@/components/Sidebar";
-import Section from "../../../components/Section";
+import Section from "../../../../components/Section";
 import { topicAtom, subtopicAtom } from "@/atoms/preferences";
 import { useAtom } from "jotai";
 import { useEffect } from "react";
