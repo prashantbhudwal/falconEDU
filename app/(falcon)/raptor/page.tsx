@@ -15,6 +15,7 @@ import { useQuestionGeneration } from "./hooks/useQuestionGeneration";
 import { contentStreamCompletedAtom } from "@/atoms/lesson";
 import {
   worksheetSubtopicsAtom,
+  worksheetAnswerKeyAtom,
   savedQuestionsAtom,
   isAdvancedModeAtom,
   batchSizeAtom,
@@ -31,6 +32,7 @@ import useJsonParsing from "../../../hooks/useJsonParsing";
 import { ModeToggle } from "./components/ModeToggle";
 import { motion, useAnimation } from "framer-motion";
 import { BatchSize } from "./components/BatchSize";
+import { useRouter } from "next/navigation";
 
 const questionTypes = [
   { value: "fillInTheBlanks", label: "Fill in the Blanks" },
@@ -55,6 +57,9 @@ export default function Raptor() {
   const [currentQuestion, setCurrentQuestion] = useAtom(currentQuestionAtom);
   const [contentStreamCompleted] = useAtom(contentStreamCompletedAtom);
   const [worksheetSubtopics] = useAtom(worksheetSubtopicsAtom);
+  const [worksheetAnswerKey, setWorksheetAnswerKey] = useAtom(
+    worksheetAnswerKeyAtom
+  );
   const [checkedQuestionTypes, setCheckedQuestionTypes] = useState<
     QuestionType[]
   >(["fillInTheBlanks"]);
@@ -62,7 +67,12 @@ export default function Raptor() {
   const [firstRender, setFirstRender] = useState(true);
   const [batchSize, setBatchSize] = useAtom(batchSizeAtom);
   // console.log(savedQuestions);
+  const router = useRouter();
 
+  const handleWorksheetGeneration = () => {
+    setWorksheetAnswerKey([]);
+    router.push("/raptor/magic/worksheet");
+  };
   const handleCheckboxChange = (value: QuestionType) => {
     if (checkedQuestionTypes.includes(value)) {
       setCheckedQuestionTypes(
@@ -207,6 +217,12 @@ export default function Raptor() {
               setIsAdvancedMode={setIsAdvancedMode}
             />
             <BatchSize />
+            <button
+              className="btn btn-secondary btn-sm"
+              onClick={handleWorksheetGeneration}
+            >
+              Generate Worksheet
+            </button>
           </div>
 
           {savedQuestions.map((questionObject: QuestionObject) => {

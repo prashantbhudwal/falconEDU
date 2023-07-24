@@ -1,4 +1,3 @@
-import Header from "@/app/Header";
 import Footer from "@/app/Footer";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/react";
@@ -26,7 +25,6 @@ export default function RootLayout({
     <html lang="en" className={inter.className}>
       <body className="flex flex-col min-h-screen bg-slate-900 text-slate-400">
         <Providers>
-          <Header />
           <main className="flex-grow mx-5 flex flex-col items-center min-h-screen">
             <Upgrade>{children}</Upgrade>
           </main>
