@@ -1,4 +1,6 @@
 "use client";
+import useDownloadContent from "@/app/(falcon)/magic/hooks/useDownloadContent";
+import { contentStreamCompletedAtom, teachingAidsAtom } from "@/atoms/lesson";
 import AidCanvas from "./aid/[aid]/AidCanvas";
 import Sidebar from "@/components/Sidebar";
 import Section from "../../../components/Section";
@@ -12,16 +14,24 @@ import useHandouts from "./hooks/useHandouts";
 import { aidType, handoutType } from "@/types";
 import SidebarButton from "./components/SidebarButton";
 import { getEmoji, getName } from "@/utils";
+import { downloadZip } from "@/utils/downloadZip";
+
 export default function AidLayout({
   children, // will be a page or nested layout
 }: {
   children: React.ReactNode;
 }) {
+  const [contentStreamCompleted, setContentStreamCompleted] = useAtom(
+    contentStreamCompletedAtom
+  );
+  const docxArray = useDownloadContent();
+
   const router = useRouter();
   const pathname = usePathname();
   const [topic] = useAtom(topicAtom);
   const [subtopic] = useAtom(subtopicAtom);
   const handouts = useHandouts();
+  const [_, setTeachingAidsAt] = useAtom(teachingAidsAtom);
 
   useEffect(() => {
     if (topic === "" || subtopic === "") {
@@ -53,8 +63,27 @@ export default function AidLayout({
               </SidebarButton>
             ))}
         </Section>
+        <button
+          className="btn btn-secondary btn-sm"
+          onClick={() => {
+            setTeachingAidsAt([]);
+            router.push("/merlin");
+          }}
+          disabled={!contentStreamCompleted}
+        >
+          Planner
+        </button>
+        <button
+          onClick={() => {
+            downloadZip(docxArray);
+          }}
+          className="btn btn-accent btn-sm"
+          disabled={!contentStreamCompleted}
+        >
+          Download
+        </button>
       </Sidebar>
-      <AidCanvas className="col-start-3 col-span-8 min-h-screen">
+      <AidCanvas className="col-start-3 col-span-8 min-h-screen mt-2">
         {children}
       </AidCanvas>
     </div>
