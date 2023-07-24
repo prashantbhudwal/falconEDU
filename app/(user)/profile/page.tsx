@@ -1,32 +1,14 @@
 "use client";
-import { useSession } from "next-auth/react";
-import useSWR from "swr";
-import axios from "axios";
 import Image from "next/image";
 import Section from "@/components/Section";
 import { RotateLoader } from "react-spinners";
 import EditProfileModal from "./edit/Modal";
-async function fetchUserData(url: any) {
-  try {
-    const response = await axios.get(url);
-    return response.data;
-  } catch (error) {
-    throw new Error("Failed to fetch user data");
-  }
-}
+import useUserData from "@/hooks/useUserData";
 
 export default function ProfilePage() {
-  const { data: session, status: sessionStatus } = useSession();
-  const email = session?.user?.email;
+  const { user, error, isLoading } = useUserData();
 
-  const {
-    data: user,
-    error,
-    isLoading,
-  } = useSWR(email ? `/api/db/user/${email}` : null, fetchUserData);
-  console.log(user);
-
-  if (sessionStatus === "loading" || isLoading) {
+  if (isLoading) {
     return (
       <div className="flex justify-center items-center">
         <RotateLoader color="#2d9c6d" />
