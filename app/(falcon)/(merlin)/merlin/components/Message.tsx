@@ -12,12 +12,14 @@ export interface ChatMessageProps {
 export function Message({ message, ...props }: ChatMessageProps) {
   return (
     <div
-      className={cn("text-base pt-2 group relative mb-1 flex items-start")}
+      className={cn(
+        "text-base pt-2 group relative mb-1 flex items-start w-full"
+      )}
       {...props}
     >
       <div className="ml-2 flex-1 space-y-1 overflow-hidden px-1">
         <MemoizedReactMarkdown
-          className="prose break-words prose-p:leading-normal prose-pre:p-0"
+          className="prose break-words prose-p:leading-normal prose-pre:p-0 w-full"
           remarkPlugins={[remarkGfm, remarkMath]}
           components={{
             p({ children }) {
