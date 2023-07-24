@@ -15,6 +15,7 @@ import { aidType, handoutType } from "@/types";
 import SidebarButton from "./components/SidebarButton";
 import { getEmoji, getName } from "@/utils";
 import { downloadZip } from "@/utils/downloadZip";
+import Navbar from "./components/Navbar";
 
 export default function AidLayout({
   children, // will be a page or nested layout
@@ -40,52 +41,55 @@ export default function AidLayout({
   }, [topic, subtopic, router]);
 
   return (
-    <div className="grid grid-cols-12 gap-4 w-full">
-      <Sidebar className="col-start-1 col-span-2 row-start-1">
-        <Section title="Teaching Aids">
-          {teachingAids.map((aid: aidType) => (
-            <SidebarButton
-              onClick={() => router.push(`/magic/aid/${aid}`)}
-              isActive={pathname === `/magic/aid/${aid}`}
-              key={aid}
-            >
-              {`${getEmoji(aid)} ${getName(aid)}`}
-            </SidebarButton>
-          ))}
-          {handouts.length != 0 &&
-            handouts.map((handout: handoutType) => (
+    <div>
+      <Navbar />
+      <div className="grid grid-cols-12 gap-4 w-full">
+        <Sidebar className="col-start-1 col-span-2 row-start-1">
+          <Section title="Teaching Aids">
+            {teachingAids.map((aid: aidType) => (
               <SidebarButton
-                onClick={() => router.push(`/magic/handout/${handout}`)}
-                isActive={pathname === `/magic/handout/${handout}`}
-                key={handout}
+                onClick={() => router.push(`/magic/aid/${aid}`)}
+                isActive={pathname === `/magic/aid/${aid}`}
+                key={aid}
               >
-                {`${getEmoji(handout)} ${getName(handout)}`}
+                {`${getEmoji(aid)} ${getName(aid)}`}
               </SidebarButton>
             ))}
-        </Section>
-        <button
-          className="btn btn-secondary btn-sm"
-          onClick={() => {
-            setTeachingAidsAt([]);
-            router.push("/merlin");
-          }}
-          disabled={!contentStreamCompleted}
-        >
-          Planner
-        </button>
-        <button
-          onClick={() => {
-            downloadZip(docxArray);
-          }}
-          className="btn btn-accent btn-sm"
-          disabled={!contentStreamCompleted}
-        >
-          Download
-        </button>
-      </Sidebar>
-      <AidCanvas className="col-start-3 col-span-8 min-h-screen mt-2">
-        {children}
-      </AidCanvas>
+            {handouts.length != 0 &&
+              handouts.map((handout: handoutType) => (
+                <SidebarButton
+                  onClick={() => router.push(`/magic/handout/${handout}`)}
+                  isActive={pathname === `/magic/handout/${handout}`}
+                  key={handout}
+                >
+                  {`${getEmoji(handout)} ${getName(handout)}`}
+                </SidebarButton>
+              ))}
+          </Section>
+          <button
+            className="btn btn-secondary btn-sm"
+            onClick={() => {
+              setTeachingAidsAt([]);
+              router.push("/merlin");
+            }}
+            disabled={!contentStreamCompleted}
+          >
+            Planner
+          </button>
+          <button
+            onClick={() => {
+              downloadZip(docxArray);
+            }}
+            className="btn btn-accent btn-sm"
+            disabled={!contentStreamCompleted}
+          >
+            Download
+          </button>
+        </Sidebar>
+        <AidCanvas className="col-start-3 col-span-8 min-h-screen mt-2">
+          {children}
+        </AidCanvas>
+      </div>
     </div>
   );
 }
