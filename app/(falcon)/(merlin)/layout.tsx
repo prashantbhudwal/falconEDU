@@ -1,4 +1,4 @@
-import Navbar from "./magic/components/Navbar";
+import Navbar from "./components/Navbar";
 
 export default function MerlinLayout({
   children, // will be a page or nested layout
