@@ -8,7 +8,7 @@ export default function Avatar() {
     <>
       {user?.image || !isLoading ? (
         <Image
-          className="rounded-md object-cover"
+          className="rounded-full object-cover"
           src={user.image}
           height={35}
           width={35}
