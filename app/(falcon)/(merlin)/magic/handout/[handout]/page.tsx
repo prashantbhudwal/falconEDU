@@ -28,15 +28,7 @@ export default function Page({
   );
 
   return (
-    <div className="flex flex-col gap-2">
-      <Header
-        leftTop={`Grade ${grade}`}
-        leftBottom={subject}
-        rightTop={board}
-        heading={subtopic}
-        subheading={topic}
-        color={"primary"}
-      />
+    <div className="flex flex-col gap-2 col-start-3 col-span-8 scroll-smooth overflow-y-scroll custom-scrollbar">
       {filteredHandouts.map((aid) => (
         <div
           key={aid.id}

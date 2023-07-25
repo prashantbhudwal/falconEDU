@@ -11,8 +11,8 @@ import {
   Footer,
 } from "docx";
 
-export async function convertToDocx(content: string[]) {
-  const text = content.join("");
+export async function convertToDocx(content: string) {
+  const text = content;
   const paragraphs = text.split("\n").map((paragraphContent) => {
     return new Paragraph({
       children: [
