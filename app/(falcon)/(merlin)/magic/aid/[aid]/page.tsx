@@ -16,7 +16,6 @@ import {
 import Header from "@/components/Header";
 import useDownloadContent from "@/app/(falcon)/(merlin)/magic/hooks/useDownloadContent";
 import { contentStreamCompletedAtom, teachingAidsAtom } from "@/atoms/lesson";
-import AidCanvas from "./AidCanvas";
 import Sidebar from "@/components/Sidebar";
 import Section from "@/components/Section";
 import { useRouter } from "next/navigation";
@@ -112,9 +111,11 @@ export default function Page({ params }: { params: { aid: aidType } }) {
             Download
           </button>
         </Sidebar>
-        <AidCanvas className="col-start-3 col-span-8 leading-7 text-lg whitespace-pre-wrap">
+        <div
+          className={`col-start-3 col-span-8 leading-7 text-lg whitespace-pre-wrap mt-0 h-full shadow-md bg-slate-200 py-4 flex flex-col items-center gap-4 text-slate-800 px-6 pb-96 marker:h-full scroll-smooth overflow-y-scroll custom-scrollbar`}
+        >
           <p>{contentStreamCompleted ? latestAid : content}</p>
-        </AidCanvas>
+        </div>
       </MerlinGrid>
     </div>
   );
