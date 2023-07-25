@@ -69,6 +69,7 @@ export default function Canvas({ className }: { className?: string }) {
     handleBlockCompletion(item);
     setBlockType(item);
   };
+  //TODO Uncomment this
   // Redirect to preferences if topic or subtopic is not selected
   // useEffect(() => {
   //   if (topic === "" || subtopic === "") {

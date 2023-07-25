@@ -33,11 +33,12 @@ export default function AidLayout({
   const handouts = useHandouts();
   const [_, setTeachingAidsAt] = useAtom(teachingAidsAtom);
 
-  useEffect(() => {
-    if (topic === "" || subtopic === "") {
-      router.push("/preferences");
-    }
-  }, [topic, subtopic, router]);
+  //TODO Uncomment this 
+  // useEffect(() => {
+  //   if (topic === "" || subtopic === "") {
+  //     router.push("/preferences");
+  //   }
+  // }, [topic, subtopic, router]);
 
   return (
     <div>
