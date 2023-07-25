@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { signIn, useSession } from "next-auth/react";
 import { PropagateLoader } from "react-spinners";
 import Header from "@/app/Header";
+import Footer from "@/app/Footer";
 
 const LandingPage = () => {
   const { data: session, status: sessionStatus } = useSession();
@@ -58,6 +59,7 @@ const LandingPage = () => {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 };
