@@ -15,7 +15,6 @@ import { aidType, handoutType } from "@/types";
 import SidebarButton from "./components/SidebarButton";
 import { getEmoji, getName } from "@/utils";
 import { downloadZip } from "@/utils/downloadZip";
-import Navbar from "./components/Navbar";
 
 export default function AidLayout({
   children, // will be a page or nested layout
@@ -42,7 +41,6 @@ export default function AidLayout({
 
   return (
     <div>
-      <Navbar />
       <div className="grid grid-cols-12 gap-4 w-full">
         <Sidebar className="col-start-1 col-span-2 row-start-1">
           <Section title="Teaching Aids">
