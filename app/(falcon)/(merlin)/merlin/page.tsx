@@ -23,7 +23,7 @@ export default function Merlin() {
   };
   return (
     <DndProvider backend={HTML5Backend}>
-      <div className="grid grid-cols-12 gap-4 w-full select-none overflow-y-auto">
+      <div className="h-full grid grid-cols-12 gap-4 w-full select-none overflow-y-auto">
         <Sidebar className="col-start-1 col-span-2 row-start-1 overflow-y-auto custom-scrollbar">
           <Section title="Lesson Blocks">
             {promptsArray.map((buttonText: string) => (
