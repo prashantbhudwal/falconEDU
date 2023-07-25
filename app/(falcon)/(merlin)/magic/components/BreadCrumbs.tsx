@@ -8,7 +8,7 @@ export default function BreadCrumbs() {
     <div className="text-sm breadcrumbs max-w-2xl">
       <ul>
         <li className="">{board} </li>
-        <li className="">{grade} </li>
+        <li className="">Grade {grade}</li>
         <li className="">{subject}</li>
         <li className="">{topic}</li>
         {/* For some reason both truncate are needed for desired behavior */}
