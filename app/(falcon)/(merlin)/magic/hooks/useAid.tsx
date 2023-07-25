@@ -8,25 +8,15 @@ import {
   contentStreamCompletedAtom,
   teachingAidsAtom,
 } from "@/atoms/lesson";
-import {
-  topicAtom,
-  subtopicAtom,
-  gradeAtom,
-  boardAtom,
-  subjectAtom,
-} from "@/atoms/preferences";
 import { APIRoute, StreamPayload } from "@/types";
 import { aidType } from "@/types";
 import useLatestAid from "./useLatestAid";
 import { shouldRegenerateAtom } from "@/atoms/lesson";
 const ROUTE: APIRoute = "/api/contentStreamOnEdge";
+import usePreferences from "@/hooks/usePreferences";
 
 export function useAid(aidType: aidType) {
-  const [topic] = useAtom(topicAtom);
-  const [subtopic] = useAtom(subtopicAtom);
-  const [grade] = useAtom(gradeAtom);
-  const [board] = useAtom(boardAtom);
-  const [subject] = useAtom(subjectAtom);
+  const { topic, subtopic, grade, board, subject } = usePreferences();
   const [lessonIdeas] = useAtom(lessonIdeasAtom);
   const [shouldRegenerate, setShouldRegenerate] = useAtom(shouldRegenerateAtom);
 
@@ -39,6 +29,7 @@ export function useAid(aidType: aidType) {
     useContentStream(ROUTE);
   const latestAid = useLatestAid(aidType);
   const latestLesson = useLatestAid("lesson");
+
   const startStreaming = () => {
     if ((latestAid && !shouldRegenerate) || topic == "") return;
     if (
@@ -59,8 +50,6 @@ export function useAid(aidType: aidType) {
             : latestLesson,
         payloadType: aidType,
       };
-      // console.log(latestLesson);
-      // console.log(payload);
       startGeneration(payload);
       setShouldRegenerate(false);
     }
