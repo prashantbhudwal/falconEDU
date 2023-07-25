@@ -11,7 +11,7 @@ import Section from "../../../../components/Section";
 import DraggableChip from "../../../../components/DraggableChip";
 import { itemTypes } from "../../../../config/itemTypes";
 import { useRouter } from "next/navigation";
-
+import MerlinGrid from "../components/Grid";
 export default function Merlin() {
   const [teachingAids, setTeachingAids] = useAtom(teachingAidsAtom);
   const router = useRouter();
@@ -23,8 +23,8 @@ export default function Merlin() {
   };
   return (
     <DndProvider backend={HTML5Backend}>
-      <div className="h-full grid grid-cols-12 gap-4 w-full select-none overflow-y-auto">
-        <Sidebar className="col-start-1 col-span-2 row-start-1 overflow-y-auto custom-scrollbar">
+      <MerlinGrid>
+        <Sidebar className="col-start-1 col-span-2 row-start-1 ">
           <Section title="Lesson Blocks">
             {promptsArray.map((buttonText: string) => (
               <DraggableChip
@@ -38,7 +38,7 @@ export default function Merlin() {
           </Section>
         </Sidebar>
         <Canvas className="col-start-3 col-span-8 mt-1" />
-        <Sidebar className="col-start-11 col-span-2 overflow-y-auto custom-scrollbar">
+        <Sidebar className="col-start-11 col-span-2 ">
           <Section title="Outline">
             {lessonIdeas &&
               lessonIdeas
@@ -59,7 +59,7 @@ export default function Merlin() {
             Generate
           </button>
         </Sidebar>
-      </div>
+      </MerlinGrid>
     </DndProvider>
   );
 }
