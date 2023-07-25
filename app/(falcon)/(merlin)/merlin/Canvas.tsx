@@ -6,14 +6,7 @@ import { getEmoji } from "@/utils";
 import LiveBlock from "./components/LiveBlock";
 import { useRouter } from "next/navigation";
 import { BlockContent, ideaType, validateIdeaType } from "@/types";
-import Header from "@/components/Header";
-import {
-  topicAtom,
-  subtopicAtom,
-  gradeAtom,
-  boardAtom,
-  subjectAtom,
-} from "@/atoms/preferences";
+import usePreferences from "@/hooks/usePreferences";
 import { useAtom } from "jotai";
 import { lessonIdeasAtom } from "@/atoms/lesson";
 import { useCompletion } from "ai/react";
@@ -27,12 +20,8 @@ export default function Canvas({ className }: { className?: string }) {
   const [selectedBlockId, setSelectedBlockId] = useState<string | null>(null);
   const router = useRouter();
   const [blockType, setBlockType] = useState<ideaType>("");
-  const [topic] = useAtom(topicAtom);
-  const [subtopic] = useAtom(subtopicAtom);
-  const [grade] = useAtom(gradeAtom);
-  const [board] = useAtom(boardAtom);
-  const [subject] = useAtom(subjectAtom);
   const [lessonIdeas, setLessonIdeas] = useAtom(lessonIdeasAtom);
+  const { topic, subtopic, grade, board, subject } = usePreferences();
 
   const {
     completion: messageNew,
