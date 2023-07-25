@@ -70,11 +70,11 @@ export default function Canvas({ className }: { className?: string }) {
     setBlockType(item);
   };
   // Redirect to preferences if topic or subtopic is not selected
-  useEffect(() => {
-    if (topic === "" || subtopic === "") {
-      router.push("/preferences");
-    }
-  }, [topic, subtopic]);
+  // useEffect(() => {
+  //   if (topic === "" || subtopic === "") {
+  //     router.push("/preferences");
+  //   }
+  // }, [topic, subtopic]);
 
   // React DnD
   const specObject = {
@@ -148,8 +148,8 @@ export default function Canvas({ className }: { className?: string }) {
     <div
       ref={!isBlockLoading ? drop : null}
       role={"Board"}
-      className={`${className} flex flex-col items-center gap-4   text-slate-300 px-5 py-3 rounded-lg ring-2 ring-emerald-500 shadow-emerald-500 ${
-        isOver ? "shadow-inner bg-emerald-900" : "shadow-md bg-slate-900"
+      className={`${className} pb-96 marker:h-full flex flex-col items-center gap-4 text-slate-300 px-5 py-3 scroll-smooth overflow-y-scroll custom-scrollbar ${
+        isOver ? "shadow-inner bg-emerald-900" : "shadow-md bg-slate-950"
       }`}
     >
       <Header

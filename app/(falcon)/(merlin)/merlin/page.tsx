@@ -23,8 +23,8 @@ export default function Merlin() {
   };
   return (
     <DndProvider backend={HTML5Backend}>
-      <div className="grid grid-cols-12 gap-4 w-full select-none">
-        <Sidebar className="col-start-1 col-span-2 row-start-1 h-screen">
+      <div className="grid grid-cols-12 gap-4 w-full select-none overflow-y-auto">
+        <Sidebar className="col-start-1 col-span-2 row-start-1 overflow-y-auto custom-scrollbar">
           <Section title="Lesson Blocks">
             {promptsArray.map((buttonText: string) => (
               <DraggableChip
@@ -37,9 +37,9 @@ export default function Merlin() {
             ))}
           </Section>
         </Sidebar>
-        <Canvas className="col-start-3 col-span-8 min-h-screen mt-2" />
-        <Sidebar className="col-start-11 col-span-2 h-screen">
-          <Section title="Outline" className="h-full">
+        <Canvas className="col-start-3 col-span-8 mt-1" />
+        <Sidebar className="col-start-11 col-span-2 overflow-y-auto custom-scrollbar">
+          <Section title="Outline">
             {lessonIdeas &&
               lessonIdeas
                 .slice()
@@ -52,7 +52,7 @@ export default function Merlin() {
                 ))}
           </Section>
           <button
-            className="btn btn-primary btn-md mb-4"
+            className="btn btn-primary btn-md fixed bottom-3"
             onClick={handleLessonGeneration}
             disabled={lessonIdeas.length == 0}
           >
