@@ -153,14 +153,6 @@ export default function Canvas({ className }: { className?: string }) {
         isOver ? "shadow-inner bg-emerald-900" : "shadow-md bg-slate-950"
       }`}
     >
-      <Header
-        leftTop={`Grade ${grade}`}
-        leftBottom={subject}
-        rightTop={board}
-        heading={subtopic}
-        subheading={topic}
-        color="primary"
-      />
       {!blockType && lessonIdeas.length === 0 && (
         <div className="text-emerald-900 text-center text-4xl pt-24">
           <p>Drop a Lesson Block Here</p>
