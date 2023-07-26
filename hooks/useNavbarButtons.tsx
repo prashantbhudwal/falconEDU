@@ -5,6 +5,8 @@ import {
   FiDownload,
   FiSkipBack,
 } from "react-icons/fi"; // import necessary icons
+import { VscWand } from "react-icons/vsc";
+import { FaWandMagicSparkles } from "react-icons/fa6";
 import { ComponentType, SVGProps } from "react";
 import { contentStreamCompletedAtom, teachingAidsAtom } from "@/atoms/lesson";
 import { useAtom } from "jotai";
@@ -71,11 +73,11 @@ export default function useNavbarButtons() {
       pattern: /^\/merlin$/,
       buttons: [
         {
-          name: "Generate",
+          name: "Plan",
           href: "/magic/aid/lesson",
           linkClass: "btn-primary",
           icon: {
-            Icon: FiHome,
+            Icon: FaWandMagicSparkles,
             additionalClass: "",
           },
           onClick: () => setTeachingAids([]),
