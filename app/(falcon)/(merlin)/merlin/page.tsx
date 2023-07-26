@@ -51,13 +51,6 @@ export default function Merlin() {
                   >{`${getEmoji(block.type)} ${" "}   ${block.type}`}</div>
                 ))}
           </Section>
-          <button
-            className="btn btn-primary btn-md fixed bottom-3"
-            onClick={handleLessonGeneration}
-            disabled={lessonIdeas.length == 0}
-          >
-            Generate
-          </button>
         </Sidebar>
       </MerlinGrid>
     </DndProvider>

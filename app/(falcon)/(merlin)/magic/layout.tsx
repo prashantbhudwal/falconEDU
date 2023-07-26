@@ -53,25 +53,6 @@ export default function MagicLayout({
                 </SidebarButton>
               ))}
           </Section>
-          <button
-            className="btn btn-secondary btn-sm"
-            onClick={() => {
-              setTeachingAidsAt([]);
-              router.push("/merlin");
-            }}
-            disabled={!contentStreamCompleted}
-          >
-            Planner
-          </button>
-          <button
-            onClick={() => {
-              downloadZip(docxArray);
-            }}
-            className="btn btn-accent btn-sm"
-            disabled={!contentStreamCompleted}
-          >
-            Download
-          </button>
         </Sidebar>
         {children}
       </MerlinGrid>
