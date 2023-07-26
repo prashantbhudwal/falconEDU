@@ -16,13 +16,14 @@ export default function Navbar() {
       <div className="navbar-end gap-3 pr-1">
         <MerlinActionBar />
         <ProfileDropDown />
-        <Link
+        {/* <Link
           href="/preferences"
           className="btn-sm btn btn-ghost btn-square shadow-md shadow-slate-950"
         >
           <FiSettings className="text-slate-600 text-lg font-bold" />
-        </Link>
+        </Link> */}
       </div>
     </div>
+
   );
 }

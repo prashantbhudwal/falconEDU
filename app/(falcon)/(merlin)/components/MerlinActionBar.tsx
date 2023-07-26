@@ -27,11 +27,11 @@ export default function MerlinActionBar() {
         onClick();
         href !== "" && router.push(href);
       }}
-      className={clsx(`btn btn-sm py-2 rounded-sm font-medium`, linkClass)}
+      className={clsx(`btn btn-xs py-4 rounded-sm font-medium capitalize flex place-content-center`, linkClass)}
       disabled={!isEnabled}
     >
       <Icon
-        className={clsx(`text-slate-600 text-base font-bold`, additionalClass)}
+        className={clsx(`text-slate-600 text-sm font-bold`, additionalClass)}
       />
       {name}
     </button>
