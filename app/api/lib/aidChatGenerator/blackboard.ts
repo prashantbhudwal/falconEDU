@@ -3,7 +3,8 @@ import { ChatCompletionRequestMessage } from "openai";
 import { processStreamText } from "@/app/api/lib/utils";
 
 export default function getBlackboardMessages(payload: StreamPayload) {
-  const { data, grade, topic, subtopic } = payload;
+  const { prompt, grade, topic, subtopic } = payload;
+  const data = JSON.parse(prompt);
   const lesson = processStreamText(data);
 
   const messages: ChatCompletionRequestMessage[] = [

@@ -2,7 +2,7 @@ import { useAtom } from "jotai";
 import { teachingAidsAtom } from "@/atoms/lesson";
 import { aidType } from "@/types";
 interface Content {
-  content: string[];
+  content: string;
   id: string;
   name: string;
 }
@@ -16,13 +16,13 @@ function findLatestContent(arr: Content[], name: string): Content | null {
   return null; // If no content with the given name is found
 }
 
-export default function useLatestAid(aidType: aidType): string[] | null {
+export default function useLatestAid(aidType: aidType): string {
   const [teachingAids] = useAtom(teachingAidsAtom);
   const latestAid = findLatestContent(teachingAids, aidType);
 
   if (latestAid) {
     return latestAid.content;
   } else {
-    return null;
+    return "";
   }
 }

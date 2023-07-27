@@ -17,7 +17,7 @@ import {
 import { contentStreamCompletedAtom, teachingAidsAtom } from "@/atoms/lesson";
 
 import { aidType, handoutType } from "@/types";
-
+import { Message } from "../../../merlin/components/Message";
 
 export default function Page({ params }: { params: { aid: aidType } }) {
   const [topic] = useAtom(topicAtom);
@@ -26,14 +26,11 @@ export default function Page({ params }: { params: { aid: aidType } }) {
   const [grade] = useAtom(gradeAtom);
   const [subject] = useAtom(subjectAtom);
   const [showNote, setShowNote] = useState(false);
-  const { content, startStreaming } = useAid(params.aid);
+  const { content, startStreaming, isLoading } = useAid(params.aid);
   const latestAid = useLatestAid(params.aid);
-  const [shouldRegenerate, setShouldRegenerate] = useAtom(shouldRegenerateAtom);
   const [contentStreamCompleted, setContentStreamCompleted] = useAtom(
     contentStreamCompletedAtom
   );
-
-  
 
   //TODO Uncomment this
   // useEffect(() => {
@@ -45,17 +42,16 @@ export default function Page({ params }: { params: { aid: aidType } }) {
   useEffect(() => {
     startStreaming();
   }, []);
-  useEffect(() => {
-    if (shouldRegenerate) {
-      startStreaming();
-    }
-  }, [shouldRegenerate]);
 
   return (
     <div
-      className={`col-start-3 col-span-8 leading-7 text-lg whitespace-pre-wrap mt-0 h-full shadow-md bg-slate-200 py-4 flex flex-col items-center gap-4 text-slate-800 px-6 pb-96 marker:h-full scroll-smooth overflow-y-scroll custom-scrollbar`}
+      className={`col-start-3 col-span-8 mt-0 h-full shadow-md bg-slate-950 py-4 flex flex-col items-center gap-4 text-slate-800 px-6 pb-96 marker:h-full scroll-smooth overflow-y-scroll custom-scrollbar`}
     >
-      <p>{contentStreamCompleted ? latestAid : content}</p>
+      {isLoading ? (
+        <Message message={content} />
+      ) : (
+        <Message message={latestAid} />
+      )}
     </div>
   );
 }

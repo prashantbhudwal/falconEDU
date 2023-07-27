@@ -8,7 +8,7 @@ export type StreamPayload = {
   topic: string;
   subtopic: string;
   grade: string;
-  data: BlockContent[] | string[] | null;
+  prompt: string;
   payloadType: aidType;
 };
 

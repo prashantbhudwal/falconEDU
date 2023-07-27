@@ -8,8 +8,9 @@ interface Idea {
 }
 
 export default function getLessonPlanMessages(payload: StreamPayload) {
-  const { topic, subtopic, grade, data, board, subject } = payload;
-  const newArray = processIdeas(data);
+  const { topic, subtopic, grade, prompt, board, subject } = payload;
+const ideasArray = JSON.parse(prompt);
+  const newArray = processIdeas(ideasArray);
   const ideas = generateMarkdown(newArray);
   const messages: ChatCompletionRequestMessage[] = [
     {

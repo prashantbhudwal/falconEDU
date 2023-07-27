@@ -3,7 +3,7 @@ import { BlockContent, StreamPayload } from "../types";
 
 type teachingAids = {
   name: string;
-  content: string[];
+  content: string;
   id: string;
 };
 
