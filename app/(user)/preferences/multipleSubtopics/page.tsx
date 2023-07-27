@@ -1,6 +1,6 @@
 "use client";
 import { PropagateLoader } from "react-spinners";
-import { usePrediction } from "@/app/(falcon)/preferences/hooks/usePrediction";
+import { usePrediction } from "@/app/(user)/preferences/hooks/usePrediction";
 import { contentStreamCompletedAtom } from "@/atoms/lesson";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
