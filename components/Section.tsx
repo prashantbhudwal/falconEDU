@@ -22,11 +22,11 @@ const Section: React.FC<SectionProps> = ({
   if (!headingColor) headingColor = text;
   if (!dividerColor) dividerColor = border;
   return (
-    <div className={`pt-3  ${bg} ${className}`}>
+    <div className={`pt-2  ${bg} ${className}`}>
       <header
-        className={` ${dividerColor} ${headingColor} text-left border-b border-solid pb-1 mb-4`}
+        className={`${headingColor} text-left mb-2`}
       >
-        <p className="capitalize text-base">{title}</p>
+        <p className="capitalize text-sm">{title}</p>
       </header>
       <div className="flex flex-col gap-3">{children}</div>
     </div>
