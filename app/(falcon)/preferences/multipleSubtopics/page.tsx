@@ -194,6 +194,7 @@ export default function Page() {
         contentStreamCompleted &&
         allContent && (
           <CheckboxGrid
+            userFlow={userFlow}
             content={allContent}
             selectedOptions={worksheetSubtopics}
             handleChange={(event) => {
