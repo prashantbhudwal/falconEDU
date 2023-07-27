@@ -15,7 +15,7 @@ export default function AidLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
   return (
-    <div className="overflow-y-auto h-full">
+    <DndProvider backend={HTML5Backend}>
       <div className="h-full grid grid-cols-12 gap-4 w-full select-none overflow-y-auto">
         <Sidebar className="col-start-1 col-span-2 row-start-1">
           <Section title="Teaching Aids" color="secondary">
@@ -39,8 +39,8 @@ export default function AidLayout({ children }: { children: React.ReactNode }) {
             )}
           </Section>
         </Sidebar>
-        <div className="col-start-3 col-span-8 min-h-screen">{children}</div>
+        <div className="col-start-3 col-span-8 h-full">{children}</div>
       </div>
-    </div>
+    </DndProvider>
   );
 }
