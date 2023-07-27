@@ -4,6 +4,7 @@ import DesktopOnly from "../../../components/DesktopOnly";
 import useDesktop from "../../../hooks/useDesktop";
 import { userFlowAtom } from "../../../atoms/app";
 import { useAtom } from "jotai";
+import Navbar from "../(merlin)/components/Navbar";
 const getTitle = (pathname: string, userFlow: string) => {
   switch (pathname) {
     case "/preferences":
@@ -82,7 +83,8 @@ export default function PreferencesLayout({
   }
 
   return (
-    <div className="flex flex-col gap-10 items-center mt-7 w-full">
+    <div className="flex flex-col gap-10 items-center w-full">
+      <Navbar />
       <div className="text-3xl text-slate-300">
         {pathname && getTitle(pathname, userFlow)}
       </div>
