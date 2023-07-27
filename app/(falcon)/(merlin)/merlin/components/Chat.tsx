@@ -26,16 +26,16 @@ export default function Chat({
         value={input}
         onChange={handleInputChange}
         onKeyDown={(e) => handleKeyDown(e)}
-        className=" h-14 join-item w-full shadow-accent textarea textarea-bordered textarea-md overflow-y-hidden resize-none max-h-48 bg-slate-900 text-base"
+        className="placeholder:text-sm placeholder:text-slate-500 h-10 join-item w-full shadow-accent textarea textarea-bordered textarea-md overflow-y-hidden resize-none max-h-48 bg-slate-900 text-base"
         placeholder={
           !!selectedBlock
-            ? `How do you want to change the ${selectedBlock.type}?`
-            : "Select a block..."
+            ? `Make it shorter, longer, more specific, or more creative...`
+            : "Select a block to chat with..."
         }
         disabled={isLoading || !!!selectedBlock}
       />
       <button
-        className="join-item btn-square btn btn-accent text-xl h-14"
+        className="join-item btn-square btn btn-accent text-xl h-10"
         onClick={handleSubmit}
         disabled={isLoading || !!!selectedBlock}
       >
