@@ -13,7 +13,7 @@ export function Message({ message, ...props }: ChatMessageProps) {
   return (
     <div
       className={cn(
-        "text-base pt-2 group relative mb-1 flex items-start w-full"
+        "text-sm pt-2 group relative mb-1 flex items-start w-full"
       )}
       {...props}
     >
