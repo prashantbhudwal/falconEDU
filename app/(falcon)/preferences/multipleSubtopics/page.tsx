@@ -133,9 +133,7 @@ export default function Page() {
             >
               <div
                 className={`text-sm px-2 py-2 rounded-sm bg-slate-800 ${
-                  userFlow === "worksheet"
-                    ? "text-secondary"
-                    : "text-primary"
+                  userFlow === "worksheet" ? "text-secondary" : "text-primary"
                 } cursor-pointer`}
                 onClick={() => handleDeleteSubtopic(index)}
               >
@@ -192,7 +190,9 @@ export default function Page() {
 
       {!contentStreamCompleted ? (
         <div className="flex flex-col items-center justify-center gap-2 h-12">
-          <PropagateLoader color="#D946EF" />
+          <PropagateLoader
+            color={`${userFlow === "worksheet" ? "#D946EF" : "#10B981"}`}
+          />
         </div>
       ) : (
         contentStreamCompleted &&
