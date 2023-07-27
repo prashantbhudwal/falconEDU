@@ -47,7 +47,7 @@ export default function useNavbarButtons() {
       buttons: [
         {
           name: "Planner",
-          href: "merlin",
+          href: "/merlin",
           linkClass: "btn-secondary",
           icon: {
             Icon: FiSkipBack,
