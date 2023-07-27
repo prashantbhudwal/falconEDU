@@ -19,14 +19,7 @@ export default function Page() {
   const [subject] = useAtom(subjectAtom);
   const [savedQuestions] = useAtom(savedQuestionsAtom);
   return (
-    <Canvas
-      className="col-start-4 col-span-7 min-h-screen gap-4 max-w-4xl"
-      color="secondary"
-      heading={topic}
-      leftTop={`Grade ${grade}`}
-      leftBottom={subject}
-      rightTop={board}
-    >
+    <div>
       {savedQuestions.map(
         (questionObject: QuestionObject) =>
           questionObject.questions.length > 0 && (
@@ -38,6 +31,6 @@ export default function Page() {
             />
           )
       )}
-    </Canvas>
+    </div>
   );
 }

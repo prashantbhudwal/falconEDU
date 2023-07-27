@@ -33,7 +33,7 @@ import { ModeToggle } from "./components/ModeToggle";
 import { motion, useAnimation } from "framer-motion";
 import { BatchSize } from "./components/BatchSize";
 import { useRouter } from "next/navigation";
-
+import MerlinGrid from "../(merlin)/components/Grid";
 const questionTypes = [
   { value: "fillInTheBlanks", label: "Fill in the Blanks" },
   { value: "multipleChoiceSingleCorrect", label: "Multiple Choice" },
@@ -177,7 +177,7 @@ export default function Raptor() {
   return (
     <DndProvider backend={HTML5Backend}>
       <motion.div
-        className="grid grid-cols-12 gap-4 w-full select-none"
+        className="grid grid-cols-12 gap-4 w-full select-none h-full overflow-y-auto"
         animate={controls}
       >
         <Sidebar className="col-start-1 col-span-3 row-start-1">
@@ -194,22 +194,8 @@ export default function Raptor() {
               ))}
           </Section>
         </Sidebar>
-        <Canvas
-          className={`col-start-4 col-span-7 h-screen scroll-smooth overflow-y-auto scroll-pb-96 pb-96 custom-scrollbar items-center gap-4 }`}
-          color="secondary"
-          heading={
-            contentStreamCompleted ? (
-              topic
-            ) : batchSize > 1 ? (
-              <SyncLoader color="#D946EF" />
-            ) : (
-              <RiseLoader color="#D946EF" />
-            )
-          }
-          leftTop={`Grade ${grade}`}
-          leftBottom={subject}
-          rightTop={board}
-          isSticky={true}
+        <div
+          className={`px-5 py-3 flex flex-col shadow-md bg-slate-950 mt-1 col-start-4 col-span-7 marker:h-full scroll-smooth overflow-y-scroll pb-96 custom-scrollbar items-center gap-4 }`}
         >
           <div className="flex flex-row items-center gap-12">
             <ModeToggle
@@ -217,12 +203,6 @@ export default function Raptor() {
               setIsAdvancedMode={setIsAdvancedMode}
             />
             <BatchSize />
-            <button
-              className="btn btn-secondary btn-sm"
-              onClick={handleWorksheetGeneration}
-            >
-              Generate Worksheet
-            </button>
           </div>
 
           {savedQuestions.map((questionObject: QuestionObject) => {
@@ -239,7 +219,7 @@ export default function Raptor() {
               />
             );
           })}
-        </Canvas>
+        </div>
         <Sidebar className="col-start-11 col-span-2">
           <Section title={"Types"} color={"gray"}>
             {questionTypes.map((questionType) => (

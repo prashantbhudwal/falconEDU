@@ -5,7 +5,7 @@ import {
   FiDownload,
   FiSkipBack,
 } from "react-icons/fi"; // import necessary icons
-import { VscWand } from "react-icons/vsc";
+import { worksheetAnswerKeyAtom } from "@/atoms/worksheet";
 import { FaWandMagicSparkles } from "react-icons/fa6";
 import { ComponentType, SVGProps } from "react";
 import { contentStreamCompletedAtom, teachingAidsAtom } from "@/atoms/lesson";
@@ -13,6 +13,11 @@ import { useAtom } from "jotai";
 import { downloadZip } from "@/utils/downloadZip";
 import useDownloadContent from "@/app/(falcon)/(merlin)/magic/hooks/useDownloadContent";
 import { lessonIdeasAtom } from "@/atoms/lesson";
+import { savedQuestionsAtom } from "@/atoms/worksheet";
+import { getWorksheetDocx } from "@/utils/getWorksheetDocx";
+import { generateAnswerKeyDocx } from "@/utils/generateAnswerKeyDocx";
+import { topicAtom } from "@/atoms/preferences";
+
 type IconComponentProps = SVGProps<SVGSVGElement> & { className?: string };
 type IconComponent = ComponentType<IconComponentProps>;
 
@@ -36,10 +41,14 @@ export type PageConfig = {
 };
 
 export default function useNavbarButtons() {
+  const [savedQuestions] = useAtom(savedQuestionsAtom);
+  const [worksheetAnswerKey] = useAtom(worksheetAnswerKeyAtom);
+  const [__, setWorksheetAnswerKey] = useAtom(worksheetAnswerKeyAtom); 
   const [lessonIdeas] = useAtom(lessonIdeasAtom);
   const [contentStreamCompleted] = useAtom(contentStreamCompletedAtom);
   const docxArray = useDownloadContent();
   const [teachingAids, setTeachingAids] = useAtom(teachingAidsAtom);
+  const [topic] = useAtom(topicAtom);
 
   const merlinButtons: PageConfig[] = [
     {
@@ -53,7 +62,7 @@ export default function useNavbarButtons() {
             Icon: FiSkipBack,
             additionalClass: "",
           },
-          isEnabled: contentStreamCompleted,
+          isEnabled: true,
           onClick: () => setTeachingAids([]),
         },
         {
@@ -64,7 +73,7 @@ export default function useNavbarButtons() {
             Icon: FiDownload,
             additionalClass: "",
           },
-          isEnabled: contentStreamCompleted,
+          isEnabled: true,
           onClick: () => downloadZip(docxArray),
         },
       ],
@@ -86,9 +95,64 @@ export default function useNavbarButtons() {
       ],
     },
   ];
+const raptorButtons: PageConfig[] = [
+  {
+    pattern: /^\/raptor\/magic\/.*$/,
+    buttons: [
+      {
+        name: "Planner",
+        href: "/raptor",
+        linkClass: "btn-secondary",
+        icon: {
+          Icon: FiSkipBack,
+          additionalClass: "",
+        },
+        isEnabled: true,
+        onClick: () => setTeachingAids([]),
+      },
+      {
+        name: "Download",
+        href: "",
+        linkClass: "btn-accent",
+        icon: {
+          Icon: FiDownload,
+          additionalClass: "",
+        },
+        isEnabled: true,
+        onClick: () => {
+          savedQuestions.length > 0 && getWorksheetDocx(savedQuestions);
+          savedQuestions.length > 0 &&
+            worksheetAnswerKey.length > 0 &&
+            generateAnswerKeyDocx({
+              topic,
+              title: "Answer Key",
+              fetchedContent: worksheetAnswerKey as string[],
+            });
+        },
+      },
+    ],
+  },
+  {
+    pattern: /^\/raptor$/,
+    buttons: [
+      {
+        name: "Generate",
+        href: "/raptor/magic/worksheet",
+        linkClass: "btn-secondary",
+        icon: {
+          Icon: FaWandMagicSparkles,
+          additionalClass: "",
+        },
+        onClick: () => setWorksheetAnswerKey([]),
+        isEnabled: true,
+      },
+    ],
+  },
+];
 
   const buttonConfiguration: PageConfig[] = [
     ...merlinButtons,
+    ...raptorButtons,
     {
       pattern: /^\/headerTest$/,
       buttons: [

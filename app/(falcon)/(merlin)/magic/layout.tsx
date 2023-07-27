@@ -14,7 +14,7 @@ import useHandouts from "./hooks/useHandouts";
 import { aidType, handoutType } from "@/types";
 import { useAtom } from "jotai";
 import { contentStreamCompletedAtom, teachingAidsAtom } from "@/atoms/lesson";
-
+import { savedQuestionsAtom } from "@/atoms/worksheet";
 export default function MagicLayout({
   children,
 }: {
@@ -28,6 +28,8 @@ export default function MagicLayout({
   const [contentStreamCompleted, setContentStreamCompleted] = useAtom(
     contentStreamCompletedAtom
   );
+       const [savedQuestions] = useAtom(savedQuestionsAtom);
+
   return (
     <div className="overflow-y-auto h-full">
       <MerlinGrid>
@@ -54,7 +56,7 @@ export default function MagicLayout({
               ))}
           </Section>
         </Sidebar>
-        {children}
+        <div className="col-start-3 col-span-8 min-h-screen bg-slate-950">{children}</div>
       </MerlinGrid>
     </div>
   );

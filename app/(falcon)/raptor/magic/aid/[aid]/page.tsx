@@ -44,28 +44,11 @@ export default function Page({
 
   return (
     <div
-      className={`bg-slate-100 text-slate-900 px-8 py-5 rounded-lg shadow-sm shadow-slate-200 max-w-4xl w-full`}
+      className={`h-full bg-slate-100 text-slate-900 px-8 py-5 rounded-lg shadow-sm shadow-slate-200 max-w-4xl w-full`}
     >
-      <Header
-        leftTop={`Grade ${grade}`}
-        leftBottom={subject}
-        rightTop={board}
-        heading={topic}
-        color={"white"}
-      />
       <p className="leading-7 text-lg pt-8 py-5 whitespace-pre-wrap">
         {contentStreamCompleted ? worksheetAnswerKey : content}
       </p>
-      {contentStreamCompleted && (
-        <p
-          className="text-emerald-600 cursor-pointer underline underline-offset-2 ml-auto text-center font-semibold"
-          onMouseEnter={() => setShowNote(true)}
-          onMouseLeave={() => setShowNote(false)}
-        >
-          Facing Issues?
-        </p>
-      )}
-      {showNote && <Issue />}
     </div>
   );
 }
