@@ -20,7 +20,7 @@ export default function SidebarButton({
   return (
     <button
       onClick={contentStreamCompleted ? onClick : () => {}}
-      className={`capitalize text-slate-300 px-3 py-2 rounded-md text-left ${
+      className={`capitalize text-slate-300 px-3 py-2 rounded-md text-left test-sm ${
         contentStreamCompleted
           ? "opacity-100 hover:bg-slate-800 hover:cursor-pointer"
           : "opacity-50 cursor-not-allowed"
