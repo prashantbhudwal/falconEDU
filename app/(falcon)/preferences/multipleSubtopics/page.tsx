@@ -132,7 +132,11 @@ export default function Page() {
               }}
             >
               <div
-                className="text-sm px-2 py-2 rounded-sm bg-slate-800 text-secondary cursor-pointer"
+                className={`text-sm px-2 py-2 rounded-sm bg-slate-800 ${
+                  userFlow === "worksheet"
+                    ? "text-secondary"
+                    : "text-primary"
+                } cursor-pointer`}
                 onClick={() => handleDeleteSubtopic(index)}
               >
                 {subtopic}
@@ -148,7 +152,7 @@ export default function Page() {
         <button
           className={`btn ${
             userFlow === "worksheet" ? "btn-secondary" : "btn-primary"
-          } btn-secondary join-item h-full min-h-[4rem]`}
+          } join-item h-full min-h-[4rem]`}
           onClick={
             userFlow === "worksheet" ? handleRaptorStart : handleMerlinStart
           }
