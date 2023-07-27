@@ -12,8 +12,10 @@ import { useRouter } from "next/navigation";
 import { gradeAtom, boardAtom, subjectAtom } from "@/atoms/preferences";
 import { worksheetSubtopicsAtom } from "@/atoms/worksheet";
 import { savedQuestionsAtom } from "@/atoms/worksheet";
+import { userFlowAtom } from "@/atoms/app";
 
 export default function Page() {
+  const [userFlow] = useAtom(userFlowAtom);
   const [lastIndex, setLastIndex] = useState<number | null>(null);
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
   const [contentStreamCompleted] = useAtom(contentStreamCompletedAtom);
@@ -29,6 +31,7 @@ export default function Page() {
   const [worksheetSubtopics, setWorksheetSubtopics] = useAtom(
     worksheetSubtopicsAtom
   );
+  const [__, setLessonIdeas] = useAtom(lessonIdeasAtom);
   const [savedQuestions, setSavedQuestions] = useAtom(savedQuestionsAtom);
 
   useEffect(() => {
@@ -37,7 +40,7 @@ export default function Page() {
     }
   }, [board, subject, grade, router]);
 
-  const handleStart = () => {
+  const handleRaptorStart = () => {
     router.push("/raptor");
     setStarted(true);
     setSavedQuestions([
@@ -80,6 +83,12 @@ export default function Page() {
     ]);
   };
 
+  const handleMerlinStart = () => {
+    router.push("/merlin");
+    setStarted(true);
+    setLessonIdeas([]);
+  };
+
   const handleChange = (event: any) => {
     setInputValue(event.target.value);
   };
@@ -94,7 +103,6 @@ export default function Page() {
   const handleDeleteSubtopic = (index: number) => {
     setWorksheetSubtopics(worksheetSubtopics.filter((_, i) => i !== index));
   };
-
   useEffect(() => {
     setWorksheetSubtopics([]);
     startStreaming();
@@ -138,11 +146,15 @@ export default function Page() {
           ))}
         </div>
         <button
-          className="btn btn-secondary join-item h-full min-h-[4rem]"
-          onClick={handleStart}
+          className={`btn ${
+            userFlow === "worksheet" ? "btn-secondary" : "btn-primary"
+          } btn-secondary join-item h-full min-h-[4rem]`}
+          onClick={
+            userFlow === "worksheet" ? handleRaptorStart : handleMerlinStart
+          }
           disabled={worksheetSubtopics.length === 0 || !contentStreamCompleted}
         >
-          Worksheet
+          {userFlow === "worksheet" ? "Worksheet" : "Lesson"}
         </button>
       </div>
       <div className="join">

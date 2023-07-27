@@ -36,7 +36,13 @@ const getTitle = (pathname: string, userFlow: string) => {
       return (
         <>
           Which{" "}
-          <span className=" underline underline-offset-8 decoration-primary">
+          <span
+            className={`underline underline-offset-8 ${
+              userFlow === "worksheet"
+                ? "decoration-secondary"
+                : "decoration-primary"
+            }`}
+          >
             topic
           </span>{" "}
           are you focusing on?
@@ -46,7 +52,13 @@ const getTitle = (pathname: string, userFlow: string) => {
       return (
         <>
           Which{" "}
-          <span className=" underline underline-offset-8 decoration-secondary">
+          <span
+            className={` ${
+              userFlow === "worksheet"
+                ? "decoration-secondary"
+                : "decoration-primary"
+            } underline underline-offset-8`}
+          >
             topics
           </span>{" "}
           are you focusing on?

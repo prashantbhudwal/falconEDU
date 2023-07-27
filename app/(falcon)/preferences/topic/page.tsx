@@ -31,14 +31,6 @@ export default function Page() {
     setTopic(event.target.value);
   };
 
-  const handleClick = () => {
-    if (userFlow === "lesson") {
-      router.push("/preferences/subtopic");
-    } else if (userFlow === "worksheet") {
-      router.push("/preferences/multipleSubtopics");
-    }
-  };
-
   useEffect(() => {
     setTopic("");
     startStreaming();
@@ -60,7 +52,7 @@ export default function Page() {
           placeholder="Enter a chapter..."
         />
         <button
-          onClick={handleClick}
+          onClick={() => router.push("/preferences/multipleSubtopics")}
           disabled={!topic || !contentStreamCompleted}
           className={`my-auto join-item ${
             userFlow === "worksheet" ? "btn btn-secondary" : "btn btn-primary"
