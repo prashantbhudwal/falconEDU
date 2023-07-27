@@ -37,10 +37,10 @@ export default function BreadCrumbs() {
           <li className="truncate">
             <p className="truncate">{subject}</p>
           </li>
-          <li className="">
-            <p className="truncate text-secondary">{topic}</p>
+          <li className="truncate">
+            <p className="truncate">{topic}</p>
           </li>
-          <li>{subtopic}</li>
+          <li className="text-secondary">{subtopic}</li>
         </ul>
       </div>
       <div className="absolute left-0 z-10 bg-base-100 opacity-0 group-hover:opacity-100 transition-opacity duration-200 p-2 rounded shadow-lg mt-2">
