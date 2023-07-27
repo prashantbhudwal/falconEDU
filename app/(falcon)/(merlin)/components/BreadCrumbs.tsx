@@ -5,19 +5,27 @@ export default function BreadCrumbs() {
   const { topic, subtopic, grade, board, subject } = usePreferences();
   const crumbList = (
     <ul>
-      <li className="truncate">
-        <p className="truncate">{board}</p>
-      </li>
-      <li className="truncate">
-        <p className="truncate">Grade {grade}</p>
-      </li>
-      <li className="truncate">
-        <p className="truncate">{subject}</p>
-      </li>
-      <li className="truncate">
-        <p className="truncate">{topic}</p>
-      </li>
-      <li className="text-secondary">{subtopic}</li>
+      {board && (
+        <li className="truncate">
+          <p className="truncate">{board}</p>
+        </li>
+      )}
+      {grade && (
+        <li className="truncate">
+          <p className="truncate">Grade {grade}</p>
+        </li>
+      )}
+      {subject && (
+        <li className="truncate">
+          <p className="truncate">{subject}</p>
+        </li>
+      )}
+      {topic && (
+        <li className="truncate">
+          <p className="truncate">{topic}</p>
+        </li>
+      )}
+      {subtopic && <li className="text-secondary">{subtopic}</li>}
     </ul>
   );
 
