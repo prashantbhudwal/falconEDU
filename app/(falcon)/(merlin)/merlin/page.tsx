@@ -52,7 +52,7 @@ export default function Merlin() {
                       value={subTopic}
                       checked={subtopic === subTopic}
                       onChange={() => setSubtopic(subTopic)}
-                      className="radio radio-info radio-sm p-1"
+                      className="radio radio-primary radio-sm p-1"
                     />
                   </label>
                 ))}
