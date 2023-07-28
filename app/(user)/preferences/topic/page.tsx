@@ -9,8 +9,9 @@ import { topicAtom, subtopicAtom } from "@/atoms/preferences";
 import { useRouter } from "next/navigation";
 import { gradeAtom, boardAtom, subjectAtom } from "@/atoms/preferences";
 import { userFlowAtom } from "@/atoms/app";
-
+import usePreferences from "@/hooks/usePreferences";
 export default function Page() {
+  const [subtopic, setSubtopic] = useAtom(subtopicAtom);
   const [contentStreamCompleted] = useAtom(contentStreamCompletedAtom);
   const [subject] = useAtom(subjectAtom);
   const [allContent, setAllContent] = useState([""]);
@@ -33,6 +34,7 @@ export default function Page() {
 
   useEffect(() => {
     setTopic("");
+    setSubtopic("");
     startStreaming();
   }, []);
 

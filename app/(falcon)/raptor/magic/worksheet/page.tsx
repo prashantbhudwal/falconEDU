@@ -19,7 +19,7 @@ export default function Page() {
   const [subject] = useAtom(subjectAtom);
   const [savedQuestions] = useAtom(savedQuestionsAtom);
   return (
-    <div>
+    <div className="flex flex-col gap-3 mt-3">
       {savedQuestions.map(
         (questionObject: QuestionObject) =>
           questionObject.questions.length > 0 && (
