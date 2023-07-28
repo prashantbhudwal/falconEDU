@@ -4,40 +4,12 @@ import { ChatCompletionRequestMessage } from "openai";
 import { IdeaStreamPayload } from "@/types";
 import { getChatMessages } from "../lib/ideaChatGenerator";
 import { ideaOptions } from "../lib/openAI/options";
-import { streamFromOpenAI } from "../lib/openAI";
-import { Configuration, OpenAIApi } from "openai-edge";
 import { OpenAIStream, StreamingTextResponse } from "ai";
-
+import { openai } from "../lib/openAI/config";
 export const runtime = "edge";
 
 // This is required to enable streaming
 export const dynamic = "force-dynamic";
-
-const apiConfig = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY!,
-});
-
-const openai = new OpenAIApi(apiConfig);
-
-const getIdeaRequestPayload = (messages: any) => {
-  const { MODEL, TEMPERATURE, MAX_TOKENS, STREAM } = ideaOptions;
-  const requestOptions = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
-    },
-    responseType: "stream",
-    body: JSON.stringify({
-      model: MODEL,
-      temperature: TEMPERATURE,
-      // max_tokens: MAX_TOKENS, //TODO Change to variable
-      messages: messages,
-      stream: STREAM,
-    }),
-  };
-  return requestOptions;
-};
 
 export async function POST(request: NextRequest) {
   const { MODEL, TEMPERATURE, MAX_TOKENS, STREAM } = ideaOptions;
@@ -60,3 +32,24 @@ export async function POST(request: NextRequest) {
 
   // return new Response(stream);
 }
+
+
+// const getIdeaRequestPayload = (messages: any) => {
+//   const { MODEL, TEMPERATURE, MAX_TOKENS, STREAM } = ideaOptions;
+//   const requestOptions = {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//       Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+//     },
+//     responseType: "stream",
+//     body: JSON.stringify({
+//       model: MODEL,
+//       temperature: TEMPERATURE,
+//       // max_tokens: MAX_TOKENS, //TODO Change to variable
+//       messages: messages,
+//       stream: STREAM,
+//     }),
+//   };
+//   return requestOptions;
+// };

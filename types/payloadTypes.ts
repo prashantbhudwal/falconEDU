@@ -8,7 +8,7 @@ export type StreamPayload = {
   topic: string;
   subtopic: string;
   grade: string;
-  data: BlockContent[] | string[] | null;
+  prompt: string;
   payloadType: aidType;
 };
 
@@ -18,7 +18,7 @@ export type IdeaStreamPayload = {
   topic: string;
   subtopic: string;
   grade: string;
-  promptType: ideaType;
+  prompt: ideaType;
 };
 
 export type PredictionPayload = {

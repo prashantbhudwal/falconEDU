@@ -9,31 +9,81 @@
   },
   {
     "grade": "1",
-    "subjects": ["English Grammar", "Environmental Studies"]
-  },
-  {
-    "grade": "2",
-    "subjects": ["English Grammar", "Environmental Studies"]
-  },
-  {
-    "grade": "3",
-    "subjects": ["English Grammar", "Environmental Studies"]
-  },
-  {
-    "grade": "4",
     "subjects": ["English Grammar", "Environmental Studies", "Mathematics"]
   },
   {
+    "grade": "2",
+    "subjects": [
+      "English Grammar",
+      "Environmental Studies",
+      "Basics of Computers",
+      "Mathematics"
+    ]
+  },
+  {
+    "grade": "3",
+    "subjects": [
+      "English Grammar",
+      "Environmental Studies",
+      "Science",
+      "Basics of Computers",
+      "Mathematics",
+      "Social Science - History",
+      "Social Science - Geography"
+    ]
+  },
+  {
+    "grade": "4",
+    "subjects": [
+      "English Grammar",
+      "Environmental Studies",
+      "Science",
+      "Mathematics",
+      "Basics of Computers",
+      "Social Science - History",
+      "Social Science - Geography"
+    ]
+  },
+  {
     "grade": "5",
-    "subjects": ["English Grammar", "Environmental Studies"]
+    "subjects": [
+      "English Grammar",
+      "Environmental Studies",
+      "Science",
+      "Social Science",
+      "Social Science - History",
+      "Social Science - Geography",
+      "Mathematics",
+      "Java",
+      "Python",
+      "Javascript"
+    ]
   },
   {
     "grade": "6",
-    "subjects": ["Science", "Social Science", "English Grammar"]
+    "subjects": [
+      "Science",
+      "Social Science",
+      "Social Science - History",
+      "Social Science - Geography",
+      "English Grammar",
+      "Java",
+      "Python",
+      "Javascript"
+    ]
   },
   {
     "grade": "7",
-    "subjects": ["Science", "Social Science", "English Grammar"]
+    "subjects": [
+      "Science",
+      "Social Science",
+      "Social Science - History",
+      "Social Science - Geography",
+      "English Grammar",
+      "Java",
+      "Python",
+      "Javascript"
+    ]
   },
   {
     "grade": "8",
@@ -44,7 +94,10 @@
       "Social Science - Geography",
       "Science - Physics",
       "Science - Chemistry",
-      "Science - Biology"
+      "Science - Biology",
+      "Java",
+      "Python",
+      "Javascript"
     ]
   },
   {
@@ -57,7 +110,10 @@
       "Social Science - Economics",
       "Science - Physics",
       "Science - Chemistry",
-      "Science - Biology"
+      "Science - Biology",
+      "Java",
+      "Python",
+      "Javascript"
     ]
   },
   {
@@ -70,7 +126,10 @@
       "Social Science - Economics",
       "Science - Physics",
       "Science - Chemistry",
-      "Science - Biology"
+      "Science - Biology",
+      "Java",
+      "Python",
+      "Javascript"
     ]
   },
   {
@@ -89,7 +148,10 @@
       "History",
       "Political Science",
       "Sociology",
-      "Psychology"
+      "Psychology",
+      "Java",
+      "Python",
+      "Javascript"
     ]
   },
   {
@@ -108,7 +170,10 @@
       "History",
       "Political Science",
       "Sociology",
-      "Psychology"
+      "Psychology",
+      "Java",
+      "Python",
+      "Javascript"
     ]
   }
 ]

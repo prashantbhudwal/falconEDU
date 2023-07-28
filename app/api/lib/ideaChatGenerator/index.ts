@@ -34,7 +34,7 @@ function getEngineeredMessages(
 export function getChatMessages(
   payload: IdeaStreamPayload
 ): ChatCompletionRequestMessage[] {
-  const { grade, topic, subtopic, board, promptType, subject } = payload;
+  const { grade, topic, subtopic, board, prompt, subject } = payload;
   const engineeredMessages = getEngineeredMessages(
     grade,
     topic,
@@ -43,7 +43,7 @@ export function getChatMessages(
     subject
   );
 
-  switch (promptType) {
+  switch (prompt) {
     case "story":
       return [
         ...engineeredMessages,

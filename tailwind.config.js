@@ -13,6 +13,13 @@ module.exports = {
       animation: {
         breath: "breath 4s ease-in-out infinite",
       },
+      typography: {
+        DEFAULT: {
+          css: {
+            maxWidth: "100ch", // add required value here
+          },
+        },
+      },
       keyframes: {
         breath: {
           "0%, 100%": { transform: "scale(0.8)" },
@@ -61,5 +68,5 @@ module.exports = {
       },
     ],
   },
-  plugins: [require("daisyui")],
+  plugins: [require("daisyui"), require("@tailwindcss/typography")],
 };
