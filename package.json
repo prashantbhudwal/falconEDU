@@ -29,6 +29,7 @@
     "jotai": "^2.0.4",
     "jszip": "^3.10.1",
     "langchain": "^0.0.120",
+    "mixpanel": "^0.17.0",
     "next": "^13.4.12",
     "next-auth": "^4.22.3",
     "object-hash": "^3.0.0",
