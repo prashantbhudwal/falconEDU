@@ -6,39 +6,17 @@ import { useState } from "react";
 import useLatestAid from "../../hooks/useLatestAid";
 import { useEffect } from "react";
 import { shouldRegenerateAtom } from "@/atoms/lesson";
-import {
-  topicAtom,
-  subtopicAtom,
-  boardAtom,
-  gradeAtom,
-  subjectAtom,
-} from "@/atoms/preferences";
-
 import { contentStreamCompletedAtom, teachingAidsAtom } from "@/atoms/lesson";
 
 import { aidType, handoutType } from "@/types";
 import { Message } from "../../../merlin/components/Message";
-
+import useRedirectHome from "@/hooks/useRedirectHome";
+import useTrackPage from "@/hooks/analytics/useTrackPage";
 export default function Page({ params }: { params: { aid: aidType } }) {
-  const [topic] = useAtom(topicAtom);
-  const [subtopic] = useAtom(subtopicAtom);
-  const [board] = useAtom(boardAtom);
-  const [grade] = useAtom(gradeAtom);
-  const [subject] = useAtom(subjectAtom);
-  const [showNote, setShowNote] = useState(false);
+  useRedirectHome();
+  useTrackPage(`Magic - ${params.aid}`);
   const { content, startStreaming, isLoading } = useAid(params.aid);
   const latestAid = useLatestAid(params.aid);
-  const [contentStreamCompleted, setContentStreamCompleted] = useAtom(
-    contentStreamCompletedAtom
-  );
-
-  //TODO Uncomment this
-  // useEffect(() => {
-  //   if (topic === "" || subtopic === "") {
-  //     router.push("/preferences");
-  //   }
-  // }, [topic, subtopic, router]);
-
   useEffect(() => {
     startStreaming();
   }, []);
@@ -55,14 +33,3 @@ export default function Page({ params }: { params: { aid: aidType } }) {
     </div>
   );
 }
-
-// {/* {contentStreamCompleted && (
-//             <p
-//               className="text-emerald-600 cursor-pointer underline underline-offset-2 ml-auto text-center font-semibold"
-//               onMouseEnter={() => setShowNote(true)}
-//               onMouseLeave={() => setShowNote(false)}
-//             >
-//               Facing Issues?
-//             </p>
-//           )}
-//           {showNote && <Issue />} */}
