@@ -5,8 +5,9 @@ import { signIn, useSession } from "next-auth/react";
 import { PropagateLoader } from "react-spinners";
 import Header from "@/app/Header";
 import Footer from "@/app/Footer";
-
+import useTrackPage from "@/hooks/analytics/useTrackPage";
 const LandingPage = () => {
+  useTrackPage("Landing Page");
   const { data: session, status: sessionStatus } = useSession();
   const router = useRouter();
 
