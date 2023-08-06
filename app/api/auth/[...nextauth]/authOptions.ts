@@ -55,6 +55,7 @@ const GoogleProvider = () => {
 
 // Session callback to set session data
 const sessionCallback = ({ session, user }: any) => {
+  // TODO This code never gets executed as user is never present. Need to fix this by using jwt callback to add properties to session
   if (user) {
     session.user.role = user.role;
     session.user.subscriptionStart = user.subscriptionStart;
