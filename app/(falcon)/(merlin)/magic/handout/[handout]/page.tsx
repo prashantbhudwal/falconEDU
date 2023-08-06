@@ -2,25 +2,13 @@
 import { useAtom } from "jotai";
 import { lessonIdeasAtom } from "@/atoms/lesson";
 import ideasToHandouts from "@/utils/ideasToHandouts";
-import {
-  topicAtom,
-  subtopicAtom,
-  boardAtom,
-  gradeAtom,
-  subjectAtom,
-} from "@/atoms/preferences";
-import Header from "@/components/Header";
-
+import useTrackPage from "@/hooks/analytics/useTrackPage";
 export default function Page({
   params,
 }: {
   params: { handout: "story" | "activity" | "quiz" };
 }) {
-  const [topic] = useAtom(topicAtom);
-  const [subtopic] = useAtom(subtopicAtom);
-  const [board] = useAtom(boardAtom);
-  const [grade] = useAtom(gradeAtom);
-  const [subject] = useAtom(subjectAtom);
+  useTrackPage(`Magic - ${params.handout}`);
   const [lessonIdeas] = useAtom(lessonIdeasAtom);
   const handouts = ideasToHandouts(lessonIdeas);
   const filteredHandouts = handouts.filter(
