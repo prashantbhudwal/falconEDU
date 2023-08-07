@@ -4,7 +4,7 @@ export const plans = [
     description: "Give it a try, see if it fits your needs.",
     price: "₹0",
     duration: "/ 14 days",
-    features: ["CBSE Curriculum", "Unlimited Lessons", "Latest AI Models"],
+    features: ["CBSE Curriculum", "Unlimited Lessons", "Unlimited Worksheets"],
   },
   {
     title: "Pro",
@@ -16,6 +16,7 @@ export const plans = [
       "Unlimited Lessons",
       "Unlimited Worksheets",
       "Latest AI Models",
+      "24x7 Support",
     ],
   },
   {
