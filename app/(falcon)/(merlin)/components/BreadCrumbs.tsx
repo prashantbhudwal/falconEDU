@@ -1,7 +1,9 @@
 "use client";
 import usePreferences from "@/hooks/usePreferences";
-
+import usePageTracking from "@/hooks/usePageTracking";
+const hideConfig = ["/pricing", "/profile"];
 export default function BreadCrumbs() {
+  const { currentPage } = usePageTracking();
   const { topic, subtopic, grade, board, subject } = usePreferences();
   const crumbList = (
     <ul>
@@ -30,6 +32,8 @@ export default function BreadCrumbs() {
   );
 
   const fullCrumbs = <div className="text-xs breadcrumbs">{crumbList}</div>;
+
+  if (hideConfig.includes(currentPage)) return null;
 
   return (
     <div className="relative group">
