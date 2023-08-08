@@ -24,7 +24,8 @@ function UpgradeModal() {
         <div className="card w-96 bg-white shadow-xl">
           <div className="card-body flex flex-col items-center">
             <h2 className="card-title">
-              You can upgrade after your trial expires!
+              You can upgrade after your trial expires or drop a WhatsApp
+              message at +91 9833045490
             </h2>
             <div className="card-actions justify-end">
               <button className="btn btn-wide btn-accent" onClick={closeModal}>

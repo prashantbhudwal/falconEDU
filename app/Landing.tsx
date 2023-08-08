@@ -36,8 +36,8 @@ const LandingPage = () => {
         </div>
       </h1>
       <p className={"mb-12 text-lg text-gray-500 md:text-xl max-w-xl mt-6"}>
-        For any help or suggestions, call us or drop a WhatsApp message at +91
-        8879881971.
+        Create Lesson Plans, Worksheets, Activities and Assessments with AI that
+        is easy to use and strictly follows your syllabus.
       </p>
       <button
         onClick={() => signIn("google")}

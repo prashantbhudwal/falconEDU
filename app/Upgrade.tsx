@@ -4,6 +4,8 @@ import { authOptions } from "./api/auth/[...nextauth]/authOptions";
 import { getUser } from "./api/db/user/[email]/route";
 import LandingPage from "./Landing";
 import SignOutButton from "./(falcon)/(merlin)/components/SignOutBtn";
+import UpgradeBtn from "./(falcon)/(merlin)/components/UpgradeBtn";
+import PlansGrid from "./(user)/pricing/PlansGrid";
 
 // export const dynamic = `force-dynamic`;
 export const revalidate = 6000;
@@ -46,7 +48,10 @@ export default async function Upgrade({
           <p className={"mb-12 text-lg text-gray-500 md:text-xl max-w-xl mt-6"}>
             To subscribe, drop a WhatsApp message at +91 9833045490.
           </p>
-          <SignOutButton className="btn btn-info" />
+          <div className="flex flex-col gap-2 items-center w-screen">
+            <PlansGrid />
+            <SignOutButton className="btn btn-info" />
+          </div>
         </div>
       )}
     </>
