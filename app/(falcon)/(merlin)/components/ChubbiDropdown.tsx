@@ -16,7 +16,7 @@ export default function ChubbiDropdown() {
         className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
       >
         <li>
-          <Link href="/preferences">Lesson Settings</Link>
+          <Link href="/preferences">Home</Link>
         </li>
         <li>
           <Link href="https://www.youtube.com/watch?v=Rh9pBJRJ0zI">

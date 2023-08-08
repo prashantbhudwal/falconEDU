@@ -10,6 +10,7 @@ declare module "next-auth" {
       role: string;
       subscriptionStart: Date;
       subscriptionEnd: Date;
+      // id: string;
     } & DefaultSession["user"];
   }
 

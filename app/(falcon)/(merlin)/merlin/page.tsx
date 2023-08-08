@@ -14,7 +14,9 @@ import { useRouter } from "next/navigation";
 import MerlinGrid from "../components/Grid";
 import { worksheetSubtopicsAtom } from "@/atoms/worksheet";
 import { subtopicAtom } from "@/atoms/preferences";
+import useTrackPage from "@/hooks/analytics/useTrackPage";
 export default function Merlin() {
+  useTrackPage("Merlin");
   const [subtopic, setSubtopic] = useAtom(subtopicAtom);
   const [worksheetSubtopics] = useAtom(worksheetSubtopicsAtom);
   const [teachingAids, setTeachingAids] = useAtom(teachingAidsAtom);

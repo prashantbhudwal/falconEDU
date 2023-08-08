@@ -22,7 +22,6 @@ export default function Canvas({ className }: { className?: string }) {
   const [blockType, setBlockType] = useState<ideaType>("");
   const [lessonIdeas, setLessonIdeas] = useAtom(lessonIdeasAtom);
   const { topic, subtopic, grade, board, subject } = usePreferences();
-  console.log(blockType);
   const {
     completion: messageNew,
     complete: handleBlockCompletion,

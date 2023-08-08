@@ -5,11 +5,13 @@ import { User } from "@prisma/client";
 import { Adapter } from "next-auth/adapters";
 import { AuthOptions } from "next-auth";
 
+const TRIAL_DURATION = 14;
+
 // Assign trial user properties
 const assignTrialUserProperties = async () => {
   const trialStartDate = new Date();
   const trialEndDate = new Date(trialStartDate);
-  trialEndDate.setDate(trialStartDate.getDate() + 3);
+  trialEndDate.setDate(trialStartDate.getDate() + TRIAL_DURATION);
 
   return {
     role: "TRIAL",
@@ -55,6 +57,7 @@ const GoogleProvider = () => {
 
 // Session callback to set session data
 const sessionCallback = ({ session, user }: any) => {
+  // TODO This code never gets executed as user is never present. Need to fix this by using jwt callback to add properties to session
   if (user) {
     session.user.role = user.role;
     session.user.subscriptionStart = user.subscriptionStart;

@@ -164,7 +164,7 @@ export default function Page() {
           className="input input-bordered w-96 join-item"
           value={inputValue}
           onChange={handleChange}
-          placeholder="Add custom..."
+          placeholder="Add custom subtopics..."
         />
         <button
           className=" join-item btn btn-square btn-neutral"
