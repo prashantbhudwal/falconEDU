@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function DesktopOnly() {
   return (
-    <div className="pt-20 my-12 flex flex-col gap-8 py-2">
+    <div className="pt-20 my-12 flex flex-col gap-8 px-2">
       <p className="text-6xl text-fuchsia-700 font-semibold">🧑‍💻</p>
       <p className="text-xl text-fuchsia-700 font-semibold">
         Laptops & larger screens only.
@@ -18,7 +18,7 @@ export default function DesktopOnly() {
       >
         Watch FalconAI Demo
       </Link>
-      <SignOutButton className="btn btn-primary pt-4" />
+      <SignOutButton className="btn btn-primary mt-4" />
     </div>
   );
 }
