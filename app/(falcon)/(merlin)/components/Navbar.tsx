@@ -1,20 +1,14 @@
-import Link from "next/link";
 import BreadCrumbs from "./BreadCrumbs";
 import ChubbiDropdown from "./ChubbiDropdown";
 import ProfileDropDown from "./ProfileDropdown";
 import MerlinActionBar from "./MerlinActionBar";
-import { FiZap } from "react-icons/fi";
+import UpgradeBtn from "./UpgradeBtn";
 export default function Navbar() {
   return (
     <div className="navbar bg-base-200 h-2 shadow-sm shadow-base-100">
       <div className="navbar-start gap-4 pr-2">
         <ChubbiDropdown />
-        <Link
-          href="/pricing"
-          className="btn btn-accent rounded-sm btn-sm capitalize"
-        >
-          Upgrade
-        </Link>
+        <UpgradeBtn />
       </div>
       <div className="navbar-center">
         <BreadCrumbs />
