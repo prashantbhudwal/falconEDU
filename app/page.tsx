@@ -41,8 +41,8 @@ const LandingPage = () => {
           </div>
         </h1>
         <p className={"mb-12 text-lg text-gray-500 md:text-xl max-w-xl mt-6"}>
-          For any help or suggestions, call us or drop a WhatsApp message at +91
-          9833045490.
+          Create Lesson Plans, Worksheets, Activities and Assessments with AI
+          that is easy to use and strictly follows your syllabus.
         </p>
         <button
           onClick={() => signIn("google", { callbackUrl: "/preferences" })}
@@ -54,15 +54,15 @@ const LandingPage = () => {
             ? "Taking you to the app..."
             : "Sign In"}
         </button>
+        <p className="text-xs mt-2">
+          Works on large screens only. Use chrome, edge or any major browser for
+          access.
+        </p>
         {(sessionStatus === "loading" || sessionStatus === "authenticated") && (
           <div className="flex flex-col items-center justify-center gap-2 h-12">
             <PropagateLoader color={"#10B981"} />
           </div>
         )}
-        <p className="text-xs mt-2">
-          Works on large screens only. Use chrome, edge or any major browser for
-          access.
-        </p>
       </div>
       <Footer />
     </div>
