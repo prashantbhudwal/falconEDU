@@ -20,7 +20,9 @@ export default function CheckboxGrid({
 
   return (
     <div className="flex flex-col items-center gap-4">
-      <div className="text-sm text-slate-500">Or just select one...</div>
+      <div className="text-sm text-slate-500 mb-2">
+        Or choose as many from the list...
+      </div>
       <div className="flex flex-row gap-3 flex-wrap w-4/5 justify-center">
         {contentArray.map((topic, index) => (
           <label
