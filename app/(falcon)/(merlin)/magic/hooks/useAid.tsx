@@ -43,7 +43,6 @@ export function useAid(aidType: aidType) {
       ]);
     },
   });
-console.log(completion);
   const startStreaming = () => {
     if (latestAid || topic == "") return;
     if (

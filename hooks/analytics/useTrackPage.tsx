@@ -4,7 +4,6 @@ import { trackPage } from "@/mixpanel/actions";
 
 const useTrackPage = (pageName: string) => {
   const { data: session } = useSession();
-  console.log(session?.user?.email);
   useEffect(() => {
     if (session) {
       trackPage(pageName, session?.user?.email ?? "");

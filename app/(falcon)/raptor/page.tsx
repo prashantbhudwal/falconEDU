@@ -66,7 +66,6 @@ export default function Raptor() {
   const [isAdvancedMode, setIsAdvancedMode] = useAtom(isAdvancedModeAtom);
   const [firstRender, setFirstRender] = useState(true);
   const [batchSize, setBatchSize] = useAtom(batchSizeAtom);
-  // console.log(savedQuestions);
   const router = useRouter();
 
   const handleWorksheetGeneration = () => {
