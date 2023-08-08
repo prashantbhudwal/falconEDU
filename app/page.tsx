@@ -59,6 +59,10 @@ const LandingPage = () => {
             <PropagateLoader color={"#10B981"} />
           </div>
         )}
+        <p className="text-xs mt-2">
+          Works on large screens only. Use chrome, edge or any major browser for
+          access.
+        </p>
       </div>
       <Footer />
     </div>
