@@ -19,6 +19,11 @@ export default function ChubbiDropdown() {
           <Link href="/preferences">Home</Link>
         </li>
         <li>
+          <Link href="https://noteforms.com/forms/falconai-feedback-5wawej">
+            Give Feedback
+          </Link>
+        </li>
+        <li>
           <Link href="https://www.youtube.com/watch?v=Rh9pBJRJ0zI">
             Watch the demo
           </Link>
