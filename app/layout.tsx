@@ -3,6 +3,7 @@ import { Analytics } from "@vercel/analytics/react";
 import Providers from "../providers/providers";
 import { Inter } from "next/font/google";
 import Upgrade from "./Upgrade";
+import HelpDropdown from "./(falcon)/components/HelpDropdown";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -26,6 +27,7 @@ export default function RootLayout({
         <Providers>
           <main className="flex-grow flex flex-col items-center min-h-screen">
             <Upgrade>{children}</Upgrade>
+            <HelpDropdown />
           </main>
         </Providers>
         <Analytics />
