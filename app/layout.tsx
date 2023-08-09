@@ -3,7 +3,7 @@ import { Analytics } from "@vercel/analytics/react";
 import Providers from "../providers/providers";
 import { Inter } from "next/font/google";
 import Upgrade from "./Upgrade";
-import HelpDropdown from "./(falcon)/components/HelpDropdown";
+import HelpDropdown from "../components/HelpDropdown";
 
 const inter = Inter({
   subsets: ["latin"],
