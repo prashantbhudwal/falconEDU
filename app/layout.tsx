@@ -3,6 +3,7 @@ import { Analytics } from "@vercel/analytics/react";
 import Providers from "../providers/providers";
 import { Inter } from "next/font/google";
 import Upgrade from "./Upgrade";
+import HelpDropdown from "../components/HelpDropdown";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -13,6 +14,7 @@ export const metadata = {
   title: "FalconAI | Teaching Assistant",
   description:
     "Create lesson plans specific to your curriculum, with effortless drag and drop.",
+  metadataBase: new URL("https://falconai.in"),
 };
 
 export default function RootLayout({
@@ -26,6 +28,7 @@ export default function RootLayout({
         <Providers>
           <main className="flex-grow flex flex-col items-center min-h-screen">
             <Upgrade>{children}</Upgrade>
+            <HelpDropdown />
           </main>
         </Providers>
         <Analytics />
