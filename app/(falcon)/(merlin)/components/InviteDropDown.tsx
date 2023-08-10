@@ -1,3 +1,4 @@
+//react-share doesn't work in server components while deployment
 "use client";
 import {
   FaLinkedin,

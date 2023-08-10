@@ -3,7 +3,7 @@ import ChubbiDropdown from "./ChubbiDropdown";
 import ProfileDropDown from "./ProfileDropdown";
 import MerlinActionBar from "./MerlinActionBar";
 import UpgradeBtn from "./UpgradeBtn";
-import InviteDropdown from "./InviteBtn";
+import InviteDropdown from "./InviteDropDown";
 export default function Navbar() {
   return (
     <div className="navbar bg-base-200 h-2 shadow-sm shadow-base-100">
