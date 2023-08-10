@@ -14,6 +14,7 @@ export const metadata = {
   title: "FalconAI | Teaching Assistant",
   description:
     "Create lesson plans specific to your curriculum, with effortless drag and drop.",
+  metadataBase: new URL("https://falconai.in"),
 };
 
 export default function RootLayout({
