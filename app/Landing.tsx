@@ -35,7 +35,7 @@ const LandingPage = () => {
           </span>
         </div>
       </h1>
-      <p className={"mb-12 text-lg text-gray-500 md:text-xl max-w-xl mt-6"}>
+      <p className={"mb-12 text-lg text-gray-500 md:text-xl max-w-2xl mt-6"}>
         Create Lesson Plans, Worksheets, Activities and Assessments with AI that
         is easy to use and strictly follows your syllabus.
       </p>
@@ -49,6 +49,9 @@ const LandingPage = () => {
           ? "Taking you to the app..."
           : "Sign In"}
       </button>
+      <p className="text-xs mt-4">
+        We have a 14-day free trial. No credit card required. 🙂
+      </p>
       {(sessionStatus === "loading" || sessionStatus === "authenticated") && (
         <div className="flex flex-col items-center justify-center gap-2 h-12">
           <PropagateLoader color={"#10B981"} />
