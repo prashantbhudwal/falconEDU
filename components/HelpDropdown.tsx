@@ -37,7 +37,7 @@ export default function HelpDropdown() {
         </li>
         <li>
           <Link href="https://brindle-diascia-0d5.notion.site/Terms-Conditions-eef0974ebd1143cc95fa974c0ccc446a?pvs=4">
-            Terms and Policies
+            Terms
           </Link>
         </li>
       </ul>
