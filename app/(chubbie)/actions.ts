@@ -79,7 +79,7 @@ export async function clearChats() {
     -1
   );
   if (!chats.length) {
-    return redirect("/");
+    return redirect("/chubbie");
   }
   const pipeline = kv.pipeline();
 
@@ -90,35 +90,8 @@ export async function clearChats() {
 
   await pipeline.exec();
 
-  revalidatePath("/");
-  return redirect("/");
+  revalidatePath("/chubbie");
+  return redirect("/chubbie");
 }
 
-export async function getSharedChat(id: string) {
-  const chat = await kv.hgetall<Chat>(`chat:${id}`);
 
-  if (!chat || !chat.sharePath) {
-    return null;
-  }
-
-  return chat;
-}
-
-export async function shareChat(chat: Chat) {
-  const session = await getServerSession(authOptions);
-
-  if (!session?.user?.email || session.user.email !== chat.userId) {
-    return {
-      error: "Unauthorized",
-    };
-  }
-
-  const payload = {
-    ...chat,
-    sharePath: `/share/${chat.id}`,
-  };
-
-  await kv.hmset(`chat:${chat.id}`, payload);
-
-  return payload;
-}
