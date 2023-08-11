@@ -5,8 +5,6 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions'
 import { getChat } from '../../actions'
 import { Chat } from '../../components/chat'
 
-export const runtime = 'edge'
-export const preferredRegion = 'home'
 
 export interface ChatPageProps {
   params: {
