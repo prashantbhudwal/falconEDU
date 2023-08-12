@@ -1,5 +1,5 @@
 'use client'
-
+import SidebarButton from '@/app/(falcon)/(merlin)/magic/components/SidebarButton'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { type Chat } from '../lib/types'
