@@ -32,6 +32,7 @@ module.exports = {
     themes: [
       {
         mytheme: {
+          // TODO add more shades of colors
           primary: "#34d399",
           "primary-focus": "#047857",
           "primary-content": "#0f172a",
