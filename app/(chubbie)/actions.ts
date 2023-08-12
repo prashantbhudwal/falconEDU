@@ -1,5 +1,5 @@
 "use server";
-
+import prisma from "@/prisma";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { kv } from "@vercel/kv";
@@ -13,25 +13,19 @@ export async function getChats(userId?: string | null) {
   }
 
   try {
-    const pipeline = kv.pipeline();
-    const chats: string[] = await kv.zrange(`user:chat:${userId}`, 0, -1, {
-      rev: true,
+    return await prisma.chat.findMany({
+      where: { userId },
+      orderBy: { createdAt: "desc" },
     });
-
-    for (const chat of chats) {
-      pipeline.hgetall(chat);
-    }
-
-    const results = await pipeline.exec();
-
-    return results as Chat[];
   } catch (error) {
     return [];
   }
 }
 
-export async function getChat(id: string, userId: string) {
-  const chat = await kv.hgetall<Chat>(`chat:${id}`);
+export async function getChat(id: string, userId?: string) {
+  const chat = await prisma.chat.findUnique({
+    where: { id },
+  });
 
   if (!chat || (userId && chat.userId !== userId)) {
     return null;
@@ -43,22 +37,17 @@ export async function getChat(id: string, userId: string) {
 export async function removeChat({ id, path }: { id: string; path: string }) {
   const session = await getServerSession(authOptions);
 
-  if (!session) {
-    return {
-      error: "Unauthorized",
-    };
+  if (!session || !session.user?.id) {
+    return { error: "Unauthorized" };
   }
 
-  const uid = await kv.hget<string>(`chat:${id}`, "userId");
+  const chat = await prisma.chat.findUnique({ where: { id } });
 
-  if (uid !== session?.user?.email) {
-    return {
-      error: "Unauthorized",
-    };
+  if (!chat || chat.userId !== session.user.id) {
+    return { error: "Unauthorized" };
   }
 
-  await kv.del(`chat:${id}`);
-  await kv.zrem(`user:chat:${session.user.email}`, `chat:${id}`);
+  await prisma.chat.delete({ where: { id } });
 
   revalidatePath("/");
   return revalidatePath(path);
@@ -67,31 +56,14 @@ export async function removeChat({ id, path }: { id: string; path: string }) {
 export async function clearChats() {
   const session = await getServerSession(authOptions);
 
-  if (!session?.user?.email) {
-    return {
-      error: "Unauthorized",
-    };
+  if (!session?.user?.id) {
+    return { error: "Unauthorized" };
   }
 
-  const chats: string[] = await kv.zrange(
-    `user:chat:${session.user.email}`,
-    0,
-    -1
-  );
-  if (!chats.length) {
-    return redirect("/chubbie");
-  }
-  const pipeline = kv.pipeline();
-
-  for (const chat of chats) {
-    pipeline.del(chat);
-    pipeline.zrem(`user:chat:${session.user.email}`, chat);
-  }
-
-  await pipeline.exec();
+  await prisma.chat.deleteMany({
+    where: { userId: session.user.id },
+  });
 
   revalidatePath("/chubbie");
   return redirect("/chubbie");
 }
-
-

@@ -3,6 +3,7 @@ import { OpenAIStream, StreamingTextResponse } from "ai";
 import { Configuration, OpenAIApi } from "openai-edge";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/authOptions";
+import prisma from "@/prisma";
 import { nanoid } from "@/utils";
 
 const configuration = new Configuration({
@@ -14,7 +15,7 @@ const openai = new OpenAIApi(configuration);
 export async function POST(req: Request) {
   const json = await req.json();
   const { messages, previewToken } = json;
-  const userId = (await getServerSession(authOptions))?.user.email;
+  const userId = (await getServerSession(authOptions))?.user.id;
 
   if (!userId) {
     return new Response("Unauthorized", {
@@ -37,6 +38,9 @@ export async function POST(req: Request) {
     async onCompletion(completion) {
       const title = json.messages[0].content.substring(0, 100);
       const id = json.id ?? nanoid();
+      const existingChat = await prisma.chat.findUnique({
+        where: { id },
+      });
       const createdAt = Date.now();
       const path = `/chat/${id}`;
       const payload = {
@@ -45,19 +49,26 @@ export async function POST(req: Request) {
         userId,
         createdAt,
         path,
-        messages: [
+        messages: JSON.stringify([
           ...messages,
           {
             content: completion,
             role: "assistant",
           },
-        ],
+        ]),
       };
-      await kv.hmset(`chat:${id}`, payload);
-      await kv.zadd(`user:chat:${userId}`, {
-        score: createdAt,
-        member: `chat:${id}`,
-      });
+      if (existingChat) {
+        // Update the existing chat
+        await prisma.chat.update({
+          where: { id },
+          data: payload,
+        });
+      } else {
+        // Create a new chat
+        await prisma.chat.create({
+          data: payload,
+        });
+      }
     },
   });
 
