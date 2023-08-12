@@ -1,9 +1,11 @@
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import Google from "next-auth/providers/google";
 import prisma from "@/prisma";
-import { User } from "@prisma/client";
+import { User as PrismaUser } from "@prisma/client";
 import { Adapter } from "next-auth/adapters";
 import { AuthOptions } from "next-auth";
+import { User, Account, Profile } from "next-auth";
+import { JWT } from "next-auth/jwt";
 
 const TRIAL_DURATION = 14;
 
@@ -23,9 +25,10 @@ const assignTrialUserProperties = async () => {
 
 // Find or create profile for a Google user
 const googleProfileHandler = async (profile: any, tokens: any) => {
-  const existingUser: User | null = await prisma.user.findUnique({
+  const existingUser: PrismaUser | null = await prisma.user.findUnique({
     where: { email: profile.email },
   });
+  // console.log("ProfileTOken", tokens);
 
   if (existingUser) {
     const { sub, ...profileWithoutSub } = profile;
@@ -55,14 +58,50 @@ const GoogleProvider = () => {
   });
 };
 
-// Session callback to set session data
-const sessionCallback = ({ session, user }: any) => {
-  // TODO This code never gets executed as user is never present. Need to fix this by using jwt callback to add properties to session
+// JWT callback to store the user properties
+const jwtCallback = async ({
+  token,
+  user,
+  account,
+}: {
+  token: JWT;
+  user: User | null;
+  account: Account | null;
+  profile?: Profile;
+  trigger?: "update" | "signIn" | "signUp";
+  isNewUser?: boolean;
+  session?: any;
+}): Promise<any> => {
+  // console.log("token", token);
   if (user) {
-    session.user.role = user.role;
-    session.user.subscriptionStart = user.subscriptionStart;
-    session.user.subscriptionEnd = user.subscriptionEnd;
+    token.id = user.id;
+    token.role = user.role;
+    token.subscriptionStart = user.subscriptionStart;
+    token.subscriptionEnd = user.subscriptionEnd;
   }
+  // console.log("TokenM", token);
+  return token;
+};
+
+// Session callback to set session data
+const sessionCallback = async ({
+  session,
+  token,
+}: {
+  session: any;
+  token: any;
+}) => {
+  // console.log("Session", session);
+  // console.log("token", token);
+
+  if (token) {
+    session.user.id = token.sub; // Add the user ID here
+    session.user.role = token.role;
+    session.user.subscriptionStart = token.subscriptionStart;
+    session.user.subscriptionEnd = token.subscriptionEnd;
+  }
+  // console.log("SessionM", session);
+
   return session;
 };
 
@@ -72,6 +111,7 @@ export const authOptions: AuthOptions = {
   providers: [GoogleProvider()],
   callbacks: {
     session: sessionCallback,
+    jwt: jwtCallback,
   },
   session: {
     strategy: "jwt",
