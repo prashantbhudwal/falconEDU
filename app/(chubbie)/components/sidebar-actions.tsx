@@ -22,8 +22,6 @@ import {
   IconTrash,
   IconUsers,
 } from "../components/ui/icons";
-import Link from "next/link";
-import { badgeVariants } from "../components/ui/badge";
 import {
   Tooltip,
   TooltipContent,
