@@ -3,8 +3,8 @@ import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import Avatar from "@/app/(falcon)/(merlin)/components/Avatar";
 import { cn } from "../lib/utils";
-import { CodeBlock } from "../components/ui/codeblock";
-import { MemoizedReactMarkdown } from "../components/markdown";
+import { CodeBlock } from "@/app/(falcon)/(merlin)/merlin/components/CodeBlock";
+import { MemoizedReactMarkdown } from "@/components/Markdown";
 import { ChatMessageActions } from "../components/chat-message-actions";
 import Image from "next/image";
 

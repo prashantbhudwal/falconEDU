@@ -6,10 +6,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { clearChats } from "../actions";
 import { Sidebar } from "../components/sidebar";
 import { SidebarList } from "../components/sidebar-list";
-import {
-  IconNextChat,
-} from "../components/ui/icons";
-import { SidebarFooter } from "../components/sidebar-footer";
+import { IconNextChat } from "../components/ui/icons";
 import { ClearHistory } from "../components/clear-history";
 
 export async function Header() {
@@ -23,9 +20,9 @@ export async function Header() {
               {/* @ts-ignore */}
               <SidebarList userId={session?.user?.email} />
             </React.Suspense>
-            <SidebarFooter>
+            <div className="flex items-center justify-between p-4">
               <ClearHistory clearChats={clearChats} />
-            </SidebarFooter>
+            </div>
           </Sidebar>
         ) : (
           <Link href="/" target="_blank" rel="nofollow">
