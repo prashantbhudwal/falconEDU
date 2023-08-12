@@ -3,6 +3,7 @@ import { useChat, type Message } from "ai/react";
 import { cn } from "../lib/utils";
 import { ChatList } from "../components/chat-list";
 import { ChatPanel } from "../components/chat-panel";
+import { EmptyScreen } from "../components/empty-screen";
 import { ChatScrollAnchor } from "../components/chat-scroll-anchor";
 import { toast } from "react-hot-toast";
 
@@ -18,7 +19,7 @@ export function Chat({ id, initialMessages, className }: ChatProps) {
       id,
       body: {
         id,
-        previewToken: null,
+        previewToken:null,
       },
       onResponse(response) {
         if (response.status === 401) {
@@ -35,11 +36,7 @@ export function Chat({ id, initialMessages, className }: ChatProps) {
             <ChatScrollAnchor trackVisibility={isLoading} />
           </>
         ) : (
-          <div className="mx-auto max-w-2xl px-4">
-            <div className="rounded-sm p-8">
-              <h1 className="mb-2 text-lg font-semibold">Hello I am Chubbi!</h1>
-            </div>
-          </div>
+          <EmptyScreen setInput={setInput} />
         )}
       </div>
       <ChatPanel
