@@ -50,10 +50,10 @@ export default function Page() {
   }, [contentStreamCompleted]);
 
   return (
-    <div className="flex flex-col gap-10 items-center m-4">
+    <div className="m-4 flex flex-col items-center gap-10">
       <div className="join">
         <input
-          className="input input-bordered w-96 join-item"
+          className="input join-item input-bordered w-96"
           value={subtopic}
           onChange={handleChange}
           placeholder="Enter any topic..."
@@ -62,14 +62,14 @@ export default function Page() {
         <button
           onClick={handleStart}
           disabled={!subtopic || !contentStreamCompleted}
-          className={`my-auto join-item btn btn-primary`}
+          className={`btn btn-primary join-item my-auto`}
         >
           New Lesson
         </button>
       </div>
 
       {!contentStreamCompleted ? (
-        <div className="flex flex-col items-center justify-center gap-2 h-12">
+        <div className="flex h-12 flex-col items-center justify-center gap-2">
           <PropagateLoader color="#10B981" />
         </div>
       ) : (

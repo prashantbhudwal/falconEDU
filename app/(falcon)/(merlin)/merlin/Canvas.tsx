@@ -137,12 +137,12 @@ export default function Canvas({ className }: { className?: string }) {
     <div
       ref={!isBlockLoading ? drop : null}
       role={"Board"}
-      className={`${className} pb-96 marker:h-full flex flex-col items-center gap-4 text-slate-300 px-5 py-3 scroll-smooth overflow-y-scroll custom-scrollbar ${
-        isOver ? "shadow-inner bg-emerald-900" : "shadow-md bg-slate-950"
+      className={`${className} custom-scrollbar flex flex-col items-center gap-4 overflow-y-scroll scroll-smooth px-5 py-3 pb-96 text-slate-300 marker:h-full ${
+        isOver ? "bg-emerald-900 shadow-inner" : "bg-slate-950 shadow-md"
       }`}
     >
       {!blockType && lessonIdeas.length === 0 && (
-        <div className="text-emerald-900 text-center text-4xl pt-24">
+        <div className="pt-24 text-center text-4xl text-emerald-900">
           <p>Drop a Lesson Block Here</p>
         </div>
       )}

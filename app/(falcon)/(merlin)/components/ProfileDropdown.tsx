@@ -4,12 +4,12 @@ import SignOutButton from "./SignOutBtn";
 export default function ProfileDropDown() {
   return (
     <div className="dropdown dropdown-end">
-      <label tabIndex={0} className="btn-md btn btn-ghost btn-square">
+      <label tabIndex={0} className="btn btn-square btn-ghost btn-md">
         <Avatar />
       </label>
       <ul
         tabIndex={0}
-        className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-32"
+        className="menu dropdown-content rounded-box menu-sm z-[1] mt-3 w-32 bg-base-100 p-2 shadow"
       >
         <li>
           <Link href="/profile">Profile</Link>

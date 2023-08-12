@@ -19,7 +19,7 @@ export const BatchSize: React.FC = () => {
   const isButtonDisabled = batchSize > 4;
 
   return (
-    <div className="flex rounded-xl p-1 gap-1 text-sm ring ring-slate-800">
+    <div className="flex gap-1 rounded-xl p-1 text-sm ring ring-slate-800">
       <button onClick={decrementBatchSize}>
         <div
           className={
@@ -31,7 +31,7 @@ export const BatchSize: React.FC = () => {
         </div>
       </button>
       <div className="flex items-center gap-1">
-        <div className="text-gray-500 px-2">{batchSize}</div>
+        <div className="px-2 text-gray-500">{batchSize}</div>
       </div>
       <button onClick={incrementBatchSize} disabled={isButtonDisabled}>
         <div

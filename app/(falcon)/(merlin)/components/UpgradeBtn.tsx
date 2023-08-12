@@ -8,7 +8,7 @@ export default function UpgradeBtn() {
   return (
     <Link
       href="/pricing"
-      className="btn btn-accent rounded-sm btn-sm capitalize"
+      className="btn btn-accent btn-sm rounded-sm capitalize"
     >
       Upgrade
     </Link>

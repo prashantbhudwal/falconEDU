@@ -27,32 +27,32 @@ export default function CanvasBlock({
     <div
       className={`${
         isSelected ? "shadow-lg" : "shadow-sm"
-      } bg-slate-800 text-neutral-300 px-5 py-3 rounded-lg ${
+      } rounded-lg bg-slate-800 px-5 py-3 text-neutral-300 ${
         isSelected ? "shadow-accent" : getBlockShadow(blockType)
       } ${isSelected ? "bg-slate-700" : ""}
-      max-w-4xl w-full relative select-text`}
+      relative w-full max-w-4xl select-text`}
     >
-      <div className="flex justify-between items-center pb-1 text-slate-500">
-        <header className="text-base text-slate-500 gap-2 text-right flex items-end justify-end">
+      <div className="flex items-center justify-between pb-1 text-slate-500">
+        <header className="flex items-end justify-end gap-2 text-right text-base text-slate-500">
           {/* <p className="">{blockEmoji}</p> */}
           <p className="capitalize">{blockType}</p>
         </header>
-        <div className="flex gap-2 items-center">
+        <div className="flex items-center gap-2">
           <button
-            className="btn btn-ghost btn-square btn-sm"
+            className="btn btn-square btn-ghost btn-sm"
             onClick={() => onRemove(id)}
           >
-            <FiTrash className="font-medium text-base" />
+            <FiTrash className="text-base font-medium" />
           </button>
           <button
-            className="btn btn-ghost btn-square btn-sm"
+            className="btn btn-square btn-ghost btn-sm"
             onClick={() => onDownload()}
           >
-            <FiDownload className="font-medium text-base" />
+            <FiDownload className="text-base font-medium" />
           </button>
 
           <input
-            className="radio radio-accent radio-sm font-semibold"
+            className="radio-accent radio radio-sm font-semibold"
             type="radio"
             checked={isSelected}
             onChange={() => onSelect(id)}

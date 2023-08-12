@@ -45,10 +45,10 @@ export default function Page() {
   }, [contentStreamCompleted]);
 
   return (
-    <div className="flex flex-col gap-10 items-center m-4">
+    <div className="m-4 flex flex-col items-center gap-10">
       <div className="join">
         <input
-          className="input input-bordered w-96 join-item"
+          className="input join-item input-bordered w-96"
           value={topic}
           onChange={handleTopicChange}
           placeholder="Enter a chapter..."
@@ -56,7 +56,7 @@ export default function Page() {
         <button
           onClick={() => router.push("/preferences/multipleSubtopics")}
           disabled={!topic || !contentStreamCompleted}
-          className={`my-auto join-item ${
+          className={`join-item my-auto ${
             userFlow === "worksheet" ? "btn btn-secondary" : "btn btn-primary"
           }`}
         >
@@ -65,7 +65,7 @@ export default function Page() {
       </div>
 
       {!contentStreamCompleted ? (
-        <div className="flex flex-col items-center justify-center gap-2 h-12">
+        <div className="flex h-12 flex-col items-center justify-center gap-2">
           <PropagateLoader
             color={`${userFlow === "worksheet" ? "#D946EF" : "#10B981"}`}
           />

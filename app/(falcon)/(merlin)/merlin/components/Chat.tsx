@@ -20,13 +20,13 @@ export default function Chat({
     }
   };
   return (
-    <div className="fixed bottom-3 w-6/12 shadow-sm shadow-base-100 join p-1 bg-base-100">
+    <div className="join fixed bottom-3 w-6/12 bg-base-100 p-1 shadow-sm shadow-base-100">
       <input
         type="text"
         value={input}
         onChange={handleInputChange}
         onKeyDown={(e) => handleKeyDown(e)}
-        className="placeholder:text-sm placeholder:text-slate-500 h-10 join-item w-full shadow-accent textarea textarea-bordered textarea-md overflow-y-hidden resize-none max-h-48 bg-slate-900 text-base"
+        className="textarea join-item textarea-bordered textarea-md h-10 max-h-48 w-full resize-none overflow-y-hidden bg-slate-900 text-base shadow-accent placeholder:text-sm placeholder:text-slate-500"
         placeholder={
           !!selectedBlock
             ? `Make it shorter, longer, more specific, or more creative...`
@@ -35,7 +35,7 @@ export default function Chat({
         disabled={isLoading || !!!selectedBlock}
       />
       <button
-        className="join-item btn-square btn btn-accent text-xl h-10"
+        className="btn btn-square btn-accent join-item h-10 text-xl"
         onClick={handleSubmit}
         disabled={isLoading || !!!selectedBlock}
       >

@@ -62,7 +62,7 @@ const Questions: React.FC<Props> = ({
       color="secondaryGray"
       headingColor={getQuestionSectionTextColor(type)}
       dividerColor={getQuestionSectionBorderColor(type)}
-      className={`w-full px-5 py-3 rounded-lg shadow-sm ${getQuestionSectionShadow(
+      className={`w-full rounded-lg px-5 py-3 shadow-sm ${getQuestionSectionShadow(
         type
       )}`}
     >
@@ -76,8 +76,8 @@ const Questions: React.FC<Props> = ({
       >
         {questions.length === 0 && !isAdvancedMode && (
           <div
-            className={`flex text-slate-500 text-center flex-col gap-1 pt-2 px-4 ${className} ${
-              isOver ? "bg-fuchsia-500 rounded-lg" : ""
+            className={`flex flex-col gap-1 px-4 pt-2 text-center text-slate-500 ${className} ${
+              isOver ? "rounded-lg bg-fuchsia-500" : ""
             }`}
           >
             Drop a topic here
@@ -94,8 +94,8 @@ const Questions: React.FC<Props> = ({
               setLastIndex(null);
             }}
             key={index}
-            className={`relative flex flex-col gap-1 pt-2 px-4 ${className} ${
-              isOver ? "bg-fuchsia-500 rounded-lg" : ""
+            className={`relative flex flex-col gap-1 px-4 pt-2 ${className} ${
+              isOver ? "rounded-lg bg-fuchsia-500" : ""
             }`}
           >
             <Question
@@ -105,7 +105,7 @@ const Questions: React.FC<Props> = ({
               onClick={() => handleQuestionClick(question)}
             />
             {hasDelete && hoverIndex === index && (
-              <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-60 rounded-md flex items-center justify-center text-white text-lg pointer-events-none">
+              <div className="pointer-events-none absolute left-0 top-0 flex h-full w-full items-center justify-center rounded-md bg-black bg-opacity-60 text-lg text-white">
                 ❌
               </div>
             )}

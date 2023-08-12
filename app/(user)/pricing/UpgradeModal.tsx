@@ -28,7 +28,7 @@ function UpgradeModal() {
               message at +91 9833045490
             </h2>
             <div className="card-actions justify-end">
-              <button className="btn btn-wide btn-accent" onClick={closeModal}>
+              <button className="btn btn-accent btn-wide" onClick={closeModal}>
                 Okay
               </button>
             </div>

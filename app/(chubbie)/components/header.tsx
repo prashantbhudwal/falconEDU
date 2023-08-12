@@ -11,7 +11,7 @@ import { ClearHistory } from "../components/clear-history";
 export async function Header() {
   const session = await getServerSession(authOptions);
   return (
-    <header className="sticky top-0 z-50 flex items-center justify-between w-full h-16 px-4 border-b shrink-0 backdrop-blur-xl">
+    <header className="sticky top-0 z-50 flex h-16 w-full shrink-0 items-center justify-between border-b px-4 backdrop-blur-xl">
       <div className="flex items-center">
         {session?.user ? (
           <Sidebar>

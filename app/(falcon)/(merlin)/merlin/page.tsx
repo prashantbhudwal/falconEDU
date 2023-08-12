@@ -27,7 +27,7 @@ export default function Merlin() {
   return (
     <DndProvider backend={HTML5Backend}>
       <MerlinGrid>
-        <Sidebar className="col-start-1 col-span-2 row-start-1 ">
+        <Sidebar className="col-span-2 col-start-1 row-start-1 ">
           <Section title="Lesson Blocks">
             {promptsArray.map((buttonText: string) => (
               <DraggableChip
@@ -40,8 +40,8 @@ export default function Merlin() {
             ))}
           </Section>
         </Sidebar>
-        <Canvas className="col-start-3 col-span-8 mt-1" />
-        <Sidebar className="col-start-11 col-span-2 ">
+        <Canvas className="col-span-8 col-start-3 mt-1" />
+        <Sidebar className="col-span-2 col-start-11 ">
           <Section title="Topics">
             <div className="flex flex-col gap-2">
               {worksheetSubtopics.length > 0 &&
@@ -54,7 +54,7 @@ export default function Merlin() {
                       value={subTopic}
                       checked={subtopic === subTopic}
                       onChange={() => setSubtopic(subTopic)}
-                      className="radio radio-primary radio-sm p-1"
+                      className="radio-primary radio radio-sm p-1"
                     />
                   </label>
                 ))}

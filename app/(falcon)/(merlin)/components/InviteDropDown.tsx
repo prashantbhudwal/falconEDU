@@ -37,16 +37,16 @@ export default function InviteDropdown() {
     <div className="dropdown">
       <label
         tabIndex={0}
-        className="btn btn-base-100 rounded-sm btn-sm capitalize"
+        className="btn-base-100 btn btn-sm rounded-sm capitalize"
       >
         Invite
       </label>
       <ul
         tabIndex={0}
-        className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-40"
+        className="menu dropdown-content rounded-box menu-sm z-[1] mt-3 w-40 bg-base-100 p-2 shadow"
       >
         <li>
-          <div className="flex gap-2 justify-between">
+          <div className="flex justify-between gap-2">
             <LinkedinShareButton
               url="https://falconai.in"
               title={share.linkedin.title}
@@ -54,18 +54,18 @@ export default function InviteDropdown() {
             >
               LinkedIn
             </LinkedinShareButton>
-            <FaLinkedin className="text-info text-base" />
+            <FaLinkedin className="text-base text-info" />
           </div>
         </li>
         <li>
-          <div className="flex gap-2 justify-between">
+          <div className="flex justify-between gap-2">
             <WhatsappShareButton
               url="https://falconai.in"
               title={share.whatsapp.title}
             >
               Whatsapp
             </WhatsappShareButton>
-            <FaWhatsapp className="text-success text-base" />
+            <FaWhatsapp className="text-base text-success" />
           </div>
         </li>
         {/* <li>
@@ -83,7 +83,7 @@ export default function InviteDropdown() {
           </div>
         </li> */}
         <li>
-          <div className="flex gap-2 justify-between">
+          <div className="flex justify-between gap-2">
             <FacebookShareButton
               url="https://falconai.in"
               quote={share.facebook.quote}
@@ -91,7 +91,7 @@ export default function InviteDropdown() {
             >
               Facebook
             </FacebookShareButton>
-            <FaFacebook className="text-info text-base" />
+            <FaFacebook className="text-base text-info" />
           </div>
         </li>
       </ul>

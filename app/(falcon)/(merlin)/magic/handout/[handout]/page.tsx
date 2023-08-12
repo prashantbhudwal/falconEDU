@@ -16,14 +16,14 @@ export default function Page({
   );
 
   return (
-    <div className="flex flex-col gap-2 col-start-3 col-span-8 scroll-smooth overflow-y-scroll custom-scrollbar">
+    <div className="custom-scrollbar col-span-8 col-start-3 flex flex-col gap-2 overflow-y-scroll scroll-smooth">
       {filteredHandouts.map((aid) => (
         <div
           key={aid.id}
-          className={`bg-slate-100 text-slate-900 px-8 py-5 rounded-lg shadow-sm shadow-slate-200 max-w-4xl w-full`}
+          className={`w-full max-w-4xl rounded-lg bg-slate-100 px-8 py-5 text-slate-900 shadow-sm shadow-slate-200`}
         >
-          <h1 className="text-sm capitalize text-center">{params.handout}</h1>
-          <p className="leading-5 text-xs pt-8 py-5 whitespace-pre-wrap">
+          <h1 className="text-center text-sm capitalize">{params.handout}</h1>
+          <p className="whitespace-pre-wrap py-5 pt-8 text-xs leading-5">
             {aid.content}
           </p>
         </div>

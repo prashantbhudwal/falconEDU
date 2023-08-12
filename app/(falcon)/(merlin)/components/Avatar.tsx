@@ -43,7 +43,7 @@ export default function Avatar() {
           alt="User avatar"
         />
       ) : (
-        <span className=" bg-slate-800 shadow-md shadow-slate-950 text-sm text-secondary font-medium rounded-full w-[35px] h-[35px] flex items-center justify-center tracking-wide">
+        <span className=" flex h-[35px] w-[35px] items-center justify-center rounded-full bg-slate-800 text-sm font-medium tracking-wide text-secondary shadow-md shadow-slate-950">
           <div>{getInitials()}</div>
         </span>
       )}

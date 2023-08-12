@@ -50,7 +50,7 @@ export function SidebarActions({
           <TooltipTrigger asChild>
             <Button
               variant="ghost"
-              className="h-6 w-6 p-0 hover:bg-background"
+              className="hover:bg-background h-6 w-6 p-0"
               disabled={isRemovePending}
               onClick={() => setDeleteDialogOpen(true)}
             >

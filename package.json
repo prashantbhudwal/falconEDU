@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "prisma generate && prisma migrate deploy && next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "next lint --fix",
     "seed": "node scripts/seed.mjs",
     "latest": "npm i next@latest react@latest react-dom@latest swr@latest next-auth@latest @prisma/client@latest @auth/prisma-adapter@latest prisma@latest ai@latest openai@latest openai-edge@latest langchain@latest axios@latest tailwindcss@latest @tailwindcss/typography@latest daisyui@latest"
   },

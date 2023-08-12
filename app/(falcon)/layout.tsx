@@ -6,7 +6,7 @@ export default function MerlinLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-col h-screen min-w-full">
+    <div className="flex h-screen min-w-full flex-col">
       <Navbar />
       {children}
     </div>

@@ -23,7 +23,7 @@ export default function Page({ params }: { params: { aid: aidType } }) {
 
   return (
     <div
-      className={`col-start-3 col-span-8 mt-0 h-full shadow-md bg-slate-950 py-4 flex flex-col items-center gap-4 text-slate-800 px-6 pb-96 marker:h-full scroll-smooth overflow-y-scroll custom-scrollbar`}
+      className={`custom-scrollbar col-span-8 col-start-3 mt-0 flex h-full flex-col items-center gap-4 overflow-y-scroll scroll-smooth bg-slate-950 px-6 py-4 pb-96 text-slate-800 shadow-md marker:h-full`}
     >
       {isLoading ? (
         <Message message={content} />

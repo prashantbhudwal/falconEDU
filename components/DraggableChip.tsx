@@ -43,9 +43,9 @@ export default function DraggableChip({
   }
 
   return (
-    <div ref={dragPreview} className={"rounded-md w-full"}>
+    <div ref={dragPreview} className={"w-full rounded-md"}>
       <div
-        className={`bg-base-100 text-slate-300 shadow-sm h-auto px-4 py-2 capitalize text-left text-sm badge badge-lg w-full cursor-grab hover:scale-110 rounded-md ${
+        className={`badge badge-lg h-auto w-full cursor-grab rounded-md bg-base-100 px-4 py-2 text-left text-sm capitalize text-slate-300 shadow-sm hover:scale-110 ${
           isDragging ? `${badgeColor}` : ``
         }`}
         ref={drag}

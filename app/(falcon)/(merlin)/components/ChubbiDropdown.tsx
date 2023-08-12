@@ -6,14 +6,14 @@ export default function ChubbiDropdown() {
     <div className="dropdown">
       <label
         tabIndex={0}
-        className="btn btn-md btn-ghost flex flex-row gap-1 shadow-md shadow-slate-950"
+        className="btn btn-ghost btn-md flex flex-row gap-1 shadow-md shadow-slate-950"
       >
         <Image src={"/chubbi.png"} height={25} width={25} alt="Falcon Logo" />
-        <FiChevronDown className="text-secondary font-medium text-base" />
+        <FiChevronDown className="text-base font-medium text-secondary" />
       </label>
       <ul
         tabIndex={0}
-        className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+        className="menu dropdown-content rounded-box menu-sm z-[1] mt-3 w-52 bg-base-100 p-2 shadow"
       >
         <li>
           <Link href="/preferences">New Lesson</Link>

@@ -8,7 +8,7 @@ export const ModeToggle: React.FC<ModeToggleProps> = ({
   setIsAdvancedMode,
 }) => {
   return (
-    <div className="flex rounded-xl p-1 w-fit gap-1 text-sm ring ring-slate-800">
+    <div className="flex w-fit gap-1 rounded-xl p-1 text-sm ring ring-slate-800">
       <button onClick={() => setIsAdvancedMode(false)}>
         <div
           className={

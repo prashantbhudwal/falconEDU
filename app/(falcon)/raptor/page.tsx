@@ -176,10 +176,10 @@ export default function Raptor() {
   return (
     <DndProvider backend={HTML5Backend}>
       <motion.div
-        className="grid grid-cols-12 gap-4 w-full select-none h-full overflow-y-auto"
+        className="grid h-full w-full select-none grid-cols-12 gap-4 overflow-y-auto"
         animate={controls}
       >
-        <Sidebar className="col-start-1 col-span-3 row-start-1">
+        <Sidebar className="col-span-3 col-start-1 row-start-1">
           <Section title={"Topics"} color={"gray"}>
             {worksheetSubtopics.length > 0 &&
               worksheetSubtopics.map((topic, index) => (
@@ -194,7 +194,7 @@ export default function Raptor() {
           </Section>
         </Sidebar>
         <div
-          className={`px-5 py-3 flex flex-col shadow-md bg-slate-950 mt-1 col-start-4 col-span-7 marker:h-full scroll-smooth overflow-y-scroll pb-96 custom-scrollbar items-center gap-4 }`}
+          className={`custom-scrollbar } col-span-7 col-start-4 mt-1 flex flex-col items-center gap-4 overflow-y-scroll scroll-smooth bg-slate-950 px-5 py-3 pb-96 shadow-md marker:h-full`}
         >
           <div className="flex flex-row items-center gap-12">
             <ModeToggle
@@ -219,7 +219,7 @@ export default function Raptor() {
             );
           })}
         </div>
-        <Sidebar className="col-start-11 col-span-2">
+        <Sidebar className="col-span-2 col-start-11">
           <Section title={"Types"} color={"gray"}>
             {questionTypes.map((questionType) => (
               <label className="label text-sm" key={questionType.value}>
@@ -230,7 +230,7 @@ export default function Raptor() {
                   value={questionType.value}
                   checked={checkedQuestionTypes.includes(questionType.value)}
                   onChange={() => handleCheckboxChange(questionType.value)}
-                  className="checkbox checkbox-info checkbox-sm"
+                  className="checkbox-info checkbox checkbox-sm"
                 />
               </label>
             ))}

@@ -11,7 +11,7 @@ const getTitle = (pathname: string, userFlow: string) => {
       return (
         <>
           What are you{" "}
-          <span className=" underline underline-offset-8 decoration-primary">
+          <span className=" underline decoration-primary underline-offset-8">
             teaching
           </span>{" "}
           today?
@@ -83,7 +83,7 @@ export default function PreferencesLayout({
   }
 
   return (
-    <div className="flex flex-col gap-10 items-center w-full">
+    <div className="flex w-full flex-col items-center gap-10">
       <Navbar />
       <div className="text-3xl text-slate-300">
         {pathname && getTitle(pathname, userFlow)}

@@ -20,7 +20,7 @@ export default function ProfilePage() {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center h-screen">
+      <div className="flex h-screen items-center justify-center">
         <RotateLoader color="#2d9c6d" />
       </div>
     );
@@ -31,12 +31,12 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="w-full flex flex-col gap-3 items-center">
+    <div className="flex w-full flex-col items-center gap-3">
       <Navbar />
-      <div className=" bg-slate-900 text-slate-200 p-4 w-5/6 shadow-sm max-w-5xl">
-        <div className="max-w-4xl mx-auto">
-          <div className="relative px-6 py-10 mb-6 flex items-center space-x-6 bg-secondary-focus w-full rounded-sm">
-            <div className="flex-shrink-0">
+      <div className=" w-5/6 max-w-5xl bg-slate-900 p-4 text-slate-200 shadow-sm">
+        <div className="mx-auto max-w-4xl">
+          <div className="relative mb-6 flex w-full items-center space-x-6 rounded-sm bg-secondary-focus px-6 py-10">
+            <div className="shrink-0">
               {user.image ? (
                 <Image
                   className="rounded-full object-cover"
@@ -68,11 +68,11 @@ export default function ProfilePage() {
                   : user?.teacherProfile?.bio}
               </p>
             </div>
-            <div className="absolute top-0 right-0 mt-4 mr-6 pr-4">
+            <div className="absolute right-0 top-0 mr-6 mt-4 pr-4">
               <EditProfileModal />
             </div>
           </div>
-          <Section title="Contact" className="p-6 rounded-md text-slate-400">
+          <Section title="Contact" className="rounded-md p-6 text-slate-400">
             <div className="grid grid-cols-2 gap-4 text-xl">
               <div>
                 <p className="font-bold text-slate-200">Email</p>
@@ -82,11 +82,11 @@ export default function ProfilePage() {
           </Section>
           <Section
             title="Subscription"
-            className="p-6 rounded-md text-slate-400"
+            className="rounded-md p-6 text-slate-400"
           >
             <div className="grid grid-cols-2 gap-4 text-xl">
               <div>
-                <p className="font-bold text-slate-200 capitalize">Plan</p>
+                <p className="font-bold capitalize text-slate-200">Plan</p>
                 <p>{user?.role ? user?.role : "Plan"}</p>
               </div>
               <div>

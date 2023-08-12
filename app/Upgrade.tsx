@@ -41,14 +41,14 @@ export default async function Upgrade({
       {!subscriptionEnded ? (
         children
       ) : (
-        <div className="flex flex-col items-center text-center pt-8 min-h-screen">
-          <h1 className="my-6 text-2xl md:text-5xl text-slate-300 max-w-xl leading-10 lg:text-5xl">
+        <div className="flex min-h-screen flex-col items-center pt-8 text-center">
+          <h1 className="my-6 max-w-xl text-2xl leading-10 text-slate-300 md:text-5xl lg:text-5xl">
             Subscription Expired.
           </h1>
-          <p className={"mb-12 text-lg text-gray-500 md:text-xl max-w-xl mt-6"}>
+          <p className={"mb-12 mt-6 max-w-xl text-lg text-gray-500 md:text-xl"}>
             To subscribe, drop a WhatsApp message at +91 9833045490.
           </p>
-          <div className="flex flex-col gap-2 items-center w-screen">
+          <div className="flex w-screen flex-col items-center gap-2">
             <PlansGrid />
             <SignOutButton className="btn btn-info" />
           </div>
