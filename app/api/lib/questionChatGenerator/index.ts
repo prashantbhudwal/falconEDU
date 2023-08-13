@@ -263,6 +263,8 @@ function getTextbookName(board: string | undefined) {
       return "ICSE";
     case "State Board":
       return "State Board";
+    case "IGCSE":
+      return "IGCSE";
     default:
       throw new Error("Invalid board");
   }
