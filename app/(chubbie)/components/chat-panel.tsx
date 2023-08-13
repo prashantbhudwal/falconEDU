@@ -2,7 +2,6 @@ import { type UseChatHelpers } from "ai/react";
 
 import { Button } from "../components/ui/button";
 import { PromptForm } from "../components/prompt-form";
-import { ButtonScrollToBottom } from "../components/button-scroll-to-bottom";
 import { IconRefresh, IconStop } from "../components/ui/icons";
 
 export interface ChatPanelProps
@@ -30,8 +29,7 @@ export function ChatPanel({
   messages,
 }: ChatPanelProps) {
   return (
-    <div className="from-muted/10 to-muted/30 fixed inset-x-0 bottom-0 bg-gradient-to-b from-10% to-50%">
-      <ButtonScrollToBottom />
+    <div className=" fixed inset-x-0 bottom-0">
       <div className="mx-auto sm:max-w-2xl sm:px-4">
         <div className="flex h-10 items-center justify-center">
           {isLoading ? (
