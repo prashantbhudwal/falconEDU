@@ -31,7 +31,7 @@ export function SidebarItem({ chat, children }: SidebarItemProps) {
         )}
       >
         <div
-          className="relative max-h-5 flex-1 select-none overflow-hidden text-ellipsis break-all"
+          className="relative max-h-5 flex-1 select-none overflow-hidden text-ellipsis break-all w-16"
           title={chat.title}
         >
           <span className="whitespace-nowrap">{chat.title}</span>

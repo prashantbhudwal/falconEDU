@@ -13,7 +13,7 @@ export async function SidebarList({ userId }: SidebarListProps) {
   return (
     <div className="flex-1 overflow-auto custom-scrollbar">
       {chats?.length ? (
-        <div className="space-y-2 px-2">
+        <div className="space-y-2">
           {chats.map(
             (chat) =>
               chat && (
