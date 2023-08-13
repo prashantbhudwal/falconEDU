@@ -3,9 +3,7 @@ import MerlinGrid from "../(falcon)/(merlin)/components/Grid";
 import Sidebar from "@/components/Sidebar";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-import { clearChats } from "./actions";
 import { SidebarList } from "./components/sidebar-list";
-import { ClearHistory } from "./components/clear-history";
 import * as React from "react";
 import Navbar from "../(falcon)/(merlin)/components/Navbar";
 import NewChatBtn from "./components/NewChatBtn";
@@ -33,9 +31,6 @@ export default async function ChubbiLayout({
                   {/* @ts-ignore */}
                   <SidebarList userId={session?.user?.id} />
                 </React.Suspense>
-                <div className="flex items-center justify-between p-4">
-                  <ClearHistory clearChats={clearChats} />
-                </div>
               </Sidebar>
             ) : (
               <></>
