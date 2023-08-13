@@ -5,7 +5,7 @@ import Avatar from "@/app/(falcon)/(merlin)/components/Avatar";
 import { cn } from "../lib/utils";
 import { CodeBlock } from "@/app/(falcon)/(merlin)/merlin/components/CodeBlock";
 import { MemoizedReactMarkdown } from "@/components/Markdown";
-import { ChatMessageActions } from "../components/chat-message-actions";
+import { ChatMessageActions } from "./chat-message-actions";
 import Image from "next/image";
 
 export interface ChatMessageProps {

@@ -71,6 +71,6 @@ export async function clearChats() {
     where: { userId: session.user.id },
   });
 
-  revalidatePath("/chubbie");
-  return redirect("/chubbie");
+  revalidatePath("/chubbi");
+  return redirect("/chubbi");
 }

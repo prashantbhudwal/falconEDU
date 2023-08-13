@@ -1,5 +1,5 @@
 "use client";
-import { IconPlus } from "../components/ui/icons";
+import { IconPlus } from "./ui/icons";
 import { useRouter } from "next/navigation";
 
 export default function NewChatBtn() {
@@ -9,7 +9,7 @@ export default function NewChatBtn() {
       onClick={(e) => {
         e.preventDefault();
         router.refresh();
-        router.push("/chubbie");
+        router.push("/chubbi");
       }}
       className={"btn btn-ghost btn-sm rounded-sm"}
     >

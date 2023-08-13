@@ -3,7 +3,7 @@ import { Analytics } from "@vercel/analytics/react";
 import Providers from "../providers/providers";
 import { Inter } from "next/font/google";
 import Upgrade from "./Upgrade";
-import HelpDropdown from "../components/HelpDropdown";
+import Chubbi from "../components/Chubbi";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -28,7 +28,7 @@ export default function RootLayout({
         <Providers>
           <main className="flex min-h-screen grow flex-col items-center">
             <Upgrade>{children}</Upgrade>
-            <HelpDropdown />
+            <Chubbi />
           </main>
         </Providers>
         <Analytics />

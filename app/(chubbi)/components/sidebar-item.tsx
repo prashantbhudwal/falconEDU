@@ -4,8 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { type Chat } from "../lib/types";
 import { cn } from "../lib/utils";
-import { buttonVariants } from "../components/ui/button";
-import { IconMessage } from "../components/ui/icons";
+import { buttonVariants } from "./ui/button";
+import { IconMessage } from "./ui/icons";
 interface SidebarItemProps {
   chat: Chat;
   children: React.ReactNode;

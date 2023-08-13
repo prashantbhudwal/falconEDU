@@ -15,14 +15,10 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "../components/ui/alert-dialog";
-import { Button } from "../components/ui/button";
-import { IconSpinner, IconTrash, IconUsers } from "../components/ui/icons";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "../components/ui/tooltip";
+} from "./ui/alert-dialog";
+import { Button } from "./ui/button";
+import { IconSpinner, IconTrash, IconUsers } from "./ui/icons";
+import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 
 interface SidebarActionsProps {
   chat: Chat;
@@ -83,7 +79,7 @@ export function SidebarActions({ chat, removeChat }: SidebarActionsProps) {
 
                   setDeleteDialogOpen(false);
                   router.refresh();
-                  router.push("/chubbie");
+                  router.push("/chubbi");
                   toast.success("Chat deleted");
                 });
               }}

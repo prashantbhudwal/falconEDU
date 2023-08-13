@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function HelpDropdown() {
   return (
-    <div className="dropdown-end dropdown-top dropdown absolute bottom-5 right-5">
+    <div className="dropdown-end dropdown">
       <label
         tabIndex={0}
         className="btn btn-circle btn-sm flex flex-row gap-1 bg-base-100 shadow-sm shadow-slate-950"

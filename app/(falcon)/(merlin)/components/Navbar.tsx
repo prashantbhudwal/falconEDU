@@ -4,6 +4,7 @@ import ProfileDropDown from "./ProfileDropdown";
 import MerlinActionBar from "./MerlinActionBar";
 import UpgradeBtn from "./UpgradeBtn";
 import InviteDropdown from "./InviteDropDown";
+import HelpDropdown from "@/components/HelpDropdown";
 export default function Navbar() {
   return (
     <div className="navbar h-2 bg-base-200 shadow-sm shadow-base-100">
@@ -18,6 +19,7 @@ export default function Navbar() {
       <div className="navbar-end gap-3 pr-1">
         <MerlinActionBar />
         <ProfileDropDown />
+        <HelpDropdown/>
       </div>
     </div>
   );

@@ -1,8 +1,8 @@
 import { type UseChatHelpers } from "ai/react";
 
-import { Button } from "../components/ui/button";
-import { PromptForm } from "../components/prompt-form";
-import { IconRefresh, IconStop } from "../components/ui/icons";
+import { Button } from "./ui/button";
+import { PromptForm } from "./prompt-form";
+import { IconRefresh, IconStop } from "./ui/icons";
 
 export interface ChatPanelProps
   extends Pick<

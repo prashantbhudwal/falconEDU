@@ -1,9 +1,9 @@
 "use client";
 import { useChat, type Message } from "ai/react";
 import { cn } from "../lib/utils";
-import { ChatList } from "../components/chat-list";
-import { ChatPanel } from "../components/chat-panel";
-import { ChatScrollAnchor } from "../components/chat-scroll-anchor";
+import { ChatList } from "./chat-list";
+import { ChatPanel } from "./chat-panel";
+import { ChatScrollAnchor } from "./chat-scroll-anchor";
 import { toast } from "react-hot-toast";
 
 export interface ChatProps extends React.ComponentProps<"div"> {

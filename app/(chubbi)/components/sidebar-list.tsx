@@ -1,6 +1,6 @@
 import { getChats, removeChat } from "../actions";
-import { SidebarActions } from "../components/sidebar-actions";
-import { SidebarItem } from "../components/sidebar-item";
+import { SidebarActions } from "./sidebar-actions";
+import { SidebarItem } from "./sidebar-item";
 export interface SidebarListProps {
   userId?: string;
 }
