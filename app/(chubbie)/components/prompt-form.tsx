@@ -5,6 +5,7 @@ import Textarea from "react-textarea-autosize";
 import { Button } from "../components/ui/button";
 import { IconArrowElbow } from "../components/ui/icons";
 import { useEnterSubmit } from "../hooks/use-enter-submit";
+import { FiCornerDownLeft } from "react-icons/fi";
 
 export interface PromptProps
   extends Pick<UseChatHelpers, "input" | "setInput"> {
@@ -39,7 +40,7 @@ export function PromptForm({
       }}
       ref={formRef}
     >
-      <div className="bg-background relative flex max-h-60 w-full grow flex-col overflow-hidden px-8 sm:rounded-md sm:border sm:px-12">
+      <div className="bg-base-300 shadow-md shadow-base-300 relative flex max-h-60 w-full grow flex-col overflow-hidden px-8 sm:rounded-md sm:border sm:px-12">
         <Textarea
           ref={inputRef}
           tabIndex={0}
@@ -57,7 +58,7 @@ export function PromptForm({
             size="icon"
             disabled={isLoading || input === ""}
           >
-            <IconArrowElbow />
+            <FiCornerDownLeft className="text-primary-content" />
             <span className="sr-only">Send message</span>
           </Button>
         </div>

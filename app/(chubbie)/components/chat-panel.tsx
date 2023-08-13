@@ -46,7 +46,7 @@ export function ChatPanel({
               <Button
                 variant="outline"
                 onClick={() => reload()}
-                className="bg-background"
+                className="bg-base-300"
               >
                 <IconRefresh className="mr-2" />
                 Regenerate response
