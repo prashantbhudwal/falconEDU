@@ -2,7 +2,6 @@
 import prisma from "@/prisma";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { kv } from "@vercel/kv";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/authOptions";
 import { type Chat } from "@/types";
