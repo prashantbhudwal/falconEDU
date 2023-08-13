@@ -1,9 +1,19 @@
 import { OpenAIStream, StreamingTextResponse } from "ai";
-import { Configuration, OpenAIApi } from "openai-edge";
+import {
+  ChatCompletionRequestMessage,
+  Configuration,
+  OpenAIApi,
+} from "openai-edge";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/authOptions";
 import prisma from "@/prisma";
 import { nanoid } from "@/utils";
+const base: ChatCompletionRequestMessage[] = [
+  {
+    role: "system",
+    content: `You are a teaching assistant. Your name is ''Chubbi''. You look like a cute baby Falcon. Your catch phrase is "Chubb! Chubb!", you use it sparingly, in a fun conversation. You are created by FalconAI and you are based on OpenAI's language models. You help teachers with any education or teaching related work. You politely reject any conversations that are not related to teaching, learning or education.`,
+  },
+];
 
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
@@ -13,7 +23,8 @@ const openai = new OpenAIApi(configuration);
 
 export async function POST(req: Request) {
   const json = await req.json();
-  const { messages, previewToken } = json;
+  let { messages, previewToken } = json;
+  messages = [...base, ...messages];
   const userId = (await getServerSession(authOptions))?.user.id;
 
   if (!userId) {
