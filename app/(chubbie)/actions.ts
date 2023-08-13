@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/authOptions";
-import { type Chat } from "@/types";
+import { parseMessages } from "@/utils/messageParsers";
 
 export async function getChats(userId?: string | null) {
   if (!userId) {
@@ -12,10 +12,15 @@ export async function getChats(userId?: string | null) {
   }
 
   try {
-    return await prisma.chat.findMany({
+    const chats = await prisma.chat.findMany({
       where: { userId },
       orderBy: { createdAt: "desc" },
     });
+
+    return chats.map((chat) => ({
+      ...chat,
+      messages: parseMessages(chat.messages),
+    }));
   } catch (error) {
     return [];
   }
@@ -30,7 +35,10 @@ export async function getChat(id: string, userId?: string) {
     return null;
   }
 
-  return chat;
+  return {
+    ...chat,
+    messages: parseMessages(chat.messages),
+  };
 }
 
 export async function removeChat({ id, path }: { id: string; path: string }) {

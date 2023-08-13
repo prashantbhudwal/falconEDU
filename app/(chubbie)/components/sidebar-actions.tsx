@@ -17,11 +17,7 @@ import {
   AlertDialogTitle,
 } from "../components/ui/alert-dialog";
 import { Button } from "../components/ui/button";
-import {
-  IconSpinner,
-  IconTrash,
-  IconUsers,
-} from "../components/ui/icons";
+import { IconSpinner, IconTrash, IconUsers } from "../components/ui/icons";
 import {
   Tooltip,
   TooltipContent,
@@ -33,10 +29,7 @@ interface SidebarActionsProps {
   removeChat: (args: { id: string; path: string }) => ServerActionResult<void>;
 }
 
-export function SidebarActions({
-  chat,
-  removeChat,
-}: SidebarActionsProps) {
+export function SidebarActions({ chat, removeChat }: SidebarActionsProps) {
   const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
   const [isRemovePending, startRemoveTransition] = React.useTransition();
   const router = useRouter();

@@ -16,7 +16,7 @@ const getFormattedDate = (date: string) => {
 
 export default function ProfilePage() {
   const { user, error, isLoading } = useUserData();
-  console.log(user);
+  // console.log(user);
 
   if (isLoading) {
     return (

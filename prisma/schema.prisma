@@ -164,11 +164,11 @@ model Question {
 // Chat Models to store gpt chat history of each user along with some metadata
 
 model Chat {
-  id        String @id @default(uuid())
+  id        String   @id @default(uuid())
   title     String
   userId    String
-  user      User   @relation(fields: [userId], references: [id])
-  createdAt BigInt
+  user      User     @relation(fields: [userId], references: [id])
   path      String
   messages  Json
+  createdAt DateTime @default(now())
 }

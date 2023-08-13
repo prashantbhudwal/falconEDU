@@ -40,7 +40,7 @@ export async function POST(req: Request) {
       const existingChat = await prisma.chat.findUnique({
         where: { id },
       });
-      const createdAt = Date.now();
+      const createdAt = new Date();
       const path = `/chat/${id}`;
       const payload = {
         id,
@@ -58,15 +58,23 @@ export async function POST(req: Request) {
       };
       if (existingChat) {
         // Update the existing chat
-        await prisma.chat.update({
-          where: { id },
-          data: payload,
-        });
+        try {
+          await prisma.chat.update({
+            where: { id },
+            data: payload,
+          });
+        } catch (error) {
+          console.error("Update Error:", error);
+        }
       } else {
         // Create a new chat
-        await prisma.chat.create({
-          data: payload,
-        });
+        try {
+          await prisma.chat.create({
+            data: payload,
+          });
+        } catch (error) {
+          console.error("Update Error:", error);
+        }
       }
     },
   });
