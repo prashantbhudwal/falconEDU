@@ -49,7 +49,7 @@ export function SidebarActions({ chat, removeChat }: SidebarActionsProps) {
         </Tooltip>
       </div>
       <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-        <AlertDialogContent>
+        <AlertDialogContent className="bg-base-100">
           <AlertDialogHeader>
             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
             <AlertDialogDescription>
