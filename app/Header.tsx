@@ -12,7 +12,7 @@ export default function Header() {
   );
 
   return (
-    <header className="sticky top-0 z-50  text-slate-200 pt-4 pl-4 pr-6 pb-1 bg-slate-900 w-full">
+    <header className="sticky top-0 z-50  w-full bg-slate-900 pb-1 pl-4 pr-6 pt-4 text-slate-200">
       <div className="flex items-center justify-between">
         <Link href={`${session ? "/preferences" : "/"}`}>
           <div className={`flex gap-2`}>

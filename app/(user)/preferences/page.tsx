@@ -49,7 +49,7 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col gap-5 items-center m-4">
+    <div className="m-4 flex flex-col items-center gap-5">
       <select
         onChange={handleBoardChange}
         value={board}
@@ -88,16 +88,16 @@ export default function Home() {
             </option>
           ))}
       </select>
-      <div className="join max-w-full mt-6">
+      <div className="join mt-6 max-w-full">
         <button
           onClick={startLessonFlow}
           disabled={!board || !subject || !grade}
-          className="btn btn-primary btn-wide join-item"
+          className="btn btn-primary join-item btn-wide"
         >
           Lesson
         </button>
         <button
-          className="btn btn-secondary btn-wide join-item"
+          className="btn btn-secondary join-item btn-wide"
           onClick={startWorksheetFlow}
           disabled={!board || !subject || !grade}
         >

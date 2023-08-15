@@ -31,14 +31,14 @@ export default function BreadCrumbs() {
     </ul>
   );
 
-  const fullCrumbs = <div className="text-xs breadcrumbs">{crumbList}</div>;
+  const fullCrumbs = <div className="breadcrumbs text-xs">{crumbList}</div>;
 
   if (hideConfig.includes(currentPage)) return null;
 
   return (
-    <div className="relative group">
-      <div className="text-xs breadcrumbs max-w-2xl">{crumbList}</div>
-      <div className="absolute left-0 z-10 bg-base-100 opacity-0 group-hover:opacity-100 transition-opacity duration-200 p-2 rounded shadow-lg mt-2">
+    <div className="group relative">
+      <div className="breadcrumbs max-w-2xl text-xs">{crumbList}</div>
+      <div className="absolute left-0 z-10 mt-2 rounded bg-base-100 p-2 opacity-0 shadow-lg transition-opacity duration-200 group-hover:opacity-100">
         {fullCrumbs}
       </div>
     </div>

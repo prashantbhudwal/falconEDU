@@ -42,39 +42,39 @@ function ProfileEditForm({ closeModal }: { closeModal: () => void }) {
     <form
       onSubmit={handleSubmit(onSubmit)}
       method="dialog"
-      className="modal-box w-11/12 max-w-2xl bg-base-300 ring ring-primary p-12 pb-16 backdrop:opacity-50"
+      className="modal-box w-11/12 max-w-2xl bg-base-300 p-12 pb-16 ring ring-primary backdrop:opacity-50"
     >
       <button
         onClick={closeModal}
-        className="btn btn-neutral btn-sm btn-circle btn-ghost absolute right-2 top-2 text-emerald-500 text-lg"
+        className="btn btn-circle btn-neutral btn-ghost btn-sm absolute right-2 top-2 text-lg text-emerald-500"
       >
         ✕
       </button>
-      <div className="flex flex-col gap-3 max-w-xl items-center">
-        <h1 className="text-3xl font-bold text-slate-200 mb-6">Edit Profile</h1>
+      <div className="flex max-w-xl flex-col items-center gap-3">
+        <h1 className="mb-6 text-3xl font-bold text-slate-200">Edit Profile</h1>
         <input
-          className="input input-bordered w-full max-w-md bg-slate-400 placeholder:text-slate-700 text-slate-900 focus:bg-slate-200 disabled:bg-slate-400 disabled:text-slate-700"
+          className="input input-bordered w-full max-w-md bg-slate-400 text-slate-900 placeholder:text-slate-700 focus:bg-slate-200 disabled:bg-slate-400 disabled:text-slate-700"
           type="text"
           placeholder="Full Name"
           {...register("name", { required: true, maxLength: 50 })}
           disabled
         />
         <input
-          className="input input-bordered w-full max-w-md bg-slate-400 placeholder:text-slate-700 text-slate-900 focus:bg-slate-200 disabled:bg-slate-400 disabled:text-slate-700"
+          className="input input-bordered w-full max-w-md bg-slate-400 text-slate-900 placeholder:text-slate-700 focus:bg-slate-200 disabled:bg-slate-400 disabled:text-slate-700"
           type="email"
           placeholder="Email"
           {...register("email", { required: true })}
           disabled
         />
         <input
-          className="input input-bordered w-full max-w-md bg-slate-400 placeholder:text-slate-700 text-slate-900 focus:bg-slate-200"
+          className="input input-bordered w-full max-w-md bg-slate-400 text-slate-900 placeholder:text-slate-700 focus:bg-slate-200"
           type="text"
           placeholder="Headline"
           {...register("headline", { required: true, maxLength: 100 })}
         />
 
         <input
-          className="btn btn-primary w-full max-w-md  placeholder:text-slate-700 text-slate-900"
+          className="btn btn-primary w-full max-w-md  text-slate-900 placeholder:text-slate-700"
           type="submit"
         />
       </div>

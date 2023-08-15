@@ -20,15 +20,15 @@ export default function CheckboxGrid({
 
   return (
     <div className="flex flex-col items-center gap-4">
-      <div className="text-sm text-slate-500 mb-2">
+      <div className="mb-2 text-sm text-slate-500">
         Or choose as many from the list...
       </div>
-      <div className="flex flex-row gap-3 flex-wrap w-4/5 justify-center">
+      <div className="flex w-4/5 flex-row flex-wrap justify-center gap-3">
         {contentArray.map((topic, index) => (
           <label
             key={index}
             htmlFor={`topic-${index}`}
-            className={`text-sm hover:scale-105 py-2 px-5 w-96 rounded-md cursor-pointer ${
+            className={`w-96 cursor-pointer rounded-md px-5 py-2 text-sm hover:scale-105 ${
               selectedOptions.includes(topic)
                 ? `${
                     userFlow === "worksheet" ? "bg-secondary" : "bg-primary"

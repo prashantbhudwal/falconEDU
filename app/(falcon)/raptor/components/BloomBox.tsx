@@ -65,8 +65,8 @@ export default function BoxDrop({
   }, []);
   return (
     <div
-      className={`${className} text-center text-sm pb-2 ${
-        isOver ? "bg-fuchsia-500 scale-150 rounded-md" : ""
+      className={`${className} pb-2 text-center text-sm ${
+        isOver ? "scale-150 rounded-md bg-fuchsia-500" : ""
       } ${inactive ? "opacity-30" : ""}`}
     >
       <div ref={!inactive && contentStreamCompleted ? drop : null}>

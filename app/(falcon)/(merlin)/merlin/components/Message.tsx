@@ -13,13 +13,13 @@ export function Message({ message, ...props }: ChatMessageProps) {
   return (
     <div
       className={cn(
-        "text-sm pt-2 group relative mb-1 flex items-start w-full"
+        "group relative mb-1 flex w-full items-start pt-2 text-sm"
       )}
       {...props}
     >
       <div className="ml-2 flex-1 space-y-1 overflow-hidden px-1">
         <MemoizedReactMarkdown
-          className="prose-sm prose break-words prose-p:leading-normal prose-pre:p-0 w-full"
+          className="prose prose-sm w-full break-words prose-p:leading-normal prose-pre:p-0"
           remarkPlugins={[remarkGfm, remarkMath]}
           components={{
             p({ children }) {

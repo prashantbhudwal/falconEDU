@@ -66,6 +66,7 @@ model User {
   userType          UserType
   role              Role            @default(TRIAL)
   teacherProfile    TeacherProfile?
+  Chat              Chat[]
 }
 
 //*********************** App Models *****************************//
@@ -158,4 +159,16 @@ model Question {
   QuestionBank          QuestionBank? @relation(fields: [questionBankId], references: [id])
   questionBankId        Int?
   Metadata              Metadata[]    @relation("QuestionToMetadata")
+}
+
+// Chat Models to store gpt chat history of each user along with some metadata
+
+model Chat {
+  id        String   @id @default(uuid())
+  title     String
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  path      String
+  messages  Json
+  createdAt DateTime @default(now())
 }

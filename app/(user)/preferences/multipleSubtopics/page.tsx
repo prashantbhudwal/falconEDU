@@ -115,9 +115,9 @@ export default function Page() {
   }, [contentStreamCompleted]);
 
   return (
-    <div className="flex flex-col gap-10 items-center m-4 w-full">
-      <div className="flex  w-5/6  join justify-center items-center">
-        <div className="join-item flex flex-row flex-wrap gap-3 px-6 py-4 rounded-md ring-base-100 ring-2 w-4/6 min-h-[4rem]">
+    <div className="m-4 flex w-full flex-col items-center gap-10">
+      <div className="join  flex  w-5/6 items-center justify-center">
+        <div className="join-item flex min-h-[4rem] w-4/6 flex-row flex-wrap gap-3 rounded-md px-6 py-4 ring-2 ring-base-100">
           {worksheetSubtopics.map((subtopic, index) => (
             <div
               className="relative"
@@ -132,7 +132,7 @@ export default function Page() {
               }}
             >
               <div
-                className={`text-sm px-2 py-2 rounded-sm bg-slate-800 ${
+                className={`rounded-sm bg-slate-800 p-2 text-sm${
                   userFlow === "worksheet" ? "text-secondary" : "text-primary"
                 } cursor-pointer`}
                 onClick={() => handleDeleteSubtopic(index)}
@@ -140,7 +140,7 @@ export default function Page() {
                 {subtopic}
               </div>
               {hoverIndex === index && lastIndex === index && (
-                <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center text-white text-lg pointer-events-none">
+                <div className="pointer-events-none absolute left-0 top-0 flex h-full w-full items-center justify-center bg-black bg-opacity-50 text-lg text-white">
                   ❌
                 </div>
               )}
@@ -161,13 +161,13 @@ export default function Page() {
       </div>
       <div className="join">
         <input
-          className="input input-bordered w-96 join-item"
+          className="input join-item input-bordered w-96"
           value={inputValue}
           onChange={handleChange}
           placeholder="Add custom subtopics..."
         />
         <button
-          className=" join-item btn btn-square btn-neutral"
+          className=" btn btn-square btn-neutral join-item"
           onClick={handleAddSubtopic}
           disabled={!inputValue}
         >
@@ -189,7 +189,7 @@ export default function Page() {
       </div>
 
       {!contentStreamCompleted ? (
-        <div className="flex flex-col items-center justify-center gap-2 h-12">
+        <div className="flex h-12 flex-col items-center justify-center gap-2">
           <PropagateLoader
             color={`${userFlow === "worksheet" ? "#D946EF" : "#10B981"}`}
           />

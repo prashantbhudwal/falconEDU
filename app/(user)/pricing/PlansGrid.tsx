@@ -3,15 +3,15 @@ import UpgradeModal from "./UpgradeModal";
 export default function PlansGrid() {
   return (
     <section>
-      <div className="px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
-        <div className="space-y-8 lg:grid lg:grid-cols-3 sm:gap-6 xl:gap-10 lg:space-y-0">
+      <div className="mx-auto max-w-screen-xl px-4 lg:px-6 lg:py-16">
+        <div className="space-y-8 sm:gap-6 lg:grid lg:grid-cols-3 lg:space-y-0 xl:gap-10">
           {plans.map((plan, index) => (
             <div
               key={index}
-              className="w-80 flex flex-col p-6 mx-auto max-w-lg text-center text-gray-900 bg-white rounded-lg border border-gray-100 shadow xl:p-8"
+              className="mx-auto flex w-80 max-w-lg flex-col rounded-lg border border-gray-100 bg-white p-6 text-center text-gray-900 shadow xl:p-8"
             >
               <h3 className="mb-4 text-2xl font-semibold">{plan.title}</h3>
-              <div className="flex justify-center items-baseline my-8">
+              <div className="my-8 flex items-baseline justify-center">
                 <span className="mr-2 text-5xl font-extrabold">
                   {plan.price}
                 </span>
@@ -22,7 +22,7 @@ export default function PlansGrid() {
                 {plan.features.map((feature, index) => (
                   <li key={index} className="flex items-center space-x-3">
                     <svg
-                      className="flex-shrink-0 w-5 h-5 text-green-500"
+                      className="h-5 w-5 shrink-0 text-green-500"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                       xmlns="http://www.w3.org/2000/svg"

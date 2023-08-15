@@ -11,9 +11,9 @@ export default function LiveBlock({
 }) {
   return (
     <div
-      className={`bg-slate-800 text-neutral-300 px-5 py-3 rounded-lg shadow-lg shadow-green-600 max-w-4xl w-full`}
+      className={`w-full max-w-4xl rounded-lg bg-slate-800 px-5 py-3 text-neutral-300 shadow-lg shadow-green-600`}
     >
-      <header className="text-base text-slate-500 gap-2 text-right flex items-end">
+      <header className="flex items-end gap-2 text-right text-base text-slate-500">
         {/* <p className="">{blockEmoji}</p> */}
         <p className="capitalize">{blockType}</p>
       </header>

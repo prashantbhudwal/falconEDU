@@ -44,9 +44,9 @@ export default function Page({
 
   return (
     <div
-      className={`h-full bg-slate-100 text-slate-900 px-8 py-5 rounded-lg shadow-sm shadow-slate-200 max-w-4xl w-full`}
+      className={`h-full w-full max-w-4xl rounded-lg bg-slate-100 px-8 py-5 text-slate-900 shadow-sm shadow-slate-200`}
     >
-      <p className="leading-7 text-lg pt-8 py-5 whitespace-pre-wrap">
+      <p className="whitespace-pre-wrap py-5 pt-8 text-lg leading-7">
         {contentStreamCompleted ? worksheetAnswerKey : content}
       </p>
     </div>

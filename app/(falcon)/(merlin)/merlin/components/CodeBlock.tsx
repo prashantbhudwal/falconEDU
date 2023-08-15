@@ -84,7 +84,7 @@ const CodeBlock: FC<Props> = memo(({ language, value }) => {
         <span className="text-xs lowercase">{language}</span>
         <div className="flex items-center space-x-1">
           <button
-            className="btn btn-base-100 btn-square btn-xs"
+            className="btn-base-100 btn btn-square btn-xs"
             onClick={downloadAsFile}
           >
             📥<span className="sr-only">Download</span>

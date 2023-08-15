@@ -3,7 +3,7 @@ import { Analytics } from "@vercel/analytics/react";
 import Providers from "../providers/providers";
 import { Inter } from "next/font/google";
 import Upgrade from "./Upgrade";
-import HelpDropdown from "../components/HelpDropdown";
+import Chubbi from "../components/Chubbi";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -24,11 +24,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={inter.className}>
-      <body className="flex flex-col min-h-screen bg-slate-900 text-slate-400">
+      <body className="flex min-h-screen flex-col bg-slate-900 text-slate-400">
         <Providers>
-          <main className="flex-grow flex flex-col items-center min-h-screen">
+          <main className="flex min-h-screen grow flex-col items-center">
             <Upgrade>{children}</Upgrade>
-            <HelpDropdown />
+            <Chubbi />
           </main>
         </Providers>
         <Analytics />

@@ -31,9 +31,9 @@ export default function MagicLayout({
        const [savedQuestions] = useAtom(savedQuestionsAtom);
 
   return (
-    <div className="overflow-y-auto h-full">
+    <div className="h-full overflow-y-auto">
       <MerlinGrid>
-        <Sidebar className="col-start-1 col-span-2 row-start-1">
+        <Sidebar className="col-span-2 col-start-1 row-start-1">
           <Section title="Teaching Aids">
             {teachingAids.map((aid: aidType) => (
               <SidebarButton
@@ -56,7 +56,7 @@ export default function MagicLayout({
               ))}
           </Section>
         </Sidebar>
-        <div className="col-start-3 col-span-8 min-h-screen bg-slate-950">{children}</div>
+        <div className="col-span-8 col-start-3 min-h-screen bg-slate-950">{children}</div>
       </MerlinGrid>
     </div>
   );

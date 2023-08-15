@@ -26,22 +26,22 @@ const LandingPage = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center text-center pt-8 min-h-screen">
-      <h1 className="my-6 text-2xl md:text-5xl text-slate-300 max-w-xl leading-10 lg:text-5xl">
+    <div className="flex min-h-screen flex-col items-center pt-8 text-center">
+      <h1 className="my-6 max-w-xl text-2xl leading-10 text-slate-300 md:text-5xl lg:text-5xl">
         <div className="inline-flex items-start">
           <p className="">Welcome to FalconAI</p>
-          <span className="text-sm font-semibold bg-yellow-300 text-yellow-800 px-2 py-1 rounded -mt-1 ml-2">
+          <span className="-mt-1 ml-2 rounded bg-yellow-300 px-2 py-1 text-sm font-semibold text-yellow-800">
             beta
           </span>
         </div>
       </h1>
-      <p className={"mb-12 text-lg text-gray-500 md:text-xl max-w-2xl mt-6"}>
+      <p className={"mb-12 mt-6 max-w-2xl text-lg text-gray-500 md:text-xl"}>
         Create Lesson Plans, Worksheets, Activities and Assessments with AI that
         is easy to use and strictly follows your syllabus.
       </p>
       <button
         onClick={() => signIn("google")}
-        className={`bg-emerald-500 text-slate-800 px-28 py-4 rounded-lg text-lg font-semibold hover:bg-emerald-600 transition duration-200 ease-in-out`}
+        className={`rounded-lg bg-emerald-500 px-28 py-4 text-lg font-semibold text-slate-800 transition duration-200 ease-in-out hover:bg-emerald-600`}
       >
         {sessionStatus === "loading"
           ? "Signing you in..."
@@ -49,11 +49,11 @@ const LandingPage = () => {
           ? "Taking you to the app..."
           : "Sign In"}
       </button>
-      <p className="text-xs mt-4">
+      <p className="mt-4 text-xs">
         We have a 14-day free trial. No credit card required. 🙂
       </p>
       {(sessionStatus === "loading" || sessionStatus === "authenticated") && (
-        <div className="flex flex-col items-center justify-center gap-2 h-12">
+        <div className="flex h-12 flex-col items-center justify-center gap-2">
           <PropagateLoader color={"#10B981"} />
         </div>
       )}

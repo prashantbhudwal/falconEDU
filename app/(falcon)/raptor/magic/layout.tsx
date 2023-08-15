@@ -16,8 +16,8 @@ export default function AidLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <div className="h-full grid grid-cols-12 gap-4 w-full select-none overflow-y-auto">
-        <Sidebar className="col-start-1 col-span-2 row-start-1">
+      <div className="grid h-full w-full select-none grid-cols-12 gap-4 overflow-y-auto">
+        <Sidebar className="col-span-2 col-start-1 row-start-1">
           <Section title="Teaching Aids" color="secondary">
             <SidebarButton
               onClick={() => router.push(`/raptor/magic/worksheet`)}
@@ -39,7 +39,7 @@ export default function AidLayout({ children }: { children: React.ReactNode }) {
             )}
           </Section>
         </Sidebar>
-        <div className="col-start-3 col-span-8 h-full">{children}</div>
+        <div className="col-span-8 col-start-3 h-full">{children}</div>
       </div>
     </DndProvider>
   );

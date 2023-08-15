@@ -24,9 +24,9 @@ const Section: React.FC<SectionProps> = ({
   return (
     <div className={`pt-2  ${bg} ${className}`}>
       <header
-        className={`${headingColor} text-left mb-2`}
+        className={`${headingColor} mb-2 text-left`}
       >
-        <p className="capitalize text-sm">{title}</p>
+        <p className="text-sm capitalize">{title}</p>
       </header>
       <div className="flex flex-col gap-3">{children}</div>
     </div>
