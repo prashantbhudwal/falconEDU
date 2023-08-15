@@ -5,7 +5,11 @@ import usePageTracking from "@/hooks/usePageTracking";
 
 export default function Chubbi() {
   const { currentPage } = usePageTracking();
-  if (currentPage === "/chubbi" || /^\/chat\/.*$/.test(currentPage))
+  if (
+    currentPage === "/chubbi" ||
+    /^\/chat\/.*$/.test(currentPage) ||
+    "/preferences"
+  )
     return null;
   return (
     <Link
