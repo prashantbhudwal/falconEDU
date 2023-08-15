@@ -22,6 +22,9 @@ export default function ChubbiDropdown() {
           <Link href="/preferences">New Worksheet</Link>
         </li>
         <li>
+          <Link href="/chubbi">New Chat</Link>
+        </li>
+        <li>
           <Link href="https://noteforms.com/forms/falconai-feedback-5wawej">
             Give Feedback
           </Link>

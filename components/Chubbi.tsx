@@ -5,7 +5,8 @@ import usePageTracking from "@/hooks/usePageTracking";
 
 export default function Chubbi() {
   const { currentPage } = usePageTracking();
-  if (currentPage === "/chubbi") return null;
+  if (currentPage === "/chubbi" || /^\/chat\/.*$/.test(currentPage))
+    return null;
   return (
     <Link
       className="dropdown-end dropdown-top dropdown absolute bottom-5 right-5"

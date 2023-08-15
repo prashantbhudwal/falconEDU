@@ -37,7 +37,9 @@ export function Chat({ id, initialMessages, className }: ChatProps) {
         ) : (
           <div className="mx-auto max-w-2xl px-4">
             <div className="rounded-sm p-8">
-              <h1 className="mb-2 text-lg font-semibold">Hello I am Chubbi!</h1>
+              <h1 className="mb-2 text-lg">
+                Hello I am Chubbi! Your personal teaching assistant.
+              </h1>
             </div>
           </div>
         )}
