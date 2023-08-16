@@ -10,16 +10,12 @@ type CurrentQuestion = {
 export const worksheetSubtopicsAtom = atom([""]);
 
 export const currentQuestionAtom = atom<CurrentQuestion>({
-  type: "fillInTheBlanks",
+  type: "multipleChoiceSingleCorrect",
   bloomLevel: "",
   subtopic: "",
 });
 
 export const savedQuestionsAtom = atom<QuestionBank>([
-  {
-    type: "fillInTheBlanks",
-    questions: [],
-  },
   {
     type: "multipleChoiceSingleCorrect",
     questions: [],

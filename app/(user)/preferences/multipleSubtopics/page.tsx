@@ -45,10 +45,6 @@ export default function Page() {
     setStarted(true);
     setSavedQuestions([
       {
-        type: "fillInTheBlanks",
-        questions: [],
-      },
-      {
         type: "multipleChoiceSingleCorrect",
         questions: [],
       },
