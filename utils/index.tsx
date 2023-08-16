@@ -32,8 +32,6 @@ export const getEmoji = function (
       return "📝";
     case "activity":
       return "🏄";
-    case "quiz":
-      return "🏆";
     case "lesson":
       return "👩‍🏫";
     case "outline":
@@ -82,8 +80,6 @@ export const getName = function (
       return "Definition";
     case "activity":
       return "Activity";
-    case "quiz":
-      return "Quiz";
     case "lesson":
       return "Lesson";
     case "outline":
@@ -129,8 +125,7 @@ export const getBlockShadow = function (ideaType: ideaType | QuestionType) {
       return "shadow-fuchsia-600";
     case "activity":
       return "shadow-blue-600";
-    case "quiz":
-      return "shadow-violet-600";
+
     case "features":
       return "shadow-amber-500";
     case "glossary":
@@ -276,7 +271,6 @@ export const buttonsArray: ideaType[] = [
   // "Anti-Example",
   "contrast",
   "activity",
-  "quiz",
   "features",
   "glossary",
 ];
@@ -345,8 +339,7 @@ export const blockContentArray = [
 ];
 
 export const getQuestionTypeTitle = (questionType: QuestionType) => {
-  const title = questionData.find(
-    (question) => question.type === questionType
-  )?.title;
+  const title = questionData.find((question) => question.type === questionType)
+    ?.title;
   return title ? title : "";
 };
