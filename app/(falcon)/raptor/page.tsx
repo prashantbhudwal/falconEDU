@@ -35,7 +35,6 @@ import { BatchSize } from "./components/BatchSize";
 import { useRouter } from "next/navigation";
 import MerlinGrid from "../(merlin)/components/Grid";
 const questionTypes = [
-  { value: "fillInTheBlanks", label: "Fill in the Blanks" },
   { value: "multipleChoiceSingleCorrect", label: "Multiple Choice" },
   { value: "trueFalse", label: "True/False" },
   { value: "shortAnswer", label: "Short Answer" },
@@ -62,7 +61,7 @@ export default function Raptor() {
   );
   const [checkedQuestionTypes, setCheckedQuestionTypes] = useState<
     QuestionType[]
-  >(["fillInTheBlanks"]);
+  >(["multipleChoiceSingleCorrect"]);
   const [isAdvancedMode, setIsAdvancedMode] = useAtom(isAdvancedModeAtom);
   const [firstRender, setFirstRender] = useState(true);
   const [batchSize, setBatchSize] = useAtom(batchSizeAtom);
