@@ -2,13 +2,15 @@
 import Link from "next/link";
 import Image from "next/image";
 import usePageTracking from "@/hooks/usePageTracking";
+import useDesktop from "@/hooks/useDesktop";
 
 export default function Chubbi() {
   const { currentPage } = usePageTracking();
+  const isDesktop = useDesktop();
   if (
     currentPage === "/chubbi" ||
     /^\/chat\/.*$/.test(currentPage) ||
-    "/preferences"
+    !isDesktop
   )
     return null;
   return (
