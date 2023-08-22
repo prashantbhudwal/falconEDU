@@ -1,5 +1,5 @@
 import { OpenAIApi, Configuration } from "openai";
-import { ChatCompletionRequestMessage } from "openai";
+import { type ChatCompletionRequestMessage } from "openai-edge";
 import { ideaOptions, lessonOptions } from "./options";
 
 const configuration = new Configuration({

@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { StreamPayload } from "@/types";
-import { ChatCompletionRequestMessage } from "openai";
+import { type ChatCompletionRequestMessage } from "openai-edge";
 import getChatCompletionRequestMessages from "../lib/aidChatGenerator";
 import { lessonOptions } from "../lib/openAI/options";
 import { OpenAIStream, StreamingTextResponse } from "ai";
@@ -26,8 +26,6 @@ export async function POST(request: NextRequest) {
   // Respond with the stream
   return new StreamingTextResponse(stream);
 }
-
-
 
 // const getAidRequestPayload = (messages: any) => {
 //   const { MODEL, TEMPERATURE, MAX_TOKENS, STREAM } = lessonOptions;

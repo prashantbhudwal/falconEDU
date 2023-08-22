@@ -1,5 +1,5 @@
 import { StreamPayload } from "@/types";
-import { ChatCompletionRequestMessage } from "openai";
+import { type ChatCompletionRequestMessage } from "openai-edge";
 import { processIdeas, generateMarkdown } from "@/app/api/lib/utils";
 
 interface Idea {
@@ -9,7 +9,7 @@ interface Idea {
 
 export default function getLessonPlanMessages(payload: StreamPayload) {
   const { topic, subtopic, grade, prompt, board, subject } = payload;
-const ideasArray = JSON.parse(prompt);
+  const ideasArray = JSON.parse(prompt);
   const newArray = processIdeas(ideasArray);
   const ideas = generateMarkdown(newArray);
   const messages: ChatCompletionRequestMessage[] = [

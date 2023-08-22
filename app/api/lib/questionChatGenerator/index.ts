@@ -1,5 +1,5 @@
 import { QuestionItem, QuestionPayload, QuestionType } from "@/types";
-import { ChatCompletionRequestMessage } from "openai";
+import { type ChatCompletionRequestMessage } from "openai-edge";
 const bloomLevels = [
   {
     level: "Remember",

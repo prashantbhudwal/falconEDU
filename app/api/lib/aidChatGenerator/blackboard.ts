@@ -1,5 +1,5 @@
 import { StreamPayload } from "@/types";
-import { ChatCompletionRequestMessage } from "openai";
+import { type ChatCompletionRequestMessage } from "openai-edge";
 import { processStreamText } from "@/app/api/lib/utils";
 
 export default function getBlackboardMessages(payload: StreamPayload) {
