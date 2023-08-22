@@ -67,6 +67,7 @@ model User {
   role              Role            @default(TRIAL)
   teacherProfile    TeacherProfile?
   Chat              Chat[]
+  payments          Payment[]
 }
 
 //*********************** App Models *****************************//
@@ -91,6 +92,22 @@ enum UserType {
 enum Role {
   TRIAL
   PRO
+}
+
+//**************** App > Payment Models ****************//
+model Payment {
+  id              String    @id @default(cuid())
+  userId          String
+  user            User      @relation(fields: [userId], references: [id])
+  stripePaymentId String    @unique
+  status          String
+  paymentMethod   String
+  amount          Float
+  paymentDate     DateTime
+  currency        String
+  refundStatus    String?   @default("NOT_REFUNDED")
+  refundDate      DateTime?
+  refundAmount    Float?
 }
 
 //**************** App > Resource Models ****************//
