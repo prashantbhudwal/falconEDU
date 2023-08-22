@@ -1,11 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
-import { checkout } from "@/utils/stripe";
 import Stripe from "stripe";
 import { cache } from "react";
 import { headers } from "next/headers";
 import { stripe } from "@/utils/stripe";
+import { authOptions } from "../../auth/[...nextauth]/authOptions";
+import { getServerSession } from "next-auth";
 
 export async function POST(req: NextRequest) {
+  const authSession = await getServerSession(authOptions);
+  const user = authSession?.user;
+  const id = user?.id;
+  const email = user?.email;
+  if (!id || !email) {
+    return NextResponse.json(new Error("User not found"));
+  }
+
   const headersList = headers();
 
   const origin = headersList.get("origin");
@@ -22,14 +31,10 @@ export async function POST(req: NextRequest) {
     mode: "payment",
     success_url: `${origin}/success`,
     cancel_url: `${origin}/canceled`,
-    metadata: {
-      userId: "123",
-      gmail: "www.checkout@gmail.com",
-    },
     payment_intent_data: {
       metadata: {
-        userId: "123",
-        gmail: "www.intent@gmail.com",
+        userId: id,
+        gmail: email,
       },
     },
   });
