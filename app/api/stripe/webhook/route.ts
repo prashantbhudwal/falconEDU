@@ -1,6 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { stripe } from "@/utils/stripe";
+import prisma from "@/prisma";
+
+const ONE_MONTH_PRICE = 400;
+const THREE_MONTHS_PRICE = 800;
+const SIX_MONTHS_PRICE = 1500;
+const ONE_YEAR_PRICE = 3000;
 
 export async function POST(req: NextRequest) {
   const sig = req.headers.get("stripe-signature");
@@ -20,6 +26,61 @@ export async function POST(req: NextRequest) {
   switch (event.type) {
     case "payment_intent.succeeded":
       const paymentIntentSucceeded = event.data.object as Stripe.PaymentIntent;
+      const userId = paymentIntentSucceeded.metadata.userId;
+      const paymentAmount = paymentIntentSucceeded.amount / 100;
+      const stripePaymentId = paymentIntentSucceeded.id;
+
+      // Check if payment already processed
+      const existingPayment = await prisma.payment.findUnique({
+        where: { stripePaymentId: stripePaymentId },
+      });
+      if (existingPayment) {
+        console.log("Payment already processed");
+        break;
+      }
+
+      // Create or Update Payment Record
+      await prisma.payment.create({
+        data: {
+          userId: userId,
+          stripePaymentId: paymentIntentSucceeded.id,
+          status: paymentIntentSucceeded.status,
+          paymentMethod: paymentIntentSucceeded.payment_method_types[0],
+          amount: paymentAmount,
+          paymentDate: new Date(paymentIntentSucceeded.created * 1000), // Convert Unix timestamp to JS Date
+          currency: paymentIntentSucceeded.currency,
+          // other fields as needed
+        },
+      });
+
+      let subscriptionDuration = 0;
+
+      if (paymentAmount === ONE_MONTH_PRICE) {
+        subscriptionDuration = 30;
+      } else if (paymentAmount === THREE_MONTHS_PRICE) {
+        subscriptionDuration = 90;
+      } else if (paymentAmount === SIX_MONTHS_PRICE) {
+        subscriptionDuration = 180;
+      } else if (paymentAmount === ONE_YEAR_PRICE) {
+        subscriptionDuration = 365;
+      }
+
+      const user = await prisma.user.findUnique({ where: { id: userId } });
+      if (!user) throw new Error("User not found");
+      const existingSubscriptionEndDate = user.subscriptionEnd || new Date();
+      const newSubscriptionEndDate = new Date(existingSubscriptionEndDate);
+      newSubscriptionEndDate.setDate(
+        existingSubscriptionEndDate.getDate() + subscriptionDuration
+      );
+
+      await prisma.user.update({
+        where: { id: userId },
+        data: {
+          role: "PRO",
+          subscriptionEnd: newSubscriptionEndDate,
+        },
+      });
+
       console.log("data", paymentIntentSucceeded.metadata);
       // Then define and call a function to handle the event payment_intent.succeeded
       break;
