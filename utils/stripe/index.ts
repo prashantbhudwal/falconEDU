@@ -12,22 +12,3 @@ export const getPrices = cache(async () => {
   const prices = await stripe.prices.list();
   return prices;
 });
-
-export const checkout = async () => {
-  const headersList = headers();
-
-  const origin = headersList.get("origin");
-
-  await stripe.checkout.sessions.create({
-    line_items: [
-      {
-        // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
-        price: "price_1NghqwSGZ8EG0JcbKMMqNuRD",
-        quantity: 1,
-      },
-    ],
-    mode: "payment",
-    success_url: `${origin}/success`,
-    cancel_url: `${origin}/canceled`,
-  });
-};
