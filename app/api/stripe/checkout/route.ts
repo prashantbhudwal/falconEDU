@@ -1,7 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import Stripe from "stripe";
-import { cache } from "react";
-import { headers } from "next/headers";
 import { stripe } from "@/utils/stripe";
 import { authOptions } from "../../auth/[...nextauth]/authOptions";
 import { getServerSession } from "next-auth";
@@ -14,23 +11,19 @@ export async function POST(req: NextRequest) {
   if (!id || !email) {
     return NextResponse.json(new Error("User not found"));
   }
-
-  const headersList = headers();
-
-  const origin = headersList.get("origin");
-  console.log(origin);
-
+  const { priceId } = await req.json();
+  const origin = req.headers.get("origin");
   const session = await stripe.checkout.sessions.create({
     line_items: [
       {
         // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
-        price: "price_1NghqwSGZ8EG0JcbKMMqNuRD",
+        price: priceId,
         quantity: 1,
       },
     ],
     mode: "payment",
-    success_url: `${origin}/success`,
-    cancel_url: `${origin}/canceled`,
+    success_url: `${origin}/profile`,
+    cancel_url: `${origin}/pricing`,
     payment_intent_data: {
       metadata: {
         userId: id,
