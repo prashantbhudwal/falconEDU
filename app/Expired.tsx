@@ -5,7 +5,6 @@ import { getUser } from "./api/db/user/[email]/route";
 import LandingPage from "./Landing";
 import SignOutButton from "./(falcon)/(merlin)/components/SignOutBtn";
 import UpgradeBtn from "./(falcon)/(merlin)/components/UpgradeBtn";
-import PlansGrid from "./(user)/pricing/PlansGrid";
 
 // export const dynamic = `force-dynamic`;
 export const revalidate = 6000;
@@ -21,7 +20,7 @@ function hasSubscriptionEnded(subscriptionEndDate: any): boolean {
   return currentDate > subscriptionEnd;
 }
 
-export default async function Upgrade({
+export default async function Expired({
   children,
 }: {
   children: React.ReactNode;
@@ -49,7 +48,7 @@ export default async function Upgrade({
             To subscribe, drop a WhatsApp message at +91 9833045490.
           </p>
           <div className="flex w-screen flex-col items-center gap-2">
-            <PlansGrid />
+            <UpgradeBtn />
             <SignOutButton className="btn btn-info" />
           </div>
         </div>
