@@ -1,5 +1,5 @@
 import { StreamPayload } from "@/types";
-import { ChatCompletionRequestMessage } from "openai";
+import { type ChatCompletionRequestMessage } from "openai-edge";
 import { processIdeas, generateMarkdownWithoutQuiz } from "@/app/api/lib/utils";
 
 interface Idea {

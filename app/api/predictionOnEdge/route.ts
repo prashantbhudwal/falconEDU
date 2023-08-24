@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import { ChatCompletionRequestMessage } from "openai";
+import { type ChatCompletionRequestMessage } from "openai-edge";
 import { streamFromOpenAI } from "../lib/openAI";
 import { predictionOptions } from "../lib/openAI/options";
 import { PredictionPayload } from "@/types";

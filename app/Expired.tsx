@@ -1,11 +1,10 @@
-import { signIn } from "next-auth/react";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/authOptions";
 import { getUser } from "./api/db/user/[email]/route";
 import LandingPage from "./Landing";
-import SignOutButton from "./(falcon)/(merlin)/components/SignOutBtn";
 import UpgradeBtn from "./(falcon)/(merlin)/components/UpgradeBtn";
-import PlansGrid from "./(user)/pricing/PlansGrid";
+import Plans from "./(user)/pricing/Plans";
+import { getProducts } from "@/utils/stripe";
 
 // export const dynamic = `force-dynamic`;
 export const revalidate = 6000;
@@ -21,7 +20,7 @@ function hasSubscriptionEnded(subscriptionEndDate: any): boolean {
   return currentDate > subscriptionEnd;
 }
 
-export default async function Upgrade({
+export default async function Expired({
   children,
 }: {
   children: React.ReactNode;
@@ -32,26 +31,20 @@ export default async function Upgrade({
   if (!session) {
     return <LandingPage />;
   }
-
+  const products = await getProducts();
   const userData = await getUser(email);
   const subscriptionEnded = hasSubscriptionEnded(userData?.subscriptionEnd);
-
   return (
     <>
       {!subscriptionEnded ? (
         children
       ) : (
-        <div className="flex min-h-screen flex-col items-center pt-8 text-center">
-          <h1 className="my-6 max-w-xl text-2xl leading-10 text-slate-300 md:text-5xl lg:text-5xl">
-            Subscription Expired.
+        <div className="flex min-h-screen flex-col items-center pt-2 text-center bg-base-300 w-full">
+          <h1 className="my-2 max-w-xl text-2xl leading-10 text-slate-300">
+            Subscription expired. Please subscribe.
           </h1>
-          <p className={"mb-12 mt-6 max-w-xl text-lg text-gray-500 md:text-xl"}>
-            To subscribe, drop a WhatsApp message at +91 9833045490.
-          </p>
-          <div className="flex w-screen flex-col items-center gap-2">
-            <PlansGrid />
-            <SignOutButton className="btn btn-info" />
-          </div>
+          <Plans products={products.data} />
+          <p className="text-sm"></p>
         </div>
       )}
     </>
