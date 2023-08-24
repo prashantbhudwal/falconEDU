@@ -36,9 +36,7 @@ export default function HelpDropdown() {
           <Link href="https://falconai.in">Website</Link>
         </li>
         <li>
-          <Link href="https://brindle-diascia-0d5.notion.site/Terms-Conditions-eef0974ebd1143cc95fa974c0ccc446a?pvs=4">
-            Terms
-          </Link>
+          <Link href="https://falconai.in/#terms-and-policies">Terms</Link>
         </li>
       </ul>
     </div>
