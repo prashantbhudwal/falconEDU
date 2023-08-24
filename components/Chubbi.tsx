@@ -9,6 +9,7 @@ export default function Chubbi() {
   const isDesktop = useDesktop();
   if (
     currentPage === "/chubbi" ||
+    currentPage === "/profile" ||
     /^\/chat\/.*$/.test(currentPage) ||
     !isDesktop
   )
