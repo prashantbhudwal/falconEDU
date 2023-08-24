@@ -2,11 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { stripe } from "@/utils/stripe";
 import prisma from "@/prisma";
-
+//Todo extract all payment configs to one file
 const ONE_MONTH_PRICE = 400;
 const THREE_MONTHS_PRICE = 800;
 const SIX_MONTHS_PRICE = 1500;
-const ONE_YEAR_PRICE = 3000;
+const ONE_YEAR_PRICE = 2500;
 
 export async function POST(req: NextRequest) {
   const sig = req.headers.get("stripe-signature");

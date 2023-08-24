@@ -34,7 +34,6 @@ export default async function Expired({
   const products = await getProducts();
   const userData = await getUser(email);
   const subscriptionEnded = hasSubscriptionEnded(userData?.subscriptionEnd);
-
   return (
     <>
       {!subscriptionEnded ? (
