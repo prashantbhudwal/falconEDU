@@ -17,6 +17,9 @@ export default async function PaymentsTable() {
       paymentDate: "desc",
     },
   });
+  if(!payments) {
+    return null
+  }
   return (
     <div className="overflow-x-auto w-5/6 pb-10">
       <h1 className="text-3xl text-bold mb-6">
