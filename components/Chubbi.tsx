@@ -15,7 +15,7 @@ export default function Chubbi() {
     return null;
   return (
     <Link
-      className="dropdown-end dropdown-top dropdown absolute bottom-5 right-5"
+      className="dropdown-end dropdown-top dropdown fixed bottom-5 right-5"
       href={"/chubbi"}
     >
       <div className="chat chat-end">
