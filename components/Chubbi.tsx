@@ -10,6 +10,7 @@ export default function Chubbi() {
   if (
     currentPage === "/chubbi" ||
     currentPage === "/profile" ||
+    currentPage === "/pricing" ||
     /^\/chat\/.*$/.test(currentPage) ||
     !isDesktop
   )
