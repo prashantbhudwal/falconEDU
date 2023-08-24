@@ -22,8 +22,8 @@ export default function BasicInfo() {
     return <div>Error loading user data: {error.message}</div>;
   }
   return (
-    <div className=" w-5/6 max-w-5xl bg-slate-900 py-4 text-slate-200 shadow-sm">
-      <div className="relative mb-6 flex w-full items-center space-x-6 rounded-sm bg-secondary-focus px-6 py-10">
+    <div className=" w-full bg-slate-900 pb-4 text-slate-200 shadow-sm">
+      <div className="relative mb-6 flex w-full items-center space-x-6 rounded-sm bg-base-100 px-6 py-10">
         <div className="shrink-0">
           {user.image ? (
             <Image
