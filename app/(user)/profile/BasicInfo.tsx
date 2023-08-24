@@ -61,7 +61,7 @@ export default function BasicInfo() {
         </div>
       </div>
       <Section title="Contact" className="rounded-md p-6 text-slate-400">
-        <div className="grid grid-cols-2 gap-4 text-xl">
+        <div className="grid grid-cols-2 gap-4 ">
           <div>
             <p className="font-bold text-slate-200">Email</p>
             <p>{user?.email}</p>
@@ -69,7 +69,7 @@ export default function BasicInfo() {
         </div>
       </Section>
       <Section title="Subscription" className="rounded-md p-6 text-slate-400">
-        <div className="grid grid-cols-2 gap-4 text-xl">
+        <div className="grid grid-cols-2 gap-4">
           <div>
             <p className="font-bold capitalize text-slate-200">Plan</p>
             <p>{user?.role ? user?.role : "Plan"}</p>
