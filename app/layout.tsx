@@ -2,7 +2,7 @@ import "./globals.css";
 import { Analytics } from "@vercel/analytics/react";
 import Providers from "../providers/providers";
 import { Inter } from "next/font/google";
-import Upgrade from "./Upgrade";
+import Expired from "./Expired";
 import Chubbi from "../components/Chubbi";
 
 const inter = Inter({
@@ -24,10 +24,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={inter.className}>
-      <body className="flex min-h-screen flex-col bg-slate-900 text-slate-400">
+      <body className="flex min-h-screen flex-col bg-slate-900 text-slate-400 custom-scrollbar">
         <Providers>
           <main className="flex min-h-screen grow flex-col items-center">
-            <Upgrade>{children}</Upgrade>
+            <Expired>{children}</Expired>
             <Chubbi />
           </main>
         </Providers>

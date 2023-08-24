@@ -1,6 +1,5 @@
 import { IdeaStreamPayload } from "@/types";
-import { ChatCompletionRequestMessage } from "openai";
-
+import { type ChatCompletionRequestMessage } from "openai-edge";
 const skipIntroduction = `Do not refer to yourself in your answers. Or give any introductory text. Do not say stuff like "As an AI language model..." or "Sure, here is ..."`;
 
 const SHORT_RESPONSES = `Keep your answers concise, as short as possible.`;

@@ -1,6 +1,6 @@
 // app/api/route.ts
 import { NextRequest } from "next/server";
-import { ChatCompletionRequestMessage } from "openai";
+import { type ChatCompletionRequestMessage } from "openai-edge";
 import { IdeaStreamPayload } from "@/types";
 import { getChatMessages } from "../lib/ideaChatGenerator";
 import { ideaOptions } from "../lib/openAI/options";
@@ -32,7 +32,6 @@ export async function POST(request: NextRequest) {
 
   // return new Response(stream);
 }
-
 
 // const getIdeaRequestPayload = (messages: any) => {
 //   const { MODEL, TEMPERATURE, MAX_TOKENS, STREAM } = ideaOptions;
