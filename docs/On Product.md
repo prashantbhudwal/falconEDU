@@ -31,3 +31,16 @@
     - Board - Array
     - Subject - Array
     - Topic - Array 
+
+## On teacher agents
+- Once the teacher logs into the app, they will be able to create a new bot with a custom configuration.
+  - That means they will have to have a place to create and configure bots.
+  - This can be easily done with a dashboard page and new bot button. Once the teacher clicks the button, they will be redirected to a page where they will fill some values and
+- How does one match the student to the teacher?
+- How do we make the system prompts editable later in the chat?
+- How can we have multiple threads in the same conversation?
+- Through what interface will the teacher change the context for a bot?
+- What kinds of bots will the teacher be able to make ?
+  - Test bot 
+  - Revision bot 
+
