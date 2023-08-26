@@ -7,7 +7,7 @@ type AgentCardProps = {
 };
 export default function AgentCard({ data }: AgentCardProps) {
   return (
-    <Link href={`/agent/${data.id}`}>
+    <Link href={`/dragon/agent/${data.id}`}>
       <div className="card card-compact w-64 bg-base-100 shadow-xl hover:bg-base-200 hover:shadow-2xl hover:scale-105 cursor-pointer">
         <figure className="py-6">
           <Avvvatars value={data.id} style="shape" size={100} />
