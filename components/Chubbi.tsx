@@ -4,17 +4,20 @@ import Image from "next/image";
 import usePageTracking from "@/hooks/usePageTracking";
 import useDesktop from "@/hooks/useDesktop";
 
+const hideChubbiRoutes: RegExp[] = [
+  /^\/chubbi$/,
+  /^\/profile$/,
+  /^\/pricing$/,
+  /^\/dragon$/,
+  /^\/chat\/.*$/,
+];
+
 export default function Chubbi() {
   const { currentPage } = usePageTracking();
   const isDesktop = useDesktop();
-  if (
-    currentPage === "/chubbi" ||
-    currentPage === "/profile" ||
-    currentPage === "/pricing" ||
-    /^\/chat\/.*$/.test(currentPage) ||
-    !isDesktop
-  )
-    return null;
+  if (!isDesktop) return null;
+  if (hideChubbiRoutes.some((route) => route.test(currentPage))) return null;
+
   return (
     <Link
       className="dropdown-end dropdown-top dropdown fixed bottom-5 right-5"
