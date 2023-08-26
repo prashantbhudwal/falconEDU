@@ -1,4 +1,4 @@
-import Navbar from "@/app/(falcon)/(merlin)/components/Navbar";
+import Navbar from "@/components/Navbar";
 import BasicInfo from "./BasicInfo";
 import PaymentsTable from "./PaymentsTable";
 export default function ProfilePage() {

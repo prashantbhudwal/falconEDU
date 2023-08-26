@@ -1,9 +1,9 @@
-import BreadCrumbs from "./BreadCrumbs";
-import ChubbiDropdown from "./ChubbiDropdown";
-import ProfileDropDown from "./ProfileDropdown";
-import MerlinActionBar from "./MerlinActionBar";
-import UpgradeBtn from "./UpgradeBtn";
-import InviteDropdown from "./InviteDropDown";
+import BreadCrumbs from "../app/(falcon)/(merlin)/components/BreadCrumbs";
+import ChubbiDropdown from "../app/(falcon)/(merlin)/components/ChubbiDropdown";
+import ProfileDropDown from "../app/(falcon)/(merlin)/components/ProfileDropdown";
+import MerlinActionBar from "../app/(falcon)/(merlin)/components/MerlinActionBar";
+import UpgradeBtn from "../app/(falcon)/(merlin)/components/UpgradeBtn";
+import InviteDropdown from "../app/(falcon)/(merlin)/components/InviteDropDown";
 import HelpDropdown from "@/components/HelpDropdown";
 export default function Navbar() {
   return (
@@ -19,7 +19,7 @@ export default function Navbar() {
       <div className="navbar-end gap-3 pr-1">
         <MerlinActionBar />
         <ProfileDropDown />
-        <HelpDropdown/>
+        <HelpDropdown />
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import Navbar from "@/app/(falcon)/(merlin)/components/Navbar";
+import Navbar from "@/components/Navbar";
 import CheckoutBtn from "./CheckoutBtn";
 export default function Test() {
   return (

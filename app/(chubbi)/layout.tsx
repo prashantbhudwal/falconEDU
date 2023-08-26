@@ -5,7 +5,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { SidebarList } from "./components/sidebar-list";
 import * as React from "react";
-import Navbar from "../(falcon)/(merlin)/components/Navbar";
+import Navbar from "../../components/Navbar";
 import NewChatBtn from "./components/NewChatBtn";
 
 export default async function ChubbiLayout({

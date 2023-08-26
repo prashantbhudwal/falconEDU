@@ -1,4 +1,4 @@
-import Navbar from "@/app/(falcon)/(merlin)/components/Navbar";
+import Navbar from "@/components/Navbar";
 import Plans from "./Plans";
 import { cache } from "react";
 import { stripe } from "@/utils/stripe";

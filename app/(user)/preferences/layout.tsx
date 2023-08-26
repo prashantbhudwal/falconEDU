@@ -4,7 +4,7 @@ import DesktopOnly from "../../../components/DesktopOnly";
 import useDesktop from "../../../hooks/useDesktop";
 import { userFlowAtom } from "../../../atoms/app";
 import { useAtom } from "jotai";
-import Navbar from "../../(falcon)/(merlin)/components/Navbar";
+import Navbar from "@/components/Navbar";
 const getTitle = (pathname: string, userFlow: string) => {
   switch (pathname) {
     case "/preferences":
