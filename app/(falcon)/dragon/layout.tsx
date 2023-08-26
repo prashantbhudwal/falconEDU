@@ -7,7 +7,6 @@ export default function DragonLayout({
 }) {
   return (
     <div className="flex h-screen min-w-full flex-col">
-      <Navbar />
       {children}
     </div>
   );
