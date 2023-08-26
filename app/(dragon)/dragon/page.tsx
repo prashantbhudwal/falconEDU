@@ -1,8 +1,7 @@
+import { nanoid } from "@/utils";
+import Agent from "../components/Agent";
 
 export default function Dragon() {
-  return (
-    <div>
-      <h1>Hello Page</h1>
-    </div>
-  );
+  const id = nanoid();
+  return <Agent id={id} />;
 }
