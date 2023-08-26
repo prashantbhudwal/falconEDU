@@ -1,7 +1,7 @@
 "use client";
 import usePreferences from "@/hooks/usePreferences";
 import usePageTracking from "@/hooks/usePageTracking";
-const hideConfig = ["/pricing", "/profile"];
+const hideConfig = ["/pricing", "/profile", "/dragon"];
 export default function BreadCrumbs() {
   const { currentPage } = usePageTracking();
   const { topic, subtopic, grade, board, subject } = usePreferences();
