@@ -1,4 +1,4 @@
-import SignOutButton from "@/app/(falcon)/(merlin)/components/SignOutBtn";
+import SignOutButton from "@/components/SignOutBtn";
 import Link from "next/link";
 
 export default function DesktopOnly() {

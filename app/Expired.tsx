@@ -4,7 +4,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/authOptions";
 import { getUser } from "./api/db/user/[email]/route";
 import LandingPage from "./Landing";
-import UpgradeBtn from "./(falcon)/(merlin)/components/UpgradeBtn";
+import UpgradeBtn from "../components/UpgradeBtn";
 import Plans from "./(user)/pricing/Plans";
 import { getProducts } from "@/utils/stripe";
 

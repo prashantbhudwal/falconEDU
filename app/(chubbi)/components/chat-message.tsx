@@ -1,7 +1,7 @@
 import { Message } from "ai";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
-import Avatar from "@/app/(falcon)/(merlin)/components/Avatar";
+import Avatar from "@/components/Avatar";
 import { cn } from "../lib/utils";
 import { CodeBlock } from "@/app/(falcon)/(merlin)/merlin/components/CodeBlock";
 import { MemoizedReactMarkdown } from "@/components/Markdown";

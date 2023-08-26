@@ -1,6 +1,6 @@
-import Avatar from "./Avatar";
+import Avatar from "@/components/Avatar";
 import Link from "next/link";
-import SignOutButton from "./SignOutBtn";
+import SignOutButton from "@/components/SignOutBtn";
 export default function ProfileDropDown() {
   return (
     <div className="dropdown dropdown-end">
