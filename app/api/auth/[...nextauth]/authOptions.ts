@@ -1,6 +1,6 @@
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import Google from "next-auth/providers/google";
-import prisma from "@/prisma";
+import prisma from "@/lib/prisma";
 import { User as PrismaUser } from "@prisma/client";
 import { Adapter } from "next-auth/adapters";
 import { AuthOptions } from "next-auth";

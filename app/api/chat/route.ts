@@ -6,7 +6,7 @@ import {
 } from "openai-edge";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/authOptions";
-import prisma from "@/prisma";
+import prisma from "@/lib/prisma";
 import { nanoid } from "@/lib";
 const base: ChatCompletionRequestMessage[] = [
   {

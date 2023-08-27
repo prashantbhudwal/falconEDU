@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { stripe } from "@/lib/stripe";
-import prisma from "@/prisma";
+import prisma from "@/lib/prisma";
 //Todo extract all payment configs to one file
 const ONE_MONTH_PRICE = 400;
 const THREE_MONTHS_PRICE = 800;

@@ -1,5 +1,5 @@
 "use server";
-import prisma from "@/prisma";
+import prisma from "@/lib/prisma";
 
 export async function getUserData(email: string) {
   //write code to fetch user data from database using prisma
