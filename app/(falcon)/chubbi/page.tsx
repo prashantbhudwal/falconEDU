@@ -1,5 +1,5 @@
 import { nanoid } from "@/lib";
-import { Chat } from "../components/chat";
+import { Chat } from "./components/chat";
 
 export default function IndexPage() {
   const id = nanoid();

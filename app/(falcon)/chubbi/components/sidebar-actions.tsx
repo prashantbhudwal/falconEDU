@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 
 import { type ChubbiChat as Chat, ServerActionResult } from "@/types";
-import { cn, formatDate } from "../../../lib/utils";
+import { cn, formatDate } from "../../../../lib/utils";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -19,6 +19,7 @@ import {
 import { Button } from "@ui/button";
 import { IconSpinner, IconTrash, IconUsers } from "@ui/icons";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@ui/tooltip";
+import { chatStem } from "./sidebar-item";
 
 interface SidebarActionsProps {
   chat: Chat;
@@ -29,6 +30,7 @@ export function SidebarActions({ chat, removeChat }: SidebarActionsProps) {
   const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
   const [isRemovePending, startRemoveTransition] = React.useTransition();
   const router = useRouter();
+  const chatRoute = `${chatStem}/${chat.id}`;
 
   return (
     <>
@@ -69,7 +71,7 @@ export function SidebarActions({ chat, removeChat }: SidebarActionsProps) {
                 startRemoveTransition(async () => {
                   const result = await removeChat({
                     id: chat.id,
-                    path: chat.path,
+                    path: chatRoute,
                   });
 
                   if (result && "error" in result) {

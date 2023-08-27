@@ -3,17 +3,19 @@ import SidebarButton from "@/app/(falcon)/(merlin)/magic/components/SidebarButto
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { type ChubbiChat as Chat } from "@/types";
-import { cn } from "../../../lib/utils";
+import { cn } from "../../../../lib/utils";
 import { buttonVariants } from "@ui/button";
 import { IconMessage } from "@ui/icons";
 interface SidebarItemProps {
   chat: Chat;
   children: React.ReactNode;
 }
+export const chatStem = "/chubbi/chat";
 
 export function SidebarItem({ chat, children }: SidebarItemProps) {
   const pathname = usePathname();
-  const isActive = pathname === chat.path;
+  const chatRoute = `${chatStem}/${chat.id}`;
+  const isActive = pathname === chatRoute;
 
   if (!chat?.id) return null;
 
@@ -23,7 +25,7 @@ export function SidebarItem({ chat, children }: SidebarItemProps) {
         <IconMessage className="mr-2" />
       </div>
       <Link
-        href={chat.path}
+        href={chatRoute}
         className={cn(
           buttonVariants({ variant: "ghost" }),
           "group w-full pl-8 pr-16",
