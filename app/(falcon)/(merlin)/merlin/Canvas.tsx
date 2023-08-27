@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { BlockContent, ideaType, validateIdeaType } from "@/types";
 import usePreferences from "@/hooks/usePreferences";
 import { useAtom } from "jotai";
-import { lessonIdeasAtom } from "@/atoms/lesson";
+import { lessonIdeasAtom } from "@/lib/atoms/lesson";
 import { useCompletion } from "ai/react";
 import Chat from "./components/Chat";
 import { downloadBlock, getSelectedBlockContent } from "./utils";

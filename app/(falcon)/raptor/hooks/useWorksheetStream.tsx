@@ -2,7 +2,7 @@ import { useAtom } from "jotai";
 import { useContentStream } from "../../../../hooks/useContentStream";
 import { QuestionPayload, APIRoute, QuestionBankAction } from "@/types";
 
-import { savedQuestionsAtom } from "../../../../atoms/worksheet";
+import { savedQuestionsAtom } from "../../../../lib/atoms/worksheet";
 
 export function useWorksheetStream(action: QuestionBankAction) {
   const ROUTE: APIRoute = "/api/worksheetAidsOnEdge";

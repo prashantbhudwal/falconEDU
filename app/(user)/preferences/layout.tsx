@@ -2,7 +2,7 @@
 import { usePathname } from "next/navigation";
 import DesktopOnly from "../../../components/DesktopOnly";
 import useDesktop from "../../../hooks/useDesktop";
-import { userFlowAtom } from "../../../atoms/app";
+import { userFlowAtom } from "../../../lib/atoms/app";
 import { useAtom } from "jotai";
 import Navbar from "@/components/Navbar";
 const getTitle = (pathname: string, userFlow: string) => {

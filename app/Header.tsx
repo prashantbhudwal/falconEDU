@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useAtom } from "jotai";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
-import { contentStreamCompletedAtom } from "../atoms/lesson";
+import { contentStreamCompletedAtom } from "../lib/atoms/lesson";
 
 export default function Header() {
   const { data: session, status: sessionStatus } = useSession();

@@ -4,9 +4,9 @@ import {
   gradeAtom,
   boardAtom,
   subjectAtom,
-} from "@/atoms/preferences";
+} from "@/lib/atoms/preferences";
 import { useAtom } from "jotai";
-import { worksheetSubtopicsAtom } from "@/atoms/worksheet";
+import { worksheetSubtopicsAtom } from "@/lib/atoms/worksheet";
 
 export default function usePreferences() {
   const [topic] = useAtom(topicAtom);

@@ -6,14 +6,17 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
 import { getEmoji } from "../../../../lib";
 import { useAtom } from "jotai";
-import { lessonIdeasAtom, teachingAidsAtom } from "../../../../atoms/lesson";
+import {
+  lessonIdeasAtom,
+  teachingAidsAtom,
+} from "../../../../lib/atoms/lesson";
 import Section from "../../../../components/Section";
 import DraggableChip from "../../../../components/DraggableChip";
 import { itemTypes } from "../../../../config/itemTypes";
 import { useRouter } from "next/navigation";
 import MerlinGrid from "../components/Grid";
-import { worksheetSubtopicsAtom } from "@/atoms/worksheet";
-import { subtopicAtom } from "@/atoms/preferences";
+import { worksheetSubtopicsAtom } from "@/lib/atoms/worksheet";
+import { subtopicAtom } from "@/lib/atoms/preferences";
 import useTrackPage from "@/hooks/analytics/useTrackPage";
 export default function Merlin() {
   useTrackPage("Merlin");

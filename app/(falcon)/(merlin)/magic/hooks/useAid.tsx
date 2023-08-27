@@ -1,9 +1,6 @@
 import { useAtom } from "jotai";
 import { v4 as uuid } from "uuid";
-import {
-  lessonIdeasAtom,
-  teachingAidsAtom,
-} from "@/atoms/lesson";
+import { lessonIdeasAtom, teachingAidsAtom } from "@/lib/atoms/lesson";
 import { APIRoute, StreamPayload } from "@/types";
 import { aidType } from "@/types";
 import useLatestAid from "./useLatestAid";
@@ -54,7 +51,7 @@ export function useAid(aidType: aidType) {
       const payload =
         aidType === "lesson" || aidType === "shortVideoScript"
           ? lessonIdeas
-          : latestLesson; 
+          : latestLesson;
       const payLoadString = JSON.stringify(payload);
       handleCompletion(payLoadString);
     }
@@ -63,6 +60,6 @@ export function useAid(aidType: aidType) {
   return {
     content: completion,
     startStreaming,
-    isLoading
+    isLoading,
   };
 }

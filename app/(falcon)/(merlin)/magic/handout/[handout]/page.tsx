@@ -1,6 +1,6 @@
 "use client";
 import { useAtom } from "jotai";
-import { lessonIdeasAtom } from "@/atoms/lesson";
+import { lessonIdeasAtom } from "@/lib/atoms/lesson";
 import ideasToHandouts from "@/lib/ideasToHandouts";
 import useTrackPage from "@/hooks/analytics/useTrackPage";
 export default function Page({

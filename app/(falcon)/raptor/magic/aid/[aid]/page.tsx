@@ -1,6 +1,6 @@
 "use client";
 import Issue from "@/components/Issue";
-import { contentStreamCompletedAtom } from "@/atoms/lesson";
+import { contentStreamCompletedAtom } from "@/lib/atoms/lesson";
 import { useAtom } from "jotai";
 import { useState } from "react";
 import { worksheetAidType } from "@/types";
@@ -10,10 +10,13 @@ import {
   boardAtom,
   gradeAtom,
   subjectAtom,
-} from "@/atoms/preferences";
+} from "@/lib/atoms/preferences";
 import Header from "@/components/Header";
 import { useWorksheetStream } from "@/app/(falcon)/raptor/hooks/useWorksheetStream";
-import { worksheetAnswerKeyAtom, savedQuestionsAtom } from "@/atoms/worksheet";
+import {
+  worksheetAnswerKeyAtom,
+  savedQuestionsAtom,
+} from "@/lib/atoms/worksheet";
 export default function Page({
   params,
 }: {

@@ -5,8 +5,11 @@ import { useAtom } from "jotai";
 import { useState } from "react";
 import useLatestAid from "../../hooks/useLatestAid";
 import { useEffect } from "react";
-import { shouldRegenerateAtom } from "@/atoms/lesson";
-import { contentStreamCompletedAtom, teachingAidsAtom } from "@/atoms/lesson";
+import { shouldRegenerateAtom } from "@/lib/atoms/lesson";
+import {
+  contentStreamCompletedAtom,
+  teachingAidsAtom,
+} from "@/lib/atoms/lesson";
 
 import { aidType, handoutType } from "@/types";
 import { Message } from "../../../merlin/components/Message";

@@ -1,4 +1,4 @@
-import { lessonIdeasAtom } from "@/atoms/lesson";
+import { lessonIdeasAtom } from "@/lib/atoms/lesson";
 import { useAtom } from "jotai";
 import { BlockContent } from "@/types";
 import { handoutType } from "@/types";

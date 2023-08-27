@@ -13,8 +13,11 @@ import { usePathname } from "next/navigation";
 import useHandouts from "./hooks/useHandouts";
 import { aidType, handoutType } from "@/types";
 import { useAtom } from "jotai";
-import { contentStreamCompletedAtom, teachingAidsAtom } from "@/atoms/lesson";
-import { savedQuestionsAtom } from "@/atoms/worksheet";
+import {
+  contentStreamCompletedAtom,
+  teachingAidsAtom,
+} from "@/lib/atoms/lesson";
+import { savedQuestionsAtom } from "@/lib/atoms/worksheet";
 export default function MagicLayout({
   children,
 }: {

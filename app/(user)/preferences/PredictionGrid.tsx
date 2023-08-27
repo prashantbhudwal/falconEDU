@@ -1,5 +1,5 @@
 import { ColorOption, Theme, ThemeColor } from "@/types";
-import { colors } from "../../../theme/colors";
+import { colors } from "../../../lib/theme/colors";
 type PredictionGridProps = {
   content: string[];
   selectedOption: string;

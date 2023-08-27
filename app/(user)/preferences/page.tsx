@@ -3,8 +3,12 @@ import gradeData from "../../data/subjects.json";
 import boards from "../../data/boards.json";
 import { useRouter } from "next/navigation";
 import { useAtom } from "jotai";
-import { boardAtom, subjectAtom, gradeAtom } from "../../../atoms/preferences";
-import { userFlowAtom } from "../../../atoms/app";
+import {
+  boardAtom,
+  subjectAtom,
+  gradeAtom,
+} from "../../../lib/atoms/preferences";
+import { userFlowAtom } from "../../../lib/atoms/app";
 
 import { useEffect } from "react";
 export default function Home() {

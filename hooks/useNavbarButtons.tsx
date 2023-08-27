@@ -5,18 +5,21 @@ import {
   FiDownload,
   FiSkipBack,
 } from "react-icons/fi"; // import necessary icons
-import { worksheetAnswerKeyAtom } from "@/atoms/worksheet";
+import { worksheetAnswerKeyAtom } from "@/lib/atoms/worksheet";
 import { FaWandMagicSparkles } from "react-icons/fa6";
 import { ComponentType, SVGProps } from "react";
-import { contentStreamCompletedAtom, teachingAidsAtom } from "@/atoms/lesson";
+import {
+  contentStreamCompletedAtom,
+  teachingAidsAtom,
+} from "@/lib/atoms/lesson";
 import { useAtom } from "jotai";
 import { downloadZip } from "@/lib/downloadZip";
 import useDownloadContent from "@/app/(falcon)/(merlin)/magic/hooks/useDownloadContent";
-import { lessonIdeasAtom } from "@/atoms/lesson";
-import { savedQuestionsAtom } from "@/atoms/worksheet";
+import { lessonIdeasAtom } from "@/lib/atoms/lesson";
+import { savedQuestionsAtom } from "@/lib/atoms/worksheet";
 import { getWorksheetDocx } from "@/lib/getWorksheetDocx";
 import { generateAnswerKeyDocx } from "@/lib/generateAnswerKeyDocx";
-import { topicAtom } from "@/atoms/preferences";
+import { topicAtom } from "@/lib/atoms/preferences";
 
 type IconComponentProps = SVGProps<SVGSVGElement> & { className?: string };
 type IconComponent = ComponentType<IconComponentProps>;

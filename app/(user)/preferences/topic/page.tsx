@@ -1,14 +1,14 @@
 "use client";
 import { PropagateLoader } from "react-spinners";
 import { usePrediction } from "@/app/(user)/preferences/hooks/usePrediction";
-import { contentStreamCompletedAtom } from "@/atoms/lesson";
+import { contentStreamCompletedAtom } from "@/lib/atoms/lesson";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
 import PredictionGrid from "../PredictionGrid";
-import { topicAtom, subtopicAtom } from "@/atoms/preferences";
+import { topicAtom, subtopicAtom } from "@/lib/atoms/preferences";
 import { useRouter } from "next/navigation";
-import { gradeAtom, boardAtom, subjectAtom } from "@/atoms/preferences";
-import { userFlowAtom } from "@/atoms/app";
+import { gradeAtom, boardAtom, subjectAtom } from "@/lib/atoms/preferences";
+import { userFlowAtom } from "@/lib/atoms/app";
 import usePreferences from "@/hooks/usePreferences";
 export default function Page() {
   const [subtopic, setSubtopic] = useAtom(subtopicAtom);

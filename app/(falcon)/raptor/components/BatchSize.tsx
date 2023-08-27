@@ -1,6 +1,6 @@
 "use client";
 import { useAtom } from "jotai";
-import { batchSizeAtom } from "@/atoms/worksheet";
+import { batchSizeAtom } from "@/lib/atoms/worksheet";
 export const BatchSize: React.FC = () => {
   const [batchSize, setBatchSize] = useAtom(batchSizeAtom);
 

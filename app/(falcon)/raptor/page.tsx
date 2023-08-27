@@ -9,23 +9,23 @@ import DraggableChip from "../../../components/DraggableChip";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
 import { QuestionType, QuestionItem, QuestionObject } from "@/types";
-import { currentQuestionAtom } from "../../../atoms/worksheet";
+import { currentQuestionAtom } from "../../../lib/atoms/worksheet";
 import { useAtom } from "jotai";
 import { useQuestionGeneration } from "./hooks/useQuestionGeneration";
-import { contentStreamCompletedAtom } from "@/atoms/lesson";
+import { contentStreamCompletedAtom } from "@/lib/atoms/lesson";
 import {
   worksheetSubtopicsAtom,
   worksheetAnswerKeyAtom,
   savedQuestionsAtom,
   isAdvancedModeAtom,
   batchSizeAtom,
-} from "../../../atoms/worksheet";
+} from "../../../lib/atoms/worksheet";
 import {
   topicAtom,
   gradeAtom,
   boardAtom,
   subjectAtom,
-} from "../../../atoms/preferences";
+} from "../../../lib/atoms/preferences";
 import { RiseLoader, SyncLoader } from "react-spinners";
 import QuestionsBlock from "./components/QuestionSection";
 import useJsonParsing from "../../../hooks/useJsonParsing";

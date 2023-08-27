@@ -1,5 +1,5 @@
 import { ColorOption, ThemeColor } from "@/types";
-import { colors } from "../theme/colors";
+import { colors } from "../lib/theme/colors";
 
 type SectionProps = {
   title: string;
@@ -23,9 +23,7 @@ const Section: React.FC<SectionProps> = ({
   if (!dividerColor) dividerColor = border;
   return (
     <div className={`pt-2  ${bg} ${className}`}>
-      <header
-        className={`${headingColor} mb-2 text-left`}
-      >
+      <header className={`${headingColor} mb-2 text-left`}>
         <p className="text-sm capitalize">{title}</p>
       </header>
       <div className="flex flex-col gap-3">{children}</div>

@@ -1,5 +1,5 @@
 import { ColorOption, ThemeColor } from "@/types";
-import { colors } from "../theme/colors";
+import { colors } from "../lib/theme/colors";
 export type HeaderProps = {
   className?: string;
   color?: ColorOption;

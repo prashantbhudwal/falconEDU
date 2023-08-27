@@ -1,5 +1,5 @@
 import { useAtom } from "jotai";
-import { teachingAidsAtom } from "@/atoms/lesson";
+import { teachingAidsAtom } from "@/lib/atoms/lesson";
 import { aidType } from "@/types";
 interface Content {
   content: string;

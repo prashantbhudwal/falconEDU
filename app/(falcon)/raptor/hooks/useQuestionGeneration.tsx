@@ -1,18 +1,18 @@
 import { useAtom } from "jotai";
 import { useContentStream } from "../../../../hooks/useContentStream";
-import { contentStreamCompletedAtom } from "../../../../atoms/lesson";
-import { gradeAtom } from "@/atoms/preferences";
+import { contentStreamCompletedAtom } from "../../../../lib/atoms/lesson";
+import { gradeAtom } from "@/lib/atoms/preferences";
 import { QuestionPayload, APIRoute, QuestionBank, QuestionItem } from "@/types";
-import { shouldRegenerateAtom } from "../../../../atoms/lesson";
-import { boardAtom } from "@/atoms/preferences";
-import { subjectAtom } from "@/atoms/preferences";
+import { shouldRegenerateAtom } from "../../../../lib/atoms/lesson";
+import { boardAtom } from "@/lib/atoms/preferences";
+import { subjectAtom } from "@/lib/atoms/preferences";
 import { QuestionAction, QuestionType } from "@/types";
 import {
   currentQuestionAtom,
   savedQuestionsAtom,
   batchSizeAtom,
-} from "../../../../atoms/worksheet";
-import { topicAtom } from "../../../../atoms/preferences";
+} from "../../../../lib/atoms/worksheet";
+import { topicAtom } from "../../../../lib/atoms/preferences";
 
 export function getQuestionsByType(
   questionType: QuestionType,

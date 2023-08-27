@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { QuestionType, QuestionItem } from "@/types";
-import { currentQuestionAtom, isAdvancedModeAtom } from "@/atoms/worksheet";
+import { currentQuestionAtom, isAdvancedModeAtom } from "@/lib/atoms/worksheet";
 import { useAtom } from "jotai";
 import { DropTargetMonitor, useDrop } from "react-dnd";
 import questionData from "@/app/data/questionMatrix.json";
@@ -13,7 +13,7 @@ import {
 } from "@/lib/index";
 import Question from "./Question";
 import { getQuestionTypeTitle } from "@/lib/index";
-import { contentStreamCompletedAtom } from "@/atoms/lesson";
+import { contentStreamCompletedAtom } from "@/lib/atoms/lesson";
 type Props = {
   questions: QuestionItem[];
   type: QuestionType;
