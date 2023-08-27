@@ -1,7 +1,7 @@
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 
-import { cn } from "../utils";
+import { cn } from "@/lib/utils";
 import { CodeBlock } from "./CodeBlock";
 import { MemoizedReactMarkdown } from "@/components/Markdown";
 
