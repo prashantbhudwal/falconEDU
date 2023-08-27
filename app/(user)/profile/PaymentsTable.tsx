@@ -1,5 +1,5 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-import prisma from "@/lib/prisma";
+import prisma from "@/prisma";
 import { getServerSession } from "next-auth";
 import { getFormattedDate } from "@/lib/utils";
 export const dynamic = "force-dynamic";
