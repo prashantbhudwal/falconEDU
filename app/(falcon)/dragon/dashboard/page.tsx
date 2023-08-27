@@ -7,10 +7,12 @@ export default async function Dashboard() {
   const id = session?.user?.id;
   const agents = await getAgents(id);
   return (
-    <div className="flex flex-row flex-wrap gap-4">
-      {agents.map((agent) => (
-        <AgentCard key={agent.id} data={agent} />
-      ))}
+    <div className="flex justify-center w-full">
+      <div className="flex flex-wrap gap-4 w-11/12">
+        {agents.map((agent) => (
+          <AgentCard key={agent.id} data={agent} />
+        ))}
+      </div>
     </div>
   );
 }
