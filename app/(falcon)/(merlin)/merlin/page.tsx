@@ -12,7 +12,7 @@ import {
 } from "../../../../lib/atoms/lesson";
 import Section from "../../../../components/Section";
 import DraggableChip from "../../../../components/DraggableChip";
-import { itemTypes } from "../../../../config/itemTypes";
+import { itemTypes } from "../../../../lib/config/itemTypes";
 import { useRouter } from "next/navigation";
 import MerlinGrid from "../components/Grid";
 import { worksheetSubtopicsAtom } from "@/lib/atoms/worksheet";
