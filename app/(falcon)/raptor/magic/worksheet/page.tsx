@@ -10,7 +10,6 @@ import { savedQuestionsAtom } from "@/lib/atoms/worksheet";
 import Canvas from "../../components/Canvas";
 import { QuestionObject } from "@/types";
 import QuestionSection from "../../components/QuestionSection";
-import { createWorksheet } from "@/lib/actions/actions";
 
 export default function Page() {
   const [topic] = useAtom(topicAtom);
