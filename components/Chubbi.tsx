@@ -8,7 +8,7 @@ const hideChubbiRoutes: RegExp[] = [
   /^\/chubbi$/,
   /^\/profile$/,
   /^\/pricing$/,
-  /^\/dragon$/,
+  /^\/dragon\/.*$/,
   /^\/chat\/.*$/,
 ];
 
