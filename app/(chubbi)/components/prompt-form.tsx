@@ -2,8 +2,8 @@ import { UseChatHelpers } from "ai/react";
 import * as React from "react";
 import Textarea from "react-textarea-autosize";
 
-import { Button } from "./ui/button";
-import { IconArrowElbow } from "./ui/icons";
+import { Button } from "@ui/button";
+import { IconArrowElbow } from "@ui/icons";
 import { useEnterSubmit } from "../hooks/use-enter-submit";
 import { FiCornerDownLeft } from "react-icons/fi";
 

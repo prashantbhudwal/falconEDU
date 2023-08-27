@@ -2,8 +2,8 @@
 
 import { type Message } from "ai";
 
-import { Button } from "./ui/button";
-import { IconCheck, IconCopy } from "./ui/icons";
+import { Button } from "@ui/button";
+import { IconCheck, IconCopy } from "@ui/icons";
 import { useCopyToClipboard } from "../hooks/use-copy-to-clipboard";
 import { cn } from "../../../lib/utils";
 

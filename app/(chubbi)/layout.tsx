@@ -1,4 +1,4 @@
-import { TooltipProvider } from "./components/ui/tooltip";
+import { TooltipProvider } from "@ui/tooltip";
 import MerlinGrid from "../(falcon)/(merlin)/components/Grid";
 import Sidebar from "@/components/Sidebar";
 import { getServerSession } from "next-auth";

@@ -15,10 +15,10 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "./ui/alert-dialog";
-import { Button } from "./ui/button";
-import { IconSpinner, IconTrash, IconUsers } from "./ui/icons";
-import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
+} from "@ui/alert-dialog";
+import { Button } from "@ui/button";
+import { IconSpinner, IconTrash, IconUsers } from "@ui/icons";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@ui/tooltip";
 
 interface SidebarActionsProps {
   chat: Chat;

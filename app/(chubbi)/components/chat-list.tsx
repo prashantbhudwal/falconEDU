@@ -1,6 +1,6 @@
 import { type Message } from "ai";
 
-import { Separator } from "./ui/separator";
+import { Separator } from "@ui/separator";
 import { ChatMessage } from "./chat-message";
 
 export interface ChatList {

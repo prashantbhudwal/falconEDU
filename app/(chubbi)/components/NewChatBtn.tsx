@@ -1,5 +1,5 @@
 "use client";
-import { IconPlus } from "./ui/icons";
+import { IconPlus } from "@ui/icons";
 import { useRouter } from "next/navigation";
 
 export default function NewChatBtn() {
