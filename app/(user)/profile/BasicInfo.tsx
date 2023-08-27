@@ -4,7 +4,7 @@ import Section from "@/components/Section";
 import { RotateLoader } from "react-spinners";
 import useUserData from "@/hooks/useUserData";
 import EditProfileModal from "./edit/Modal";
-import { getFormattedDate } from "@/utils/lib";
+import { getFormattedDate } from "@/lib/utils";
 
 export default function BasicInfo() {
   const { user, error, isLoading } = useUserData();

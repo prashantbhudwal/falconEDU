@@ -7,7 +7,7 @@ import {
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/authOptions";
 import prisma from "@/prisma";
-import { nanoid } from "@/utils";
+import { nanoid } from "@/lib";
 const base: ChatCompletionRequestMessage[] = [
   {
     role: "system",

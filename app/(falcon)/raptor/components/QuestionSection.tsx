@@ -10,9 +10,9 @@ import {
   getQuestionSectionShadow,
   getQuestionSectionBorderColor,
   getQuestionSectionTextColor,
-} from "@/utils/index";
+} from "@/lib/index";
 import Question from "./Question";
-import { getQuestionTypeTitle } from "@/utils/index";
+import { getQuestionTypeTitle } from "@/lib/index";
 import { contentStreamCompletedAtom } from "@/atoms/lesson";
 type Props = {
   questions: QuestionItem[];

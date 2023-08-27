@@ -1,9 +1,9 @@
 import Navbar from "@/components/Navbar";
 import Plans from "./Plans";
 import { cache } from "react";
-import { stripe } from "@/utils/stripe";
+import { stripe } from "@/lib/stripe";
 import Stripe from "stripe";
-import { getProducts } from "@/utils/stripe";
+import { getProducts } from "@/lib/stripe";
 
 export type GetPricesReturnType = Stripe.ApiList<Stripe.Price>;
 export type GetProductsReturnType = Stripe.ApiList<Stripe.Product>;

@@ -6,7 +6,7 @@ import Sidebar from "@/components/Sidebar";
 import SidebarButton from "@/app/(falcon)/(merlin)/magic/components/SidebarButton";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
-import { getEmoji, getName } from "@/utils";
+import { getEmoji, getName } from "@/lib";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
 

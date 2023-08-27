@@ -1,4 +1,4 @@
-import { nanoid } from "@/utils";
+import { nanoid } from "@/lib";
 import Agent from "./components/Agent";
 
 export default function Dragon() {

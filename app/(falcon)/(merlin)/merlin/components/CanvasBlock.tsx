@@ -1,4 +1,4 @@
-import { getBlockShadow } from "../../../../../utils";
+import { getBlockShadow } from "../../../../../lib";
 import { ideaType } from "@/types";
 import { Message } from "./Message";
 import { FiTrash, FiDownload } from "react-icons/fi";

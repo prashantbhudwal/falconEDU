@@ -1,7 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { BlockContent } from "@/types";
-import { generateDocx } from "../../../../utils/generateDocx";
+import { generateDocx } from "../../../../lib/generateDocx";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));

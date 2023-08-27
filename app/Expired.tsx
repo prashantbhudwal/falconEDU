@@ -6,7 +6,7 @@ import { getUser } from "./api/db/user/[email]/route";
 import LandingPage from "./Landing";
 import UpgradeBtn from "../components/UpgradeBtn";
 import Plans from "./(user)/pricing/Plans";
-import { getProducts } from "@/utils/stripe";
+import { getProducts } from "@/lib/stripe";
 
 // export const dynamic = `force-dynamic`;
 export const revalidate = 6000;

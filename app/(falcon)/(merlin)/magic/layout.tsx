@@ -1,7 +1,7 @@
 "use client";
 import SidebarButton from "./components/SidebarButton";
-import { getEmoji, getName } from "@/utils";
-import { downloadZip } from "@/utils/downloadZip";
+import { getEmoji, getName } from "@/lib";
+import { downloadZip } from "@/lib/downloadZip";
 import MerlinGrid from "../components/Grid";
 import Sidebar from "@/components/Sidebar";
 import Section from "@/components/Section";
@@ -28,7 +28,7 @@ export default function MagicLayout({
   const [contentStreamCompleted, setContentStreamCompleted] = useAtom(
     contentStreamCompletedAtom
   );
-       const [savedQuestions] = useAtom(savedQuestionsAtom);
+  const [savedQuestions] = useAtom(savedQuestionsAtom);
 
   return (
     <div className="h-full overflow-y-auto">
@@ -56,7 +56,9 @@ export default function MagicLayout({
               ))}
           </Section>
         </Sidebar>
-        <div className="col-span-8 col-start-3 min-h-screen bg-slate-950">{children}</div>
+        <div className="col-span-8 col-start-3 min-h-screen bg-slate-950">
+          {children}
+        </div>
       </MerlinGrid>
     </div>
   );

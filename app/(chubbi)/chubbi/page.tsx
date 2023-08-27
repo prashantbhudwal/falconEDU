@@ -1,4 +1,4 @@
-import { nanoid } from "@/utils";
+import { nanoid } from "@/lib";
 import { Chat } from "../components/chat";
 
 export default function IndexPage() {

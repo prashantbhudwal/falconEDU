@@ -2,7 +2,7 @@
 import { useDrop, DropTargetMonitor } from "react-dnd";
 import { useState, useEffect } from "react";
 import CanvasBlock from "./components/CanvasBlock";
-import { getEmoji } from "@/utils";
+import { getEmoji } from "@/lib";
 import LiveBlock from "./components/LiveBlock";
 import { useRouter } from "next/navigation";
 import { BlockContent, ideaType, validateIdeaType } from "@/types";

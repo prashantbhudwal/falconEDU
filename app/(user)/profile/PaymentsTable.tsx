@@ -1,7 +1,7 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import prisma from "@/prisma";
 import { getServerSession } from "next-auth";
-import { getFormattedDate } from "@/utils/lib";
+import { getFormattedDate } from "@/lib/utils";
 export const dynamic = "force-dynamic";
 export default async function PaymentsTable() {
   const session = await getServerSession(authOptions);
@@ -17,14 +17,12 @@ export default async function PaymentsTable() {
       paymentDate: "desc",
     },
   });
-  if(!payments) {
-    return null
+  if (!payments) {
+    return null;
   }
   return (
     <div className="overflow-x-auto w-full pb-10 ">
-      <h1 className="text-3xl text-bold mb-6">
-        Payment History
-      </h1>
+      <h1 className="text-3xl text-bold mb-6">Payment History</h1>
       <table className="table table-zebra table-md w-full bg-base-100 shadow shadow-base-100 rounded-sm">
         <thead>
           <tr>
