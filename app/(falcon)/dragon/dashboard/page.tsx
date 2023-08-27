@@ -1,5 +1,5 @@
 import { getAgents } from "../actions";
-import AgentCard from "../components/AgentCard";
+import AgentPreview from "../components/AgentPreview";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getServerSession } from "next-auth";
 export default async function Dashboard() {
@@ -10,7 +10,7 @@ export default async function Dashboard() {
     <div className="flex justify-center w-full">
       <div className="flex flex-wrap gap-4 w-11/12">
         {agents.map((agent) => (
-          <AgentCard key={agent.id} data={agent} />
+          <AgentPreview key={agent.id} data={agent} />
         ))}
       </div>
     </div>

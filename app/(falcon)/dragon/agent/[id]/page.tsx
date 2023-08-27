@@ -19,13 +19,15 @@ export default async function AgentPage({ params }: AgentPageProps) {
 
   const agent = await getAgent(params.id, session.user.id);
 
+  console.log(agent);
+
   if (!agent) {
     notFound();
   }
-
-  if (agent?.userId !== session?.user?.id) {
-    notFound();
-  }
+  // Commented for testing
+  // if (agent?.userId !== session?.user?.id) {
+  //   notFound();
+  // }
 
   return <Agent id={agent.id} data={agent.config} />;
 }

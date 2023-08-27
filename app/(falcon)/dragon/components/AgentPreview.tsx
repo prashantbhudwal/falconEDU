@@ -2,10 +2,10 @@ import Link from "next/link";
 import { AgentTestData } from "../agentTestData";
 import Avvvatars from "avvvatars-react";
 
-type AgentCardProps = {
+type AgentPreviewProps = {
   data: AgentTestData;
 };
-export default function AgentCard({ data }: AgentCardProps) {
+export default function AgentPreview({ data }: AgentPreviewProps) {
   return (
     <Link href={`/dragon/agent/${data.id}`}>
       <div className="card card-compact w-64 bg-base-100 shadow-xl hover:bg-base-200 hover:shadow-2xl hover:scale-105 cursor-pointer">
