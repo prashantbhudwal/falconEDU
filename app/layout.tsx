@@ -1,6 +1,6 @@
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/react";
-import Providers from "../providers/providers";
+import Providers from "../components/providers";
 import { Inter } from "next/font/google";
 import Expired from "./Expired";
 import Chubbi from "../components/Chubbi";
