@@ -1,3 +1,4 @@
+import Paper from "@ui/Paper";
 type AgentProps = {
   data?: {};
   id?: string;
@@ -5,7 +6,8 @@ type AgentProps = {
 
 export default function Agent({ id, data }: AgentProps) {
   return (
-    <div>
+    <div className="flex flex-col first-line:h-full">
+      <Paper />
       <h1>Agent One</h1>
     </div>
   );
