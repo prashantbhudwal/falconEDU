@@ -7,8 +7,7 @@ export default function MerlinLayout({
 }) {
   return (
     <div className="flex h-screen min-w-full flex-col">
-      {/* <Navbar /> */}
-      <div className="bg-base-100 h-12"></div>
+      <Navbar />
       {children}
     </div>
   );
