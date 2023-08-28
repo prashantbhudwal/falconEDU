@@ -2,7 +2,7 @@ import { notFound, redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getAgent } from "../../actions";
-import Agent from "../../components/Agent";
+import Agent from "../../components/agent";
 
 export interface AgentPageProps {
   params: {

@@ -1,5 +1,5 @@
 import { nanoid } from "@/lib";
-import Agent from "./components/Agent";
+import Agent from "./components/agent";
 
 export default function Dragon() {
   const id = nanoid();

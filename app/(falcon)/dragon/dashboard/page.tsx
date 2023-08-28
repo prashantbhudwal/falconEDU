@@ -1,5 +1,5 @@
 import { getAgents } from "../actions";
-import AgentPreview from "../components/AgentPreview";
+import AgentPreview from "../components/agent-preview-card";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getServerSession } from "next-auth";
 export default async function Dashboard() {
