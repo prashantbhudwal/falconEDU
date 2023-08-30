@@ -2,6 +2,7 @@ import { z } from "zod";
 
 export const agentSchema = z.object({
   // Core Config
+  instructions: z.string(), // Textbox
   teacherIntro: z.string(),
   tone: z.enum(["Friendly", "Professional", "Casual"]),
   responseTime: z.union([
@@ -35,3 +36,5 @@ export const agentSchema = z.object({
   studentTechComfort: z.enum(["Beginner", "Intermediate", "Advanced"]),
   parentInvolvement: z.enum(["High", "Low", "None"]),
 });
+
+
