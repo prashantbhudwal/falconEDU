@@ -1,6 +1,10 @@
 import { Paper } from "@/components/ui/paper";
 import { SidebarNav } from "../../components/sidebar-nav";
 import { Separator } from "@/components/ui/separator";
+import { notFound, redirect } from "next/navigation";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { getAgent } from "@/app/(falcon)/dragon/actions";
 
 const getLinksFromParams = (params: { id: string }) => {
   const root = "/dragon/agent/[id]";
@@ -28,7 +32,7 @@ const getLinksFromParams = (params: { id: string }) => {
   }));
 };
 
-export default function AgentLayout({
+export default async function AgentLayout({
   children,
   params,
 }: {
@@ -38,6 +42,23 @@ export default function AgentLayout({
   };
 }) {
   const { id } = params;
+  const session = await getServerSession(authOptions);
+
+  if (!session?.user || !session?.user?.id) {
+    redirect(`/`);
+  }
+
+  const agent = await getAgent(params.id, session.user.id);
+
+  console.log(agent);
+
+  if (!agent) {
+    notFound();
+  }
+  // Commented for testing
+  // if (agent?.userId !== session?.user?.id) {
+  //   notFound();
+  // }
 
   return (
     <div className="space-y-6 p-6 pb-16 h-full w-full">
