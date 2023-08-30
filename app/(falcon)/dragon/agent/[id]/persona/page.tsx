@@ -84,7 +84,10 @@ export default function AgentPage({ params }: AgentPageProps) {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Age</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value[0]}>
+              <Select
+                onValueChange={field.onChange}
+                defaultValue={field.value[0]}
+              >
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue placeholder="Select a verified email to display" />
