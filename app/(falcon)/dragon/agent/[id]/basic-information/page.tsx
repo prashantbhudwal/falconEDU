@@ -1,8 +1,8 @@
 import { notFound, redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-import { getAgent } from "../../actions";
-import Agent from "../../components/agent";
+import { getAgent } from "../../../actions";
+import AgentConfigForm from "../../../components/agent-config-form";
 
 export interface AgentPageProps {
   params: {
@@ -11,6 +11,7 @@ export interface AgentPageProps {
 }
 
 export default async function AgentPage({ params }: AgentPageProps) {
+  console.log(params);
   const session = await getServerSession(authOptions);
 
   if (!session?.user || !session?.user?.id) {
@@ -28,6 +29,5 @@ export default async function AgentPage({ params }: AgentPageProps) {
   // if (agent?.userId !== session?.user?.id) {
   //   notFound();
   // }
-
-  return <Agent id={agent.id} data={agent.config} />;
+  return <AgentConfigForm />;
 }
