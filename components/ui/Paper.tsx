@@ -8,10 +8,7 @@ const Paper = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn(
-      "max-w-5xl w-5/6 shadow-md rounded-sm shadow-base-300 my-4 p-4",
-      className
-    )}
+    className={cn("shadow-md rounded-sm shadow-base-300 p-8", className)}
     {...props}
   />
 ));
