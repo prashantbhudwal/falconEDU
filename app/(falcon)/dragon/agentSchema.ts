@@ -7,6 +7,7 @@ export const grades = [
   "Grade 5",
 ] as const;
 export const humorLevel = ["High", "Moderate", "Low"] as const;
+export const board  = ["CBSE", "ICSE", "CIE"] as const ;
 
 export const agentSchema = z.object({
   // Core Config
@@ -15,7 +16,7 @@ export const agentSchema = z.object({
   teacherIntro: z.string(),
   subjects: z.array(z.string()),
   grades: z.array(z.enum(grades)),
-  targetBoards: z.array(z.string()),
+  board: z.enum(board),
   studentTechComfort: z.enum(["Beginner", "Intermediate", "Advanced"]),
 
   // Interaction
