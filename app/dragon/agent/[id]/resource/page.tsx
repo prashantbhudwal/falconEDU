@@ -2,7 +2,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { agentSchema } from "@/app/(falcon)/dragon/agentSchema";
+import { agentSchema } from "@/app/dragon/agentSchema";
 import {
   Form,
   FormControl,
@@ -22,12 +22,9 @@ import {
   SelectSeparator,
   SelectValue,
 } from "@/components/ui/select";
-
-import { Checkbox } from "@/components/ui/checkbox";
-
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { grades } from "@/app/(falcon)/dragon/agentSchema";
+import { grades } from "@/app/dragon/agentSchema";
 
 const basicAgentInfoSchema = agentSchema.pick({
   instructions: true,
@@ -65,66 +62,18 @@ export default function AgentPage({ params }: AgentPageProps) {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
           control={form.control}
-          name="instructions"
+          name="teacherIntro"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Instructions</FormLabel>
+              <FormLabel>Age</FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder="Be polite with the students. Never use negative language."
+                  placeholder="Tell us a little bit about yourself"
                   className="resize-none"
                   {...field}
                 />
               </FormControl>
-              <FormDescription>
-                How do yu want the bot to behave?
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="grades"
-          render={() => (
-            <FormItem>
-              <div className="mb-4">
-                <FormLabel>Grades</FormLabel>
-                <FormDescription>
-                  Select the items you want to display in the sidebar.
-                </FormDescription>
-              </div>
-              {grades.map((grade) => (
-                <FormField
-                  key={grade}
-                  control={form.control}
-                  name="grades"
-                  render={({ field }) => {
-                    return (
-                      <FormItem
-                        key={grade}
-                        className="flex flex-row items-start space-x-3 space-y-0"
-                      >
-                        <FormControl>
-                          <Checkbox
-                            checked={field.value?.includes(grade)}
-                            onCheckedChange={(checked) => {
-                              return checked
-                                ? field.onChange([...field.value, grade])
-                                : field.onChange(
-                                    field.value?.filter(
-                                      (value) => value !== grade
-                                    )
-                                  );
-                            }}
-                          />
-                        </FormControl>
-                        <FormLabel className="font-normal">{grade}</FormLabel>
-                      </FormItem>
-                    );
-                  }}
-                />
-              ))}
+              <FormDescription>Type in your email.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -157,7 +106,6 @@ export default function AgentPage({ params }: AgentPageProps) {
             </FormItem>
           )}
         />
-
         <Button type="submit">Submit</Button>
       </form>
     </Form>

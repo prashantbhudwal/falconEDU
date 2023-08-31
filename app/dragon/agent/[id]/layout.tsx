@@ -4,7 +4,7 @@ import { Separator } from "@/components/ui/separator";
 import { notFound, redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-import { getAgent } from "@/app/(falcon)/dragon/actions";
+import { getAgent } from "@/app/dragon/actions";
 
 const getLinksFromParams = (params: { id: string }) => {
   const root = "/dragon/agent/[id]";

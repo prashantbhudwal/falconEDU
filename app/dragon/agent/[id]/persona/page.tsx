@@ -2,7 +2,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { agentSchema } from "@/app/(falcon)/dragon/agentSchema";
+import { agentSchema } from "@/app/dragon/agentSchema";
 import {
   Form,
   FormControl,
@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { grades } from "@/app/(falcon)/dragon/agentSchema";
+import { grades } from "@/app/dragon/agentSchema";
 
 const basicAgentInfoSchema = agentSchema.pick({
   instructions: true,
