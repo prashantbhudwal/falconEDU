@@ -8,7 +8,6 @@ const nextConfig = {
     if (!isServer) {
       config.watchOptions = {
         aggregateTimeout: 2000, // Delay after a change
-        poll: 1000, // Polling interval
       };
     }
     return config;
