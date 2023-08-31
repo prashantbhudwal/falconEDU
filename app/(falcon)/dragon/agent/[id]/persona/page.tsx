@@ -31,7 +31,7 @@ const basicAgentInfoSchema = agentSchema.pick({
   teacherIntro: true,
   subjects: true,
   grades: true,
-  targetBoards: true,
+  board: true,
 });
 
 const defaultValues: z.infer<typeof basicAgentInfoSchema> = {
@@ -39,7 +39,7 @@ const defaultValues: z.infer<typeof basicAgentInfoSchema> = {
   teacherIntro: "",
   subjects: [],
   grades: [],
-  targetBoards: [],
+  board: "CBSE",
 };
 
 export interface AgentPageProps {
