@@ -22,6 +22,9 @@ import {
   SelectSeparator,
   SelectValue,
 } from "@/components/ui/select";
+
+import { Checkbox } from "@/components/ui/checkbox";
+
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { grades } from "@/app/(falcon)/dragon/agentSchema";
@@ -31,7 +34,7 @@ const basicAgentInfoSchema = agentSchema.pick({
   teacherIntro: true,
   subjects: true,
   grades: true,
-  targetBoards: true,
+  board: true,
 });
 
 const defaultValues: z.infer<typeof basicAgentInfoSchema> = {
@@ -39,7 +42,7 @@ const defaultValues: z.infer<typeof basicAgentInfoSchema> = {
   teacherIntro: "",
   subjects: [],
   grades: [],
-  targetBoards: [],
+  board: "CBSE",
 };
 
 export interface AgentPageProps {
@@ -62,18 +65,66 @@ export default function AgentPage({ params }: AgentPageProps) {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
           control={form.control}
-          name="teacherIntro"
+          name="instructions"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Age</FormLabel>
+              <FormLabel>Instructions</FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder="Tell us a little bit about yourself"
+                  placeholder="Be polite with the students. Never use negative language."
                   className="resize-none"
                   {...field}
                 />
               </FormControl>
-              <FormDescription>Type in your email.</FormDescription>
+              <FormDescription>
+                How do yu want the bot to behave?
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="grades"
+          render={() => (
+            <FormItem>
+              <div className="mb-4">
+                <FormLabel>Grades</FormLabel>
+                <FormDescription>
+                  Select the items you want to display in the sidebar.
+                </FormDescription>
+              </div>
+              {grades.map((grade) => (
+                <FormField
+                  key={grade}
+                  control={form.control}
+                  name="grades"
+                  render={({ field }) => {
+                    return (
+                      <FormItem
+                        key={grade}
+                        className="flex flex-row items-start space-x-3 space-y-0"
+                      >
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value?.includes(grade)}
+                            onCheckedChange={(checked) => {
+                              return checked
+                                ? field.onChange([...field.value, grade])
+                                : field.onChange(
+                                    field.value?.filter(
+                                      (value) => value !== grade
+                                    )
+                                  );
+                            }}
+                          />
+                        </FormControl>
+                        <FormLabel className="font-normal">{grade}</FormLabel>
+                      </FormItem>
+                    );
+                  }}
+                />
+              ))}
               <FormMessage />
             </FormItem>
           )}
@@ -84,7 +135,10 @@ export default function AgentPage({ params }: AgentPageProps) {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Age</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value[0]}>
+              <Select
+                onValueChange={field.onChange}
+                defaultValue={field.value[0]}
+              >
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue placeholder="Select a verified email to display" />
