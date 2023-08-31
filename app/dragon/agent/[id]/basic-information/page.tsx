@@ -27,7 +27,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { grades } from "@/app/dragon/agentSchema";
+import { grades, board } from "@/app/dragon/agentSchema";
 
 const basicAgentInfoSchema = agentSchema.pick({
   instructions: true,
@@ -77,7 +77,7 @@ export default function AgentPage({ params }: AgentPageProps) {
                 />
               </FormControl>
               <FormDescription>
-                How do yu want the bot to behave?
+                How do you want the bot to behave?
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -91,7 +91,7 @@ export default function AgentPage({ params }: AgentPageProps) {
               <div className="mb-4">
                 <FormLabel>Grades</FormLabel>
                 <FormDescription>
-                  Select the items you want to display in the sidebar.
+                  Which grades do you want the AI to teach?
                 </FormDescription>
               </div>
               {grades.map((grade) => (
@@ -131,17 +131,17 @@ export default function AgentPage({ params }: AgentPageProps) {
         />
         <FormField
           control={form.control}
-          name="grades"
+          name="board"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Age</FormLabel>
+              <FormLabel>Board</FormLabel>
               <Select
                 onValueChange={field.onChange}
                 defaultValue={field.value[0]}
               >
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select a verified email to display" />
+                    <SelectValue placeholder="Choose the board." />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
@@ -152,13 +152,14 @@ export default function AgentPage({ params }: AgentPageProps) {
                   ))}
                 </SelectContent>
               </Select>
-              <FormDescription>Type in your email.</FormDescription>
+              <FormDescription>
+                The curriculum you want the AI to follow.
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
-
-        <Button type="submit">Submit</Button>
+        <Button type="submit">Save</Button>
       </form>
     </Form>
   );
