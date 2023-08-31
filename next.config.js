@@ -1,5 +1,18 @@
+const withBundleAnalyzer = require("@next/bundle-analyzer")({
+  enabled: process.env.ANALYZE === "true",
+});
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  webpack: (config, { isServer, webpack }) => {
+    if (!isServer) {
+      config.watchOptions = {
+        aggregateTimeout: 2000, // Delay after a change
+        poll: 1000, // Polling interval
+      };
+    }
+    return config;
+  },
   experimental: {
     serverActions: true,
   },
@@ -15,4 +28,4 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+module.exports = withBundleAnalyzer(nextConfig);
