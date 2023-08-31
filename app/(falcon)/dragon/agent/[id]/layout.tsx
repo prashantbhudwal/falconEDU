@@ -61,19 +61,14 @@ export default async function AgentLayout({
   // }
 
   return (
-    <div className="space-y-6 p-6 pb-16 h-full w-full">
-      <div className="space-y-0.5">
-        <h2 className="text-2xl font-bold tracking-tight">Settings - {id}</h2>
-        <p className="text-foreground">
-          Manage your account settings and set e-mail preferences.
-        </p>
-      </div>
+    <div className="p-6 w-full">
+      <h2 className="text-2xl font-bold tracking-tight">Bot - {id}</h2>
       <Separator className="my-6" />
-      <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
+      <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0 w-full h-full">
         <aside className="-mx-4 lg:w-1/5">
           <SidebarNav items={getLinksFromParams(params)} />
         </aside>
-        <Paper className="flex-1 lg:max-w-2xl h-full w-full">{children}</Paper>
+        <Paper className="flex-1 h-full">{children}</Paper>
       </div>
     </div>
   );
