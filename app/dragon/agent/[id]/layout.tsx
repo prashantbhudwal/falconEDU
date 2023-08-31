@@ -62,13 +62,15 @@ export default async function AgentLayout({
 
   return (
     <div className="p-6 w-full">
-      <h2 className="text-2xl font-bold tracking-tight">Bot - {id}</h2>
-      <Separator className="my-6" />
       <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0 w-full h-full">
         <aside className="-mx-4 lg:w-1/5">
           <SidebarNav items={getLinksFromParams(params)} />
         </aside>
-        <Paper className="flex-1 h-full">{children}</Paper>
+        <Paper className="flex-1 h-full">
+          <h2 className="text-2xl font-bold tracking-tight">Bot - {id}</h2>
+          <Separator className="my-6" />
+          {children}
+        </Paper>
       </div>
     </div>
   );
