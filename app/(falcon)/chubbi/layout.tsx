@@ -18,7 +18,6 @@ export default async function ChubbiLayout({
   return (
     <TooltipProvider>
       <div className="flex h-screen min-w-full flex-col">
-        <Navbar />
         <div className="h-full overflow-y-auto">
           <MerlinGrid>
             {session?.user ? (
