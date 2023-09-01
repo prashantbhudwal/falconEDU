@@ -22,12 +22,20 @@ import {
   SelectSeparator,
   SelectValue,
 } from "@/components/ui/select";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 import { Checkbox } from "@/components/ui/checkbox";
 
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { grades, board } from "@/app/dragon/agentSchema";
+import {
+  grades,
+  board,
+  languageProficiency,
+  tone,
+  humorLevel,
+  subjects,
+} from "@/app/dragon/agentSchema";
 
 const basicAgentInfoSchema = agentSchema.pick({
   instructions: true,
@@ -35,6 +43,10 @@ const basicAgentInfoSchema = agentSchema.pick({
   subjects: true,
   grades: true,
   board: true,
+  tone: true,
+  language: true,
+  humorLevel: true,
+  languageProficiency: true,
 });
 
 const defaultValues: z.infer<typeof basicAgentInfoSchema> = {
@@ -43,6 +55,10 @@ const defaultValues: z.infer<typeof basicAgentInfoSchema> = {
   subjects: [],
   grades: [],
   board: "CBSE",
+  tone: "Friendly",
+  language: "English",
+  humorLevel: "Moderate",
+  languageProficiency: "Beginner",
 };
 
 export interface AgentPageProps {
@@ -72,7 +88,7 @@ export default function AgentPage({ params }: AgentPageProps) {
               <FormControl>
                 <Textarea
                   placeholder="Be polite with the students. Never use negative language."
-                  className="resize-none"
+                  className="resize-none h-60"
                   {...field}
                 />
               </FormControl>
@@ -125,6 +141,54 @@ export default function AgentPage({ params }: AgentPageProps) {
                   }}
                 />
               ))}
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="subjects"
+          render={() => (
+            <FormItem>
+              <div className="mb-4">
+                <FormLabel>Subjects</FormLabel>
+                <FormDescription>
+                  Which subjects do you want the AI to teach?
+                </FormDescription>
+              </div>
+              {subjects.map((subject) => (
+                <FormField
+                  key={subject}
+                  control={form.control}
+                  name="subjects"
+                  render={({ field }) => {
+                    return (
+                      <FormItem
+                        key={subject}
+                        className="flex flex-row items-start space-x-3 space-y-0"
+                      >
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value?.includes(subject)}
+                            onCheckedChange={(checked) => {
+                              return checked
+                                ? field.onChange([...field.value, subject])
+                                : field.onChange(
+                                    field.value?.filter(
+                                      (value) => value !== subject
+                                    )
+                                  );
+                            }}
+                          />
+                        </FormControl>
+                        <FormLabel className="font-normal">{subject}</FormLabel>
+                      </FormItem>
+                    );
+                  }}
+                />
+              ))}
+
               <FormMessage />
             </FormItem>
           )}
@@ -133,32 +197,132 @@ export default function AgentPage({ params }: AgentPageProps) {
           control={form.control}
           name="board"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="space-y-3">
               <FormLabel>Board</FormLabel>
-              <Select
-                onValueChange={field.onChange}
-                defaultValue={field.value[0]}
-              >
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Choose the board." />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {grades.map((grade) => (
-                    <SelectItem key={grade} value={grade}>
-                      {grade}
-                    </SelectItem>
+              <FormControl>
+                <RadioGroup
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                  className="flex flex-col space-y-1"
+                >
+                  {board.map((board) => (
+                    <FormItem
+                      className="flex flex-row items-center space-x-3 space-y-0"
+                      key={board}
+                    >
+                      <FormControl>
+                        <RadioGroupItem value={board} />
+                      </FormControl>
+                      <FormLabel className="font-normal">{board}</FormLabel>
+                    </FormItem>
                   ))}
-                </SelectContent>
-              </Select>
-              <FormDescription>
-                The curriculum you want the AI to follow.
-              </FormDescription>
+                </RadioGroup>
+              </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
+        <FormField
+          control={form.control}
+          name="tone"
+          render={({ field }) => (
+            <FormItem className="space-y-3">
+              <FormLabel>Tone</FormLabel>
+              <FormControl>
+                <RadioGroup
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                  className="flex flex-col space-y-1"
+                >
+                  {tone.map((tone) => (
+                    <FormItem
+                      className="flex flex-row items-center space-x-3 space-y-0"
+                      key={tone}
+                    >
+                      <FormControl>
+                        <RadioGroupItem value={tone} />
+                      </FormControl>
+                      <FormLabel className="font-normal">{tone}</FormLabel>
+                    </FormItem>
+                  ))}
+                </RadioGroup>
+              </FormControl>
+              <FormMessage />
+              <FormDescription>
+                Do you want your AI to be friendly or formal?
+              </FormDescription>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="humorLevel"
+          render={({ field }) => (
+            <FormItem className="space-y-3">
+              <FormLabel>Humor Level</FormLabel>
+              <FormControl>
+                <RadioGroup
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                  className="flex flex-col space-y-1"
+                >
+                  {humorLevel.map((humorLevel) => (
+                    <FormItem
+                      className="flex flex-row items-center space-x-3 space-y-0"
+                      key={humorLevel}
+                    >
+                      <FormControl>
+                        <RadioGroupItem value={humorLevel} />
+                      </FormControl>
+                      <FormLabel className="font-normal">
+                        {humorLevel}
+                      </FormLabel>
+                    </FormItem>
+                  ))}
+                </RadioGroup>
+              </FormControl>
+              <FormMessage />
+              <FormDescription>
+                Do you want your AI to be stoic or funny?
+              </FormDescription>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="humorLevel"
+          render={({ field }) => (
+            <FormItem className="space-y-3">
+              <FormLabel>Language Proficiency</FormLabel>
+              <FormControl>
+                <RadioGroup
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                  className="flex flex-col space-y-1"
+                >
+                  {languageProficiency.map((languageProficiency) => (
+                    <FormItem
+                      className="flex flex-row items-center space-x-3 space-y-0"
+                      key={languageProficiency}
+                    >
+                      <FormControl>
+                        <RadioGroupItem value={languageProficiency} />
+                      </FormControl>
+                      <FormLabel className="font-normal">
+                        {languageProficiency}
+                      </FormLabel>
+                    </FormItem>
+                  ))}
+                </RadioGroup>
+              </FormControl>
+              <FormMessage />
+              <FormDescription>
+                How comfortable are your students with English?
+              </FormDescription>
+            </FormItem>
+          )}
+        />
+
         <Button type="submit">Save</Button>
       </form>
     </Form>
