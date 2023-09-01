@@ -7,7 +7,26 @@ export const grades = [
   "Grade 5",
 ] as const;
 export const humorLevel = ["High", "Moderate", "Low"] as const;
-export const board  = ["CBSE", "ICSE", "CIE"] as const ;
+export const board = ["CBSE", "ICSE", "CIE"] as const;
+export const language = ["English", "Hindi", "Hinglish"] as const;
+export const languageProficiency = [
+  "Beginner",
+  "Intermediate",
+  "Advanced",
+] as const;
+export const tone = ["Friendly", "Strict"] as const;
+export const subjects = [
+  "Math",
+  "Science",
+  "Social Studies",
+  "English",
+  "Hindi",
+  "Computer Science",
+  "Art",
+  "Music",
+  "Physical Education",
+  "Other",
+] as const;
 
 export const agentSchema = z.object({
   // Core Config
@@ -17,14 +36,11 @@ export const agentSchema = z.object({
   subjects: z.array(z.string()),
   grades: z.array(z.enum(grades)),
   board: z.enum(board),
-  studentTechComfort: z.enum(["Beginner", "Intermediate", "Advanced"]),
-
-  // Interaction
-  tone: z.enum(["Friendly", "Professional", "Casual"]),
-  languagePreferences: z.array(z.string()),
-  feedbackLoop: z.boolean(),
+  tone: z.enum(tone),
+  language: z.enum(language),
+  // feedbackLoop: z.boolean(),
   humorLevel: z.enum(humorLevel),
-  languageGradeLevel: z.enum(grades),
+  languageProficiency: z.enum(languageProficiency),
 
   // Customization & Personalization
   customPhrases: z.array(z.string()),
@@ -35,6 +51,4 @@ export const agentSchema = z.object({
   emojiUse: z.enum(["Often", "Rarely", "Never"]),
   preferredExamples: z.enum(["Real-world", "Historical", "Theoretical"]),
   debateTolerance: z.enum(["Encouraged", "Neutral", "Discouraged"]),
-
-  // Student Info
 });
