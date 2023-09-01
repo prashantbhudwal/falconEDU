@@ -14,16 +14,8 @@ const getLinksFromParams = (params: { id: string }) => {
       href: `${root}/basic-information`,
     },
     {
-      title: "Persona",
-      href: `${root}/persona`,
-    },
-    {
-      title: "Student Information",
-      href: `${root}/student-information`,
-    },
-    {
-      title: "Language",
-      href: `${root}/language`,
+      title: "Resource",
+      href: `${root}/resource`,
     },
   ];
   return sidebarNavItems.map((item) => ({
