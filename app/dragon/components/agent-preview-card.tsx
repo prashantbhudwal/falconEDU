@@ -7,7 +7,7 @@ type AgentPreviewProps = {
 };
 export default function AgentPreview({ data }: AgentPreviewProps) {
   return (
-    <Link href={`/dragon/agent/${data.id}/basic-information`}>
+    <Link href={`/dragon/agent/${data.id}/bot-preferences`}>
       <div className="card card-compact w-64 bg-base-100 shadow-xl hover:bg-base-200 hover:shadow-2xl hover:scale-105 cursor-pointer">
         <figure className="py-6">
           <Avvvatars value={data.id} style="shape" size={100} />
