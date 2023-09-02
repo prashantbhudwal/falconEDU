@@ -10,12 +10,12 @@ const getLinksFromParams = (params: { id: string }) => {
   const root = "/dragon/agent/[id]";
   const sidebarNavItems = [
     {
-      title: "Basic Information",
-      href: `${root}/basic-information`,
+      title: "Common Preferences",
+      href: `/dragon/teacher-preferences`,
     },
     {
-      title: "Resource",
-      href: `${root}/resource`,
+      title: "Bot Preferences",
+      href: `${root}/bot-preferences`,
     },
   ];
   return sidebarNavItems.map((item) => ({
@@ -58,11 +58,7 @@ export default async function AgentLayout({
         <aside className="-mx-4 lg:w-1/5">
           <SidebarNav items={getLinksFromParams(params)} />
         </aside>
-        <Paper className="flex-1 h-full">
-          <h2 className="text-2xl font-bold tracking-tight">Bot - {id}</h2>
-          <Separator className="my-6" />
-          {children}
-        </Paper>
+        <Paper className="flex-1 h-full">{children}</Paper>
       </div>
     </div>
   );
