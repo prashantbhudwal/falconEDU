@@ -2,7 +2,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { agentSchema } from "@/app/dragon/agentSchema";
+import { agentSchema } from "../../../agentSchema";
 import {
   Form,
   FormControl,
@@ -35,7 +35,7 @@ import {
   tone,
   humorLevel,
   subjects,
-} from "@/app/dragon/agentSchema";
+} from "@/app/dragon/create/agentSchema";
 
 const basicAgentInfoSchema = agentSchema.pick({
   instructions: true,

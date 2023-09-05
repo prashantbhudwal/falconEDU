@@ -1,23 +1,13 @@
-import { Paper } from "@/components/ui/paper";
+import { Paper } from "@/components/ui/Paper";
 import { SidebarNav } from "../../components/sidebar-nav";
 import { Separator } from "@/components/ui/separator";
 import { notFound, redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-import { getAgent } from "@/app/dragon/actions";
+import { getAgent } from "@/app/dragon/create/actions";
+import { sidebarNavItems } from "@/app/dragon/create/config";
 
 const getLinksFromParams = (params: { id: string }) => {
-  const root = "/dragon/agent/[id]";
-  const sidebarNavItems = [
-    {
-      title: "Common Preferences",
-      href: `/dragon/teacher-preferences`,
-    },
-    {
-      title: "Bot Preferences",
-      href: `${root}/bot-preferences`,
-    },
-  ];
   return sidebarNavItems.map((item) => ({
     ...item,
     href: item.href.replace("[id]", params.id),
