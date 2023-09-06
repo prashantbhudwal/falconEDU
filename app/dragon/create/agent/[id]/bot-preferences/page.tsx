@@ -25,7 +25,7 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
 import { Checkbox } from "@/components/ui/checkbox";
-
+import { basicAgentInfoSchema } from "../../../agentSchema";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -36,18 +36,6 @@ import {
   humorLevel,
   subjects,
 } from "@/app/dragon/create/agentSchema";
-
-const basicAgentInfoSchema = agentSchema.pick({
-  instructions: true,
-  teacherIntro: true,
-  subjects: true,
-  grades: true,
-  board: true,
-  tone: true,
-  language: true,
-  humorLevel: true,
-  languageProficiency: true,
-});
 
 const defaultValues: z.infer<typeof basicAgentInfoSchema> = {
   instructions: "What is the",

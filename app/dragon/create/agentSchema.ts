@@ -52,3 +52,23 @@ export const agentSchema = z.object({
   preferredExamples: z.enum(["Real-world", "Historical", "Theoretical"]),
   debateTolerance: z.enum(["Encouraged", "Neutral", "Discouraged"]),
 });
+
+export const personalInfoSchema = z.object({
+  professionalInformation: z.string().min(50).max(500).optional(),
+  personalInformation: z.string().min(50).max(500).optional(),
+  likes: z.string().min(50).max(500).optional(),
+  dislikes: z.string().min(50).max(500).optional(),
+});
+
+
+export const basicAgentInfoSchema = agentSchema.pick({
+  instructions: true,
+  teacherIntro: true,
+  subjects: true,
+  grades: true,
+  board: true,
+  tone: true,
+  language: true,
+  humorLevel: true,
+  languageProficiency: true,
+});

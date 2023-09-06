@@ -5,6 +5,7 @@ import { TextareaAutosize } from "@/components/ui/textarea-autosize";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { personalInfoSchema } from "../agentSchema";
 
 import {
   Form,
@@ -15,13 +16,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-
-const personalInfoSchema = z.object({
-  professionalInformation: z.string().min(50).max(500).optional(),
-  personalInformation: z.string().min(50).max(500).optional(),
-  likes: z.string().min(50).max(500).optional(),
-  dislikes: z.string().min(50).max(500).optional(),
-});
 
 const defaultValues: z.infer<typeof personalInfoSchema> = {
   personalInformation: "",
