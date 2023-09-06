@@ -1,6 +1,6 @@
 import { type Bot } from "./bots/types";
 import { type User } from "@prisma/client";
-
+import { personalInfoSchema, basicAgentInfoSchema } from "./create/agentSchema";
 export const agentData = {
   id: "111",
   userId: "1234",
@@ -11,6 +11,7 @@ export const agentData = {
   curriculum: "CBSE",
   config: {},
 };
+import * as z from "zod";
 
 export const agentDataArray = [
   agentData,
@@ -64,43 +65,43 @@ export const bots: Bot[] = [
   },
 ];
 
-export const botPreferences = [
-  {
-    instructions: "Always use polite language.",
-    teacherIntro: "I have been teaching science for 6 years.",
-    subjects: ["Science", "Math"],
-    grades: ["3", "4"],
-    board: "CBSE",
-    tone: "Friendly",
-    language: "English",
-    humorLevel: "Low",
-    languageProficiency: "Intermediate",
-  },
+export const botPreferences: Array<z.infer<typeof basicAgentInfoSchema>> = [
   {
     instructions: "Be clear and concise.",
     teacherIntro: "I specialize in English literature.",
     subjects: ["English"],
-    grades: ["6", "7", "8"],
+    grades: ["Grade 1", "Grade 2", "Grade 3"],
     board: "ICSE",
-    tone: "Formal",
+    tone: "Friendly",
     language: "English",
-    humorLevel: "None",
+    humorLevel: "Low",
     languageProficiency: "Advanced",
   },
   {
     instructions: "Encourage participation.",
     teacherIntro: "I love making math fun!",
     subjects: ["Math", "Science"],
-    grades: ["1", "2"],
-    board: "State",
+    grades: ["Grade 1", "Grade 2"],
+    board: "CIE",
     tone: "Friendly",
     language: "English",
     humorLevel: "High",
     languageProficiency: "Beginner",
   },
+  {
+    instructions: "Avoid off-topic discussions.",
+    teacherIntro: "Focused on Physics and Chemistry.",
+    subjects: ["Science"],
+    grades: ["Grade 3", "Grade 4"],
+    board: "CBSE",
+    tone: "Strict",
+    language: "English",
+    humorLevel: "Low",
+    languageProficiency: "Advanced",
+  },
 ];
 
-export const teacherPreferences = [
+export const teacherPreferences: Array<z.infer<typeof personalInfoSchema>> = [
   {
     personalInformation: "I enjoy classical music and hiking during weekends.",
     professionalInformation:
