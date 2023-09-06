@@ -1,5 +1,5 @@
 "use client";
-import bots from "../../bot-test-data";
+import {bots} from "@/app/dragon/test-data";
 import { ChatPanel } from "@/components/chat/chat-panel";
 import { ChatList } from "@/components/chat/chat-list";
 import { ChatScrollAnchor } from "@/components/chat/chat-scroll-anchor";

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { AgentTestData } from "../agentTestData";
+import { AgentTestData } from "../../test-data";
 import Avvvatars from "avvvatars-react";
 import { getAgentLink } from "../config";
 type AgentPreviewProps = {
