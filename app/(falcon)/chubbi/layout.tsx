@@ -6,7 +6,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { SidebarList } from "./components/sidebar-list";
 import * as React from "react";
 import Navbar from "../../../components/Navbar";
-import NewChatBtn from "./components/NewChatBtn";
+import NewChatBtn from "./components/new-chat-btn";
 
 export default async function ChubbiLayout({
   children,
