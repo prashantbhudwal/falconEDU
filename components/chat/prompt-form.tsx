@@ -4,7 +4,7 @@ import Textarea from "react-textarea-autosize";
 
 import { Button } from "@ui/button";
 import { IconArrowElbow } from "@ui/icons";
-import { useEnterSubmit } from "../hooks/use-enter-submit";
+import { useEnterSubmit } from "../../hooks/use-enter-submit";
 import { FiCornerDownLeft } from "react-icons/fi";
 
 export interface PromptProps

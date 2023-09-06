@@ -3,7 +3,7 @@ import { notFound, redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getChat } from "../../actions";
-import { Chat } from "../../components/chat";
+import { Chat } from "../../../../../components/chat/chat";
 
 export interface ChatPageProps {
   params: {
