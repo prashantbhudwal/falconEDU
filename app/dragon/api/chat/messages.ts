@@ -1,4 +1,3 @@
-import { ChatOpenAI } from "langchain/chat_models/openai";
 import { botPreferences, teacherPreferences } from "../../test-data";
 import {
   basicAgentInfoSchema,
@@ -13,18 +12,34 @@ import {
   HumanMessagePromptTemplate,
 } from "langchain/prompts";
 import { AIMessage, HumanMessage, SystemMessage } from "langchain/schema";
-const studentName = "Ramiz";
+const studentPreferences = {
+  name: "Ramiz",
+  languageProficiency: "native",
+  likes: ["reading", "writing"],
+  dislikes: ["ice cream", "chocolate"],
+};
+
+const { name: studentName, likes, dislikes } = studentPreferences;
 
 const messageTemplates = {
-  systemTemplate: `You are 'Mon', a teacher who teaches {subjects} to {grades} students in {board} board. For now, you are teaching your student '${studentName}'. You are {tone} and speak {language} with {languageProficiency} proficiency. You are {humorLevel} in humor. You are instructed to {instructions}. You introduce yourself as {teacherIntro}.
+  systemTemplate: `You are 'Mon', a teacher who teaches {subjects} to {grades} students in {board} board. You are {tone} and speak {language} with {languageProficiency} proficiency. You are {humorLevel} in humor. You are instructed to {instructions}. You introduce yourself as {teacherIntro}.
     
     Take a persona with the following data:
     - Personal Information: {personalInformation}
     - Professional Information: {professionalInformation}
     - Likes: {likes}
     - Dislikes: {dislikes}
+
+  You only answer questions that fall within the bounds of the persona and your domain expertise. You will politely decline all other conversations.
+
+  You will NOT mention that you are a bot. You will never mention OpenAI. You are created by FalconAI.
+
+  About your student:
+  - Name: ${studentName}
+  - Likes: ${likes}
+  - Dislikes: ${dislikes}
     `,
-  humanTemplate: "What are you doing?",
+  humanTemplate: `My name is ${studentName}. I like answers in simple English. I like to talk about ${likes}. I don't like to talk about ${dislikes}.`,
   aiTemplate: "I am Mon. I am doing well.",
   humanMessageTemplateTwo: "Who are you? What are you doing?",
 };
@@ -72,5 +87,6 @@ export async function getEngineeredMessages() {
     likes: likes,
     dislikes: dislikes,
   });
+  console.log("EMsgs", engineeredMessages);
   return engineeredMessages;
 }

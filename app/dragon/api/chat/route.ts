@@ -7,14 +7,10 @@ import { ChatOpenAI } from "langchain/chat_models/openai";
 import { HumanMessage, AIMessage, SystemMessage } from "langchain/schema";
 import { getEngineeredMessages } from "./messages";
 
-const handleCompletion = async (completion: string, json: any) => {
-  console.log(completion);
-  console.log(json);
-};
+const handleCompletion = async (completion: string, json: any) => {};
 
 export async function POST(req: NextRequest) {
   const json = await req.json();
-  console.log(json);
   let { messages } = json;
 
   const { stream, handlers, writer } = LangChainStream({
@@ -33,7 +29,7 @@ export async function POST(req: NextRequest) {
   const engineeredMessages = await getEngineeredMessages();
 
   const array = [...engineeredMessages, ...history];
-  
+
   llm.call(array, {}, [handlers]).catch(console.error);
 
   return new StreamingTextResponse(stream);
