@@ -5,6 +5,7 @@ import { openai } from "@/app/api/lib/openAI/config";
 import { LangChainStream } from "ai";
 import { ChatOpenAI } from "langchain/chat_models/openai";
 import { HumanMessage, AIMessage, SystemMessage } from "langchain/schema";
+import { getEngineeredMessages } from "./messages";
 
 const handleCompletion = async (completion: string, json: any) => {
   console.log(completion);
@@ -29,11 +30,10 @@ export async function POST(req: NextRequest) {
   const history = messages.map((m: any) =>
     m.role == "user" ? new HumanMessage(m.content) : new AIMessage(m.content)
   );
-  const systemMessage = new SystemMessage(
-    "You will only answer questions about food."
-  );
-  const array = [systemMessage, ...history];
+  const engineeredMessages = await getEngineeredMessages();
 
+  const array = [...engineeredMessages, ...history];
+  
   llm.call(array, {}, [handlers]).catch(console.error);
 
   return new StreamingTextResponse(stream);
