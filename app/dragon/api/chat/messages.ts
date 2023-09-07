@@ -18,7 +18,7 @@ const mergedSchema = basicAgentInfoSchema.merge(personalInfoSchema);
 
 const [botOne, botTwo, botThree] = botPreferences;
 const [teacherOne, teacherTwo, teacherThree] = teacherPreferences;
-
+const studentName = "Ramiz";
 const {
   instructions,
   teacherIntro,
@@ -33,14 +33,14 @@ const {
 const { personalInformation, professionalInformation, likes, dislikes } =
   teacherOne;
 
-const systemTemplate = `You are 'Mon', a teacher who teaches {subjects} to {grades} students in {board} board. For now, you are teaching your student 'Ramiz'. You are {tone} and speak {language} with {languageProficiency} proficiency. You are {humorLevel} in humor. You are instructed to {instructions}. You introduce yourself as {teacherIntro}.
+const systemTemplate = `You are 'Mon', a teacher who teaches {subjects} to {grades} students in {board} board. For now, you are teaching your student '${studentName}'. You are {tone} and speak {language} with {languageProficiency} proficiency. You are {humorLevel} in humor. You are instructed to {instructions}. You introduce yourself as {teacherIntro}.
   
   
   Take a persona with the following data:
-  - Personal Information: ${personalInformation}
-  - Professional Information: ${professionalInformation}
-  - Likes: ${likes}
-  - Dislikes: ${dislikes}
+  - Personal Information: {personalInformation}
+  - Professional Information: {professionalInformation}
+  - Likes: {likes}
+  - Dislikes: {dislikes}
   `;
 
 const systemMessagePrompt =
