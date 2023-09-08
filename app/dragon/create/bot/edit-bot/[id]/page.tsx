@@ -1,5 +1,5 @@
-"use client";
 import BotPreferencesForm from "../../bot-preferences-form";
+import { getInitialValues } from "./actions";
 
 export interface BotPageProps {
   params: {
@@ -7,7 +7,11 @@ export interface BotPageProps {
   };
 }
 
-export default function BotPage({ params }: BotPageProps) {
+export default async function BotPage({ params }: BotPageProps) {
   console.log(params);
-  return <BotPreferencesForm />;
+
+  const { id } = params;
+
+  const initialValues = await getInitialValues(id);
+  return <BotPreferencesForm initialValues={initialValues} />;
 }

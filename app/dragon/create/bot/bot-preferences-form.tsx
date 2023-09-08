@@ -67,7 +67,7 @@ export default function BotPreferencesForm({
 }: BotPreferencesFormProps) {
   const form = useForm<z.infer<typeof basicBotInfoSchema>>({
     resolver: zodResolver(basicBotInfoSchema),
-    defaultValues,
+    defaultValues: initialValues || defaultValues,
   });
   return (
     <>
