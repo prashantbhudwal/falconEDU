@@ -4,9 +4,9 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-import { agentData, agentDataArray } from "../test-data";
+import { botData, botDataArray } from "../test-data";
 
-export async function getAgent(id: string, userId?: string) {
+export async function getBot(id: string, userId?: string) {
   //   const chat = await prisma.chat.findUnique({
   //     where: { id },
   //   });
@@ -19,10 +19,10 @@ export async function getAgent(id: string, userId?: string) {
   //     ...chat,
   //     messages: parseMessages(chat.messages),
   //   };
-  return agentData;
+  return botData;
 }
 
-export async function getAgents(userId?: string | null) {
+export async function getBots(userId?: string | null) {
   if (!userId) {
     return [];
   }
@@ -40,10 +40,10 @@ export async function getAgents(userId?: string | null) {
   //   } catch (error) {
   //     return [];
   //   }
-  return agentDataArray;
+  return botDataArray;
 }
 
-export async function removeAgent({ id, path }: { id: string; path: string }) {
+export async function removeBot({ id, path }: { id: string; path: string }) {
   const session = await getServerSession(authOptions);
 
   if (!session || !session.user?.id) {

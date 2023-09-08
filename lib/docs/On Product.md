@@ -38,7 +38,7 @@
   - Subject - Array
   - Topic - Array
 
-## On teacher agents
+## On teacher bots
 
 - Once the teacher logs into the app, they will be able to create a new bot with a custom configuration.
   - That means they will have to have a place to create and configure bots.

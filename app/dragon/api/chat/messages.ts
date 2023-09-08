@@ -1,8 +1,5 @@
 import { botPreferences, teacherPreferences } from "../../test-data";
-import {
-  basicAgentInfoSchema,
-  personalInfoSchema,
-} from "../../create/agentSchema";
+import { basicBotInfoSchema, personalInfoSchema } from "../../create/botSchema";
 import * as z from "zod";
 import {
   ChatPromptTemplate,
@@ -45,7 +42,7 @@ const messageTemplates = {
 };
 
 export async function getEngineeredMessages() {
-  const mergedSchema = basicAgentInfoSchema.merge(personalInfoSchema);
+  const mergedSchema = basicBotInfoSchema.merge(personalInfoSchema);
   const {
     instructions,
     teacherIntro,

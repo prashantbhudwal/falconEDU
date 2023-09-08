@@ -2,7 +2,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { agentSchema } from "../../../agentSchema";
+import { botSchema } from "../../../botSchema";
 import {
   Form,
   FormControl,
@@ -25,7 +25,7 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
 import { Checkbox } from "@/components/ui/checkbox";
-import { basicAgentInfoSchema } from "../../../agentSchema";
+import { basicBotInfoSchema } from "../../../botSchema";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -35,9 +35,9 @@ import {
   tone,
   humorLevel,
   subjects,
-} from "@/app/dragon/create/agentSchema";
+} from "@/app/dragon/create/botSchema";
 
-const defaultValues: z.infer<typeof basicAgentInfoSchema> = {
+const defaultValues: z.infer<typeof basicBotInfoSchema> = {
   instructions: "What is the",
   teacherIntro: "",
   subjects: [],
@@ -49,19 +49,19 @@ const defaultValues: z.infer<typeof basicAgentInfoSchema> = {
   languageProficiency: "Beginner",
 };
 
-export interface AgentPageProps {
+export interface BotPageProps {
   params: {
     id: string;
   };
 }
-const onSubmit = (data: z.infer<typeof basicAgentInfoSchema>) => {
+const onSubmit = (data: z.infer<typeof basicBotInfoSchema>) => {
   console.log(data);
 };
 
-export default function AgentPage({ params }: AgentPageProps) {
+export default function BotPage({ params }: BotPageProps) {
   console.log(params);
-  const form = useForm<z.infer<typeof basicAgentInfoSchema>>({
-    resolver: zodResolver(basicAgentInfoSchema),
+  const form = useForm<z.infer<typeof basicBotInfoSchema>>({
+    resolver: zodResolver(basicBotInfoSchema),
     defaultValues,
   });
   return (

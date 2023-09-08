@@ -1,14 +1,14 @@
 import Link from "next/link";
-import { AgentTestData } from "../../test-data";
+import { BotTestData } from "../../test-data";
 import Avvvatars from "avvvatars-react";
-import { getAgentLink } from "../config";
-type AgentPreviewProps = {
-  data: AgentTestData;
+import { getBotLink } from "../config";
+type BotPreviewProps = {
+  data: BotTestData;
 };
-export default function AgentPreview({ data }: AgentPreviewProps) {
-  const agentLink = getAgentLink(data.id);
+export default function BotPreview({ data }: BotPreviewProps) {
+  const botLink = getBotLink(data.id);
   return (
-    <Link href={agentLink}>
+    <Link href={botLink}>
       <div className="card card-compact w-64 bg-base-100 shadow-xl hover:bg-base-200 hover:shadow-2xl hover:scale-105 cursor-pointer">
         <figure className="py-6">
           <Avvvatars value={data.id} style="shape" size={100} />

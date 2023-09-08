@@ -1,7 +1,7 @@
 import { type Bot } from "./bots/types";
 import { type User } from "@prisma/client";
-import { personalInfoSchema, basicAgentInfoSchema } from "./create/agentSchema";
-export const agentData = {
+import { personalInfoSchema, basicBotInfoSchema } from "./create/botSchema";
+export const botData = {
   id: "111",
   userId: "1234",
   name: "John Doe",
@@ -13,16 +13,16 @@ export const agentData = {
 };
 import * as z from "zod";
 
-export const agentDataArray = [
-  agentData,
-  { ...agentData, id: "222" },
-  { ...agentData, id: "333" },
-  { ...agentData, id: "444" },
-  { ...agentData, id: "555" },
-  { ...agentData, id: "666" },
+export const botDataArray = [
+  botData,
+  { ...botData, id: "222" },
+  { ...botData, id: "333" },
+  { ...botData, id: "444" },
+  { ...botData, id: "555" },
+  { ...botData, id: "666" },
 ];
 
-export type AgentTestData = typeof agentData;
+export type BotTestData = typeof botData;
 
 export const bots: Bot[] = [
   {
@@ -65,7 +65,7 @@ export const bots: Bot[] = [
   },
 ];
 
-export const botPreferences: Array<z.infer<typeof basicAgentInfoSchema>> = [
+export const botPreferences: Array<z.infer<typeof basicBotInfoSchema>> = [
   {
     instructions: "Be clear and concise.",
     teacherIntro: "I specialize in English literature.",

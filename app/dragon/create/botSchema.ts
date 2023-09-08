@@ -28,7 +28,7 @@ export const subjects = [
   "Other",
 ] as const;
 
-export const agentSchema = z.object({
+export const botSchema = z.object({
   // Core Config
   nickname: z.string().min(1).max(20),
   instructions: z.string(),
@@ -60,8 +60,7 @@ export const personalInfoSchema = z.object({
   dislikes: z.string().min(50).max(500).optional(),
 });
 
-
-export const basicAgentInfoSchema = agentSchema.pick({
+export const basicBotInfoSchema = botSchema.pick({
   instructions: true,
   teacherIntro: true,
   subjects: true,

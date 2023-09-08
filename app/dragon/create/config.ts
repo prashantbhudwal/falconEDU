@@ -1,6 +1,6 @@
 const root = "/dragon/create";
 
-const sidebarRoot = `${root}/agent/[id]`;
+const sidebarRoot = `${root}/bot/[id]`;
 const teacherPreferences = `${root}/teacher-preferences`;
 
 export const sidebarNavItems = [
@@ -14,5 +14,5 @@ export const sidebarNavItems = [
   },
 ];
 
-export const getAgentLink = (id: string) =>
-  `${root}/agent/${id}/bot-preferences`;
+export const getBotLink = (id: string) =>
+  `${root}/bot/${id}/bot-preferences`;

@@ -4,7 +4,7 @@ import { Separator } from "@/components/ui/separator";
 import { notFound, redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-import { getAgent } from "@/app/dragon/create/actions";
+import { getBot } from "@/app/dragon/create/actions";
 import { sidebarNavItems } from "@/app/dragon/create/config";
 
 const getLinksFromParams = (params: { id: string }) => {
@@ -14,7 +14,7 @@ const getLinksFromParams = (params: { id: string }) => {
   }));
 };
 
-export default async function AgentLayout({
+export default async function BotLayout({
   children,
   params,
 }: {
@@ -30,15 +30,15 @@ export default async function AgentLayout({
     redirect(`/`);
   }
 
-  const agent = await getAgent(params.id, session.user.id);
+  const bot = await getBot(params.id, session.user.id);
 
-  console.log(agent);
+  console.log(bot);
 
-  if (!agent) {
+  if (!bot) {
     notFound();
   }
   // Commented for testing
-  // if (agent?.userId !== session?.user?.id) {
+  // if (bot?.userId !== session?.user?.id) {
   //   notFound();
   // }
 
