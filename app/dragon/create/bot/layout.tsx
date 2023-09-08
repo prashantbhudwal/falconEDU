@@ -1,5 +1,5 @@
 import { Paper } from "@/components/ui/Paper";
-import { SidebarNav } from "../../components/sidebar-nav";
+import { SidebarNav } from "../components/sidebar-nav";
 import { Separator } from "@/components/ui/separator";
 import { notFound, redirect } from "next/navigation";
 import { getServerSession } from "next-auth";

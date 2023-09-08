@@ -2,7 +2,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { botSchema } from "../../../botSchema";
+import { botSchema } from "@/app/dragon/create/botSchema";
 import {
   Form,
   FormControl,
@@ -25,7 +25,7 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
 import { Checkbox } from "@/components/ui/checkbox";
-import { basicBotInfoSchema } from "../../../botSchema";
+import { basicBotInfoSchema } from "@/app/dragon/create/botSchema";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -58,8 +58,13 @@ const onSubmit = (data: z.infer<typeof basicBotInfoSchema>) => {
   console.log(data);
 };
 
-export default function BotPage({ params }: BotPageProps) {
-  console.log(params);
+type BotPreferencesFormProps = {
+  initialValues?: z.infer<typeof basicBotInfoSchema>;
+};
+
+export default function BotPreferencesForm({
+  initialValues,
+}: BotPreferencesFormProps) {
   const form = useForm<z.infer<typeof basicBotInfoSchema>>({
     resolver: zodResolver(basicBotInfoSchema),
     defaultValues,
