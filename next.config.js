@@ -4,14 +4,14 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  webpack: (config, { isServer, webpack }) => {
-    if (!isServer) {
-      config.watchOptions = {
-        aggregateTimeout: 2000, // Delay after a change
-      };
-    }
-    return config;
-  },
+  // webpack: (config, { isServer, webpack }) => {
+  //   if (!isServer) {
+  //     config.watchOptions = {
+  //       aggregateTimeout: 2000, // Delay after a change
+  //     };
+  //   }
+  //   return config;
+  // },
   experimental: {
     serverActions: true,
   },
