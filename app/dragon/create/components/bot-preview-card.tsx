@@ -2,6 +2,7 @@ import Link from "next/link";
 import { BotTestData } from "../../test-data";
 import Avvvatars from "avvvatars-react";
 import { getBotLink } from "../config";
+import { PreviewCard } from "./ui/preview-card";
 type BotPreviewProps = {
   data: BotTestData;
 };
@@ -11,7 +12,7 @@ export default function BotPreview({ data }: BotPreviewProps) {
   const botLink = getBotLink(data.id);
   return (
     <Link href={botLink}>
-      <div className="card card-compact w-64 bg-base-100 shadow-xl hover:bg-base-200 hover:shadow-2xl hover:scale-105 cursor-pointer">
+      <PreviewCard>
         <figure className="py-6">
           <Avvvatars value={nanoid()} style="shape" size={100} />
         </figure>
@@ -26,7 +27,7 @@ export default function BotPreview({ data }: BotPreviewProps) {
             ))}
           </div>
         </div>
-      </div>
+      </PreviewCard>
     </Link>
   );
 }
