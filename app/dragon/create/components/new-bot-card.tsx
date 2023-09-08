@@ -2,7 +2,7 @@ import Link from "next/link";
 import { PreviewCard } from "./ui/preview-card";
 export const NewBotCard: React.FC = () => {
   return (
-    <Link href="/dragon/create/bot/new">
+    <Link href="/dragon/create/bot/new-bot">
       <PreviewCard>
         <figure className="py-6">
           <div className="text-7xl font-bold text-center w-full">+</div>
