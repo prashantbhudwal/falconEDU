@@ -8,7 +8,13 @@ export default async function Dashboard() {
   const bots = await getBots(id);
   return (
     <div className="flex justify-center w-full">
-      <div className="flex flex-wrap gap-4 w-11/12">
+      <div className="flex flex-wrap gap-4 w-11/12 py-6">
+        {bots.map((bot) => (
+          <BotPreview key={bot.id} data={bot} />
+        ))}
+        {bots.map((bot) => (
+          <BotPreview key={bot.id} data={bot} />
+        ))}
         {bots.map((bot) => (
           <BotPreview key={bot.id} data={bot} />
         ))}
