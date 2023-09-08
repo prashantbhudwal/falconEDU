@@ -5,13 +5,15 @@ import { getBotLink } from "../config";
 type BotPreviewProps = {
   data: BotTestData;
 };
+import { nanoid } from "nanoid";
+
 export default function BotPreview({ data }: BotPreviewProps) {
   const botLink = getBotLink(data.id);
   return (
     <Link href={botLink}>
       <div className="card card-compact w-64 bg-base-100 shadow-xl hover:bg-base-200 hover:shadow-2xl hover:scale-105 cursor-pointer">
         <figure className="py-6">
-          <Avvvatars value={data.id} style="shape" size={100} />
+          <Avvvatars value={nanoid()} style="shape" size={100} />
         </figure>
         <div className="card-body">
           <h2 className="card-title justify-center">{data.name}</h2>
