@@ -83,8 +83,7 @@ export default function PreferencesLayout({
   }
 
   return (
-    <div className="flex w-full flex-col items-center gap-10">
-      <Navbar />
+    <div className="flex w-full flex-col items-center gap-10 pt-10">
       <div className="text-3xl text-slate-300">
         {pathname && getTitle(pathname, userFlow)}
       </div>
