@@ -1,9 +1,9 @@
 //TODO User any other technique to limit access to pages that doesn't involve using root layout
 
 import { getServerSession } from "next-auth";
-import { authOptions } from "./api/auth/[...nextauth]/authOptions";
-import { getUser } from "./api/db/user/[email]/route";
-import Plans from "./(user)/pricing/Plans";
+import { authOptions } from "../app/api/auth/[...nextauth]/authOptions";
+import { getUser } from "../app/api/db/user/[email]/route";
+import Plans from "../app/(user)/pricing/Plans";
 import { getProducts } from "@/lib/stripe";
 import { useRouter } from "next/navigation";
 
