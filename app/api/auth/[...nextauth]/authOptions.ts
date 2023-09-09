@@ -6,30 +6,34 @@ import { Adapter } from "next-auth/adapters";
 import { AuthOptions } from "next-auth";
 import { User, Account, Profile } from "next-auth";
 import { JWT } from "next-auth/jwt";
+import { redirect } from "next/navigation";
 
 const TRIAL_DURATION = 14;
 
 // Assign trial user properties
-const assignTrialUserProperties = async () => {
+const assignTrialUserProperties = async (userType: string) => {
   const trialStartDate = new Date();
   const trialEndDate = new Date(trialStartDate);
   trialEndDate.setDate(trialStartDate.getDate() + TRIAL_DURATION);
 
   return {
     role: "TRIAL",
-    userType: "TEACHER",
+    userType: userType,
     subscriptionStart: trialStartDate,
     subscriptionEnd: trialEndDate,
   };
 };
 
-// Find or create profile for a Google user
-const googleProfileHandler = async (profile: any, tokens: any) => {
+const handleProfile = async (profile: any, token: any, userType: string) => {
   const existingUser: PrismaUser | null = await prisma.user.findUnique({
     where: { email: profile.email },
   });
   // console.log("ProfileTOken", tokens);
-
+  if (existingUser?.userType !== userType) {
+    redirect("/");
+    // throw new Error("ROLE_MISMATCH");
+    // Throwing an error if user types mismatch
+  }
   if (existingUser) {
     const { sub, ...profileWithoutSub } = profile;
     return {
@@ -38,7 +42,7 @@ const googleProfileHandler = async (profile: any, tokens: any) => {
     };
   } else {
     // Set trial user properties for new users
-    const trialUserProperties = await assignTrialUserProperties();
+    const trialUserProperties = await assignTrialUserProperties(userType);
     return {
       id: profile.sub, // Google returns the id as 'sub'
       name: profile.name,
@@ -49,12 +53,31 @@ const googleProfileHandler = async (profile: any, tokens: any) => {
   }
 };
 
+// Find or create profile for a Google user
+const googleProfileHandlerStudent = async (profile: any, tokens: any) => {
+  return handleProfile(profile, tokens, "STUDENT");
+};
+
+const googleProfileHandlerTeacher = async (profile: any, tokens: any) => {
+  return handleProfile(profile, tokens, "TEACHER");
+};
+
 // Provider for Google authentication
-const GoogleProvider = () => {
+const GoogleTeacherProvider = () => {
   return Google({
     clientId: process.env.GOOGLE_CLIENT_ID ?? "",
     clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
-    profile: googleProfileHandler,
+    profile: googleProfileHandlerTeacher,
+  });
+};
+
+const GoogleStudentProvider = () => {
+  return Google({
+    clientId: process.env.GOOGLE_CLIENT_ID ?? "",
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
+    profile: googleProfileHandlerStudent,
+    id: "google-student",
+    name: "google-student",
   });
 };
 
@@ -108,7 +131,7 @@ const sessionCallback = async ({
 // The main handler
 export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma) as Adapter,
-  providers: [GoogleProvider()],
+  providers: [GoogleTeacherProvider(), GoogleStudentProvider()],
   callbacks: {
     session: sessionCallback,
     jwt: jwtCallback,
