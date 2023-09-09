@@ -1,4 +1,5 @@
 import Navbar from "@/components/Navbar";
+import Expired from "../Expired";
 
 export default function MerlinLayout({
   children, // will be a page or nested layout
@@ -6,9 +7,11 @@ export default function MerlinLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex h-screen min-w-full flex-col">
-      <Navbar />
-      {children}
-    </div>
+    <Expired>
+      <div className="flex h-screen min-w-full flex-col">
+        <Navbar />
+        {children}
+      </div>
+    </Expired>
   );
 }
