@@ -1,10 +1,10 @@
-import BreadCrumbs from "../app/(falcon)/(merlin)/components/BreadCrumbs";
-import ChubbiDropdown from "@/components/ChubbiDropdown";
-import ProfileDropDown from "./ProfileDropdown";
-import MerlinActionBar from "../app/(falcon)/(merlin)/components/MerlinActionBar";
-import UpgradeBtn from "./UpgradeBtn";
-import InviteDropdown from "./InviteDropDown";
-import HelpDropdown from "@/components/HelpDropdown";
+import BreadCrumbs from "../app/(falcon)/(merlin)/components/breadcrumbs";
+import ChubbiDropdown from "@/components/chubbi-dropdown";
+import ProfileDropDown from "./profile-dropdown";
+import MerlinActionBar from "../app/(falcon)/(merlin)/components/merlin-action-bar";
+import UpgradeBtn from "./auth/upgrade-btn";
+import InviteDropdown from "./invite-dropdown";
+import HelpDropdown from "@/components/help-dropdown";
 export default function Navbar() {
   return (
     <div className="navbar h-2 bg-base-200 shadow-sm shadow-base-100">

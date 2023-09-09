@@ -2,7 +2,7 @@ import "./globals.css";
 import { Analytics } from "@vercel/analytics/react";
 import Providers from "../components/providers";
 import { Inter } from "next/font/google";
-import Chubbi from "../components/Chubbi";
+import Chubbi from "../components/chubbi";
 
 const inter = Inter({
   subsets: ["latin"],

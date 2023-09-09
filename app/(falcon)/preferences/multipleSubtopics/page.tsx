@@ -4,7 +4,7 @@ import { usePrediction } from "@/app/(falcon)/preferences/hooks/usePrediction";
 import { contentStreamCompletedAtom } from "@/lib/atoms/lesson";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
-import CheckboxGrid from "../CheckboxGrid";
+import CheckboxGrid from "../checkbox-grid";
 import { topicAtom, subtopicAtom } from "@/lib/atoms/preferences";
 import { startedAtom } from "@/lib/atoms/app";
 import { lessonIdeasAtom } from "@/lib/atoms/lesson";

@@ -1,5 +1,5 @@
-import Navbar from "@/components/Navbar";
-import Expired from "../../components/expired";
+import Navbar from "@/components/navbar";
+import Expired from "../../components/auth/expired";
 
 export default function MerlinLayout({
   children, // will be a page or nested layout

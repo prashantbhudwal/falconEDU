@@ -1,7 +1,7 @@
 "use client";
 import { useRef } from "react";
-import EditIcon from "./EditIcon";
-import ProfileEditForm from "./ProfileEditForm";
+import EditIcon from "./edit-icon";
+import ProfileEditForm from "./profile-edit-form";
 
 function EditProfileModal() {
   const modalRef = useRef<HTMLDialogElement | null>(null);

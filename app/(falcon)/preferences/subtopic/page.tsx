@@ -4,7 +4,7 @@ import { usePrediction } from "@/app/(falcon)/preferences/hooks/usePrediction";
 import { contentStreamCompletedAtom } from "@/lib/atoms/lesson";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
-import PredictionGrid from "../PredictionGrid";
+import PredictionGrid from "../prediction-grid";
 import { topicAtom, subtopicAtom } from "@/lib/atoms/preferences";
 import { startedAtom } from "@/lib/atoms/app";
 import { lessonIdeasAtom } from "@/lib/atoms/lesson";

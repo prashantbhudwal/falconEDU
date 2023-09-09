@@ -1,5 +1,5 @@
-import Navbar from "@/components/Navbar";
-import Plans from "./Plans";
+import Navbar from "@/components/navbar";
+import Plans from "./plans";
 import { cache } from "react";
 import { stripe } from "@/lib/stripe";
 import Stripe from "stripe";

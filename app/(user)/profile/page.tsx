@@ -1,6 +1,6 @@
-import Navbar from "@/components/Navbar";
-import BasicInfo from "./BasicInfo";
-import PaymentsTable from "./PaymentsTable";
+import Navbar from "@/components/navbar";
+import BasicInfo from "./basic-info";
+import PaymentsTable from "./payments-table";
 export default function ProfilePage() {
   return (
     <div className="w-full flex flex-col items-center">

@@ -1,11 +1,9 @@
-//TODO User any other technique to limit access to pages that doesn't involve using root layout
-
 import { getServerSession } from "next-auth";
-import { authOptions } from "../app/api/auth/[...nextauth]/authOptions";
-import { getUser } from "../app/api/db/user/[email]/route";
-import Plans from "../app/(user)/pricing/Plans";
+import { authOptions } from "../../app/api/auth/[...nextauth]/authOptions";
+import { getUser } from "../../app/api/db/user/[email]/route";
+import Plans from "../../app/(user)/pricing/plans";
 import { getProducts } from "@/lib/stripe";
-import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 
 // export const dynamic = `force-dynamic`;
 export const revalidate = 6000;
@@ -26,12 +24,11 @@ export default async function Expired({
 }: {
   children: React.ReactNode;
 }) {
-  const router = useRouter();
   const session = await getServerSession(authOptions);
   const email = session?.user?.email;
 
   if (!session) {
-    router.push("/");
+    redirect("/");
   }
   const products = await getProducts();
   const userData = await getUser(email);

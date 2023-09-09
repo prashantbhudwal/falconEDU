@@ -1,11 +1,11 @@
 import { TooltipProvider } from "@ui/tooltip";
-import MerlinGrid from "../(merlin)/components/Grid";
-import Sidebar from "@/components/Sidebar";
+import MerlinGrid from "../(merlin)/components/grid";
+import Sidebar from "@/components/sidebar";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { SidebarList } from "./components/sidebar-list";
 import * as React from "react";
-import Navbar from "../../../components/Navbar";
+import Navbar from "../../../components/navbar";
 import NewChatBtn from "./components/new-chat-btn";
 
 export default async function ChubbiLayout({

@@ -1,10 +1,10 @@
 "use client";
 import { usePathname } from "next/navigation";
-import DesktopOnly from "../../../components/DesktopOnly";
+import DesktopOnly from "../../../components/desktop-only";
 import useDesktop from "../../../hooks/useDesktop";
 import { userFlowAtom } from "../../../lib/atoms/app";
 import { useAtom } from "jotai";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/navbar";
 const getTitle = (pathname: string, userFlow: string) => {
   switch (pathname) {
     case "/preferences":

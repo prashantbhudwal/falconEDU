@@ -1,4 +1,4 @@
-import SignOutButton from "@/components/SignOutBtn";
+import SignOutButton from "@/components/auth/sign-out-btn";
 import Link from "next/link";
 
 export default function DesktopOnly() {

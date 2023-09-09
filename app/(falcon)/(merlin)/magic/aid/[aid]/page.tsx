@@ -1,6 +1,6 @@
 "use client";
 import { useAid } from "../../hooks/useAid";
-import Issue from "@/components/Issue";
+import Issue from "@/components/issue";
 import { useAtom } from "jotai";
 import { useState } from "react";
 import useLatestAid from "../../hooks/useLatestAid";
@@ -12,7 +12,7 @@ import {
 } from "@/lib/atoms/lesson";
 
 import { aidType, handoutType } from "@/types";
-import { Message } from "../../../merlin/components/Message";
+import { Message } from "../../../merlin/components/message";
 import useRedirectHome from "@/hooks/useRedirectHome";
 import useTrackPage from "@/hooks/analytics/useTrackPage";
 export default function Page({ params }: { params: { aid: aidType } }) {

@@ -1,5 +1,5 @@
 "use client";
-import SidebarButton from "@/app/(falcon)/(merlin)/magic/components/SidebarButton";
+import SidebarButton from "@/app/(falcon)/(merlin)/magic/components/sidebar-button";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { type ChubbiChat as Chat } from "@/types";

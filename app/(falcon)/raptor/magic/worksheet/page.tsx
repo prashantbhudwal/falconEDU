@@ -7,9 +7,9 @@ import {
   subjectAtom,
 } from "@/lib/atoms/preferences";
 import { savedQuestionsAtom } from "@/lib/atoms/worksheet";
-import Canvas from "../../components/Canvas";
+import Canvas from "../../components/canvas";
 import { QuestionObject } from "@/types";
-import QuestionSection from "../../components/QuestionSection";
+import QuestionSection from "../../components/question-section";
 
 export default function Page() {
   const [topic] = useAtom(topicAtom);

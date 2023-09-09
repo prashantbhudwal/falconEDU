@@ -1,6 +1,6 @@
 import { getBlockShadow } from "../../../../../lib";
 import { ideaType } from "@/types";
-import { Message } from "./Message";
+import { Message } from "./message";
 import { FiTrash, FiDownload } from "react-icons/fi";
 interface CanvasBlockProps {
   text: string;

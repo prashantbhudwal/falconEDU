@@ -1,6 +1,6 @@
 import { QuestionType } from "@/types";
 import React from "react";
-import BloomBox from "./BloomBox";
+import BloomBox from "./bloom-box";
 
 type Props = {
   questionTypeKey: QuestionType;

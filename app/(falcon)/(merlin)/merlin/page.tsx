@@ -1,6 +1,6 @@
 "use client";
-import Canvas from "./Canvas";
-import Sidebar from "../../../../components/Sidebar";
+import Canvas from "./canvas";
+import Sidebar from "../../../../components/sidebar";
 import { buttonsArray as promptsArray } from "../../../../lib";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
@@ -10,11 +10,11 @@ import {
   lessonIdeasAtom,
   teachingAidsAtom,
 } from "../../../../lib/atoms/lesson";
-import Section from "../../../../components/Section";
-import DraggableChip from "../../../../components/DraggableChip";
+import Section from "../../../../components/section";
+import DraggableChip from "../../../../components/draggable-chip";
 import { itemTypes } from "../../../../lib/config/itemTypes";
 import { useRouter } from "next/navigation";
-import MerlinGrid from "../components/Grid";
+import MerlinGrid from "../components/grid";
 import { worksheetSubtopicsAtom } from "@/lib/atoms/worksheet";
 import { subtopicAtom } from "@/lib/atoms/preferences";
 import useTrackPage from "@/hooks/analytics/useTrackPage";

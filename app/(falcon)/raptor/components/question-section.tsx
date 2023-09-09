@@ -4,14 +4,14 @@ import { currentQuestionAtom, isAdvancedModeAtom } from "@/lib/atoms/worksheet";
 import { useAtom } from "jotai";
 import { DropTargetMonitor, useDrop } from "react-dnd";
 import questionData from "@/app/data/questionMatrix.json";
-import BloomBoxes from "./BloomBoxes";
-import Section from "@/components/Section";
+import BloomBoxes from "./bloom-boxes";
+import Section from "@/components/section";
 import {
   getQuestionSectionShadow,
   getQuestionSectionBorderColor,
   getQuestionSectionTextColor,
 } from "@/lib/index";
-import Question from "./Question";
+import Question from "./question";
 import { getQuestionTypeTitle } from "@/lib/index";
 import { contentStreamCompletedAtom } from "@/lib/atoms/lesson";
 type Props = {

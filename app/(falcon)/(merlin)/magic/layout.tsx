@@ -1,12 +1,12 @@
 "use client";
-import SidebarButton from "./components/SidebarButton";
+import SidebarButton from "./components/sidebar-button";
 import { getEmoji, getName } from "@/lib";
 import { downloadZip } from "@/lib/downloadZip";
-import MerlinGrid from "../components/Grid";
-import Sidebar from "@/components/Sidebar";
-import Section from "@/components/Section";
+import MerlinGrid from "../components/grid";
+import Sidebar from "@/components/sidebar";
+import Section from "@/components/section";
 import { teachingAids } from "./hooks/useTeachingAids";
-import Header from "@/components/Header";
+import Header from "@/components/canvas-header";
 import useDownloadContent from "@/app/(falcon)/(merlin)/magic/hooks/useDownloadContent";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";

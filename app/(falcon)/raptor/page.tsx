@@ -2,10 +2,10 @@
 import { itemTypes } from "../../../lib/config/itemTypes";
 import objectHash from "object-hash";
 import React, { useState, useEffect } from "react";
-import Sidebar from "../../../components/Sidebar";
-import Section from "../../../components/Section";
-import Canvas from "./components/Canvas";
-import DraggableChip from "../../../components/DraggableChip";
+import Sidebar from "../../../components/sidebar";
+import Section from "../../../components/section";
+import Canvas from "./components/canvas";
+import DraggableChip from "../../../components/draggable-chip";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
 import { QuestionType, QuestionItem, QuestionObject } from "@/types";
@@ -27,13 +27,13 @@ import {
   subjectAtom,
 } from "../../../lib/atoms/preferences";
 import { RiseLoader, SyncLoader } from "react-spinners";
-import QuestionsBlock from "./components/QuestionSection";
+import QuestionsBlock from "./components/question-section";
 import useJsonParsing from "../../../hooks/useJsonParsing";
-import { ModeToggle } from "./components/ModeToggle";
+import { ModeToggle } from "./components/mode-toggle";
 import { motion, useAnimation } from "framer-motion";
-import { BatchSize } from "./components/BatchSize";
+import { BatchSize } from "./components/batch-size";
 import { useRouter } from "next/navigation";
-import MerlinGrid from "../(merlin)/components/Grid";
+import MerlinGrid from "../(merlin)/components/grid";
 const questionTypes = [
   { value: "multipleChoiceSingleCorrect", label: "Multiple Choice" },
   { value: "trueFalse", label: "True/False" },

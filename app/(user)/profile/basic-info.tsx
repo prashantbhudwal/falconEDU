@@ -1,9 +1,9 @@
 "use client";
 import Image from "next/image";
-import Section from "@/components/Section";
+import Section from "@/components/section";
 import { RotateLoader } from "react-spinners";
 import useUserData from "@/hooks/useUserData";
-import EditProfileModal from "./edit/Modal";
+import EditProfileModal from "./edit/modal";
 import { getFormattedDate } from "@/lib/utils";
 
 export default function BasicInfo() {
