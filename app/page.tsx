@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import { signIn, useSession } from "next-auth/react";
 import { PropagateLoader } from "react-spinners";
 import Beta from "@/components/beta";
-import Footer from "@/app/Footer";
 import Image from "next/image";
 import useTrackPage from "@/hooks/analytics/useTrackPage";
 const LandingPage = () => {
@@ -42,7 +41,7 @@ const LandingPage = () => {
           Create Lesson Plans, Worksheets, Activities and Assessments with AI
           that is easy to use and strictly follows your syllabus.
         </p>
-        <button 
+        <button
           onClick={() => signIn("google", { callbackUrl: "/preferences" })}
           className={`rounded-lg bg-emerald-500 px-28 py-4 text-lg font-semibold text-slate-800 transition duration-200 ease-in-out hover:bg-emerald-600`}
         >
@@ -62,7 +61,6 @@ const LandingPage = () => {
           </div>
         )}
       </div>
-      <Footer />
     </div>
   );
 };
