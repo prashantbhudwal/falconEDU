@@ -49,6 +49,12 @@ const LandingPage = () => {
           ? "Taking you to the app..."
           : "Sign In"}
       </button>
+      <button
+        onClick={() => signIn("google-student")}
+        className={`rounded-lg bg-emerald-500 px-28 py-4 text-lg font-semibold text-slate-800 transition duration-200 ease-in-out hover:bg-emerald-600`}
+      >
+        Student
+      </button>
       <p className="mt-4 text-xs">
         We have a 14-day free trial. No credit card required. 🙂
       </p>
