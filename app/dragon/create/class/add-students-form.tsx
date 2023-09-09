@@ -20,19 +20,18 @@ const classFormSchema = z.object({
   emails: z.string().email().nonempty(),
 });
 
-export default function ClassForm({
-  onSubmit,
-  className,
-}: {
-  onSubmit: (values: z.infer<typeof classFormSchema>) => void;
-  className?: string;
-}) {
+export default function ClassForm({ className }: { className?: string }) {
   const form = useForm<z.infer<typeof classFormSchema>>({
     resolver: zodResolver(classFormSchema),
     defaultValues: {
       emails: "",
     },
   });
+
+  const onSubmit = function (values: z.infer<typeof classFormSchema>) {
+    console.log(values);
+  };
+
   return (
     <Form {...form}>
       <form
