@@ -3,10 +3,9 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/authOptions";
 import { getUser } from "./api/db/user/[email]/route";
-import LandingPage from "./Landing";
-import UpgradeBtn from "../components/UpgradeBtn";
 import Plans from "./(user)/pricing/Plans";
 import { getProducts } from "@/lib/stripe";
+import { useRouter } from "next/navigation";
 
 // export const dynamic = `force-dynamic`;
 export const revalidate = 6000;
@@ -27,11 +26,12 @@ export default async function Expired({
 }: {
   children: React.ReactNode;
 }) {
+  const router = useRouter();
   const session = await getServerSession(authOptions);
   const email = session?.user?.email;
 
   if (!session) {
-    return <LandingPage />;
+    router.push("/");
   }
   const products = await getProducts();
   const userData = await getUser(email);
