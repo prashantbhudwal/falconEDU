@@ -30,8 +30,7 @@ const handleProfile = async (profile: any, token: any, userType: string) => {
   });
   // console.log("ProfileTOken", tokens);
   if (existingUser?.userType !== userType) {
-    redirect("/");
-    // throw new Error("ROLE_MISMATCH");
+    throw new Error("User type mismatch");
     // Throwing an error if user types mismatch
   }
   if (existingUser) {
@@ -101,6 +100,7 @@ const jwtCallback = async ({
     token.role = user.role;
     token.subscriptionStart = user.subscriptionStart;
     token.subscriptionEnd = user.subscriptionEnd;
+    token.userType = user.userType;
   }
   // console.log("TokenM", token);
   return token;
@@ -122,6 +122,7 @@ const sessionCallback = async ({
     session.user.role = token.role;
     session.user.subscriptionStart = token.subscriptionStart;
     session.user.subscriptionEnd = token.subscriptionEnd;
+    session.user.userType = token.userType;
   }
   // console.log("SessionM", session);
 
