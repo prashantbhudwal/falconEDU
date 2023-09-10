@@ -10,12 +10,6 @@ const LandingPage = () => {
   const router = useRouter();
 
   useEffect(() => {
-    if (session && sessionStatus === "authenticated") {
-      router.push("/preferences");
-    }
-  }, [session, sessionStatus]);
-
-  useEffect(() => {
     router.prefetch("/auth/login");
     router.prefetch("/preferences");
     if (session && sessionStatus === "authenticated") {
