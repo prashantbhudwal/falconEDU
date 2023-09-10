@@ -134,8 +134,26 @@ export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma) as Adapter,
   providers: [GoogleTeacherProvider(), GoogleStudentProvider()],
   callbacks: {
-    session: sessionCallback,
+    signIn: async ({ account, user, credentials, email, profile }) => {
+      console.log(
+        "🚀 ~ file: authOptions.ts:140 ~ signIn: ~ profile:",
+        profile
+      );
+      console.log("🚀 ~ file: authOptions.ts:140 ~ signIn: ~ email:", email);
+      console.log(
+        "🚀 ~ file: authOptions.ts:140 ~ signIn: ~ credentials:",
+        credentials
+      );
+      console.log("🚀 ~ file: authOptions.ts:140 ~ signIn: ~ user:", user);
+      console.log(
+        "🚀 ~ file: authOptions.ts:140 ~ signIn: ~ account:",
+        account
+      );
+
+      return true;
+    },
     jwt: jwtCallback,
+    session: sessionCallback,
   },
   session: {
     strategy: "jwt",
