@@ -1,4 +1,5 @@
 import Navbar from "@/components/navbar";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function DragonLayout({
   children,
@@ -11,14 +12,15 @@ export default function DragonLayout({
 }) {
   return (
     <div className="flex min-w-full flex-col">
-      <div className="sticky top-0 z-50">
-        <Navbar />
-      </div>
-
-      <div className="flex flex-col gap-4">
-        {bots}
-        {students}
-      </div>
+      <Navbar />
+      <Tabs defaultValue="bots" className="">
+        <TabsList className="grid w-1/3 grid-cols-2 mx-auto mt-4">
+          <TabsTrigger value="bots">Bots</TabsTrigger>
+          <TabsTrigger value="students">Students</TabsTrigger>
+        </TabsList>
+        <TabsContent value="bots">{bots}</TabsContent>
+        <TabsContent value="students">{students}</TabsContent>
+      </Tabs>
     </div>
   );
 }
