@@ -112,8 +112,8 @@ model BotConfig {
   teacher     TeacherProfile @relation(fields: [teacherId], references: [id])
   teacherId   String
   name        String
-  description String
-  image       String
+  description String?
+  image       String?
   preferences Json           @default("{}")
   createdAt   DateTime       @default(now())
   Bot         Bot[]
