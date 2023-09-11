@@ -4,8 +4,8 @@ import { Separator } from "@/components/ui/separator";
 import { notFound, redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-import { getBot } from "@/app/dragon/classes/actions";
-import { sidebarNavItems } from "@/app/dragon/classes/@bots/config";
+import { getBot } from "@/app/dragon/classes/class/actions";
+import { sidebarNavItems } from "@/app/dragon/classes/class/[classId]/@bots/config";
 
 const getLinksFromParams = (params: { id: string }) => {
   return sidebarNavItems.map((item) => ({

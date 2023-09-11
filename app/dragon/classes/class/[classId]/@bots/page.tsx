@@ -11,13 +11,13 @@ export default async function Dashboard() {
     <div className="flex justify-center w-full">
       <div className="flex flex-wrap gap-4">
         <NewBotCard />
-        {bots.map((bot) => (
+        {bots.map((bot: any) => (
           <BotPreview key={bot.id} data={bot} />
         ))}
-        {bots.map((bot) => (
+        {bots.map((bot: any) => (
           <BotPreview key={bot.id} data={bot} />
         ))}
-        {bots.map((bot) => (
+        {bots.map((bot: any) => (
           <BotPreview key={bot.id} data={bot} />
         ))}
       </div>

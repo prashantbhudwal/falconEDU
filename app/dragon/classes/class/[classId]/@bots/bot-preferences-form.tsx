@@ -2,7 +2,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { botSchema } from "@/app/dragon/classes/botSchema";
+import { botSchema } from "../botSchema";
 import {
   Form,
   FormControl,
@@ -25,7 +25,7 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
 import { Checkbox } from "@/components/ui/checkbox";
-import { basicBotInfoSchema } from "@/app/dragon/classes/botSchema";
+import { basicBotInfoSchema } from "../botSchema";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -35,7 +35,7 @@ import {
   tone,
   humorLevel,
   subjects,
-} from "@/app/dragon/classes/botSchema";
+} from "../botSchema";
 
 const defaultValues: z.infer<typeof basicBotInfoSchema> = {
   instructions: "What is the",

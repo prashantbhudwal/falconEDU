@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-import { botData, botDataArray } from "../test-data";
+import { botData, botDataArray } from "../../test-data";
 
 export async function getBot(id: string, userId?: string) {
   //   const chat = await prisma.chat.findUnique({

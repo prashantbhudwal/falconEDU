@@ -1,5 +1,4 @@
-const root = "/dragon/classes";
-
+const root = "/dragon/classes/class";
 const sidebarRoot = `${root}/bot/edit-bot/[id]`;
 const teacherPreferences = `${root}/teacher-preferences`;
 
