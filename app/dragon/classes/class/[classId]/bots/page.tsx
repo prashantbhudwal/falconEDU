@@ -3,22 +3,47 @@ import BotPreview from "./components/bot-preview-card";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getServerSession } from "next-auth";
 import { NewBotCard } from "./components/new-bot-card";
-export default async function Dashboard() {
+import { prisma } from "@/prisma";
+import { cache } from "react";
+import { getTeacherId } from "../../../utils";
+import BotCard from "./components/bot-preview-card";
+
+type BotDashboardProps = {
+  params: {
+    classId: string;
+  };
+};
+const getBotConfigs = cache(async (userId: string, classId: string) => {
+  const teacherProfile = await prisma.teacherProfile.findUnique({
+    where: { userId },
+  });
+
+  if (!teacherProfile) {
+    throw new Error(`TeacherProfile with userId ${userId} not found`);
+  }
+  const botConfigs = await prisma.botConfig.findMany({
+    where: {
+      teacherId: teacherProfile.id,
+      classId,
+    },
+  });
+  return botConfigs;
+});
+
+export default async function Dashboard({ params }: BotDashboardProps) {
+  const { classId } = params;
   const session = await getServerSession(authOptions);
-  const id = session?.user?.id;
-  const bots = await getBots(id);
+  const userId = session?.user?.id;
+  if (!userId) {
+    throw new Error("User not found");
+  }
+  const botConfigs = await getBotConfigs(userId, classId);
   return (
-    <div className="flex justify-center w-full">
+    <div className="flex  w-full">
       <div className="flex flex-wrap gap-4">
-        <NewBotCard />
-        {bots.map((bot: any) => (
-          <BotPreview key={bot.id} data={bot} />
-        ))}
-        {bots.map((bot: any) => (
-          <BotPreview key={bot.id} data={bot} />
-        ))}
-        {bots.map((bot: any) => (
-          <BotPreview key={bot.id} data={bot} />
+        <NewBotCard classId={classId} />
+        {botConfigs.map((bot) => (
+          <BotCard key={bot.id}>{bot.name}</BotCard>
         ))}
       </div>
     </div>
