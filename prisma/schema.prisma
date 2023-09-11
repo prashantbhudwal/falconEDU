@@ -95,6 +95,7 @@ model Class {
   Teacher   TeacherProfile   @relation(fields: [teacherId], references: [id])
   students  StudentProfile[]
   BotShare  BotShare[]
+  BotConfig BotConfig[]
 }
 
 enum UserType {
@@ -110,6 +111,8 @@ enum Role {
 model BotConfig {
   id          String         @id @default(cuid())
   teacher     TeacherProfile @relation(fields: [teacherId], references: [id])
+  Class       Class?         @relation(fields: [classId], references: [id])
+  classId     String?
   teacherId   String
   name        String
   description String?
