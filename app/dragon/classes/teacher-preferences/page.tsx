@@ -5,7 +5,7 @@ import { TextareaAutosize } from "@/components/ui/textarea-autosize";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { personalInfoSchema } from "../botSchema";
+import { personalInfoSchema } from "../class/[classId]/botSchema";
 
 import {
   Form,
