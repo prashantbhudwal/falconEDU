@@ -23,8 +23,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { PreviewCard } from "../class/[classId]/bots/components/ui/preview-card";
 import * as z from "zod";
 import { createClassForTeacher } from "../actions";
 import { useForm } from "react-hook-form";
