@@ -26,8 +26,4 @@ export const createClassForTeacher = async function (
   return newClass;
 };
 
-const getTeacherId = cache(async function (userId: string) {
-  const teacherProfile = await prisma.teacherProfile.findUnique({
-    where: { userId },
-  });
-});
+
