@@ -13,13 +13,15 @@ export default function DragonLayout({
   return (
     <div className="flex min-w-full flex-col">
       <Navbar />
-      <Tabs defaultValue="bots" className="">
-        <TabsList className="grid w-1/3 grid-cols-2 mx-auto mt-4">
+      <Tabs defaultValue="bots" className="w-11/12 mx-auto">
+        <TabsList className="grid w-1/3 grid-cols-2 mx-auto my-6">
           <TabsTrigger value="bots">Bots</TabsTrigger>
           <TabsTrigger value="students">Students</TabsTrigger>
         </TabsList>
-        <TabsContent value="bots">{bots}</TabsContent>
-        <TabsContent value="students">{students}</TabsContent>
+        <div className="mt-4">
+          <TabsContent value="bots">{bots}</TabsContent>
+          <TabsContent value="students">{students}</TabsContent>
+        </div>
       </Tabs>
     </div>
   );
