@@ -44,7 +44,7 @@ export default async function Classes() {
   return (
     <div>
       Classes
-      <Link href={`/dragon/create/class/edit/${teacherId}`}>Test</Link>
+      <Link href={`/dragon/class/edit/${teacherId}`}>Test</Link>
     </div>
   );
 }

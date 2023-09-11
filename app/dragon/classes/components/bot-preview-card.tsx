@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { BotTestData } from "../../test-data";
 import Avvvatars from "avvvatars-react";
-import { getBotLink } from "../config";
+import { getBotLink } from "../@bots/config";
 import { PreviewCard } from "./ui/preview-card";
 type BotPreviewProps = {
   data: BotTestData;

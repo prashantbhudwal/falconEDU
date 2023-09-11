@@ -1,8 +1,8 @@
-import { getBots } from "./actions";
-import BotPreview from "./components/bot-preview-card";
+import { getBots } from "../actions";
+import BotPreview from "../components/bot-preview-card";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getServerSession } from "next-auth";
-import { NewBotCard } from "./components/new-bot-card";
+import { NewBotCard } from "../components/new-bot-card";
 export default async function Dashboard() {
   const session = await getServerSession(authOptions);
   const id = session?.user?.id;

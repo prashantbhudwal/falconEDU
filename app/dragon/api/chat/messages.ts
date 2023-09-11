@@ -1,5 +1,8 @@
 import { botPreferences, teacherPreferences } from "../../test-data";
-import { basicBotInfoSchema, personalInfoSchema } from "../../create/botSchema";
+import {
+  basicBotInfoSchema,
+  personalInfoSchema,
+} from "../../classes/botSchema";
 import * as z from "zod";
 import {
   ChatPromptTemplate,

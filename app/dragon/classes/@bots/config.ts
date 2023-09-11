@@ -1,4 +1,4 @@
-const root = "/dragon/create";
+const root = "/dragon/classes";
 
 const sidebarRoot = `${root}/bot/edit-bot/[id]`;
 const teacherPreferences = `${root}/teacher-preferences`;
@@ -14,4 +14,4 @@ export const sidebarNavItems = [
   },
 ];
 
-export const getBotLink = (id: string) => `${root}/bot/edit-bot/${id}`;
+export const getBotLink = (id: string) => `${root}/edit-bot/${id}`;
