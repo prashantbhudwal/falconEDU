@@ -5,7 +5,7 @@ import { notFound, redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getBot } from "../class/[classId]/actions";
-import { sidebarNavItems } from "@/app/dragon/classes/class/[classId]/bots/config";
+import { sidebarNavItems } from "@/app/dragon/teacher/class/[classId]/bots/config";
 
 const getLinksFromParams = (params: { id: string }) => {
   return sidebarNavItems.map((item) => ({

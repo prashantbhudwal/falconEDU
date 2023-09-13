@@ -2,7 +2,7 @@ import { botPreferences, teacherPreferences } from "../../test-data";
 import {
   basicBotInfoSchema,
   personalInfoSchema,
-} from "../../classes/class/[classId]/botSchema";
+} from "../../teacher/class/[classId]/botSchema";
 import * as z from "zod";
 import {
   ChatPromptTemplate,

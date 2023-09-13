@@ -7,6 +7,8 @@ import { prisma } from "@/prisma";
 import { cache } from "react";
 import { getTeacherId } from "../../../utils";
 import BotCard from "./components/bot-preview-card";
+import Link from "next/link";
+import { getEditBotURL } from "@/lib/urls";
 
 type BotDashboardProps = {
   params: {
@@ -43,7 +45,9 @@ export default async function Dashboard({ params }: BotDashboardProps) {
       <div className="flex flex-wrap gap-4">
         <NewBotCard classId={classId} />
         {botConfigs.map((bot) => (
-          <BotCard key={bot.id}>{bot.name}</BotCard>
+          <Link href={getEditBotURL(classId, bot.id)} key={bot.id}>
+            <BotCard>{bot.name}</BotCard>
+          </Link>
         ))}
       </div>
     </div>

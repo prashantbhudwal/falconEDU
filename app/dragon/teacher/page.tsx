@@ -6,6 +6,7 @@ import { NewClassCard } from "./components/new-class-card";
 import ClassCard from "./components/class-card";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
+import { getBotsURL } from "@/lib/urls";
 
 export const revalidate = 3600; // revalidate the data at most every hour
 
@@ -43,10 +44,7 @@ export default async function Classes() {
       <h1 className="text-3xl font-bold mt-8">Classes</h1>
       <div className="flex flex-row gap-5 h-36 items-center">
         {classes.map((classData) => (
-          <Link
-            href={`/dragon/classes/class/${classData.id}/bots`}
-            key={classData.id}
-          >
+          <Link href={getBotsURL(classData.id)} key={classData.id}>
             <ClassCard>{classData.name}</ClassCard>
           </Link>
         ))}

@@ -5,25 +5,25 @@ import { usePathname } from "next/navigation";
 
 import { cn } from "@/lib/utils";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { getBotsURL, getResourcesURL, getStudentsURL } from "@/lib/urls";
 
 interface ClassNavProps extends React.HTMLAttributes<HTMLDivElement> {
   classId: string;
 }
 
 export function ClassNav({ classId, className, ...props }: ClassNavProps) {
-  const rootPath = `/dragon/classes/class/${classId}`;
   const pages = [
     {
       name: "Bots",
-      href: `${rootPath}/bots`,
+      href: getBotsURL(classId),
     },
     {
       name: "Students",
-      href: `${rootPath}/students`,
+      href: getStudentsURL(classId),
     },
     {
       name: "Resources",
-      href: `${rootPath}/resources`,
+      href: getResourcesURL(classId),
     },
   ];
   const pathname = usePathname();
