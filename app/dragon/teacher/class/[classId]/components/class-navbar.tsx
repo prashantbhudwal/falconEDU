@@ -31,13 +31,13 @@ export function ClassNav({ classId, className, ...props }: ClassNavProps) {
   return (
     <div className="relative">
       <ScrollArea className="max-w-[600px] lg:max-w-none">
-        <div className={cn("mb-4 flex items-center", className)} {...props}>
+        <div className={cn("mb-4 flex-col", className)} {...props}>
           {pages.map((page) => (
             <Link
               href={page.href}
               key={page.href}
               className={cn(
-                "flex items-center px-4",
+                "flex px-4",
                 pathname?.startsWith(page.href)
                   ? "font-bold text-primary"
                   : "font-medium text-muted-foreground"
