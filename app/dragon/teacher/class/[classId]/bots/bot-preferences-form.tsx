@@ -1,8 +1,11 @@
 "use client";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { botSchema } from "../botSchema";
+import { botSchema } from "../../../schema";
+import { updateBotConfig } from "../../../mutations";
+import { fetchBotConfig } from "../../../queries";
 import {
   Form,
   FormControl,
@@ -25,7 +28,7 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
 import { Checkbox } from "@/components/ui/checkbox";
-import { basicBotInfoSchema } from "../botSchema";
+import { basicBotInfoSchema } from "../../../schema";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -35,12 +38,11 @@ import {
   tone,
   humorLevel,
   subjects,
-} from "../botSchema";
+} from "../../../schema";
 
 const defaultValues: z.infer<typeof basicBotInfoSchema> = {
-  instructions: "What is the",
-  teacherIntro: "",
-  subjects: [],
+  instructions: "How do you want bots to behave?",
+  subjects: ["Grade 1"],
   grades: [],
   board: "CBSE",
   tone: "Friendly",
@@ -49,32 +51,51 @@ const defaultValues: z.infer<typeof basicBotInfoSchema> = {
   languageProficiency: "Beginner",
 };
 
-export interface BotPageProps {
-  params: {
-    id: string;
-  };
-}
-const onSubmit = (data: z.infer<typeof basicBotInfoSchema>) => {
-  console.log(data);
-};
-
 type BotPreferencesFormProps = {
-  initialValues?: z.infer<typeof basicBotInfoSchema>;
+  initialValues?: z.infer<typeof basicBotInfoSchema> | null;
+  classId: string;
+  botId: string;
 };
 
 export default function BotPreferencesForm({
   initialValues,
+  classId,
+  botId,
 }: BotPreferencesFormProps) {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
   const form = useForm<z.infer<typeof basicBotInfoSchema>>({
     resolver: zodResolver(basicBotInfoSchema),
     defaultValues: initialValues || defaultValues,
   });
+
+  const onSubmit = async (data: z.infer<typeof basicBotInfoSchema>) => {
+    console.log(data);
+    setLoading(true);
+    const result = await updateBotConfig(classId, botId, data);
+    setLoading(false);
+    if (result.success) {
+      console.log("Successfully updated.");
+      setError(null); // clear any existing error
+    } else {
+      console.log("Update failed:", result.error);
+      setError("Failed to update bot config. Please try again."); // set the error message
+    }
+  };
+
   return (
     <>
       <Form {...form}>
-        <h2 className="text-2xl font-bold tracking-tight">Bot Preference</h2>
-        <Separator className="my-6" />
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <div className="flex justify-between">
+            <h2 className="text-2xl font-bold tracking-tight">
+              Bot Preference
+            </h2>
+            <Button type="submit">{loading ? "Saving" : "Save"}</Button>
+          </div>
+          {error && <div className="text-red-500">{error}</div>}
+          <Separator className="my-6" />
           <FormField
             control={form.control}
             name="instructions"
@@ -288,7 +309,7 @@ export default function BotPreferencesForm({
           />
           <FormField
             control={form.control}
-            name="humorLevel"
+            name="languageProficiency"
             render={({ field }) => (
               <FormItem className="space-y-3">
                 <FormLabel>Language Proficiency</FormLabel>
@@ -320,8 +341,6 @@ export default function BotPreferencesForm({
               </FormItem>
             )}
           />
-
-          <Button type="submit">Save</Button>
         </form>
       </Form>
     </>

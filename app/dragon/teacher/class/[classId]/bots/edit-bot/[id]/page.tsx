@@ -1,17 +1,22 @@
 import BotPreferencesForm from "../../bot-preferences-form";
-import { getInitialValues } from "./actions";
+import { fetchBotConfig } from "@/app/dragon/teacher/queries";
 
 export interface BotPageProps {
   params: {
+    classId: string;
     id: string;
   };
 }
 
 export default async function BotPage({ params }: BotPageProps) {
-  console.log(params);
+  const { classId, id } = params;
+  const botConfig = await fetchBotConfig(id);
 
-  const { id } = params;
-
-  const initialValues = await getInitialValues(id);
-  return <BotPreferencesForm initialValues={initialValues} />;
+  return (
+    <BotPreferencesForm
+      initialValues={botConfig}
+      classId={classId}
+      botId={id}
+    />
+  );
 }
