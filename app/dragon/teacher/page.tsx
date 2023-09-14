@@ -8,27 +8,7 @@ import Link from "next/link";
 import { getClassURL } from "@/lib/urls";
 import IconCard from "./components/icon-card";
 import Avvvatars from "avvvatars-react";
-import { Paper } from "@/components/ui/Paper";
-
-export const revalidate = 3600; // revalidate the data at most every hour
-
-const getClassesByUserId = cache(async function (userId: string) {
-  const teacherProfile = await prisma.teacherProfile.findUnique({
-    where: { userId },
-  });
-
-  if (!teacherProfile) {
-    throw new Error(`TeacherProfile with userId ${userId} not found`);
-  }
-
-  const classes = await prisma.class.findMany({
-    where: {
-      teacherId: teacherProfile.id,
-    },
-  });
-
-  return classes;
-});
+import { getClassesByUserId } from "./queries";
 
 export default async function Classes() {
   const session = await getServerSession(authOptions);
