@@ -71,7 +71,7 @@ export const fetchBotConfig = cache(async (botId: string) => {
     const result = basicBotInfoSchema.safeParse(preferences);
 
     if (result.success) {
-      return result.data;
+      return { preferences: result.data, bot };
     } else {
       console.error("Validation failed:", result.error);
       return null;
