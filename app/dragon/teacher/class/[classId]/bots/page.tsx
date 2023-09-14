@@ -1,10 +1,9 @@
-import { getBots } from "../actions";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getServerSession } from "next-auth";
 import { NewBotCard } from "../../../components/new-bot-card";
 import { prisma } from "@/prisma";
 import { cache } from "react";
-import { getTeacherId } from "../../../utils";
+import { getTeacherId } from "../../../queries";
 import Link from "next/link";
 import { getEditBotURL } from "@/lib/urls";
 import IconCard from "../../../components/icon-card";

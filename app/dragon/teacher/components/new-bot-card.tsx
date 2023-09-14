@@ -1,5 +1,5 @@
 "use client";
-import { createBotConfig } from "../class/[classId]/bots/actions";
+import { createBotConfig } from "../mutations";
 import { FaPlus } from "react-icons/fa6";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
