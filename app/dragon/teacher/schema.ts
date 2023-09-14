@@ -32,7 +32,6 @@ export const botSchema = z.object({
   // Core Config
   nickname: z.string().min(1).max(20),
   instructions: z.string(),
-  teacherIntro: z.string(),
   subjects: z.array(z.string()),
   grades: z.array(z.enum(grades)),
   board: z.enum(board),
@@ -62,7 +61,6 @@ export const personalInfoSchema = z.object({
 
 export const basicBotInfoSchema = botSchema.pick({
   instructions: true,
-  teacherIntro: true,
   subjects: true,
   grades: true,
   board: true,

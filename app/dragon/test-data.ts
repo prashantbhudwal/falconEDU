@@ -1,9 +1,7 @@
 import { type Bot } from "./student/types";
 import { type User } from "@prisma/client";
-import {
-  personalInfoSchema,
-  basicBotInfoSchema,
-} from "./teacher/class/botSchema";
+import { personalInfoSchema, basicBotInfoSchema } from "./teacher/schema";
+
 export const botData = {
   id: "111",
   userId: "1234",
@@ -71,7 +69,6 @@ export const bots: Bot[] = [
 export const botPreferences: Array<z.infer<typeof basicBotInfoSchema>> = [
   {
     instructions: "Be clear and concise.",
-    teacherIntro: "I specialize in English literature.",
     subjects: ["English"],
     grades: ["Grade 1", "Grade 2", "Grade 3"],
     board: "ICSE",
@@ -82,7 +79,6 @@ export const botPreferences: Array<z.infer<typeof basicBotInfoSchema>> = [
   },
   {
     instructions: "Encourage participation.",
-    teacherIntro: "I love making math fun!",
     subjects: ["Math", "Science"],
     grades: ["Grade 1", "Grade 2"],
     board: "CIE",
@@ -93,7 +89,6 @@ export const botPreferences: Array<z.infer<typeof basicBotInfoSchema>> = [
   },
   {
     instructions: "Avoid off-topic discussions.",
-    teacherIntro: "Focused on Physics and Chemistry.",
     subjects: ["Science"],
     grades: ["Grade 3", "Grade 4"],
     board: "CBSE",
