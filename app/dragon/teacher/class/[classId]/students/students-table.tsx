@@ -8,8 +8,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { type Student } from "./edit/[teacherId]/page";
 import { FiTrash2 } from "react-icons/fi";
+import { type StudentsByClassId } from "../../../queries";
 
 const defaultValues = [
   {
@@ -32,35 +32,35 @@ const defaultValues = [
   },
 ];
 
-export function StudentTable({ students }: { students: Student[] }) {
-  const studentList = defaultValues;
-
+export function StudentTable({ students }: { students: StudentsByClassId }) {
+  console.log(students);
+  if (students?.length === 0 || !students) {
+    return <p className="mx-auto text-xl">No students in the class, yet. ☹️</p>;
+  }
   return (
-    <div className="w-4/6">
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-[100px]">Name</TableHead>
-            <TableHead>Email</TableHead>
-            <TableHead>Grade</TableHead>
-            <TableHead className="text-right">Remove</TableHead>
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead className="w-[100px]">Name</TableHead>
+          <TableHead>Email</TableHead>
+          <TableHead>Grade</TableHead>
+          <TableHead className="text-right">Remove</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {students.map((student) => (
+          <TableRow key={student.id}>
+            <TableCell className="font-medium">{student.User.name}</TableCell>
+            <TableCell>{student.User.email}</TableCell>
+            <TableCell>Grade {student.grade}</TableCell>
+            <TableCell className="text-right">
+              <Button variant="ghost">
+                <FiTrash2 />
+              </Button>
+            </TableCell>
           </TableRow>
-        </TableHeader>
-        <TableBody>
-          {studentList.map((student) => (
-            <TableRow key={student.id}>
-              <TableCell className="font-medium">{student.name}</TableCell>
-              <TableCell>{student.email}</TableCell>
-              <TableCell>Grade {student.grade}</TableCell>
-              <TableCell className="text-right">
-                <Button variant="ghost">
-                  <FiTrash2 />
-                </Button>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </div>
+        ))}
+      </TableBody>
+    </Table>
   );
 }
