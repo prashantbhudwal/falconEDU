@@ -1,7 +1,6 @@
 "use client";
-import { createBotConfig } from "../actions";
+import { createBotConfig } from "../class/[classId]/bots/actions";
 import { FaPlus } from "react-icons/fa6";
-import BotCard from "./bot-preview-card";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -28,6 +27,7 @@ import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { redirect } from "next/navigation";
+import IconCard from "@/app/dragon/teacher/components/icon-card";
 
 const formSchema = z.object({
   botConfigName: z.string().min(3).max(50),
@@ -62,10 +62,11 @@ export function NewBotCard({ classId }: { classId: string }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <BotCard className="rounded-lg flex flex-row gap-2 w-full items-baseline">
-          <FaPlus className="text-accent" />
-          <div>New Bot</div>
-        </BotCard>
+        <IconCard
+          icon={<FaPlus className="text-lg font-bold text-secondary" />}
+          text="New Bot"
+          className="border-secondary border-2 text-secondary"
+        />
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>

@@ -1,6 +1,5 @@
 "use client";
 import { FaPlus } from "react-icons/fa6";
-import ClassCard from "./class-card";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -27,6 +26,7 @@ import * as z from "zod";
 import { createClassForTeacher } from "../actions";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import IconCard from "./icon-card";
 
 const formSchema = z.object({
   className: z.string().min(3).max(50),
@@ -58,10 +58,11 @@ export function NewClassCard() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <ClassCard className="rounded-lg flex flex-row gap-2 w-full items-baseline">
-          <FaPlus className="text-accent" />
-          <div>New Class</div>
-        </ClassCard>
+        <IconCard
+          icon={<FaPlus />}
+          text="New Class"
+          className="border-secondary border-2"
+        />
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>

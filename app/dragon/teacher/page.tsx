@@ -3,10 +3,12 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { cache } from "react";
 import prisma from "@/prisma";
 import { NewClassCard } from "./components/new-class-card";
-import ClassCard from "./components/class-card";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
-import { getBotsURL } from "@/lib/urls";
+import { getClassURL } from "@/lib/urls";
+import IconCard from "./components/icon-card";
+import Avvvatars from "avvvatars-react";
+import { Paper } from "@/components/ui/Paper";
 
 export const revalidate = 3600; // revalidate the data at most every hour
 
@@ -36,16 +38,15 @@ export default async function Classes() {
   }
   const classes = await getClassesByUserId(userId);
   return (
-    <div className="flex flex-col gap-3 p-10">
-      <div className="w-60 mb-8">
+    <div className="flex flex-col gap-3">
+      <div className="flex flex-row gap-5 items-center">
         <NewClassCard />
-      </div>
-      <Separator />
-      <h1 className="text-3xl font-bold mt-8">Classes</h1>
-      <div className="flex flex-row gap-5 h-36 items-center">
         {classes.map((classData) => (
-          <Link href={getBotsURL(classData.id)} key={classData.id}>
-            <ClassCard>{classData.name}</ClassCard>
+          <Link href={getClassURL(classData.id)} key={classData.id}>
+            <IconCard
+              icon={<Avvvatars value={classData.id} style="shape" />}
+              text={classData.name}
+            />
           </Link>
         ))}
       </div>

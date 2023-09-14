@@ -1,14 +1,14 @@
 import { getBots } from "../actions";
-import BotPreview from "./components/bot-preview-card";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getServerSession } from "next-auth";
-import { NewBotCard } from "./components/new-bot-card";
+import { NewBotCard } from "../../../components/new-bot-card";
 import { prisma } from "@/prisma";
 import { cache } from "react";
 import { getTeacherId } from "../../../utils";
-import BotCard from "./components/bot-preview-card";
 import Link from "next/link";
 import { getEditBotURL } from "@/lib/urls";
+import IconCard from "../../../components/icon-card";
+import Avvvatars from "avvvatars-react";
 
 type BotDashboardProps = {
   params: {
@@ -42,11 +42,15 @@ export default async function Dashboard({ params }: BotDashboardProps) {
   const botConfigs = await getBotConfigs(userId, classId);
   return (
     <div className="flex  w-full">
-      <div className="flex flex-wrap gap-4">
+      <div className="flex gap-3 flex-wrap">
         <NewBotCard classId={classId} />
         {botConfigs.map((bot) => (
           <Link href={getEditBotURL(classId, bot.id)} key={bot.id}>
-            <BotCard>{bot.name}</BotCard>
+            <IconCard
+              className=""
+              icon={<Avvvatars value={bot.id} style="shape" />}
+              text={bot.name}
+            />
           </Link>
         ))}
       </div>
