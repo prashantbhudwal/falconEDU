@@ -6,7 +6,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import {
   updateBotConfig,
-  toggleBotPublishBotConfig,
+  unPublishBotConfig,
+  publishBotConfig,
 } from "../../../../../mutations";
 import { fetchBotConfig } from "../../../../../queries";
 import {
@@ -79,8 +80,16 @@ export default function BotPreferencesForm({
     }
   };
 
-  const togglePublish = async () => {
-    const result = await toggleBotPublishBotConfig(classId, botId);
+  const onPublish = async () => {
+    const result = await publishBotConfig(classId, botId);
+    if (result.success) {
+    } else {
+      setError("Failed to publish bot config. Please try again."); // set the error message
+    }
+  };
+
+  const onUnPublish = async () => {
+    const result = await unPublishBotConfig(classId, botId);
     if (result.success) {
     } else {
       setError("Failed to publish bot config. Please try again."); // set the error message
@@ -99,7 +108,7 @@ export default function BotPreferencesForm({
               <Button type="submit">{loading ? "Saving" : "Save"}</Button>
               <Button
                 variant={botConfig?.published ? "destructive" : "secondary"}
-                onClick={togglePublish}
+                onClick={botConfig?.published ? onUnPublish : onPublish}
               >
                 {botConfig?.published ? "Un-publish" : "Publish"}
               </Button>
