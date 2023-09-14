@@ -81,3 +81,30 @@ export const fetchBotConfig = cache(async (botId: string) => {
     return null;
   }
 });
+
+export const getStudentsByClassId = cache(async (classId: string) => {
+  const students = await prisma.class.findUnique({
+    where: { id: classId },
+    select: {
+      students: {
+        select: {
+          grade: true,
+          id: true,
+          User: {
+            select: {
+              email: true,
+              name: true,
+            },
+          },
+        },
+      },
+    },
+  });
+  return students?.students;
+});
+//Export return type of this function by infering the type of the return value of the function
+type UnwrapPromise<T> = T extends Promise<infer U> ? U : T;
+
+export type StudentsByClassId = UnwrapPromise<
+  ReturnType<typeof getStudentsByClassId>
+>;
