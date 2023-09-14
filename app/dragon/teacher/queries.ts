@@ -90,6 +90,7 @@ export const getStudentsByClassId = cache(async (classId: string) => {
         select: {
           grade: true,
           id: true,
+          classId: true,
           User: {
             select: {
               email: true,

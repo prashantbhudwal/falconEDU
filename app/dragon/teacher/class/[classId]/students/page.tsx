@@ -1,4 +1,4 @@
-import ClassForm from "./add-students-form";
+import AddStudentForm from "./add-students-form";
 import { StudentTable } from "./students-table";
 import { getStudentsByClassId } from "../../../queries";
 
@@ -15,7 +15,7 @@ export default async function EditStudents({ params }: EditClassProps) {
   return (
     <div className="flex flex-col gap-10">
       <div className="mx-auto mt-4">
-        <ClassForm />
+        <AddStudentForm classId={classId} />
       </div>
       <StudentTable students={students} />
     </div>

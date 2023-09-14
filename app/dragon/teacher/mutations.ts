@@ -6,7 +6,7 @@ import { getBotsURL } from "@/lib/urls";
 import { basicBotInfoSchema } from "./schema";
 import { getEditBotURL } from "@/lib/urls";
 import * as z from "zod";
-import { getClassesURL } from "@/lib/urls";
+import { getClassesURL, getStudentsURL } from "@/lib/urls";
 
 export const createClassForTeacher = async function (
   className: string,
@@ -77,5 +77,118 @@ export const updateBotConfig = async (
     console.error("Failed to update:", error);
     console.log("Failed to update:", error);
     return { success: false, error };
+  }
+};
+
+export const addStudentToClass = async (email: string, classId: string) => {
+  try {
+    // Check if user exists and is a student
+    const user = await prisma.user.findUnique({
+      where: { email },
+      select: { id: true, userType: true },
+    });
+
+    if (!user || user.userType !== "STUDENT") {
+      return { notFound: true };
+    }
+
+    // Check if student profile exists, create if not
+    //TODO Fix this in the db to avoid this hack
+    let studentProfile = await prisma.studentProfile.findUnique({
+      where: { userId: user.id },
+    });
+
+    if (!studentProfile) {
+      studentProfile = await prisma.studentProfile.create({
+        data: {
+          userId: user.id,
+          grade: "",
+        },
+      });
+    }
+
+    // Add student to class
+    await prisma.class.update({
+      where: { id: classId },
+      data: {
+        students: {
+          connect: { id: studentProfile.id },
+        },
+      },
+    });
+    revalidatePath(getStudentsURL(classId));
+    return { success: true };
+  } catch (error) {
+    console.error("Error adding student to class:", error);
+    return { error: true };
+  }
+};
+/* Same as above, but using transaction
+const addStudentToClass = async (email: string, classId: string) => {
+  try {
+    const user = await prisma.user.findUnique({
+      where: { email },
+      select: { id: true, userType: true },
+    });
+
+    if (!user || user.userType !== "STUDENT") {
+      return { notFound: true };
+    }
+
+    const studentProfile = await prisma.studentProfile.findUnique({
+      where: { userId: user.id },
+    });
+
+    const operations = [];
+
+    if (!studentProfile) {
+      operations.push(
+        prisma.studentProfile.create({
+          data: { userId: user.id },
+        })
+      );
+    }
+
+    operations.push(
+      prisma.class.update({
+        where: { id: classId },
+        data: {
+          students: {
+            connect: { userId: user.id },
+          },
+        },
+      })
+    );
+
+    await prisma.$transaction(operations);
+    
+    return { success: true };
+  } catch (error) {
+    console.error("Error:", error);
+    return { error: true };
+  }
+};
+
+ */
+
+export const removeStudentFromClass = async (
+  studentId: string,
+  classId: string
+) => {
+  try {
+    // Remove student from class
+    await prisma.class.update({
+      where: { id: classId },
+      data: {
+        students: {
+          disconnect: { id: studentId },
+        },
+      },
+    });
+    revalidatePath(getStudentsURL(classId));
+    return { success: true };
+  } catch (error) {
+    console.error("Error removing student from class:", error);
+    return { error: true };
   }
 };

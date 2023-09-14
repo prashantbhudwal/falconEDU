@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { addStudentToClass } from "../../../mutations";
 import {
   Form,
   FormItem,
@@ -16,20 +17,42 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-const classFormSchema = z.object({
-  emails: z.string().email().nonempty(),
+const addStudentFormSchema = z.object({
+  email: z.string().email().nonempty(),
 });
 
-export default function ClassForm({ className }: { className?: string }) {
-  const form = useForm<z.infer<typeof classFormSchema>>({
-    resolver: zodResolver(classFormSchema),
+type AddStudentFormProps = {
+  classId: string;
+};
+
+export default function AddStudentForm({ classId }: AddStudentFormProps) {
+  const form = useForm<z.infer<typeof addStudentFormSchema>>({
+    resolver: zodResolver(addStudentFormSchema),
     defaultValues: {
-      emails: "",
+      email: "",
     },
   });
 
-  const onSubmit = function (values: z.infer<typeof classFormSchema>) {
-    console.log(values);
+  const onSubmit = async function (
+    values: z.infer<typeof addStudentFormSchema>
+  ) {
+    const { email } = values;
+    const result = await addStudentToClass(email, classId);
+    if (result.notFound) {
+      form.setError("email", {
+        type: "manual",
+        message: "Student not on FalconAI. Ask them to sign up!",
+      });
+    }
+    if (result.error) {
+      form.setError("email", {
+        type: "manual",
+        message: "Something went wrong. Please try again.",
+      });
+    }
+    if (result.success) {
+      form.reset();
+    }
   };
 
   return (
@@ -40,7 +63,7 @@ export default function ClassForm({ className }: { className?: string }) {
       >
         <FormField
           control={form.control}
-          name="emails"
+          name="email"
           render={({ field }) => (
             <FormItem>
               <FormControl>
