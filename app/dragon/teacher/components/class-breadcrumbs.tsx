@@ -43,5 +43,5 @@ export default function ClassBreadcrumbs() {
     </ul>
   );
 
-  return <div className="breadcrumbs max-w-2xl text-xs">{crumbList}</div>;
+  return <div className="breadcrumbs max-w-2xl">{crumbList}</div>;
 }
