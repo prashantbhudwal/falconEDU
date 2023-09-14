@@ -10,11 +10,12 @@ export interface BotPageProps {
 
 export default async function BotPage({ params }: BotPageProps) {
   const { classId, botId } = params;
-  const botConfig = await fetchBotConfig(botId);
+  const botData = await fetchBotConfig(botId);
 
   return (
     <BotPreferencesForm
-      initialValues={botConfig}
+      preferences={botData?.preferences}
+      botConfig={botData?.bot!}
       classId={classId}
       botId={botId}
     />

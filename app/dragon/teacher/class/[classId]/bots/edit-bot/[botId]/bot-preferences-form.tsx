@@ -1,10 +1,13 @@
 "use client";
+import { type BotConfig } from "@prisma/client";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { botSchema } from "../../../../../schema";
-import { updateBotConfig } from "../../../../../mutations";
+import {
+  updateBotConfig,
+  toggleBotPublishBotConfig,
+} from "../../../../../mutations";
 import { fetchBotConfig } from "../../../../../queries";
 import {
   Form,
@@ -15,16 +18,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectLabel,
-  SelectSeparator,
-  SelectValue,
-} from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -52,22 +45,24 @@ const defaultValues: z.infer<typeof basicBotInfoSchema> = {
 };
 
 type BotPreferencesFormProps = {
-  initialValues?: z.infer<typeof basicBotInfoSchema> | null;
+  preferences?: z.infer<typeof basicBotInfoSchema> | null;
   classId: string;
   botId: string;
+  botConfig: BotConfig | null;
 };
 
 export default function BotPreferencesForm({
-  initialValues,
+  preferences,
   classId,
   botId,
+  botConfig,
 }: BotPreferencesFormProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const form = useForm<z.infer<typeof basicBotInfoSchema>>({
     resolver: zodResolver(basicBotInfoSchema),
-    defaultValues: initialValues || defaultValues,
+    defaultValues: preferences || defaultValues,
   });
 
   const onSubmit = async (data: z.infer<typeof basicBotInfoSchema>) => {
@@ -84,6 +79,14 @@ export default function BotPreferencesForm({
     }
   };
 
+  const togglePublish = async () => {
+    const result = await toggleBotPublishBotConfig(classId, botId);
+    if (result.success) {
+    } else {
+      setError("Failed to publish bot config. Please try again."); // set the error message
+    }
+  };
+
   return (
     <>
       <Form {...form}>
@@ -92,7 +95,15 @@ export default function BotPreferencesForm({
             <h2 className="text-2xl font-bold tracking-tight">
               Bot Preference
             </h2>
-            <Button type="submit">{loading ? "Saving" : "Save"}</Button>
+            <div className="flex flex-row gap-2">
+              <Button type="submit">{loading ? "Saving" : "Save"}</Button>
+              <Button
+                variant={botConfig?.published ? "destructive" : "secondary"}
+                onClick={togglePublish}
+              >
+                {botConfig?.published ? "Un-publish" : "Publish"}
+              </Button>
+            </div>
           </div>
           {error && <div className="text-red-500">{error}</div>}
           <Separator className="my-6" />
