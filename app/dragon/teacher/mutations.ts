@@ -80,6 +80,42 @@ export const updateBotConfig = async (
   }
 };
 
+export const toggleBotPublishBotConfig = async (
+  classId: string,
+  botId: string
+): Promise<{ success: boolean; error?: any }> => {
+  try {
+    // First, fetch the current 'published' status of the bot
+    const bot = await prisma.botConfig.findUnique({
+      where: { id: botId },
+      select: { published: true },
+    });
+
+    if (!bot) {
+      console.error("Bot not found");
+      return { success: false, error: "Bot not found" };
+    }
+
+    // Toggle the 'published' status
+    const newPublishedStatus = !bot.published;
+
+    // Update the 'published' status in the database
+    await prisma.botConfig.update({
+      where: { id: botId },
+      data: {
+        published: newPublishedStatus,
+      },
+    });
+
+    revalidatePath(getEditBotURL(classId, botId));
+
+    return { success: true };
+  } catch (error) {
+    console.error("Failed to update:", error);
+    return { success: false, error };
+  }
+};
+
 export const addStudentToClass = async (email: string, classId: string) => {
   try {
     // Check if user exists and is a student
