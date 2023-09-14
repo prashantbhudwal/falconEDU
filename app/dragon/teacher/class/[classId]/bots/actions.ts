@@ -2,6 +2,7 @@
 import prisma from "@/prisma";
 import { cache } from "react";
 import { revalidatePath } from "next/cache";
+import { getBotsURL } from "@/lib/urls";
 
 export async function createBotConfig(
   userId: string,
@@ -19,11 +20,11 @@ export async function createBotConfig(
     const botConfig = await prisma.botConfig.create({
       data: {
         teacherId: teacherProfile.id,
-        classId, // This will connect it to the existing class
+        classId,
         name: botConfigName,
       },
     });
-    revalidatePath(`/dragon/classes/class/${classId}/bots`);
+    revalidatePath(getBotsURL(classId));
     return botConfig;
   } catch (error) {
     console.error("Error: ", error);
