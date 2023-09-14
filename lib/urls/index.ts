@@ -1,5 +1,6 @@
 // Dragon urls
 const baseUrl = `/dragon`;
+export const getClassesURL = () => `${baseUrl}/classes`;
 export const getClassURL = (classId: string) =>
   `${baseUrl}/teacher/class/${classId}`;
 export const getBotsURL = (classId: string) =>
