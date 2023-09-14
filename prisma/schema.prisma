@@ -141,16 +141,16 @@ model StudentProfile {
 }
 
 model Bot {
-  id            String         @id @default(cuid())
-  student       StudentProfile @relation(fields: [studentId], references: [id])
-  studentId     String
-  BotConfig     BotConfig      @relation(fields: [botConfigId], references: [id])
-  botConfigId   String
-  BotShare      BotShare       @relation(fields: [botShareId], references: [id])
-  botShareId    String
-  BotChat       BotChat[]
-  name          String
-  createdAt     DateTime       @default(now())
+  id          String         @id @default(cuid())
+  student     StudentProfile @relation(fields: [studentId], references: [id])
+  studentId   String
+  BotConfig   BotConfig      @relation(fields: [botConfigId], references: [id])
+  botConfigId String
+  BotShare    BotShare?      @relation(fields: [botShareId], references: [id])
+  botShareId  String?
+  BotChat     BotChat[]
+  name        String
+  createdAt   DateTime       @default(now())
 }
 
 model BotChat {
