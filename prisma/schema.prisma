@@ -149,7 +149,6 @@ model Bot {
   BotShare      BotShare       @relation(fields: [botShareId], references: [id])
   botShareId    String
   BotChat       BotChat[]
-  defaultChatId String
   name          String
   createdAt     DateTime       @default(now())
 }
