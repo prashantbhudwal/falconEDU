@@ -3,9 +3,9 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { botSchema } from "../../../schema";
-import { updateBotConfig } from "../../../mutations";
-import { fetchBotConfig } from "../../../queries";
+import { botSchema } from "../../../../../schema";
+import { updateBotConfig } from "../../../../../mutations";
+import { fetchBotConfig } from "../../../../../queries";
 import {
   Form,
   FormControl,
@@ -28,7 +28,7 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
 import { Checkbox } from "@/components/ui/checkbox";
-import { basicBotInfoSchema } from "../../../schema";
+import { basicBotInfoSchema } from "../../../../../schema";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -38,7 +38,7 @@ import {
   tone,
   humorLevel,
   subjects,
-} from "../../../schema";
+} from "../../../../../schema";
 
 const defaultValues: z.infer<typeof basicBotInfoSchema> = {
   instructions: "How do you want bots to behave?",
