@@ -119,6 +119,7 @@ model BotConfig {
   image       String?
   preferences Json           @default("{}")
   createdAt   DateTime       @default(now())
+  published   Boolean        @default(false)
   Bot         Bot[]
   BotShare    BotShare[]
 }
