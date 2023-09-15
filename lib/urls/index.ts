@@ -22,3 +22,6 @@ export const getStudentBotURL = (botId: string) =>
 
 export const getStudentBotChatURL = (botId: string, chatId: string) =>
   `${baseUrl}/student/bot/${botId}/chat/${chatId}`;
+
+//API urls
+export const getStudentChatApiURL = () => `${baseUrl}/student/api/chat`;
