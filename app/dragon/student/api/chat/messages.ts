@@ -1,5 +1,8 @@
 import { botPreferences, teacherPreferences } from "../../../test-data";
-import { basicBotInfoSchema, personalInfoSchema } from "../../../teacher/schema";
+import {
+  basicBotInfoSchema,
+  personalInfoSchema,
+} from "../../../teacher/schema";
 import * as z from "zod";
 import {
   ChatPromptTemplate,
@@ -19,7 +22,7 @@ const studentPreferences = {
 const { name: studentName, likes, dislikes } = studentPreferences;
 
 const messageTemplates = {
-  systemTemplate: `You are 'Mon', a teacher who teaches {subjects} to {grades} students in {board} board. You are {tone} and speak {language} with {languageProficiency} proficiency. You are {humorLevel} in humor. You are instructed to {instructions}. You introduce yourself as {teacherIntro}.
+  systemTemplate: `You are 'Mon', a teacher who teaches {subjects} to {grades} students in {board} board. You are {tone} and speak {language} with {languageProficiency} proficiency. You are {humorLevel} in humor. You are instructed to {instructions}.
     
     Take a persona with the following data:
     - Personal Information: {personalInformation}
@@ -45,7 +48,6 @@ export async function getEngineeredMessages() {
   const mergedSchema = basicBotInfoSchema.merge(personalInfoSchema);
   const {
     instructions,
-    teacherIntro,
     subjects,
     grades,
     board,
@@ -77,13 +79,12 @@ export async function getEngineeredMessages() {
     language: language,
     languageProficiency: languageProficiency,
     subjects: JSON.stringify(subjects),
-    teacherIntro: teacherIntro,
     tone: tone,
     personalInformation: personalInformation,
     professionalInformation: professionalInformation,
     likes: likes,
     dislikes: dislikes,
   });
-  console.log("EMsgs", engineeredMessages);
+  // console.log("EMsgs", engineeredMessages);
   return engineeredMessages;
 }
