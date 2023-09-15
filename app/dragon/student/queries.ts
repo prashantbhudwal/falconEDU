@@ -1,5 +1,11 @@
 import prisma from "@/prisma";
 import { cache } from "react";
+import * as z from "zod";
+import {
+  basicBotInfoSchema,
+  personalInfoSchema,
+  StudentPreferencesSchema,
+} from "../teacher/schema";
 
 export const getStudentId = cache(async function (userId: string) {
   console.log("getStudentId function starts");
@@ -42,7 +48,7 @@ export const getBotsByUserId = cache(async function (userId: string) {
   return bots;
 });
 
-type UnwrapPromise<T> = T extends Promise<infer U> ? U : T;
+export type UnwrapPromise<T> = T extends Promise<infer U> ? U : T;
 
 export type BotsByUserId = UnwrapPromise<ReturnType<typeof getBotsByUserId>>;
 export type ArrayElement<ArrayType extends readonly unknown[]> =
@@ -62,3 +68,30 @@ export const getChatsByBotId = cache(async function (botId: string) {
   return chats;
 });
 export type ChatsByBotId = UnwrapPromise<ReturnType<typeof getChatsByBotId>>;
+
+export const getBotConfigByChatId = cache(async function (chatId: string) {
+  const botChat = await prisma.botChat.findUnique({
+    where: { id: chatId },
+    select: {
+      bot: {
+        select: {
+          BotConfig: true,
+        },
+      },
+    },
+  });
+  console.log("botChat", botChat);
+
+  const botConfig = botChat?.bot?.BotConfig;
+
+  if (!botConfig) {
+    console.error("BotConfig not found for chatId:", chatId);
+  }
+
+  return botConfig;
+});
+export type BotConfigByChatId = UnwrapPromise<
+  ReturnType<typeof getBotConfigByChatId>
+>;
+
+
