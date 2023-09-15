@@ -69,3 +69,10 @@ export const basicBotInfoSchema = botSchema.pick({
   humorLevel: true,
   languageProficiency: true,
 });
+
+export const StudentPreferencesSchema = z.object({
+  name: z.string(),
+  languageProficiency: z.enum(["native", "fluent", "intermediate", "beginner"]),
+  likes: z.array(z.string()),
+  dislikes: z.array(z.string()),
+});
