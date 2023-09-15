@@ -1,5 +1,5 @@
 "use client";
-import {bots} from "@/app/dragon/test-data";
+import { bots } from "@/app/dragon/test-data";
 import { ChatPanel } from "@/components/chat/chat-panel";
 import { ChatList } from "@/components/chat/chat-list";
 import { ChatScrollAnchor } from "@/components/chat/chat-scroll-anchor";
@@ -18,7 +18,7 @@ export default function ChatPage({ params }: ChatPageProps) {
 
   const { messages, append, reload, stop, isLoading, input, setInput } =
     useChat({
-      api: "/dragon/api/chat",
+      api: "/dragon/student/api/chat",
       initialMessages,
       id,
       body: {
