@@ -12,7 +12,7 @@ type ChatCardProps = {
 };
 export default function BotCard({ chat }: ChatCardProps) {
   return (
-    <Link href={getStudentBotChatURL(chat.id, chat.bot.id)}>
+    <Link href={getStudentBotChatURL(chat.bot.id, chat.id)}>
       <Card className="flex flex-row max-w-sm space-x-5 p-4">
         <Avatar>
           <AvatarImage src="some-image-url" alt="User Avatar" />
