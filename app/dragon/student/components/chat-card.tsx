@@ -5,13 +5,14 @@ import Link from "next/link";
 import { FiMessageCircle } from "react-icons/fi";
 import type { ChatsByBotId } from "../queries";
 import type { ArrayElement } from "../queries";
+import { getStudentBotChatURL } from "@/lib/urls";
 
 type ChatCardProps = {
   chat: ArrayElement<ChatsByBotId>;
 };
 export default function BotCard({ chat }: ChatCardProps) {
   return (
-    <Link href={""}>
+    <Link href={getStudentBotChatURL(chat.id, chat.bot.id)}>
       <Card className="flex flex-row max-w-sm space-x-5 p-4">
         <Avatar>
           <AvatarImage src="some-image-url" alt="User Avatar" />

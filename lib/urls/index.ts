@@ -17,5 +17,8 @@ export const getEditBotURL = (classId: string, botId: string) =>
 export const studentChatURL = (chatId: string) =>
   `${baseUrl}/student/chat/${chatId}`;
 
-  export const getStudentBotURL = (botId: string) =>
+export const getStudentBotURL = (botId: string) =>
   `${baseUrl}/student/bot/${botId}`;
+
+export const getStudentBotChatURL = (botId: string, chatId: string) =>
+  `${baseUrl}/student/bot/${botId}/chat/${chatId}`;
