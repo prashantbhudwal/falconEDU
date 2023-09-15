@@ -6,12 +6,26 @@ import { LangChainStream } from "ai";
 import { ChatOpenAI } from "langchain/chat_models/openai";
 import { HumanMessage, AIMessage, SystemMessage } from "langchain/schema";
 import { getEngineeredMessages } from "./messages";
+import { getChatContextByChatId } from "./queries";
+
+// export const runtime = "edge";
+export const dynamic = "force-dynamic";
 
 const handleCompletion = async (completion: string, json: any) => {};
 
 export async function POST(req: NextRequest) {
   const json = await req.json();
+  console.log("json", json);
   let { messages } = json;
+  const chatId = json.chatId;
+  console.log("json", chatId);
+  const botConfig = await getChatContextByChatId(chatId);
+  console.log(json);
+  console.log("id", chatId);
+  console.log("messages", messages);
+  console.log(botConfig);
+
+  const engineeredMessages = await getEngineeredMessages(botConfig);
 
   const { stream, handlers, writer } = LangChainStream({
     async onCompletion(completion) {
@@ -26,7 +40,8 @@ export async function POST(req: NextRequest) {
   const history = messages.map((m: any) =>
     m.role == "user" ? new HumanMessage(m.content) : new AIMessage(m.content)
   );
-  const engineeredMessages = await getEngineeredMessages();
+
+  // const botPreferences =
 
   const array = [...engineeredMessages, ...history];
 

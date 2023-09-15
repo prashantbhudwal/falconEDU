@@ -1,4 +1,8 @@
-import { botPreferences, teacherPreferences } from "../../../test-data";
+import {
+  botPreferences as botPreferencesTest,
+  teacherPreferences as teacherPreferencesTest,
+} from "../../../test-data";
+import { isEmptyObject } from "./queries";
 import {
   basicBotInfoSchema,
   personalInfoSchema,
@@ -12,6 +16,9 @@ import {
   HumanMessagePromptTemplate,
 } from "langchain/prompts";
 import { AIMessage, HumanMessage, SystemMessage } from "langchain/schema";
+import { type BotConfig } from "@prisma/client";
+import { type ChatContextByChatId } from "./queries";
+
 const studentPreferences = {
   name: "Ramiz",
   languageProficiency: "native",
@@ -22,7 +29,7 @@ const studentPreferences = {
 const { name: studentName, likes, dislikes } = studentPreferences;
 
 const messageTemplates = {
-  systemTemplate: `You are 'Mon', a teacher who teaches {subjects} to {grades} students in {board} board. You are {tone} and speak {language} with {languageProficiency} proficiency. You are {humorLevel} in humor. You are instructed to {instructions}.
+  systemTemplate: `You are {teacherName}, a teacher who teaches {subjects} to {grades} students in {board} board. You are {tone} and speak {language} with {languageProficiency} proficiency. You are {humorLevel} in humor. You are instructed to {instructions}.
     
     Take a persona with the following data:
     - Personal Information: {personalInformation}
@@ -30,22 +37,42 @@ const messageTemplates = {
     - Likes: {likes}
     - Dislikes: {dislikes}
 
-  You only answer questions that fall within the bounds of the persona and your domain expertise. You will politely decline all other conversations.
+  You only answer questions that fall within the bounds of the persona and your domain expertise. You will politely decline all other conversations. You can use students likes and dislikes to customize your answers. But you can't directly answer questions related to student likes and dislikes if they are not in your expertise.
 
   You will NOT mention that you are a bot. You will never mention OpenAI. You are created by FalconAI.
 
   About your student:
-  - Name: ${studentName}
+  - Name: {studentName}
   - Likes: ${likes}
   - Dislikes: ${dislikes}
     `,
-  humanTemplate: `My name is ${studentName}. I like answers in simple English. I like to talk about ${likes}. I don't like to talk about ${dislikes}.`,
-  aiTemplate: "I am Mon. I am doing well.",
+  humanTemplate: `My name is {studentName}. I like answers in simple English. I like to talk about ${likes}. I don't like to talk about ${dislikes}. Make sure you don't talk to me in complex english, I am only in lower grades. Also keep your answers short and simple.`,
+  aiTemplate: "I am {teacherName}. I am doing well.",
   humanMessageTemplateTwo: "Who are you? What are you doing?",
 };
 
-export async function getEngineeredMessages() {
+export async function getEngineeredMessages(context: ChatContextByChatId) {
+  if (!context) {
+    console.error("context not found for chatId:");
+  }
+  const teacherName = context?.teacherName;
+  const studentName = context?.studentName;
+
+  let botPreferences = context?.botPreferences as z.infer<
+    typeof basicBotInfoSchema
+  >;
+  let teacherPreferences = context?.teacherPreferences as z.infer<
+    typeof personalInfoSchema
+  >;
+
+  if (isEmptyObject(botPreferences) || botPreferences === undefined) {
+    botPreferences = botPreferencesTest[0];
+  }
+  if (isEmptyObject(teacherPreferences) || teacherPreferences === undefined) {
+    teacherPreferences = teacherPreferencesTest[0];
+  }
   const mergedSchema = basicBotInfoSchema.merge(personalInfoSchema);
+
   const {
     instructions,
     subjects,
@@ -55,9 +82,13 @@ export async function getEngineeredMessages() {
     language,
     humorLevel,
     languageProficiency,
-  } = botPreferences[0];
+  } = botPreferences;
+
   const { personalInformation, professionalInformation, likes, dislikes } =
-    teacherPreferences[0];
+    teacherPreferences;
+
+  console.log("botPreferences", botPreferences);
+  console.log("teacherPreferences", teacherPreferences);
 
   const { systemTemplate, humanTemplate, aiTemplate, humanMessageTemplateTwo } =
     messageTemplates;
@@ -84,6 +115,8 @@ export async function getEngineeredMessages() {
     professionalInformation: professionalInformation,
     likes: likes,
     dislikes: dislikes,
+    studentName: studentName,
+    teacherName: teacherName,
   });
   // console.log("EMsgs", engineeredMessages);
   return engineeredMessages;
