@@ -7,11 +7,14 @@ import { basicBotInfoSchema } from "./schema";
 import { getEditBotURL } from "@/lib/urls";
 import * as z from "zod";
 import { getClassesURL, getStudentsURL } from "@/lib/urls";
+import { isAuthorized } from "@/lib/utils";
+//TODO: Add auth for functions
 
 export const createClassForTeacher = async function (
   className: string,
   userId: string
 ) {
+  await isAuthorized();
   // Step 1: Fetch TeacherProfile based on userId
   const teacherProfile = await prisma.teacherProfile.findUnique({
     where: { userId },
@@ -37,6 +40,7 @@ export async function createBotConfig(
   classId: string,
   botConfigName: string
 ) {
+  await isAuthorized();
   const teacherProfile = await prisma.teacherProfile.findUnique({
     where: { userId },
   });
@@ -64,6 +68,7 @@ export const updateBotConfig = async (
   botId: string,
   data: z.infer<typeof basicBotInfoSchema>
 ): Promise<{ success: boolean; error?: any }> => {
+  await isAuthorized();
   try {
     const result = await prisma.botConfig.update({
       where: { id: botId },
@@ -84,6 +89,7 @@ export const unPublishBotConfig = async (
   classId: string,
   botConfigId: string
 ) => {
+  await isAuthorized();
   try {
     const updatedBotConfig = await prisma.botConfig.update({
       where: {
@@ -109,6 +115,7 @@ export const publishBotConfig = async (
   classId: string,
   botConfigId: string
 ) => {
+  await isAuthorized();
   try {
     const transaction = await prisma.$transaction(async (prisma) => {
       // Step 1: Set published to true for BotConfig
@@ -167,8 +174,9 @@ export const publishBotConfig = async (
     throw error;
   }
 };
-
+//TODO create bots for student who is added to the class
 export const addStudentToClass = async (email: string, classId: string) => {
+  await isAuthorized();
   try {
     // Check if user exists and is a student
     const user = await prisma.user.findUnique({
@@ -263,6 +271,7 @@ export const removeStudentFromClass = async (
   studentId: string,
   classId: string
 ) => {
+  await isAuthorized();
   try {
     // Remove student from class
     await prisma.class.update({
