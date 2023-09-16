@@ -94,4 +94,22 @@ export type BotConfigByChatId = UnwrapPromise<
   ReturnType<typeof getBotConfigByChatId>
 >;
 
+export const getBotChatByChatId = cache(async function (chatId: string) {
+  const botChat = await prisma.botChat.findUnique({
+    where: { id: chatId },
+  });
 
+  if (!botChat || !botChat.messages) {
+    console.error("BotChat not found for chatId:", chatId);
+    return null;
+  }
+  let messagesArray = [];
+  if (typeof botChat.messages === "string") {
+    messagesArray = JSON.parse(botChat.messages);
+  }
+  return { ...botChat, messages: messagesArray };
+});
+
+export type BotChatByChatId = UnwrapPromise<
+  ReturnType<typeof getBotChatByChatId>
+>;
