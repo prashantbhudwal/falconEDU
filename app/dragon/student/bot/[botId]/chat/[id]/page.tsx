@@ -1,6 +1,9 @@
 import { Message } from "ai/react";
 import { getStudentChatApiURL } from "@/lib/urls";
-import { getBotConfigByChatId } from "@/app/dragon/student/queries";
+import {
+  getBotChatByChatId,
+  getBotConfigByChatId,
+} from "@/app/dragon/student/queries";
 import { Chat } from "@/components/chat/chat-dragon";
 export interface ChatPageProps {
   params: {
@@ -13,7 +16,9 @@ export default async function ChatPage({ params }: ChatPageProps) {
   const id = params.id;
   const botId = params.botId;
   const botConfig = await getBotConfigByChatId(id);
-  const initialMessages: Message[] = [];
+  const chat = await getBotChatByChatId(id);
+  const initialMessages: Message[] = chat?.messages || [];
+  console.log("initialMessages", initialMessages);
 
   return (
     <div className="overflow-y-scroll custom-scrollbar">
