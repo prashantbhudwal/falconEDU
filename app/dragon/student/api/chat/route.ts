@@ -7,25 +7,23 @@ import { getEngineeredMessages } from "./messages";
 import { getChatContextByChatId } from "./queries";
 import { type BaseMessage } from "langchain/schema";
 import { countPromptTokens, filterMessagesByTokenLimit } from "./utils";
+import { saveBotChatToDatabase } from "./mutations";
 
 // export const runtime = "edge";
 export const dynamic = "force-dynamic";
 
-const handleCompletion = async (completion: string, json: any) => {};
-
 export async function POST(req: NextRequest) {
   const json = await req.json();
   let { messages } = json;
-  const chatId = json.chatId;
-  const context = await getChatContextByChatId(chatId);
-  console.log(messages);
+  const botChatId = json.chatId;
+  const context = await getChatContextByChatId(botChatId);
 
   const engineeredMessages = await getEngineeredMessages(context);
 
   const { stream, handlers, writer } = LangChainStream({
     async onCompletion(completion) {
       console.log("completion", completion);
-      await handleCompletion(completion, json);
+      await saveBotChatToDatabase(botChatId, completion, messages);
     },
   });
 
