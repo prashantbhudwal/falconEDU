@@ -19,7 +19,7 @@ export default async function Classes() {
   const classes = await getClassesByUserId(userId);
   return (
     <div className="flex flex-col gap-3">
-      <div className="flex flex-row gap-5 items-center">
+      <div className="flex flex-row gap-5 items-center flex-wrap">
         <NewClassCard />
         {classes.map((classData) => (
           <Link href={getClassURL(classData.id)} key={classData.id}>
