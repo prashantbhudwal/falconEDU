@@ -1,12 +1,12 @@
 import { NextRequest } from "next/server";
-import { OpenAIStream, StreamingTextResponse } from "ai";
-import { ChatCompletionRequestMessage } from "openai-edge";
-import { openai } from "@/app/api/lib/openAI/config";
+import { StreamingTextResponse } from "ai";
 import { LangChainStream } from "ai";
 import { ChatOpenAI } from "langchain/chat_models/openai";
-import { HumanMessage, AIMessage, SystemMessage } from "langchain/schema";
+import { HumanMessage, AIMessage } from "langchain/schema";
 import { getEngineeredMessages } from "./messages";
 import { getChatContextByChatId } from "./queries";
+import { type BaseMessage } from "langchain/schema";
+import { countPromptTokens, filterMessagesByTokenLimit } from "./utils";
 
 // export const runtime = "edge";
 export const dynamic = "force-dynamic";
@@ -15,20 +15,16 @@ const handleCompletion = async (completion: string, json: any) => {};
 
 export async function POST(req: NextRequest) {
   const json = await req.json();
-  console.log("json", json);
   let { messages } = json;
   const chatId = json.chatId;
-  console.log("json", chatId);
-  const botConfig = await getChatContextByChatId(chatId);
-  console.log(json);
-  console.log("id", chatId);
-  console.log("messages", messages);
-  console.log(botConfig);
+  const context = await getChatContextByChatId(chatId);
+  console.log(messages);
 
-  const engineeredMessages = await getEngineeredMessages(botConfig);
+  const engineeredMessages = await getEngineeredMessages(context);
 
   const { stream, handlers, writer } = LangChainStream({
     async onCompletion(completion) {
+      console.log("completion", completion);
       await handleCompletion(completion, json);
     },
   });
@@ -37,13 +33,23 @@ export async function POST(req: NextRequest) {
     streaming: true,
   });
 
-  const history = messages.map((m: any) =>
+  const history: BaseMessage[] = messages.map((m: any) =>
     m.role == "user" ? new HumanMessage(m.content) : new AIMessage(m.content)
   );
 
-  // const botPreferences =
-
   const array = [...engineeredMessages, ...history];
+
+  const { promptTokens, cost } = countPromptTokens(array, llm.modelName);
+  console.log("promptTokens", promptTokens);
+
+  const messagesNew = filterMessagesByTokenLimit(array, 3500, llm.modelName);
+  console.log("messagesNew", messagesNew);
+
+  const { promptTokens: newPromptTokens } = countPromptTokens(
+    messagesNew,
+    llm.modelName
+  );
+  console.log("newPromptTokens", newPromptTokens);
 
   llm.call(array, {}, [handlers]).catch(console.error);
 
