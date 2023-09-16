@@ -3,14 +3,27 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import prisma from "@/prisma";
 import { getStudentId } from "@/app/dragon/student/queries";
 import { getTeacherId } from "@/app/dragon/teacher/queries";
-
-export const isAuthorized = async (
-  chatId?: string,
-  botChatId?: string,
-  botId?: string
-) => {
+import { type } from "os";
+type isAuthorizedParams = {
+  userType: "STUDENT" | "TEACHER";
+  chatId?: string;
+  botChatId?: string;
+  botId?: string;
+};
+export const isAuthorized = async ({
+  userType,
+  chatId,
+  botChatId,
+  botId,
+}: isAuthorizedParams) => {
   const session = await getServerSession(authOptions);
   if (!session) {
+    return {
+      error: "unauthorized",
+    };
+  }
+
+  if (session.user.userType !== userType) {
     return {
       error: "unauthorized",
     };
