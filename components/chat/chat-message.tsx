@@ -1,7 +1,8 @@
 import { Message } from "ai";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
-import Avatar from "@/components/avatar";
+import UserAvatar from "@/components/avatar";
+import { Avatar, AvatarImage } from "../ui/avatar";
 import { cn } from "@/lib/utils";
 import { CodeBlock } from "@/app/(falcon)/(merlin)/merlin/components/code-block";
 import { MemoizedReactMarkdown } from "@/components/markdown";
@@ -10,9 +11,10 @@ import Image from "next/image";
 
 export interface ChatMessageProps {
   message: Message;
+  botImage?: string;
 }
 
-export function ChatMessage({ message, ...props }: ChatMessageProps) {
+export function ChatMessage({ message, botImage, ...props }: ChatMessageProps) {
   return (
     <div
       className={cn("group relative mb-4 flex items-start md:-ml-12")}
@@ -25,15 +27,11 @@ export function ChatMessage({ message, ...props }: ChatMessageProps) {
         )}
       >
         {message.role === "user" ? (
-          <Avatar />
+          <UserAvatar />
         ) : (
-          <Image
-            className="rounded-md object-cover"
-            src={"/chubbi.png"}
-            height={35}
-            width={35}
-            alt="Falcon Logo"
-          />
+          <Avatar>
+            <AvatarImage src={botImage ? botImage : "/chubbi.png"} />
+          </Avatar>
         )}
       </div>
       <div className="ml-4 flex-1 space-y-2 overflow-hidden px-1">

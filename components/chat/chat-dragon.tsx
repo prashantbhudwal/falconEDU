@@ -12,6 +12,7 @@ export interface ChatProps extends React.ComponentProps<"div"> {
   apiPath: string;
   emptyMessage: string;
   chatBody: Record<string, unknown>;
+  botImage?: string;
 }
 
 export function Chat({
@@ -21,6 +22,7 @@ export function Chat({
   emptyMessage,
   className,
   chatBody,
+  botImage,
 }: ChatProps) {
   const { messages, append, reload, stop, isLoading, input, setInput } =
     useChat({
@@ -39,7 +41,7 @@ export function Chat({
       <div className={cn("pb-[200px] pt-4 md:pt-10", className)}>
         {messages.length ? (
           <>
-            <ChatList messages={messages} />
+            <ChatList messages={messages} botImage = {botImage}/>
             <ChatScrollAnchor trackVisibility={isLoading} />
           </>
         ) : (

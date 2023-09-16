@@ -1,8 +1,9 @@
 "use client";
 import Image from "next/image";
 import useUserData from "@/hooks/useUserData";
+import { Avatar, AvatarImage } from "./ui/avatar";
 
-export default function Avatar() {
+export default function UserAvatar() {
   const { user, error, isLoading } = useUserData();
 
   const getInitials = () => {
@@ -22,26 +23,18 @@ export default function Avatar() {
 
   if (isLoading) {
     return (
-      <Image
-        className="rounded-md object-cover"
-        src={"/chubbi.png"}
-        height={35}
-        width={35}
-        alt="Falcon Logo"
-      />
+      <Avatar>
+        <AvatarImage src="/chubbi.png" />
+      </Avatar>
     );
   }
 
   return (
     <>
       {user?.image ? (
-        <Image
-          className="rounded-full object-cover"
-          src={user.image}
-          height={35}
-          width={35}
-          alt="User avatar"
-        />
+        <Avatar>
+          <AvatarImage src={user.image} />
+        </Avatar>
       ) : (
         <span className=" flex h-[35px] w-[35px] items-center justify-center rounded-full bg-slate-800 text-sm font-medium tracking-wide text-secondary shadow-md shadow-slate-950">
           <div>{getInitials()}</div>

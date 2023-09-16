@@ -15,8 +15,8 @@ export interface ChatPageProps {
 export default async function ChatPage({ params }: ChatPageProps) {
   const id = params.id;
   const botId = params.botId;
-  const botConfig = await getBotConfigByChatId(id);
   const chat = await getBotChatByChatId(id);
+  const botImage = chat?.botImage;
   const initialMessages: Message[] = chat?.messages || [];
   console.log("initialMessages", initialMessages);
 
@@ -29,8 +29,8 @@ export default async function ChatPage({ params }: ChatPageProps) {
         emptyMessage={"Start chatting with your teacher"}
         chatBody={{
           chatId: id,
-          botConfig: botConfig,
         }}
+        botImage={botImage}
       />
     </div>
   );

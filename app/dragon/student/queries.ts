@@ -97,7 +97,31 @@ export type BotConfigByChatId = UnwrapPromise<
 export const getBotChatByChatId = cache(async function (chatId: string) {
   const botChat = await prisma.botChat.findUnique({
     where: { id: chatId },
+    select: {
+      messages: true,
+      bot: {
+        select: {
+          BotConfig: {
+            select: {
+              teacher: {
+                select: {
+                  User: {
+                    select: {
+                      image: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
   });
+  let botImage = botChat?.bot?.BotConfig?.teacher?.User?.image;
+  if (!botImage) {
+    botImage = "/chubbi.png";
+  }
 
   if (!botChat || !botChat.messages) {
     console.error("BotChat not found for chatId:", chatId);
@@ -107,7 +131,7 @@ export const getBotChatByChatId = cache(async function (chatId: string) {
   if (typeof botChat.messages === "string") {
     messagesArray = JSON.parse(botChat.messages);
   }
-  return { ...botChat, messages: messagesArray };
+  return { botImage, messages: messagesArray };
 });
 
 export type BotChatByChatId = UnwrapPromise<
