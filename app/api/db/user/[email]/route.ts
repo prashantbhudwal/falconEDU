@@ -2,29 +2,7 @@ import { NextResponse } from "next/server";
 import prisma from "@/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-
-export const getUser = function (email: any) {
-  return prisma.user.findUnique({
-    where: {
-      email: email,
-    },
-    select: {
-      id: true,
-      name: true,
-      email: true,
-      image: true,
-      role: true,
-      plan: true,
-      subscriptionStart: true,
-      subscriptionEnd: true,
-      teacherProfile: {
-        select: {
-          bio: true,
-        },
-      },
-    },
-  });
-};
+import { getUser } from "./queries";
 
 export async function GET(
   request: Request,

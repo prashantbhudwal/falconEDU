@@ -1,6 +1,6 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../app/api/auth/[...nextauth]/authOptions";
-import { getUser } from "../../app/api/db/user/[email]/route";
+import { getUser } from "@/app/api/db/user/[email]/queries";
 import Plans from "../../app/(user)/pricing/plans";
 import { getProducts } from "@/lib/stripe";
 import { redirect } from "next/navigation";
