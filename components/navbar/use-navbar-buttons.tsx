@@ -152,36 +152,29 @@ export default function useNavbarButtons() {
       ],
     },
   ];
+  const dragonButtons: PageConfig[] = [
+    {
+      pattern: /^\/dragon\/teacher$/,
+      buttons: [
+        {
+          name: "My Preferences",
+          href: "/dragon/teacher/teacher-preferences",
+          linkClass: "btn-secondary",
+          icon: {
+            Icon: FiSettings,
+            additionalClass: "",
+          },
+          onClick: () => {},
+          isEnabled: true,
+        },
+      ],
+    },
+  ];
 
   const buttonConfiguration: PageConfig[] = [
     ...merlinButtons,
     ...raptorButtons,
-    {
-      pattern: /^\/headerTest$/,
-      buttons: [
-        {
-          name: "Generate",
-          href: "generate",
-          linkClass: "btn-primary",
-          icon: {
-            Icon: FiHome,
-            additionalClass: "home-icon-class",
-          },
-          onClick: () => console.log("About button clicked"),
-        },
-        {
-          name: "Download",
-          href: "download",
-          linkClass: "btn-accent",
-          icon: {
-            Icon: FiDownload,
-            additionalClass: "about-icon-class",
-          },
-          onClick: () => console.log("About button clicked"),
-        },
-      ],
-    },
-    // add more configurations here
+    ...dragonButtons,
   ];
   return buttonConfiguration;
 }

@@ -2,7 +2,7 @@
 import usePreferences from "@/hooks/usePreferences";
 import usePageTracking from "@/hooks/usePageTracking";
 const hideConfig = ["/pricing", "/profile", "/dragon"];
-export default function BreadCrumbs() {
+export default function FalconBreadCrumbs() {
   const { currentPage } = usePageTracking();
   const { topic, subtopic, grade, board, subject } = usePreferences();
   const crumbList = (

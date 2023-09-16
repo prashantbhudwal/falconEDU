@@ -2,10 +2,10 @@
 import usePageTracking from "@/hooks/usePageTracking";
 import clsx from "clsx"; // for combining class names
 import { useRouter } from "next/navigation";
-import { ButtonConfig } from "@/hooks/useNavbarButtons";
-import useNavbarButtons from "@/hooks/useNavbarButtons";
+import { ButtonConfig } from "@/components/navbar/use-navbar-buttons";
+import useNavbarButtons from "@/components/navbar/use-navbar-buttons";
 
-export default function MerlinActionBar() {
+export default function RightActionBar() {
   const { currentPage } = usePageTracking();
   const router = useRouter();
   const buttonConfiguration = useNavbarButtons();

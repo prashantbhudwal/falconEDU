@@ -1,4 +1,4 @@
-import Navbar from "@/components/navbar";
+import Navbar from "@/components/navbar/navbar";
 import { Paper } from "@/components/ui/Paper";
 import ClassBreadcrumbs from "./components/class-breadcrumbs";
 export default function DragonLayout({

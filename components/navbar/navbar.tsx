@@ -1,10 +1,10 @@
-import BreadCrumbs from "../app/(falcon)/(merlin)/components/breadcrumbs";
-import ChubbiDropdown from "@/components/chubbi-dropdown";
+import FalconBreadCrumbs from "./falcon-breadcrumbs";
+import ChubbiDropdown from "@/components/navbar/chubbi-dropdown";
 import ProfileDropDown from "./profile-dropdown";
-import MerlinActionBar from "../app/(falcon)/(merlin)/components/merlin-action-bar";
-import UpgradeBtn from "./auth/upgrade-btn";
+import RightActionBar from "./right-action-bar";
+import UpgradeBtn from "./upgrade-btn";
 import InviteDropdown from "./invite-dropdown";
-import HelpDropdown from "@/components/help-dropdown";
+import HelpDropdown from "@/components/navbar/help-dropdown";
 export default function Navbar() {
   return (
     <div className="navbar h-2 bg-base-200 shadow-sm shadow-base-100">
@@ -14,10 +14,10 @@ export default function Navbar() {
         <UpgradeBtn />
       </div>
       <div className="navbar-center">
-        <BreadCrumbs />
+        <FalconBreadCrumbs />
       </div>
       <div className="navbar-end gap-3 pr-1">
-        <MerlinActionBar />
+        <RightActionBar />
         <ProfileDropDown />
         <HelpDropdown />
       </div>

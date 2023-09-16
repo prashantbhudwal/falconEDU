@@ -1,4 +1,4 @@
-import Navbar from "@/components/navbar";
+import Navbar from "@/components/navbar/navbar";
 import BasicInfo from "./basic-info";
 import PaymentsTable from "./payments-table";
 export default function ProfilePage() {

@@ -1,4 +1,4 @@
-import Navbar from "@/components/navbar";
+import Navbar from "@/components/navbar/navbar";
 import Expired from "../../components/auth/expired";
 
 export default function MerlinLayout({
