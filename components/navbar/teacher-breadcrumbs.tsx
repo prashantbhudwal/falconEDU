@@ -3,8 +3,9 @@ import { FiFolder } from "react-icons/fi";
 import { usePathname } from "next/navigation";
 import usePageTracking from "@/hooks/usePageTracking";
 const showConfig = [/^\/dragon\/.*$/];
-
 export default function TeacherBreadcrumbs() {
+  //TODO https://chat.openai.com/share/f7d25303-7f40-4884-9b39-05635d77200f
+
   const { currentPage } = usePageTracking();
   const pathname = usePathname();
   const parts = pathname.split("/");
