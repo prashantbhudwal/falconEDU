@@ -1,6 +1,6 @@
 import { type Bot } from "./student/types";
 import { type User } from "@prisma/client";
-import { personalInfoSchema, basicBotInfoSchema } from "./teacher/schema";
+import { teacherPreferencesSchema, basicBotInfoSchema } from "./teacher/schema";
 
 export const botData = {
   id: "111",
@@ -99,7 +99,9 @@ export const botPreferences: Array<z.infer<typeof basicBotInfoSchema>> = [
   },
 ];
 
-export const teacherPreferences: Array<z.infer<typeof personalInfoSchema>> = [
+export const teacherPreferences: Array<
+  z.infer<typeof teacherPreferencesSchema>
+> = [
   {
     personalInformation: "I enjoy classical music and hiking during weekends.",
     professionalInformation:

@@ -3,7 +3,7 @@ import { cache } from "react";
 import * as z from "zod";
 import {
   basicBotInfoSchema,
-  personalInfoSchema,
+  teacherPreferencesSchema,
   StudentPreferencesSchema,
 } from "../teacher/schema";
 

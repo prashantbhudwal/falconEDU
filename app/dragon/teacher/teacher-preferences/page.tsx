@@ -5,7 +5,7 @@ import { TextareaAutosize } from "@/components/ui/textarea-autosize";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { personalInfoSchema } from "../schema";
+import { teacherPreferencesSchema } from "../schema";
 
 import {
   Form,
@@ -17,14 +17,14 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-const defaultValues: z.infer<typeof personalInfoSchema> = {
+const defaultValues: z.infer<typeof teacherPreferencesSchema> = {
   personalInformation: "",
   professionalInformation: "",
   likes: "",
   dislikes: "",
 };
 
-const onSubmit = (values: z.infer<typeof personalInfoSchema>) => {
+const onSubmit = (values: z.infer<typeof teacherPreferencesSchema>) => {
   console.log(values);
 };
 const personalInfo = [
@@ -58,9 +58,9 @@ const personalInfo = [
   },
 ] as const;
 
-export default function PersonalInfo() {
-  const form = useForm<z.infer<typeof personalInfoSchema>>({
-    resolver: zodResolver(personalInfoSchema),
+export default function TeacherPreferences() {
+  const form = useForm<z.infer<typeof teacherPreferencesSchema>>({
+    resolver: zodResolver(teacherPreferencesSchema),
     defaultValues,
   });
 

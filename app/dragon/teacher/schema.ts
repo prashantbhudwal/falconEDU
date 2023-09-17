@@ -52,7 +52,7 @@ export const botSchema = z.object({
   debateTolerance: z.enum(["Encouraged", "Neutral", "Discouraged"]),
 });
 
-export const personalInfoSchema = z.object({
+export const teacherPreferencesSchema = z.object({
   professionalInformation: z.string().min(50).max(500).optional(),
   personalInformation: z.string().min(50).max(500).optional(),
   likes: z.string().min(50).max(500).optional(),

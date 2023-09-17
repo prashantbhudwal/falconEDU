@@ -10,6 +10,12 @@ import { getClassesURL, getStudentsURL } from "@/lib/urls";
 import { isAuthorized } from "@/lib/utils";
 //TODO: Add auth for functions
 
+export const updateTeacherPreferences = async () =>{
+  
+}
+
+
+
 export const createClassForTeacher = async function (
   className: string,
   userId: string
@@ -231,53 +237,6 @@ export const addStudentToClass = async (email: string, classId: string) => {
     return { error: true };
   }
 };
-/* Same as above, but using transaction
-const addStudentToClass = async (email: string, classId: string) => {
-  try {
-    const user = await prisma.user.findUnique({
-      where: { email },
-      select: { id: true, userType: true },
-    });
-
-    if (!user || user.userType !== "STUDENT") {
-      return { notFound: true };
-    }
-
-    const studentProfile = await prisma.studentProfile.findUnique({
-      where: { userId: user.id },
-    });
-
-    const operations = [];
-
-    if (!studentProfile) {
-      operations.push(
-        prisma.studentProfile.create({
-          data: { userId: user.id },
-        })
-      );
-    }
-
-    operations.push(
-      prisma.class.update({
-        where: { id: classId },
-        data: {
-          students: {
-            connect: { userId: user.id },
-          },
-        },
-      })
-    );
-
-    await prisma.$transaction(operations);
-    
-    return { success: true };
-  } catch (error) {
-    console.error("Error:", error);
-    return { error: true };
-  }
-};
-
- */
 
 export const removeStudentFromClass = async (
   studentId: string,
