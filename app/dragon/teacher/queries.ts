@@ -1,7 +1,7 @@
 import prisma from "@/prisma";
 import { cache } from "react";
 import * as z from "zod";
-import { basicBotInfoSchema } from "./schema";
+import { botPreferencesSchema } from "./schema";
 export const revalidate = 3600; // 1 hour
 
 export const getTeacherId = cache(async function (userId: string) {
@@ -68,7 +68,7 @@ export const fetchBotConfig = cache(async (botId: string) => {
       preferences = emptyPreferences;
     }
 
-    const result = basicBotInfoSchema.safeParse(preferences);
+    const result = botPreferencesSchema.safeParse(preferences);
 
     if (result.success) {
       return { preferences: result.data, bot };

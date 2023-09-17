@@ -2,7 +2,7 @@ import prisma from "@/prisma";
 import { cache } from "react";
 import * as z from "zod";
 import {
-  basicBotInfoSchema,
+  botPreferencesSchema,
   teacherPreferencesSchema,
   StudentPreferencesSchema,
 } from "../teacher/schema";

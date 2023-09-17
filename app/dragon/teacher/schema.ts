@@ -59,7 +59,7 @@ export const teacherPreferencesSchema = z.object({
   dislikes: z.string().min(50).max(500).optional(),
 });
 
-export const basicBotInfoSchema = botSchema.pick({
+export const botPreferencesSchema = botSchema.pick({
   instructions: true,
   subjects: true,
   grades: true,
@@ -71,8 +71,8 @@ export const basicBotInfoSchema = botSchema.pick({
 });
 
 export const StudentPreferencesSchema = z.object({
-  name: z.string(),
-  languageProficiency: z.enum(["native", "fluent", "intermediate", "beginner"]),
-  likes: z.array(z.string()),
-  dislikes: z.array(z.string()),
+  grade: z.enum(grades),
+  board: z.enum(board),
+  likes: z.string().min(20).max(500).optional(),
+  dislikes: z.string().min(20).max(500).optional(),
 });

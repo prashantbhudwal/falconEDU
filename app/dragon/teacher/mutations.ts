@@ -3,7 +3,7 @@ import prisma from "@/prisma";
 import { cache } from "react";
 import { revalidatePath } from "next/cache";
 import { getBotsURL, getClassURL } from "@/lib/urls";
-import { basicBotInfoSchema } from "./schema";
+import { botPreferencesSchema } from "./schema";
 import { getEditBotURL } from "@/lib/urls";
 import * as z from "zod";
 import { getClassesURL, getStudentsURL } from "@/lib/urls";
@@ -93,7 +93,7 @@ export async function createBotConfig(
 export const updateBotConfig = async (
   classId: string,
   botId: string,
-  data: z.infer<typeof basicBotInfoSchema>
+  data: z.infer<typeof botPreferencesSchema>
 ): Promise<{ success: boolean; error?: any }> => {
   await isAuthorized({
     userType: "TEACHER",

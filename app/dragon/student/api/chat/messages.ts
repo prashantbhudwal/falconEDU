@@ -4,7 +4,7 @@ import {
 } from "../../../test-data";
 import { isEmptyObject } from "./queries";
 import {
-  basicBotInfoSchema,
+  botPreferencesSchema,
   teacherPreferencesSchema,
 } from "../../../teacher/schema";
 import * as z from "zod";
@@ -59,7 +59,7 @@ export async function getEngineeredMessages(context: ChatContextByChatId) {
   const studentName = context?.studentName;
 
   let botPreferences = context?.botPreferences as z.infer<
-    typeof basicBotInfoSchema
+    typeof botPreferencesSchema
   >;
   let teacherPreferences = context?.teacherPreferences as z.infer<
     typeof teacherPreferencesSchema
@@ -71,7 +71,7 @@ export async function getEngineeredMessages(context: ChatContextByChatId) {
   if (isEmptyObject(teacherPreferences) || teacherPreferences === undefined) {
     teacherPreferences = teacherPreferencesTest[0];
   }
-  const mergedSchema = basicBotInfoSchema.merge(teacherPreferencesSchema);
+  const mergedSchema = botPreferencesSchema.merge(teacherPreferencesSchema);
 
   const {
     instructions,

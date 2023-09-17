@@ -22,7 +22,7 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
 import { Checkbox } from "@/components/ui/checkbox";
-import { basicBotInfoSchema } from "../../../../../schema";
+import { botPreferencesSchema } from "../../../../../schema";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -34,7 +34,7 @@ import {
   subjects,
 } from "../../../../../schema";
 
-const defaultValues: z.infer<typeof basicBotInfoSchema> = {
+const defaultValues: z.infer<typeof botPreferencesSchema> = {
   instructions: "How do you want bots to behave?",
   subjects: ["Grade 1"],
   grades: [],
@@ -46,7 +46,7 @@ const defaultValues: z.infer<typeof basicBotInfoSchema> = {
 };
 
 type BotPreferencesFormProps = {
-  preferences?: z.infer<typeof basicBotInfoSchema> | null;
+  preferences?: z.infer<typeof botPreferencesSchema> | null;
   classId: string;
   botId: string;
   botConfig: BotConfig | null;
@@ -61,12 +61,12 @@ export default function BotPreferencesForm({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const form = useForm<z.infer<typeof basicBotInfoSchema>>({
-    resolver: zodResolver(basicBotInfoSchema),
+  const form = useForm<z.infer<typeof botPreferencesSchema>>({
+    resolver: zodResolver(botPreferencesSchema),
     defaultValues: preferences || defaultValues,
   });
 
-  const onSubmit = async (data: z.infer<typeof basicBotInfoSchema>) => {
+  const onSubmit = async (data: z.infer<typeof botPreferencesSchema>) => {
     console.log(data);
     setLoading(true);
     const result = await updateBotConfig(classId, botId, data);

@@ -3,7 +3,7 @@ import { cache } from "react";
 import { type UnwrapPromise } from "../../queries";
 import * as z from "zod";
 import {
-  basicBotInfoSchema,
+  botPreferencesSchema,
   teacherPreferencesSchema,
   StudentPreferencesSchema,
 } from "@/app/dragon/teacher/schema";
@@ -61,7 +61,7 @@ export const getChatContextByChatId = cache(async function (chatId: string) {
 
   const parsedBotPreferences = isEmptyObject(botPreferences)
     ? { success: true, data: {} }
-    : basicBotInfoSchema.safeParse(botPreferences);
+    : botPreferencesSchema.safeParse(botPreferences);
   const parsedTeacherPreferences = isEmptyObject(teacherPreferences)
     ? { success: true, data: {} }
     : teacherPreferencesSchema.safeParse(teacherPreferences);
