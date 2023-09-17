@@ -1,104 +1,72 @@
-"use client";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { TextareaAutosize } from "@/components/ui/textarea-autosize";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
+import TeacherPreferencesForm from "./teacher-preferences-form";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { getTeacherId } from "../queries";
+import { cache } from "react";
+import prisma from "@/prisma";
 import { teacherPreferencesSchema } from "../schema";
-
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-
-const defaultValues: z.infer<typeof teacherPreferencesSchema> = {
-  personalInformation: "",
-  professionalInformation: "",
-  likes: "",
-  dislikes: "",
+type TeacherPreferencesPageProps = {
+  params: {
+    classId: string;
+  };
 };
 
-const onSubmit = (values: z.infer<typeof teacherPreferencesSchema>) => {
-  console.log(values);
-};
-const personalInfo = [
-  {
-    name: "personalInformation",
-    label: "Personal Information",
-    placeholder:
-      "What are your hobbies? What are your favorite things to do? What kind of music do you like?",
-    description: "AI will use this to form a connection with the students.",
-  },
-  {
-    name: "professionalInformation",
-    label: "Professional Information",
-    placeholder:
-      "Where have you studied? What are your qualifications? What are your professional interests? What about your professional experience?",
-    description: "AI will use this to build credibility with the students.",
-  },
-  {
-    name: "likes",
-    label: "Likes",
-    placeholder:
-      "What are some things you like? What behaviors should be encouraged?",
-    description: "AI will use this to form a connection with the students.",
-  },
-  {
-    name: "dislikes",
-    label: "Dislikes",
-    placeholder:
-      "What are some things you don't like? What behaviors do you not tolerate?",
-    description: "AI will use this to form a connection with the students.",
-  },
-] as const;
+const getTeacherPreferences = cache(async (teacherId: string) => {
+  const emptyPreferences = {};
+  try {
+    const profile = await prisma.teacherProfile.findUnique({
+      where: { id: teacherId },
+    });
 
-export default function TeacherPreferences() {
-  const form = useForm<z.infer<typeof teacherPreferencesSchema>>({
-    resolver: zodResolver(teacherPreferencesSchema),
-    defaultValues,
-  });
+    console.log("Fetched successfully.");
+
+    let preferences;
+    if (profile && profile.preferences) {
+      preferences =
+        typeof profile.preferences === "string"
+          ? JSON.parse(profile.preferences)
+          : profile.preferences;
+    } else {
+      preferences = emptyPreferences;
+    }
+
+    const result = teacherPreferencesSchema.safeParse(preferences);
+
+    if (result.success) {
+      return result.data;
+    } else {
+      console.error("Validation failed:", result.error);
+      return null;
+    }
+  } catch (error) {
+    console.error("Failed to fetch:", error);
+    return null;
+  }
+});
+
+export default async function TeacherPreferencesPage({
+  params,
+}: TeacherPreferencesPageProps) {
+  const session = await getServerSession(authOptions);
+  const userId = session?.user?.id;
+  if (!userId) {
+    return null;
+  }
+  const teacherId = await getTeacherId(userId);
+  if (!teacherId) {
+    return null;
+  }
+  const preferences = await getTeacherPreferences(teacherId);
+  if (!preferences) {
+    return null;
+  }
 
   return (
     <>
-      <Form {...form}>
-        <h2 className="text-2xl font-bold tracking-tight">
-          Teacher Preference
-        </h2>
-        <h2 className="text-xl text-muted">Common for all bots.</h2>
-
-        <Separator className="my-6" />
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          {/* Mapping over all text boxes */}
-          {personalInfo.map((item) => (
-            <FormField
-              key={item.name}
-              control={form.control}
-              name={item.name}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{item.label}</FormLabel>
-                  <FormControl>
-                    <TextareaAutosize
-                      placeholder={item.placeholder}
-                      className="resize-none placeholder:text-xs min-h-[6rem]"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>{item.description}</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          ))}
-          <Button type="submit">Update profile</Button>
-        </form>
-      </Form>
+      <TeacherPreferencesForm
+        initialValues={preferences}
+        teacherId={teacherId}
+      />
     </>
   );
 }

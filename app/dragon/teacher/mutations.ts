@@ -2,19 +2,36 @@
 import prisma from "@/prisma";
 import { cache } from "react";
 import { revalidatePath } from "next/cache";
-import { getBotsURL } from "@/lib/urls";
+import { getBotsURL, getClassURL } from "@/lib/urls";
 import { basicBotInfoSchema } from "./schema";
 import { getEditBotURL } from "@/lib/urls";
 import * as z from "zod";
 import { getClassesURL, getStudentsURL } from "@/lib/urls";
 import { isAuthorized } from "@/lib/utils";
+import { teacherPreferencesSchema } from "./schema";
 //TODO: Add auth for functions
 
-export const updateTeacherPreferences = async () =>{
-  
-}
-
-
+export const updateTeacherPreferences = async (
+  teacherId: string,
+  data: z.infer<typeof teacherPreferencesSchema>
+) => {
+  await isAuthorized({
+    userType: "TEACHER",
+  });
+  try {
+    const updatedTeacherProfile = await prisma.teacherProfile.update({
+      where: { id: teacherId },
+      data: {
+        preferences: data,
+      },
+    });
+    revalidatePath("/");
+    return { updatedTeacherProfile, success: true };
+  } catch (error) {
+    console.error("Error updating TeacherProfile:", error);
+    return { error: true };
+  }
+};
 
 export const createClassForTeacher = async function (
   className: string,
