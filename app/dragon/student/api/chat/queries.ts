@@ -6,7 +6,7 @@ import {
   botPreferencesSchema,
   teacherPreferencesSchema,
   StudentPreferencesSchema,
-} from "@/app/dragon/teacher/schema";
+} from "@/app/dragon/schema";
 export const isEmptyObject = (obj: any) => Object.keys(obj).length === 0;
 export const getChatContextByChatId = cache(async function (chatId: string) {
   const context = await prisma.botChat.findUnique({

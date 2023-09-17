@@ -1,7 +1,7 @@
 import prisma from "@/prisma";
 import { cache } from "react";
 import * as z from "zod";
-import { botPreferencesSchema } from "./schema";
+import { botPreferencesSchema } from "../schema";
 export const revalidate = 3600; // 1 hour
 
 export const getTeacherId = cache(async function (userId: string) {

@@ -3,12 +3,12 @@ import prisma from "@/prisma";
 import { cache } from "react";
 import { revalidatePath } from "next/cache";
 import { getBotsURL, getClassURL } from "@/lib/urls";
-import { botPreferencesSchema } from "./schema";
+import { botPreferencesSchema } from "../schema";
 import { getEditBotURL } from "@/lib/urls";
 import * as z from "zod";
 import { getClassesURL, getStudentsURL } from "@/lib/urls";
 import { isAuthorized } from "@/lib/utils";
-import { teacherPreferencesSchema } from "./schema";
+import { teacherPreferencesSchema } from "../schema";
 //TODO: Add auth for functions
 
 export const updateTeacherPreferences = async (

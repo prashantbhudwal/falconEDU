@@ -22,7 +22,7 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
 import { Checkbox } from "@/components/ui/checkbox";
-import { botPreferencesSchema } from "../../../../../schema";
+import { botPreferencesSchema } from "../../../../../../schema";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -32,7 +32,7 @@ import {
   tone,
   humorLevel,
   subjects,
-} from "../../../../../schema";
+} from "../../../../../../schema";
 
 const defaultValues: z.infer<typeof botPreferencesSchema> = {
   instructions: "How do you want bots to behave?",

@@ -5,7 +5,7 @@ import {
   botPreferencesSchema,
   teacherPreferencesSchema,
   StudentPreferencesSchema,
-} from "../teacher/schema";
+} from "../schema";
 
 export const getStudentId = cache(async function (userId: string) {
   console.log("getStudentId function starts");

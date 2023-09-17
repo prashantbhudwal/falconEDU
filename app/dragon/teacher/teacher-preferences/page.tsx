@@ -4,7 +4,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getTeacherId } from "../queries";
 import { cache } from "react";
 import prisma from "@/prisma";
-import { teacherPreferencesSchema } from "../schema";
+import { teacherPreferencesSchema } from "../../schema";
 type TeacherPreferencesPageProps = {
   params: {
     classId: string;

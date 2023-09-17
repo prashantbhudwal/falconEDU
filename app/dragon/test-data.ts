@@ -1,9 +1,6 @@
 import { type Bot } from "./student/types";
 import { type User } from "@prisma/client";
-import {
-  teacherPreferencesSchema,
-  botPreferencesSchema,
-} from "./teacher/schema";
+import { teacherPreferencesSchema, botPreferencesSchema } from "./schema";
 
 export const botData = {
   id: "111",

@@ -6,7 +6,7 @@ import { isEmptyObject } from "./queries";
 import {
   botPreferencesSchema,
   teacherPreferencesSchema,
-} from "../../../teacher/schema";
+} from "../../../schema";
 import * as z from "zod";
 import {
   ChatPromptTemplate,
