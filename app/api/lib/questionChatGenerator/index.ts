@@ -265,6 +265,8 @@ function getTextbookName(board: string | undefined) {
       return "State Board";
     case "IGCSE":
       return "IGCSE";
+    case "IBDP":
+      return "International Baccalaureate Diploma Programme";
     default:
       throw new Error("Invalid board");
   }
