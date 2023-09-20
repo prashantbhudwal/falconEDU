@@ -29,10 +29,10 @@ const handleProfile = async (profile: any, token: any, userType: string) => {
     where: { email: profile.email },
   });
   // console.log("ProfileTOken", tokens);
-  if (existingUser?.userType !== userType) {
-    throw new Error("User type mismatch");
-    // Throwing an error if user types mismatch
-  }
+  // if (existingUser?.userType !== userType) {
+  //   throw new Error("User type mismatch");
+  //   // Throwing an error if user types mismatch
+  // }
   if (existingUser) {
     const { sub, ...profileWithoutSub } = profile;
     return {

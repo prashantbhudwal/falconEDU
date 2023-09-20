@@ -87,10 +87,13 @@ export default function TeacherPreferencesForm({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-8 md:mx-32  rounded-lg p-3 bg-purple-300 text-black"
+      >
         <div className="flex justify-between">
           <div className="flex flex-col gap-2">
-            <h2 className="text-2xl font-bold tracking-tight">
+            <h2 className="text-5xl font-bold tracking-tight font-sans">
               My Preferences
             </h2>
             <p className="text-sm max-w-2xl">
@@ -99,7 +102,9 @@ export default function TeacherPreferencesForm({
               able to form a connection with the students.
             </p>
           </div>
-          <Button type="submit">{loading ? "Saving..." : "Save"}</Button>
+          <Button type="submit" size={"lg"}>
+            {loading ? "Saving..." : "Save"}
+          </Button>
         </div>
         <Separator className="my-6" />
         {personalInfo.map((item) => (

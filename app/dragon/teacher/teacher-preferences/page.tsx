@@ -49,17 +49,18 @@ export default async function TeacherPreferencesPage({
 }: TeacherPreferencesPageProps) {
   const session = await getServerSession(authOptions);
   const userId = session?.user?.id;
-  if (!userId) {
-    return null;
-  }
+  // if (!userId) {
+  //   return null;
+  // }
   const teacherId = await getTeacherId(userId);
-  if (!teacherId) {
-    return null;
-  }
+  // console.log(teacherId)
+  // if (!teacherId) {
+  //   return null;
+  // }
   const preferences = await getTeacherPreferences(teacherId);
-  if (!preferences) {
-    return null;
-  }
+  // if (!preferences) {
+  //   return null;
+  // }
 
   return (
     <>
