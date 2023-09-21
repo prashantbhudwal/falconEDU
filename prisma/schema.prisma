@@ -131,7 +131,7 @@ model StudentProfile {
   id          String     @id @default(cuid())
   User        User       @relation(fields: [userId], references: [id])
   userId      String     @unique
-  grade       String
+  grade       String?
   preferences Json       @default("{}")
   createdAt   DateTime   @default(now())
   bot         Bot[]
