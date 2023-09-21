@@ -74,6 +74,7 @@ export default function TeacherPreferencesForm({
 }: TeacherPreferencesFormProps) {
   const [loading, setLoading] = useState(false);
   const [inputFocus, setInputFocus] = useState("");
+  const [onHover, setonHover] = useState(false);
 
   const form = useForm<z.infer<typeof teacherPreferencesSchema>>({
     resolver: zodResolver(teacherPreferencesSchema),
@@ -110,22 +111,36 @@ export default function TeacherPreferencesForm({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-10 m-10 lg:mx-32 rounded-xl p-10 shadow-inner shadow-slate-500 "
+        className="space-y-10 m-10 lg:mx-32 rounded-xl p-10 shadow-inner  hover:transition-all duration-300  shadow-slate-500"
       >
-        <div className="flex justify-between   p-5 rounded-lg">
+        <div className="flex justify-between p-5 rounded-lg ">
           <div className="flex flex-col gap-2">
-            <h2 className="md:text-5xl font-bold tracking-wide">
+            <h2 className="md:text-5xl font-bold tracking-wide hover:transition-all duration-300">
               My Preferences
             </h2>
-            <p className=" text-base max-w-2xl text-slate-500">
+            <p
+              className={` text-base max-w-2xl hover:transition-all duration-300 ${
+                onHover ? "text-slate-400" : "text-slate-500"
+              } `}
+            >
               This includes information about you that stays common for all the
               bots. The more information you provide, the better the AI will be
               able to form a connection with the students.
             </p>
           </div>
-          <Button type="submit">{loading ? "Saving..." : "Save"}</Button>
+          <Button
+            type="submit"
+            onMouseEnter={() => {
+              setonHover(true);
+            }}
+            onMouseLeave={() => {
+              setonHover(false);
+            }}
+          >
+            {loading ? "Saving..." : "Save"}
+          </Button>
         </div>
-        {/* <Separator className="my-6" /> */}
+        <Separator className="my-4" />
         {personalInfo.map((item) => (
           <FormField
             key={item.name}
@@ -134,7 +149,7 @@ export default function TeacherPreferencesForm({
             render={({ field }) => (
               <FormItem>
                 <FormLabel
-                  className={`flex gap-2 align-middle ${
+                  className={`flex gap-2 align-middle font-bold ${
                     inputFocus === item.name ? "text-white" : ""
                   }`}
                 >
@@ -144,7 +159,7 @@ export default function TeacherPreferencesForm({
                 <FormControl>
                   <TextareaAutosize
                     placeholder={item.placeholder}
-                    className="resize-none placeholder:text-xs font-semibold min-h-[6rem]"
+                    className="resize-none placeholder:text-xs font-semibold min-h-[6rem] tracking-wider"
                     {...field}
                     onFocus={() => setInputFocus(item.name)}
                     onBlur={() => setInputFocus("")}
