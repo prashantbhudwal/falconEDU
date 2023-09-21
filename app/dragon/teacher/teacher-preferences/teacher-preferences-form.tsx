@@ -73,6 +73,7 @@ export default function TeacherPreferencesForm({
   initialValues,
 }: TeacherPreferencesFormProps) {
   const [loading, setLoading] = useState(false);
+  const [inputFocus, setInputFocus] = useState("");
 
   const form = useForm<z.infer<typeof teacherPreferencesSchema>>({
     resolver: zodResolver(teacherPreferencesSchema),
@@ -95,7 +96,7 @@ export default function TeacherPreferencesForm({
   const getIconForItem = (item: String) => {
     switch (item) {
       case "HiMiniInformationCircle":
-        return <HiMiniInformationCircle size={14} color="" />;
+        return <HiMiniInformationCircle size={14} />;
       case "BsFillHandThumbsUpFill":
         return <BsFillHandThumbsUpFill size={14} />;
       case "BsFillHandThumbsDownFill":
@@ -109,14 +110,14 @@ export default function TeacherPreferencesForm({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-10 m-10 lg:mx-32 rounded-xl p-10 shadow-inner shadow-slate-500"
+        className="space-y-10 m-10 lg:mx-32 rounded-xl p-10 shadow-inner shadow-slate-500 "
       >
         <div className="flex justify-between   p-5 rounded-lg">
           <div className="flex flex-col gap-2">
             <h2 className="md:text-5xl font-bold tracking-wide">
               My Preferences
             </h2>
-            <p className="text-sm md:text-base max-w-2xl">
+            <p className=" text-base max-w-2xl text-slate-500">
               This includes information about you that stays common for all the
               bots. The more information you provide, the better the AI will be
               able to form a connection with the students.
@@ -132,7 +133,11 @@ export default function TeacherPreferencesForm({
             name={item.name}
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="flex gap-2 align-middle">
+                <FormLabel
+                  className={`flex gap-2 align-middle ${
+                    inputFocus === item.name ? "text-white" : ""
+                  }`}
+                >
                   {item.label}
                   {getIconForItem(item.icons)}
                 </FormLabel>
@@ -141,11 +146,11 @@ export default function TeacherPreferencesForm({
                     placeholder={item.placeholder}
                     className="resize-none placeholder:text-xs font-semibold min-h-[6rem]"
                     {...field}
+                    onFocus={() => setInputFocus(item.name)}
+                    onBlur={() => setInputFocus("")}
                   />
                 </FormControl>
-                <FormDescription className="font-bold text-gray-600">
-                  {item.description}
-                </FormDescription>
+                <FormDescription>{item.description}</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
