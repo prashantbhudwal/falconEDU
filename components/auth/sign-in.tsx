@@ -41,7 +41,7 @@ const signInConfig = [
     subtext:
       "Works on large screens only. Use chrome, edge or any major browser for access.",
     image: "/chubbi.png",
-    callbackUrl: "/preferences",
+    callbackUrl: "/dragon/teacher",
   },
 ];
 
