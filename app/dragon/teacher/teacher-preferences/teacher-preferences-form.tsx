@@ -95,7 +95,7 @@ export default function TeacherPreferencesForm({
   const getIconForItem = (item: String) => {
     switch (item) {
       case "HiMiniInformationCircle":
-        return <HiMiniInformationCircle size={14} />;
+        return <HiMiniInformationCircle size={14} color="" />;
       case "BsFillHandThumbsUpFill":
         return <BsFillHandThumbsUpFill size={14} />;
       case "BsFillHandThumbsDownFill":
@@ -109,9 +109,9 @@ export default function TeacherPreferencesForm({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-8 lg:mx-32  rounded-lg p-3 bg-purple-300 text-black border-gray-400 border-4"
+        className="space-y-10 m-10 lg:mx-32 rounded-xl p-10 shadow-inner shadow-slate-500"
       >
-        <div className="flex justify-between  bg-slate-50 p-5 rounded-lg">
+        <div className="flex justify-between   p-5 rounded-lg">
           <div className="flex flex-col gap-2">
             <h2 className="md:text-5xl font-bold tracking-wide">
               My Preferences
