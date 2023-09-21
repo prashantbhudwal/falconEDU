@@ -115,7 +115,7 @@ export default function TeacherPreferencesForm({
       >
         <div className="flex justify-between p-5 rounded-lg ">
           <div className="flex flex-col gap-2">
-            <h2 className="md:text-5xl font-bold tracking-wide hover:transition-all duration-300">
+            <h2 className="md:text-3xl font-bold tracking-wide">
               My Preferences
             </h2>
             <p
@@ -156,10 +156,10 @@ export default function TeacherPreferencesForm({
                   {item.label}
                   {getIconForItem(item.icons)}
                 </FormLabel>
-                <FormControl>
+                <FormControl className="tracking-wider">
                   <TextareaAutosize
                     placeholder={item.placeholder}
-                    className="resize-none placeholder:text-xs font-semibold min-h-[6rem] tracking-wider"
+                    className="resize-none  placeholder:text-xs font-semibold min-h-[6rem]"
                     {...field}
                     onFocus={() => setInputFocus(item.name)}
                     onBlur={() => setInputFocus("")}

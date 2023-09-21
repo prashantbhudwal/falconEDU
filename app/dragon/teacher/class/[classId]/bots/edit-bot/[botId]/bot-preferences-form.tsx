@@ -25,6 +25,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { botPreferencesSchema } from "../../../../../../schema";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+
 import {
   grades,
   board,
@@ -99,9 +100,12 @@ export default function BotPreferencesForm({
   return (
     <>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <div className="flex justify-between">
-            <h2 className="text-2xl font-bold tracking-tight">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-10 m-10 lg:mx-32 rounded-xl p-10 shadow-inner hover:transition-all duration-300  shadow-slate-500"
+        >
+          <div className="flex justify-between flex-wrap">
+            <h2 className="md:text-3xl font-bold tracking-wide">
               Bot Preference
             </h2>
             <div className="flex flex-row gap-2">
@@ -121,7 +125,9 @@ export default function BotPreferencesForm({
             name="instructions"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Instructions</FormLabel>
+                <FormLabel className="flex gap-2 align-middle font-bold">
+                  Instructions
+                </FormLabel>
                 <FormControl>
                   <Textarea
                     placeholder="Be polite with the students. Never use negative language."
@@ -136,48 +142,55 @@ export default function BotPreferencesForm({
               </FormItem>
             )}
           />
+
           <FormField
             control={form.control}
             name="grades"
             render={() => (
               <FormItem>
                 <div className="mb-4">
-                  <FormLabel>Grades</FormLabel>
+                  <FormLabel className="flex gap-2 align-middle font-bold">
+                    Grades
+                  </FormLabel>
                   <FormDescription>
                     Which grades do you want the AI to teach?
                   </FormDescription>
                 </div>
-                {grades.map((grade) => (
-                  <FormField
-                    key={grade}
-                    control={form.control}
-                    name="grades"
-                    render={({ field }) => {
-                      return (
-                        <FormItem
-                          key={grade}
-                          className="flex flex-row items-start space-x-3 space-y-0"
-                        >
-                          <FormControl>
-                            <Checkbox
-                              checked={field.value?.includes(grade)}
-                              onCheckedChange={(checked) => {
-                                return checked
-                                  ? field.onChange([...field.value, grade])
-                                  : field.onChange(
-                                      field.value?.filter(
-                                        (value) => value !== grade
-                                      )
-                                    );
-                              }}
-                            />
-                          </FormControl>
-                          <FormLabel className="font-normal">{grade}</FormLabel>
-                        </FormItem>
-                      );
-                    }}
-                  />
-                ))}
+                <div className="flex flex-row gap-8 flex-wrap">
+                  {grades.map((grade) => (
+                    <FormField
+                      key={grade}
+                      control={form.control}
+                      name="grades"
+                      render={({ field }) => {
+                        return (
+                          <FormItem
+                            key={grade}
+                            className="flex flex-col items-start space-x-3 space-y-0"
+                          >
+                            <FormControl className="">
+                              <Checkbox
+                                checked={field.value?.includes(grade)}
+                                onCheckedChange={(checked) => {
+                                  return checked
+                                    ? field.onChange([...field.value, grade])
+                                    : field.onChange(
+                                        field.value?.filter(
+                                          (value) => value !== grade
+                                        )
+                                      );
+                                }}
+                                className="w-full mx-2 h-7 border-green-500 border-2  rounded-lg hover:bg-green-400 hover:text-slate-800  data-[state=checked]:bg-green-400 data-[state=checked]:text-slate-800 text-sm"
+                                toggleName={grade}
+                              />
+                            </FormControl>
+                            {/* <FormLabel className="font-normal">{grade}</FormLabel> */}
+                          </FormItem>
+                        );
+                      }}
+                    />
+                  ))}
+                </div>
 
                 <FormMessage />
               </FormItem>
@@ -194,40 +207,55 @@ export default function BotPreferencesForm({
                     Which subjects do you want the AI to teach?
                   </FormDescription>
                 </div>
-                {subjects.map((subject) => (
-                  <FormField
-                    key={subject}
-                    control={form.control}
-                    name="subjects"
-                    render={({ field }) => {
-                      return (
-                        <FormItem
-                          key={subject}
-                          className="flex flex-row items-start space-x-3 space-y-0"
-                        >
-                          <FormControl>
-                            <Checkbox
-                              checked={field.value?.includes(subject)}
-                              onCheckedChange={(checked) => {
-                                return checked
-                                  ? field.onChange([...field.value, subject])
-                                  : field.onChange(
-                                      field.value?.filter(
-                                        (value) => value !== subject
-                                      )
-                                    );
-                              }}
-                            />
-                          </FormControl>
-                          <FormLabel className="font-normal">
+                <div className="flex flex-row gap-8 flex-wrap">
+                  {subjects.map((subject) => (
+                    <FormField
+                      key={subject}
+                      control={form.control}
+                      name="subjects"
+                      render={({ field }) => {
+                        return (
+                          <FormItem
+                            key={subject}
+                            className="flex flex-row items-start space-x-3 space-y-0"
+                          >
+                            <FormControl>
+                              {/* <Checkbox
+                                checked={field.value?.includes(subject)}
+                                onCheckedChange={(checked) => {
+                                  return checked
+                                    ? field.onChange([...field.value, subject])
+                                    : field.onChange(
+                                        field.value?.filter(
+                                          (value) => value !== subject
+                                        )
+                                      );
+                                }}
+                              /> */}
+                              <Checkbox
+                                checked={field.value?.includes(subject)}
+                                onCheckedChange={(checked) => {
+                                  return checked
+                                    ? field.onChange([...field.value, subject])
+                                    : field.onChange(
+                                        field.value?.filter(
+                                          (value) => value !== subject
+                                        )
+                                      );
+                                }}
+                                className="w-full mx-2 h-7 border-green-500 border-2  rounded-lg hover:bg-green-400 hover:text-slate-800  data-[state=checked]:bg-green-400 data-[state=checked]:text-slate-800 text-sm"
+                                toggleName={subject}
+                              />
+                            </FormControl>
+                            {/* <FormLabel className="font-normal">
                             {subject}
-                          </FormLabel>
-                        </FormItem>
-                      );
-                    }}
-                  />
-                ))}
-
+                          </FormLabel> */}
+                          </FormItem>
+                        );
+                      }}
+                    />
+                  ))}
+                </div>
                 <FormMessage />
               </FormItem>
             )}
@@ -237,7 +265,9 @@ export default function BotPreferencesForm({
             name="board"
             render={({ field }) => (
               <FormItem className="space-y-3">
-                <FormLabel>Board</FormLabel>
+                <FormLabel className="flex gap-2 align-middle font-bold">
+                  Board
+                </FormLabel>
                 <FormControl>
                   <RadioGroup
                     onValueChange={field.onChange}
@@ -266,7 +296,9 @@ export default function BotPreferencesForm({
             name="tone"
             render={({ field }) => (
               <FormItem className="space-y-3">
-                <FormLabel>Tone</FormLabel>
+                <FormLabel className="flex gap-2 align-middle font-bold">
+                  Tone
+                </FormLabel>
                 <FormControl>
                   <RadioGroup
                     onValueChange={field.onChange}
@@ -298,7 +330,9 @@ export default function BotPreferencesForm({
             name="humorLevel"
             render={({ field }) => (
               <FormItem className="space-y-3">
-                <FormLabel>Humor Level</FormLabel>
+                <FormLabel className="flex gap-2 align-middle font-bold">
+                  Humor Level
+                </FormLabel>
                 <FormControl>
                   <RadioGroup
                     onValueChange={field.onChange}
@@ -332,7 +366,9 @@ export default function BotPreferencesForm({
             name="languageProficiency"
             render={({ field }) => (
               <FormItem className="space-y-3">
-                <FormLabel>Language Proficiency</FormLabel>
+                <FormLabel className="flex gap-2 align-middle font-bold">
+                  Language Proficiency
+                </FormLabel>
                 <FormControl>
                   <RadioGroup
                     onValueChange={field.onChange}
