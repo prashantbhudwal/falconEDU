@@ -95,11 +95,11 @@ export default function TeacherPreferencesForm({
   const getIconForItem = (item: String) => {
     switch (item) {
       case "HiMiniInformationCircle":
-        return <HiMiniInformationCircle size={15} />;
+        return <HiMiniInformationCircle size={14} />;
       case "BsFillHandThumbsUpFill":
-        return <BsFillHandThumbsUpFill size={15} />;
+        return <BsFillHandThumbsUpFill size={14} />;
       case "BsFillHandThumbsDownFill":
-        return <BsFillHandThumbsDownFill size={15} />;
+        return <BsFillHandThumbsDownFill size={14} />;
       default:
         return null;
     }
@@ -109,22 +109,20 @@ export default function TeacherPreferencesForm({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-8 lg:mx-32  rounded-lg p-3 bg-purple-300 text-black"
+        className="space-y-8 lg:mx-32  rounded-lg p-3 bg-purple-300 text-black border-gray-400 border-4"
       >
         <div className="flex justify-between  bg-slate-50 p-5 rounded-lg">
           <div className="flex flex-col gap-2">
-            <h2 className="md:text-5xl font-bold tracking-tight font-sans">
+            <h2 className="md:text-5xl font-bold tracking-wide">
               My Preferences
             </h2>
-            <p className="text-base max-w-2xl">
+            <p className="text-sm md:text-base max-w-2xl">
               This includes information about you that stays common for all the
               bots. The more information you provide, the better the AI will be
               able to form a connection with the students.
             </p>
           </div>
-          <Button type="submit" size={"lg"}>
-            {loading ? "Saving..." : "Save"}
-          </Button>
+          <Button type="submit">{loading ? "Saving..." : "Save"}</Button>
         </div>
         {/* <Separator className="my-6" /> */}
         {personalInfo.map((item) => (
@@ -141,11 +139,13 @@ export default function TeacherPreferencesForm({
                 <FormControl>
                   <TextareaAutosize
                     placeholder={item.placeholder}
-                    className="resize-none placeholder:text-xs min-h-[6rem]"
+                    className="resize-none placeholder:text-xs font-semibold min-h-[6rem]"
                     {...field}
                   />
                 </FormControl>
-                <FormDescription>{item.description}</FormDescription>
+                <FormDescription className="font-bold text-gray-600">
+                  {item.description}
+                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
