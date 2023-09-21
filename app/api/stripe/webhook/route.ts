@@ -8,18 +8,22 @@ const THREE_MONTHS_PRICE = 800;
 const SIX_MONTHS_PRICE = 1500;
 const ONE_YEAR_PRICE = 2500;
 
-export async function POST(req: NextRequest) {
+export async function POST(req: NextRequest): Promise<NextResponse> {
   const sig = req.headers.get("stripe-signature");
   const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
   const buf = await req.text();
   let event: Stripe.Event;
 
   try {
-    if (!sig || !endpointSecret) return;
+    if (!sig || !endpointSecret)
+      return NextResponse.json(
+        { error: "Missing Stripe signature" },
+        { status: 400 }
+      );
     event = stripe.webhooks.constructEvent(buf, sig, endpointSecret);
   } catch (error) {
     console.log(error);
-    return NextResponse.json({ received: false }, { status: 400 });
+    return NextResponse.json({ error }, { status: 500 });
   }
 
   console.log(event);
