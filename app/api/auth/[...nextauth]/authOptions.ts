@@ -7,6 +7,7 @@ import { AuthOptions } from "next-auth";
 import { User, Account, Profile } from "next-auth";
 import { JWT } from "next-auth/jwt";
 import { redirect } from "next/navigation";
+import { createUserProfile } from "./mutations";
 
 const TRIAL_DURATION = 14;
 
@@ -29,10 +30,9 @@ const handleProfile = async (profile: any, token: any, userType: string) => {
     where: { email: profile.email },
   });
   // console.log("ProfileTOken", tokens);
-  // if (existingUser?.userType !== userType) {
-  //   throw new Error("User type mismatch");
-  //   // Throwing an error if user types mismatch
-  // }
+  if (existingUser && existingUser.userType !== userType) {
+    throw new Error("User type mismatch");
+  }
   if (existingUser) {
     const { sub, ...profileWithoutSub } = profile;
     return {
@@ -85,6 +85,10 @@ const jwtCallback = async ({
   token,
   user,
   account,
+  isNewUser,
+  profile,
+  trigger,
+  session,
 }: {
   token: JWT;
   user: User | null;
@@ -95,12 +99,25 @@ const jwtCallback = async ({
   session?: any;
 }): Promise<any> => {
   // console.log("token", token);
+  // console.log("isNewUser", isNewUser);
+  // console.log("trigger", trigger);
+  // console.log("session", session);
+
   if (user) {
     token.id = user.id;
     token.role = user.role;
     token.subscriptionStart = user.subscriptionStart;
     token.subscriptionEnd = user.subscriptionEnd;
     token.userType = user.userType;
+  }
+
+  if (user && isNewUser) {
+    try {
+      await createUserProfile(user.id, user.userType);
+      console.log("User profile created");
+    } catch (e) {
+      return false;
+    }
   }
   // console.log("TokenM", token);
   return token;
@@ -135,21 +152,6 @@ export const authOptions: AuthOptions = {
   providers: [GoogleTeacherProvider(), GoogleStudentProvider()],
   callbacks: {
     signIn: async ({ account, user, credentials, email, profile }) => {
-      console.log(
-        "🚀 ~ file: authOptions.ts:140 ~ signIn: ~ profile:",
-        profile
-      );
-      console.log("🚀 ~ file: authOptions.ts:140 ~ signIn: ~ email:", email);
-      console.log(
-        "🚀 ~ file: authOptions.ts:140 ~ signIn: ~ credentials:",
-        credentials
-      );
-      console.log("🚀 ~ file: authOptions.ts:140 ~ signIn: ~ user:", user);
-      console.log(
-        "🚀 ~ file: authOptions.ts:140 ~ signIn: ~ account:",
-        account
-      );
-
       return true;
     },
     jwt: jwtCallback,
