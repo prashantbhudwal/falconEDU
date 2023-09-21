@@ -7,6 +7,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { teacherPreferencesSchema } from "../../schema";
 import { updateTeacherPreferences } from "../mutations";
+import { BsFillHandThumbsDownFill } from "react-icons/bs";
+import { BsFillHandThumbsUpFill } from "react-icons/bs";
+import { HiMiniInformationCircle } from "react-icons/hi2";
 
 import {
   Form,
@@ -33,6 +36,7 @@ const personalInfo = [
     placeholder:
       "What are your hobbies? What are your favorite things to do? What kind of music do you like?",
     description: "AI will use this to form a connection with the students.",
+    icons: "HiMiniInformationCircle",
   },
   {
     name: "professionalInformation",
@@ -40,6 +44,7 @@ const personalInfo = [
     placeholder:
       "Where have you studied? What are your qualifications? What are your professional interests? What about your professional experience?",
     description: "AI will use this to build credibility with the students.",
+    icons: "HiMiniInformationCircle",
   },
   {
     name: "likes",
@@ -47,6 +52,7 @@ const personalInfo = [
     placeholder:
       "What are some things you like? What behaviors should be encouraged?",
     description: "AI will use this to form a connection with the students.",
+    icons: "BsFillHandThumbsUpFill",
   },
   {
     name: "dislikes",
@@ -54,6 +60,7 @@ const personalInfo = [
     placeholder:
       "What are some things you don't like? What behaviors do you not tolerate?",
     description: "AI will use this to form a connection with the students.",
+    icons: "BsFillHandThumbsDownFill",
   },
 ] as const;
 
@@ -85,18 +92,31 @@ export default function TeacherPreferencesForm({
     setLoading(false);
   };
 
+  const getIconForItem = (item: String) => {
+    switch (item) {
+      case "HiMiniInformationCircle":
+        return <HiMiniInformationCircle size={15} />;
+      case "BsFillHandThumbsUpFill":
+        return <BsFillHandThumbsUpFill size={15} />;
+      case "BsFillHandThumbsDownFill":
+        return <BsFillHandThumbsDownFill size={15} />;
+      default:
+        return null;
+    }
+  };
+
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-8 md:mx-32  rounded-lg p-3 bg-purple-300 text-black"
+        className="space-y-8 lg:mx-32  rounded-lg p-3 bg-purple-300 text-black"
       >
-        <div className="flex justify-between">
+        <div className="flex justify-between  bg-slate-50 p-5 rounded-lg">
           <div className="flex flex-col gap-2">
-            <h2 className="text-5xl font-bold tracking-tight font-sans">
+            <h2 className="md:text-5xl font-bold tracking-tight font-sans">
               My Preferences
             </h2>
-            <p className="text-sm max-w-2xl">
+            <p className="text-base max-w-2xl">
               This includes information about you that stays common for all the
               bots. The more information you provide, the better the AI will be
               able to form a connection with the students.
@@ -106,7 +126,7 @@ export default function TeacherPreferencesForm({
             {loading ? "Saving..." : "Save"}
           </Button>
         </div>
-        <Separator className="my-6" />
+        {/* <Separator className="my-6" /> */}
         {personalInfo.map((item) => (
           <FormField
             key={item.name}
@@ -114,7 +134,10 @@ export default function TeacherPreferencesForm({
             name={item.name}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{item.label}</FormLabel>
+                <FormLabel className="flex gap-2 align-middle">
+                  {item.label}
+                  {getIconForItem(item.icons)}
+                </FormLabel>
                 <FormControl>
                   <TextareaAutosize
                     placeholder={item.placeholder}
