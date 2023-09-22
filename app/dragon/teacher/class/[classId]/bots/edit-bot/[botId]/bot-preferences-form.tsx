@@ -21,11 +21,17 @@ import {
 } from "@/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Chip } from "@/components/ui/chip";
 import { botPreferencesSchema } from "../../../../../../schema";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { HiMiniInformationCircle } from "react-icons/hi2";
+import { IoBookSharp } from "react-icons/io5";
+import { BsFillClipboardFill } from "react-icons/bs";
+import { GiGraduateCap } from "react-icons/gi";
+import { FaLanguage } from "react-icons/fa";
+import { HiLightBulb } from "react-icons/hi";
+import { HiSpeakerWave } from "react-icons/hi2";
 
 import {
   grades,
@@ -62,6 +68,7 @@ export default function BotPreferencesForm({
 }: BotPreferencesFormProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [inputFocus, setInputFocus] = useState("");
 
   const form = useForm<z.infer<typeof botPreferencesSchema>>({
     resolver: zodResolver(botPreferencesSchema),
@@ -109,7 +116,7 @@ export default function BotPreferencesForm({
             <h2 className="md:text-3xl font-bold tracking-wide">
               Bot Preference
             </h2>
-            <div className="flex flex-row gap-2">
+            <div className="flex flex-row gap-6">
               <Button type="submit">{loading ? "Saving" : "Save"}</Button>
               <Button
                 variant={botConfig?.published ? "destructive" : "secondary"}
@@ -126,14 +133,21 @@ export default function BotPreferencesForm({
             name="instructions"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="flex gap-2 align-middle font-bold">
+                <FormLabel
+                  className={`mb-5 flex gap-2 align-middle font-bold ${
+                    inputFocus === "instructions" ? "text-white" : ""
+                  }`}
+                >
                   Instructions
+                  <HiMiniInformationCircle />
                 </FormLabel>
                 <FormControl>
                   <Textarea
                     placeholder="Be polite with the students. Never use negative language."
                     className="resize-none h-60"
                     {...field}
+                    onFocus={() => setInputFocus("instructions")}
+                    onBlur={() => setInputFocus("")}
                   />
                 </FormControl>
                 <FormDescription>
@@ -149,9 +163,10 @@ export default function BotPreferencesForm({
             name="grades"
             render={() => (
               <FormItem>
-                <div className="mb-4">
-                  <FormLabel className="flex gap-2 align-middle font-bold">
+                <div className="mb-5 flex flex-col gap-2">
+                  <FormLabel className="flex gap-2 items-center font-bold">
                     Grades
+                    <GiGraduateCap size={18} />
                   </FormLabel>
                   <FormDescription>
                     Which grades do you want the AI to teach?
@@ -166,7 +181,7 @@ export default function BotPreferencesForm({
                       render={({ field }) => {
                         return (
                           <FormItem key={grade}>
-                            <FormControl className="">
+                            <FormControl>
                               <Chip
                                 checked={field.value?.includes(grade)}
                                 onCheckedChange={(checked) => {
@@ -178,7 +193,7 @@ export default function BotPreferencesForm({
                                         )
                                       );
                                 }}
-                                className="min-w-[50px] w-full mx-2 h-8  transition-all duration-200 hover:scale-[1.2] border-green-600 border-[1px]  rounded-lg    data-[state=checked]:bg-primary data-[state=checked]:text-slate-800 text-sm"
+                                className="font-medium min-w-[50px] w-full active:scale-90 mx-2 h-8 transition-all duration-200 hover:scale-[1.2] shadow-inner  border-0 shadow-slate-700 rounded-lg  data-[state=checked]:shadow-inherit   data-[state=checked]:bg-primary data-[state=checked]:text-slate-800 text-sm "
                                 toggleName={grade}
                               />
                             </FormControl>
@@ -198,8 +213,11 @@ export default function BotPreferencesForm({
             name="subjects"
             render={() => (
               <FormItem>
-                <div className="mb-4">
-                  <FormLabel>Subjects</FormLabel>
+                <div className="mb-5 flex flex-col gap-2">
+                  <FormLabel className="flex gap-2 items-center font-bold">
+                    Subjects
+                    <IoBookSharp />
+                  </FormLabel>
                   <FormDescription>
                     Which subjects do you want the AI to teach?
                   </FormDescription>
@@ -225,7 +243,7 @@ export default function BotPreferencesForm({
                                         )
                                       );
                                 }}
-                                className="min-w-[50px]	w-full mx-2 h-8 transition-all duration-200 hover:scale-[1.2] border-green-600 border-[1px]  rounded-lg    data-[state=checked]:bg-primary data-[state=checked]:text-slate-800 text-sm"
+                                className="font-medium min-w-[50px] w-full mx-2 h-8 active:scale-90 transition-all duration-200 hover:scale-[1.2] shadow-inner  border-0 shadow-slate-700 rounded-lg  data-[state=checked]:shadow-inherit    data-[state=checked]:bg-primary data-[state=checked]:text-slate-800 text-sm"
                                 toggleName={subject}
                               />
                             </FormControl>
@@ -244,8 +262,9 @@ export default function BotPreferencesForm({
             name="board"
             render={({ field }) => (
               <FormItem className="space-y-3">
-                <FormLabel className="flex gap-2 align-middle font-bold">
+                <FormLabel className="mb-5 flex gap-2 items-center font-bold">
                   Board
+                  <BsFillClipboardFill size={12} />
                 </FormLabel>
                 <FormControl>
                   <RadioGroup
@@ -275,8 +294,9 @@ export default function BotPreferencesForm({
             name="tone"
             render={({ field }) => (
               <FormItem className="space-y-3">
-                <FormLabel className="flex gap-2 align-middle font-bold">
+                <FormLabel className="mb-5 flex gap-2 items-center font-bold">
                   Tone
+                  <HiSpeakerWave />
                 </FormLabel>
                 <FormControl>
                   <RadioGroup
@@ -309,8 +329,9 @@ export default function BotPreferencesForm({
             name="humorLevel"
             render={({ field }) => (
               <FormItem className="space-y-3">
-                <FormLabel className="flex gap-2 align-middle font-bold">
+                <FormLabel className="mb-5 flex gap-2 items-center font-bold">
                   Humor Level
+                  <HiLightBulb size={19} />
                 </FormLabel>
                 <FormControl>
                   <RadioGroup
@@ -345,8 +366,9 @@ export default function BotPreferencesForm({
             name="languageProficiency"
             render={({ field }) => (
               <FormItem className="space-y-3">
-                <FormLabel className="flex gap-2 align-middle font-bold">
+                <FormLabel className="flex gap-2 items-center font-bold">
                   Language Proficiency
+                  <FaLanguage size={19} />
                 </FormLabel>
                 <FormControl>
                   <RadioGroup

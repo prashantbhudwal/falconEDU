@@ -22,12 +22,12 @@ const Chip = React.forwardRef<
     )}
     {...props}
   >
-    <div className="flex justify-center">
-      <CheckboxPrimitive.Indicator
+    <div className="flex justify-center gap-1">
+      {/* <CheckboxPrimitive.Indicator
         className={cn("flex items-center justify-center text-current")}
       >
         <CheckIcon className="h-4 w-4" />
-      </CheckboxPrimitive.Indicator>
+      </CheckboxPrimitive.Indicator> */}
       <div>{toggleName}</div>
     </div>
   </CheckboxPrimitive.Root>

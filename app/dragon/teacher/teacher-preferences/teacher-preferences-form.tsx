@@ -114,7 +114,7 @@ export default function TeacherPreferencesForm({
         className="space-y-10 m-10 lg:mx-32 rounded-sm p-10 shadow-inner shadow-slate-700 hover:transition-all duration-300"
       >
         <div className="flex justify-between p-5 rounded-lg ">
-          <div className="flex flex-col gap-2">
+          <div className=" flex flex-col gap-2">
             <h2 className="md:text-3xl font-bold tracking-wide">
               My Preferences
             </h2>
@@ -149,7 +149,7 @@ export default function TeacherPreferencesForm({
             render={({ field }) => (
               <FormItem>
                 <FormLabel
-                  className={`flex gap-2 align-middle font-bold ${
+                  className={`mb-5 flex gap-2 items-center font-bold ${
                     inputFocus === item.name ? "text-white" : ""
                   }`}
                 >
