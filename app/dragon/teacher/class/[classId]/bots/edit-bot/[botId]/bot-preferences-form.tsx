@@ -178,11 +178,10 @@ export default function BotPreferencesForm({
                                         )
                                       );
                                 }}
-                                className="w-full mx-2 h-7 transition-all duration-200 hover:scale-[1.2] border-green-600 border-[1px]  rounded-lg    data-[state=checked]:bg-primary data-[state=checked]:text-slate-800 text-sm"
+                                className="min-w-[50px] w-full mx-2 h-8  transition-all duration-200 hover:scale-[1.2] border-green-600 border-[1px]  rounded-lg    data-[state=checked]:bg-primary data-[state=checked]:text-slate-800 text-sm"
                                 toggleName={grade}
                               />
                             </FormControl>
-                            {/* <FormLabel className="font-normal">{grade}</FormLabel> */}
                           </FormItem>
                         );
                       }}
@@ -226,13 +225,10 @@ export default function BotPreferencesForm({
                                         )
                                       );
                                 }}
-                                className="w-full mx-2 h-7 transition-all duration-200 hover:scale-[1.2] border-green-600 border-[1px]  rounded-lg    data-[state=checked]:bg-primary data-[state=checked]:text-slate-800 text-sm"
+                                className="min-w-[50px]	w-full mx-2 h-8 transition-all duration-200 hover:scale-[1.2] border-green-600 border-[1px]  rounded-lg    data-[state=checked]:bg-primary data-[state=checked]:text-slate-800 text-sm"
                                 toggleName={subject}
                               />
                             </FormControl>
-                            {/* <FormLabel className="font-normal">
-                            {subject}
-                          </FormLabel> */}
                           </FormItem>
                         );
                       }}
