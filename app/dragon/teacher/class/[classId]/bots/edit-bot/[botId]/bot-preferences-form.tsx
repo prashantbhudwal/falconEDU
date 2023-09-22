@@ -19,7 +19,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group-form";
 import { Separator } from "@/components/ui/separator";
 import { Chip } from "@/components/ui/chip";
 import { botPreferencesSchema } from "../../../../../../schema";
@@ -270,7 +270,7 @@ export default function BotPreferencesForm({
                   <RadioGroup
                     onValueChange={field.onChange}
                     defaultValue={field.value}
-                    className="flex flex-col space-y-1"
+                    className="flex flex-row space-y-1 space-x-6"
                   >
                     {board.map((board) => (
                       <FormItem
@@ -278,7 +278,10 @@ export default function BotPreferencesForm({
                         key={board}
                       >
                         <FormControl>
-                          <RadioGroupItem value={board} />
+                          <RadioGroupItem
+                            value={board}
+                            className="border-none shadow-inner shadow-slate-500"
+                          />
                         </FormControl>
                         <FormLabel className="font-normal">{board}</FormLabel>
                       </FormItem>
@@ -302,7 +305,7 @@ export default function BotPreferencesForm({
                   <RadioGroup
                     onValueChange={field.onChange}
                     defaultValue={field.value}
-                    className="flex flex-col space-y-1"
+                    className="flex flex-row space-y-1 space-x-6"
                   >
                     {tone.map((tone) => (
                       <FormItem
@@ -310,7 +313,10 @@ export default function BotPreferencesForm({
                         key={tone}
                       >
                         <FormControl>
-                          <RadioGroupItem value={tone} />
+                          <RadioGroupItem
+                            value={tone}
+                            className="border-none shadow-inner shadow-slate-500"
+                          />
                         </FormControl>
                         <FormLabel className="font-normal">{tone}</FormLabel>
                       </FormItem>
@@ -337,7 +343,7 @@ export default function BotPreferencesForm({
                   <RadioGroup
                     onValueChange={field.onChange}
                     defaultValue={field.value}
-                    className="flex flex-col space-y-1"
+                    className="flex flex-row space-y-1 space-x-6"
                   >
                     {humorLevel.map((humorLevel) => (
                       <FormItem
@@ -345,7 +351,10 @@ export default function BotPreferencesForm({
                         key={humorLevel}
                       >
                         <FormControl>
-                          <RadioGroupItem value={humorLevel} />
+                          <RadioGroupItem
+                            value={humorLevel}
+                            className="border-none shadow-inner shadow-slate-500"
+                          />
                         </FormControl>
                         <FormLabel className="font-normal">
                           {humorLevel}
@@ -374,7 +383,7 @@ export default function BotPreferencesForm({
                   <RadioGroup
                     onValueChange={field.onChange}
                     defaultValue={field.value}
-                    className="flex flex-col space-y-1"
+                    className="flex flex-row space-y-1 space-x-6"
                   >
                     {languageProficiency.map((languageProficiency) => (
                       <FormItem
@@ -382,7 +391,10 @@ export default function BotPreferencesForm({
                         key={languageProficiency}
                       >
                         <FormControl>
-                          <RadioGroupItem value={languageProficiency} />
+                          <RadioGroupItem
+                            value={languageProficiency}
+                            className="border-none shadow-inner shadow-slate-500"
+                          />
                         </FormControl>
                         <FormLabel className="font-normal">
                           {languageProficiency}
