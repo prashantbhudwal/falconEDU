@@ -22,6 +22,7 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Chip } from "@/components/ui/chip";
 import { botPreferencesSchema } from "../../../../../../schema";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -102,7 +103,7 @@ export default function BotPreferencesForm({
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-10 m-10 lg:mx-32 rounded-xl p-10 shadow-inner hover:transition-all duration-300  shadow-slate-500"
+          className="space-y-10 m-10 lg:mx-32 rounded-sm p-10 shadow-inner hover:transition-all duration-300  shadow-slate-700"
         >
           <div className="flex justify-between flex-wrap">
             <h2 className="md:text-3xl font-bold tracking-wide">
@@ -156,7 +157,7 @@ export default function BotPreferencesForm({
                     Which grades do you want the AI to teach?
                   </FormDescription>
                 </div>
-                <div className="flex flex-row gap-8 flex-wrap">
+                <div className="flex flex-row gap-y-5 flex-wrap gap-x-6">
                   {grades.map((grade) => (
                     <FormField
                       key={grade}
@@ -164,12 +165,9 @@ export default function BotPreferencesForm({
                       name="grades"
                       render={({ field }) => {
                         return (
-                          <FormItem
-                            key={grade}
-                            className="flex flex-col items-start space-x-3 space-y-0"
-                          >
+                          <FormItem key={grade}>
                             <FormControl className="">
-                              <Checkbox
+                              <Chip
                                 checked={field.value?.includes(grade)}
                                 onCheckedChange={(checked) => {
                                   return checked
@@ -180,7 +178,7 @@ export default function BotPreferencesForm({
                                         )
                                       );
                                 }}
-                                className="w-full mx-2 h-7 border-green-500 border-2  rounded-lg hover:bg-green-400 hover:text-slate-800  data-[state=checked]:bg-green-400 data-[state=checked]:text-slate-800 text-sm"
+                                className="w-full mx-2 h-7 transition-all duration-200 hover:scale-[1.2] border-green-600 border-[1px]  rounded-lg    data-[state=checked]:bg-primary data-[state=checked]:text-slate-800 text-sm"
                                 toggleName={grade}
                               />
                             </FormControl>
@@ -207,7 +205,7 @@ export default function BotPreferencesForm({
                     Which subjects do you want the AI to teach?
                   </FormDescription>
                 </div>
-                <div className="flex flex-row gap-8 flex-wrap">
+                <div className="flex flex-row gap-y-5 flex-wrap gap-x-6 ">
                   {subjects.map((subject) => (
                     <FormField
                       key={subject}
@@ -215,12 +213,9 @@ export default function BotPreferencesForm({
                       name="subjects"
                       render={({ field }) => {
                         return (
-                          <FormItem
-                            key={subject}
-                            className="flex flex-row items-start space-x-3 space-y-0"
-                          >
+                          <FormItem key={subject}>
                             <FormControl>
-                              {/* <Checkbox
+                              <Chip
                                 checked={field.value?.includes(subject)}
                                 onCheckedChange={(checked) => {
                                   return checked
@@ -231,19 +226,7 @@ export default function BotPreferencesForm({
                                         )
                                       );
                                 }}
-                              /> */}
-                              <Checkbox
-                                checked={field.value?.includes(subject)}
-                                onCheckedChange={(checked) => {
-                                  return checked
-                                    ? field.onChange([...field.value, subject])
-                                    : field.onChange(
-                                        field.value?.filter(
-                                          (value) => value !== subject
-                                        )
-                                      );
-                                }}
-                                className="w-full mx-2 h-7 border-green-500 border-2  rounded-lg hover:bg-green-400 hover:text-slate-800  data-[state=checked]:bg-green-400 data-[state=checked]:text-slate-800 text-sm"
+                                className="w-full mx-2 h-7 transition-all duration-200 hover:scale-[1.2] border-green-600 border-[1px]  rounded-lg    data-[state=checked]:bg-primary data-[state=checked]:text-slate-800 text-sm"
                                 toggleName={subject}
                               />
                             </FormControl>

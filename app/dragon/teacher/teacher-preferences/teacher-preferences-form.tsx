@@ -111,7 +111,7 @@ export default function TeacherPreferencesForm({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-10 m-10 lg:mx-32 rounded-xl p-10 shadow-inner  hover:transition-all duration-300  shadow-slate-500"
+        className="space-y-10 m-10 lg:mx-32 rounded-sm p-10 shadow-inner shadow-slate-700 hover:transition-all duration-300"
       >
         <div className="flex justify-between p-5 rounded-lg ">
           <div className="flex flex-col gap-2">
