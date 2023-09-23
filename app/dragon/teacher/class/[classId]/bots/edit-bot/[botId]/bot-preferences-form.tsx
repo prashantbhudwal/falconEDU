@@ -27,11 +27,11 @@ import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { FiInfo } from "react-icons/fi"
 import { FiBookOpen } from "react-icons/fi"
-import { ClipBoardIcon } from "@/public/hero-icons/clipboard"
-import { GraduateCapIcon } from "@/public/hero-icons/graduate-cap"
-import { LanguageIcon } from "@/public/hero-icons/language"
-import { LightBulbIcon } from "@/public/hero-icons/light-bulb"
-import { SpeakerWaveIcon } from "@/public/hero-icons/speaker-wave"
+import { ClipboardIcon } from "@heroicons/react/24/solid"
+import { AcademicCapIcon } from "@heroicons/react/24/solid"
+import { LanguageIcon } from "@heroicons/react/24/solid"
+import { LightBulbIcon } from "@heroicons/react/24/solid"
+import { SpeakerWaveIcon } from "@heroicons/react/24/solid"
 import { Paper } from "@/components/ui/Paper"
 
 import {
@@ -165,7 +165,7 @@ export default function BotPreferencesForm({
                   <div className="mb-5 flex flex-col gap-2">
                     <FormLabel className="flex gap-2 items-center font-bold">
                       Grades
-                      <GraduateCapIcon />
+                      <AcademicCapIcon className="h-4 w-4" />
                     </FormLabel>
                     <FormDescription>
                       Which grades do you want the AI to teach?
@@ -264,7 +264,7 @@ export default function BotPreferencesForm({
                 <FormItem className="space-y-3">
                   <FormLabel className="mb-5 flex gap-2 items-center font-bold">
                     Board
-                    <ClipBoardIcon />
+                    <ClipboardIcon className="h-4 w-4" />
                   </FormLabel>
                   <FormControl>
                     <RadioGroup
@@ -299,7 +299,7 @@ export default function BotPreferencesForm({
                 <FormItem className="space-y-3">
                   <FormLabel className="mb-5 flex gap-2 items-center font-bold">
                     Tone
-                    <SpeakerWaveIcon />
+                    <SpeakerWaveIcon className="h-4 w-4" />
                   </FormLabel>
                   <FormControl>
                     <RadioGroup
@@ -337,7 +337,7 @@ export default function BotPreferencesForm({
                 <FormItem className="space-y-3">
                   <FormLabel className="mb-5 flex gap-2 items-center font-bold">
                     Humor Level
-                    <LightBulbIcon />
+                    <LightBulbIcon className="h-4 w-4" />
                   </FormLabel>
                   <FormControl>
                     <RadioGroup
@@ -377,7 +377,7 @@ export default function BotPreferencesForm({
                 <FormItem className="space-y-3">
                   <FormLabel className="flex gap-2 items-center font-bold">
                     Language Proficiency
-                    <LanguageIcon />
+                    <LanguageIcon className="h-4 w-4" />
                   </FormLabel>
                   <FormControl>
                     <RadioGroup
