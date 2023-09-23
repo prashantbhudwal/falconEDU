@@ -282,7 +282,7 @@ export default function BotPreferencesForm({
                           <FormControl>
                             <RadioGroupItem
                               value={board}
-                              className="border-none shadow-inner shadow-slate-500 active:scale-90 transition-all duration-200 hover:scale-[1.2]"
+                              className="border-none shadow-inner shadow-slate-600 active:scale-90 transition-all duration-200 hover:scale-[1.2]"
                             />
                           </FormControl>
                           <FormLabel className="font-normal">{board}</FormLabel>
@@ -317,7 +317,7 @@ export default function BotPreferencesForm({
                           <FormControl>
                             <RadioGroupItem
                               value={tone}
-                              className="border-none shadow-inner shadow-slate-500 active:scale-90 transition-all duration-200 hover:scale-[1.2]"
+                              className="border-none shadow-inner shadow-slate-600 active:scale-90 transition-all duration-200 hover:scale-[1.2]"
                             />
                           </FormControl>
                           <FormLabel className="font-normal">{tone}</FormLabel>
@@ -355,7 +355,7 @@ export default function BotPreferencesForm({
                           <FormControl>
                             <RadioGroupItem
                               value={humorLevel}
-                              className="border-none shadow-inner shadow-slate-500 active:scale-90 transition-all duration-200 hover:scale-[1.2]"
+                              className="border-none shadow-inner shadow-slate-600 active:scale-90 transition-all duration-200 hover:scale-[1.2]"
                             />
                           </FormControl>
                           <FormLabel className="font-normal">
@@ -395,7 +395,7 @@ export default function BotPreferencesForm({
                           <FormControl>
                             <RadioGroupItem
                               value={languageProficiency}
-                              className="border-none shadow-inner shadow-slate-500 active:scale-90 transition-all duration-200 hover:scale-[1.2]"
+                              className="border-none shadow-inner shadow-slate-600 active:scale-90 transition-all duration-200 hover:scale-[1.2]"
                             />
                           </FormControl>
                           <FormLabel className="font-normal">
