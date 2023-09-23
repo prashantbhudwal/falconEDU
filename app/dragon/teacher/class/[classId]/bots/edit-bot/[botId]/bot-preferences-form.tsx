@@ -32,7 +32,7 @@ import { AcademicCapIcon } from "@heroicons/react/24/solid";
 import { LanguageIcon } from "@heroicons/react/24/solid";
 import { LightBulbIcon } from "@heroicons/react/24/solid";
 import { SpeakerWaveIcon } from "@heroicons/react/24/solid";
-import { Paper } from "@/components/ui/Paper";
+import { Paper } from "@/components/ui/rename-paper";
 
 import {
   grades,
