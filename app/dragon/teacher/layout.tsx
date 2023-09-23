@@ -1,5 +1,5 @@
 import Navbar from "@/components/navbar/navbar";
-import { Paper } from "@/components/ui/rename-paper";
+import { Paper } from "@/components/ui/paper";
 import ClassBreadcrumbs from "./components/class-breadcrumbs";
 import { TeacherNav } from "./components/teacher-nav";
 export default function DragonLayout({
