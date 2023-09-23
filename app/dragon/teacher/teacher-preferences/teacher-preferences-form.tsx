@@ -21,6 +21,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useState } from "react";
+import { Paper } from "@/components/ui/Paper";
 
 const defaultValues: z.infer<typeof teacherPreferencesSchema> = {
   personalInformation: "",
@@ -109,68 +110,67 @@ export default function TeacherPreferencesForm({
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-10 m-10 lg:mx-32 rounded-sm p-10 shadow-inner shadow-slate-700 hover:transition-all duration-300"
-      >
-        <div className="flex justify-between p-5 rounded-lg ">
-          <div className=" flex flex-col gap-2">
-            <h2 className="md:text-3xl font-bold tracking-wide">
-              My Preferences
-            </h2>
-            <p
-              className={` text-base max-w-2xl hover:transition-all duration-300 ${
-                onHover ? "text-slate-400" : "text-slate-500"
-              } `}
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <Paper variant="form">
+          <div className="flex justify-between p-5 rounded-lg ">
+            <div className=" flex flex-col gap-2">
+              <h2 className="md:text-3xl font-bold tracking-wide">
+                My Preferences
+              </h2>
+              <p
+                className={` text-base max-w-lg hover:transition-all duration-300 ${
+                  onHover ? "text-slate-400" : "text-slate-500"
+                } `}
+              >
+                This includes information about you that stays common for all
+                the bots. The more information you provide, the better the AI
+                will be able to form a connection with the students.
+              </p>
+            </div>
+            <Button
+              type="submit"
+              onMouseEnter={() => {
+                setonHover(true);
+              }}
+              onMouseLeave={() => {
+                setonHover(false);
+              }}
             >
-              This includes information about you that stays common for all the
-              bots. The more information you provide, the better the AI will be
-              able to form a connection with the students.
-            </p>
+              {loading ? "Saving..." : "Save"}
+            </Button>
           </div>
-          <Button
-            type="submit"
-            onMouseEnter={() => {
-              setonHover(true);
-            }}
-            onMouseLeave={() => {
-              setonHover(false);
-            }}
-          >
-            {loading ? "Saving..." : "Save"}
-          </Button>
-        </div>
-        <Separator className="my-4" />
-        {personalInfo.map((item) => (
-          <FormField
-            key={item.name}
-            control={form.control}
-            name={item.name}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel
-                  className={`mb-5 flex gap-2 items-center font-bold ${
-                    inputFocus === item.name ? "text-white" : ""
-                  }`}
-                >
-                  {item.label}
-                  {getIconForItem(item.icons)}
-                </FormLabel>
-                <FormControl className="tracking-wider">
-                  <TextareaAutosize
-                    placeholder={item.placeholder}
-                    className="resize-none  placeholder:text-xs font-semibold min-h-[6rem]"
-                    {...field}
-                    onFocus={() => setInputFocus(item.name)}
-                    onBlur={() => setInputFocus("")}
-                  />
-                </FormControl>
-                <FormDescription>{item.description}</FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        ))}
+          <Separator className="my-4" />
+          {personalInfo.map((item) => (
+            <FormField
+              key={item.name}
+              control={form.control}
+              name={item.name}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel
+                    className={`mb-5 flex gap-2 items-center font-bold ${
+                      inputFocus === item.name ? "text-white" : ""
+                    }`}
+                  >
+                    {item.label}
+                    {getIconForItem(item.icons)}
+                  </FormLabel>
+                  <FormControl className="tracking-wider">
+                    <TextareaAutosize
+                      placeholder={item.placeholder}
+                      className="resize-none  placeholder:text-xs font-semibold min-h-[6rem]"
+                      {...field}
+                      onFocus={() => setInputFocus(item.name)}
+                      onBlur={() => setInputFocus("")}
+                    />
+                  </FormControl>
+                  <FormDescription>{item.description}</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          ))}
+        </Paper>
       </form>
     </Form>
   );
