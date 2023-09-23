@@ -1,15 +1,15 @@
-"use client"
-import { type BotConfig } from "@prisma/client"
-import { useState } from "react"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import * as z from "zod"
+"use client";
+import { type BotConfig } from "@prisma/client";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
 import {
   updateBotConfig,
   unPublishBotConfig,
   publishBotConfig,
-} from "../../../../../mutations"
-import { fetchBotConfig } from "../../../../../queries"
+} from "../../../../../mutations";
+import { fetchBotConfig } from "../../../../../queries";
 import {
   Form,
   FormControl,
@@ -18,21 +18,21 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group-form"
-import { Separator } from "@/components/ui/separator"
-import { Chip } from "@/components/ui/chip"
-import { botPreferencesSchema } from "../../../../../../schema"
-import { Button } from "@/components/ui/button"
-import { Textarea } from "@/components/ui/textarea"
-import { FiInfo } from "react-icons/fi"
-import { FiBookOpen } from "react-icons/fi"
-import { ClipboardIcon } from "@heroicons/react/24/solid"
-import { AcademicCapIcon } from "@heroicons/react/24/solid"
-import { LanguageIcon } from "@heroicons/react/24/solid"
-import { LightBulbIcon } from "@heroicons/react/24/solid"
-import { SpeakerWaveIcon } from "@heroicons/react/24/solid"
-import { Paper } from "@/components/ui/Paper"
+} from "@/components/ui/form";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group-form";
+import { Separator } from "@/components/ui/separator";
+import { Chip } from "@/components/ui/chip";
+import { botPreferencesSchema } from "../../../../../../schema";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { FiInfo } from "react-icons/fi";
+import { FiBookOpen } from "react-icons/fi";
+import { ClipboardIcon } from "@heroicons/react/24/solid";
+import { AcademicCapIcon } from "@heroicons/react/24/solid";
+import { LanguageIcon } from "@heroicons/react/24/solid";
+import { LightBulbIcon } from "@heroicons/react/24/solid";
+import { SpeakerWaveIcon } from "@heroicons/react/24/solid";
+import { Paper } from "@/components/ui/Paper";
 
 import {
   grades,
@@ -41,7 +41,7 @@ import {
   tone,
   humorLevel,
   subjects,
-} from "../../../../../../schema"
+} from "../../../../../../schema";
 
 const defaultValues: z.infer<typeof botPreferencesSchema> = {
   instructions: "How do you want bots to behave?",
@@ -52,14 +52,14 @@ const defaultValues: z.infer<typeof botPreferencesSchema> = {
   language: "English",
   humorLevel: "Moderate",
   languageProficiency: "Beginner",
-}
+};
 
 type BotPreferencesFormProps = {
-  preferences?: z.infer<typeof botPreferencesSchema> | null
-  classId: string
-  botId: string
-  botConfig: BotConfig | null
-}
+  preferences?: z.infer<typeof botPreferencesSchema> | null;
+  classId: string;
+  botId: string;
+  botConfig: BotConfig | null;
+};
 
 export default function BotPreferencesForm({
   preferences,
@@ -67,50 +67,50 @@ export default function BotPreferencesForm({
   botId,
   botConfig,
 }: BotPreferencesFormProps) {
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-  const [inputFocus, setInputFocus] = useState("")
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [inputFocus, setInputFocus] = useState("");
 
   const form = useForm<z.infer<typeof botPreferencesSchema>>({
     resolver: zodResolver(botPreferencesSchema),
     defaultValues: preferences || defaultValues,
-  })
+  });
 
   const onSubmit = async (data: z.infer<typeof botPreferencesSchema>) => {
-    console.log(data)
-    setLoading(true)
-    const result = await updateBotConfig(classId, botId, data)
-    setLoading(false)
+    console.log(data);
+    setLoading(true);
+    const result = await updateBotConfig(classId, botId, data);
+    setLoading(false);
     if (result.success) {
-      console.log("Successfully updated.")
-      setError(null) // clear any existing error
+      console.log("Successfully updated.");
+      setError(null); // clear any existing error
     } else {
-      console.log("Update failed:", result.error)
-      setError("Failed to update bot config. Please try again.") // set the error message
+      console.log("Update failed:", result.error);
+      setError("Failed to update bot config. Please try again."); // set the error message
     }
-  }
+  };
 
   const onPublish = async () => {
-    const result = await publishBotConfig(classId, botId)
+    const result = await publishBotConfig(classId, botId);
     if (result.success) {
     } else {
-      setError("Failed to publish bot config. Please try again.") // set the error message
+      setError("Failed to publish bot config. Please try again."); // set the error message
     }
-  }
+  };
 
   const onUnPublish = async () => {
-    const result = await unPublishBotConfig(classId, botId)
+    const result = await unPublishBotConfig(classId, botId);
     if (result.success) {
     } else {
-      setError("Failed to publish bot config. Please try again.") // set the error message
+      setError("Failed to publish bot config. Please try again."); // set the error message
     }
-  }
+  };
 
   return (
     <>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <Paper variant="FormFlexPaper">
+          <Paper variant="gray">
             <div className="flex justify-between flex-wrap p-5">
               <h2 className="md:text-3xl font-bold tracking-wide">
                 Bot Preference
@@ -190,13 +190,13 @@ export default function BotPreferencesForm({
                                           field.value?.filter(
                                             (value) => value !== grade
                                           )
-                                        )
+                                        );
                                   }}
                                   toggleName={grade}
                                 />
                               </FormControl>
                             </FormItem>
-                          )
+                          );
                         }}
                       />
                     ))}
@@ -242,13 +242,13 @@ export default function BotPreferencesForm({
                                           field.value?.filter(
                                             (value) => value !== subject
                                           )
-                                        )
+                                        );
                                   }}
                                   toggleName={subject}
                                 />
                               </FormControl>
                             </FormItem>
-                          )
+                          );
                         }}
                       />
                     ))}
@@ -414,5 +414,5 @@ export default function BotPreferencesForm({
         </form>
       </Form>
     </>
-  )
+  );
 }

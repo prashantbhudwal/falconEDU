@@ -1,15 +1,15 @@
-"use client"
-import { Button } from "@/components/ui/button"
-import { Separator } from "@/components/ui/separator"
-import { TextareaAutosize } from "@/components/ui/textarea-autosize"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import * as z from "zod"
-import { teacherPreferencesSchema } from "../../schema"
-import { updateTeacherPreferences } from "../mutations"
-import { FiThumbsDown } from "react-icons/fi"
-import { FiThumbsUp } from "react-icons/fi"
-import { FiInfo } from "react-icons/fi"
+"use client";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { TextareaAutosize } from "@/components/ui/textarea-autosize";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { teacherPreferencesSchema } from "../../schema";
+import { updateTeacherPreferences } from "../mutations";
+import { FiThumbsDown } from "react-icons/fi";
+import { FiThumbsUp } from "react-icons/fi";
+import { FiInfo } from "react-icons/fi";
 
 import {
   Form,
@@ -19,16 +19,16 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { useState } from "react"
-import { Paper } from "@/components/ui/Paper"
+} from "@/components/ui/form";
+import { useState } from "react";
+import { Paper } from "@/components/ui/Paper";
 
 const defaultValues: z.infer<typeof teacherPreferencesSchema> = {
   personalInformation: "",
   professionalInformation: "",
   likes: "",
   dislikes: "",
-}
+};
 
 const personalInfo = [
   {
@@ -63,63 +63,63 @@ const personalInfo = [
     description: "AI will use this to form a connection with the students.",
     iconName: "FiThumbsDown",
   },
-] as const
+] as const;
 
 type TeacherPreferencesFormProps = {
-  teacherId: string
-  initialValues: z.infer<typeof teacherPreferencesSchema>
-}
+  teacherId: string;
+  initialValues: z.infer<typeof teacherPreferencesSchema>;
+};
 export default function TeacherPreferencesForm({
   teacherId,
   initialValues,
 }: TeacherPreferencesFormProps) {
-  const [loading, setLoading] = useState(false)
-  const [inputFocus, setInputFocus] = useState("")
-  const [onHover, setOnHover] = useState(false)
+  const [loading, setLoading] = useState(false);
+  const [inputFocus, setInputFocus] = useState("");
+  const [onHover, setOnHover] = useState(false);
 
   const form = useForm<z.infer<typeof teacherPreferencesSchema>>({
     resolver: zodResolver(teacherPreferencesSchema),
     defaultValues: initialValues ?? defaultValues,
-  })
+  });
 
   const onSubmit = async (values: z.infer<typeof teacherPreferencesSchema>) => {
-    setLoading(true)
+    setLoading(true);
     try {
-      await updateTeacherPreferences(teacherId, values)
+      await updateTeacherPreferences(teacherId, values);
     } catch (error) {
       form.setError("personalInformation", {
         type: "manual",
         message: "Failed to update preferences.",
-      })
+      });
     }
-    setLoading(false)
-  }
+    setLoading(false);
+  };
 
   const getIconForFormLabel = (item: String) => {
     switch (item) {
       case "FiInfo":
-        return <FiInfo size={14} />
+        return <FiInfo size={14} />;
       case "FiThumbsUp":
-        return <FiThumbsUp size={14} />
+        return <FiThumbsUp size={14} />;
       case "FiThumbsDown":
-        return <FiThumbsDown size={14} />
+        return <FiThumbsDown size={14} />;
       default:
-        return null
+        return null;
     }
-  }
+  };
 
   const handleDescriptionHoverEnter = () => {
-    setOnHover(true)
-  }
+    setOnHover(true);
+  };
 
   const handleDescriptionHoverLeave = () => {
-    setOnHover(false)
-  }
+    setOnHover(false);
+  };
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <Paper variant="FormFlexPaper">
+        <Paper variant="gray">
           <div className="flex justify-between p-5 rounded-lg ">
             <div className=" flex flex-col gap-2">
               <h2 className="md:text-3xl font-bold tracking-wide">
@@ -177,5 +177,5 @@ export default function TeacherPreferencesForm({
         </Paper>
       </form>
     </Form>
-  )
+  );
 }
