@@ -1,15 +1,15 @@
-"use client";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { TextareaAutosize } from "@/components/ui/textarea-autosize";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import { teacherPreferencesSchema } from "../../schema";
-import { updateTeacherPreferences } from "../mutations";
-import { BsFillHandThumbsDownFill } from "react-icons/bs";
-import { BsFillHandThumbsUpFill } from "react-icons/bs";
-import { HiMiniInformationCircle } from "react-icons/hi2";
+"use client"
+import { Button } from "@/components/ui/button"
+import { Separator } from "@/components/ui/separator"
+import { TextareaAutosize } from "@/components/ui/textarea-autosize"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import * as z from "zod"
+import { teacherPreferencesSchema } from "../../schema"
+import { updateTeacherPreferences } from "../mutations"
+import { FiThumbsDown } from "react-icons/fi"
+import { FiThumbsUp } from "react-icons/fi"
+import { FiInfo } from "react-icons/fi"
 
 import {
   Form,
@@ -19,16 +19,16 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { useState } from "react";
-import { Paper } from "@/components/ui/Paper";
+} from "@/components/ui/form"
+import { useState } from "react"
+import { Paper } from "@/components/ui/Paper"
 
 const defaultValues: z.infer<typeof teacherPreferencesSchema> = {
   personalInformation: "",
   professionalInformation: "",
   likes: "",
   dislikes: "",
-};
+}
 
 const personalInfo = [
   {
@@ -37,7 +37,7 @@ const personalInfo = [
     placeholder:
       "What are your hobbies? What are your favorite things to do? What kind of music do you like?",
     description: "AI will use this to form a connection with the students.",
-    icons: "HiMiniInformationCircle",
+    iconName: "FiInfo",
   },
   {
     name: "professionalInformation",
@@ -45,7 +45,7 @@ const personalInfo = [
     placeholder:
       "Where have you studied? What are your qualifications? What are your professional interests? What about your professional experience?",
     description: "AI will use this to build credibility with the students.",
-    icons: "HiMiniInformationCircle",
+    iconName: "FiInfo",
   },
   {
     name: "likes",
@@ -53,7 +53,7 @@ const personalInfo = [
     placeholder:
       "What are some things you like? What behaviors should be encouraged?",
     description: "AI will use this to form a connection with the students.",
-    icons: "BsFillHandThumbsUpFill",
+    iconName: "FiThumbsUp",
   },
   {
     name: "dislikes",
@@ -61,57 +61,65 @@ const personalInfo = [
     placeholder:
       "What are some things you don't like? What behaviors do you not tolerate?",
     description: "AI will use this to form a connection with the students.",
-    icons: "BsFillHandThumbsDownFill",
+    iconName: "FiThumbsDown",
   },
-] as const;
+] as const
 
 type TeacherPreferencesFormProps = {
-  teacherId: string;
-  initialValues: z.infer<typeof teacherPreferencesSchema>;
-};
+  teacherId: string
+  initialValues: z.infer<typeof teacherPreferencesSchema>
+}
 export default function TeacherPreferencesForm({
   teacherId,
   initialValues,
 }: TeacherPreferencesFormProps) {
-  const [loading, setLoading] = useState(false);
-  const [inputFocus, setInputFocus] = useState("");
-  const [onHover, setonHover] = useState(false);
+  const [loading, setLoading] = useState(false)
+  const [inputFocus, setInputFocus] = useState("")
+  const [onHover, setOnHover] = useState(false)
 
   const form = useForm<z.infer<typeof teacherPreferencesSchema>>({
     resolver: zodResolver(teacherPreferencesSchema),
     defaultValues: initialValues ?? defaultValues,
-  });
+  })
 
   const onSubmit = async (values: z.infer<typeof teacherPreferencesSchema>) => {
-    setLoading(true);
+    setLoading(true)
     try {
-      await updateTeacherPreferences(teacherId, values);
+      await updateTeacherPreferences(teacherId, values)
     } catch (error) {
       form.setError("personalInformation", {
         type: "manual",
         message: "Failed to update preferences.",
-      });
+      })
     }
-    setLoading(false);
-  };
+    setLoading(false)
+  }
 
-  const getIconForItem = (item: String) => {
+  const getIconForFormLabel = (item: String) => {
     switch (item) {
-      case "HiMiniInformationCircle":
-        return <HiMiniInformationCircle size={14} />;
-      case "BsFillHandThumbsUpFill":
-        return <BsFillHandThumbsUpFill size={14} />;
-      case "BsFillHandThumbsDownFill":
-        return <BsFillHandThumbsDownFill size={14} />;
+      case "FiInfo":
+        return <FiInfo size={14} />
+      case "FiThumbsUp":
+        return <FiThumbsUp size={14} />
+      case "FiThumbsDown":
+        return <FiThumbsDown size={14} />
       default:
-        return null;
+        return null
     }
-  };
+  }
+
+  const handleDescriptionHoverEnter = () => {
+    setOnHover(true)
+  }
+
+  const handleDescriptionHoverLeave = () => {
+    setOnHover(false)
+  }
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <Paper variant="form">
+        <Paper variant="FormFlexPaper">
           <div className="flex justify-between p-5 rounded-lg ">
             <div className=" flex flex-col gap-2">
               <h2 className="md:text-3xl font-bold tracking-wide">
@@ -129,12 +137,8 @@ export default function TeacherPreferencesForm({
             </div>
             <Button
               type="submit"
-              onMouseEnter={() => {
-                setonHover(true);
-              }}
-              onMouseLeave={() => {
-                setonHover(false);
-              }}
+              onMouseEnter={handleDescriptionHoverEnter}
+              onMouseLeave={handleDescriptionHoverLeave}
             >
               {loading ? "Saving..." : "Save"}
             </Button>
@@ -153,7 +157,7 @@ export default function TeacherPreferencesForm({
                     }`}
                   >
                     {item.label}
-                    {getIconForItem(item.icons)}
+                    {getIconForFormLabel(item.iconName)}
                   </FormLabel>
                   <FormControl className="tracking-wider">
                     <TextareaAutosize
@@ -173,5 +177,5 @@ export default function TeacherPreferencesForm({
         </Paper>
       </form>
     </Form>
-  );
+  )
 }

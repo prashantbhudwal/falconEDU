@@ -1,15 +1,15 @@
-"use client";
-import { type BotConfig } from "@prisma/client";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
+"use client"
+import { type BotConfig } from "@prisma/client"
+import { useState } from "react"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import * as z from "zod"
 import {
   updateBotConfig,
   unPublishBotConfig,
   publishBotConfig,
-} from "../../../../../mutations";
-import { fetchBotConfig } from "../../../../../queries";
+} from "../../../../../mutations"
+import { fetchBotConfig } from "../../../../../queries"
 import {
   Form,
   FormControl,
@@ -18,21 +18,21 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group-form";
-import { Separator } from "@/components/ui/separator";
-import { Chip } from "@/components/ui/chip";
-import { botPreferencesSchema } from "../../../../../../schema";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { HiMiniInformationCircle } from "react-icons/hi2";
-import { IoBookSharp } from "react-icons/io5";
-import { BsFillClipboardFill } from "react-icons/bs";
-import { GiGraduateCap } from "react-icons/gi";
-import { FaLanguage } from "react-icons/fa";
-import { HiLightBulb } from "react-icons/hi";
-import { HiSpeakerWave } from "react-icons/hi2";
-import { Paper } from "@/components/ui/Paper";
+} from "@/components/ui/form"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group-form"
+import { Separator } from "@/components/ui/separator"
+import { Chip } from "@/components/ui/chip"
+import { botPreferencesSchema } from "../../../../../../schema"
+import { Button } from "@/components/ui/button"
+import { Textarea } from "@/components/ui/textarea"
+import { FiInfo } from "react-icons/fi"
+import { FiBookOpen } from "react-icons/fi"
+import { ClipBoardIcon } from "@/public/hero-icons/clipboard"
+import { GraduateCapIcon } from "@/public/hero-icons/graduate-cap"
+import { LanguageIcon } from "@/public/hero-icons/language"
+import { LightBulbIcon } from "@/public/hero-icons/light-bulb"
+import { SpeakerWaveIcon } from "@/public/hero-icons/speaker-wave"
+import { Paper } from "@/components/ui/Paper"
 
 import {
   grades,
@@ -41,7 +41,7 @@ import {
   tone,
   humorLevel,
   subjects,
-} from "../../../../../../schema";
+} from "../../../../../../schema"
 
 const defaultValues: z.infer<typeof botPreferencesSchema> = {
   instructions: "How do you want bots to behave?",
@@ -52,14 +52,14 @@ const defaultValues: z.infer<typeof botPreferencesSchema> = {
   language: "English",
   humorLevel: "Moderate",
   languageProficiency: "Beginner",
-};
+}
 
 type BotPreferencesFormProps = {
-  preferences?: z.infer<typeof botPreferencesSchema> | null;
-  classId: string;
-  botId: string;
-  botConfig: BotConfig | null;
-};
+  preferences?: z.infer<typeof botPreferencesSchema> | null
+  classId: string
+  botId: string
+  botConfig: BotConfig | null
+}
 
 export default function BotPreferencesForm({
   preferences,
@@ -67,50 +67,50 @@ export default function BotPreferencesForm({
   botId,
   botConfig,
 }: BotPreferencesFormProps) {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [inputFocus, setInputFocus] = useState("");
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [inputFocus, setInputFocus] = useState("")
 
   const form = useForm<z.infer<typeof botPreferencesSchema>>({
     resolver: zodResolver(botPreferencesSchema),
     defaultValues: preferences || defaultValues,
-  });
+  })
 
   const onSubmit = async (data: z.infer<typeof botPreferencesSchema>) => {
-    console.log(data);
-    setLoading(true);
-    const result = await updateBotConfig(classId, botId, data);
-    setLoading(false);
+    console.log(data)
+    setLoading(true)
+    const result = await updateBotConfig(classId, botId, data)
+    setLoading(false)
     if (result.success) {
-      console.log("Successfully updated.");
-      setError(null); // clear any existing error
+      console.log("Successfully updated.")
+      setError(null) // clear any existing error
     } else {
-      console.log("Update failed:", result.error);
-      setError("Failed to update bot config. Please try again."); // set the error message
+      console.log("Update failed:", result.error)
+      setError("Failed to update bot config. Please try again.") // set the error message
     }
-  };
+  }
 
   const onPublish = async () => {
-    const result = await publishBotConfig(classId, botId);
+    const result = await publishBotConfig(classId, botId)
     if (result.success) {
     } else {
-      setError("Failed to publish bot config. Please try again."); // set the error message
+      setError("Failed to publish bot config. Please try again.") // set the error message
     }
-  };
+  }
 
   const onUnPublish = async () => {
-    const result = await unPublishBotConfig(classId, botId);
+    const result = await unPublishBotConfig(classId, botId)
     if (result.success) {
     } else {
-      setError("Failed to publish bot config. Please try again."); // set the error message
+      setError("Failed to publish bot config. Please try again.") // set the error message
     }
-  };
+  }
 
   return (
     <>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <Paper variant="form">
+          <Paper variant="FormFlexPaper">
             <div className="flex justify-between flex-wrap p-5">
               <h2 className="md:text-3xl font-bold tracking-wide">
                 Bot Preference
@@ -138,7 +138,7 @@ export default function BotPreferencesForm({
                     }`}
                   >
                     Instructions
-                    <HiMiniInformationCircle />
+                    <FiInfo />
                   </FormLabel>
                   <FormControl>
                     <Textarea
@@ -165,7 +165,7 @@ export default function BotPreferencesForm({
                   <div className="mb-5 flex flex-col gap-2">
                     <FormLabel className="flex gap-2 items-center font-bold">
                       Grades
-                      <GiGraduateCap size={18} />
+                      <GraduateCapIcon />
                     </FormLabel>
                     <FormDescription>
                       Which grades do you want the AI to teach?
@@ -190,14 +190,13 @@ export default function BotPreferencesForm({
                                           field.value?.filter(
                                             (value) => value !== grade
                                           )
-                                        );
+                                        )
                                   }}
-                                  className="font-medium min-w-[50px] w-full active:scale-90 mx-2 h-8 transition-all duration-200 hover:scale-[1.2] shadow-inner  border-0 shadow-slate-700 rounded-lg  data-[state=checked]:shadow-inherit   data-[state=checked]:bg-primary data-[state=checked]:text-slate-800 text-sm "
                                   toggleName={grade}
                                 />
                               </FormControl>
                             </FormItem>
-                          );
+                          )
                         }}
                       />
                     ))}
@@ -215,7 +214,7 @@ export default function BotPreferencesForm({
                   <div className="mb-5 flex flex-col gap-2">
                     <FormLabel className="flex gap-2 items-center font-bold">
                       Subjects
-                      <IoBookSharp />
+                      <FiBookOpen />
                     </FormLabel>
                     <FormDescription>
                       Which subjects do you want the AI to teach?
@@ -243,14 +242,13 @@ export default function BotPreferencesForm({
                                           field.value?.filter(
                                             (value) => value !== subject
                                           )
-                                        );
+                                        )
                                   }}
-                                  className="font-medium min-w-[50px] w-full mx-2 h-8 active:scale-90 transition-all duration-200 hover:scale-[1.2] shadow-inner  border-0 shadow-slate-700 rounded-lg  data-[state=checked]:shadow-inherit    data-[state=checked]:bg-primary data-[state=checked]:text-slate-800 text-sm"
                                   toggleName={subject}
                                 />
                               </FormControl>
                             </FormItem>
-                          );
+                          )
                         }}
                       />
                     ))}
@@ -266,7 +264,7 @@ export default function BotPreferencesForm({
                 <FormItem className="space-y-3">
                   <FormLabel className="mb-5 flex gap-2 items-center font-bold">
                     Board
-                    <BsFillClipboardFill size={12} />
+                    <ClipBoardIcon />
                   </FormLabel>
                   <FormControl>
                     <RadioGroup
@@ -301,7 +299,7 @@ export default function BotPreferencesForm({
                 <FormItem className="space-y-3">
                   <FormLabel className="mb-5 flex gap-2 items-center font-bold">
                     Tone
-                    <HiSpeakerWave />
+                    <SpeakerWaveIcon />
                   </FormLabel>
                   <FormControl>
                     <RadioGroup
@@ -339,7 +337,7 @@ export default function BotPreferencesForm({
                 <FormItem className="space-y-3">
                   <FormLabel className="mb-5 flex gap-2 items-center font-bold">
                     Humor Level
-                    <HiLightBulb size={19} />
+                    <LightBulbIcon />
                   </FormLabel>
                   <FormControl>
                     <RadioGroup
@@ -379,7 +377,7 @@ export default function BotPreferencesForm({
                 <FormItem className="space-y-3">
                   <FormLabel className="flex gap-2 items-center font-bold">
                     Language Proficiency
-                    <FaLanguage size={19} />
+                    <LanguageIcon />
                   </FormLabel>
                   <FormControl>
                     <RadioGroup
@@ -416,5 +414,5 @@ export default function BotPreferencesForm({
         </form>
       </Form>
     </>
-  );
+  )
 }
