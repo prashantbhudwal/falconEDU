@@ -1,12 +1,15 @@
-"use client";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { TextareaAutosize } from "@/components/ui/textarea-autosize";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import { teacherPreferencesSchema } from "../../schema";
-import { updateTeacherPreferences } from "../mutations";
+"use client"
+import { Button } from "@/components/ui/button"
+import { Separator } from "@/components/ui/separator"
+import { TextareaAutosize } from "@/components/ui/textarea-autosize"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import * as z from "zod"
+import { teacherPreferencesSchema } from "../../schema"
+import { updateTeacherPreferences } from "../mutations"
+import { FiThumbsDown } from "react-icons/fi"
+import { FiThumbsUp } from "react-icons/fi"
+import { FiInfo } from "react-icons/fi"
 
 import {
   Form,
@@ -16,15 +19,16 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { useState } from "react";
+} from "@/components/ui/form"
+import { useState } from "react"
+import { Paper } from "@/components/ui/Paper"
 
 const defaultValues: z.infer<typeof teacherPreferencesSchema> = {
   personalInformation: "",
   professionalInformation: "",
   likes: "",
   dislikes: "",
-};
+}
 
 const personalInfo = [
   {
@@ -33,6 +37,7 @@ const personalInfo = [
     placeholder:
       "What are your hobbies? What are your favorite things to do? What kind of music do you like?",
     description: "AI will use this to form a connection with the students.",
+    iconName: "FiInfo",
   },
   {
     name: "professionalInformation",
@@ -40,6 +45,7 @@ const personalInfo = [
     placeholder:
       "Where have you studied? What are your qualifications? What are your professional interests? What about your professional experience?",
     description: "AI will use this to build credibility with the students.",
+    iconName: "FiInfo",
   },
   {
     name: "likes",
@@ -47,6 +53,7 @@ const personalInfo = [
     placeholder:
       "What are some things you like? What behaviors should be encouraged?",
     description: "AI will use this to form a connection with the students.",
+    iconName: "FiThumbsUp",
   },
   {
     name: "dislikes",
@@ -54,76 +61,121 @@ const personalInfo = [
     placeholder:
       "What are some things you don't like? What behaviors do you not tolerate?",
     description: "AI will use this to form a connection with the students.",
+    iconName: "FiThumbsDown",
   },
-] as const;
+] as const
 
 type TeacherPreferencesFormProps = {
-  teacherId: string;
-  initialValues: z.infer<typeof teacherPreferencesSchema>;
-};
+  teacherId: string
+  initialValues: z.infer<typeof teacherPreferencesSchema>
+}
 export default function TeacherPreferencesForm({
   teacherId,
   initialValues,
 }: TeacherPreferencesFormProps) {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false)
+  const [inputFocus, setInputFocus] = useState("")
+  const [onHover, setOnHover] = useState(false)
 
   const form = useForm<z.infer<typeof teacherPreferencesSchema>>({
     resolver: zodResolver(teacherPreferencesSchema),
     defaultValues: initialValues ?? defaultValues,
-  });
+  })
 
   const onSubmit = async (values: z.infer<typeof teacherPreferencesSchema>) => {
-    setLoading(true);
+    setLoading(true)
     try {
-      await updateTeacherPreferences(teacherId, values);
+      await updateTeacherPreferences(teacherId, values)
     } catch (error) {
       form.setError("personalInformation", {
         type: "manual",
         message: "Failed to update preferences.",
-      });
+      })
     }
-    setLoading(false);
-  };
+    setLoading(false)
+  }
+
+  const getIconForFormLabel = (item: String) => {
+    switch (item) {
+      case "FiInfo":
+        return <FiInfo size={14} />
+      case "FiThumbsUp":
+        return <FiThumbsUp size={14} />
+      case "FiThumbsDown":
+        return <FiThumbsDown size={14} />
+      default:
+        return null
+    }
+  }
+
+  const handleDescriptionHoverEnter = () => {
+    setOnHover(true)
+  }
+
+  const handleDescriptionHoverLeave = () => {
+    setOnHover(false)
+  }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <div className="flex justify-between">
-          <div className="flex flex-col gap-2">
-            <h2 className="text-2xl font-bold tracking-tight">
-              My Preferences
-            </h2>
-            <p className="text-sm max-w-2xl">
-              This includes information about you that stays common for all the
-              bots. The more information you provide, the better the AI will be
-              able to form a connection with the students.
-            </p>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <Paper variant="FormFlexPaper">
+          <div className="flex justify-between p-5 rounded-lg ">
+            <div className=" flex flex-col gap-2">
+              <h2 className="md:text-3xl font-bold tracking-wide">
+                My Preferences
+              </h2>
+              <p
+                className={` text-base max-w-lg hover:transition-all duration-300 ${
+                  onHover ? "text-slate-400" : "text-slate-500"
+                } `}
+              >
+                This includes information about you that stays common for all
+                the bots. The more information you provide, the better the AI
+                will be able to form a connection with the students.
+              </p>
+            </div>
+            <Button
+              type="submit"
+              onMouseEnter={handleDescriptionHoverEnter}
+              onMouseLeave={handleDescriptionHoverLeave}
+            >
+              {loading ? "Saving..." : "Save"}
+            </Button>
           </div>
-          <Button type="submit">{loading ? "Saving..." : "Save"}</Button>
-        </div>
-        <Separator className="my-6" />
-        {personalInfo.map((item) => (
-          <FormField
-            key={item.name}
-            control={form.control}
-            name={item.name}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{item.label}</FormLabel>
-                <FormControl>
-                  <TextareaAutosize
-                    placeholder={item.placeholder}
-                    className="resize-none placeholder:text-xs min-h-[6rem]"
-                    {...field}
-                  />
-                </FormControl>
-                <FormDescription>{item.description}</FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        ))}
+          <Separator className="my-4" />
+          {personalInfo.map((item) => (
+            <FormField
+              key={item.name}
+              control={form.control}
+              name={item.name}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel
+                    className={`mb-5 flex gap-2 items-center font-bold ${
+                      inputFocus === item.name ? "text-white" : ""
+                    }`}
+                  >
+                    {item.label}
+                    {getIconForFormLabel(item.iconName)}
+                  </FormLabel>
+                  <FormControl className="tracking-wider">
+                    <TextareaAutosize
+                      placeholder={item.placeholder}
+                      className="resize-none  placeholder:text-xs font-semibold min-h-[6rem]"
+                      {...field}
+                      onFocus={() => setInputFocus(item.name)}
+                      onBlur={() => setInputFocus("")}
+                    />
+                  </FormControl>
+                  <FormDescription>{item.description}</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          ))}
+        </Paper>
       </form>
     </Form>
-  );
+  )
 }

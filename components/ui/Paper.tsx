@@ -1,17 +1,33 @@
-import * as React from "react";
+import * as React from "react"
+import { cva, type VariantProps } from "class-variance-authority"
+import { cn } from "@/lib/utils"
 
-import { cn } from "@/lib/utils";
+const paperVariants = cva("", {
+  variants: {
+    variant: {
+      BoundaryBlend: "shadow-md rounded-sm shadow-base-300 p-8",
+      FormFlexPaper:
+        "space-y-10 m-10 lg:mx-32 rounded-sm p-10 shadow-inner shadow-slate-700 hover:transition-all duration-300",
+    },
+  },
+  defaultVariants: {
+    variant: "BoundaryBlend",
+  },
+})
 
-const Paper = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn("shadow-md rounded-sm shadow-base-300 p-8", className)}
-    {...props}
-  />
-));
-Paper.displayName = "Paper";
+export interface PaperProps
+  extends React.HTMLAttributes<HTMLDivElement>,
+    VariantProps<typeof paperVariants> {}
 
-export { Paper };
+const Paper = React.forwardRef<HTMLDivElement, PaperProps>(
+  ({ className, variant, ...props }, ref) => (
+    <div
+      ref={ref}
+      className={cn(paperVariants({ variant, className }))}
+      {...props}
+    />
+  )
+)
+Paper.displayName = "Paper"
+
+export { Paper }
