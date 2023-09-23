@@ -33,7 +33,7 @@ const teacherNavConfig = [
 
 export function TeacherNav() {
   return (
-    <nav className="bg-base-200 w-full max-w-[240px] flex flex-col custom-scrollbar overflow-y-auto"></nav>
+    <nav className="bg-base-200 w-full flex flex-col custom-scrollbar overflow-y-auto"></nav>
   );
 }
 
