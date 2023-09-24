@@ -1,6 +1,7 @@
 import { TeacherNav } from "../../components/teacher-nav";
+import { _TestOverflow } from "@/components/_test-overflow";
 
-export default function DragonLayout({
+export default function ClassLayout({
   children,
   params,
 }: {
@@ -10,11 +11,11 @@ export default function DragonLayout({
   const { classId } = params;
 
   return (
-    <div className="flex flex-row h-full overflow-hidden">
-      <div className="min-w-[280px] overflow-y-auto">
-        <TeacherNav />
+    <div className="flex flex-row h-full">
+      <div className="min-w-[280px]">
+        <TeacherNav classId={classId} />
       </div>
-      <div className="shadow-inner shadow-slate-900 p-8 flex-1 h-full overflow-y-auto custom-scrollbar bg-slate-950">
+      <div className="flex flex-col shadow-inner shadow-slate-900 flex-1 bg-slate-950 h-full overflow-y-auto custom-scrollbar">
         {children}
       </div>
     </div>

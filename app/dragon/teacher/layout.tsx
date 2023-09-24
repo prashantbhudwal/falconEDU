@@ -1,11 +1,11 @@
 import Navbar from "@/components/navbar/navbar";
-export default function DragonLayout({
+export default function TeacherLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex min-w-full flex-col h-screen">
+    <div className="flex flex-col min-w-full h-screen">
       <Navbar />
       {children}
     </div>
