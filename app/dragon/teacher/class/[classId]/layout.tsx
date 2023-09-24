@@ -1,5 +1,6 @@
 import { TeacherNav } from "../../components/teacher-nav";
 import { _TestOverflow } from "@/components/_test-overflow";
+import { Paper } from "@/components/ui/paper";
 
 export default function ClassLayout({
   children,
@@ -15,9 +16,9 @@ export default function ClassLayout({
       <div className="min-w-[280px]">
         <TeacherNav classId={classId} />
       </div>
-      <div className="flex flex-col shadow-inner shadow-slate-900 flex-1 bg-slate-950 h-full overflow-y-auto custom-scrollbar">
+      <Paper className="flex flex-col shadow-inner shadow-slate-900 flex-1 bg-slate-950 h-full overflow-y-auto custom-scrollbar">
         {children}
-      </div>
+      </Paper>
     </div>
   );
 }
