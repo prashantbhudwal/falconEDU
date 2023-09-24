@@ -18,7 +18,7 @@ export default async function ChubbiLayout({
   return (
     <TooltipProvider>
       <div className="flex h-screen min-w-full flex-col">
-        <div className="h-full overflow-y-auto">
+        <div className="h-full">
           <MerlinGrid>
             {session?.user ? (
               <Sidebar className="col-span-2 col-start-1 row-start-1">
