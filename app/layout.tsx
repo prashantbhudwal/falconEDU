@@ -23,9 +23,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={inter.className}>
-      <body className="flex min-h-screen flex-col bg-slate-900 text-slate-400 custom-scrollbar">
+      <body className="flex min-h-screen flex-col bg-slate-900 text-slate-400 custom-scrollbar overflow-hidden">
         <Providers>
-          <main className="flex min-h-screen grow flex-col items-center">
+          <main className="flex grow flex-col items-center">
             {children}
             <Chubbi />
           </main>
