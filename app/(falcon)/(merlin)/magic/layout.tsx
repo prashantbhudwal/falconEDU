@@ -34,7 +34,7 @@ export default function MagicLayout({
   const [savedQuestions] = useAtom(savedQuestionsAtom);
 
   return (
-    <div className="h-full overflow-y-auto">
+    <div className="h-full">
       <MerlinGrid>
         <Sidebar className="col-span-2 col-start-1 row-start-1">
           <Section title="Teaching Aids">
