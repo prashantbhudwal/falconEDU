@@ -1,58 +1,55 @@
 "use client";
+import { getBotsURL, getResourcesURL, getStudentsURL } from "@/lib/urls";
 import clsx from "clsx";
 import Link from "next/link";
-import {
-  useSelectedLayoutSegment,
-  useSelectedLayoutSegments,
-} from "next/navigation";
-import { useTeacherLayoutSegments } from "../hooks/use-layout-segment-ids";
-
-const teacherNavConfig = [
-  {
-    name: "Bots",
-    path: "/bots",
-    icon: "dashboard",
-  },
-  {
-    name: "Students",
-    path: "/students",
-    icon: "user",
-  },
-  {
-    name: "Tests",
-    path: "/tests",
-    icon: "book",
-  },
-];
+import { useSelectedLayoutSegment } from "next/navigation";
 
 export function TeacherNav({ classId }: { classId: string }) {
+  const teacherNavConfig = [
+    {
+      name: "Bots",
+      layoutSegment: "bots",
+      href: getBotsURL(classId),
+    },
+    {
+      name: "Students",
+      layoutSegment: "students",
+      href: getStudentsURL(classId),
+    },
+    {
+      name: "Tests",
+      layoutSegment: "tests",
+      href: getResourcesURL(classId),
+    },
+  ];
   return (
-    <nav className="bg-base-200 w-full flex flex-col custom-scrollbar overflow-y-auto h-full">
+    <nav className="bg-base-200 w-full flex flex-col custom-scrollbar overflow-y-auto h-full py-4 space-y-1 pl-2">
       {teacherNavConfig.map((item) => (
-        <TeacherNavItem key={item.path} item={item} close={() => {}} />
+        <TeacherNavItem key={item.layoutSegment} item={item} />
       ))}
     </nav>
   );
 }
 
 type TeacherNavItemProps = {
-  item: (typeof teacherNavConfig)[number];
-  close: () => void;
+  item: {
+    name: string;
+    layoutSegment: string;
+    href: string;
+  };
 };
 
-function TeacherNavItem({ item, close }: TeacherNavItemProps) {
-  const { currentSegment, classId, botId, testId } = useTeacherLayoutSegments();
-  console.log({ currentSegment, classId, botId, testId });
-
-  const isActive = false;
+function TeacherNavItem({ item }: TeacherNavItemProps) {
+  const currentSegment = useSelectedLayoutSegment();
+  const isActive = currentSegment === item.layoutSegment;
   return (
     <Link
-      href={item.path}
+      href={item.href}
       className={clsx(
         "block rounded-md px-3 py-2 text-sm font-medium hover:text-neutral",
         {
           "text-gray-400 hover:bg-gray-800": !isActive,
-          "text-white": isActive,
+          "text-white bg-base-100": isActive,
         }
       )}
     >
