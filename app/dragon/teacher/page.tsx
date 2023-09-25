@@ -20,7 +20,7 @@ export default async function Classes() {
   const classes = await getClassesByUserId(userId);
   return (
     <Paper className="h-full">
-      <div className="flex flex-row gap-5 items-center flex-wrap">
+      <div className="flex flex-row gap-10 items-center flex-wrap">
         <NewClassCard />
         {classes.map((classData) => (
           <Link href={getBotsURL(classData.id)} key={classData.id}>
