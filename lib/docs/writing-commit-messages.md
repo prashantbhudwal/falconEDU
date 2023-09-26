@@ -15,6 +15,10 @@
 - **No Caps**
   Use lowercase letters for the subject line.
 
+## Extensions
+
+- search: vivaxy.vscode-conventional-commits
+
 ## Standards: Conventional Commits [(docs)](https://www.conventionalcommits.org/en/v1.0.0/#summary)
 
 Conventional Commits is a standard for making your commit messages more informative and structured. It works well with Semantic Versioning (SemVer).
