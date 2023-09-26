@@ -7,10 +7,10 @@ type BotListProps = {
 
 export default function BotList({ bots, basePath }: BotListProps) {
   return (
-    <>
+    <div className="w-full">
       {bots.map((bot) => (
         <BotCard key={bot.id} bot={bot} />
       ))}
-    </>
+    </div>
   );
 }

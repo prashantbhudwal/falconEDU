@@ -22,8 +22,8 @@ export default async function AllChats() {
     );
   }
   return (
-    <>
+    <div className="pt-1 pb-5 w-full">
       <BotList bots={bots} basePath={basePath} />
-    </>
+    </div>
   );
 }
