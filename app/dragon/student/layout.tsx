@@ -10,7 +10,7 @@ export default async function StudentLayout({
   const session = await getServerSession(authOptions);
   if (session?.user.userType !== "STUDENT") notFound();
   return (
-    <div className="flex flex-col min-h-screen w-full">
+    <div className="flex flex-col min-h-screen w-full bg-base-300">
       <Navbar />
       <main className="flex flex-col flex-1">{children}</main>
     </div>
