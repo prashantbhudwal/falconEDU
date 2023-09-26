@@ -16,16 +16,16 @@ export default function IconCard({
   return (
     <Card
       className={cn(
-        "h-[140px] flex w-[160px] shadow-sm shadow-slate-800 justify-center border-none cursor-pointer bg-slate-950 ",
+        "h-[140px] flex w-[160px] shadow-md  justify-center rounded-md border-1 border-transparent  cursor-pointer shadow-black",
         className
       )}
       {...props}
     >
-      <div className="flex flex-col gap-3 h-full ">
-        <div className="self-center flex-[1.3_1_0]  mt-[60px] text-2xl">
-          {icon}
+      <div className="flex flex-col justify-end gap-8">
+        <div className="self-center">{icon}</div>
+        <div className="self-center font-light text-[18px] space-x-2">
+          {text}
         </div>
-        <div className="self -center truncate flex-[1_1_0] ">{text}</div>
       </div>
     </Card>
   );
