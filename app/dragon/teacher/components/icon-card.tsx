@@ -15,17 +15,12 @@ export default function IconCard({
 }: IconCardProps) {
   return (
     <Card
-      className={cn(
-        "h-[140px] flex w-[160px] shadow-md  justify-center rounded-md border-1 border-transparent  cursor-pointer shadow-black",
-        className
-      )}
+      className={cn("px-6 h-20 flex items-center w-48", className)}
       {...props}
     >
-      <div className="flex flex-col justify-end gap-8">
-        <div className="self-center">{icon}</div>
-        <div className="self-center font-light text-[18px] space-x-2">
-          {text}
-        </div>
+      <div className="flex items-baseline space-x-3 truncate">
+        <div>{icon}</div>
+        <div className="truncate">{text}</div>
       </div>
     </Card>
   );

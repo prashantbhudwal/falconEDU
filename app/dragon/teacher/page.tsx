@@ -6,8 +6,8 @@ import { NewClassCard } from "./components/new-class-card";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import { getBotsURL } from "@/lib/urls";
-import IconCard from "./components/icon-card";
 import Avvvatars from "avvvatars-react";
+import ClassCard from "./components/class-card";
 import { getClassesByUserId } from "./queries";
 import { Paper } from "@/components/ui/paper";
 
@@ -24,8 +24,8 @@ export default async function Classes() {
         <NewClassCard />
         {classes.map((classData) => (
           <Link href={getBotsURL(classData.id)} key={classData.id}>
-            <IconCard
-              icon={<Avvvatars value={classData.id} style="shape" size={90} />}
+            <ClassCard
+              icon={<Avvvatars value={classData.id} style="shape" size={120} />}
               text={classData.name}
             />
           </Link>
