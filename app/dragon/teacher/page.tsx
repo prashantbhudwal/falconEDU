@@ -26,7 +26,7 @@ export default async function Classes() {
           <Link href={getBotsURL(classData.id)} key={classData.id}>
             <ClassCard
               icon={<Avvvatars value={classData.id} style="shape" size={120} />}
-              text={classData.name}
+              name={classData.name}
             />
           </Link>
         ))}
