@@ -20,15 +20,13 @@ export default function ClassCard({
   className,
   ...props
 }: ClassCardProps) {
-  const tooltipWidth = `${name.length * 0.5}rem`;
-
   return (
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
           <Card
             className={cn(
-              "h-[180px] w-[180px] shadow-md flex flex-col items-center justify-between rounded-md border-transparent cursor-pointer",
+              "h-48 w-48 shadow-md flex flex-col items-center justify-between rounded-md border-transparent cursor-pointer",
               className
             )}
             {...props}
@@ -41,11 +39,8 @@ export default function ClassCard({
             </CardFooter>
           </Card>
         </TooltipTrigger>
-        <TooltipContent
-          className="bg-base-300 text-inherit absolute top-40 min-w-[100px] text-center rounded-md shadow-md p-2"
-          style={{ width: tooltipWidth }}
-        >
-          <p>{name}</p>
+        <TooltipContent className="bg-base-300 text-inherit text-center absolute top-[10.6rem] rounded-md shadow-md p-2">
+          <p className="whitespace-nowrap">{name}</p>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>
