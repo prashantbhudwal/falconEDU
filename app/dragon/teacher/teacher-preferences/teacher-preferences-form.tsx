@@ -119,7 +119,7 @@ export default function TeacherPreferencesForm({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <Paper variant="gray">
+        <Paper variant="gray" className="my-8">
           <div className="flex justify-between p-5 rounded-lg ">
             <div className=" flex flex-col gap-2">
               <h2 className="md:text-3xl font-bold tracking-wide">
