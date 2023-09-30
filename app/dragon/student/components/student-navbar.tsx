@@ -6,15 +6,13 @@ import Avvvatars from "avvvatars-react";
 export function StudentHomeNavbar() {
   return (
     <StudentNavbar>
-      <div className="flex justify-between w-full">
-        <div>
-          <p className="text-xl">Falcon AI</p>
-        </div>
-        <div>
-          <Link href="#">
-            <Cog8ToothIcon className="h-6 w-6 text-slate-500" />
-          </Link>
-        </div>
+      <div>
+        <p className="text-xl">Falcon AI</p>
+      </div>
+      <div>
+        <Link href="#">
+          <Cog8ToothIcon className="h-6 w-6 text-slate-500" />
+        </Link>
       </div>
     </StudentNavbar>
   );
@@ -33,66 +31,62 @@ export function StudentBotNavbar({
 }: StudentBotNavbarProps) {
   return (
     <StudentNavbar>
-      <div className="flex justify-between w-full">
-        <div className="flex gap-5">
-          <Avatar className="h-12 w-12">
-            <AvatarImage src={avatarUrl} />
-            <AvatarFallback className="bg-base-300">
-              <Avvvatars value={botName} style="shape" />
-            </AvatarFallback>
-          </Avatar>
-          <div>
-            <p className="text-xl truncate">{botName}</p>
-            <p className="text-sm text-slate-500 truncate">
-              <span>by </span>
-              {TeacherName}
-            </p>
-          </div>
-        </div>
+      <div className="flex gap-5">
+        <Avatar className="h-12 w-12">
+          <AvatarImage src={avatarUrl} />
+          <AvatarFallback className="bg-base-300">
+            <Avvvatars value={botName} style="shape" />
+          </AvatarFallback>
+        </Avatar>
         <div>
-          <Link href="#">
-            <Cog8ToothIcon className="h-6 w-6 text-slate-500" />
-          </Link>
+          <p className="text-xl truncate">{botName}</p>
+          <p className="text-sm text-slate-500 truncate">
+            <span>by </span>
+            {TeacherName}
+          </p>
         </div>
+      </div>
+      <div>
+        <Link href="#">
+          <Cog8ToothIcon className="h-6 w-6 text-slate-500" />
+        </Link>
       </div>
     </StudentNavbar>
   );
 }
 
 type StudentBotItemNavbarProps = {
-  botName: string;
+  ItemName: string;
   TeacherName: string;
   avatarUrl?: string;
 };
 
 export function StudentBotItemNav({
-  botName = "Albert Newton",
+  ItemName = "Natural Selection",
   TeacherName = "Test data",
   avatarUrl,
-}: StudentBotNavbarProps) {
+}: StudentBotItemNavbarProps) {
   return (
     <StudentNavbar>
-      <div className="flex justify-between w-full">
-        <div className="flex gap-5">
-          <Avatar className="h-12 w-12">
-            <AvatarImage src={avatarUrl} />
-            <AvatarFallback className="bg-base-300">
-              <Avvvatars value={botName} style="shape" />
-            </AvatarFallback>
-          </Avatar>
-          <div>
-            <p className="text-xl truncate">{botName}</p>
-            <p className="text-sm text-slate-500 truncate">
-              <span>by </span>
-              {TeacherName}
-            </p>
-          </div>
-        </div>
+      <div className="flex gap-5">
+        <Avatar className="h-12 w-12">
+          <AvatarImage src={avatarUrl} />
+          <AvatarFallback className="bg-base-300">
+            <Avvvatars value={ItemName} style="shape" />
+          </AvatarFallback>
+        </Avatar>
         <div>
-          <Link href="#">
-            <Cog8ToothIcon className="h-6 w-6 text-slate-500" />
-          </Link>
+          <p className="text-xl truncate">{ItemName}</p>
+          <p className="text-sm text-slate-500 truncate">
+            <span>by </span>
+            {TeacherName}
+          </p>
         </div>
+      </div>
+      <div>
+        <Link href="#">
+          <Cog8ToothIcon className="h-6 w-6 text-slate-500" />
+        </Link>
       </div>
     </StudentNavbar>
   );
@@ -100,7 +94,7 @@ export function StudentBotItemNav({
 
 function StudentNavbar({ children }: { children: React.ReactNode }) {
   return (
-    <div className="navbar h-2 bg-base-200 shadow-sm shadow-base-100">
+    <div className="bg-base-200 shadow-sm shadow-base-100 p-2 pt-3 flex justify-between w-full  place-items-center">
       {children}
     </div>
   );
