@@ -1,4 +1,5 @@
 import ChatCard from "../../components/chat-card";
+import { StudentHomeNavbar } from "../../components/student-navbar";
 import { getChatsByBotId } from "../../queries";
 
 type BotPageProps = {
@@ -16,5 +17,11 @@ export default async function BotPageProps({ params }: BotPageProps) {
       </>
     );
   }
-  return chats.map((chat) => <ChatCard key={chat.id} chat={chat} />);
+  return (
+    <>
+      {chats.map((chat) => (
+        <ChatCard key={chat.id} chat={chat} />
+      ))}
+    </>
+  );
 }

@@ -2,7 +2,7 @@ import Navbar from "@/components/navbar/navbar";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { notFound } from "next/navigation";
-import { StudentHomeNavbar } from "./components/student-navbar";
+import { StudentBotNavbar } from "./components/student-navbar";
 
 export default async function StudentLayout({
   children,
@@ -13,7 +13,7 @@ export default async function StudentLayout({
   if (session?.user.userType !== "STUDENT") notFound();
   return (
     <div className="flex flex-col min-h-screen w-full bg-base-300">
-      <StudentHomeNavbar />
+      <StudentBotNavbar />
       <main className="flex flex-col flex-1">{children}</main>
     </div>
   );
