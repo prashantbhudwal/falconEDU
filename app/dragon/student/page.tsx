@@ -4,6 +4,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import BotList from "./components/bot-list";
 import { bots } from "@/app/dragon/test-data";
 import { getBotsByUserId } from "./queries";
+import { StudentHomeNavbar } from "./components/student-navbar";
 
 const basePath = "/dragon/student";
 
@@ -22,8 +23,11 @@ export default async function AllChats() {
     );
   }
   return (
-    <div className="pt-1 pb-5 w-full">
-      <BotList bots={bots} basePath={basePath} />
-    </div>
+    <>
+      <StudentHomeNavbar />
+      <div className="pt-1 pb-5 w-full">
+        <BotList bots={bots} basePath={basePath} />
+      </div>
+    </>
   );
 }

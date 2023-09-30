@@ -94,7 +94,7 @@ export function StudentBotItemNav({
 
 function StudentNavbar({ children }: { children: React.ReactNode }) {
   return (
-    <div className="bg-base-200 shadow-sm shadow-base-100 p-2 pt-3 flex justify-between w-full  place-items-center">
+    <div className="bg-base-200 shadow-sm shadow-base-100 navbar flex justify-between w-full  place-items-center">
       {children}
     </div>
   );
