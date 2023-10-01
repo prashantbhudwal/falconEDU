@@ -30,18 +30,16 @@ export default async function ChatPage({ params }: ChatPageProps) {
         teacherName={bot?.name!}
         itemName="Natural Selection"
       />
-      <div className="overflow-y-scroll custom-scrollbar">
-        <Chat
-          initialMessages={initialMessages}
-          id={id}
-          apiPath={getStudentChatApiURL()}
-          emptyMessage={"Start chatting with your teacher"}
-          chatBody={{
-            chatId: id,
-          }}
-          botImage={botImage}
-        />
-      </div>
+      <Chat
+        initialMessages={initialMessages}
+        id={id}
+        apiPath={getStudentChatApiURL()}
+        emptyMessage={"Start chatting with your teacher"}
+        chatBody={{
+          chatId: id,
+        }}
+        botImage={botImage}
+      />
     </>
   );
 }

@@ -37,7 +37,7 @@ export function Chat({
       },
     });
   return (
-    <div className="overflow-y-scroll custom-scrollbar">
+    <div className="overflow-y-scroll custom-scrollbar h-screen">
       <div className={cn("pb-[200px] pt-4 md:pt-10", className)}>
         {messages.length ? (
           <>
