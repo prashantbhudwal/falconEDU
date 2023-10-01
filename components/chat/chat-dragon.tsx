@@ -41,7 +41,7 @@ export function Chat({
       <div className={cn("pb-[200px] pt-4 md:pt-10", className)}>
         {messages.length ? (
           <>
-            <ChatList messages={messages} botImage = {botImage}/>
+            <ChatList messages={messages} botImage={botImage} />
             <ChatScrollAnchor trackVisibility={isLoading} />
           </>
         ) : (

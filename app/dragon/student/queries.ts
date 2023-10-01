@@ -139,19 +139,31 @@ export type BotChatByChatId = UnwrapPromise<
 >;
 
 
-export const getBotConfigByBotId = cache(async function (botId: string) {
-  const botConfig = await prisma.bot.findUnique({
+export const getBotByBotId = cache(async function (botId: string) {
+  const bot = await prisma.bot.findUnique({
     where: { id:botId },
     select: {
       id: true,
       name: true,
-      BotConfig: {
+      BotConfig:{
         select: {
           name: true,
-        }
-      }
+          teacher: {
+            select: {
+              User: {
+                select: {
+                  image: true,
+                },
+              },
+            },
+          },
+        },
+      },
     },
   });
-  return botConfig;
+  return  bot;
 });
 
+export type getBotByBotId = UnwrapPromise<
+  ReturnType<typeof getBotByBotId>
+>;
