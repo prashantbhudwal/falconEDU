@@ -19,16 +19,18 @@ export default async function Classes() {
   }
   const classes = await getClassesByUserId(userId);
   return (
-    <Paper className="h-full">
+    <Paper className="h-full w-full">
       <div className="flex flex-row gap-10 items-center flex-wrap">
         <NewClassCard />
         {classes.map((classData) => (
-          <Link href={getBotsURL(classData.id)} key={classData.id}>
-            <ClassCard
-              icon={<Avvvatars value={classData.id} style="shape" size={120} />}
-              name={classData.name}
-            />
-          </Link>
+            <Link href={getBotsURL(classData.id)} key={classData.id}>
+              <ClassCard
+                icon={
+                  <Avvvatars value={classData.id} style="shape" size={120} />
+                }
+                name={classData.name}
+              />
+            </Link>
         ))}
       </div>
     </Paper>
