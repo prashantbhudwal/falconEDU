@@ -2,12 +2,13 @@
 import prisma from "@/prisma";
 import { redirect } from "next/navigation";
 
-export const handledeleteClass = (classId: string) => {
+// delete the class with the given classId and redirect to the teacher dashboard
+export const deleteClassByClassId = (classId: string) => {
   deleteClass(classId);
   redirect("/dragon/teacher");
 };
 
-export const deleteClass = async (classId: string) => {
+const deleteClass = async (classId: string) => {
   try {
     const existingClass = await prisma.class.findUnique({
       where: { id: classId },

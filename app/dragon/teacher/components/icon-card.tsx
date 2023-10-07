@@ -2,7 +2,7 @@ import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
 type IconCardProps = {
-  icon: React.ReactNode;
+  icon?: React.ReactNode;
   text: string;
   className?: string;
 };
