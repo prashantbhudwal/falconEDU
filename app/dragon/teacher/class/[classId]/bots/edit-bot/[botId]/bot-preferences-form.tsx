@@ -1,6 +1,6 @@
 "use client";
 import { type BotConfig } from "@prisma/client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -33,6 +33,7 @@ import { LanguageIcon } from "@heroicons/react/24/solid";
 import { LightBulbIcon } from "@heroicons/react/24/solid";
 import { SpeakerWaveIcon } from "@heroicons/react/24/solid";
 import { Paper } from "@/components/ui/paper";
+import { useLeavePageConfirmation } from "@/app/dragon/teacher/hooks/useLeavePageConfirmation";
 
 import {
   grades,
@@ -70,6 +71,8 @@ export default function BotPreferencesForm({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [inputFocus, setInputFocus] = useState("");
+  const [isFormDirty, setIsFormDirty] = useState<boolean>(false);
+  useLeavePageConfirmation(isFormDirty);
 
   const form = useForm<z.infer<typeof botPreferencesSchema>>({
     resolver: zodResolver(botPreferencesSchema),
@@ -104,6 +107,10 @@ export default function BotPreferencesForm({
     } else {
       setError("Failed to publish bot config. Please try again."); // set the error message
     }
+  };
+
+  const handleInputChange = () => {
+    setIsFormDirty(true);
   };
 
   return (
@@ -145,6 +152,7 @@ export default function BotPreferencesForm({
                       placeholder="Be polite with the students. Never use negative language."
                       className="resize-none h-60"
                       {...field}
+                      // onChange={handleInputChange}
                       onFocus={() => setInputFocus("instructions")}
                       onBlur={() => setInputFocus("")}
                     />
@@ -184,6 +192,7 @@ export default function BotPreferencesForm({
                                 <Chip
                                   checked={field.value?.includes(grade)}
                                   onCheckedChange={(checked) => {
+                                    handleInputChange();
                                     return checked
                                       ? field.onChange([...field.value, grade])
                                       : field.onChange(
@@ -233,6 +242,7 @@ export default function BotPreferencesForm({
                                 <Chip
                                   checked={field.value?.includes(subject)}
                                   onCheckedChange={(checked) => {
+                                    handleInputChange();
                                     return checked
                                       ? field.onChange([
                                           ...field.value,
@@ -268,7 +278,10 @@ export default function BotPreferencesForm({
                   </FormLabel>
                   <FormControl>
                     <RadioGroup
-                      onValueChange={field.onChange}
+                      onValueChange={() => {
+                        handleInputChange();
+                        field.onChange;
+                      }}
                       defaultValue={field.value}
                       className="flex flex-row space-y-1 space-x-6"
                     >
@@ -303,7 +316,10 @@ export default function BotPreferencesForm({
                   </FormLabel>
                   <FormControl>
                     <RadioGroup
-                      onValueChange={field.onChange}
+                      onValueChange={() => {
+                        handleInputChange();
+                        field.onChange;
+                      }}
                       defaultValue={field.value}
                       className="flex flex-row space-y-1 space-x-6"
                     >
@@ -341,7 +357,10 @@ export default function BotPreferencesForm({
                   </FormLabel>
                   <FormControl>
                     <RadioGroup
-                      onValueChange={field.onChange}
+                      onValueChange={() => {
+                        handleInputChange();
+                        field.onChange;
+                      }}
                       defaultValue={field.value}
                       className="flex flex-row space-y-1 space-x-6"
                     >
@@ -381,7 +400,10 @@ export default function BotPreferencesForm({
                   </FormLabel>
                   <FormControl>
                     <RadioGroup
-                      onValueChange={field.onChange}
+                      onValueChange={() => {
+                        handleInputChange();
+                        field.onChange;
+                      }}
                       defaultValue={field.value}
                       className="flex flex-row space-y-1 space-x-6"
                     >

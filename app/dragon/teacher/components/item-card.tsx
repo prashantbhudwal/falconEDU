@@ -60,7 +60,7 @@ function ItemCard({
         </CardHeader>
         <CardContent>{children}</CardContent>
       </Card>
-      <div className="absolute top-2 right-5">
+      <div className="absolute flex top-2 right-5">
         <TooltipProvider>
           {actions?.map((action) => (
             <Tooltip key={action.name}>
