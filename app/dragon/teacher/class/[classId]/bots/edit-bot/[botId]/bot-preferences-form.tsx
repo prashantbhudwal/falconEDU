@@ -33,7 +33,7 @@ import { LanguageIcon } from "@heroicons/react/24/solid";
 import { LightBulbIcon } from "@heroicons/react/24/solid";
 import { SpeakerWaveIcon } from "@heroicons/react/24/solid";
 import { Paper } from "@/components/ui/paper";
-import { useLeavePageConfirmation } from "@/app/dragon/teacher/hooks/useLeavePageConfirmation";
+import { useLeavePageConfirm } from "@/app/dragon/teacher/hooks/useLeavePageConfirmation";
 
 import {
   grades,
@@ -72,7 +72,10 @@ export default function BotPreferencesForm({
   const [error, setError] = useState<string | null>(null);
   const [inputFocus, setInputFocus] = useState("");
   const [isFormDirty, setIsFormDirty] = useState<boolean>(false);
-  useLeavePageConfirmation(isFormDirty);
+  useLeavePageConfirm(
+    isFormDirty,
+    "Leaving this page will remove all unsaved data"
+  );
 
   const form = useForm<z.infer<typeof botPreferencesSchema>>({
     resolver: zodResolver(botPreferencesSchema),
@@ -80,7 +83,7 @@ export default function BotPreferencesForm({
   });
 
   const onSubmit = async (data: z.infer<typeof botPreferencesSchema>) => {
-    console.log(data);
+    setIsFormDirty(false);
     setLoading(true);
     const result = await updateBotConfig(classId, botId, data);
     setLoading(false);
@@ -152,7 +155,7 @@ export default function BotPreferencesForm({
                       placeholder="Be polite with the students. Never use negative language."
                       className="resize-none h-60"
                       {...field}
-                      // onChange={handleInputChange}
+                      onChangeCapture={handleInputChange}
                       onFocus={() => setInputFocus("instructions")}
                       onBlur={() => setInputFocus("")}
                     />
