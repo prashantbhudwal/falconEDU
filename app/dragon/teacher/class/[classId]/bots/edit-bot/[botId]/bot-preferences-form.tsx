@@ -112,9 +112,6 @@ export default function BotPreferencesForm({
     }
   };
 
-  const handleInputChange = () => {
-    setIsFormDirty(true);
-  };
 
   return (
     <>
@@ -155,7 +152,6 @@ export default function BotPreferencesForm({
                       placeholder="Be polite with the students. Never use negative language."
                       className="resize-none h-60"
                       {...field}
-                      onChangeCapture={handleInputChange}
                       onFocus={() => setInputFocus("instructions")}
                       onBlur={() => setInputFocus("")}
                     />
@@ -195,7 +191,6 @@ export default function BotPreferencesForm({
                                 <Chip
                                   checked={field.value?.includes(grade)}
                                   onCheckedChange={(checked) => {
-                                    handleInputChange();
                                     return checked
                                       ? field.onChange([...field.value, grade])
                                       : field.onChange(
@@ -245,7 +240,6 @@ export default function BotPreferencesForm({
                                 <Chip
                                   checked={field.value?.includes(subject)}
                                   onCheckedChange={(checked) => {
-                                    handleInputChange();
                                     return checked
                                       ? field.onChange([
                                           ...field.value,
@@ -282,7 +276,6 @@ export default function BotPreferencesForm({
                   <FormControl>
                     <RadioGroup
                       onValueChange={() => {
-                        handleInputChange();
                         field.onChange;
                       }}
                       defaultValue={field.value}
@@ -320,7 +313,6 @@ export default function BotPreferencesForm({
                   <FormControl>
                     <RadioGroup
                       onValueChange={() => {
-                        handleInputChange();
                         field.onChange;
                       }}
                       defaultValue={field.value}
@@ -361,7 +353,6 @@ export default function BotPreferencesForm({
                   <FormControl>
                     <RadioGroup
                       onValueChange={() => {
-                        handleInputChange();
                         field.onChange;
                       }}
                       defaultValue={field.value}
@@ -404,7 +395,6 @@ export default function BotPreferencesForm({
                   <FormControl>
                     <RadioGroup
                       onValueChange={() => {
-                        handleInputChange();
                         field.onChange;
                       }}
                       defaultValue={field.value}
