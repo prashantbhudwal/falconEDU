@@ -86,7 +86,7 @@ export default function TestPreferencesForm({
     <>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <Paper variant="gray">
+          <Paper variant="gray" className="w-full max-w-5xl min-h-screen">
             <div className="flex justify-between flex-wrap p-5">
               <h2 className="md:text-3xl font-bold tracking-wide">
                 Bot Preference
@@ -119,7 +119,7 @@ export default function TestPreferencesForm({
                   <FormControl>
                     <Textarea
                       placeholder="Enter your test here."
-                      className="resize-none h-60"
+                      className="resize-none h-96"
                       {...field}
                       onFocus={() => setInputFocus("instructions")}
                       onBlur={() => setInputFocus("")}

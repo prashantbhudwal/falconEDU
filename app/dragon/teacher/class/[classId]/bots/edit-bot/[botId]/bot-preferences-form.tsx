@@ -1,6 +1,6 @@
 "use client";
 import { type BotConfig } from "@prisma/client";
-import {useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -108,7 +108,7 @@ export default function BotPreferencesForm({
     <>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <Paper variant="gray">
+          <Paper variant="gray" className="w-full max-w-5xl">
             <div className="flex justify-between flex-wrap p-5">
               <h2 className="md:text-3xl font-bold tracking-wide">
                 Bot Preference
