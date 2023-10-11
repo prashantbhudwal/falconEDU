@@ -122,6 +122,7 @@ model BotConfig {
   published   Boolean        @default(false)
   Bot         Bot[]
   BotShare    BotShare[]
+  type        String         @default("chat")
 }
 
 //**************** App > Student Models ****************//
