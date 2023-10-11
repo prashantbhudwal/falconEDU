@@ -33,8 +33,6 @@ import { LanguageIcon } from "@heroicons/react/24/solid";
 import { LightBulbIcon } from "@heroicons/react/24/solid";
 import { SpeakerWaveIcon } from "@heroicons/react/24/solid";
 import { Paper } from "@/components/ui/paper";
-import { useLeavePageConfirm } from "@/app/dragon/teacher/hooks/useLeavePageConfirmation";
-
 import {
   grades,
   board,
@@ -71,11 +69,6 @@ export default function BotPreferencesForm({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [inputFocus, setInputFocus] = useState("");
-  const [isFormDirty, setIsFormDirty] = useState<boolean>(false);
-  useLeavePageConfirm(
-    isFormDirty,
-    "Leaving this page will remove all unsaved data"
-  );
 
   const form = useForm<z.infer<typeof botPreferencesSchema>>({
     resolver: zodResolver(botPreferencesSchema),
@@ -83,7 +76,6 @@ export default function BotPreferencesForm({
   });
 
   const onSubmit = async (data: z.infer<typeof botPreferencesSchema>) => {
-    setIsFormDirty(false);
     setLoading(true);
     const result = await updateBotConfig(classId, botId, data);
     setLoading(false);
@@ -111,7 +103,6 @@ export default function BotPreferencesForm({
       setError("Failed to publish bot config. Please try again."); // set the error message
     }
   };
-
 
   return (
     <>

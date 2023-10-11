@@ -11,9 +11,9 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import IconCard from "./icon-card";
-import { deleteClassByClassId } from "./delete-classpage";
+import { deleteClassByClassId } from "../mutations";
 
-export function DeleteClassPageWarning({ classId }: { classId: string }) {
+export function DeleteClassDialog({ classId }: { classId: string }) {
   const [open, setOpen] = useState(false);
 
   return (

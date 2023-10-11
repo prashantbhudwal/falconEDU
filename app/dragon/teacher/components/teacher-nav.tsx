@@ -3,7 +3,7 @@ import { getBotsURL, getResourcesURL, getStudentsURL } from "@/lib/urls";
 import clsx from "clsx";
 import Link from "next/link";
 import { useSelectedLayoutSegment } from "next/navigation";
-import { DeleteClassPageWarning } from "./delete-classpage-warning";
+import { DeleteClassDialog } from "./delete-class-dialog";
 
 export function TeacherNav({ classId }: { classId: string }) {
   const teacherNavConfig = [
@@ -29,7 +29,7 @@ export function TeacherNav({ classId }: { classId: string }) {
       {teacherNavConfig.map((item) => (
         <TeacherNavItem key={item.layoutSegment} item={item} />
       ))}
-      <DeleteClassPageWarning classId={classId} />
+      <DeleteClassDialog classId={classId} />
     </nav>
   );
 }
