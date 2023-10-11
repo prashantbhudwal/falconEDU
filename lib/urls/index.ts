@@ -7,8 +7,8 @@ export const getBotsURL = (classId: string) =>
   `${baseUrl}/teacher/class/${classId}/bots`;
 export const getStudentsURL = (classId: string) =>
   `${baseUrl}/teacher/class/${classId}/students`;
-export const getResourcesURL = (classId: string) =>
-  `${baseUrl}/teacher/class/${classId}/resources`;
+export const getTestsUrl = (classId: string) =>
+  `${baseUrl}/teacher/class/${classId}/tests`;
 
 export const getEditBotURL = (classId: string, botId: string) =>
   `${baseUrl}/teacher/class/${classId}/bots/edit-bot/${botId}`;

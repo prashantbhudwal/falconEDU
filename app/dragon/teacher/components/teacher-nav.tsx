@@ -1,5 +1,5 @@
 "use client";
-import { getBotsURL, getResourcesURL, getStudentsURL } from "@/lib/urls";
+import { getBotsURL, getTestsUrl, getStudentsURL } from "@/lib/urls";
 import clsx from "clsx";
 import Link from "next/link";
 import { useSelectedLayoutSegment } from "next/navigation";
@@ -23,7 +23,7 @@ export function TeacherNav({ classId }: { classId: string }) {
     {
       name: "Tests",
       layoutSegment: "tests",
-      href: getResourcesURL(classId),
+      href: getTestsUrl(classId),
     },
   ];
 
