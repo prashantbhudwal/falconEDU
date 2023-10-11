@@ -10,34 +10,40 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import IconCard from "./icon-card";
-import { deleteClassByClassId } from "../mutations";
 
-export function DeleteClassDialog({ classId }: { classId: string }) {
+type DeleteDialogProps = {
+  action: () => void;
+  trigger: React.ReactNode;
+  title: string;
+  description: string;
+};
+
+export function DeleteDialog({
+  action,
+  trigger,
+  title,
+  description,
+}: DeleteDialogProps) {
   const [open, setOpen] = useState(false);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <IconCard
-          text="Delete Class"
-          className="border-secondary border-2 border-red-400 h-12 w-40  rounded-full hover:bg-red-400 hover:text-white cursor-pointer"
-        />
-      </DialogTrigger>
+      <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Delete Class</DialogTitle>
-          <DialogDescription>
-            Are you sure you want to delete this class?
-          </DialogDescription>
+          <DialogTitle>{title}</DialogTitle>
+          <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
         <DialogFooter>
           <div className="flex justify-end space-x-2">
-            <Button onClick={() => setOpen(false)}>Cancel</Button>
+            <Button variant={"outline"} onClick={() => setOpen(false)}>
+              Cancel
+            </Button>
             <Button
-              className="bg-error hover:bg-red-400"
+              className="bg-error hover:bg-destructive"
               onClick={() => {
-                deleteClassByClassId(classId);
+                action();
+                setOpen(false);
               }}
             >
               Delete
