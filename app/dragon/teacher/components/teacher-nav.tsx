@@ -3,6 +3,7 @@ import { getBotsURL, getResourcesURL, getStudentsURL } from "@/lib/urls";
 import clsx from "clsx";
 import Link from "next/link";
 import { useSelectedLayoutSegment } from "next/navigation";
+import { DeleteClassDialog } from "./delete-class-dialog";
 
 export function TeacherNav({ classId }: { classId: string }) {
   const teacherNavConfig = [
@@ -22,11 +23,13 @@ export function TeacherNav({ classId }: { classId: string }) {
       href: getResourcesURL(classId),
     },
   ];
+
   return (
     <nav className="bg-base-200 w-full flex flex-col custom-scrollbar overflow-y-auto h-full py-4 space-y-1 pl-2">
       {teacherNavConfig.map((item) => (
         <TeacherNavItem key={item.layoutSegment} item={item} />
       ))}
+      <DeleteClassDialog classId={classId} />
     </nav>
   );
 }

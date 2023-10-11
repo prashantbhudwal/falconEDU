@@ -1,6 +1,6 @@
 "use client";
 import { type BotConfig } from "@prisma/client";
-import { useState } from "react";
+import {useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -33,7 +33,6 @@ import { LanguageIcon } from "@heroicons/react/24/solid";
 import { LightBulbIcon } from "@heroicons/react/24/solid";
 import { SpeakerWaveIcon } from "@heroicons/react/24/solid";
 import { Paper } from "@/components/ui/paper";
-
 import {
   grades,
   board,
@@ -77,7 +76,6 @@ export default function BotPreferencesForm({
   });
 
   const onSubmit = async (data: z.infer<typeof botPreferencesSchema>) => {
-    console.log(data);
     setLoading(true);
     const result = await updateBotConfig(classId, botId, data);
     setLoading(false);
@@ -268,7 +266,9 @@ export default function BotPreferencesForm({
                   </FormLabel>
                   <FormControl>
                     <RadioGroup
-                      onValueChange={field.onChange}
+                      onValueChange={() => {
+                        field.onChange;
+                      }}
                       defaultValue={field.value}
                       className="flex flex-row space-y-1 space-x-6"
                     >
@@ -303,7 +303,9 @@ export default function BotPreferencesForm({
                   </FormLabel>
                   <FormControl>
                     <RadioGroup
-                      onValueChange={field.onChange}
+                      onValueChange={() => {
+                        field.onChange;
+                      }}
                       defaultValue={field.value}
                       className="flex flex-row space-y-1 space-x-6"
                     >
@@ -341,7 +343,9 @@ export default function BotPreferencesForm({
                   </FormLabel>
                   <FormControl>
                     <RadioGroup
-                      onValueChange={field.onChange}
+                      onValueChange={() => {
+                        field.onChange;
+                      }}
                       defaultValue={field.value}
                       className="flex flex-row space-y-1 space-x-6"
                     >
@@ -381,7 +385,9 @@ export default function BotPreferencesForm({
                   </FormLabel>
                   <FormControl>
                     <RadioGroup
-                      onValueChange={field.onChange}
+                      onValueChange={() => {
+                        field.onChange;
+                      }}
                       defaultValue={field.value}
                       className="flex flex-row space-y-1 space-x-6"
                     >

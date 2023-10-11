@@ -12,7 +12,7 @@ export default function ClassLayout({
   const { classId } = params;
 
   return (
-    <div className="flex flex-row h-full">
+    <div className="flex flex-row h-full w-full">
       <div className="min-w-[280px]">
         <TeacherNav classId={classId} />
       </div>
