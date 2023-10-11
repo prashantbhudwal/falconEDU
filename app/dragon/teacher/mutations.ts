@@ -9,6 +9,8 @@ import * as z from "zod";
 import { getClassesURL, getStudentsURL } from "@/lib/urls";
 import { isAuthorized } from "@/lib/utils";
 import { teacherPreferencesSchema } from "../schema";
+import { redirect } from "next/navigation";
+
 //TODO: Add auth for functions
 
 export const updateTeacherPreferences = async (
@@ -280,7 +282,6 @@ export const removeStudentFromClass = async (
   }
 };
 
-import { redirect } from "next/navigation";
 
 export const deleteClassByClassId = (classId: string) => {
   deleteClass(classId);
@@ -288,6 +289,8 @@ export const deleteClassByClassId = (classId: string) => {
 };
 
 export const deleteClass = async (classId: string) => {
+
+
   try {
     const existingClass = await prisma.class.findUnique({
       where: { id: classId },
@@ -300,7 +303,8 @@ export const deleteClass = async (classId: string) => {
     await prisma.class.delete({
       where: { id: classId },
     });
-
+    
+    revalidatePath(getClassesURL());
     return {
       success: true,
       message: `Class with ID ${classId} deleted successfully`,
