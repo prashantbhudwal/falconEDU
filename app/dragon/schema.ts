@@ -78,5 +78,5 @@ export const StudentPreferencesSchema = z.object({
 });
 
 export const testBotPreferencesSchema = z.object({
-  fullTest: z.string().max(1000),
+  fullTest: z.string().max(1500),
 });

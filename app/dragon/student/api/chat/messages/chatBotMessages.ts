@@ -1,12 +1,14 @@
 import {
   botPreferences as botPreferencesTest,
   teacherPreferences as teacherPreferencesTest,
-} from "../../../test-data";
-import { isEmptyObject } from "./queries";
+} from "../../../../test-data";
+import { getChatContextByChatId } from "../queries";
+
+import { isEmptyObject } from "../queries";
 import {
   botPreferencesSchema,
   teacherPreferencesSchema,
-} from "../../../schema";
+} from "../../../../schema";
 import * as z from "zod";
 import {
   ChatPromptTemplate,
@@ -17,7 +19,7 @@ import {
 } from "langchain/prompts";
 import { AIMessage, HumanMessage, SystemMessage } from "langchain/schema";
 import { type BotConfig } from "@prisma/client";
-import { type ChatContextByChatId } from "./queries";
+import { type ChatContextByChatId } from "../queries";
 
 const studentPreferences = {
   name: "Ramiz",
@@ -60,7 +62,8 @@ You always stick to your PERSONA. Before answering keep the DO's and DON'Ts in m
   humanMessageTemplateTwo: "Who are you? What are you doing?",
 };
 
-export async function getEngineeredMessages(context: ChatContextByChatId) {
+export async function getEngineeredChatBotMessages(botChatId: string) {
+  const context = await getChatContextByChatId(botChatId);
   if (!context) {
     console.error("context not found for chatId:");
   }

@@ -3,22 +3,37 @@ import { StreamingTextResponse } from "ai";
 import { LangChainStream } from "ai";
 import { ChatOpenAI } from "langchain/chat_models/openai";
 import { HumanMessage, AIMessage } from "langchain/schema";
-import { getEngineeredMessages } from "./messages";
+import { getEngineeredChatBotMessages } from "./messages/chatBotMessages";
+import { getEngineeredTestBotMessages } from "./messages/testBotMessages";
 import { getChatContextByChatId } from "./queries";
 import { type BaseMessage } from "langchain/schema";
 import { countPromptTokens, filterMessagesByTokenLimit } from "./utils";
 import { saveBotChatToDatabase } from "./mutations";
+import { getBotConfigTypeByBotChatId } from "./queries";
 
 // export const runtime = "edge";
 export const dynamic = "force-dynamic";
+
+const getEngineeredMessages = async (chatType: string, botChatId: string) => {
+  if (chatType === "chat") {
+    return await getEngineeredChatBotMessages(botChatId);
+  } else if (chatType === "test") {
+    return await getEngineeredTestBotMessages(botChatId);
+  }
+  return [];
+};
 
 export async function POST(req: NextRequest) {
   const json = await req.json();
   let { messages } = json;
   const botChatId = json.chatId;
-  const context = await getChatContextByChatId(botChatId);
 
-  const engineeredMessages = await getEngineeredMessages(context);
+  const botType = await getBotConfigTypeByBotChatId(botChatId);
+
+  if (!botType) {
+    throw new Error(`BotConfig with botChatId ${botChatId} not found`);
+  }
+  const engineeredMessages = await getEngineeredMessages(botType, botChatId);
 
   const { stream, handlers, writer } = LangChainStream({
     async onCompletion(completion) {
