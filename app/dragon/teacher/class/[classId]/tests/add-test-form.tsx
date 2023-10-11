@@ -16,31 +16,31 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-const AddBotFormSchema = z.object({
+const AddTestFormSchema = z.object({
   botConfigName: z.string().min(3).max(50),
 });
 
-type AddBotFormProps = {
+type AddTestFormProps = {
   classId: string;
 };
 
-export default function AddBotForm({ classId }: AddBotFormProps) {
+export default function AddTestForm({ classId }: AddTestFormProps) {
   const { data } = useSession();
   const userId = data?.user?.id ?? "";
-  const form = useForm<z.infer<typeof AddBotFormSchema>>({
-    resolver: zodResolver(AddBotFormSchema),
+  const form = useForm<z.infer<typeof AddTestFormSchema>>({
+    resolver: zodResolver(AddTestFormSchema),
     defaultValues: {
       botConfigName: "",
     },
   });
 
-  const onSubmit = async function (values: z.infer<typeof AddBotFormSchema>) {
+  const onSubmit = async function (values: z.infer<typeof AddTestFormSchema>) {
     const { botConfigName } = values;
     const botConfig = await createBotConfig(
       userId,
       classId,
       botConfigName,
-      "chat"
+      "test"
     );
     if (botConfig) {
       form.reset();
@@ -61,7 +61,7 @@ export default function AddBotForm({ classId }: AddBotFormProps) {
               <FormControl>
                 <Input
                   type="text"
-                  placeholder="Math Bot"
+                  placeholder="Fractions Test"
                   className="w-72"
                   {...field}
                 />
@@ -70,7 +70,7 @@ export default function AddBotForm({ classId }: AddBotFormProps) {
             </FormItem>
           )}
         />
-        <Button type="submit">Create New Bot</Button>
+        <Button type="submit">Create New Test</Button>
       </form>
     </Form>
   );

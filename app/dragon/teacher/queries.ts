@@ -31,22 +31,25 @@ export const getClassesByUserId = cache(async function (userId: string) {
   return classes;
 });
 
-export const getBotConfigs = cache(async (userId: string, classId: string) => {
-  const teacherProfile = await prisma.teacherProfile.findUnique({
-    where: { userId },
-  });
+export const getBotConfigs = cache(
+  async (userId: string, classId: string, configType: string) => {
+    const teacherProfile = await prisma.teacherProfile.findUnique({
+      where: { userId },
+    });
 
-  if (!teacherProfile) {
-    throw new Error(`TeacherProfile with userId ${userId} not found`);
+    if (!teacherProfile) {
+      throw new Error(`TeacherProfile with userId ${userId} not found`);
+    }
+    const botConfigs = await prisma.botConfig.findMany({
+      where: {
+        teacherId: teacherProfile.id,
+        classId,
+        type: configType.toLocaleLowerCase(),
+      },
+    });
+    return botConfigs;
   }
-  const botConfigs = await prisma.botConfig.findMany({
-    where: {
-      teacherId: teacherProfile.id,
-      classId,
-    },
-  });
-  return botConfigs;
-});
+);
 
 const emptyPreferences = {}; // or whatever default you want
 

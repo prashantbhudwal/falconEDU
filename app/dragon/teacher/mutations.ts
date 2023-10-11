@@ -65,7 +65,8 @@ export const createClassForTeacher = async function (
 export async function createBotConfig(
   userId: string,
   classId: string,
-  botConfigName: string
+  botConfigName: string,
+  configType: string
 ) {
   await isAuthorized({
     userType: "TEACHER",
@@ -83,6 +84,7 @@ export async function createBotConfig(
         teacherId: teacherProfile.id,
         classId,
         name: botConfigName,
+        type: configType.toLocaleLowerCase(),
       },
     });
     revalidatePath(getBotsURL(classId));
@@ -209,6 +211,7 @@ export const publishBotConfig = async (
     throw error;
   }
 };
+
 //TODO create bots for student who is added to the class
 export const addStudentToClass = async (email: string, classId: string) => {
   await isAuthorized({
@@ -282,15 +285,12 @@ export const removeStudentFromClass = async (
   }
 };
 
-
 export const deleteClassByClassId = (classId: string) => {
   deleteClass(classId);
   redirect("/dragon/teacher");
 };
 
 export const deleteClass = async (classId: string) => {
-
-
   try {
     const existingClass = await prisma.class.findUnique({
       where: { id: classId },
@@ -303,7 +303,7 @@ export const deleteClass = async (classId: string) => {
     await prisma.class.delete({
       where: { id: classId },
     });
-    
+
     revalidatePath(getClassesURL());
     return {
       success: true,

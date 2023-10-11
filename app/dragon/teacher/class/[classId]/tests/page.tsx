@@ -4,27 +4,27 @@ import Link from "next/link";
 import { getEditBotURL } from "@/lib/urls";
 import { getFormattedDate } from "@/lib/utils";
 import { ItemCardChip, ItemCard } from "../../../components/item-card";
-import AddBotForm from "./add-bot-form";
+import AddTestForm from "./add-test-form";
 import { getBotConfigs } from "../../../queries";
 
-type BotDashboardProps = {
+type TestDashboardProps = {
   params: {
     classId: string;
   };
 };
 
-export default async function Dashboard({ params }: BotDashboardProps) {
+export default async function TestDashboard({ params }: TestDashboardProps) {
   const { classId } = params;
   const session = await getServerSession(authOptions);
   const userId = session?.user?.id;
   if (!userId) {
     throw new Error("User not found");
   }
-  const botConfigs = await getBotConfigs(userId, classId, "chat");
+  const botConfigs = await getBotConfigs(userId, classId, "test");
   return (
     <div className="w-full">
       <div className="flex space-y-5 flex-col w-full">
-        <AddBotForm classId={classId} />
+        <AddTestForm classId={classId} />
         {botConfigs.map((bot) => (
           <Link href={getEditBotURL(classId, bot.id)} key={bot.id}>
             <ItemCard title={bot.name}>
