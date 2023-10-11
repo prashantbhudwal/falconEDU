@@ -1,12 +1,12 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getServerSession } from "next-auth";
-import { NewBotCard } from "../../../components/new-bot-card";
 import { prisma } from "@/prisma";
 import { cache } from "react";
 import Link from "next/link";
 import { getEditBotURL } from "@/lib/urls";
 import { getFormattedDate } from "@/lib/utils";
 import { ItemCardChip, ItemCard } from "../../../components/item-card";
+import AddBotForm from "./add-bot-form";
 
 type BotDashboardProps = {
   params: {
@@ -41,7 +41,7 @@ export default async function Dashboard({ params }: BotDashboardProps) {
   return (
     <div className="w-full">
       <div className="flex space-y-5 flex-col w-full">
-        <NewBotCard classId={classId} />
+        <AddBotForm classId={classId} />
         {botConfigs.map((bot) => (
           <Link href={getEditBotURL(classId, bot.id)} key={bot.id}>
             <ItemCard title={bot.name}>
