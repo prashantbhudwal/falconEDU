@@ -3,7 +3,7 @@ import prisma from "@/prisma";
 import { cache } from "react";
 import { revalidatePath } from "next/cache";
 import { getBotsURL, getClassURL } from "@/lib/urls";
-import { botPreferencesSchema } from "../schema";
+import { botPreferencesSchema, testBotPreferencesSchema } from "../schema";
 import { getEditBotURL } from "@/lib/urls";
 import * as z from "zod";
 import { getClassesURL, getStudentsURL } from "@/lib/urls";
@@ -98,6 +98,30 @@ export const updateBotConfig = async (
   classId: string,
   botId: string,
   data: z.infer<typeof botPreferencesSchema>
+): Promise<{ success: boolean; error?: any }> => {
+  await isAuthorized({
+    userType: "TEACHER",
+  });
+  try {
+    const result = await prisma.botConfig.update({
+      where: { id: botId },
+      data: {
+        preferences: data,
+      },
+    });
+    revalidatePath(getEditBotURL(classId, botId));
+    return { success: true };
+  } catch (error) {
+    console.error("Failed to update:", error);
+    console.log("Failed to update:", error);
+    return { success: false, error };
+  }
+};
+
+export const updateTestBotConfig = async (
+  classId: string,
+  botId: string,
+  data: z.infer<typeof testBotPreferencesSchema>
 ): Promise<{ success: boolean; error?: any }> => {
   await isAuthorized({
     userType: "TEACHER",

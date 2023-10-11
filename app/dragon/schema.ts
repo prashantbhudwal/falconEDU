@@ -76,3 +76,7 @@ export const StudentPreferencesSchema = z.object({
   likes: z.string().min(20).max(500).optional(),
   dislikes: z.string().min(20).max(500).optional(),
 });
+
+export const testBotPreferencesSchema = z.object({
+  fullTest: z.string().max(1000),
+});

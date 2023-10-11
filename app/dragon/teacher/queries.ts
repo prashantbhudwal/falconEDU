@@ -1,7 +1,7 @@
 import prisma from "@/prisma";
 import { cache } from "react";
 import * as z from "zod";
-import { botPreferencesSchema } from "../schema";
+import { botPreferencesSchema, testBotPreferencesSchema } from "../schema";
 export const revalidate = 3600; // 1 hour
 
 export const getTeacherId = cache(async function (userId: string) {
@@ -72,6 +72,38 @@ export const fetchBotConfig = cache(async (botId: string) => {
     }
 
     const result = botPreferencesSchema.safeParse(preferences);
+
+    if (result.success) {
+      return { preferences: result.data, bot };
+    } else {
+      console.error("Validation failed:", result.error);
+      return null;
+    }
+  } catch (error) {
+    console.error("Failed to fetch:", error);
+    return null;
+  }
+});
+
+export const fetchTestBotConfig = cache(async (botId: string) => {
+  try {
+    const bot = await prisma.botConfig.findUnique({
+      where: { id: botId },
+    });
+
+    console.log("Fetched successfully.");
+
+    let preferences;
+    if (bot && bot.preferences) {
+      preferences =
+        typeof bot.preferences === "string"
+          ? JSON.parse(bot.preferences)
+          : bot.preferences;
+    } else {
+      preferences = emptyPreferences;
+    }
+
+    const result = testBotPreferencesSchema.safeParse(preferences);
 
     if (result.success) {
       return { preferences: result.data, bot };
