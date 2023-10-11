@@ -16,14 +16,14 @@ export function TeacherNav({ classId }: { classId: string }) {
       href: getBotsURL(classId),
     },
     {
-      name: "Students",
-      layoutSegment: "students",
-      href: getStudentsURL(classId),
-    },
-    {
       name: "Tests",
       layoutSegment: "tests",
       href: getTestsUrl(classId),
+    },
+    {
+      name: "Students",
+      layoutSegment: "students",
+      href: getStudentsURL(classId),
     },
   ];
 
