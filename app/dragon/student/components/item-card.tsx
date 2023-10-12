@@ -34,7 +34,7 @@ export function ItemCard({
           <Avatar>
             <AvatarImage src={imageUrl} alt="Bot Image" />
             <AvatarFallback className="bg-base-100">
-              <Avvvatars value={title + description} style="shape" />
+              <Avvvatars value={title} style="shape" />
             </AvatarFallback>
           </Avatar>
         </div>

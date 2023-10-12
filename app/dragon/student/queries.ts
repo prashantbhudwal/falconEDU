@@ -152,6 +152,7 @@ export const getBotByBotId = cache(async function (botId: string) {
               User: {
                 select: {
                   image: true,
+                  name: true,
                 },
               },
             },
@@ -247,3 +248,22 @@ export const getBotsByTeacherId = async function (teacherId: string) {
 export type getBotsByTeacherId = UnwrapPromise<
   ReturnType<typeof getBotsByTeacherId>
 >;
+
+export const getTeacherDetailsByTeacherId = cache(async function (
+  teacherId: string
+) {
+  const teacher = await prisma.teacherProfile.findUnique({
+    where: { id: teacherId },
+    select: {
+      User: {
+        select: {
+          name: true,
+          email: true,
+          image: true,
+        },
+      },
+    },
+  });
+
+  return teacher;
+});

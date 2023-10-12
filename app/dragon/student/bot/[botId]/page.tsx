@@ -1,5 +1,5 @@
 import ChatCard from "../../components/chat-card";
-import { StudentBotNavbar } from "../../components/student-navbar";
+import { AvatarNavbar } from "../../components/student-navbar";
 import { getBotByBotId, getChatsByBotId } from "../../queries";
 
 type BotPageProps = {
@@ -21,10 +21,9 @@ export default async function BotPageProps({ params }: BotPageProps) {
   }
   return (
     <>
-      <StudentBotNavbar
-        botName={bot?.BotConfig.name!}
-        teacherName={bot?.name!}
-        avatarUrl={bot?.BotConfig.teacher.User.image!}
+      <AvatarNavbar
+        title={bot?.BotConfig.name!}
+        subtitle={bot?.BotConfig.teacher.User.name!}
       />
       {chats.map((chat) => (
         <ChatCard key={chat.id} chat={chat} />

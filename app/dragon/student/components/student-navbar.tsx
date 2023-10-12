@@ -4,6 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Avvvatars from "avvvatars-react";
 import { ReactNode } from "react";
 import SignOutButton from "@/components/auth/sign-out-btn";
+import Image from "next/image";
 
 const SettingsIcon: React.FC = () => (
   <div className="dropdown-end dropdown">
@@ -26,14 +27,15 @@ type StudentNavbarProps = {
 };
 
 const StudentNavbar: React.FC<StudentNavbarProps> = ({ children }) => (
-  <div className="bg-base-200 shadow-sm shadow-base-100 navbar flex justify-between w-full place-items-center">
+  <div className="bg-base-200 shadow-sm shadow-base-100 navbar flex justify-between w-full place-items-center px-2">
     {children}
   </div>
 );
 
 export const StudentHomeNavbar: React.FC = () => (
   <StudentNavbar>
-    <div>
+    <div className="flex gap-2">
+      <Image src={"/chubbi.png"} height={25} width={25} alt="Falcon Logo" />
       <p className="text-xl">FalconAI</p>
     </div>
     <SettingsIcon />
@@ -42,7 +44,7 @@ export const StudentHomeNavbar: React.FC = () => (
 
 type AvatarSectionProps = {
   title: string;
-  subtitle: string;
+  subtitle?: string;
   avatarUrl?: string;
   fallbackValue: string;
 };
@@ -54,58 +56,36 @@ const AvatarSection: React.FC<AvatarSectionProps> = ({
   fallbackValue,
 }) => (
   <div className="flex gap-5">
-    <Avatar className="h-11 w-11">
+    <Avatar>
       <AvatarImage src={avatarUrl} />
       <AvatarFallback className="bg-base-300">
         <Avvvatars value={fallbackValue} style="shape" />
       </AvatarFallback>
     </Avatar>
     <div>
-      <p className="text-xl truncate">{title}</p>
-      <p className="text-sm text-slate-500 truncate">by {subtitle}</p>
+      <p className="truncate">{title}</p>
+      <p className="text-sm text-slate-500 truncate">{subtitle}</p>
     </div>
   </div>
 );
 
 type StudentBotNavbarProps = {
-  botName: string;
-  teacherName: string;
+  title: string;
+  subtitle?: string;
   avatarUrl?: string;
 };
 
-export const StudentBotNavbar: React.FC<StudentBotNavbarProps> = ({
-  botName,
-  teacherName,
+export const AvatarNavbar: React.FC<StudentBotNavbarProps> = ({
+  title,
+  subtitle,
   avatarUrl,
 }) => (
   <StudentNavbar>
     <AvatarSection
-      title={botName}
-      subtitle={teacherName}
+      title={title}
+      subtitle={subtitle}
       avatarUrl={avatarUrl}
-      fallbackValue={botName}
-    />
-    <SettingsIcon />
-  </StudentNavbar>
-);
-
-type StudentBotItemNavbarProps = {
-  itemName: string;
-  teacherName: string;
-  avatarUrl?: string;
-};
-
-export const StudentBotItemNavbar: React.FC<StudentBotItemNavbarProps> = ({
-  itemName,
-  teacherName,
-  avatarUrl,
-}) => (
-  <StudentNavbar>
-    <AvatarSection
-      title={itemName}
-      subtitle={teacherName}
-      avatarUrl={avatarUrl}
-      fallbackValue={itemName}
+      fallbackValue={title}
     />
     <SettingsIcon />
   </StudentNavbar>

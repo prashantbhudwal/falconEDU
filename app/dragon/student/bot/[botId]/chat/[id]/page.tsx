@@ -6,7 +6,7 @@ import {
   getBotConfigByChatId,
 } from "@/app/dragon/student/queries";
 import { Chat } from "@/components/chat/chat-dragon";
-import { StudentBotItemNavbar } from "@/app/dragon/student/components/student-navbar";
+import { AvatarNavbar } from "@/app/dragon/student/components/student-navbar";
 
 export interface ChatPageProps {
   params: {
@@ -25,11 +25,7 @@ export default async function ChatPage({ params }: ChatPageProps) {
 
   return (
     <>
-      <StudentBotItemNavbar
-        avatarUrl={""}
-        teacherName={bot?.name!}
-        itemName="Natural Selection"
-      />
+      <AvatarNavbar avatarUrl={""} title={bot?.name!} />
       <Chat
         initialMessages={initialMessages}
         id={id}

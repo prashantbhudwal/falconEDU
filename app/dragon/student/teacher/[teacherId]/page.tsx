@@ -5,7 +5,12 @@ import { bots } from "@/app/dragon/test-data";
 import { ItemCard } from "../../components/item-card";
 import Link from "next/link";
 import { getStudentBotURL } from "@/lib/urls";
-import { getBotsByTeacherId } from "../../queries";
+import {
+  getBotsByTeacherId,
+  getTeacherDetailsByTeacherId,
+  getTeachersByUserId,
+} from "../../queries";
+import { AvatarNavbar } from "../../components/student-navbar";
 
 function getBotDescription(type: string) {
   switch (type) {
@@ -30,6 +35,7 @@ export default async function TeacherDashboard({
     return null;
   }
   const bots = await getBotsByTeacherId(teacherId);
+  const teacher = await getTeacherDetailsByTeacherId(teacherId);
   if (!bots) {
     return (
       <>
@@ -39,6 +45,11 @@ export default async function TeacherDashboard({
   }
   return (
     <>
+      <AvatarNavbar
+        title={teacher?.User.name!}
+        subtitle={teacher?.User.email!}
+        avatarUrl={teacher?.User.image!}
+      />
       <div className="pt-1 pb-5 w-full">
         {bots.map((bot) => (
           <Link href={getStudentBotURL(bot.id)} key={bot.id}>
