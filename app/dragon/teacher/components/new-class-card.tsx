@@ -87,7 +87,7 @@ export function NewClassCard() {
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full">
+            <Button type="submit" className="w-full" disabled={loading}>
               {loading ? (
                 <span className="loading loading-infinity loading-xs"></span>
               ) : (
