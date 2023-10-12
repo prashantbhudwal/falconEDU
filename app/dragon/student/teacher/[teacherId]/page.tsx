@@ -51,14 +51,16 @@ export default async function TeacherDashboard({
         avatarUrl={teacher?.User.image!}
       />
       <div className="pt-1 pb-5 w-full">
-        {bots.map((bot) => (
-          <Link href={getStudentBotURL(bot.id)} key={bot.id}>
-            <ItemCard
-              title={bot.BotConfig.name!}
-              description={getBotDescription(bot.BotConfig.type!)}
-            />
-          </Link>
-        ))}
+        {bots
+          .filter((bot) => !bot.isSubmitted)
+          .map((bot) => (
+            <Link href={getStudentBotURL(bot.id)} key={bot.id}>
+              <ItemCard
+                title={bot.BotConfig.name!}
+                description={getBotDescription(bot.BotConfig.type!)}
+              />
+            </Link>
+          ))}
       </div>
     </>
   );

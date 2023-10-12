@@ -225,6 +225,7 @@ export const getBotsByTeacherId = async function (teacherId: string) {
     },
     select: {
       id: true,
+      isSubmitted: true,
       BotConfig: {
         select: {
           name: true,
