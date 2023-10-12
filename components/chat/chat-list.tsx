@@ -6,9 +6,10 @@ import { ChatMessage } from "./chat-message";
 export interface ChatList {
   messages: Message[];
   botImage?: string;
+  studentImage?: string;
 }
 
-export function ChatList({ messages, botImage }: ChatList) {
+export function ChatList({ messages, botImage, studentImage }: ChatList) {
   if (!messages.length) {
     return null;
   }
@@ -17,7 +18,11 @@ export function ChatList({ messages, botImage }: ChatList) {
     <div className="relative mx-auto max-w-2xl px-4">
       {messages.map((message, index) => (
         <div key={index}>
-          <ChatMessage message={message} botImage={botImage} />
+          <ChatMessage
+            message={message}
+            botImage={botImage}
+            studentImage={studentImage}
+          />
           {index < messages.length - 1 && (
             <Separator className="my-4 md:my-8" />
           )}

@@ -12,9 +12,15 @@ import Image from "next/image";
 export interface ChatMessageProps {
   message: Message;
   botImage?: string;
+  studentImage?: string;
 }
 
-export function ChatMessage({ message, botImage, ...props }: ChatMessageProps) {
+export function ChatMessage({
+  message,
+  botImage,
+  studentImage,
+  ...props
+}: ChatMessageProps) {
   return (
     <div
       className={cn("group relative mb-4 flex items-start md:-ml-12")}
@@ -27,7 +33,13 @@ export function ChatMessage({ message, botImage, ...props }: ChatMessageProps) {
         )}
       >
         {message.role === "user" ? (
-          <UserAvatar />
+          studentImage ? (
+            <Avatar>
+              <AvatarImage src={studentImage} />
+            </Avatar>
+          ) : (
+            <UserAvatar />
+          )
         ) : (
           <Avatar>
             <AvatarImage src={botImage ? botImage : "/chubbi.png"} />
