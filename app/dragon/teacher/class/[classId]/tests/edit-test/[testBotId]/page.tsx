@@ -28,7 +28,7 @@ export default async function BotPage({ params }: BotPageProps) {
         />
       </TabsContent>
       <TabsContent value="report">
-        <TestReport />
+        <TestReport testBotId={testBotId} classId = {classId}/>
       </TabsContent>
     </Tabs>
   );
