@@ -152,6 +152,9 @@ model Bot {
   BotChat     BotChat[]
   name        String
   createdAt   DateTime       @default(now())
+  isActive    Boolean        @default(true)
+  isSubmitted Boolean        @default(false)
+  isChecked   Boolean        @default(false)
 }
 
 model BotChat {
