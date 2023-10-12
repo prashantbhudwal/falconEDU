@@ -25,7 +25,10 @@ export default async function ChatPage({ params }: ChatPageProps) {
 
   return (
     <>
-      <AvatarNavbar avatarUrl={""} title={bot?.name!} />
+      <AvatarNavbar
+        title={bot?.BotConfig.name!}
+        subtitle={bot?.BotConfig.type}
+      />
       <Chat
         initialMessages={initialMessages}
         id={id}
