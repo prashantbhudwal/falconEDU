@@ -33,8 +33,8 @@ export function ItemCard({
         <div className="pl-2">
           <Avatar>
             <AvatarImage src={imageUrl} alt="Bot Image" />
-            <AvatarFallback>
-              <Avvvatars value={title + description} style="character" />
+            <AvatarFallback className="bg-base-100">
+              <Avvvatars value={title + description} style="shape" />
             </AvatarFallback>
           </Avatar>
         </div>
