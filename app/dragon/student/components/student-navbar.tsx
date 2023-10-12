@@ -2,21 +2,70 @@ import Link from "next/link";
 import { Cog8ToothIcon } from "@heroicons/react/24/solid";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Avvvatars from "avvvatars-react";
+import { ReactNode } from "react";
+import SignOutButton from "@/components/auth/sign-out-btn";
 
-export function StudentHomeNavbar() {
-  return (
-    <StudentNavbar>
-      <div>
-        <p className="text-xl">Falcon AI</p>
-      </div>
-      <div>
-        <Link href="#">
-          <Cog8ToothIcon className="h-6 w-6 text-slate-500" />
-        </Link>
-      </div>
-    </StudentNavbar>
-  );
-}
+const SettingsIcon: React.FC = () => (
+  <div className="dropdown-end dropdown">
+    <label tabIndex={0}>
+      <Cog8ToothIcon className="h-6 w-6 text-slate-500" />
+    </label>
+    <ul
+      tabIndex={0}
+      className="menu dropdown-content rounded-box menu-sm z-[1] mt-3 w-32 bg-base-100 p-2 shadow"
+    >
+      <li>
+        <SignOutButton />
+      </li>
+    </ul>
+  </div>
+);
+
+type StudentNavbarProps = {
+  children: ReactNode;
+};
+
+const StudentNavbar: React.FC<StudentNavbarProps> = ({ children }) => (
+  <div className="bg-base-200 shadow-sm shadow-base-100 navbar flex justify-between w-full place-items-center">
+    {children}
+  </div>
+);
+
+export const StudentHomeNavbar: React.FC = () => (
+  <StudentNavbar>
+    <div>
+      <p className="text-xl">FalconAI</p>
+    </div>
+    <SettingsIcon />
+  </StudentNavbar>
+);
+
+type AvatarSectionProps = {
+  title: string;
+  subtitle: string;
+  avatarUrl?: string;
+  fallbackValue: string;
+};
+
+const AvatarSection: React.FC<AvatarSectionProps> = ({
+  title,
+  subtitle,
+  avatarUrl,
+  fallbackValue,
+}) => (
+  <div className="flex gap-5">
+    <Avatar className="h-11 w-11">
+      <AvatarImage src={avatarUrl} />
+      <AvatarFallback className="bg-base-300">
+        <Avvvatars value={fallbackValue} style="shape" />
+      </AvatarFallback>
+    </Avatar>
+    <div>
+      <p className="text-xl truncate">{title}</p>
+      <p className="text-sm text-slate-500 truncate">by {subtitle}</p>
+    </div>
+  </div>
+);
 
 type StudentBotNavbarProps = {
   botName: string;
@@ -24,36 +73,21 @@ type StudentBotNavbarProps = {
   avatarUrl?: string;
 };
 
-export function StudentBotNavbar({
+export const StudentBotNavbar: React.FC<StudentBotNavbarProps> = ({
   botName,
   teacherName,
   avatarUrl,
-}: StudentBotNavbarProps) {
-  return (
-    <StudentNavbar>
-      <div className="flex gap-5">
-        <Avatar className="h-11 w-11">
-          <AvatarImage src={avatarUrl} />
-          <AvatarFallback className="bg-base-300">
-            <Avvvatars value={botName} style="shape" />
-          </AvatarFallback>
-        </Avatar>
-        <div>
-          <p className="text-xl truncate">{botName}</p>
-          <p className="text-sm text-slate-500 truncate">
-            <span>by </span>
-            {teacherName}
-          </p>
-        </div>
-      </div>
-      <div>
-        <Link href="#">
-          <Cog8ToothIcon className="h-6 w-6 text-slate-500" />
-        </Link>
-      </div>
-    </StudentNavbar>
-  );
-}
+}) => (
+  <StudentNavbar>
+    <AvatarSection
+      title={botName}
+      subtitle={teacherName}
+      avatarUrl={avatarUrl}
+      fallbackValue={botName}
+    />
+    <SettingsIcon />
+  </StudentNavbar>
+);
 
 type StudentBotItemNavbarProps = {
   itemName: string;
@@ -61,38 +95,18 @@ type StudentBotItemNavbarProps = {
   avatarUrl?: string;
 };
 
-export function StudentBotItemNavbar({
-  itemName = "Natural Selection",
-  teacherName = "Test data",
+export const StudentBotItemNavbar: React.FC<StudentBotItemNavbarProps> = ({
+  itemName,
+  teacherName,
   avatarUrl,
-}: StudentBotItemNavbarProps) {
-  return (
-    <StudentNavbar>
-      <div className="flex gap-5">
-        <Avatar className="h-11 w-11">
-          <AvatarImage src={avatarUrl} />
-          <AvatarFallback className="bg-base-300">
-            <Avvvatars value={itemName} style="shape" />
-          </AvatarFallback>
-        </Avatar>
-        <div>
-          <p className="text-xl truncate">{itemName}</p>
-          <p className="text-sm text-slate-500 truncate">by {teacherName}</p>
-        </div>
-      </div>
-      <div>
-        <Link href="#">
-          <Cog8ToothIcon className="h-6 w-6 text-slate-500" />
-        </Link>
-      </div>
-    </StudentNavbar>
-  );
-}
-
-function StudentNavbar({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="bg-base-200 shadow-sm shadow-base-100 navbar flex justify-between w-full place-items-center">
-      {children}
-    </div>
-  );
-}
+}) => (
+  <StudentNavbar>
+    <AvatarSection
+      title={itemName}
+      subtitle={teacherName}
+      avatarUrl={avatarUrl}
+      fallbackValue={itemName}
+    />
+    <SettingsIcon />
+  </StudentNavbar>
+);
