@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { Cog8ToothIcon } from "@heroicons/react/24/solid";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Avvvatars from "avvvatars-react";
@@ -34,59 +33,38 @@ const StudentNavbar: React.FC<StudentNavbarProps> = ({ children }) => (
 
 export const StudentHomeNavbar: React.FC = () => (
   <StudentNavbar>
-    <div className="flex gap-2">
-      <Image src={"/chubbi.png"} height={25} width={25} alt="Falcon Logo" />
+    <div className="flex gap-3">
+      <Image src={"/chubbi.png"} height={30} width={30} alt="Falcon Logo" />
       <p className="text-xl">FalconAI</p>
     </div>
     <SettingsIcon />
   </StudentNavbar>
 );
 
-type AvatarSectionProps = {
-  title: string;
-  subtitle?: string;
-  avatarUrl?: string;
-  fallbackValue: string;
-};
-
-const AvatarSection: React.FC<AvatarSectionProps> = ({
-  title,
-  subtitle,
-  avatarUrl,
-  fallbackValue,
-}) => (
-  <div className="flex gap-5">
-    <Avatar>
-      <AvatarImage src={avatarUrl} />
-      <AvatarFallback className="bg-base-300">
-        <Avvvatars value={fallbackValue} style="shape" />
-      </AvatarFallback>
-    </Avatar>
-    <div>
-      <p className="truncate">{title}</p>
-      <p className="text-sm text-slate-500 truncate">{subtitle}</p>
-    </div>
-  </div>
-);
-
-type StudentBotNavbarProps = {
+type AvatarNavbarProps = {
   title: string;
   subtitle?: string;
   avatarUrl?: string;
 };
 
-export const AvatarNavbar: React.FC<StudentBotNavbarProps> = ({
+export const AvatarNavbar: React.FC<AvatarNavbarProps> = ({
   title,
   subtitle,
   avatarUrl,
 }) => (
   <StudentNavbar>
-    <AvatarSection
-      title={title}
-      subtitle={subtitle}
-      avatarUrl={avatarUrl}
-      fallbackValue={title}
-    />
+    <div className="flex gap-3">
+      <Avatar>
+        <AvatarImage src={avatarUrl} />
+        <AvatarFallback className="bg-base-300">
+          <Avvvatars value={title} style="shape" />
+        </AvatarFallback>
+      </Avatar>
+      <div>
+        <p className="truncate">{title}</p>
+        <p className="text-sm text-slate-500 truncate">{subtitle}</p>
+      </div>
+    </div>
     <SettingsIcon />
   </StudentNavbar>
 );
