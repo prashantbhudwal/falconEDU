@@ -26,18 +26,18 @@ type StudentNavbarProps = {
 };
 
 const StudentNavbar: React.FC<StudentNavbarProps> = ({ children }) => (
-  <div className="bg-base-200 shadow-sm shadow-base-100 navbar flex justify-between w-full place-items-center px-2">
-    {children}
-  </div>
+  <div className="bg-base-200 shadow-sm shadow-base-100 navbar">{children}</div>
 );
 
 export const StudentHomeNavbar: React.FC = () => (
   <StudentNavbar>
-    <div className="flex gap-3">
+    <div className="flex gap-3 navbar-start">
       <Image src={"/chubbi.png"} height={30} width={30} alt="Falcon Logo" />
       <p className="text-xl">FalconAI</p>
     </div>
-    <SettingsIcon />
+    <div className="navbar-end">
+      <SettingsIcon />
+    </div>
   </StudentNavbar>
 );
 
@@ -45,15 +45,17 @@ type AvatarNavbarProps = {
   title: string;
   subtitle?: string;
   avatarUrl?: string;
+  button?: ReactNode;
 };
 
 export const AvatarNavbar: React.FC<AvatarNavbarProps> = ({
   title,
   subtitle,
   avatarUrl,
+  button,
 }) => (
   <StudentNavbar>
-    <div className="flex gap-3">
+    <div className="flex gap-3 navbar-start">
       <Avatar>
         <AvatarImage src={avatarUrl} />
         <AvatarFallback className="bg-base-300">
@@ -65,6 +67,9 @@ export const AvatarNavbar: React.FC<AvatarNavbarProps> = ({
         <p className="text-sm text-slate-500 truncate">{subtitle}</p>
       </div>
     </div>
-    <SettingsIcon />
+    <div className="navbar-end flex gap-4">
+      {button}
+      <SettingsIcon />
+    </div>
   </StudentNavbar>
 );
