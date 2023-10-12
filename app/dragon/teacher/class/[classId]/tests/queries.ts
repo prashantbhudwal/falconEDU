@@ -10,6 +10,8 @@ export const getStudentsByBotConfigId = cache(async function (
     where: { botConfigId },
     select: {
       id: true,
+      isSubmitted: true,
+      isChecked: true,
       student: {
         select: {
           User: {
@@ -33,6 +35,8 @@ export const getStudentsByBotConfigId = cache(async function (
     name: bot.student.User.name,
     email: bot.student.User.email,
     image: bot.student.User.image,
+    isSubmitted: bot.isSubmitted,
+    isChecked: bot.isChecked,
   }));
 
   return students;

@@ -18,7 +18,11 @@ export async function TestReport({
     <Paper variant={"gray"} className="w-full max-w-5xl min-h-screen">
       {students.map((student) => (
         <Link
-          href={`/dragon/teacher/class/${classId}/tests/edit-test/${testBotId}/report/${student.studentBotId}`}
+          href={
+            student.isSubmitted
+              ? `/dragon/teacher/class/${classId}/tests/edit-test/${testBotId}/report/${student.studentBotId}`
+              : ``
+          }
           key={student.email}
         >
           <ItemCard
@@ -30,8 +34,10 @@ export async function TestReport({
               <ItemCardChip label="Email" value={student.email} />
               <ItemCardChip
                 label="Status"
-                value={"unknown"}
-                valueColor="text-primary"
+                value={student.isSubmitted ? "Submitted" : "Not Submitted"}
+                valueColor={
+                  student.isSubmitted ? "text-primary" : "text-secondary"
+                }
               />
             </div>
           </ItemCard>
