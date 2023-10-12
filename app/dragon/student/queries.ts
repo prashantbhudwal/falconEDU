@@ -138,14 +138,13 @@ export type BotChatByChatId = UnwrapPromise<
   ReturnType<typeof getBotChatByChatId>
 >;
 
-
 export const getBotByBotId = cache(async function (botId: string) {
   const bot = await prisma.bot.findUnique({
-    where: { id:botId },
+    where: { id: botId },
     select: {
       id: true,
       name: true,
-      BotConfig:{
+      BotConfig: {
         select: {
           name: true,
           teacher: {
@@ -161,9 +160,52 @@ export const getBotByBotId = cache(async function (botId: string) {
       },
     },
   });
-  return  bot;
+  return bot;
 });
 
-export type getBotByBotId = UnwrapPromise<
-  ReturnType<typeof getBotByBotId>
+export type getBotByBotId = UnwrapPromise<ReturnType<typeof getBotByBotId>>;
+
+export const getTeachersByUserId = cache(async function (userId: string) {
+  const userData = await prisma.user.findUnique({
+    where: { id: userId },
+    select: {
+      StudentProfile: {
+        select: {
+          bot: {
+            select: {
+              BotConfig: {
+                select: {
+                  teacher: {
+                    select: {
+                      User: {
+                        select: {
+                          id: true,
+                          name: true,
+                          image: true,
+                          email: true, // Add more fields as you need
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  });
+
+  const teacherMap = new Map<string, any>();
+  userData?.StudentProfile?.bot.forEach((bot) => {
+    const teacher = bot.BotConfig.teacher.User;
+    teacherMap.set(teacher.id, teacher);
+  });
+
+  const uniqueTeachers = Array.from(teacherMap.values());
+  return uniqueTeachers;
+});
+
+export type getTeachersByUserId = UnwrapPromise<
+  ReturnType<typeof getTeachersByUserId>
 >;
