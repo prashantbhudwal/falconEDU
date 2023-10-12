@@ -7,6 +7,7 @@ import {
 } from "@/app/dragon/student/queries";
 import { Chat } from "@/components/chat/chat-dragon";
 import { AvatarNavbar } from "@/app/dragon/student/components/student-navbar";
+import SubmitTestButton from "./submit-test-btn";
 
 export interface ChatPageProps {
   params: {
@@ -28,6 +29,13 @@ export default async function ChatPage({ params }: ChatPageProps) {
       <AvatarNavbar
         title={bot?.BotConfig.name!}
         subtitle={bot?.BotConfig.type}
+        button={
+          bot?.BotConfig.type === "test" ? (
+            <SubmitTestButton testBotId={botId} />
+          ) : (
+            <></>
+          )
+        }
       />
       <Chat
         initialMessages={initialMessages}
