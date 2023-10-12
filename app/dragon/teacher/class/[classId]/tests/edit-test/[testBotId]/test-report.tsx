@@ -30,7 +30,7 @@ export async function TestReport({
               <ItemCardChip label="Email" value={student.email} />
               <ItemCardChip
                 label="Status"
-                value={"checked"}
+                value={"unknown"}
                 valueColor="text-primary"
               />
             </div>

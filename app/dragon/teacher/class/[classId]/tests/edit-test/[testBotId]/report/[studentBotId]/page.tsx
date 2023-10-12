@@ -12,6 +12,7 @@ import {
   getDefaultChatMessagesByStudentBotId,
   getUserImageByStudentBotId,
 } from "../../../../queries";
+import { Paper } from "@/components/ui/paper";
 
 export default async function Report({ params }: ReportProps) {
   const { classId, testBotId, studentBotId } = params;
@@ -19,12 +20,16 @@ export default async function Report({ params }: ReportProps) {
   const messages: Message[] =
     await getDefaultChatMessagesByStudentBotId(studentBotId);
   return (
-    <div className="pb-20">
-      <ChatList
-        messages={messages}
-        botImage={"/chubbi.png"}
-        studentImage={userImage!}
-      />
-    </div>
+    <Paper variant={"gray"} className="w-full max-w-5xl pb-20">
+      {!messages.length ? (
+        <div>The student has not attempted the test yet!</div>
+      ) : (
+        <ChatList
+          messages={messages}
+          botImage={"/chubbi.png"}
+          studentImage={userImage!}
+        />
+      )}
+    </Paper>
   );
 }

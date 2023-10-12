@@ -62,7 +62,7 @@ export const getDefaultChatMessagesByStudentBotId = cache(async function (
     }
     return parsedMessages as Message[];
   } else {
-    throw new Error("Messages are not a JSON-formatted string");
+    return [];
   }
 });
 
