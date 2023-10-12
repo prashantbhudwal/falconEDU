@@ -177,9 +177,9 @@ export const getTeachersByUserId = cache(async function (userId: string) {
                 select: {
                   teacher: {
                     select: {
+                      id: true,
                       User: {
                         select: {
-                          id: true,
                           name: true,
                           image: true,
                           email: true, // Add more fields as you need
@@ -196,16 +196,54 @@ export const getTeachersByUserId = cache(async function (userId: string) {
     },
   });
 
-  const teacherMap = new Map<string, any>();
-  userData?.StudentProfile?.bot.forEach((bot) => {
-    const teacher = bot.BotConfig.teacher.User;
-    teacherMap.set(teacher.id, teacher);
+  const teachers: any[] = [];
+  const teacherIds = new Set<string>();
+
+  userData?.StudentProfile?.bot?.forEach((bot) => {
+    const teacher = bot.BotConfig.teacher;
+    if (teacher && teacher.User && !teacherIds.has(teacher.id)) {
+      teacherIds.add(teacher.id);
+      teachers.push({ id: teacher.id, ...teacher.User });
+    }
   });
 
-  const uniqueTeachers = Array.from(teacherMap.values());
-  return uniqueTeachers;
+  console.log("teachers", teachers);
+  return teachers;
 });
-
-export type getTeachersByUserId = UnwrapPromise<
+export type GetTeachersByUserId = UnwrapPromise<
   ReturnType<typeof getTeachersByUserId>
+>;
+
+export const getBotsByTeacherId = async function (teacherId: string) {
+  const bots = await prisma.bot.findMany({
+    where: {
+      BotConfig: {
+        teacherId: teacherId,
+      },
+    },
+    select: {
+      id: true,
+      BotConfig: {
+        select: {
+          name: true,
+          type: true,
+          teacher: {
+            select: {
+              User: {
+                select: {
+                  name: true,
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  });
+
+  return bots;
+};
+
+export type getBotsByTeacherId = UnwrapPromise<
+  ReturnType<typeof getBotsByTeacherId>
 >;

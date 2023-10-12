@@ -6,7 +6,7 @@ import { getBotsByUserId } from "./queries";
 import { StudentHomeNavbar } from "./components/student-navbar";
 import { ItemCard } from "./components/item-card";
 import Link from "next/link";
-import { getStudentBotURL } from "@/lib/urls";
+import { getStudentBotURL, getStudentTeacherURL } from "@/lib/urls";
 import { getTeachersByUserId } from "./queries";
 
 const basePath = "/dragon/student";
@@ -30,7 +30,7 @@ export default async function AllChats() {
       <StudentHomeNavbar />
       <div className="pt-1 pb-5 w-full">
         {teachers.map((teacher) => (
-          <Link href={""} key={teacher.id}>
+          <Link href={getStudentTeacherURL(teacher.id)} key={teacher.id}>
             <ItemCard
               imageUrl={teacher.image!}
               title={teacher.name!}
