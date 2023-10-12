@@ -11,6 +11,7 @@ import {
   getTeachersByUserId,
 } from "../../queries";
 import { AvatarNavbar } from "../../components/student-navbar";
+import { Separator } from "@/components/ui/separator";
 
 function getBotDescription(type: string) {
   switch (type) {
@@ -60,6 +61,18 @@ export default async function TeacherDashboard({
                 description={getBotDescription(bot.BotConfig.type!)}
               />
             </Link>
+          ))}
+        <Separator className="my-2" />
+        <h1 className="px-4">Submitted</h1>
+        <Separator className="my-2" />
+        {bots
+          .filter((bot) => bot.isSubmitted)
+          .map((bot) => (
+            <ItemCard
+              key={bot.id}
+              title={bot.BotConfig.name!}
+              description={getBotDescription(bot.BotConfig.type!)}
+            />
           ))}
       </div>
     </>
