@@ -5,14 +5,6 @@ import { PropagateLoader } from "react-spinners";
 import Beta from "@/components/beta";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "../ui/card";
 import { Button } from "../ui/button";
 import { ButtonProps } from "../ui/button";
 
@@ -22,11 +14,10 @@ const signInConfig = [
     headline: "AI for Students",
     description:
       "Access your teacher's lesson plans, worksheets, activities and assessments with AI that is easy to use and strictly follows your syllabus.",
-    buttonText: "Student SignIn",
+    buttonText: "Student Sign In",
     buttonVariant: "default",
     auth: "google-student",
-    subtext:
-      "Works on large screens only. Use chrome, edge or any major browser for access.",
+    subtext: "Works on mobile phones and laptop.",
     image: "/chubbi.png",
     callbackUrl: "/dragon/student",
   },
@@ -35,11 +26,10 @@ const signInConfig = [
     headline: "AI for Teachers",
     description:
       "Access your teacher's lesson plans, worksheets, activities and assessments with AI that is easy to use and strictly follows your syllabus.",
-    buttonText: "Teacher SignIn",
+    buttonText: "Teacher Sign In",
     buttonVariant: "secondary",
     auth: "google",
-    subtext:
-      "Works on large screens only. Use chrome, edge or any major browser for access.",
+    subtext: "Works on large screens only.",
     image: "/chubbi.png",
     callbackUrl: "/dragon/teacher",
   },
@@ -68,48 +58,44 @@ export default function SignIn() {
   };
 
   return (
-    <div className="flex flex-col items-center mt-4 gap-6 px-2">
-      <div className="flex flex-col items-center mt-12 gap-4">
-        <Image src={"/chubbi.png"} height={150} width={150} alt="Falcon Logo" />
-        <h1 className="max-w-xl text-4xl leading-10 text-slate-300">
-          Welcome to FalconAI
-        </h1>
-        <div
-          className={
-            "mb-12 mt-6 text-lg text-gray-500 md:text-xl max-w-lg text-center"
-          }
-        >
-          {` Access your teacher's lesson plans, worksheets, activities and
-          assessments with AI that is easy to use and strictly follows your
-          syllabus.`}
-        </div>
-      </div>
-      <div className="flex px-4 text-center">
+    <div className="flex flex-col items-center min-h-screen py-20">
+      <Image src={"/chubbi.png"} height={150} width={150} alt="Falcon Logo" />
+
+      <h1 className="mt-10 text-3xl md:text-6xl font-bold text-white">
+        Welcome to FalconAI
+      </h1>
+
+      <p className="mt-4 text-lg md:text-xl text-gray-300 max-w-xs md:max-w-lg text-center">
+        {`Access your teacher's lesson plans, worksheets, activities and
+        assessments with AI that is easy to use and strictly follows your
+        syllabus.`}
+      </p>
+
+      <div className="flex flex-col md:flex-row mt-12 space-y-4 md:space-y-0 md:space-x-8">
         {signInConfig.map((config) => (
-          <Card
-            className="w-1/2 bg-base-200 flex flex-col gap-4 border-none "
+          <div
             key={config.auth}
+            className="flex flex-col items-center space-y-5 bg-slate-200 p-8 rounded-md shadow-lg md:min-w-[500px]"
           >
-            <CardHeader>
-              <CardTitle className="my-6 max-w-2xl text-3xl leading-10 text-slate-400">
-                {config.headline}
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="flex flex-col items-center">
-              <Button
-                size={"lg"}
-                variant={config.buttonVariant as ButtonProps["variant"]}
-                onClick={() => handleSignIn(config.auth, config.callbackUrl)}
-              >
-                {sessionStatus === "loading"
-                  ? "Signing you in..."
-                  : sessionStatus === "authenticated"
-                  ? "Taking you to the app..."
-                  : config.buttonText}
-              </Button>
-            </CardContent>
-            <CardFooter className="flex flex-col items-center"></CardFooter>
-          </Card>
+            <h2 className="text-xl md:text-4xl font-semibold text-gray-700">
+              {config.headline}
+            </h2>
+
+            <Button
+              size="lg"
+              variant={config.buttonVariant as ButtonProps["variant"]}
+              onClick={() => handleSignIn(config.auth, config.callbackUrl)}
+            >
+              {sessionStatus === "loading"
+                ? "Signing you in..."
+                : sessionStatus === "authenticated"
+                ? "Taking you to the app..."
+                : config.buttonText}
+            </Button>
+            <p className="text-xs md:text-base text-gray-600">
+              {config.subtext}
+            </p>
+          </div>
         ))}
       </div>
     </div>
