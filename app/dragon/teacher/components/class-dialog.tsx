@@ -9,7 +9,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-
+import { PropagationStopper } from "@/components/propagation-stopper";
 type ClassDialogProps = {
   action: () => void;
   trigger: React.ReactNode;
@@ -25,20 +25,11 @@ export function ClassDialog({
 }: ClassDialogProps) {
   const [open, setOpen] = useState(false);
 
-function handleDialogAction(e: React.MouseEvent<HTMLButtonElement>, actionCallback?: () => void, shouldOpen: boolean = false) {
-  e.preventDefault();
-  e.stopPropagation();
-  
-  if (actionCallback) {
-    actionCallback();
-  }
-
-  setOpen(shouldOpen);
-}
 
   return (
+    <PropagationStopper>
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild onClick={(e)=>  handleDialogAction(e, undefined, true)}>{trigger}</DialogTrigger>
+      <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
@@ -46,18 +37,22 @@ function handleDialogAction(e: React.MouseEvent<HTMLButtonElement>, actionCallba
         </DialogHeader>
         <DialogFooter>
           <div className="flex justify-end space-x-2">
-            <Button variant={"outline"} onClick={(e)=>  handleDialogAction(e, undefined, false)}>
+            <Button variant={"outline"} onClick={()=>{setOpen(false)}}>
               Cancel
             </Button>
             <Button
               className="bg-error hover:bg-destructive"
-              onClick={(e)=>  handleDialogAction(e, action, false)}
+              onClick={()=>{
+                action();
+                setOpen(false);
+              }}
             >
-              {title.split(" ")[0]}
+              {title}
             </Button>
           </div>
         </DialogFooter>
       </DialogContent>
     </Dialog>
+    </PropagationStopper>
   );
 }
