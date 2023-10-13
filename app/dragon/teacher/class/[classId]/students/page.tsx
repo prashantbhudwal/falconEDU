@@ -25,7 +25,9 @@ export default async function EditStudents({ params }: EditClassProps) {
           key={student.id}
           avatarUrl={student.User.image!}
           actions={[
-            {
+            { 
+              title:"Delete Student",
+              description:"are you sure you want to delete this student?",
               name: "Delete Student",
               icon: <FiTrash />,
               action: removeStudentFromClass,

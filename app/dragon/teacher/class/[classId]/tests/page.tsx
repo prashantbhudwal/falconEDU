@@ -48,7 +48,8 @@ export default async function TestDashboard({ params }: TestDashboardProps) {
                   <ItemCard
                     title={botConfig.name}
                     actions={[
-                      {
+                      { title:"Archive Test",
+                        description:"are you sure you want to archive this test?",
                         name: "Archive Test: Instantly disables the test for all students.",
                         icon: <FiArchive />,
                         action: archiveAllBotsOfBotConfig,
@@ -99,13 +100,16 @@ export default async function TestDashboard({ params }: TestDashboardProps) {
                   <ItemCard
                     title={botConfig.name}
                     actions={[
-                      {
+                      { title:"Unarchive Test",
+                        description:"are you sure you want to unarchive this test?",
                         name: "Activate Test: Instantly activates the test for all students.",
                         icon: <FiCornerRightUp />,
                         action: unArchiveAllBotsOfBotConfig,
                         actionParams: [botConfig.id],
                       },
-                      {
+                      { 
+                        title:"Delete Test",
+                        description:"are you sure you want to delete this test?",
                         name: "DELETE: This will delete the test permanently. The students will still be able to see the test if they have already attempted it.",
                         icon: <FiTrash />,
                         action: deleteBotConfigAndDeactivateBots,
