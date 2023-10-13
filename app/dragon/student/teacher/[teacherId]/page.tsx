@@ -68,11 +68,12 @@ export default async function TeacherDashboard({
         {bots
           .filter((bot) => bot.isSubmitted)
           .map((bot) => (
-            <ItemCard
-              key={bot.id}
-              title={bot.BotConfig.name!}
-              description={getBotDescription(bot.BotConfig.type!)}
-            />
+            <Link href={getStudentBotURL(bot.id)} key={bot.id}>
+              <ItemCard
+                title={bot.BotConfig.name!}
+                description={getBotDescription(bot.BotConfig.type!)}
+              />
+            </Link>
           ))}
       </div>
     </>

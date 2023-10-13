@@ -13,6 +13,8 @@ export interface ChatProps extends React.ComponentProps<"div"> {
   emptyMessage: string;
   chatBody: Record<string, unknown>;
   botImage?: string;
+  isDisabled?: boolean;
+  isSubmitted?: boolean;
 }
 
 export function Chat({
@@ -23,6 +25,8 @@ export function Chat({
   className,
   chatBody,
   botImage,
+  isDisabled = false,
+  isSubmitted = false,
 }: ChatProps) {
   const { messages, append, reload, stop, isLoading, input, setInput } =
     useChat({
@@ -52,16 +56,24 @@ export function Chat({
           </div>
         )}
       </div>
-      <ChatPanel
-        id={id}
-        isLoading={isLoading}
-        stop={stop}
-        append={append}
-        reload={reload}
-        messages={messages}
-        input={input}
-        setInput={setInput}
-      />
+      {!isDisabled && !isSubmitted ? (
+        <ChatPanel
+          id={id}
+          isLoading={isLoading}
+          stop={stop}
+          append={append}
+          reload={reload}
+          messages={messages}
+          input={input}
+          setInput={setInput}
+        />
+      ) : (
+        <div className="fixed inset-x-0 bottom-0 bg-gray-900 text-white p-4 rounded-t-lg shadow-lg">
+          <h1 className="text-center text-lg font-semibold">
+            {!isSubmitted ? "No longer active." : "Already submitted."}
+          </h1>
+        </div>
+      )}
     </div>
   );
 }

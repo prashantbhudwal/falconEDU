@@ -144,6 +144,8 @@ export const getBotByBotId = cache(async function (botId: string) {
     select: {
       id: true,
       name: true,
+      isActive: true,
+      isSubmitted: true,
       BotConfig: {
         select: {
           name: true,
