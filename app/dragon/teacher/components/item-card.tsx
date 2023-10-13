@@ -2,6 +2,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import Avvvatars from "avvvatars-react";
+import { ClassDialog } from "./class-dialog"; 
 import {
   Card,
   CardHeader,
@@ -17,6 +18,8 @@ import {
 } from "@/components/ui/tooltip";
 type action = {
   name: string;
+  title:string;
+  description:string;
   icon: React.ReactNode;
   action: any;
   actionParams: any[];
@@ -65,18 +68,21 @@ function ItemCard({
           {actions?.map((action) => (
             <Tooltip key={action.name}>
               <TooltipTrigger>
-                <Button
+              <ClassDialog
+                title={action.title}
+                description={action.description}
+                action={() => action.action(...action.actionParams)}
+                trigger={
+                  <Button
                   variant={"ghost"}
                   size={"icon"}
                   className="hover:bg-slate-600"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    action.action(...action.actionParams);
-                  }}
-                >
-                  {action.icon}
-                </Button>
+               >
+               {action.icon}
+               </Button>
+           }
+      />
+               
               </TooltipTrigger>
               <TooltipContent className="bg-slate-600 text-black">
                 {action.name}

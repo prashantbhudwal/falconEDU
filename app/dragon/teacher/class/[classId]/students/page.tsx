@@ -16,16 +16,17 @@ export default async function EditStudents({ params }: EditClassProps) {
   const students = await getStudentsByClassId(classId);
   return (
     <div className="flex flex-col gap-10">
-      <div className="mt-4">
+        <div className="flex space-y-5 flex-col w-full">
         <AddStudentForm classId={classId} />
-      </div>
       {students?.map((student) => (
         <ItemCard
           title={student.User.name!}
           key={student.id}
           avatarUrl={student.User.image!}
           actions={[
-            {
+            { 
+              title:"Delete Student",
+              description:"are you sure you want to delete this student?",
               name: "Delete Student",
               icon: <FiTrash />,
               action: removeStudentFromClass,
@@ -38,6 +39,7 @@ export default async function EditStudents({ params }: EditClassProps) {
           </span>
         </ItemCard>
       ))}
+      </div>
     </div>
   );
 }
