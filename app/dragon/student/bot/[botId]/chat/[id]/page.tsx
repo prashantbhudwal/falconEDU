@@ -30,7 +30,7 @@ export default async function ChatPage({ params }: ChatPageProps) {
         title={bot?.BotConfig.name!}
         subtitle={bot?.BotConfig.type}
         button={
-          bot?.BotConfig.type === "test" ? (
+          bot?.BotConfig.type === "test" && !bot?.isSubmitted ? (
             <SubmitTestButton testBotId={botId} />
           ) : (
             <></>
@@ -46,6 +46,8 @@ export default async function ChatPage({ params }: ChatPageProps) {
           chatId: id,
         }}
         botImage={botImage}
+        isDisabled={!bot?.isActive}
+        isSubmitted={bot?.isSubmitted}
       />
     </>
   );
