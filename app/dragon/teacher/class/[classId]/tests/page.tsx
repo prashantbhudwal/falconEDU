@@ -9,8 +9,9 @@ import { getBotConfigs } from "../../../queries";
 import {
   archiveAllBotsOfBotConfig,
   unArchiveAllBotsOfBotConfig,
+  deleteBotConfigAndDeactivateBots,
 } from "./mutations";
-import { FiArchive, FiCornerRightUp } from "react-icons/fi";
+import { FiArchive, FiCornerRightUp, FiTrash } from "react-icons/fi";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 type TestDashboardProps = {
@@ -36,7 +37,7 @@ export default async function TestDashboard({ params }: TestDashboardProps) {
             <TabsTrigger value="active">Active</TabsTrigger>
             <TabsTrigger value="archived">Archived</TabsTrigger>
           </TabsList>
-          <TabsContent value="active">
+          <TabsContent value="active" className="flex space-y-5 flex-col">
             {botConfigs
               .filter((botConfig) => botConfig.isActive)
               .map((botConfig) => (
@@ -87,7 +88,7 @@ export default async function TestDashboard({ params }: TestDashboardProps) {
                 </Link>
               ))}
           </TabsContent>
-          <TabsContent value="archived">
+          <TabsContent value="archived" className="flex space-y-5 flex-col">
             {botConfigs
               .filter((botConfig) => !botConfig.isActive)
               .map((botConfig) => (
@@ -102,6 +103,12 @@ export default async function TestDashboard({ params }: TestDashboardProps) {
                         name: "Activate Test: Instantly activates the test for all students.",
                         icon: <FiCornerRightUp />,
                         action: unArchiveAllBotsOfBotConfig,
+                        actionParams: [botConfig.id],
+                      },
+                      {
+                        name: "DELETE: This will delete the test permanently. The students will still be able to see the test if they have already attempted it.",
+                        icon: <FiTrash />,
+                        action: deleteBotConfigAndDeactivateBots,
                         actionParams: [botConfig.id],
                       },
                     ]}

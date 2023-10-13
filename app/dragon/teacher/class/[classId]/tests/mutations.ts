@@ -75,3 +75,36 @@ export const unArchiveAllBotsOfBotConfig = async (botConfigId: string) => {
     return { error: true };
   }
 };
+
+export const deleteBotConfigAndDeactivateBots = async (botConfigId: string) => {
+  await isAuthorized({
+    userType: "TEACHER",
+  });
+  try {
+    const deactivateBots = prisma.bot.updateMany({
+      where: {
+        botConfigId: botConfigId,
+      },
+      data: {
+        isActive: false,
+      },
+    });
+
+    const deleteBotConfig = prisma.botConfig.delete({
+      where: {
+        id: botConfigId,
+      },
+    });
+
+    const transactionResult = await prisma.$transaction([
+      deactivateBots,
+      deleteBotConfig,
+    ]);
+
+    revalidatePath("/dragon/teacher/");
+    return { success: true };
+  } catch (error) {
+    console.error("Error removing student from class:", error);
+    return { error: true };
+  }
+};
