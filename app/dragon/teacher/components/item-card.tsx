@@ -69,7 +69,11 @@ function ItemCard({
                   variant={"ghost"}
                   size={"icon"}
                   className="hover:bg-slate-600"
-                  onClick={() => action.action(...action.actionParams)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    action.action(...action.actionParams);
+                  }}
                 >
                   {action.icon}
                 </Button>

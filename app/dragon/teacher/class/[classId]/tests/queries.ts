@@ -12,6 +12,7 @@ export const getStudentsByBotConfigId = cache(async function (
       id: true,
       isSubmitted: true,
       isChecked: true,
+      isActive: true,
       student: {
         select: {
           User: {
@@ -37,6 +38,7 @@ export const getStudentsByBotConfigId = cache(async function (
     image: bot.student.User.image,
     isSubmitted: bot.isSubmitted,
     isChecked: bot.isChecked,
+    isActive: bot.isActive,
   }));
 
   return students;

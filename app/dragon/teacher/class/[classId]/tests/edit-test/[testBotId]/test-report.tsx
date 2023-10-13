@@ -39,6 +39,13 @@ export async function TestReport({
                   student.isSubmitted ? "text-primary" : "text-secondary"
                 }
               />
+              <ItemCardChip
+                label="Active"
+                value={student.isActive ? "Yes" : "No"}
+                valueColor={
+                  student.isActive ? "text-primary" : "text-secondary"
+                }
+              />
             </div>
           </ItemCard>
         </Link>
