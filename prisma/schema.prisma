@@ -123,6 +123,7 @@ model BotConfig {
   Bot         Bot[]
   BotShare    BotShare[]
   type        String         @default("chat")
+  isActive    Boolean        @default(true)
 }
 
 //**************** App > Student Models ****************//
