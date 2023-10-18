@@ -19,6 +19,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { useToast } from "@/components/ui/use-toast";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group-form";
 import { Separator } from "@/components/ui/separator";
 import { Chip } from "@/components/ui/chip";
@@ -69,7 +70,7 @@ export default function BotPreferencesForm({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [inputFocus, setInputFocus] = useState("");
-
+  const { toast } = useToast();
   const form = useForm<z.infer<typeof botPreferencesSchema>>({
     resolver: zodResolver(botPreferencesSchema),
     defaultValues: preferences || defaultValues,
@@ -81,6 +82,9 @@ export default function BotPreferencesForm({
     setLoading(false);
     if (result.success) {
       console.log("Successfully updated.");
+      toast({
+        description: "saved successfully",
+      });
       setError(null); // clear any existing error
     } else {
       console.log("Update failed:", result.error);
