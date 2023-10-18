@@ -4,6 +4,7 @@ import { getUser } from "@/app/api/db/user/[email]/queries";
 import Plans from "../../app/(user)/pricing/plans";
 import { getProducts } from "@/lib/stripe";
 import { redirect } from "next/navigation";
+import SignOutButton from "./sign-out-btn";
 
 // export const dynamic = `force-dynamic`;
 export const revalidate = 6000;
@@ -38,12 +39,13 @@ export default async function Expired({
       {!subscriptionEnded ? (
         children
       ) : (
-        <div className="flex min-h-screen flex-col items-center pt-2 text-center bg-base-300 w-full">
+        <div className="flex min-h-screen h-screen flex-col items-center pt-2 text-center bg-base-300 w-full overflow-y-auto custom-scrollbar">
           <h1 className="my-2 max-w-xl text-2xl leading-10 text-slate-300">
             Subscription expired. Please subscribe.
           </h1>
           <Plans products={products.data} />
           <p className="text-sm"></p>
+          <SignOutButton className="btn btn-base-100 text-slate-500 my-4" />
         </div>
       )}
     </>
