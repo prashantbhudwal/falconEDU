@@ -58,14 +58,14 @@ export default function SignIn() {
   };
 
   return (
-    <div className="flex flex-col items-center min-h-screen py-20">
-      <Image src={"/chubbi.png"} height={150} width={150} alt="Falcon Logo" />
+    <div className="flex flex-col items-center min-h-screen py-10 overflow-y-auto custom-scrollbar h-screen w-screen">
+      <Image src={"/chubbi.png"} height={100} width={100} alt="Falcon Logo" />
 
-      <h1 className="mt-10 text-3xl md:text-6xl font-bold text-white">
+      <h1 className="mt-10 text-3xl md:text-4xl font-bold text-white">
         Welcome to FalconAI
       </h1>
 
-      <p className="mt-4 text-lg md:text-xl text-gray-300 max-w-xs md:max-w-lg text-center">
+      <p className="mt-4 text-lg md:text-lg text-gray-300 max-w-xs md:max-w-lg text-center">
         {`Access your teacher's lesson plans, worksheets, activities and
         assessments with AI that is easy to use and strictly follows your
         syllabus.`}
