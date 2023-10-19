@@ -9,6 +9,7 @@ import {
   unPublishBotConfig,
   publishBotConfig,
 } from "../../../../../mutations";
+import { Badge } from "@/components/ui/badge";
 import { fetchBotConfig } from "../../../../../queries";
 import {
   Form,
@@ -76,6 +77,13 @@ export default function BotPreferencesForm({
     defaultValues: preferences || defaultValues,
   });
 
+  const [characterCount, setCharacterCount] = useState(0);
+
+  const handleInputChange = (event: any) => {
+    const newValue = event.target.value;
+    setCharacterCount(newValue.length);
+  };
+
   const onSubmit = async (data: z.infer<typeof botPreferencesSchema>) => {
     setLoading(true);
     const result = await updateBotConfig(classId, botId, data);
@@ -135,12 +143,15 @@ export default function BotPreferencesForm({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel
-                    className={`mb-5 flex gap-2 align-middle font-bold ${
+                    className={`mb-5 flex justify-between w-full align-middle font-bold ${
                       inputFocus === "instructions" ? "text-white" : ""
                     }`}
                   >
-                    Instructions
-                    <FiInfo />
+                    <div className="flex gap-2">
+                      Instructions
+                      <FiInfo />
+                    </div>
+                    <Badge variant="outline">{characterCount}</Badge>
                   </FormLabel>
                   <FormControl>
                     <Textarea
@@ -149,6 +160,7 @@ export default function BotPreferencesForm({
                       {...field}
                       onFocus={() => setInputFocus("instructions")}
                       onBlur={() => setInputFocus("")}
+                      onInput={handleInputChange}
                     />
                   </FormControl>
                   <FormDescription>
