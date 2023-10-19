@@ -91,6 +91,7 @@ export default function BotPreferencesForm({
     if (result.success) {
       console.log("Successfully updated.");
       toast({
+        variant:"default",
         description: "saved successfully",
       });
       setError(null); // clear any existing error
@@ -151,7 +152,7 @@ export default function BotPreferencesForm({
                       Instructions
                       <FiInfo />
                     </div>
-                    <Badge variant="outline">{characterCount}</Badge>
+                    <Badge variant={characterCount>1500 ?"destructive":"outline"}>{characterCount}/1500</Badge>
                   </FormLabel>
                   <FormControl>
                     <Textarea
