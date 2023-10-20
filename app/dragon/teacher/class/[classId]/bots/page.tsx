@@ -8,6 +8,7 @@ import AddBotForm from "./add-bot-form";
 import { getBotConfigs } from "../../../queries";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FiArchive, FiCornerRightUp, FiTrash } from "react-icons/fi";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   archiveAllBotsOfBotConfig,
   unArchiveAllBotsOfBotConfig,
@@ -28,6 +29,9 @@ export default async function Dashboard({ params }: BotDashboardProps) {
     throw new Error("User not found");
   }
   const botConfigs = await getBotConfigs(userId, classId, "chat");
+  const botActive = botConfigs.filter((botConfig) => botConfig.isActive);
+  const botArchived = botConfigs.filter((botConfig) => !botConfig.isActive);
+
   return (
     <div className="w-full">
       <div className="flex space-y-5 flex-col w-full">
@@ -38,9 +42,10 @@ export default async function Dashboard({ params }: BotDashboardProps) {
             <TabsTrigger value="archived">Archived</TabsTrigger>
           </TabsList>
           <TabsContent value="active" className="flex space-y-5 flex-col">
-            {botConfigs
-              .filter((botConfig) => botConfig.isActive)
-              .map((bot) => (
+            {botActive.length === 0 ? (
+              <p>There are currently no active bots.</p>
+            ) : (
+              botActive.map((bot) => (
                 <Link href={getEditBotURL(classId, bot.id)} key={bot.id}>
                   <ItemCard
                     title={bot.name}
@@ -78,11 +83,15 @@ export default async function Dashboard({ params }: BotDashboardProps) {
                     </div>
                   </ItemCard>
                 </Link>
-              ))}
+              ))
+            )}
           </TabsContent>
           <TabsContent value="archived" className="flex space-y-5 flex-col">
-            {botConfigs
-              .filter((botConfig) => !botConfig.isActive)
+            {
+            botArchived.length === 0 ? (
+              <p>There are currently no Archived bots.</p>
+            ) : (
+            botArchived
               .map((bot) => (
                 <Link href={getEditBotURL(classId, bot.id)} key={bot.id}>
                   <ItemCard
@@ -130,7 +139,9 @@ export default async function Dashboard({ params }: BotDashboardProps) {
                     </div>
                   </ItemCard>
                 </Link>
-              ))}
+              ))
+            )
+            }
           </TabsContent>
         </Tabs>
       </div>
