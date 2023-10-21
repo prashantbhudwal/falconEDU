@@ -28,24 +28,26 @@ export function TeacherNav({ classId }: { classId: string }) {
   ];
 
   return (
-    <nav className="relative bg-base-200 w-full flex flex-col custom-scrollbar overflow-y-auto h-full py-4 space-y-1 pl-2">
+    <nav className=" bg-base-200 w-full flex flex-col custom-scrollbar overflow-y-auto h-full py-4 space-y-1 pl-2">
       {teacherNavConfig.map((item) => (
         <TeacherNavItem key={item.layoutSegment} item={item} />
       ))}
-      <DeleteDialog
-        title="Delete Class"
-        description="Are you sure you want to delete this class? This action can't be reversed."
-        action={() => deleteClassByClassId(classId)}
-        trigger={
-          <Button
-            variant={"outline"}
-            size={"icon"}
-            className="hover:bg-destructive absolute bottom-2 right-0 mr-2 mt-2"
-          >
-            <FiTrash />
-          </Button>
-        }
-      />
+      <div className="flex justify-end min-w-[260px] fixed bottom-2">
+        <DeleteDialog
+          title="Delete Class"
+          description="Are you sure you want to delete this class? This action can't be reversed."
+          action={() => deleteClassByClassId(classId)}
+          trigger={
+            <Button
+              variant={"outline"}
+              size={"icon"}
+              className="hover:bg-destructive"
+            >
+              <FiTrash />
+            </Button>
+          }
+        />
+      </div>
     </nav>
   );
 }

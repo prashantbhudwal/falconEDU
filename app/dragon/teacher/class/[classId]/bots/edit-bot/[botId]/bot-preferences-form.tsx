@@ -9,6 +9,7 @@ import {
   unPublishBotConfig,
   publishBotConfig,
 } from "../../../../../mutations";
+import { Badge } from "@/components/ui/badge";
 import { fetchBotConfig } from "../../../../../queries";
 import {
   Form,
@@ -19,6 +20,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { useToast } from "@/components/ui/use-toast";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group-form";
 import { Separator } from "@/components/ui/separator";
 import { Chip } from "@/components/ui/chip";
@@ -69,11 +71,18 @@ export default function BotPreferencesForm({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [inputFocus, setInputFocus] = useState("");
-
+  const { toast } = useToast();
   const form = useForm<z.infer<typeof botPreferencesSchema>>({
     resolver: zodResolver(botPreferencesSchema),
     defaultValues: preferences || defaultValues,
   });
+
+  const [characterCount, setCharacterCount] = useState(0);
+
+  const handleInputChange = (event: any) => {
+    const newValue = event.target.value;
+    setCharacterCount(newValue.length);
+  };
 
   const onSubmit = async (data: z.infer<typeof botPreferencesSchema>) => {
     setLoading(true);
@@ -81,6 +90,10 @@ export default function BotPreferencesForm({
     setLoading(false);
     if (result.success) {
       console.log("Successfully updated.");
+      toast({
+        variant:"default",
+        description: "saved successfully",
+      });
       setError(null); // clear any existing error
     } else {
       console.log("Update failed:", result.error);
@@ -131,12 +144,15 @@ export default function BotPreferencesForm({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel
-                    className={`mb-5 flex gap-2 align-middle font-bold ${
+                    className={`mb-5 flex justify-between w-full align-middle font-bold ${
                       inputFocus === "instructions" ? "text-white" : ""
                     }`}
                   >
-                    Instructions
-                    <FiInfo />
+                    <div className="flex gap-2">
+                      Instructions
+                      <FiInfo />
+                    </div>
+                    <Badge variant={characterCount>1500 ?"destructive":"outline"}>{characterCount}/1500</Badge>
                   </FormLabel>
                   <FormControl>
                     <Textarea
@@ -145,6 +161,7 @@ export default function BotPreferencesForm({
                       {...field}
                       onFocus={() => setInputFocus("instructions")}
                       onBlur={() => setInputFocus("")}
+                      onInput={handleInputChange}
                     />
                   </FormControl>
                   <FormDescription>

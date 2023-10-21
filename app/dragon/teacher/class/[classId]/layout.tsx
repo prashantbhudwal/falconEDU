@@ -1,6 +1,8 @@
 import { TeacherNav } from "../../components/teacher-nav";
 import { _TestOverflow } from "@/components/_test-overflow";
 import { Paper } from "@/components/ui/paper";
+import { Toaster } from "@/components/ui/toaster"
+
 
 export default function ClassLayout({
   children,
@@ -19,6 +21,7 @@ export default function ClassLayout({
       <Paper className="flex flex-col shadow-inner shadow-slate-900 flex-1 bg-slate-950 h-full overflow-y-auto custom-scrollbar">
         {children}
       </Paper>
+      <Toaster />
     </div>
   );
 }

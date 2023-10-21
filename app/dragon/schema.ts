@@ -31,7 +31,7 @@ export const subjects = [
 export const botSchema = z.object({
   // Core Config
   nickname: z.string().min(1).max(20),
-  instructions: z.string(),
+  instructions: z.string().max(1500),
   subjects: z.array(z.string()),
   grades: z.array(z.enum(grades)),
   board: z.enum(board),
