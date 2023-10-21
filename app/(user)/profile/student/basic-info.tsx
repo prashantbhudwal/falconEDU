@@ -5,6 +5,7 @@ import { RotateLoader } from "react-spinners";
 import useUserData from "@/hooks/useUserData";
 import EditProfileModal from "./edit/modal";
 import { getFormattedDate } from "@/lib/utils";
+import  { Separator }  from "@/components/ui/separator";
 
 export default function BasicInfo() {
   const { user, error, isLoading } = useUserData();
@@ -22,10 +23,10 @@ export default function BasicInfo() {
     return <div>Error loading user data: {error.message}</div>;
   }
   return (
-    <div className=" w-full bg-slate-900 pb-4 text-slate-200 shadow-sm">
-      <div className="relative mb-6 flex w-full items-center space-x-6 rounded-sm bg-base-100 px-6 py-10">
+    <div className=" w-full bg-slate-900 pb-4 text-slate-200 shadow-sm ">
+      <div className="relative mb-6 flex flex-col w-full gap-3 items-center  rounded-sm bg-base-100 p-4">
         <div className="shrink-0">
-          {user.image ? (
+          {user?.image ? (
             <Image
               className="rounded-full object-cover"
               src={user.image}
@@ -43,11 +44,9 @@ export default function BasicInfo() {
             />
           )}
         </div>
-        <div className="flex flex-col gap-2">
-          <div className="inline-flex items-start space-x-2">
-            <h2 className="text-3xl">{user.name}</h2>
-          </div>
-          <p className="text-lg text-slate-300">
+        <div className="flex flex-col gap-3 items-center">
+            <h2 className="text-2xl">{user?.name}</h2>
+          <p className="text-base text-slate-300">
             {!user?.teacherProfile?.bio
               ? "Your Headline"
               : user?.teacherProfile?.bio}
@@ -57,16 +56,17 @@ export default function BasicInfo() {
           <EditProfileModal />
         </div>
       </div>
-      <Section title="Contact" className="rounded-md p-6 text-slate-400">
-        <div className="grid grid-cols-2 gap-4 ">
+      <Section title="Contact" className="rounded-md py-6 w-[80%] mx-auto text-slate-400">
+        <div className="">
           <div>
             <p className="font-bold text-slate-200">Email</p>
             <p>{user?.email}</p>
           </div>
         </div>
       </Section>
-      <Section title="Subscription" className="rounded-md p-6 text-slate-400">
-        <div className="grid grid-cols-2 gap-4">
+      <Separator className="bg-slate-400 w-[80%] m-auto"/>
+      <Section title="Subscription" className="rounded-md py-6 w-[80%] mx-auto text-slate-400 mt-5">
+        <div className="flex flex-col gap-4">
           <div>
             <p className="font-bold capitalize text-slate-200">Plan</p>
             <p>{user?.role ? user?.role : "Plan"}</p>
@@ -89,6 +89,7 @@ export default function BasicInfo() {
           </div>
         </div>
       </Section>
+      <Separator className="bg-slate-400 w-[80%] m-auto"/>
     </div>
   );
 }

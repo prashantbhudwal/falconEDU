@@ -20,29 +20,26 @@ export default async function PaymentsTable() {
   if (!payments) {
     return null;
   }
+
+
   return (
-    <div className="overflow-x-auto w-full pb-10 ">
-      <h1 className="text-3xl text-bold mb-6">Payment History</h1>
-      <table className="table table-zebra table-md w-full bg-base-100 shadow shadow-base-100 rounded-sm">
-        <thead>
-          <tr>
-            <th>Payment Date</th>
-            <th>Payment Method</th>
-            <th>Amount</th>
-          </tr>
-        </thead>
-        <tbody>
+    <div className="w-full mb-96 mt-5">
+      <h1 className="text-2xl text-bold mb-3 mx-auto w-fit">Payment History</h1>
+      <div className="flex flex-col px-6 w-full gap-3">
           {payments.map((payment, index) => (
-            <tr key={index}>
-              <td>
-                {getFormattedDate(payment.paymentDate.toLocaleDateString())}
-              </td>
-              <td className="capitalize">{payment.paymentMethod}</td>
-              <td>{payment.amount}</td>
-            </tr>
+            <div key={index} className="flex flex-row justify-between items-center w-full bg-base-100 rounded-2xl p-3">
+              <div className="flex flex-col gap-2">
+                <p className="capitalize">{payment.paymentMethod}</p>
+                <p>
+                  {getFormattedDate(payment.paymentDate.toLocaleDateString())}
+                </p>
+              </div>
+                <p>
+                  {payment.amount}
+                </p>
+            </div>
           ))}
-        </tbody>
-      </table>
+      </div>
     </div>
   );
 }
