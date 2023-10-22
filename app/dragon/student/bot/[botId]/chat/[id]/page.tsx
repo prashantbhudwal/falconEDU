@@ -23,6 +23,10 @@ export default async function ChatPage({ params }: ChatPageProps) {
   const bot = await getBotByBotId(botId);
   const botImage = chat?.botImage;
   const initialMessages: Message[] = chat?.messages || [];
+  const emptyMessage =
+    bot?.BotConfig.type === "test"
+      ? "Say hello to start the test"
+      : "Start chatting with your teacher";
 
   return (
     <>
@@ -41,7 +45,7 @@ export default async function ChatPage({ params }: ChatPageProps) {
         initialMessages={initialMessages}
         id={id}
         apiPath={getStudentChatApiURL()}
-        emptyMessage={"Start chatting with your teacher"}
+        emptyMessage={emptyMessage}
         chatBody={{
           chatId: id,
         }}

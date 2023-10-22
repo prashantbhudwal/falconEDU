@@ -49,9 +49,11 @@ export function Chat({
             <ChatScrollAnchor trackVisibility={isLoading} />
           </>
         ) : (
-          <div className="mx-auto max-w-2xl px-4">
-            <div className="rounded-sm p-8">
-              <h1 className="mb-2 text-lg">{emptyMessage}</h1>
+          <div className="mx-auto max-w-2xl px-4 pt-8">
+            <div className="bg-slate-900 py-4 rounded-md flex place-content-center">
+              <h1 className="text-xl font-medium text-slate-500">
+                {emptyMessage}
+              </h1>
             </div>
           </div>
         )}
