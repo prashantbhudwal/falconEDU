@@ -1,5 +1,6 @@
 import { Message } from "ai/react";
 import { getStudentChatApiURL } from "@/lib/urls";
+import { getStudentTeacherURL } from "@/lib/urls";
 import {
   getBotByBotId,
   getBotChatByChatId,
@@ -21,6 +22,8 @@ export default async function ChatPage({ params }: ChatPageProps) {
   const botId = params.botId;
   const chat = await getBotChatByChatId(id);
   const bot = await getBotByBotId(botId);
+  const teacherId = bot?.BotConfig.teacherId;
+  const redirectUrl = getStudentTeacherURL(teacherId!);
   const botImage = chat?.botImage;
   const initialMessages: Message[] = chat?.messages || [];
   const emptyMessage =
@@ -35,7 +38,7 @@ export default async function ChatPage({ params }: ChatPageProps) {
         subtitle={bot?.BotConfig.type}
         button={
           bot?.BotConfig.type === "test" && !bot?.isSubmitted ? (
-            <SubmitTestButton testBotId={botId} />
+            <SubmitTestButton testBotId={botId} redirectUrl={redirectUrl} />
           ) : (
             <></>
           )
