@@ -48,6 +48,7 @@
     "jotai": "^2.4.3",
     "jszip": "^3.10.1",
     "langchain": "^0.0.165",
+    "lottie-react": "^2.4.0",
     "mixpanel": "^0.18.0",
     "nanoid": "^4.0.2",
     "next": "^13.5.6",
