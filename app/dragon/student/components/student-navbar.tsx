@@ -4,6 +4,7 @@ import Avvvatars from "avvvatars-react";
 import { ReactNode } from "react";
 import SignOutButton from "@/components/auth/sign-out-btn";
 import Image from "next/image";
+import ProfileDropDown from "@/components/navbar/profile-dropdown";
 
 const SettingsIcon: React.FC = () => (
   <div className="dropdown-end dropdown">
@@ -36,6 +37,7 @@ export const StudentHomeNavbar: React.FC = () => (
       <p className="text-xl">FalconAI</p>
     </div>
     <div className="navbar-end">
+      <ProfileDropDown url={"/profile/student"}/>
       <SettingsIcon />
     </div>
   </StudentNavbar>

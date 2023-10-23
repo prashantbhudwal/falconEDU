@@ -18,7 +18,7 @@ export default function Navbar() {
       </div>
       <div className="navbar-end gap-3 pr-1">
         <RightActionBar />
-        <ProfileDropDown />
+        <ProfileDropDown url={"/profile/teacher"} />
         <HelpDropdown />
       </div>
     </div>

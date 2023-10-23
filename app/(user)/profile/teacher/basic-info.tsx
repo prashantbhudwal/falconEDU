@@ -25,7 +25,7 @@ export default function BasicInfo() {
     <div className=" w-full bg-slate-900 pb-4 text-slate-200 shadow-sm">
       <div className="relative mb-6 flex w-full items-center space-x-6 rounded-sm bg-base-100 px-6 py-10">
         <div className="shrink-0">
-          {user.image ? (
+          {user?.image ? (
             <Image
               className="rounded-full object-cover"
               src={user.image}
@@ -45,9 +45,9 @@ export default function BasicInfo() {
         </div>
         <div className="flex flex-col gap-2">
           <div className="inline-flex items-start space-x-2">
-            <h2 className="text-3xl">{user.name}</h2>
+            <h2 className="text-3xl">{user?.name}</h2>
             <span className="badge badge-accent -mt-1 ml-2">
-              {user.role === "PRO" ? "PRO" : "TRIAL"}
+              {user?.role === "PRO" ? "PRO" : "TRIAL"}
             </span>
           </div>
           <p className="text-lg text-slate-300">
