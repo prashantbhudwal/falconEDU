@@ -4,7 +4,7 @@ import Avvvatars from "avvvatars-react";
 import { ReactNode } from "react";
 import SignOutButton from "@/components/auth/sign-out-btn";
 import Image from "next/image";
-import ProfileDropDown from "@/components/navbar/profile-dropdown";
+import Link from "next/link";
 
 const SettingsIcon: React.FC = () => (
   <div className="dropdown-end dropdown">
@@ -16,6 +16,7 @@ const SettingsIcon: React.FC = () => (
       className="menu dropdown-content rounded-box menu-sm z-[1] mt-3 w-32 bg-base-100 p-2 shadow"
     >
       <li>
+        <Link href={"/profile/student"}>My Profile</Link>
         <SignOutButton />
       </li>
     </ul>
@@ -37,7 +38,6 @@ export const StudentHomeNavbar: React.FC = () => (
       <p className="text-xl">FalconAI</p>
     </div>
     <div className="navbar-end">
-      <ProfileDropDown url={"/profile/student"}/>
       <SettingsIcon />
     </div>
   </StudentNavbar>
