@@ -3,8 +3,8 @@ import { useChat, type Message } from "ai/react";
 import { cn } from "../../lib/utils";
 import { ChatList } from "./chat-list";
 import { ChatPanel } from "./chat-panel";
-import { ChatScrollAnchor } from "./chat-scroll-anchor";
 import { toast } from "react-hot-toast";
+import { useRef, useLayoutEffect } from "react";
 
 export interface ChatProps extends React.ComponentProps<"div"> {
   initialMessages?: Message[];
@@ -40,13 +40,29 @@ export function Chat({
         }
       },
     });
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  useLayoutEffect(() => {
+    const scrollToEnd = () => {
+      const container = containerRef.current;
+      if (container) {
+        container.scrollTop = container.scrollHeight; //  might need to adjust this if there's a fixed header/footer.
+      }
+    };
+
+    if (messages.length) {
+      scrollToEnd();
+    }
+  }, [messages]);
+
   return (
-    <div className="overflow-y-scroll custom-scrollbar h-screen">
+    <div
+      className="overflow-y-scroll custom-scrollbar h-screen"
+      ref={containerRef}
+    >
       <div className={cn("pb-[200px] pt-4 md:pt-10", className)}>
         {messages.length ? (
           <>
             <ChatList messages={messages} botImage={botImage} />
-            <ChatScrollAnchor trackVisibility={isLoading} />
           </>
         ) : (
           <div className="mx-auto max-w-2xl px-4 pt-8">
