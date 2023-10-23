@@ -24,28 +24,28 @@ export default function BasicInfo() {
   }
   return (
     <div className=" w-full bg-slate-900 pb-4 text-slate-200 shadow-sm ">
-      <div className="relative mb-6 flex flex-col w-full gap-3 items-center  rounded-sm bg-base-100 p-4">
-        <div className="shrink-0">
+      <div className="relative mb-6 flex flex-col w-full gap-3  rounded-sm bg-base-100 py-4">
+        <div className="shrink-0 w-[80%] mx-auto">
           {user?.image ? (
             <Image
               className="rounded-full object-cover"
               src={user.image}
-              height={75}
-              width={75}
+              height={60}
+              width={60}
               alt="Falcon Logo"
             />
           ) : (
             <Image
               className="rounded-full object-cover"
               src={"/chubbi.png"}
-              height={75}
-              width={75}
+              height={60}
+              width={60}
               alt="Falcon Logo"
             />
           )}
         </div>
-        <div className="flex flex-col gap-3 items-center">
-            <h2 className="text-2xl">{user?.name}</h2>
+        <div className="flex flex-col gap-2 w-[80%] mx-auto">
+            <h2 className="text-xl">{user?.name}</h2>
           <p className="text-base text-slate-300">
             {!user?.teacherProfile?.bio
               ? "Your Headline"
