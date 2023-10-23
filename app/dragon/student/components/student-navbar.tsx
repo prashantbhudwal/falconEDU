@@ -5,6 +5,7 @@ import { ReactNode } from "react";
 import SignOutButton from "@/components/auth/sign-out-btn";
 import Image from "next/image";
 import Link from "next/link";
+import { studentHomeURL, studentProfileURL } from "@/lib/urls";
 
 const SettingsIcon: React.FC = () => (
   <div className="dropdown-end dropdown">
@@ -16,7 +17,7 @@ const SettingsIcon: React.FC = () => (
       className="menu dropdown-content rounded-box menu-sm z-[1] mt-3 w-32 bg-base-100 p-2 shadow"
     >
       <li>
-        <Link href={"/profile/student"}>My Profile</Link>
+        <Link href={studentProfileURL}>My Profile</Link>
         <SignOutButton />
       </li>
     </ul>
@@ -57,7 +58,7 @@ export const AvatarNavbar: React.FC<AvatarNavbarProps> = ({
   button,
 }) => (
   <StudentNavbar>
-    <div className="flex gap-3 navbar-start">
+    <Link href={studentHomeURL} className="flex gap-3 navbar-start">
       <Avatar>
         <AvatarImage src={avatarUrl} />
         <AvatarFallback className="bg-base-300">
@@ -68,7 +69,7 @@ export const AvatarNavbar: React.FC<AvatarNavbarProps> = ({
         <p className="truncate">{title}</p>
         <p className="text-sm text-slate-500 truncate">{subtitle}</p>
       </div>
-    </div>
+    </Link>
     <div className="navbar-end flex gap-4">
       {button}
       <SettingsIcon />

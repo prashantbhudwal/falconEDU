@@ -16,6 +16,10 @@ export const getTestEditBotURL = (classId: string, botId: string) =>
   `${baseUrl}/teacher/class/${classId}/tests/edit-test/${botId}`;
 
 // Student Url
+export const studentHomeURL = `${baseUrl}/student/`;
+
+//TODO This url pattern is not consistent with other urls
+export const studentProfileURL = `${baseUrl}/profile/student`;
 export const studentChatURL = (chatId: string) =>
   `${baseUrl}/student/chat/${chatId}`;
 
