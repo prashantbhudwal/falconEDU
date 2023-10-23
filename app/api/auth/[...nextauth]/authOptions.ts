@@ -67,6 +67,13 @@ const GoogleTeacherProvider = () => {
     clientId: process.env.GOOGLE_CLIENT_ID ?? "",
     clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
     profile: googleProfileHandlerTeacher,
+    authorization: {
+      params: {
+        prompt: "select_account",
+        access_type: "offline",
+        response_type: "code",
+      },
+    },
   });
 };
 
@@ -77,6 +84,13 @@ const GoogleStudentProvider = () => {
     profile: googleProfileHandlerStudent,
     id: "google-student",
     name: "google-student",
+    authorization: {
+      params: {
+        prompt: "select_account",
+        access_type: "offline",
+        response_type: "code",
+      },
+    },
   });
 };
 
