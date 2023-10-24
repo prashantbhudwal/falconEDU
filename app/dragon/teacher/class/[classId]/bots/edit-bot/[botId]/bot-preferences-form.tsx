@@ -26,7 +26,7 @@ import { Separator } from "@/components/ui/separator";
 import { Chip } from "@/components/ui/chip";
 import { botPreferencesSchema } from "../../../../../../schema";
 import { Button } from "@/components/ui/button";
-import { TextareaAutosize as Textarea } from "@/components/ui/textarea-autosize";
+import { TextareaWithCounter as Textarea } from "@/components/ui/textarea-counter";
 import { FiInfo } from "react-icons/fi";
 import { FiBookOpen } from "react-icons/fi";
 import { ClipboardIcon } from "@heroicons/react/24/solid";
@@ -76,13 +76,6 @@ export default function BotPreferencesForm({
     resolver: zodResolver(botPreferencesSchema),
     defaultValues: preferences || defaultValues,
   });
-
-  const [characterCount, setCharacterCount] = useState(0);
-
-  const handleInputChange = (event: any) => {
-    const newValue = event.target.value;
-    setCharacterCount(newValue.length);
-  };
 
   const onSubmit = async (data: z.infer<typeof botPreferencesSchema>) => {
     setLoading(true);
@@ -152,13 +145,6 @@ export default function BotPreferencesForm({
                       Instructions
                       <FiInfo />
                     </div>
-                    <Badge
-                      variant={
-                        characterCount > 1500 ? "destructive" : "outline"
-                      }
-                    >
-                      {characterCount}/1500
-                    </Badge>
                   </FormLabel>
                   <FormControl>
                     <Textarea
@@ -167,7 +153,8 @@ export default function BotPreferencesForm({
                       {...field}
                       onFocus={() => setInputFocus("instructions")}
                       onBlur={() => setInputFocus("")}
-                      onInput={handleInputChange}
+                      hasCounter={true}
+                      maxChars={1500}
                     />
                   </FormControl>
                   <FormDescription>

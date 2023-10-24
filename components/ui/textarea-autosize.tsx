@@ -25,4 +25,4 @@ const TextareaAutosize = React.forwardRef<
 });
 TextareaAutosize.displayName = "TextareaAutosize";
 
-export { TextareaAutosize };
+export { TextareaAutosize, type TextareaAutosizeProps };
