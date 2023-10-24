@@ -6,6 +6,7 @@ import { Button } from "@ui/button";
 import { IconCheck, IconCopy } from "@ui/icons";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
 import { cn } from "@/lib/utils";
+import { ClipboardIcon } from "@heroicons/react/24/outline";
 
 interface ChatMessageActionsProps extends React.ComponentProps<"div"> {
   message: Message;
@@ -32,7 +33,7 @@ export function ChatMessageActions({
       {...props}
     >
       <Button variant="ghost" size="icon" onClick={onCopy}>
-        {isCopied ? <IconCheck /> : <IconCopy />}
+        {isCopied ? <IconCheck /> : <ClipboardIcon className="h-4 w-4" />}
         <span className="sr-only">Copy message</span>
       </Button>
     </div>
