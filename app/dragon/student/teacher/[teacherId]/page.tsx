@@ -6,7 +6,7 @@ import { ItemCard } from "../../components/item-card";
 import Link from "next/link";
 import { getStudentBotURL } from "@/lib/urls";
 import {
-  getBotsByTeacherId,
+  getBotsByTeacherAndStudentID,
   getTeacherDetailsByTeacherId,
   getTeachersByUserId,
 } from "../../queries";
@@ -35,7 +35,7 @@ export default async function TeacherDashboard({
   if (!id) {
     return null;
   }
-  const bots = await getBotsByTeacherId(teacherId);
+  const bots = await getBotsByTeacherAndStudentID(teacherId, id);
   const teacher = await getTeacherDetailsByTeacherId(teacherId);
   if (!bots) {
     return (

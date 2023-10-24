@@ -219,12 +219,32 @@ export type GetTeachersByUserId = UnwrapPromise<
   ReturnType<typeof getTeachersByUserId>
 >;
 
-export const getBotsByTeacherId = async function (teacherId: string) {
+export const getBotsByTeacherAndStudentID = async function (
+  teacherId: string,
+  userId: string
+) {
+  // Fetch studentId from StudentProfile using userId
+  const studentProfile = await prisma.studentProfile.findFirst({
+    where: {
+      userId: userId,
+    },
+    select: {
+      id: true,
+    },
+  });
+
+  // If no matching student profile, return an empty array or handle as needed
+  if (!studentProfile) return [];
+
+  const studentId = studentProfile.id;
+
+  // Fetch bots filtered by teacherId and studentId
   const bots = await prisma.bot.findMany({
     where: {
       BotConfig: {
         teacherId: teacherId,
       },
+      studentId: studentId,
     },
     select: {
       id: true,
@@ -250,8 +270,8 @@ export const getBotsByTeacherId = async function (teacherId: string) {
   return bots;
 };
 
-export type getBotsByTeacherId = UnwrapPromise<
-  ReturnType<typeof getBotsByTeacherId>
+export type getBotsByTeacherAndStudentID = UnwrapPromise<
+  ReturnType<typeof getBotsByTeacherAndStudentID>
 >;
 
 export const getTeacherDetailsByTeacherId = cache(async function (
