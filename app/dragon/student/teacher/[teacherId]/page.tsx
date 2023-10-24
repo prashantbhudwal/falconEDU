@@ -45,13 +45,13 @@ export default async function TeacherDashboard({
     );
   }
   return (
-    <>
+    <div>
       <AvatarNavbar
         title={teacher?.User.name!}
         subtitle={teacher?.User.email!}
         avatarUrl={teacher?.User.image!}
       />
-      <div className="pt-1 pb-5 w-full">
+      <div className="pt-1 pb-20 w-full overflow-y-auto h-screen custom-scrollbar">
         {bots
           .filter((bot) => !bot.isSubmitted)
           .map((bot) => (
@@ -76,6 +76,6 @@ export default async function TeacherDashboard({
             </Link>
           ))}
       </div>
-    </>
+    </div>
   );
 }
