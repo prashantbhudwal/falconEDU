@@ -26,7 +26,7 @@ import { Separator } from "@/components/ui/separator";
 import { Chip } from "@/components/ui/chip";
 import { botPreferencesSchema } from "../../../../../../schema";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
+import { TextareaAutosize as Textarea } from "@/components/ui/textarea-autosize";
 import { FiInfo } from "react-icons/fi";
 import { FiBookOpen } from "react-icons/fi";
 import { ClipboardIcon } from "@heroicons/react/24/solid";
@@ -91,7 +91,7 @@ export default function BotPreferencesForm({
     if (result.success) {
       console.log("Successfully updated.");
       toast({
-        variant:"default",
+        variant: "default",
         description: "saved successfully",
       });
       setError(null); // clear any existing error
@@ -152,12 +152,18 @@ export default function BotPreferencesForm({
                       Instructions
                       <FiInfo />
                     </div>
-                    <Badge variant={characterCount>1500 ?"destructive":"outline"}>{characterCount}/1500</Badge>
+                    <Badge
+                      variant={
+                        characterCount > 1500 ? "destructive" : "outline"
+                      }
+                    >
+                      {characterCount}/1500
+                    </Badge>
                   </FormLabel>
                   <FormControl>
                     <Textarea
                       placeholder="Be polite with the students. Never use negative language."
-                      className="resize-none h-60"
+                      className="resize-none"
                       {...field}
                       onFocus={() => setInputFocus("instructions")}
                       onBlur={() => setInputFocus("")}
