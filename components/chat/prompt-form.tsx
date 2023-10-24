@@ -1,11 +1,10 @@
 import { UseChatHelpers } from "ai/react";
 import * as React from "react";
 import Textarea from "react-textarea-autosize";
+import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
 
 import { Button } from "@ui/button";
-import { IconArrowElbow } from "@ui/icons";
 import { useEnterSubmit } from "../../hooks/use-enter-submit";
-import { FiCornerDownLeft } from "react-icons/fi";
 
 export interface PromptProps
   extends Pick<UseChatHelpers, "input" | "setInput"> {
@@ -48,17 +47,19 @@ export function PromptForm({
           rows={1}
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Send a message."
+          placeholder="Send a message"
           spellCheck={false}
           className="min-h-[60px] w-full resize-none bg-transparent px-4 py-[1.3rem] focus-within:outline-none sm:text-sm"
         />
-        <div className="absolute right-0 top-4 sm:right-4">
+        <div className="absolute right-0 bottom-2 sm:right-4">
           <Button
+            variant="ghost"
             type="submit"
             size="icon"
             disabled={isLoading || input === ""}
+            className="mr-2"
           >
-            <FiCornerDownLeft className="text-primary-content" />
+            <PaperAirplaneIcon className="text-secondary" />
             <span className="sr-only">Send message</span>
           </Button>
         </div>
