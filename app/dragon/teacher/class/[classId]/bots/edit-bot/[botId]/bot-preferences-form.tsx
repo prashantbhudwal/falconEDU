@@ -9,8 +9,6 @@ import {
   unPublishBotConfig,
   publishBotConfig,
 } from "../../../../../mutations";
-import { Badge } from "@/components/ui/badge";
-import { fetchBotConfig } from "../../../../../queries";
 import {
   Form,
   FormControl,
@@ -42,7 +40,10 @@ import {
   tone,
   humorLevel,
   subjects,
+  LIMITS_botPreferencesSchema,
 } from "../../../../../../schema";
+
+const MAX_CHARS = LIMITS_botPreferencesSchema.instructions.maxLength;
 
 const defaultValues: z.infer<typeof botPreferencesSchema> = {
   instructions: "How do you want bots to behave?",
@@ -153,8 +154,8 @@ export default function BotPreferencesForm({
                       {...field}
                       onFocus={() => setInputFocus("instructions")}
                       onBlur={() => setInputFocus("")}
-                      hasCounter={true}
-                      maxChars={1500}
+                      hasCounter
+                      maxChars={MAX_CHARS}
                     />
                   </FormControl>
                   <FormDescription>
