@@ -18,7 +18,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { useToast } from "@/components/ui/use-toast";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group-form";
 import { Separator } from "@/components/ui/separator";
 import { Chip } from "@/components/ui/chip";
@@ -42,6 +41,7 @@ import {
   subjects,
   LIMITS_botPreferencesSchema,
 } from "../../../../../../schema";
+import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 
 const MAX_CHARS = LIMITS_botPreferencesSchema.instructions.maxLength;
 
@@ -72,22 +72,20 @@ export default function BotPreferencesForm({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [inputFocus, setInputFocus] = useState("");
-  const { toast } = useToast();
+
   const form = useForm<z.infer<typeof botPreferencesSchema>>({
     resolver: zodResolver(botPreferencesSchema),
     defaultValues: preferences || defaultValues,
   });
+  const { isDirty, setIsDirty } = useIsFormDirty(form);
+  const isEmpty = preferences === null || preferences === undefined;
 
   const onSubmit = async (data: z.infer<typeof botPreferencesSchema>) => {
     setLoading(true);
     const result = await updateBotConfig(classId, botId, data);
     setLoading(false);
     if (result.success) {
-      console.log("Successfully updated.");
-      toast({
-        variant: "default",
-        description: "saved successfully",
-      });
+      setIsDirty(false);
       setError(null); // clear any existing error
     } else {
       console.log("Update failed:", result.error);
@@ -120,14 +118,26 @@ export default function BotPreferencesForm({
               <h2 className="md:text-3xl font-bold tracking-wide">
                 Bot Preference
               </h2>
-              <div className="flex flex-row gap-6">
-                <Button type="submit">{loading ? "Saving" : "Save"}</Button>
-                <Button
-                  variant={botConfig?.published ? "destructive" : "secondary"}
-                  onClick={botConfig?.published ? onUnPublish : onPublish}
-                >
-                  {botConfig?.published ? "Un-publish" : "Publish"}
-                </Button>
+              <div className="flex flex-col gap-2">
+                <div className="flex flex-row gap-6">
+                  <Button
+                    type="submit"
+                    disabled={(isEmpty && !isDirty) || !isDirty}
+                  >
+                    {loading ? "Saving" : isDirty ? "Save" : "Saved"}
+                  </Button>
+                  <Button
+                    variant={botConfig?.published ? "destructive" : "secondary"}
+                    onClick={botConfig?.published ? onUnPublish : onPublish}
+                  >
+                    {botConfig?.published ? "Un-publish" : "Publish"}
+                  </Button>
+                </div>
+                {isDirty && (
+                  <div className="text-sm text-slate-500">
+                    You have unsaved changes.
+                  </div>
+                )}
               </div>
             </div>
             {error && <div className="text-red-500">{error}</div>}
