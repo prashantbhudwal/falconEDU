@@ -5,11 +5,13 @@ import RightActionBar from "./right-action-bar";
 import UpgradeBtn from "./upgrade-btn";
 import InviteDropdown from "./invite-dropdown";
 import HelpDropdown from "@/components/navbar/help-dropdown";
+import DragonHomeBtn from "./dragon-home-btn";
 export default function Navbar() {
   return (
     <div className="navbar h-2 bg-base-200 shadow-sm shadow-base-100">
       <div className="navbar-start gap-4 pr-2">
         <ChubbiDropdown />
+        <DragonHomeBtn />
         <InviteDropdown />
         <UpgradeBtn />
       </div>
