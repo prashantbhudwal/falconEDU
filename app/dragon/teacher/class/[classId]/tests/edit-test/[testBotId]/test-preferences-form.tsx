@@ -25,6 +25,7 @@ import { TextareaWithCounter as Textarea } from "@/components/ui/textarea-counte
 import { FiInfo } from "react-icons/fi";
 import { Paper } from "@/components/ui/paper";
 import { LIMITS_testBotPreferencesSchema } from "../../../../../../schema";
+import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 
 const defaultValues: z.infer<typeof testBotPreferencesSchema> = {
   fullTest: "Enter the full test here",
@@ -47,19 +48,21 @@ export default function TestPreferencesForm({
   const [error, setError] = useState<string | null>(null);
   const [inputFocus, setInputFocus] = useState("");
   const MAX_CHARS = LIMITS_testBotPreferencesSchema.fullTest.maxLength;
+  const isEmpty = preferences === null || preferences === undefined;
 
   const form = useForm<z.infer<typeof testBotPreferencesSchema>>({
     resolver: zodResolver(testBotPreferencesSchema),
     defaultValues: preferences || defaultValues,
   });
+  const { isDirty, setIsDirty } = useIsFormDirty(form);
 
   const onSubmit = async (data: z.infer<typeof testBotPreferencesSchema>) => {
     setLoading(true);
     const result = await updateTestBotConfig(classId, botId, data);
     setLoading(false);
     if (result.success) {
-      console.log("Successfully updated.");
       setError(null); // clear any existing error
+      setIsDirty(false);
     } else {
       console.log("Update failed:", result.error);
       setError("Failed to update bot config. Please try again."); // set the error message
@@ -81,7 +84,6 @@ export default function TestPreferencesForm({
       setError("Failed to publish bot config. Please try again."); // set the error message
     }
   };
-
   return (
     <>
       <Form {...form}>
@@ -91,14 +93,26 @@ export default function TestPreferencesForm({
               <h2 className="md:text-3xl font-bold tracking-wide">
                 Bot Preference
               </h2>
-              <div className="flex flex-row gap-6">
-                <Button type="submit">{loading ? "Saving" : "Save"}</Button>
-                <Button
-                  variant={botConfig?.published ? "destructive" : "secondary"}
-                  onClick={botConfig?.published ? onUnPublish : onPublish}
-                >
-                  {botConfig?.published ? "Un-publish" : "Publish"}
-                </Button>
+              <div className="flex flex-col gap-2">
+                <div className="flex flex-row gap-6">
+                  <Button
+                    type="submit"
+                    disabled={(isEmpty && !isDirty) || !isDirty}
+                  >
+                    {loading ? "Saving" : isDirty ? "Save" : "Saved"}
+                  </Button>
+                  <Button
+                    variant={botConfig?.published ? "destructive" : "secondary"}
+                    onClick={botConfig?.published ? onUnPublish : onPublish}
+                  >
+                    {botConfig?.published ? "Un-publish" : "Publish"}
+                  </Button>
+                </div>
+                {isDirty && (
+                  <div className="text-sm text-slate-500">
+                    You have unsaved changes.
+                  </div>
+                )}
               </div>
             </div>
             {error && <div className="text-red-500">{error}</div>}
