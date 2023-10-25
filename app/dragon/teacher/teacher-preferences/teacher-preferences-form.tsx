@@ -23,6 +23,7 @@ import {
 import { useState } from "react";
 import { Paper } from "@/components/ui/paper";
 import { LIMITS_teacherPreferencesSchema } from "../../schema";
+import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 
 const defaultValues: z.infer<typeof teacherPreferencesSchema> = {
   personalInformation: "",
@@ -83,10 +84,13 @@ export default function TeacherPreferencesForm({
     defaultValues: initialValues ?? defaultValues,
   });
 
+  const { isDirty, setIsDirty } = useIsFormDirty(form);
+
   const onSubmit = async (values: z.infer<typeof teacherPreferencesSchema>) => {
     setLoading(true);
     try {
       await updateTeacherPreferences(teacherId, values);
+      setIsDirty(false);
     } catch (error) {
       form.setError("personalInformation", {
         type: "manual",
@@ -136,13 +140,21 @@ export default function TeacherPreferencesForm({
                 will be able to form a connection with the students.
               </p>
             </div>
-            <Button
-              type="submit"
-              onMouseEnter={handleDescriptionHoverEnter}
-              onMouseLeave={handleDescriptionHoverLeave}
-            >
-              {loading ? "Saving..." : "Save"}
-            </Button>
+            <div className="relative">
+              <Button
+                type="submit"
+                onMouseEnter={handleDescriptionHoverEnter}
+                onMouseLeave={handleDescriptionHoverLeave}
+                disabled={!isDirty}
+              >
+                {loading ? "Saving" : isDirty ? "Save" : "Saved"}
+              </Button>
+              {isDirty && (
+                <div className="text-sm font-semibold text-slate-500 absolute mt-2 right-0 whitespace-nowrap ">
+                  Unsaved changes
+                </div>
+              )}
+            </div>
           </div>
           <Separator className="my-4" />
           {personalInfo.map((item) => (
