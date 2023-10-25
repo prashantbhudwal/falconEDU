@@ -18,14 +18,13 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group-form";
 import { Separator } from "@/components/ui/separator";
-import { Chip } from "@/components/ui/chip";
 import { testBotPreferencesSchema } from "../../../../../../schema";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
+import { TextareaWithCounter as Textarea } from "@/components/ui/textarea-counter";
 import { FiInfo } from "react-icons/fi";
 import { Paper } from "@/components/ui/paper";
+import { LIMITS_testBotPreferencesSchema } from "../../../../../../schema";
 
 const defaultValues: z.infer<typeof testBotPreferencesSchema> = {
   fullTest: "Enter the full test here",
@@ -47,6 +46,7 @@ export default function TestPreferencesForm({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [inputFocus, setInputFocus] = useState("");
+  const MAX_CHARS = LIMITS_testBotPreferencesSchema.fullTest.maxLength;
 
   const form = useForm<z.infer<typeof testBotPreferencesSchema>>({
     resolver: zodResolver(testBotPreferencesSchema),
@@ -123,6 +123,8 @@ export default function TestPreferencesForm({
                       {...field}
                       onFocus={() => setInputFocus("instructions")}
                       onBlur={() => setInputFocus("")}
+                      hasCounter
+                      maxChars={MAX_CHARS}
                     />
                   </FormControl>
                   <FormDescription>
