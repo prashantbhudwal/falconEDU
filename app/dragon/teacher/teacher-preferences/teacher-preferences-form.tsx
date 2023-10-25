@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { TextareaAutosize } from "@/components/ui/textarea-autosize";
+import { TextareaWithCounter as Textarea } from "@/components/ui/textarea-counter";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/form";
 import { useState } from "react";
 import { Paper } from "@/components/ui/paper";
+import { LIMITS_teacherPreferencesSchema } from "../../schema";
 
 const defaultValues: z.infer<typeof teacherPreferencesSchema> = {
   personalInformation: "",
@@ -160,12 +161,16 @@ export default function TeacherPreferencesForm({
                     {getIconForFormLabel(item.iconName)}
                   </FormLabel>
                   <FormControl className="tracking-wider">
-                    <TextareaAutosize
+                    <Textarea
                       placeholder={item.placeholder}
                       className="resize-none  placeholder:text-xs font-semibold min-h-[6rem]"
                       {...field}
                       onFocus={() => setInputFocus(item.name)}
                       onBlur={() => setInputFocus("")}
+                      hasCounter
+                      maxChars={
+                        LIMITS_teacherPreferencesSchema[item.name].maxLength
+                      }
                     />
                   </FormControl>
                   <FormDescription>{item.description}</FormDescription>
