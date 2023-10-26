@@ -2,7 +2,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import Avvvatars from "avvvatars-react";
-import { ClassDialog } from "./class-dialog"; 
+import { ClassDialog } from "./class-dialog";
 import {
   Card,
   CardHeader,
@@ -18,8 +18,8 @@ import {
 } from "@/components/ui/tooltip";
 type action = {
   name: string;
-  title:string;
-  description:string;
+  title: string;
+  description: string;
   icon: React.ReactNode;
   action: any;
   actionParams: any[];
@@ -68,21 +68,20 @@ function ItemCard({
           {actions?.map((action) => (
             <Tooltip key={action.name}>
               <TooltipTrigger>
-              <ClassDialog
-                title={action.title}
-                description={action.description}
-                action={() => action.action(...action.actionParams)}
-                trigger={
-                  <Button
-                  variant={"ghost"}
-                  size={"icon"}
-                  className="hover:bg-slate-600"
-               >
-               {action.icon}
-               </Button>
-           }
-      />
-               
+                <ClassDialog
+                  title={action.title}
+                  description={action.description}
+                  action={() => action.action(...action.actionParams)}
+                  trigger={
+                    <Button
+                      variant={"ghost"}
+                      size={"icon"}
+                      className="hover:bg-slate-600"
+                    >
+                      {action.icon}
+                    </Button>
+                  }
+                />
               </TooltipTrigger>
               <TooltipContent className="bg-slate-600 text-black">
                 {action.name}
@@ -111,7 +110,7 @@ const ItemCardChip: React.FC<ItemCardChipProps> = ({
   return (
     <div
       className={cn(
-        "rounded-md px-4 py-2 flex items-center text-sm  ring-1 ring-slate-600",
+        "rounded-md px-4 py-2 flex items-center text-sm ",
         className
       )}
     >
