@@ -1,16 +1,12 @@
 "use client";
-import prisma from "@/prisma";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { Button } from "@/components/ui/button";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { addStudentToClass } from "../../../mutations";
+import { addStudentToClass } from "./mutations";
 import {
   Form,
   FormItem,
-  FormLabel,
   FormField,
   FormControl,
   FormMessage,
