@@ -8,7 +8,6 @@ import AddBotForm from "./add-bot-form";
 import { getBotConfigs } from "../../../queries";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FiArchive, FiCornerRightUp, FiTrash } from "react-icons/fi";
-import { Card, CardContent } from "@/components/ui/card";
 import {
   archiveAllBotsOfBotConfig,
   unArchiveAllBotsOfBotConfig,

@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { addStudentToClass } from "../../../mutations";
 import { createBotConfig } from "../../../mutations";
 import {
   Form,

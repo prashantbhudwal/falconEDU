@@ -39,14 +39,12 @@ export default function AddStudentForm({ classId }: AddStudentFormProps) {
         type: "manual",
         message: "Student not on FalconAI. Ask them to sign up!",
       });
-    }
-    if (result.error) {
+    } else if (result.error) {
       form.setError("email", {
         type: "manual",
         message: "Something went wrong. Please try again.",
       });
-    }
-    if (result.success) {
+    } else if (result.success) {
       form.reset();
     }
   };
