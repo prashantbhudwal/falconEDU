@@ -26,7 +26,7 @@ export default function ClassCard({
         <TooltipTrigger asChild>
           <Card
             className={cn(
-              "h-48 w-48 shadow-md flex flex-col items-center justify-between rounded-md border-transparent cursor-pointer",
+              "h-48 w-48 shadow-md flex flex-col items-center justify-between rounded-xl border-transparent cursor-pointer bg-base-200 hover:bg-base-100 transition-colors duration-200 ease-in-out",
               className
             )}
             {...props}

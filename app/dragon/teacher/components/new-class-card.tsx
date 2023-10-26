@@ -27,6 +27,8 @@ import { createClassForTeacher } from "../mutations";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import IconCard from "./icon-card";
+import ClassCard from "./class-card";
+import { FolderPlusIcon } from "@heroicons/react/24/solid";
 
 const formSchema = z.object({
   className: z.string().min(3).max(50),
@@ -58,10 +60,9 @@ export function NewClassCard() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <IconCard
-          icon={<FaPlus />}
-          text="New Class"
-          className="border-secondary border-2"
+        <ClassCard
+          icon={<FolderPlusIcon className="h-16 w-16 text-secondary" />}
+          name="New Class"
         />
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">

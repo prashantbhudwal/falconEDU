@@ -19,7 +19,7 @@ export default async function Classes() {
   }
   const classes = await getClassesByUserId(userId);
   return (
-    <Paper className="h-full w-full">
+    <Paper className="h-full w-full overflow-y-auto custom-scrollbar bg-base-300">
       <div className="flex flex-row gap-10 items-center flex-wrap">
         <NewClassCard />
         {classes.map((classData) => (
