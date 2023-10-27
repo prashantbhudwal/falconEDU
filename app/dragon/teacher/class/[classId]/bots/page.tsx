@@ -28,8 +28,12 @@ export default async function Dashboard({ params }: BotDashboardProps) {
     throw new Error("User not found");
   }
   const botConfigs = await getBotConfigs(userId, classId, "chat");
-  const botActive = botConfigs.filter((botConfig) => botConfig.isActive);
-  const botArchived = botConfigs.filter((botConfig) => !botConfig.isActive);
+  const activeBots = botConfigs
+    .filter((botConfig) => botConfig.isActive)
+    .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+  const archivedBots = botConfigs
+    .filter((botConfig) => !botConfig.isActive)
+    .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
 
   return (
     <div className="w-full">
@@ -41,10 +45,10 @@ export default async function Dashboard({ params }: BotDashboardProps) {
             <TabsTrigger value="archived">Archived</TabsTrigger>
           </TabsList>
           <TabsContent value="active" className="flex space-y-5 flex-col">
-            {botActive.length === 0 ? (
+            {activeBots.length === 0 ? (
               <p>There are currently no active bots.</p>
             ) : (
-              botActive.map((bot) => (
+              activeBots.map((bot) => (
                 <Link href={getEditBotURL(classId, bot.id)} key={bot.id}>
                   <ItemCard
                     title={bot.name}
@@ -86,12 +90,10 @@ export default async function Dashboard({ params }: BotDashboardProps) {
             )}
           </TabsContent>
           <TabsContent value="archived" className="flex space-y-5 flex-col">
-            {
-            botArchived.length === 0 ? (
+            {archivedBots.length === 0 ? (
               <p>There are currently no Archived bots.</p>
             ) : (
-            botArchived
-              .map((bot) => (
+              archivedBots.map((bot) => (
                 <Link href={getEditBotURL(classId, bot.id)} key={bot.id}>
                   <ItemCard
                     title={bot.name}
@@ -139,8 +141,7 @@ export default async function Dashboard({ params }: BotDashboardProps) {
                   </ItemCard>
                 </Link>
               ))
-            )
-            }
+            )}
           </TabsContent>
         </Tabs>
       </div>
