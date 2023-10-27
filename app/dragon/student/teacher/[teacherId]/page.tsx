@@ -49,6 +49,7 @@ const getBotsByTeacherAndStudentID = cache(async function (
     select: {
       id: true,
       isSubmitted: true,
+      createdAt: true,
       BotConfig: {
         select: {
           name: true,
@@ -111,8 +112,14 @@ export default async function TeacherDashboard({
       </>
     );
   }
-  const unSubmittedBots = bots.filter((bot) => !bot.isSubmitted);
-  const submittedBots = bots.filter((bot) => bot.isSubmitted);
+  //sort in descending order of createdAt
+  const unSubmittedBots = bots
+    .filter((bot) => !bot.isSubmitted)
+    .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+
+  const submittedBots = bots
+    .filter((bot) => bot.isSubmitted)
+    .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
   return (
     <div>
       <AvatarNavbar
