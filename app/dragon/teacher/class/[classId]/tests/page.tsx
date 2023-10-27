@@ -28,6 +28,12 @@ export default async function TestDashboard({ params }: TestDashboardProps) {
     throw new Error("User not found");
   }
   const botConfigs = await getBotConfigs(userId, classId, "test");
+  const activeBots = botConfigs
+    .filter((botConfig) => botConfig.isActive)
+    .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+  const archivedBots = botConfigs
+    .filter((botConfig) => !botConfig.isActive)
+    .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
   return (
     <div className="w-full">
       <div className="flex space-y-5 flex-col w-full">
@@ -38,116 +44,112 @@ export default async function TestDashboard({ params }: TestDashboardProps) {
             <TabsTrigger value="archived">Archived</TabsTrigger>
           </TabsList>
           <TabsContent value="active" className="flex space-y-5 flex-col">
-            {botConfigs
-              .filter((botConfig) => botConfig.isActive)
-              .map((botConfig) => (
-                <Link
-                  href={getTestEditBotURL(classId, botConfig.id)}
-                  key={botConfig.id}
+            {activeBots.map((botConfig) => (
+              <Link
+                href={getTestEditBotURL(classId, botConfig.id)}
+                key={botConfig.id}
+              >
+                <ItemCard
+                  title={botConfig.name}
+                  actions={[
+                    {
+                      title: "Archive Test",
+                      description:
+                        "are you sure you want to archive this test?",
+                      name: "Archive Test: Instantly disables the test for all students.",
+                      icon: <FiArchive />,
+                      action: archiveAllBotsOfBotConfig,
+                      actionParams: [botConfig.id],
+                    },
+                  ]}
                 >
-                  <ItemCard
-                    title={botConfig.name}
-                    actions={[
-                      { title:"Archive Test",
-                        description:"are you sure you want to archive this test?",
-                        name: "Archive Test: Instantly disables the test for all students.",
-                        icon: <FiArchive />,
-                        action: archiveAllBotsOfBotConfig,
-                        actionParams: [botConfig.id],
-                      },
-                    ]}
-                  >
-                    <div className="flex flex-row space-x-4">
-                      <ItemCardChip
-                        label="Created"
-                        value={getFormattedDate(
-                          botConfig.createdAt.toDateString()
-                        )}
-                      />
-                      <ItemCardChip
-                        label="Status"
-                        value={
-                          botConfig.published ? "Published" : "Not Published"
-                        }
-                        valueColor={
-                          botConfig.published
-                            ? "text-primary"
-                            : "text-destructive"
-                        }
-                      />
-                      <ItemCardChip
-                        label="Active"
-                        value={botConfig.isActive ? "Yes" : "No"}
-                        valueColor={
-                          botConfig.isActive
-                            ? "text-primary"
-                            : "text-destructive"
-                        }
-                      />
-                    </div>
-                  </ItemCard>
-                </Link>
-              ))}
+                  <div className="flex flex-row space-x-4">
+                    <ItemCardChip
+                      label="Created"
+                      value={getFormattedDate(
+                        botConfig.createdAt.toDateString()
+                      )}
+                    />
+                    <ItemCardChip
+                      label="Status"
+                      value={
+                        botConfig.published ? "Published" : "Not Published"
+                      }
+                      valueColor={
+                        botConfig.published
+                          ? "text-primary"
+                          : "text-destructive"
+                      }
+                    />
+                    <ItemCardChip
+                      label="Active"
+                      value={botConfig.isActive ? "Yes" : "No"}
+                      valueColor={
+                        botConfig.isActive ? "text-primary" : "text-destructive"
+                      }
+                    />
+                  </div>
+                </ItemCard>
+              </Link>
+            ))}
           </TabsContent>
           <TabsContent value="archived" className="flex space-y-5 flex-col">
-            {botConfigs
-              .filter((botConfig) => !botConfig.isActive)
-              .map((botConfig) => (
-                <Link
-                  href={getTestEditBotURL(classId, botConfig.id)}
-                  key={botConfig.id}
+            {archivedBots.map((botConfig) => (
+              <Link
+                href={getTestEditBotURL(classId, botConfig.id)}
+                key={botConfig.id}
+              >
+                <ItemCard
+                  title={botConfig.name}
+                  actions={[
+                    {
+                      title: "Unarchive Test",
+                      description:
+                        "are you sure you want to unarchive this test?",
+                      name: "Activate Test: Instantly activates the test for all students.",
+                      icon: <FiCornerRightUp />,
+                      action: unArchiveAllBotsOfBotConfig,
+                      actionParams: [botConfig.id],
+                    },
+                    {
+                      title: "Delete Test",
+                      description: "are you sure you want to delete this test?",
+                      name: "DELETE: This will delete the test permanently. The students will still be able to see the test if they have already attempted it.",
+                      icon: <FiTrash />,
+                      action: deleteBotConfigAndDeactivateBots,
+                      actionParams: [botConfig.id],
+                    },
+                  ]}
                 >
-                  <ItemCard
-                    title={botConfig.name}
-                    actions={[
-                      { title:"Unarchive Test",
-                        description:"are you sure you want to unarchive this test?",
-                        name: "Activate Test: Instantly activates the test for all students.",
-                        icon: <FiCornerRightUp />,
-                        action: unArchiveAllBotsOfBotConfig,
-                        actionParams: [botConfig.id],
-                      },
-                      { 
-                        title:"Delete Test",
-                        description:"are you sure you want to delete this test?",
-                        name: "DELETE: This will delete the test permanently. The students will still be able to see the test if they have already attempted it.",
-                        icon: <FiTrash />,
-                        action: deleteBotConfigAndDeactivateBots,
-                        actionParams: [botConfig.id],
-                      },
-                    ]}
-                  >
-                    <div className="flex flex-row space-x-4">
-                      <ItemCardChip
-                        label="Created"
-                        value={getFormattedDate(
-                          botConfig.createdAt.toDateString()
-                        )}
-                      />
-                      <ItemCardChip
-                        label="Status"
-                        value={
-                          botConfig.published ? "Published" : "Not Published"
-                        }
-                        valueColor={
-                          botConfig.published
-                            ? "text-primary"
-                            : "text-destructive"
-                        }
-                      />
-                      <ItemCardChip
-                        label="Active"
-                        value={botConfig.isActive ? "Yes" : "No"}
-                        valueColor={
-                          botConfig.isActive
-                            ? "text-primary"
-                            : "text-destructive"
-                        }
-                      />
-                    </div>
-                  </ItemCard>
-                </Link>
-              ))}
+                  <div className="flex flex-row space-x-4">
+                    <ItemCardChip
+                      label="Created"
+                      value={getFormattedDate(
+                        botConfig.createdAt.toDateString()
+                      )}
+                    />
+                    <ItemCardChip
+                      label="Status"
+                      value={
+                        botConfig.published ? "Published" : "Not Published"
+                      }
+                      valueColor={
+                        botConfig.published
+                          ? "text-primary"
+                          : "text-destructive"
+                      }
+                    />
+                    <ItemCardChip
+                      label="Active"
+                      value={botConfig.isActive ? "Yes" : "No"}
+                      valueColor={
+                        botConfig.isActive ? "text-primary" : "text-destructive"
+                      }
+                    />
+                  </div>
+                </ItemCard>
+              </Link>
+            ))}
           </TabsContent>
         </Tabs>
       </div>
