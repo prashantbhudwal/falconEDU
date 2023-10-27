@@ -1,15 +1,13 @@
-import { getChats } from "@/app/(falcon)/chubbi/actions";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { ItemCard } from "../../components/item-card";
 import Link from "next/link";
 import { getStudentBotURL } from "@/lib/urls";
-import {
-  getBotsByTeacherAndStudentID,
-  getTeacherDetailsByTeacherId,
-} from "../../queries";
 import { AvatarNavbar } from "../../components/student-navbar";
 import { Separator } from "@/components/ui/separator";
+import prisma from "@/prisma";
+import { cache } from "react";
+import { UnwrapPromise } from "../../queries";
 
 function getBotDescription(type: string) {
   switch (type) {
@@ -21,6 +19,77 @@ function getBotDescription(type: string) {
       return "Others";
   }
 }
+const getBotsByTeacherAndStudentID = cache(async function (
+  teacherId: string,
+  userId: string
+) {
+  // Fetch studentId from StudentProfile using userId
+  const studentProfile = await prisma.studentProfile.findFirst({
+    where: {
+      userId: userId,
+    },
+    select: {
+      id: true,
+    },
+  });
+
+  // If no matching student profile, return an empty array or handle as needed
+  if (!studentProfile) return [];
+
+  const studentId = studentProfile.id;
+
+  // Fetch bots filtered by teacherId and studentId
+  const bots = await prisma.bot.findMany({
+    where: {
+      BotConfig: {
+        teacherId: teacherId,
+      },
+      studentId: studentId,
+    },
+    select: {
+      id: true,
+      isSubmitted: true,
+      BotConfig: {
+        select: {
+          name: true,
+          type: true,
+          teacher: {
+            select: {
+              User: {
+                select: {
+                  name: true,
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  });
+
+  return bots;
+});
+
+export type getBotsByTeacherAndStudentID = UnwrapPromise<
+  ReturnType<typeof getBotsByTeacherAndStudentID>
+>;
+
+const getTeacherDetailsByTeacherId = cache(async function (teacherId: string) {
+  const teacher = await prisma.teacherProfile.findUnique({
+    where: { id: teacherId },
+    select: {
+      User: {
+        select: {
+          name: true,
+          email: true,
+          image: true,
+        },
+      },
+    },
+  });
+
+  return teacher;
+});
 
 export default async function TeacherDashboard({
   params,
