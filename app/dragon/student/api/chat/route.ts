@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
 
   const { stream, handlers, writer } = LangChainStream({
     async onCompletion(completion) {
-      console.log("completion", completion);
+      // console.log("completion", completion);
       await saveBotChatToDatabase(botChatId, completion, messages);
     },
   });
@@ -53,16 +53,16 @@ export async function POST(req: NextRequest) {
   const array = [...engineeredMessages, ...history];
 
   const { promptTokens, cost } = countPromptTokens(array, llm.modelName);
-  console.log("promptTokens", promptTokens);
+  // console.log("promptTokens", promptTokens);
 
   const messagesNew = filterMessagesByTokenLimit(array, 3500, llm.modelName);
-  console.log("messagesNew", messagesNew);
+  // console.log("messagesNew", messagesNew);
 
   const { promptTokens: newPromptTokens } = countPromptTokens(
     messagesNew,
     llm.modelName
   );
-  console.log("newPromptTokens", newPromptTokens);
+  // console.log("newPromptTokens", newPromptTokens);
 
   llm.call(array, {}, [handlers]).catch(console.error);
 
