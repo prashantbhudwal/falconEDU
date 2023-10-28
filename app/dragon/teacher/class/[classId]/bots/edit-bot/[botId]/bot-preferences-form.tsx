@@ -134,7 +134,7 @@ export default function BotPreferencesForm({
           <Paper variant="gray" className="w-full max-w-5xl">
             <div className="flex justify-between flex-wrap p-5">
               <h2 className="md:text-3xl font-bold tracking-wide">
-                Bot Preference
+                {botConfig?.name || "Bot Preference"}
               </h2>
               <div className="flex flex-col gap-2">
                 <div className="flex flex-row gap-6">
