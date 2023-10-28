@@ -1,6 +1,6 @@
 "use client";
 import { type BotConfig } from "@prisma/client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -41,13 +41,14 @@ import {
   subjects,
   LIMITS_botPreferencesSchema,
 } from "../../../../../../schema";
+import subjectsArray from "../../../../../../../data/subjects.json";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 
 const MAX_CHARS = LIMITS_botPreferencesSchema.instructions.maxLength;
 
 const defaultValues: z.infer<typeof botPreferencesSchema> = {
   instructions: "How do you want bots to behave?",
-  subjects: ["Grade 1"],
+  subjects: [],
   grades: [],
   board: "CBSE",
   tone: "Friendly",
@@ -108,6 +109,23 @@ export default function BotPreferencesForm({
       setError("Failed to publish bot config. Please try again."); // set the error message
     }
   };
+
+  const grade = form.watch("grades");
+
+  const updateSubjectsHandler = () => {
+    const splitGrade = grade[0].split(" ");
+    const gradeNumber = splitGrade[splitGrade.length - 1]; // extracting the number from "grade [Number]" like "grade 1"
+
+    const gradeObject = subjectsArray.filter(
+      (subject) => subject.grade === gradeNumber
+    )[0];
+
+    return gradeObject.subjects;
+  };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <>
@@ -175,7 +193,7 @@ export default function BotPreferencesForm({
                 </FormItem>
               )}
             />
-
+            {/* ------------------------Grades List ------------------------- */}
             <FormField
               control={form.control}
               name="grades"
@@ -203,13 +221,9 @@ export default function BotPreferencesForm({
                                 <Chip
                                   checked={field.value?.includes(grade)}
                                   onCheckedChange={(checked) => {
-                                    return checked
-                                      ? field.onChange([...field.value, grade])
-                                      : field.onChange(
-                                          field.value?.filter(
-                                            (value) => value !== grade
-                                          )
-                                        );
+                                    if (checked) {
+                                      field.onChange([grade]);
+                                    }
                                   }}
                                   toggleName={grade}
                                 />
@@ -225,57 +239,62 @@ export default function BotPreferencesForm({
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="subjects"
-              render={() => (
-                <FormItem>
-                  <div className="mb-5 flex flex-col gap-2">
-                    <FormLabel className="flex gap-2 items-center font-bold">
-                      Subjects
-                      <FiBookOpen />
-                    </FormLabel>
-                    <FormDescription>
-                      Which subjects do you want the AI to teach?
-                    </FormDescription>
-                  </div>
-                  <div className="flex flex-row gap-y-5 flex-wrap gap-x-6 ">
-                    {subjects.map((subject) => (
-                      <FormField
-                        key={subject}
-                        control={form.control}
-                        name="subjects"
-                        render={({ field }) => {
-                          return (
-                            <FormItem key={subject}>
-                              <FormControl>
-                                <Chip
-                                  checked={field.value?.includes(subject)}
-                                  onCheckedChange={(checked) => {
-                                    return checked
-                                      ? field.onChange([
-                                          ...field.value,
-                                          subject,
-                                        ])
-                                      : field.onChange(
-                                          field.value?.filter(
-                                            (value) => value !== subject
-                                          )
-                                        );
-                                  }}
-                                  toggleName={subject}
-                                />
-                              </FormControl>
-                            </FormItem>
-                          );
-                        }}
-                      />
-                    ))}
-                  </div>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+
+            {/* ------------------------Subjects List ------------------------- */}
+            {grade && grade.length > 0 && (
+              <FormField
+                control={form.control}
+                name="subjects"
+                render={() => (
+                  <FormItem>
+                    <div className="mb-5 flex flex-col gap-2">
+                      <FormLabel className="flex gap-2 items-center font-bold">
+                        Subjects
+                        <FiBookOpen />
+                      </FormLabel>
+                      <FormDescription>
+                        Which subjects do you want the AI to teach?
+                      </FormDescription>
+                    </div>
+                    <div className="flex flex-row gap-y-5 flex-wrap gap-x-6 ">
+                      {updateSubjectsHandler().map((subject) => (
+                        <FormField
+                          key={subject}
+                          control={form.control}
+                          name="subjects"
+                          render={({ field }) => {
+                            return (
+                              <FormItem key={subject}>
+                                <FormControl>
+                                  <Chip
+                                    checked={field.value?.includes(subject)}
+                                    onCheckedChange={(checked) => {
+                                      return checked
+                                        ? field.onChange([
+                                            ...field.value,
+                                            subject,
+                                          ])
+                                        : field.onChange(
+                                            field.value?.filter(
+                                              (value) => value !== subject
+                                            )
+                                          );
+                                    }}
+                                    toggleName={subject}
+                                  />
+                                </FormControl>
+                              </FormItem>
+                            );
+                          }}
+                        />
+                      ))}
+                    </div>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
+
             <FormField
               control={form.control}
               name="board"
