@@ -2,7 +2,7 @@ import { MemoizedReactMarkdown } from "@/components/markdown";
 import { ElementContent } from "react-markdown/lib";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
-import { CodeBlock } from "@/app/(falcon)/(merlin)/merlin/components/code-block";
+import { CodeBlock } from "@/app/(engines)/(merlin)/merlin/components/code-block";
 type TextElementContent = ElementContent & {
   value: string;
 };

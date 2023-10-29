@@ -3,7 +3,7 @@ import { worksheetAidType } from "@/types";
 const worksheetAids: worksheetAidType[] = ["worksheet", "answerKey"];
 import Section from "@/components/section";
 import Sidebar from "@/components/sidebar";
-import SidebarButton from "@/app/(falcon)/(merlin)/magic/components/sidebar-button";
+import SidebarButton from "@/app/(engines)/(merlin)/magic/components/sidebar-button";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import { getEmoji, getName } from "@/lib";

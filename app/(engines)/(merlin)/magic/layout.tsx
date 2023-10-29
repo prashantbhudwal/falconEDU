@@ -7,7 +7,7 @@ import Sidebar from "@/components/sidebar";
 import Section from "@/components/section";
 import { teachingAids } from "./hooks/useTeachingAids";
 import Header from "@/components/canvas-header";
-import useDownloadContent from "@/app/(falcon)/(merlin)/magic/hooks/useDownloadContent";
+import useDownloadContent from "@/app/(engines)/(merlin)/magic/hooks/useDownloadContent";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import useHandouts from "./hooks/useHandouts";

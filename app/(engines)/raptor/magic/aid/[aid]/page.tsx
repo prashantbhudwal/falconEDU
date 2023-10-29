@@ -12,7 +12,7 @@ import {
   subjectAtom,
 } from "@/lib/atoms/preferences";
 import Header from "@/components/canvas-header";
-import { useWorksheetStream } from "@/app/(falcon)/raptor/hooks/useWorksheetStream";
+import { useWorksheetStream } from "@/app/(engines)/raptor/hooks/useWorksheetStream";
 import {
   worksheetAnswerKeyAtom,
   savedQuestionsAtom,
