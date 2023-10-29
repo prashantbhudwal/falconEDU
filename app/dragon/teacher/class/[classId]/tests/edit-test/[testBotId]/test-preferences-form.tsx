@@ -8,6 +8,7 @@ import {
   unPublishBotConfig,
   publishBotConfig,
   updateTestBotConfig,
+  updateTestBotConfigName,
 } from "../../../../../mutations";
 import {
   Form,
@@ -19,13 +20,17 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Separator } from "@/components/ui/separator";
-import { testBotPreferencesSchema } from "../../../../../../schema";
+import {
+  botNameSchema,
+  testBotPreferencesSchema,
+} from "../../../../../../schema";
 import { Button } from "@/components/ui/button";
 import { TextareaWithCounter as Textarea } from "@/components/ui/textarea-counter";
 import { FiInfo } from "react-icons/fi";
 import { Paper } from "@/components/ui/paper";
 import { LIMITS_testBotPreferencesSchema } from "../../../../../../schema";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
+import { Input } from "@/components/ui/input";
 
 const defaultValues: z.infer<typeof testBotPreferencesSchema> = {
   fullTest: "Enter the full test here",
@@ -47,6 +52,8 @@ export default function TestPreferencesForm({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [inputFocus, setInputFocus] = useState("");
+  const [testName, setTestName] = useState<string | undefined>(botConfig?.name);
+
   const MAX_CHARS = LIMITS_testBotPreferencesSchema.fullTest.maxLength;
   const isEmpty = preferences === null || preferences === undefined;
 
@@ -84,15 +91,43 @@ export default function TestPreferencesForm({
       setError("Failed to publish bot config. Please try again."); // set the error message
     }
   };
+
+  const updateTestNameHandler = async () => {
+    const isValidName = botNameSchema.safeParse({ name: testName });
+    if (!isValidName.success) {
+      setError(
+        "Failed to update , Bot names should be between 3 and 30 characters in length."
+      ); // set the error message
+      setTestName(botConfig?.name);
+      return;
+    }
+    const result = await updateTestBotConfigName(
+      classId,
+      botId,
+      testName || "Bot Preferences"
+    );
+    if (result.success) {
+      setError("");
+    } else {
+      setError("Failed to update bot name. Please try again."); // set the error message
+    }
+  };
+
   return (
     <>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <Paper variant="gray" className="w-full max-w-5xl min-h-screen">
             <div className="flex justify-between flex-wrap p-5">
-              <h2 className="md:text-3xl font-bold tracking-wide">
-                {botConfig?.name || "Bot Preference"}
-              </h2>
+              <div>
+                <Input
+                  type="text"
+                  value={testName}
+                  onChange={(e) => setTestName(e.target.value)}
+                  onBlur={updateTestNameHandler}
+                  className="outline-none border-none md:text-3xl font-bold tracking-wide focus-visible:ring-0 "
+                />
+              </div>
               <div className="flex flex-col gap-2">
                 <div className="flex flex-row gap-6">
                   <Button

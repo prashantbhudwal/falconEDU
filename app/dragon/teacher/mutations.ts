@@ -165,6 +165,30 @@ export const updateTestBotConfig = async (
   }
 };
 
+export const updateTestBotConfigName = async (
+  classId: string,
+  botId: string,
+  name: string
+): Promise<{ success: boolean; error?: any }> => {
+  await isAuthorized({
+    userType: "TEACHER",
+  });
+  try {
+    const result = await prisma.botConfig.update({
+      where: { id: botId },
+      data: {
+        name: name,
+      },
+    });
+    revalidatePath(getEditBotURL(classId, botId));
+    return { success: true };
+  } catch (error) {
+    console.error("Failed to update:", error);
+    console.log("Failed to update:", error);
+    return { success: false, error };
+  }
+};
+
 export const unPublishBotConfig = async (
   classId: string,
   botConfigId: string
