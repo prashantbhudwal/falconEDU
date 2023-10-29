@@ -8,6 +8,7 @@ import {
   updateBotConfig,
   unPublishBotConfig,
   publishBotConfig,
+  updateBotConfigName,
 } from "../../../../../mutations";
 import {
   Form,
@@ -21,7 +22,7 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group-form";
 import { Separator } from "@/components/ui/separator";
 import { Chip } from "@/components/ui/chip";
-import { botPreferencesSchema } from "../../../../../../schema";
+import { botNameSchema, botPreferencesSchema } from "../../../../../../schema";
 import { Button } from "@/components/ui/button";
 import { TextareaWithCounter as Textarea } from "@/components/ui/textarea-counter";
 import { FiInfo } from "react-icons/fi";
@@ -43,6 +44,7 @@ import {
 } from "../../../../../../schema";
 import subjectsArray from "../../../../../../../data/subjects.json";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
+import { Input } from "@/components/ui/input";
 
 const MAX_CHARS = LIMITS_botPreferencesSchema.instructions.maxLength;
 
@@ -73,6 +75,7 @@ export default function BotPreferencesForm({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [inputFocus, setInputFocus] = useState("");
+  const [botName, setBotName] = useState<string | undefined>(botConfig?.name);
 
   const form = useForm<z.infer<typeof botPreferencesSchema>>({
     resolver: zodResolver(botPreferencesSchema),
@@ -123,6 +126,27 @@ export default function BotPreferencesForm({
     return gradeObject.subjects;
   };
 
+  const updateBotNameHandler = async () => {
+    const isValidName = botNameSchema.safeParse({ name: botName });
+    if (!isValidName.success) {
+      setError(
+        "Failed to update , Bot names should be between 3 and 30 characters in length."
+      ); // set the error message
+      setBotName(botConfig?.name);
+      return;
+    }
+    const result = await updateBotConfigName(
+      classId,
+      botId,
+      botName || "Bot Preferences"
+    );
+    if (result.success) {
+      setError("");
+    } else {
+      setError("Failed to update bot name. Please try again."); // set the error message
+    }
+  };
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -133,9 +157,15 @@ export default function BotPreferencesForm({
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <Paper variant="gray" className="w-full max-w-5xl">
             <div className="flex justify-between flex-wrap p-5">
-              <h2 className="md:text-3xl font-bold tracking-wide">
-                {botConfig?.name || "Bot Preference"}
-              </h2>
+              <div className="w-[50%]">
+                <Input
+                  type="text"
+                  value={botName}
+                  onChange={(e) => setBotName(e.target.value)}
+                  onBlur={updateBotNameHandler}
+                  className="outline-none border-none md:text-3xl font-bold tracking-wide focus-visible:ring-0 "
+                />
+              </div>
               <div className="flex flex-col gap-2">
                 <div className="flex flex-row gap-6">
                   <Button

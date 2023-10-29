@@ -39,6 +39,13 @@ export const LIMITS_botPreferencesSchema = {
   },
 };
 
+export const LIMITS_botNameSchema = {
+  name: {
+    maxLength: 30,
+    minLength: 3,
+  },
+};
+
 export const botPreferencesSchema = z.object({
   instructions: z
     .string()
@@ -50,6 +57,13 @@ export const botPreferencesSchema = z.object({
   language: z.enum(language),
   humorLevel: z.enum(humorLevel),
   languageProficiency: z.enum(languageProficiency),
+});
+
+export const botNameSchema = z.object({
+  name: z
+    .string()
+    .min(LIMITS_botNameSchema.name.minLength)
+    .max(LIMITS_botNameSchema.name.maxLength),
 });
 
 // Schema: teacherPreferencesSchema
@@ -130,9 +144,7 @@ export const LIMITS_testBotPreferencesSchema = {
   },
 };
 export const testBotPreferencesSchema = z.object({
-  fullTest: z
-    .string()
-    .max(LIMITS_testBotPreferencesSchema.fullTest.maxLength),
+  fullTest: z.string().max(LIMITS_testBotPreferencesSchema.fullTest.maxLength),
 });
 
 // Exhaustive bot preferences schema
