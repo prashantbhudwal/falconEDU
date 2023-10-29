@@ -1,4 +1,4 @@
-import { getChats } from "@/app/(falcon)/chubbi/actions";
+import { getChats } from "@/app/(engines)/chubbi/actions";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { bots } from "@/app/dragon/test-data";
