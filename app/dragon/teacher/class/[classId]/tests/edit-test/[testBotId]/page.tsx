@@ -1,13 +1,49 @@
 import TestPreferencesForm from "./test-preferences-form";
-import { fetchTestBotConfig } from "@/app/dragon/teacher/queries";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TestReport } from "./test-report";
+import { cache } from "react";
+import prisma from "@/prisma";
+import { testBotPreferencesSchema } from "@/app/dragon/schema";
 export interface BotPageProps {
   params: {
     classId: string;
     testBotId: string;
   };
 }
+
+const emptyPreferences = {}; // or whatever default you want
+
+const fetchTestBotConfig = cache(async (botId: string) => {
+  try {
+    const bot = await prisma.botConfig.findUnique({
+      where: { id: botId },
+    });
+
+    console.log("Fetched successfully.");
+
+    let preferences;
+    if (bot && bot.preferences) {
+      preferences =
+        typeof bot.preferences === "string"
+          ? JSON.parse(bot.preferences)
+          : bot.preferences;
+    } else {
+      preferences = emptyPreferences;
+    }
+
+    const result = testBotPreferencesSchema.safeParse(preferences);
+
+    if (result.success) {
+      return { preferences: result.data, bot };
+    } else {
+      console.error("Validation failed:", result.error);
+      return { preferences: null, bot };
+    }
+  } catch (error) {
+    console.error("Failed to fetch:", error);
+    return null;
+  }
+});
 
 export default async function BotPage({ params }: BotPageProps) {
   const { classId, testBotId } = params;
@@ -28,7 +64,7 @@ export default async function BotPage({ params }: BotPageProps) {
         />
       </TabsContent>
       <TabsContent value="report">
-        <TestReport testBotId={testBotId} classId = {classId}/>
+        <TestReport testBotId={testBotId} classId={classId} />
       </TabsContent>
     </Tabs>
   );

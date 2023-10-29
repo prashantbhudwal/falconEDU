@@ -24,13 +24,6 @@ export default async function BotPageProps({ params }: BotPageProps) {
     );
   }
 
-  //TODO FIX: Remove this redirect and just move to default chat
-  const defaultChat = chats.find((chat) => chat.isDefault);
-
-  if (defaultChat) {
-    redirect(getStudentBotChatURL(defaultChat.bot.id, defaultChat.id));
-  }
-
   return (
     <>
       <AvatarNavbar

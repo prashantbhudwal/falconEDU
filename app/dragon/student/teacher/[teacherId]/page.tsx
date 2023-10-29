@@ -2,12 +2,12 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { ItemCard } from "../../components/item-card";
 import Link from "next/link";
-import { getStudentBotURL } from "@/lib/urls";
+import { getStudentBotChatURL, getStudentBotURL } from "@/lib/urls";
 import { AvatarNavbar } from "../../components/student-navbar";
 import { Separator } from "@/components/ui/separator";
 import prisma from "@/prisma";
 import { cache } from "react";
-import { UnwrapPromise } from "../../queries";
+import { UnwrapPromise, getChatsByBotId } from "../../queries";
 
 function getBotDescription(type: string) {
   switch (type) {
@@ -120,6 +120,23 @@ export default async function TeacherDashboard({
   const submittedBots = bots
     .filter((bot) => bot.isSubmitted)
     .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+
+  // ------------------------url to take the user to directly chat------------------------------------//
+  const getStudentChatUrl = async (botId: string) => {
+    const chats = await getChatsByBotId(botId);
+
+    if (!chats) {
+      return null;
+    }
+
+    const defaultChat = chats.find((chat) => chat.isDefault);
+
+    if (defaultChat) {
+      return getStudentBotChatURL(defaultChat.bot.id, defaultChat.id);
+    }
+    return null;
+  };
+
   return (
     <div>
       <AvatarNavbar
@@ -128,26 +145,32 @@ export default async function TeacherDashboard({
         avatarUrl={teacher?.User.image!}
       />
       <div className="pt-1 pb-20 w-full overflow-y-auto h-screen custom-scrollbar">
-        {unSubmittedBots.map((bot) => (
-          <Link href={getStudentBotURL(bot.id)} key={bot.id}>
-            <ItemCard
-              title={bot.BotConfig.name!}
-              description={getBotDescription(bot.BotConfig.type!)}
-            />
-          </Link>
-        ))}
+        {unSubmittedBots.map(async (bot) => {
+          const url = await getStudentChatUrl(bot.id);
+          return (
+            <Link href={url || getStudentBotURL(bot.id)} key={bot.id}>
+              <ItemCard
+                title={bot.BotConfig.name!}
+                description={getBotDescription(bot.BotConfig.type!)}
+              />
+            </Link>
+          );
+        })}
         {submittedBots.length > 0 && (
           <>
             <h1 className="px-4 my-2 font-semibold">Submitted</h1>
             <Separator className="my-2" />
-            {submittedBots.map((bot) => (
-              <Link href={getStudentBotURL(bot.id)} key={bot.id}>
-                <ItemCard
-                  title={bot.BotConfig.name!}
-                  description={getBotDescription(bot.BotConfig.type!)}
-                />
-              </Link>
-            ))}
+            {submittedBots.map(async (bot) => {
+              const url = await getStudentChatUrl(bot.id);
+              return (
+                <Link href={url || getStudentBotURL(bot.id)} key={bot.id}>
+                  <ItemCard
+                    title={bot.BotConfig.name!}
+                    description={getBotDescription(bot.BotConfig.type!)}
+                  />
+                </Link>
+              );
+            })}
           </>
         )}
       </div>
