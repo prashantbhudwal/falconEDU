@@ -36,7 +36,7 @@ export default async function Dashboard({ params }: BotDashboardProps) {
     .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
 
   return (
-    <div className="w-full">
+    <div className="w-full overflow-y-scroll custom-scrollbar">
       <div className="flex space-y-5 flex-col w-full">
         <AddBotForm classId={classId} />
         <Tabs defaultValue="active">

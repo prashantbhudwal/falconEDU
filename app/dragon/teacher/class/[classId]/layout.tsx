@@ -17,7 +17,7 @@ export default function ClassLayout({
       <div className="min-w-[280px]">
         <TeacherNav classId={classId} />
       </div>
-      <Paper className="flex flex-col shadow-inner shadow-slate-900 flex-1 bg-slate-950 h-full overflow-y-auto custom-scrollbar pb-96">
+      <Paper className="flex flex-col shadow-inner shadow-slate-900 flex-1 bg-slate-950 h-full custom-scrollbar pb-24">
         {children}
       </Paper>
       <Toaster />
