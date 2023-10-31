@@ -28,7 +28,8 @@ export const getStudentsByBotConfigId = cache(async function (
   });
 
   if (bots.length === 0) {
-    throw new Error(`No bots found with botConfigId ${botConfigId}`);
+    console.log(`No bots found with botConfigId ${botConfigId}`);
+    return null;
   }
 
   const students = bots.map((bot) => ({

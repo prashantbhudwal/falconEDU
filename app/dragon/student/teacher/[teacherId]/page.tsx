@@ -122,7 +122,7 @@ export default async function TeacherDashboard({
     .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
 
   // ------------------------url to take the user to directly chat------------------------------------//
-  const getStudentChatUrl = async (botId: string) => {
+  const getDefaultStudentChatUrl = async (botId: string) => {
     const chats = await getChatsByBotId(botId);
 
     if (!chats) {
@@ -146,9 +146,10 @@ export default async function TeacherDashboard({
       />
       <div className="pt-1 pb-20 w-full overflow-y-auto h-screen custom-scrollbar">
         {unSubmittedBots.map(async (bot) => {
-          const url = await getStudentChatUrl(bot.id);
+          const defaultChatUrl = await getDefaultStudentChatUrl(bot.id);
+          const multipleChatUrl = getStudentBotURL(bot.id);
           return (
-            <Link href={url || getStudentBotURL(bot.id)} key={bot.id}>
+            <Link href={defaultChatUrl || multipleChatUrl} key={bot.id}>
               <ItemCard
                 title={bot.BotConfig.name!}
                 description={getBotDescription(bot.BotConfig.type!)}
@@ -161,9 +162,10 @@ export default async function TeacherDashboard({
             <h1 className="px-4 my-2 font-semibold">Submitted</h1>
             <Separator className="my-2" />
             {submittedBots.map(async (bot) => {
-              const url = await getStudentChatUrl(bot.id);
+              const defaultChatUrl = await getDefaultStudentChatUrl(bot.id);
+              const multipleChatUrl = getStudentBotURL(bot.id);
               return (
-                <Link href={url || getStudentBotURL(bot.id)} key={bot.id}>
+                <Link href={defaultChatUrl || multipleChatUrl} key={bot.id}>
                   <ItemCard
                     title={bot.BotConfig.name!}
                     description={getBotDescription(bot.BotConfig.type!)}
