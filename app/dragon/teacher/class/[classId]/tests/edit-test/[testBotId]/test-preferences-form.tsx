@@ -1,6 +1,6 @@
 "use client";
 import { type BotConfig } from "@prisma/client";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -113,6 +113,16 @@ export default function TestPreferencesForm({
     }
   };
 
+  const onTestNameChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setTestName(e.target.value);
+    const isValidName = botNameSchema.safeParse({ name: e.target.value });
+    if (!isValidName.success) {
+      setError("Warning: Message length is out of the 3-30 character limit."); // set the error message
+      return;
+    }
+    setError("");
+  };
+
   return (
     <>
       <Form {...form}>
@@ -123,10 +133,13 @@ export default function TestPreferencesForm({
                 <Input
                   type="text"
                   value={testName}
-                  onChange={(e) => setTestName(e.target.value)}
+                  onChange={onTestNameChange}
                   onBlur={updateTestNameHandler}
                   className="outline-none border-none md:text-3xl font-bold tracking-wide focus-visible:ring-0 "
                 />
+                {error && (
+                  <div className="text-red-500 text-sm mt-3">{error}</div>
+                )}
               </div>
               <div className="flex flex-col gap-2">
                 <div className="flex flex-row gap-6">
@@ -150,7 +163,6 @@ export default function TestPreferencesForm({
                 )}
               </div>
             </div>
-            {error && <div className="text-red-500">{error}</div>}
             <Separator className="my-6" />
             <FormField
               control={form.control}
