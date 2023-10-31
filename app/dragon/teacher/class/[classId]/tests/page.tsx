@@ -35,8 +35,8 @@ export default async function TestDashboard({ params }: TestDashboardProps) {
     .filter((botConfig) => !botConfig.isActive)
     .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
   return (
-    <div className="w-full h-full">
-      <div className="flex space-y-5 flex-col h-full overflow-y-scroll custom-scrollbar w-full">
+    <div className="w-full">
+      <div className="flex space-y-5 flex-col w-full">
         <AddTestForm classId={classId} />
         <Tabs defaultValue="active">
           <TabsList className="grid w-2/5 grid-cols-2 bg-base-100">

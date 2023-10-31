@@ -116,11 +116,8 @@ export default function TestPreferencesForm({
   return (
     <>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="h-full mb-20">
-          <Paper
-            variant="gray"
-            className="w-full max-w-5xl min-h-[calc(100vh-180px)] max-h-full overflow-y-scroll custom-scrollbar"
-          >
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <Paper variant="gray" className="w-full max-w-5xl min-h-screen">
             <div className="flex justify-between flex-wrap p-5">
               <div>
                 <Input
