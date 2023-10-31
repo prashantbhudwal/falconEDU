@@ -157,14 +157,13 @@ export default function BotPreferencesForm({
     setError("");
   };
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
   return (
     <>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="w-full min-h-[calc(100vh-180px)] max-h-full overflow-y-scroll custom-scrollbar pt-10 "
+        >
           <Paper variant="gray" className="w-full max-w-5xl">
             <div className="flex justify-between flex-wrap p-5">
               <div className="w-[50%]">

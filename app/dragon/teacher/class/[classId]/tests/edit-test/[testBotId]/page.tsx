@@ -50,22 +50,24 @@ export default async function BotPage({ params }: BotPageProps) {
   const botData = await fetchTestBotConfig(testBotId);
 
   return (
-    <Tabs defaultValue="test">
-      <TabsList className="grid w-2/5 grid-cols-2 mx-auto bg-base-100">
-        <TabsTrigger value="test">Test</TabsTrigger>
-        <TabsTrigger value="report">Report</TabsTrigger>
-      </TabsList>
-      <TabsContent value="test">
-        <TestPreferencesForm
-          preferences={botData?.preferences}
-          botConfig={botData?.bot!}
-          classId={classId}
-          botId={testBotId}
-        />
-      </TabsContent>
-      <TabsContent value="report">
-        <TestReport testBotId={testBotId} classId={classId} />
-      </TabsContent>
-    </Tabs>
+    <div className="w-full min-h-[calc(100vh-180px)] max-h-full overflow-y-scroll custom-scrollbar pt-10">
+      <Tabs defaultValue="test">
+        <TabsList className="grid w-2/5 grid-cols-2 mx-auto bg-base-100">
+          <TabsTrigger value="test">Test</TabsTrigger>
+          <TabsTrigger value="report">Report</TabsTrigger>
+        </TabsList>
+        <TabsContent value="test">
+          <TestPreferencesForm
+            preferences={botData?.preferences}
+            botConfig={botData?.bot!}
+            classId={classId}
+            botId={testBotId}
+          />
+        </TabsContent>
+        <TabsContent value="report">
+          <TestReport testBotId={testBotId} classId={classId} />
+        </TabsContent>
+      </Tabs>
+    </div>
   );
 }
