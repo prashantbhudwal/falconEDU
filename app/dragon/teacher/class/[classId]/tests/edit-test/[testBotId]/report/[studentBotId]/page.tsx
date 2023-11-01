@@ -20,16 +20,18 @@ export default async function Report({ params }: ReportProps) {
   const messages: Message[] =
     await getDefaultChatMessagesByStudentBotId(studentBotId);
   return (
-    <Paper variant={"gray"} className="w-full max-w-5xl pb-20">
-      {!messages.length ? (
-        <div>The student has not attempted the test yet!</div>
-      ) : (
-        <ChatList
-          messages={messages}
-          botImage={"/chubbi.png"}
-          studentImage={userImage!}
-        />
-      )}
-    </Paper>
+    <div className="w-full overflow-y-scroll custom-scrollbar pt-10">
+      <Paper variant={"gray"} className="w-full max-w-5xl pb-20">
+        {!messages.length ? (
+          <div>The student has not attempted the test yet!</div>
+        ) : (
+          <ChatList
+            messages={messages}
+            botImage={"/chubbi.png"}
+            studentImage={userImage!}
+          />
+        )}
+      </Paper>
+    </div>
   );
 }
