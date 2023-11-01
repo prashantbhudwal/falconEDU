@@ -13,12 +13,18 @@ import {
   getUserImageByStudentBotId,
 } from "../../../../queries";
 import { Paper } from "@/components/ui/paper";
+import { getTestChatContextByChatId } from "@/app/dragon/student/api/chat/queries";
 
 export default async function Report({ params }: ReportProps) {
   const { classId, testBotId, studentBotId } = params;
   const userImage = await getUserImageByStudentBotId(studentBotId);
-  const messages: Message[] =
+  const { messages, id } =
     await getDefaultChatMessagesByStudentBotId(studentBotId);
+
+  const context = await getTestChatContextByChatId(id);
+
+  console.log(context);
+
   return (
     <div className="w-full overflow-y-scroll custom-scrollbar pt-10">
       <Paper variant={"gray"} className="w-full max-w-5xl pb-20">
