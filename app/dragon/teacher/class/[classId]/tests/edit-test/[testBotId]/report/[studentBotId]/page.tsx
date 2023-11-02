@@ -14,6 +14,7 @@ import {
 } from "../../../../queries";
 import { Paper } from "@/components/ui/paper";
 import { getTestChatContextByChatId } from "@/app/dragon/student/api/chat/queries";
+import testResult from "./testResults";
 
 export default async function Report({ params }: ReportProps) {
   const { classId, testBotId, studentBotId } = params;
@@ -21,9 +22,7 @@ export default async function Report({ params }: ReportProps) {
   const { messages, id } =
     await getDefaultChatMessagesByStudentBotId(studentBotId);
 
-  const context = await getTestChatContextByChatId(id);
-
-  console.log(context);
+  const { report } = await testResult(id, messages);
 
   return (
     <div className="w-full overflow-y-scroll custom-scrollbar pt-10">
@@ -31,11 +30,17 @@ export default async function Report({ params }: ReportProps) {
         {!messages.length ? (
           <div>The student has not attempted the test yet!</div>
         ) : (
-          <ChatList
-            messages={messages}
-            botImage={"/chubbi.png"}
-            studentImage={userImage!}
-          />
+          <>
+            <div>
+              <h1 className="text-3xl text-center font-semibold ">Report</h1>
+              {JSON.stringify(report)}
+            </div>
+            <ChatList
+              messages={messages}
+              botImage={"/chubbi.png"}
+              studentImage={userImage!}
+            />
+          </>
         )}
       </Paper>
     </div>
