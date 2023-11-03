@@ -10,7 +10,7 @@ export const addStudentToClass = async (email: string, classId: string) => {
   try {
     // Transaction begins here
     const user = await prisma.user.findUnique({
-      where: { email },
+      where: { email: email.toLowerCase() },
       select: { id: true, userType: true },
     });
 
