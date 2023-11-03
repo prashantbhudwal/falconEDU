@@ -49,7 +49,7 @@ import { Input } from "@/components/ui/input";
 const MAX_CHARS = LIMITS_botPreferencesSchema.instructions.maxLength;
 
 const defaultValues: z.infer<typeof botPreferencesSchema> = {
-  instructions: "How do you want bots to behave?",
+  instructions: "",
   subjects: [],
   grades: [],
   board: "CBSE",
