@@ -21,19 +21,19 @@ export async function TestAnalysis({
       <Tabs defaultValue="report">
         <TabsList className="flex w-full bg-transparent h-10 ">
           <TabsTrigger
-            className="w-1/2 data-[state=active]:border-b-[1px] py-3 mt-3 data-[state=active]:bg-transparent text-xl border-white rounded-none"
-            value="report"
+            className="w-1/2 data-[state=active]:border-b-[1px] py-3 mt-4 data-[state=active]:bg-transparent text-lg border-white rounded-none"
+            value="submissions"
           >
-            Report
+            Submissions
           </TabsTrigger>
           <TabsTrigger
-            className="w-1/2 data-[state=active]:border-b-[1px] py-3 mt-3 data-[state=active]:bg-transparent text-xl border-white rounded-none"
-            value="fullResponse"
+            className="w-1/2 data-[state=active]:border-b-[1px] py-3 mt-4 data-[state=active]:bg-transparent text-lg border-white rounded-none"
+            value="stats"
           >
-            Full Response
+            Summary Stats
           </TabsTrigger>
         </TabsList>
-        <TabsContent value="report" className="mt-10">
+        <TabsContent value="submissions" className="mt-10">
           {students ? (
             students.map((student) => (
               <Link
@@ -73,7 +73,7 @@ export async function TestAnalysis({
             </h1>
           )}
         </TabsContent>
-        <TabsContent value="fullResponse">
+        <TabsContent value="stats">
           {/* <TestAnalysis testBotId={testBotId} classId={classId} /> */}
         </TabsContent>
       </Tabs>
