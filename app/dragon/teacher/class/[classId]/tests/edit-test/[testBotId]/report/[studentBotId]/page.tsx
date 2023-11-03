@@ -15,6 +15,7 @@ import {
 import { Paper } from "@/components/ui/paper";
 import { getTestChatContextByChatId } from "@/app/dragon/student/api/chat/queries";
 import testResult from "./testResults";
+import PieChartComponent from "./pieChart";
 
 export default async function Report({ params }: ReportProps) {
   const { classId, testBotId, studentBotId } = params;
@@ -31,15 +32,21 @@ export default async function Report({ params }: ReportProps) {
           <div>The student has not attempted the test yet!</div>
         ) : (
           <>
-            <div>
-              <h1 className="text-3xl text-center font-semibold ">Report</h1>
-              {JSON.stringify(report)}
-            </div>
-            <ChatList
-              messages={messages}
-              botImage={"/chubbi.png"}
-              studentImage={userImage!}
-            />
+            {report ? (
+              <>
+                <h1 className="text-3xl text-center font-semibold ">Report</h1>
+                <div className="h-[200px] flex justify-center w-full gap-10 my-20">
+                  <PieChartComponent report={report} />
+                </div>
+                <ChatList
+                  messages={messages}
+                  botImage={"/chubbi.png"}
+                  studentImage={userImage!}
+                />
+              </>
+            ) : (
+              <div>Can&apos;t generate report . Try again later...</div>
+            )}
           </>
         )}
       </Paper>
