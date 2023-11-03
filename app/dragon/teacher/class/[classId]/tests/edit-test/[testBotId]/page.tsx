@@ -1,6 +1,6 @@
 import TestPreferencesForm from "./test-preferences-form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { TestReport } from "./test-report";
+import { TestAnalysis } from "./test-analysis";
 import { cache } from "react";
 import prisma from "@/prisma";
 import { testBotPreferencesSchema } from "@/app/dragon/schema";
@@ -54,7 +54,7 @@ export default async function BotPage({ params }: BotPageProps) {
       <Tabs defaultValue="test">
         <TabsList className="grid w-2/5 grid-cols-2 mx-auto bg-base-100">
           <TabsTrigger value="test">Test</TabsTrigger>
-          <TabsTrigger value="report">Report</TabsTrigger>
+          <TabsTrigger value="analysis">Analysis</TabsTrigger>
         </TabsList>
         <TabsContent value="test">
           <TestPreferencesForm
@@ -64,8 +64,8 @@ export default async function BotPage({ params }: BotPageProps) {
             botId={testBotId}
           />
         </TabsContent>
-        <TabsContent value="report">
-          <TestReport testBotId={testBotId} classId={classId} />
+        <TabsContent value="analysis">
+          <TestAnalysis testBotId={testBotId} classId={classId} />
         </TabsContent>
       </Tabs>
     </div>
