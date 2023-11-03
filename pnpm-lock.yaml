@@ -170,6 +170,9 @@ dependencies:
   react-markdown:
     specifier: ^9.0.0
     version: 9.0.0(@types/react@18.2.33)(react@18.2.0)
+  react-minimal-pie-chart:
+    specifier: ^8.4.0
+    version: 8.4.0(react-dom@18.2.0)(react@18.2.0)
   react-share:
     specifier: ^4.4.1
     version: 4.4.1(react@18.2.0)
@@ -203,6 +206,9 @@ dependencies:
   zod:
     specifier: ^3.22.4
     version: 3.22.4
+  zod-to-json-schema:
+    specifier: ^3.21.4
+    version: 3.21.4(zod@3.22.4)
 
 devDependencies:
   '@swc-jotai/react-refresh':
@@ -1793,6 +1799,10 @@ packages:
 
   /@types/scheduler@0.16.5:
     resolution: {integrity: sha512-s/FPdYRmZR8SjLWGMCuax7r3qCWQw9QKHzXVukAuuIJkXkDRwp+Pu5LMIVFi0Fxbav35WURicYr8u1QsoybnQw==}
+
+  /@types/svg-path-parser@1.1.5:
+    resolution: {integrity: sha512-0x5yl4W7JT7Ym4tERujFQT2zswUj7D0Jh8N/+w7cxlKWgsCWMEGIl3c6xatu3WDBrLCYEM0AZXGlh+qZp9pEHg==}
+    dev: false
 
   /@types/unist@2.0.9:
     resolution: {integrity: sha512-zC0iXxAv1C1ERURduJueYzkzZ2zaGyc+P2c95hgkikHPr3z8EdUZOlgEQ5X0DRmwDZn+hekycQnoeiiRVrmilQ==}
@@ -5579,6 +5589,17 @@ packages:
       vfile: 6.0.1
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  /react-minimal-pie-chart@8.4.0(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-A0wG+6mRjboyMxMDrzQNWp+2+GSn2ai4ERzRFHLp/OCC45PwIR1DpDVjwedawO+5AtFpzBRQKSFm3ZUxrqIEzA==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18
+      react-dom: ^16.8.0 || ^17.0.0 || ^18
+    dependencies:
+      '@types/svg-path-parser': 1.1.5
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
     dev: false
 
   /react-remove-scroll-bar@2.3.4(@types/react@18.2.33)(react@18.2.0):

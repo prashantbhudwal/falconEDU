@@ -110,7 +110,7 @@ const ItemCardChip: React.FC<ItemCardChipProps> = ({
   return (
     <div
       className={cn(
-        "rounded-md px-4 py-2 flex items-center text-sm ",
+        "rounded-md px-4 pl-0 py-2 flex items-center text-sm ",
         className
       )}
     >

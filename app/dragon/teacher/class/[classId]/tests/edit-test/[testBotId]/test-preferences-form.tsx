@@ -135,7 +135,7 @@ export default function TestPreferencesForm({
                   value={testName}
                   onChange={onTestNameChange}
                   onBlur={updateTestNameHandler}
-                  className="outline-none border-none md:text-3xl font-bold tracking-wide focus-visible:ring-0 "
+                  className="outline-none border-none pl-0 md:text-3xl font-bold tracking-wide focus-visible:ring-0 "
                 />
                 {error && (
                   <div className="text-red-500 text-sm mt-3">{error}</div>

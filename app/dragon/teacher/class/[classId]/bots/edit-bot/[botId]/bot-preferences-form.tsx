@@ -49,7 +49,7 @@ import { Input } from "@/components/ui/input";
 const MAX_CHARS = LIMITS_botPreferencesSchema.instructions.maxLength;
 
 const defaultValues: z.infer<typeof botPreferencesSchema> = {
-  instructions: "How do you want bots to behave?",
+  instructions: "",
   subjects: [],
   grades: [],
   board: "CBSE",
@@ -172,7 +172,7 @@ export default function BotPreferencesForm({
                   value={botName}
                   onChange={onBotNameChange}
                   onBlur={updateBotNameHandler}
-                  className="outline-none border-none md:text-3xl font-bold tracking-wide focus-visible:ring-0 "
+                  className="outline-none border-none md:text-3xl pl-0 font-bold tracking-wide focus-visible:ring-0 "
                 />
                 {error && (
                   <div className="text-red-500 text-sm mt-3">{error}</div>

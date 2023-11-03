@@ -47,16 +47,18 @@ export const getStudentsByBotConfigId = cache(async function (
 
 export const getDefaultChatMessagesByStudentBotId = cache(async function (
   studentBotId: string
-): Promise<Message[]> {
+): Promise<{ messages: Message[]; id: string }> {
   const defaultChat = await prisma.botChat.findFirst({
     where: {
       botId: studentBotId,
       isDefault: true,
     },
-    select: {
-      messages: true,
-    },
+    // select: {
+    //   messages: true,
+    // },
   });
+
+  console.log(defaultChat);
 
   if (!defaultChat || !defaultChat.messages) {
     throw new Error(`Default chat not found for studentBotId ${studentBotId}`);
@@ -67,9 +69,10 @@ export const getDefaultChatMessagesByStudentBotId = cache(async function (
     if (!Array.isArray(parsedMessages)) {
       throw new Error("Parsed messages are not an array");
     }
-    return parsedMessages as Message[];
+    console.log(parsedMessages);
+    return { messages: parsedMessages, id: defaultChat?.id };
   } else {
-    return [];
+    return { messages: [], id: defaultChat?.id };
   }
 });
 
