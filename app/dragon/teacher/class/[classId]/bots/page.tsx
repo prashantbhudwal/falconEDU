@@ -67,6 +67,7 @@ export default async function Dashboard({ params }: BotDashboardProps) {
                     >
                       <div className="flex flex-row space-x-4">
                         <ItemCardChip
+                          className="pl-0"
                           label="Created"
                           value={getFormattedDate(bot.createdAt.toDateString())}
                         />
