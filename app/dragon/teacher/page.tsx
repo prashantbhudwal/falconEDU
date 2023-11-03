@@ -25,6 +25,7 @@ export default async function Classes() {
         {classes.map((classData) => (
           <Link href={getBotsURL(classData.id)} key={classData.id}>
             <ClassCard
+              className="rounded-lg"
               icon={<Avvvatars value={classData.id} style="shape" size={120} />}
               name={classData.name}
             />

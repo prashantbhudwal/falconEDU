@@ -59,13 +59,13 @@ export function NewClassCard() {
   });
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
+      <DialogTrigger asChild className="rounded-lg">
         <ClassCard
           icon={<FolderPlusIcon className="h-16 w-16 text-secondary" />}
           name="New Class"
         />
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px">
         <DialogHeader>
           <DialogTitle>New Class</DialogTitle>
           <DialogDescription>
