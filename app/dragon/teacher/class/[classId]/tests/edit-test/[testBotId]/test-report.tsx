@@ -19,11 +19,7 @@ export async function TestReport({
       {students ? (
         students.map((student) => (
           <Link
-            href={
-              student.isSubmitted
-                ? `/dragon/teacher/class/${classId}/tests/edit-test/${testBotId}/report/${student.studentBotId}`
-                : ``
-            }
+            href={`/dragon/teacher/class/${classId}/tests/edit-test/${testBotId}/report/${student.studentBotId}`}
             key={student.email}
           >
             <ItemCard

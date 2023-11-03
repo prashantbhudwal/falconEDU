@@ -23,13 +23,15 @@ export default async function Report({ params }: ReportProps) {
   const { messages, id } =
     await getDefaultChatMessagesByStudentBotId(studentBotId);
 
-  const { report } = await testResult(id, messages);
+  const { report } = messages ? await testResult(id, messages) : null;
 
   return (
     <div className="w-full overflow-y-scroll custom-scrollbar pt-10">
-      <Paper variant={"gray"} className="w-full max-w-5xl pb-20">
-        {!messages.length ? (
-          <div>The student has not attempted the test yet!</div>
+      <Paper variant={"gray"} className="w-full max-w-5xl min-h-screen pb-20">
+        {!messages.length || !studentBotId ? (
+          <div className="text-center text-lg ">
+            The student has not attempted the test yet!
+          </div>
         ) : (
           <>
             {report ? (
@@ -45,7 +47,9 @@ export default async function Report({ params }: ReportProps) {
                 />
               </>
             ) : (
-              <div>Can&apos;t generate report . Try again later...</div>
+              <div className="text-center text-lg ">
+                Can&apos;t generate report . Try again later...
+              </div>
             )}
           </>
         )}
