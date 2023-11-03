@@ -66,6 +66,7 @@ export default async function TestDashboard({ params }: TestDashboardProps) {
                   >
                     <div className="flex flex-row space-x-4">
                       <ItemCardChip
+                        className="pl-0"
                         label="Created"
                         value={getFormattedDate(
                           botConfig.createdAt.toDateString()
