@@ -52,6 +52,8 @@ export default async function Report({ params }: ReportProps) {
     ? await testResult(id, messages)
     : null;
 
+  console.log(report);
+
   return (
     <div className="w-full overflow-y-scroll custom-scrollbar pt-10">
       <Tabs defaultValue="report">
@@ -105,7 +107,7 @@ export default async function Report({ params }: ReportProps) {
                       <TableBody>
                         {report.map((question, i: number) => {
                           const randomNumber =
-                            Math.floor(Math.random() * (100 - 20 + 1)) + 20; // random number for progress bar later replace i with actual data
+                            Math.floor(Math.random() * (100 - 20 + 1)) + 20; // random number for progress bar later replace it with actual data
                           let progressBarColor = "bg-orange-400";
                           if (randomNumber < 40) {
                             progressBarColor = "bg-red-500";
