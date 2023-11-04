@@ -140,6 +140,7 @@ model StudentProfile {
   BotShare    BotShare[]
   Class       Class?     @relation(fields: [classId], references: [id])
   classId     String?
+  bio         String?    @default("")
 }
 
 model Bot {
@@ -159,12 +160,42 @@ model Bot {
 }
 
 model BotChat {
-  id        String   @id @default(uuid())
-  bot       Bot      @relation(fields: [botId], references: [id])
-  botId     String
-  messages  Json
-  createdAt DateTime @default(now())
-  isDefault Boolean  @default(false)
+  id               String             @id @default(uuid())
+  bot              Bot                @relation(fields: [botId], references: [id])
+  botId            String
+  messages         Json
+  createdAt        DateTime           @default(now())
+  isDefault        Boolean            @default(false)
+  BotChatQuestions BotChatQuestions[]
+}
+
+model BotChatQuestions {
+  createdAt       DateTime     @default(now())
+  id              Int          @id @default(autoincrement())
+  botChat         BotChat      @relation(fields: [botChatId], references: [id])
+  botChatId       String
+  question_type   QuestionType
+  question        String
+  hint            String?
+  question_number Int
+  student_answer  String[]     @default([])
+  correct_answer  String[]     @default([])
+  sample_answer   String? // A high-quality example or model answer for reference
+  isCorrect       Boolean? // Nullable: for subjective answers, this isn't always clear-cut
+  score           Float? // A score representing the quality of the student's answer
+  feedback        String? // Qualitative feedback on the student's answer
+}
+
+enum QuestionType {
+  OBJECTIVE_MULTIPLE_CHOICE_SINGLE_ANSWER
+  OBJECTIVE_TRUE_FALSE
+  OBJECTIVE_FILL_IN_THE_BLANK_SINGLE_ANSWER // For questions with one blank
+  OBJECTIVE_FILL_IN_THE_BLANK_MULTIPLE_ANSWER // For questions with multiple blanks
+  OBJECTIVE_MATCH_THE_FOLLOWING
+  OBJECTIVE_MULTIPLE_CHOICE_MULTIPLE_ANSWER
+  SUBJECTIVE_ESSAY // For longer, essay-type answers
+  SUBJECTIVE_SHORT_ANSWER // For shorter, one or two sentence answers
+  OTHER
 }
 
 //**************** App > Sharing Models ****************//
