@@ -18,7 +18,7 @@ export async function TestAnalysis({
   const students = await getStudentsByBotConfigId(testBotId);
   return (
     <Paper variant={"gray"} className="w-full max-w-5xl min-h-screen p-0">
-      <Tabs defaultValue="report">
+      <Tabs defaultValue="submissions">
         <TabsList className="flex w-full bg-transparent h-10 ">
           <TabsTrigger
             className="w-1/2 data-[state=active]:border-b-[1px] py-3 mt-4 data-[state=active]:bg-transparent text-lg border-white rounded-none"
