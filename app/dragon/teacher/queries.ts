@@ -1,6 +1,5 @@
 import prisma from "@/prisma";
 import { cache } from "react";
-import * as z from "zod";
 export const revalidate = 3600; // 1 hour
 
 export const getTeacherId = cache(async function (userId: string) {
@@ -78,3 +77,31 @@ type UnwrapPromise<T> = T extends Promise<infer U> ? U : T;
 export type StudentsByClassId = UnwrapPromise<
   ReturnType<typeof getStudentsByClassId>
 >;
+
+export const getReportForStudents = cache(async (studentBotId: string) => {
+  try {
+    const response = await prisma.botChat.findFirst({
+      where: {
+        botId: studentBotId,
+      },
+      select: {
+        BotChatQuestions: {
+          select: {
+            question_number: true,
+            student_answer: true,
+            correct_answer: true,
+            isCorrect: true,
+            question: true,
+          },
+        },
+      },
+    });
+    if (response?.BotChatQuestions.length) {
+      return response.BotChatQuestions;
+    }
+    return null;
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+});

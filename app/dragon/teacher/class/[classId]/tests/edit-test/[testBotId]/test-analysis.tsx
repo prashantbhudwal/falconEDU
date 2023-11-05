@@ -6,7 +6,6 @@ import {
 } from "@/app/dragon/teacher/components/item-card";
 import Link from "next/link";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import TestPreferencesForm from "./test-preferences-form";
 
 export async function TestAnalysis({
   testBotId,

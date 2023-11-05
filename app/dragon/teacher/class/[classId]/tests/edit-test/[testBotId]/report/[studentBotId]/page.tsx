@@ -32,14 +32,15 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { getReportForStudents } from "@/app/dragon/teacher/queries";
+import { createReportForStudents } from "@/app/dragon/teacher/mutations";
 
 export type ReportType = {
-  report: {
-    question_number: number;
-    student_answer: string;
-    correct_answer: string;
-    isCorrect: boolean;
-  }[];
+  question_number: number;
+  student_answer: string[];
+  correct_answer: string[];
+  isCorrect: boolean | null;
+  question: string;
 };
 
 export default async function Report({ params }: ReportProps) {
@@ -48,11 +49,18 @@ export default async function Report({ params }: ReportProps) {
   const { messages, id } =
     await getDefaultChatMessagesByStudentBotId(studentBotId);
 
-  const { report }: ReportType = messages.length
-    ? await testResult(id, messages)
-    : null;
+  let reportOfStudent = await getReportForStudents(studentBotId);
 
-  console.log(report);
+  if (!reportOfStudent) {
+    const { report }: { report: ReportType[] } = messages.length
+      ? await testResult(id, messages)
+      : { report: null };
+
+    if (report) {
+      await createReportForStudents(studentBotId, report);
+      reportOfStudent = report as ReportType[];
+    }
+  }
 
   return (
     <div className="w-full overflow-y-scroll custom-scrollbar pt-10">
@@ -72,13 +80,13 @@ export default async function Report({ params }: ReportProps) {
               </div>
             ) : (
               <>
-                {report ? (
+                {reportOfStudent ? (
                   <>
                     <h1 className="text-3xl text-center font-semibold ">
                       Report
                     </h1>
                     <div className="h-[200px] flex justify-center w-full gap-10 my-20">
-                      <PieChartComponent report={report} />
+                      <PieChartComponent report={reportOfStudent} />
                     </div>
                     <Table>
                       <TableCaption>Stat for your Answers.</TableCaption>
@@ -105,7 +113,7 @@ export default async function Report({ params }: ReportProps) {
                         </TableRow>
                       </TableHeader>
                       <TableBody>
-                        {report.map((question, i: number) => {
+                        {reportOfStudent.map((question, i: number) => {
                           const randomNumber =
                             Math.floor(Math.random() * (100 - 20 + 1)) + 20; // random number for progress bar later replace it with actual data
                           let progressBarColor = "bg-orange-400";

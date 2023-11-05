@@ -78,7 +78,7 @@ const zodReportSchema = z.object({
     z.object({
       question_number: z.number().describe("Question number of the test"),
       student_answer: z.array(
-        z.string().describe("Answer provided by the user")
+        z.string().describe("Answer provided by the student in chat")
       ),
       correct_answer: z.array(
         z.string().describe("Correct answer for the question")
@@ -86,6 +86,7 @@ const zodReportSchema = z.object({
       isCorrect: z
         .boolean()
         .describe("If the user answer and correct answer is equal"),
+      question: z.string().describe("The question asked"),
     })
   ),
 });

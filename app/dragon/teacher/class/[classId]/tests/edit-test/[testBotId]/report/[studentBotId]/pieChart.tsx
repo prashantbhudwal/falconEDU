@@ -1,17 +1,11 @@
 "use client";
 import { PieChart } from "react-minimal-pie-chart";
-
-type reportType = {
-  correct_answer: string;
-  question_number: number;
-  student_answer: string;
-  isCorrect: boolean;
-};
+import { ReportType } from "./page";
 
 export default function PieChartComponent({
   report,
 }: {
-  report: reportType[];
+  report: ReportType[];
 }) {
   const correctAnswers = report.filter((question) => question.isCorrect).length;
   const incorrectAnswers = report.length - correctAnswers;
