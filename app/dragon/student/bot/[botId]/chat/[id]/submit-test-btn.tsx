@@ -12,19 +12,14 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { ReportType } from "@/app/dragon/teacher/class/[classId]/tests/edit-test/[testBotId]/report/[studentBotId]/page";
-import testResult from "@/app/dragon/teacher/class/[classId]/tests/edit-test/[testBotId]/report/[studentBotId]/testResults";
-import { Message } from "ai/react/dist";
+import testResult from "@/app/dragon/student/bot/[botId]/chat/[id]/testResults";
 
 export default function SubmitTestButton({
   testBotId,
   redirectUrl,
-  botChatId,
-  messages,
 }: {
   testBotId: string;
   redirectUrl: string;
-  botChatId: string;
-  messages: Message[];
 }) {
   const [loading, setLoading] = useState(false);
   const [showDialog, setShowDialog] = useState(false);
@@ -34,9 +29,7 @@ export default function SubmitTestButton({
     try {
       setLoading(true);
 
-      const { report }: { report: ReportType[] } = messages.length
-        ? await testResult(botChatId, messages)
-        : { report: null };
+      const { report }: { report: ReportType[] } = await testResult(testBotId);
 
       if (report) {
         await createReportForStudents(testBotId, report);

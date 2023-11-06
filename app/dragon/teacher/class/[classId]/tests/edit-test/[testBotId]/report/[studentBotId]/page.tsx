@@ -55,8 +55,6 @@ export default async function Report({ params }: ReportProps) {
     reportOfStudent = await getReportForStudents(studentBotId);
   }
 
-  console.log(await getReportForStudents(studentBotId));
-
   return (
     <div className="w-full overflow-y-scroll custom-scrollbar pt-10">
       <Tabs defaultValue="report">

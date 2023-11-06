@@ -4,12 +4,10 @@ import { getStudentTeacherURL } from "@/lib/urls";
 import {
   getBotByBotId,
   getBotChatByChatId,
-  getBotConfigByChatId,
 } from "@/app/dragon/student/queries";
 import { Chat } from "@/components/chat/chat-dragon";
 import { AvatarNavbar } from "@/app/dragon/student/components/student-navbar";
 import SubmitTestButton from "./submit-test-btn";
-import { getDefaultChatMessagesByStudentBotId } from "@/app/dragon/teacher/class/[classId]/tests/queries";
 
 export interface ChatPageProps {
   params: {
@@ -32,9 +30,6 @@ export default async function ChatPage({ params }: ChatPageProps) {
       ? "Say hello to start the test"
       : "Start chatting with your teacher";
 
-  const { messages, id: botChatId } =
-    await getDefaultChatMessagesByStudentBotId(botId);
-
   return (
     <>
       <AvatarNavbar
@@ -42,12 +37,7 @@ export default async function ChatPage({ params }: ChatPageProps) {
         subtitle={bot?.BotConfig.type}
         button={
           bot?.BotConfig.type === "test" && !bot?.isSubmitted ? (
-            <SubmitTestButton
-              testBotId={botId}
-              messages={messages}
-              botChatId={botChatId}
-              redirectUrl={redirectUrl}
-            />
+            <SubmitTestButton testBotId={botId} redirectUrl={redirectUrl} />
           ) : (
             <></>
           )

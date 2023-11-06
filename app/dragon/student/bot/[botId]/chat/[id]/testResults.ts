@@ -12,6 +12,7 @@ import {
 } from "langchain/prompts";
 import { ChatOpenAI } from "langchain/chat_models/openai";
 import { zodToJsonSchema } from "zod-to-json-schema";
+import { getDefaultChatMessagesByStudentBotId } from "../../../../../teacher/class/[classId]/tests/queries";
 
 const messageTemplates = {
   systemTemplate: `
@@ -114,10 +115,10 @@ async function structuredTestReport(unstructuredReport: string) {
   );
 }
 
-export default async function testResult(
-  botChatId: string,
-  messages: Message[]
-) {
+export default async function testResult(testBotId: string) {
+  const { messages, id: botChatId } =
+    await getDefaultChatMessagesByStudentBotId(testBotId);
+
   const testResultEngineeredMessage = await getTestResultEngineeredMessage(
     botChatId,
     messages

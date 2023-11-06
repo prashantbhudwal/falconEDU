@@ -28,7 +28,6 @@ export const createReportForStudents = async function (
       const existingBotChat = await prisma.botChat.findFirst({
         where: { botId: studentBotId },
       });
-      console.log(existingBotChat);
 
       if (!existingBotChat) {
         return null;
@@ -44,8 +43,6 @@ export const createReportForStudents = async function (
           student_answer: ques.student_answer,
         })),
       });
-
-      console.log(response);
     });
     console.log("report created successfully", transaction);
   } catch (err) {
