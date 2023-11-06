@@ -218,7 +218,3 @@ export const getTeachersByUserId = cache(async function (userId: string) {
 export type GetTeachersByUserId = UnwrapPromise<
   ReturnType<typeof getTeachersByUserId>
 >;
-
-
-
-

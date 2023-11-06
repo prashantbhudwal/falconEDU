@@ -313,33 +313,3 @@ export const deleteClass = async (classId: string) => {
     return { success: false, message: "Failed to delete class" };
   }
 };
-
-export const createReportForStudents = async (
-  studentBotId: string,
-  report: ReportType[]
-) => {
-  try {
-    const transaction = await prisma.$transaction(async (prisma) => {
-      const existingBotChat = await prisma.botChat.findFirst({
-        where: { botId: studentBotId },
-      });
-      if (!existingBotChat) {
-        return null;
-      }
-      await prisma.botChatQuestions.createMany({
-        data: report.map((ques) => ({
-          botChatId: existingBotChat?.id,
-          question: ques.question,
-          question_number: ques.question_number,
-          question_type: "OBJECTIVE_FILL_IN_THE_BLANK_SINGLE_ANSWER",
-          correct_answer: ques.correct_answer,
-          isCorrect: ques.isCorrect,
-          student_answer: ques.student_answer,
-        })),
-      });
-    });
-    console.log("report created successfully", transaction);
-  } catch (err) {
-    console.log(err);
-  }
-};

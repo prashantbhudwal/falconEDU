@@ -96,6 +96,7 @@ export const getReportForStudents = cache(async (studentBotId: string) => {
         },
       },
     });
+    console.log(response);
     if (response?.BotChatQuestions.length) {
       return response.BotChatQuestions;
     }

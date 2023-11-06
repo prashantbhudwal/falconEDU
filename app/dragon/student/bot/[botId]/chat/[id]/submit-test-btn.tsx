@@ -1,9 +1,8 @@
 "use client";
 import testCheckAnimation from "@/public/animations/test-check.json";
 import Lottie from "lottie-react";
-
 import { useState } from "react";
-import { submitTestBot } from "./mutations";
+import { createReportForStudents, submitTestBot } from "./mutations";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import {
@@ -11,31 +10,50 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogDescription,
-  DialogFooter,
 } from "@/components/ui/dialog";
+import { ReportType } from "@/app/dragon/teacher/class/[classId]/tests/edit-test/[testBotId]/report/[studentBotId]/page";
+import testResult from "@/app/dragon/teacher/class/[classId]/tests/edit-test/[testBotId]/report/[studentBotId]/testResults";
+import { Message } from "ai/react/dist";
 
 export default function SubmitTestButton({
   testBotId,
   redirectUrl,
+  botChatId,
+  messages,
 }: {
   testBotId: string;
   redirectUrl: string;
+  botChatId: string;
+  messages: Message[];
 }) {
   const [loading, setLoading] = useState(false);
   const [showDialog, setShowDialog] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async () => {
-    setLoading(true);
-    await submitTestBot(testBotId);
-    setLoading(false);
-    setShowDialog(true);
+    try {
+      setLoading(true);
 
-    setTimeout(() => {
+      const { report }: { report: ReportType[] } = messages.length
+        ? await testResult(botChatId, messages)
+        : { report: null };
+
+      if (report) {
+        await createReportForStudents(testBotId, report);
+      }
+      await submitTestBot(testBotId);
+
+      setLoading(false);
+      setShowDialog(true);
+      setTimeout(() => {
+        setShowDialog(false);
+        router.push(redirectUrl);
+      }, 5000);
+    } catch (err) {
+      setLoading(false);
       setShowDialog(false);
-      router.push(redirectUrl);
-    }, 5000);
+      console.log(err);
+    }
   };
 
   return (

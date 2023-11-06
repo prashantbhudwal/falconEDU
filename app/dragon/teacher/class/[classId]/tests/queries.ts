@@ -45,6 +45,33 @@ export const getStudentsByBotConfigId = cache(async function (
   return students;
 });
 
+export const getSingleStudentByBotConfigId = cache(async function (
+  botConfigId: string
+) {
+  const bot = await prisma.bot.findFirst({
+    where: { botConfigId },
+    select: {
+      id: true,
+      isSubmitted: true,
+      isChecked: true,
+      isActive: true,
+      student: {
+        select: {
+          User: {
+            select: {
+              name: true,
+              email: true,
+              image: true,
+            },
+          },
+        },
+      },
+    },
+  });
+
+  return bot || null;
+});
+
 export const getDefaultChatMessagesByStudentBotId = cache(async function (
   studentBotId: string
 ): Promise<{ messages: Message[]; id: string }> {

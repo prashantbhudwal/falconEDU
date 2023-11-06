@@ -9,10 +9,10 @@ type ReportProps = {
 import { ChatList } from "@/components/chat/chat-list";
 import {
   getDefaultChatMessagesByStudentBotId,
+  getSingleStudentByBotConfigId,
   getUserImageByStudentBotId,
 } from "../../../../queries";
 import { Paper } from "@/components/ui/paper";
-import testResult from "./testResults";
 import PieChartComponent from "./pieChart";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
@@ -33,7 +33,6 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { getReportForStudents } from "@/app/dragon/teacher/queries";
-import { createReportForStudents } from "@/app/dragon/teacher/mutations";
 
 export type ReportType = {
   question_number: number;
@@ -48,19 +47,15 @@ export default async function Report({ params }: ReportProps) {
   const userImage = await getUserImageByStudentBotId(studentBotId);
   const { messages, id } =
     await getDefaultChatMessagesByStudentBotId(studentBotId);
+  let reportOfStudent = null;
 
-  let reportOfStudent = await getReportForStudents(studentBotId);
+  const student = await getSingleStudentByBotConfigId(testBotId);
 
-  if (!reportOfStudent) {
-    const { report }: { report: ReportType[] } = messages.length
-      ? await testResult(id, messages)
-      : { report: null };
-
-    if (report) {
-      await createReportForStudents(studentBotId, report);
-      reportOfStudent = report as ReportType[];
-    }
+  if (student?.isSubmitted) {
+    reportOfStudent = await getReportForStudents(studentBotId);
   }
+
+  console.log(await getReportForStudents(studentBotId));
 
   return (
     <div className="w-full overflow-y-scroll custom-scrollbar pt-10">
@@ -74,7 +69,7 @@ export default async function Report({ params }: ReportProps) {
             variant={"gray"}
             className="w-full max-w-5xl min-h-screen pb-20"
           >
-            {!messages.length || !studentBotId ? (
+            {!messages.length || !student?.isSubmitted ? (
               <div className="text-center text-lg ">
                 The student has not attempted the test yet!
               </div>
