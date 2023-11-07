@@ -1,5 +1,6 @@
 "use client";
 import testCheckAnimation from "@/public/animations/test-check.json";
+import loadingBall from "@/public/animations/loading-ball.json";
 import Lottie from "lottie-react";
 import { useState } from "react";
 import { saveTestResultsByBotId, submitTestBot } from "./mutations";
@@ -27,19 +28,18 @@ export default function SubmitTestButton({
   const handleSubmit = async () => {
     try {
       setLoading(true);
+      setShowDialog(true);
 
       const testResults = await getTestResults(testBotId);
-
       if (testResults) {
         await saveTestResultsByBotId(testBotId, testResults);
         await submitTestBot(testBotId);
       }
       setLoading(false);
-      setShowDialog(true);
       setTimeout(() => {
         setShowDialog(false);
-        router.push(redirectUrl);
-      }, 5000);
+      }, 2000);
+      router.push(redirectUrl);
     } catch (err) {
       setLoading(false);
       setShowDialog(false);
@@ -53,9 +53,13 @@ export default function SubmitTestButton({
         <DialogContent className="w-11/12 mx-auto flex-col items-center">
           <DialogHeader className="p-4 rounded-t-lg">
             <DialogTitle className="text-lg mb-2 flex items-center">
-              Good Job! Taking you home...
+              {loading ? "Submitting..." : "Good Job! Taking you home..."}
             </DialogTitle>
-            <Lottie animationData={testCheckAnimation} />
+            {loading ? (
+              <Lottie animationData={loadingBall} />
+            ) : (
+              <Lottie animationData={testCheckAnimation} />
+            )}
           </DialogHeader>
         </DialogContent>
       </Dialog>
