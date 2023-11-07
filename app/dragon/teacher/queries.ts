@@ -106,3 +106,4 @@ export const getReportForStudents = cache(async (studentBotId: string) => {
     return null;
   }
 });
+export type ReportForStudents = UnwrapPromise<ReturnType<typeof getReportForStudents>>;

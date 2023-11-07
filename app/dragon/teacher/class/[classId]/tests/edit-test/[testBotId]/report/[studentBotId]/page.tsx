@@ -1,11 +1,4 @@
-type ReportProps = {
-  params: {
-    classId: string;
-    testBotId: string;
-    studentBotId: string;
-  };
-};
-
+import { type Report } from "@/app/dragon/ai/test-checker/model";
 import { ChatList } from "@/components/chat/chat-list";
 import {
   getDefaultChatMessagesByStudentBotId,
@@ -33,13 +26,14 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { getReportForStudents } from "@/app/dragon/teacher/queries";
+import { type ReportForStudents } from "@/app/dragon/teacher/queries";
 
-export type ReportType = {
-  question_number: number;
-  student_answer: string[];
-  correct_answer: string[];
-  isCorrect: boolean | null;
-  question: string;
+type ReportProps = {
+  params: {
+    classId: string;
+    testBotId: string;
+    studentBotId: string;
+  };
 };
 
 export default async function Report({ params }: ReportProps) {
@@ -47,7 +41,7 @@ export default async function Report({ params }: ReportProps) {
   const userImage = await getUserImageByStudentBotId(studentBotId);
   const { messages, id } =
     await getDefaultChatMessagesByStudentBotId(studentBotId);
-  let reportOfStudent = null;
+  let reportOfStudent: ReportForStudents = null;
 
   const student = await getSingleStudentByBotConfigId(testBotId);
 

@@ -11,8 +11,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { ReportType } from "@/app/dragon/teacher/class/[classId]/tests/edit-test/[testBotId]/report/[studentBotId]/page";
-import testResult from "@/app/dragon/student/bot/[botId]/chat/[id]/testResults";
+import { getTestResults } from "@/app/dragon/ai/test-checker/get-test-results";
 
 export default function SubmitTestButton({
   testBotId,
@@ -29,7 +28,7 @@ export default function SubmitTestButton({
     try {
       setLoading(true);
 
-      const { report }: { report: ReportType[] } = await testResult(testBotId);
+      const report = await getTestResults(testBotId);
 
       if (report) {
         await createReportForStudents(testBotId, report);

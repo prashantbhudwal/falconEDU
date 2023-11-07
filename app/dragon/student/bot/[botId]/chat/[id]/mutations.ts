@@ -2,8 +2,7 @@
 import { revalidatePath } from "next/cache";
 
 import prisma from "@/prisma";
-import { ReportType } from "@/app/dragon/teacher/class/[classId]/tests/edit-test/[testBotId]/report/[studentBotId]/page";
-
+import { type Report } from "@/app/dragon/ai/test-checker/model";
 export const submitTestBot = async function (botId: string) {
   try {
     await prisma.bot.update({
@@ -21,7 +20,7 @@ export const submitTestBot = async function (botId: string) {
 
 export const createReportForStudents = async function (
   studentBotId: string,
-  report: ReportType[]
+  report: Report
 ) {
   try {
     const transaction = await prisma.$transaction(async (prisma) => {

@@ -1,13 +1,16 @@
 "use client";
 import { PieChart } from "react-minimal-pie-chart";
-import { ReportType } from "./page";
+import { type ReportForStudents } from "@/app/dragon/teacher/queries";
 
 export default function PieChartComponent({
   report,
 }: {
-  report: ReportType[];
+  report: ReportForStudents;
 }) {
-  const correctAnswers = report.filter((question) => question.isCorrect).length;
+  if (!report) return null;
+  const correctAnswers = report.filter(
+    (question) => question?.isCorrect
+  ).length;
   const incorrectAnswers = report.length - correctAnswers;
   const totalQuestions = report.length;
 

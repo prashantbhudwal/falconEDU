@@ -9,7 +9,6 @@ import { getClassesURL, getStudentsURL } from "@/lib/urls";
 import { isAuthorized } from "@/lib/utils";
 import { teacherPreferencesSchema } from "../schema";
 import { redirect } from "next/navigation";
-import { ReportType } from "./class/[classId]/tests/edit-test/[testBotId]/report/[studentBotId]/page";
 
 //TODO: Add auth for functions
 
