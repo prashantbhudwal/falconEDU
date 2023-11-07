@@ -1,4 +1,3 @@
-import { type Report } from "@/app/dragon/ai/test-checker/model";
 import { ChatList } from "@/components/chat/chat-list";
 import {
   getDefaultChatMessagesByStudentBotId,
@@ -25,8 +24,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { getReportForStudents } from "@/app/dragon/teacher/queries";
-import { type ReportForStudents } from "@/app/dragon/teacher/queries";
+import { getTestResultsByBotId } from "@/app/dragon/teacher/queries";
+import { type TestResultsByBotId } from "@/app/dragon/teacher/queries";
 
 type ReportProps = {
   params: {
@@ -41,12 +40,12 @@ export default async function Report({ params }: ReportProps) {
   const userImage = await getUserImageByStudentBotId(studentBotId);
   const { messages, id } =
     await getDefaultChatMessagesByStudentBotId(studentBotId);
-  let reportOfStudent: ReportForStudents = null;
+  let testResults: TestResultsByBotId = null;
 
   const student = await getSingleStudentByBotConfigId(testBotId);
 
   if (student?.isSubmitted) {
-    reportOfStudent = await getReportForStudents(studentBotId);
+    testResults = await getTestResultsByBotId(studentBotId);
   }
 
   return (
@@ -67,13 +66,13 @@ export default async function Report({ params }: ReportProps) {
               </div>
             ) : (
               <>
-                {reportOfStudent ? (
+                {testResults ? (
                   <>
                     <h1 className="text-3xl text-center font-semibold ">
                       Report
                     </h1>
                     <div className="h-[200px] flex justify-center w-full gap-10 my-20">
-                      <PieChartComponent report={reportOfStudent} />
+                      <PieChartComponent testResults={testResults} />
                     </div>
                     <Table>
                       <TableCaption>Stat for your Answers.</TableCaption>
@@ -100,7 +99,7 @@ export default async function Report({ params }: ReportProps) {
                         </TableRow>
                       </TableHeader>
                       <TableBody>
-                        {reportOfStudent.map((question, i: number) => {
+                        {testResults.map((question, i: number) => {
                           const randomNumber =
                             Math.floor(Math.random() * (100 - 20 + 1)) + 20; // random number for progress bar later replace it with actual data
                           let progressBarColor = "bg-orange-400";

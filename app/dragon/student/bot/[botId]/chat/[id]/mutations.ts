@@ -2,7 +2,7 @@
 import { revalidatePath } from "next/cache";
 
 import prisma from "@/prisma";
-import { type Report } from "@/app/dragon/ai/test-checker/model";
+import { type TestResults } from "@/app/dragon/ai/test-checker/model";
 export const submitTestBot = async function (botId: string) {
   try {
     await prisma.bot.update({
@@ -18,9 +18,9 @@ export const submitTestBot = async function (botId: string) {
   }
 };
 
-export const createReportForStudents = async function (
+export const saveTestResultsByBotId = async function (
   studentBotId: string,
-  report: Report
+  testResults: TestResults
 ) {
   try {
     const transaction = await prisma.$transaction(async (prisma) => {
@@ -32,7 +32,7 @@ export const createReportForStudents = async function (
         return null;
       }
       const response = await prisma.botChatQuestions.createMany({
-        data: report.map((ques) => ({
+        data: testResults.map((ques) => ({
           botChatId: existingBotChat?.id,
           question: ques.question,
           question_number: ques.question_number,
@@ -43,9 +43,9 @@ export const createReportForStudents = async function (
         })),
       });
     });
-    console.log("report created successfully", transaction);
+    console.log("results saved successfully", transaction);
   } catch (err) {
     console.log(err);
-    throw new Error("Failed to create Report");
+    throw new Error("Failed to save results");
   }
 };

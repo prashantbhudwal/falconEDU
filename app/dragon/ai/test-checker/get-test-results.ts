@@ -10,7 +10,7 @@ import { testDataExtractionModel } from "./model";
 import { baseModel } from "./model";
 import { systemTemplateForChecking, systemTemplateForJson } from "./templates";
 import { StringOutputParser } from "langchain/schema/output_parser";
-import { zodReportObjectSchema } from "./model";
+import { testResultsObjectSchema } from "./model";
 
 const getTest = cache(async function (chatId: string) {
   const context = await prisma.botChat.findUnique({
@@ -87,14 +87,15 @@ export async function getTestResults(testBotId: string) {
       testResults: testResults,
     });
 
-    const parsedTestResults = zodReportObjectSchema.safeParse(testResultsJson);
+    const parsedTestResults =
+      testResultsObjectSchema.safeParse(testResultsJson);
     if (!parsedTestResults.success) {
       throw new Error("Parsing failed");
     }
-    const resultArray = parsedTestResults.data.report;
+    const resultArray = parsedTestResults.data.results;
 
     return resultArray;
   } catch (err) {
-    throw new Error("Can't generate report");
+    throw new Error("Can't generate results");
   }
 }

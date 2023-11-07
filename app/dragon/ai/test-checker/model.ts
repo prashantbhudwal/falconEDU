@@ -2,7 +2,7 @@ import { ChatOpenAI } from "langchain/chat_models/openai";
 import * as z from "zod";
 import { zodToJsonSchema } from "zod-to-json-schema";
 
-const zodReportSchema = z.array(
+const testResultsSchema = z.array(
   z.object({
     question_number: z.number().describe("Question number of the test"),
     student_answer: z.array(
@@ -17,16 +17,16 @@ const zodReportSchema = z.array(
     question: z.string().describe("The question asked"),
   })
 );
-export type Report = z.infer<typeof zodReportSchema>;
+export type TestResults = z.infer<typeof testResultsSchema>;
 
-export const zodReportObjectSchema = z.object({
-  report: zodReportSchema,
+export const testResultsObjectSchema = z.object({
+  results: testResultsSchema,
 });
 
 export const extractTestResultsAsJson = {
   name: "extractTestResultsAsJson",
   description: "Converts the test results of the test into to JSON",
-  parameters: zodToJsonSchema(zodReportObjectSchema),
+  parameters: zodToJsonSchema(testResultsObjectSchema),
 };
 
 //Infer TYpes from Zod Schema

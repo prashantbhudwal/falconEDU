@@ -2,7 +2,7 @@
 import testCheckAnimation from "@/public/animations/test-check.json";
 import Lottie from "lottie-react";
 import { useState } from "react";
-import { createReportForStudents, submitTestBot } from "./mutations";
+import { saveTestResultsByBotId, submitTestBot } from "./mutations";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import {
@@ -28,13 +28,12 @@ export default function SubmitTestButton({
     try {
       setLoading(true);
 
-      const report = await getTestResults(testBotId);
+      const testResults = await getTestResults(testBotId);
 
-      if (report) {
-        await createReportForStudents(testBotId, report);
+      if (testResults) {
+        await saveTestResultsByBotId(testBotId, testResults);
+        await submitTestBot(testBotId);
       }
-      await submitTestBot(testBotId);
-
       setLoading(false);
       setShowDialog(true);
       setTimeout(() => {

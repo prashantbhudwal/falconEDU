@@ -78,7 +78,7 @@ export type StudentsByClassId = UnwrapPromise<
   ReturnType<typeof getStudentsByClassId>
 >;
 
-export const getReportForStudents = cache(async (studentBotId: string) => {
+export const getTestResultsByBotId = cache(async (studentBotId: string) => {
   try {
     const response = await prisma.botChat.findFirst({
       where: {
@@ -106,4 +106,6 @@ export const getReportForStudents = cache(async (studentBotId: string) => {
     return null;
   }
 });
-export type ReportForStudents = UnwrapPromise<ReturnType<typeof getReportForStudents>>;
+export type TestResultsByBotId = UnwrapPromise<
+  ReturnType<typeof getTestResultsByBotId>
+>;
