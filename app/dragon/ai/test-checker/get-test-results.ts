@@ -11,6 +11,7 @@ import { baseModel } from "./model";
 import { systemTemplateForChecking, systemTemplateForJson } from "./templates";
 import { StringOutputParser } from "langchain/schema/output_parser";
 import { testResultsObjectSchema } from "./model";
+import { zodToJsonSchema } from "zod-to-json-schema";
 
 const getTest = cache(async function (chatId: string) {
   const context = await prisma.botChat.findUnique({
@@ -93,9 +94,9 @@ export async function getTestResults(testBotId: string) {
       throw new Error("Parsing failed");
     }
     const resultArray = parsedTestResults.data.results;
-
     return resultArray;
   } catch (err) {
+    console.log(err);
     throw new Error("Can't generate results");
   }
 }

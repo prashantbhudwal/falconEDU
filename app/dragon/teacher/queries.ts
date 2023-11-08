@@ -87,11 +87,8 @@ export const getTestResultsByBotId = cache(async (studentBotId: string) => {
       select: {
         BotChatQuestions: {
           select: {
-            question_number: true,
             student_answer: true,
-            correct_answer: true,
             isCorrect: true,
-            question: true,
           },
         },
       },

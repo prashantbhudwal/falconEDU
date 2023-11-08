@@ -115,7 +115,7 @@ export default async function Report({ params }: ReportProps) {
                           return (
                             <TableRow key={i} className="hover:bg-muted/0">
                               <TableCell className="font-medium">
-                                {question.question_number}
+                                {i + 1}
                               </TableCell>
                               <TableCell>
                                 {question.isCorrect ? (
