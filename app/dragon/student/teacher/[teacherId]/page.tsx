@@ -1,6 +1,5 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-import { ItemCard } from "../../components/item-card";
 import Link from "next/link";
 import { getStudentBotChatURL, getStudentBotURL } from "@/lib/urls";
 import { AvatarNavbar } from "../../components/student-navbar";
@@ -12,8 +11,8 @@ import {
   ChatBubbleLeftRightIcon,
   ClipboardDocumentCheckIcon,
 } from "@heroicons/react/24/outline";
-
-export const dynamic = "force-dynamic";
+import { ChatCard } from "../../components/chat-card";
+import { getDefaultChatReadStatus } from "../../queries";
 
 function getBotDescription(type: string) {
   switch (type) {
@@ -98,21 +97,6 @@ const getTeacherDetailsByTeacherId = cache(async function (teacherId: string) {
   return teacher;
 });
 
-const getDefaultChatReadStatus = async function (botId: string) {
-  const readStatus = await prisma.botChat.findFirst({
-    where: {
-      botId: botId,
-      isDefault: true,
-    },
-    select: {
-      id: true,
-      isRead: true,
-    },
-  });
-  if (!readStatus) throw new Error("No default chat found");
-  return { isRead: readStatus?.isRead };
-};
-
 export default async function TeacherDashboard({
   params,
 }: {
@@ -173,7 +157,7 @@ export default async function TeacherDashboard({
 
           return (
             <Link href={defaultChatUrl || multipleChatUrl} key={bot.id}>
-              <ItemCard
+              <ChatCard
                 title={bot.BotConfig.name!}
                 description={getBotDescription(bot.BotConfig.type!)}
                 icon={
@@ -183,7 +167,8 @@ export default async function TeacherDashboard({
                     <ClipboardDocumentCheckIcon />
                   )
                 }
-                isRead={readStatus?.isRead}
+                botId={bot.id}
+                readStatus={readStatus.isRead}
               />
             </Link>
           );
@@ -199,7 +184,7 @@ export default async function TeacherDashboard({
 
               return (
                 <Link href={defaultChatUrl || multipleChatUrl} key={bot.id}>
-                  <ItemCard
+                  <ChatCard
                     title={bot.BotConfig.name!}
                     description={getBotDescription(bot.BotConfig.type!)}
                     icon={
@@ -209,7 +194,8 @@ export default async function TeacherDashboard({
                         <ClipboardDocumentCheckIcon />
                       )
                     }
-                    isRead={readStatus?.isRead}
+                    botId={bot.id}
+                    readStatus={readStatus.isRead}
                   />
                 </Link>
               );

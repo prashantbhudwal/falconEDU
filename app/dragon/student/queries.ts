@@ -1,3 +1,4 @@
+"use server";
 import prisma from "@/prisma";
 import { cache } from "react";
 import * as z from "zod";
@@ -225,3 +226,18 @@ export const getTeachersByUserId = cache(async function (userId: string) {
 export type GetTeachersByUserId = UnwrapPromise<
   ReturnType<typeof getTeachersByUserId>
 >;
+
+export const getDefaultChatReadStatus = async function (botId: string) {
+  const readStatus = await prisma.botChat.findFirst({
+    where: {
+      botId: botId,
+      isDefault: true,
+    },
+    select: {
+      id: true,
+      isRead: true,
+    },
+  });
+  if (!readStatus) throw new Error("No default chat found");
+  return { isRead: readStatus?.isRead };
+};

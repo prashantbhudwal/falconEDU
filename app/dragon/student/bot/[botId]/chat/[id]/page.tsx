@@ -38,7 +38,6 @@ const setIsReadToTrue = async function (botChatId: string) {
         isRead: true,
       },
     });
-    revalidatePath("/dragon/student");
   } catch (error) {
     console.error("Error updating Chat Status.", error);
     throw new Error("Failed to update Chat Status");
@@ -50,6 +49,7 @@ export default async function ChatPage({ params }: ChatPageProps) {
   const chat = await getBotChatByChatId(id);
   if (chat?.isRead === false) {
     await setIsReadToTrue(chat.botChatId);
+    revalidatePath("/");
   }
   const bot = await getBotByBotId(botId);
   const teacherId = bot?.BotConfig.teacherId;
