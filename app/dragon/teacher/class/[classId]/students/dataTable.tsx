@@ -16,13 +16,6 @@ import {
 import { ArrowUpDown, ChevronDown } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import {
   Table,
@@ -48,23 +41,10 @@ type StudentData = NonNullable<StudentsByClassId>[0];
 
 export const columns: ColumnDef<StudentData>[] = [
   {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={table.getIsAllPageRowsSelected()}
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
+    id: "seialNumber",
+    accessorKey: "",
+    header: "S.No.",
+    cell: ({ row }) => <div>{row.index + 1}</div>,
   },
   {
     id: "userImage",
@@ -81,13 +61,31 @@ export const columns: ColumnDef<StudentData>[] = [
     ),
   },
   {
+    id: "name",
+    accessorKey: "User.name",
+    header: ({ column }) => {
+      return (
+        <Button
+          className="bg-transparent text-inherit px-0 hover:bg-transparent hover:text-base-content"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Name
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      return <div className="font-medium">{row.original?.User.name}</div>;
+    },
+  },
+  {
     id: "email",
     accessorKey: "User.email",
     enableSorting: true,
     header: ({ column }) => {
       return (
         <Button
-          variant="ghost"
+          className="bg-transparent text-inherit px-0 hover:bg-transparent hover:text-base-content"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Email
@@ -99,16 +97,7 @@ export const columns: ColumnDef<StudentData>[] = [
       <div className="lowercase">{row.original?.User.email}</div>
     ),
   },
-  {
-    id: "name",
-    accessorKey: "User.name",
-    header: () => <div className="text-right">Name</div>,
-    cell: ({ row }) => {
-      return (
-        <div className="text-right font-medium">{row.original?.User.name}</div>
-      );
-    },
-  },
+
   {
     id: "actions",
     enableHiding: false,
@@ -151,7 +140,6 @@ export function DataTable({ students }: { students: StudentData[] }) {
   );
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = React.useState({});
 
   const table = useReactTable({
     data: students,
@@ -163,12 +151,10 @@ export function DataTable({ students }: { students: StudentData[] }) {
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
-    onRowSelectionChange: setRowSelection,
     state: {
       sorting,
       columnFilters,
       columnVisibility,
-      rowSelection,
     },
   });
 
@@ -176,40 +162,13 @@ export function DataTable({ students }: { students: StudentData[] }) {
     <div className="w-full">
       <div className="flex items-center py-4">
         <Input
-          placeholder="Filter emails..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+          placeholder="Filter Students by Name..."
+          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
+            table.getColumn("name")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
-              Columns
-              <ChevronDown className="ml-2 h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                );
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
       </div>
       <div className="rounded-md border">
         <Table>
@@ -218,7 +177,7 @@ export function DataTable({ students }: { students: StudentData[] }) {
               <TableRow key={headerGroup.id} className="hover:bg-transparent">
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id}>
+                    <TableHead key={header.id} className="pl-5">
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -236,7 +195,7 @@ export function DataTable({ students }: { students: StudentData[] }) {
               table.getRowModel().rows.map((row) => (
                 <TableRow key={row.id} className="hover:bg-transparent">
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell key={cell.id} className="pl-5">
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
@@ -258,11 +217,7 @@ export function DataTable({ students }: { students: StudentData[] }) {
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
-        </div>
+      {/* <div className="flex items-center justify-end space-x-2 py-4">
         <div className="space-x-2">
           <Button
             variant="outline"
@@ -281,7 +236,7 @@ export function DataTable({ students }: { students: StudentData[] }) {
             Next
           </Button>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
