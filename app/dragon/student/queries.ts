@@ -99,6 +99,8 @@ export const getBotChatByChatId = cache(async function (chatId: string) {
     where: { id: chatId },
     select: {
       messages: true,
+      isRead: true,
+      id: true,
       bot: {
         select: {
           BotConfig: {
@@ -131,7 +133,12 @@ export const getBotChatByChatId = cache(async function (chatId: string) {
   if (typeof botChat.messages === "string") {
     messagesArray = JSON.parse(botChat.messages);
   }
-  return { botImage, messages: messagesArray };
+  return {
+    botImage,
+    messages: messagesArray,
+    isRead: botChat.isRead,
+    botChatId: botChat.id,
+  };
 });
 
 export type BotChatByChatId = UnwrapPromise<
