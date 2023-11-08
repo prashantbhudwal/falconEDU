@@ -31,6 +31,7 @@ import { Paper } from "@/components/ui/paper";
 import { LIMITS_testBotPreferencesSchema } from "../../../../../../schema";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 import { Input } from "@/components/ui/input";
+import { getTestQuestions } from "@/app/dragon/ai/test-question-parser/get-test-questions";
 
 const defaultValues: z.infer<typeof testBotPreferencesSchema> = {
   fullTest: "Enter the full test here",
@@ -64,16 +65,18 @@ export default function TestPreferencesForm({
   const { isDirty, setIsDirty } = useIsFormDirty(form);
 
   const onSubmit = async (data: z.infer<typeof testBotPreferencesSchema>) => {
-    setLoading(true);
-    const result = await updateTestBotConfig(classId, botId, data);
-    setLoading(false);
-    if (result.success) {
-      setError(null); // clear any existing error
-      setIsDirty(false);
-    } else {
-      console.log("Update failed:", result.error);
-      setError("Failed to update bot config. Please try again."); // set the error message
-    }
+    const result = await getTestQuestions(data.fullTest);
+    console.log(result);
+    // setLoading(true);
+    // const result = await updateTestBotConfig(classId, botId, data);
+    // setLoading(false);
+    // if (result.success) {
+    //   setError(null); // clear any existing error
+    //   setIsDirty(false);
+    // } else {
+    //   console.log("Update failed:", result.error);
+    //   setError("Failed to update bot config. Please try again."); // set the error message
+    // }
   };
 
   const onPublish = async () => {
