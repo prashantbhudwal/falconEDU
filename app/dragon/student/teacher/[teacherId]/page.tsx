@@ -8,6 +8,10 @@ import { Separator } from "@/components/ui/separator";
 import prisma from "@/prisma";
 import { cache } from "react";
 import { UnwrapPromise, getChatsByBotId } from "../../queries";
+import {
+  ChatBubbleLeftRightIcon,
+  ClipboardDocumentCheckIcon,
+} from "@heroicons/react/24/outline";
 
 function getBotDescription(type: string) {
   switch (type) {
@@ -153,6 +157,13 @@ export default async function TeacherDashboard({
               <ItemCard
                 title={bot.BotConfig.name!}
                 description={getBotDescription(bot.BotConfig.type!)}
+                icon={
+                  bot.BotConfig.type === "chat" ? (
+                    <ChatBubbleLeftRightIcon />
+                  ) : (
+                    <ClipboardDocumentCheckIcon />
+                  )
+                }
               />
             </Link>
           );
@@ -169,6 +180,13 @@ export default async function TeacherDashboard({
                   <ItemCard
                     title={bot.BotConfig.name!}
                     description={getBotDescription(bot.BotConfig.type!)}
+                    icon={
+                      bot.BotConfig.type === "chat" ? (
+                        <ChatBubbleLeftRightIcon />
+                      ) : (
+                        <ClipboardDocumentCheckIcon />
+                      )
+                    }
                   />
                 </Link>
               );
