@@ -109,21 +109,36 @@ enum Role {
 }
 
 model BotConfig {
-  id          String         @id @default(cuid())
-  teacher     TeacherProfile @relation(fields: [teacherId], references: [id])
-  Class       Class?         @relation(fields: [classId], references: [id])
-  classId     String?
-  teacherId   String
-  name        String
-  description String?
-  image       String?
-  preferences Json           @default("{}")
-  createdAt   DateTime       @default(now())
-  published   Boolean        @default(false)
-  Bot         Bot[]
-  BotShare    BotShare[]
-  type        String         @default("chat")
-  isActive    Boolean        @default(true)
+  id              String            @id @default(cuid())
+  teacher         TeacherProfile    @relation(fields: [teacherId], references: [id])
+  Class           Class?            @relation(fields: [classId], references: [id])
+  classId         String?
+  teacherId       String
+  name            String
+  description     String?
+  image           String?
+  preferences     Json              @default("{}")
+  createdAt       DateTime          @default(now())
+  published       Boolean           @default(false)
+  Bot             Bot[]
+  BotShare        BotShare[]
+  type            String            @default("chat")
+  isActive        Boolean           @default(true)
+  parsedQuestions parsedQuestions[]
+}
+
+model parsedQuestions {
+  id               String             @id @default(cuid())
+  botConfigId      String
+  BotConfig        BotConfig          @relation(fields: [botConfigId], references: [id])
+  question_type    QuestionType
+  question         String
+  hint             String?
+  question_number  Int
+  correct_answer   String[]           @default([])
+  sample_answer    String?
+  max_score        Float?
+  botChatQuestions BotChatQuestions[]
 }
 
 //**************** App > Student Models ****************//
@@ -170,20 +185,16 @@ model BotChat {
 }
 
 model BotChatQuestions {
-  createdAt       DateTime     @default(now())
-  id              Int          @id @default(autoincrement())
-  botChat         BotChat      @relation(fields: [botChatId], references: [id])
-  botChatId       String
-  question_type   QuestionType
-  question        String
-  hint            String?
-  question_number Int
-  student_answer  String[]     @default([])
-  correct_answer  String[]     @default([])
-  sample_answer   String? // A high-quality example or model answer for reference
-  isCorrect       Boolean? // Nullable: for subjective answers, this isn't always clear-cut
-  score           Float? // A score representing the quality of the student's answer
-  feedback        String? // Qualitative feedback on the student's answer
+  createdAt         DateTime         @default(now())
+  id                Int              @id @default(autoincrement())
+  botChat           BotChat          @relation(fields: [botChatId], references: [id])
+  botChatId         String
+  student_answer    String[]         @default([])
+  isCorrect         Boolean // Whether the student's answer is correct
+  score             Float? // A score representing the quality of the student's answer
+  feedback          String? // Qualitative feedback on the student's answer
+  parsedQuestions   parsedQuestions? @relation(fields: [parsedQuestionsId], references: [id])
+  parsedQuestionsId String?
 }
 
 enum QuestionType {
