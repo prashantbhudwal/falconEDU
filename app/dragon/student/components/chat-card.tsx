@@ -6,6 +6,7 @@ import Avvvatars from "avvvatars-react";
 import { cn } from "@/lib/utils";
 import React, { useEffect, useState } from "react";
 const testPriorities = ["HIGH", "MEDIUM", "LOW"] as const;
+import { Badge } from "@/components/ui/badge";
 
 import { getDefaultChatReadStatus } from "../queries";
 
@@ -19,7 +20,7 @@ type ChatCardProps = {
   imageUrl?: string;
   priority?: (typeof testPriorities)[number];
   title: string;
-  description?: string;
+  type: "Chat" | "Test";
   icon?: React.ReactNode;
   botId: string;
   readStatus: boolean;
@@ -28,7 +29,7 @@ export function ChatCard({
   imageUrl,
   priority = "LOW",
   title,
-  description,
+  type,
   icon,
   botId,
   readStatus: initialReadStatus,
@@ -50,24 +51,35 @@ export function ChatCard({
       <div className={cn("absolute top-5 right-5")}>
         {!isRead && (
           <div className="flex gap-1 items-center">
-            <div className="h-3 w-3 rounded-full bg-primary"></div>
+            <div className="h-3 w-3 rounded-full bg-accent"></div>
           </div>
         )}
       </div>
       <div className="flex flex-row space-x-5 px-4 py-5">
-        <div className="pl-2">
-          <Avatar>
+        <div
+          className={cn("pl-2", {
+            "text-accent": !isRead,
+          })}
+        >
+          <Avatar
+            className={cn("h-12 w-12", {
+              "text-secondary": type === "Chat",
+              "text-primary": type === "Test",
+            })}
+          >
             <AvatarImage src={imageUrl} alt="User Avatar" />
-            <AvatarFallback className="bg-base-300">
-              {(icon && <div className="w-7">{icon}</div>) || (
+            <AvatarFallback className="bg-base-100">
+              {(icon && <div className="w-6">{icon}</div>) || (
                 <Avvvatars value={title} style="shape" />
               )}
             </AvatarFallback>
           </Avatar>
         </div>
-        <div className="flex flex-col space-y-1">
+        <div className="flex flex-col space-y-1 items-start">
           <h1 className="">{title}</h1>
-          <p className="text-xs text-muted-foreground">{description}</p>
+          <Badge variant={"outline"} className=" text-slate-500">
+            {type}
+          </Badge>
         </div>
       </div>
     </Card>

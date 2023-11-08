@@ -17,11 +17,11 @@ import { getDefaultChatReadStatus } from "../../queries";
 function getBotDescription(type: string) {
   switch (type) {
     case "chat":
-      return "Chatbot";
+      return "Chat";
     case "test":
       return "Test";
     default:
-      return "Others";
+      return "Chat";
   }
 }
 const getBotsByTeacherAndStudentID = cache(async function (
@@ -159,7 +159,7 @@ export default async function TeacherDashboard({
             <Link href={defaultChatUrl || multipleChatUrl} key={bot.id}>
               <ChatCard
                 title={bot.BotConfig.name!}
-                description={getBotDescription(bot.BotConfig.type!)}
+                type={getBotDescription(bot.BotConfig.type!)}
                 icon={
                   bot.BotConfig.type === "chat" ? (
                     <ChatBubbleLeftRightIcon />
@@ -186,7 +186,7 @@ export default async function TeacherDashboard({
                 <Link href={defaultChatUrl || multipleChatUrl} key={bot.id}>
                   <ChatCard
                     title={bot.BotConfig.name!}
-                    description={getBotDescription(bot.BotConfig.type!)}
+                    type={getBotDescription(bot.BotConfig.type!)}
                     icon={
                       bot.BotConfig.type === "chat" ? (
                         <ChatBubbleLeftRightIcon />
