@@ -8,6 +8,8 @@ import {
 import { Chat } from "@/components/chat/chat-dragon";
 import { AvatarNavbar } from "@/app/dragon/student/components/student-navbar";
 import SubmitTestButton from "./submit-test-btn";
+import prisma from "@/prisma";
+import { revalidatePath } from "next/cache";
 
 export interface ChatPageProps {
   params: {
@@ -16,10 +18,39 @@ export interface ChatPageProps {
   };
 }
 
+const setIsReadToTrue = async function (botChatId: string) {
+  const botChat = await prisma.botChat.findFirst({
+    where: {
+      id: botChatId,
+    },
+  });
+
+  if (botChat?.isRead) {
+    return;
+  }
+
+  try {
+    await prisma.botChat.update({
+      where: {
+        id: botChatId,
+      },
+      data: {
+        isRead: true,
+      },
+    });
+    revalidatePath("/dragon/student");
+  } catch (error) {
+    console.error("Error updating Chat Status.", error);
+    throw new Error("Failed to update Chat Status");
+  }
+};
 export default async function ChatPage({ params }: ChatPageProps) {
   const id = params.id;
   const botId = params.botId;
   const chat = await getBotChatByChatId(id);
+  if (chat?.isRead === false) {
+    await setIsReadToTrue(chat.botChatId);
+  }
   const bot = await getBotByBotId(botId);
   const teacherId = bot?.BotConfig.teacherId;
   const redirectUrl = getStudentTeacherURL(teacherId!);

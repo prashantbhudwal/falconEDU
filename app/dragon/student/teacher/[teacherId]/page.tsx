@@ -13,6 +13,8 @@ import {
   ClipboardDocumentCheckIcon,
 } from "@heroicons/react/24/outline";
 
+export const dynamic = "force-dynamic";
+
 function getBotDescription(type: string) {
   switch (type) {
     case "chat":
@@ -96,6 +98,21 @@ const getTeacherDetailsByTeacherId = cache(async function (teacherId: string) {
   return teacher;
 });
 
+const getDefaultChatReadStatus = async function (botId: string) {
+  const readStatus = await prisma.botChat.findFirst({
+    where: {
+      botId: botId,
+      isDefault: true,
+    },
+    select: {
+      id: true,
+      isRead: true,
+    },
+  });
+  if (!readStatus) throw new Error("No default chat found");
+  return { isRead: readStatus?.isRead };
+};
+
 export default async function TeacherDashboard({
   params,
 }: {
@@ -152,6 +169,8 @@ export default async function TeacherDashboard({
         {unSubmittedBots.map(async (bot) => {
           const defaultChatUrl = await getDefaultStudentChatUrl(bot.id);
           const multipleChatUrl = getStudentBotURL(bot.id);
+          const readStatus = await getDefaultChatReadStatus(bot.id);
+
           return (
             <Link href={defaultChatUrl || multipleChatUrl} key={bot.id}>
               <ItemCard
@@ -164,6 +183,7 @@ export default async function TeacherDashboard({
                     <ClipboardDocumentCheckIcon />
                   )
                 }
+                isRead={readStatus?.isRead}
               />
             </Link>
           );
@@ -175,6 +195,8 @@ export default async function TeacherDashboard({
             {submittedBots.map(async (bot) => {
               const defaultChatUrl = await getDefaultStudentChatUrl(bot.id);
               const multipleChatUrl = getStudentBotURL(bot.id);
+              const readStatus = await getDefaultChatReadStatus(bot.id);
+
               return (
                 <Link href={defaultChatUrl || multipleChatUrl} key={bot.id}>
                   <ItemCard
@@ -187,6 +209,7 @@ export default async function TeacherDashboard({
                         <ClipboardDocumentCheckIcon />
                       )
                     }
+                    isRead={readStatus?.isRead}
                   />
                 </Link>
               );

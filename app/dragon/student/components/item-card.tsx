@@ -25,7 +25,7 @@ export function ItemCard({
   title,
   description,
   icon,
-  isRead = false,
+  isRead = true,
 }: ItemCardProps) {
   return (
     <Card className="relative flex flex-row max-w-sm border-none">
@@ -33,7 +33,7 @@ export function ItemCard({
         className={cn("absolute inset-y-0 w-4", priorityColor[priority])}
       ></div>
       <div className={cn("absolute top-5 right-5")}>
-        {isRead && (
+        {!isRead && (
           <div className="flex gap-1 items-center">
             <div className="h-3 w-3 rounded-full bg-primary"></div>
           </div>
