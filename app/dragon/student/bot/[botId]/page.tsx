@@ -1,4 +1,3 @@
-import ChatCard from "../../components/chat-card";
 import { AvatarNavbar } from "../../components/student-navbar";
 import { getBotByBotId, getChatsByBotId } from "../../queries";
 import { ItemCard } from "../../components/item-card";
