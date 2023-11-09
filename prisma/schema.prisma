@@ -168,6 +168,7 @@ model parsedQuestions {
   correct_answer   String[]           @default([])
   sample_answer    String?
   max_score        Float?
+  isArchived       Boolean            @default(false)
   botChatQuestions BotChatQuestions[]
 }
 
