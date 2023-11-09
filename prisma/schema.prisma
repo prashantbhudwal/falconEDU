@@ -60,15 +60,16 @@ model User {
 
   // Custom fields
   plan              String?
-  isTrialUser       Boolean         @default(true)
+  isTrialUser       Boolean          @default(true)
   subscriptionStart DateTime?
   subscriptionEnd   DateTime?
   userType          UserType
-  role              Role            @default(TRIAL)
+  role              Role             @default(TRIAL)
   teacherProfile    TeacherProfile?
   Chat              Chat[]
   payments          Payment[]
   StudentProfile    StudentProfile?
+  orgAdminProfile   OrgAdminProfile?
 }
 
 //*********************** App Models *****************************//
@@ -86,6 +87,35 @@ model TeacherProfile {
   preferences        Json               @default("{}")
   BotConfig          BotConfig[]
   Class              Class[]
+  orgMode            Boolean            @default(false)
+  Org                Org?               @relation(fields: [orgId], references: [id])
+  orgId              String?
+}
+
+model OrgAdminProfile {
+  id          String @id @default(cuid())
+  designation String
+  org         Org    @relation(fields: [orgId], references: [id])
+  orgId       String
+  User        User   @relation(fields: [userId], references: [id])
+  userId      String @unique
+}
+
+model Org {
+  id       String            @id @default(cuid())
+  type     OrgType
+  name     String
+  teacher  TeacherProfile[]
+  admin    OrgAdminProfile[]
+  students StudentProfile[]
+}
+
+enum OrgType {
+  SCHOOL
+  TUTORIAL
+  COLLEGE
+  COMPANY
+  OTHER
 }
 
 model Class {
@@ -156,6 +186,8 @@ model StudentProfile {
   Class       Class?     @relation(fields: [classId], references: [id])
   classId     String?
   bio         String?    @default("")
+  Org         Org?       @relation(fields: [orgId], references: [id])
+  orgId       String?
 }
 
 model Bot {
@@ -181,7 +213,7 @@ model BotChat {
   messages         Json
   createdAt        DateTime           @default(now())
   isDefault        Boolean            @default(false)
-  isRead           Boolean            @default(false) 
+  isRead           Boolean            @default(false)
   BotChatQuestions BotChatQuestions[]
 }
 
