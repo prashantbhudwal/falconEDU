@@ -9,6 +9,7 @@ import {
   publishBotConfig,
   updateTestBotConfig,
   updateTestBotConfigName,
+  saveParsedQuestions,
 } from "../../../../../mutations";
 import {
   Form,
@@ -65,18 +66,22 @@ export default function TestPreferencesForm({
   const { isDirty, setIsDirty } = useIsFormDirty(form);
 
   const onSubmit = async (data: z.infer<typeof testBotPreferencesSchema>) => {
+    setLoading(true);
     const result = await getTestQuestions(data.fullTest);
-    console.log(result);
-    // setLoading(true);
-    // const result = await updateTestBotConfig(classId, botId, data);
-    // setLoading(false);
-    // if (result.success) {
-    //   setError(null); // clear any existing error
-    //   setIsDirty(false);
-    // } else {
-    //   console.log("Update failed:", result.error);
-    //   setError("Failed to update bot config. Please try again."); // set the error message
-    // }
+    const response = await saveParsedQuestions(result, botId);
+    const updateBotConfigResult = await updateTestBotConfig(
+      classId,
+      botId,
+      data
+    );
+    setLoading(false);
+    if (response.success && updateBotConfigResult.success) {
+      setError(null); // clear any existing error
+      setIsDirty(false);
+    } else {
+      console.log("Update failed:", response.error);
+      setError("Failed to update bot config. Please try again."); // set the error message
+    }
   };
 
   const onPublish = async () => {

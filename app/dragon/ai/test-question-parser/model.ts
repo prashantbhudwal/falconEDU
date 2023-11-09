@@ -11,7 +11,7 @@ const testQuestionsSchema = z.array(
     question: z.string().describe("The question asked"),
   })
 );
-export type TestResults = z.infer<typeof testQuestionsSchema>;
+export type TestQuestions = z.infer<typeof testQuestionsSchema>;
 
 export const testQuestionObjectSchema = z.object({
   results: testQuestionsSchema,
