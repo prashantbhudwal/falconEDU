@@ -1,0 +1,14 @@
+{
+  "redirects": [
+    {
+      "source": "teacher.falconai.in",
+      "destination": "https://falcon-one-git-add-context-falconai.vercel.app/dragon/teacher",
+      "permanent": true
+    },
+    {
+      "source": "student.falconai.in",
+      "destination": "https://falcon-one-git-add-context-falconai.vercel.app/dragon/student",
+      "permanent": true
+    }
+  ]
+}
