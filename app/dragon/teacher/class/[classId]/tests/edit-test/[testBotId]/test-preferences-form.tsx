@@ -35,7 +35,8 @@ import { Input } from "@/components/ui/input";
 import { getTestQuestions } from "@/app/dragon/ai/test-question-parser/get-test-questions";
 
 const defaultValues: z.infer<typeof testBotPreferencesSchema> = {
-  fullTest: "Enter the full test here",
+  fullTest:
+    "Enter or paste the full test here. Please provide the answers too. The bot will conduct the test for you. ",
 };
 
 type BotPreferencesFormProps = {
@@ -197,7 +198,7 @@ export default function TestPreferencesForm({
                     />
                   </FormControl>
                   <FormDescription>
-                    The bot will conduct the test for you.
+                    {"Don't forget to provide answers."}
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
