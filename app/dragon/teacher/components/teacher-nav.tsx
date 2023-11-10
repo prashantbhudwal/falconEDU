@@ -7,8 +7,20 @@ import { DeleteDialog } from "./delete-dialog";
 import { deleteClassByClassId } from "../mutations";
 import { Button } from "@/components/ui/button";
 import { FiTrash } from "react-icons/fi";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
-export function TeacherNav({ classId }: { classId: string }) {
+export function TeacherNav({
+  classId,
+  nameOfClass,
+}: {
+  classId: string;
+  nameOfClass: string;
+}) {
   const teacherNavConfig = [
     {
       name: "Bots",
@@ -29,6 +41,18 @@ export function TeacherNav({ classId }: { classId: string }) {
 
   return (
     <nav className=" bg-base-200 w-full flex flex-col custom-scrollbar overflow-y-auto h-full py-4 space-y-1 pl-2">
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger>
+            <div className="text-lg font-semibold text-neutral mb-4 truncate w-56 text-left">
+              <div className="truncate">{nameOfClass}</div>
+            </div>
+          </TooltipTrigger>
+          <TooltipContent className="bg-base-200 text-inherit text-center absolute top-[2rem] rounded-md shadow-md p-2 text-base">
+            <p className="whitespace-nowrap">{nameOfClass}</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
       {teacherNavConfig.map((item) => (
         <TeacherNavItem key={item.layoutSegment} item={item} />
       ))}
