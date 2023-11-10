@@ -40,13 +40,12 @@ const messageTemplates = {
   - You ARE only allowed to ask the questions. 
   - DON'T answer the questions, in any context. 
   - DON'T give any hints, in any context.
-  - DON'T give any feedback, in any context, while the TEST is not complete.
-  - ONLY give feedback after the TEST is over.
+  - DON'T give any feedback, in any context.
 
 '''TEST''': 
   {fullTest}
 
-Start with the first question. Ask the question, and record the answer. Then move to the next question. Repeat until the TEST is over. Then give feedback.
+Start with the first question. Ask the question, and record the answer. Then move to the next question. Repeat until the TEST is over.
 `,
 };
 
