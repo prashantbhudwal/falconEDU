@@ -1,10 +1,29 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
+import { notFound } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { setTeacherOrgModeToTrue } from "../mutations";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 const GOOGLE_FORM_URL = "https://forms.gle/ZBQAs2XoZoze7aDc6";
 
 const AccessRequestForm = () => {
+  const { data: session, status: sessionStatus } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (sessionStatus === "unauthenticated") {
+      notFound();
+    }
+  }, [sessionStatus, router]);
+
+  if (sessionStatus === "loading") {
+    return <div>Loading...</div>; // Show a loading indicator while the session is loading
+  }
+
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-background p-4 custom-scrollbar">
       <div className="max-w-lg w-full bg-foreground shadow-md rounded px-8 pt-6 pb-8 mb-4">
@@ -33,6 +52,18 @@ const AccessRequestForm = () => {
               Request Access
             </Button>
           </Link>
+          <Button
+            variant="default"
+            rel="noopener noreferrer"
+            size={"lg"}
+            onClick={() => {
+              if (session?.user?.id) {
+                setTeacherOrgModeToTrue(session.user.id);
+              }
+            }}
+          >
+            Testing: Click to get access
+          </Button>
         </div>
       </div>
     </div>
