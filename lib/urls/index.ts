@@ -9,6 +9,8 @@ export const getStudentsURL = (classId: string) =>
   `${baseUrl}/teacher/class/${classId}/students`;
 export const getTestsUrl = (classId: string) =>
   `${baseUrl}/teacher/class/${classId}/tests`;
+export const getSettingsUrl = (classId: string) =>
+  `${baseUrl}/teacher/class/${classId}/settings`;
 
 export const getEditBotURL = (classId: string, botId: string) =>
   `${baseUrl}/teacher/class/${classId}/bots/edit-bot/${botId}`;
