@@ -55,12 +55,11 @@ export async function getTestResults(testBotId: string) {
       .pipe(testCheckingModel)
       .pipe(jsonOutputParser);
 
-    const testResults = await testCheckingChain.invoke({
+    const testResults = (await testCheckingChain.invoke({
       test: testQuestions,
       answers: JSON.stringify(messages),
-    });
+    })) as z.infer<typeof testResultsObjectSchema>;
 
-    //TODO: fix Property 'results' does not exist on type 'object'.
     const finalTestResults = testQuestions?.map((question) => {
       return {
         ...testResults?.results[question.question_number - 1],
