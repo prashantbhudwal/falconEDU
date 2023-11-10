@@ -1,7 +1,7 @@
 import { ChatList } from "@/components/chat/chat-list";
 import {
   getDefaultChatMessagesByStudentBotId,
-  getSingleStudentByBotConfigId,
+  getSingleStudentByStudentBotId,
   getUserImageByStudentBotId,
 } from "../../../../queries";
 import { Paper } from "@/components/ui/paper";
@@ -42,10 +42,11 @@ export default async function Report({ params }: ReportProps) {
     await getDefaultChatMessagesByStudentBotId(studentBotId);
   let testResults: TestResultsByBotId = null;
 
-  const student = await getSingleStudentByBotConfigId(testBotId);
+  const student = await getSingleStudentByStudentBotId(studentBotId);
 
   if (student?.isSubmitted) {
     testResults = await getTestResultsByBotId(studentBotId);
+    console.log(testResults);
   }
 
   return (

@@ -89,6 +89,7 @@ export const getTestResultsByBotId = cache(async (studentBotId: string) => {
           select: {
             student_answer: true,
             isCorrect: true,
+            parsedQuestionsId: true,
           },
         },
       },

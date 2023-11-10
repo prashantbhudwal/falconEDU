@@ -45,11 +45,11 @@ export const getStudentsByBotConfigId = cache(async function (
   return students;
 });
 
-export const getSingleStudentByBotConfigId = cache(async function (
+export const getSingleStudentByStudentBotId = cache(async function (
   botConfigId: string
 ) {
-  const bot = await prisma.bot.findFirst({
-    where: { botConfigId },
+  const bot = await prisma.bot.findUnique({
+    where: { id: botConfigId },
     select: {
       id: true,
       isSubmitted: true,
