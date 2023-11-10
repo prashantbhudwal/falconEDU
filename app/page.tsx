@@ -8,8 +8,8 @@ const LandingPage = () => {
   useTrackPage("Landing Page");
   const { data: session, status: sessionStatus } = useSession();
   const router = useRouter();
-
   useEffect(() => {
+    router.push("/dragon/auth");
     router.prefetch("/auth/login");
     router.prefetch("/preferences");
     if (session && sessionStatus === "authenticated") {
@@ -22,7 +22,7 @@ const LandingPage = () => {
 
   return (
     <div className="flex min-h-screen flex-col items-center">
-      <SignIn />
+      Old Landing page goes here.
     </div>
   );
 };

@@ -5,6 +5,7 @@ export const config = {
     "/magic/:path*",
     "/merlin/:path*",
     "/chubbi/:path*",
-    "/dragon/:path*",
+    "/dragon/teacher/:path*",
+    "/dragon/student/:path*",
   ],
 };

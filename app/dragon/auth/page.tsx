@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
-
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 const CustomLink = ({
   href,
   children,
@@ -25,7 +27,14 @@ const CustomLink = ({
 };
 const teacherLoginRoute = "/dragon/auth/teacher";
 const studentLoginRoute = "/dragon/auth/student";
-export default function DragonLogin() {
+export default async function DragonLogin() {
+  const session = await getServerSession(authOptions);
+  if (session) {
+    if (session?.user.userType === "TEACHER")
+      return redirect("/dragon/teacher");
+    return redirect("/dragon/student");
+  }
+
   return (
     <div className="flex flex-col min-w-full h-screen justify-center items-center bg-dark">
       <CustomLink href={teacherLoginRoute} className="text-secondary">
