@@ -135,7 +135,7 @@ export default function TestPreferencesForm({
     <>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <Paper variant="gray" className="w-full max-w-5xl min-h-screen">
+          <div className="w-full max-w-5xl min-h-screen">
             <div className="flex justify-between flex-wrap p-5">
               <div>
                 <Input
@@ -203,7 +203,7 @@ export default function TestPreferencesForm({
                 </FormItem>
               )}
             />
-          </Paper>
+          </div>
         </form>
       </Form>
     </>

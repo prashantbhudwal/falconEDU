@@ -6,6 +6,7 @@ import {
 } from "@/app/dragon/teacher/components/item-card";
 import Link from "next/link";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Separator } from "@/components/ui/separator";
 
 export async function TestAnalysis({
   testBotId,
@@ -16,66 +17,45 @@ export async function TestAnalysis({
 }) {
   const students = await getStudentsByBotConfigId(testBotId);
   return (
-    <Paper variant={"gray"} className="w-full max-w-5xl min-h-screen p-0">
-      <Tabs defaultValue="submissions">
-        <TabsList className="flex w-full bg-transparent h-10 ">
-          <TabsTrigger
-            className="w-1/2 data-[state=active]:border-b-[1px] py-3 mt-4 data-[state=active]:bg-transparent text-lg border-white rounded-none"
-            value="submissions"
+    <div className="w-full max-w-5xl min-h-screen pt-10 flex flex-col">
+      <div className="py-10 mx-auto">Summary Stats will appear here</div>
+      <Separator className="my-2" />
+      {students ? (
+        students.map((student) => (
+          <Link
+            href={`/dragon/teacher/class/${classId}/tests/edit-test/${testBotId}/report/${student.studentBotId}`}
+            key={student.email}
           >
-            Submissions
-          </TabsTrigger>
-          <TabsTrigger
-            className="w-1/2 data-[state=active]:border-b-[1px] py-3 mt-4 data-[state=active]:bg-transparent text-lg border-white rounded-none"
-            value="stats"
-          >
-            Summary Stats
-          </TabsTrigger>
-        </TabsList>
-        <TabsContent value="submissions" className="mt-10">
-          {students ? (
-            students.map((student) => (
-              <Link
-                href={`/dragon/teacher/class/${classId}/tests/edit-test/${testBotId}/report/${student.studentBotId}`}
-                key={student.email}
-              >
-                <ItemCard
-                  title={student.name!}
-                  avatarUrl={student.image!}
-                  className="mx-auto"
-                >
-                  <div className="flex gap-2">
-                    <ItemCardChip label="Email" value={student.email} />
-                    <ItemCardChip
-                      label="Status"
-                      value={
-                        student.isSubmitted ? "Submitted" : "Not Submitted"
-                      }
-                      valueColor={
-                        student.isSubmitted ? "text-primary" : "text-secondary"
-                      }
-                    />
-                    <ItemCardChip
-                      label="Active"
-                      value={student.isActive ? "Yes" : "No"}
-                      valueColor={
-                        student.isActive ? "text-primary" : "text-secondary"
-                      }
-                    />
-                  </div>
-                </ItemCard>
-              </Link>
-            ))
-          ) : (
-            <h1 className="text-center font-semibold text-2xl mt-10">
-              You have no Students in this class.
-            </h1>
-          )}
-        </TabsContent>
-        <TabsContent value="stats">
-          {/* <TestAnalysis testBotId={testBotId} classId={classId} /> */}
-        </TabsContent>
-      </Tabs>
-    </Paper>
+            <ItemCard
+              title={student.name!}
+              avatarUrl={student.image!}
+              className="mx-auto"
+            >
+              <div className="flex gap-2">
+                <ItemCardChip label="Email" value={student.email} />
+                <ItemCardChip
+                  label="Status"
+                  value={student.isSubmitted ? "Submitted" : "Not Submitted"}
+                  valueColor={
+                    student.isSubmitted ? "text-primary" : "text-secondary"
+                  }
+                />
+                <ItemCardChip
+                  label="Active"
+                  value={student.isActive ? "Yes" : "No"}
+                  valueColor={
+                    student.isActive ? "text-primary" : "text-secondary"
+                  }
+                />
+              </div>
+            </ItemCard>
+          </Link>
+        ))
+      ) : (
+        <h1 className="text-center font-semibold text-2xl mt-10">
+          You have no Students in this class.
+        </h1>
+      )}
+    </div>
   );
 }

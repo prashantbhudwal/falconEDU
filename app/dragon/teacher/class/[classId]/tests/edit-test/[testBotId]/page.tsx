@@ -4,6 +4,7 @@ import { TestAnalysis } from "./test-analysis";
 import { cache } from "react";
 import prisma from "@/prisma";
 import { testBotPreferencesSchema } from "@/app/dragon/schema";
+import { Paper } from "@/components/ui/paper";
 export interface BotPageProps {
   params: {
     classId: string;
@@ -50,24 +51,36 @@ export default async function BotPage({ params }: BotPageProps) {
   const botData = await fetchTestBotConfig(testBotId);
 
   return (
-    <div className="w-full min-h-[calc(100vh-180px)] max-h-full overflow-y-scroll custom-scrollbar pt-10">
-      <Tabs defaultValue="test">
-        <TabsList className="grid w-2/5 grid-cols-2 mx-auto bg-base-100">
-          <TabsTrigger value="test">Test</TabsTrigger>
-          <TabsTrigger value="analysis">Analysis</TabsTrigger>
-        </TabsList>
-        <TabsContent value="test">
-          <TestPreferencesForm
-            preferences={botData?.preferences}
-            botConfig={botData?.bot!}
-            classId={classId}
-            botId={testBotId}
-          />
-        </TabsContent>
-        <TabsContent value="analysis">
-          <TestAnalysis testBotId={testBotId} classId={classId} />
-        </TabsContent>
-      </Tabs>
+    <div className="w-full min-h-[calc(100vh-180px)] max-h-full overflow-y-scroll custom-scrollbar pt-4">
+      <Paper variant={"gray"} className="w-full max-w-5xl py-3 px-2">
+        <Tabs defaultValue="test">
+          <TabsList className="flex w-full bg-transparent h-10 mb-10 border-b">
+            <TabsTrigger
+              className="w-1/2 data-[state=active]:border-b-[1px] data-[state=active]:bg-transparent text-lg border-white rounded-none"
+              value="test"
+            >
+              Test
+            </TabsTrigger>
+            <TabsTrigger
+              value="submissions"
+              className="w-1/2 data-[state=active]:border-b-[1px] data-[state=active]:bg-transparent text-lg border-white rounded-none"
+            >
+              Submissions
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value="test" className="px-12">
+            <TestPreferencesForm
+              preferences={botData?.preferences}
+              botConfig={botData?.bot!}
+              classId={classId}
+              botId={testBotId}
+            />
+          </TabsContent>
+          <TabsContent value="submissions">
+            <TestAnalysis testBotId={testBotId} classId={classId} />
+          </TabsContent>
+        </Tabs>
+      </Paper>
     </div>
   );
 }
