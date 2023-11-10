@@ -2,7 +2,19 @@
 import { revalidatePath } from "next/cache";
 
 import prisma from "@/prisma";
-import { type TestResults } from "@/app/dragon/ai/test-checker/model";
+import {
+  TestResultsAnswerSchema,
+  type TestResults,
+} from "@/app/dragon/ai/test-checker/model";
+import { z } from "zod";
+
+const testResultObjectSchemaWithId = z.array(
+  TestResultsAnswerSchema.extend({
+    id: z.string(),
+  })
+);
+type FinalTestResults = z.infer<typeof testResultObjectSchemaWithId>;
+
 export const submitTestBot = async function (botId: string) {
   try {
     await prisma.bot.update({
@@ -20,14 +32,13 @@ export const submitTestBot = async function (botId: string) {
 
 export const saveTestResultsByBotId = async function (
   studentBotId: string,
-  testResults: TestResults
+  testResults: FinalTestResults
 ) {
   try {
     const transaction = await prisma.$transaction(async (prisma) => {
       const existingBotChat = await prisma.botChat.findFirst({
         where: { botId: studentBotId },
       });
-
       if (!existingBotChat) {
         console.log("Bot not found");
         return null;
@@ -37,6 +48,7 @@ export const saveTestResultsByBotId = async function (
           botChatId: existingBotChat?.id,
           isCorrect: ques.isCorrect,
           student_answer: ques.student_answer,
+          parsedQuestionsId: ques.id,
         })),
       });
       console.log(response);

@@ -1,99 +1,93 @@
 "use server";
-import { testBotPreferencesSchema } from "@/app/dragon/schema";
-import { isEmptyObject } from "@/app/dragon/student/api/chat/queries";
 import { ChatPromptTemplate } from "langchain/prompts";
 import { cache } from "react";
 import prisma from "@/prisma";
 import { getDefaultChatMessagesByStudentBotId } from "../../teacher/class/[classId]/tests/queries";
 import { JsonOutputFunctionsParser } from "langchain/output_parsers";
-import { testDataExtractionModel } from "./model";
-import { baseModel } from "./model";
-import { systemTemplateForChecking, systemTemplateForJson } from "./templates";
-import { StringOutputParser } from "langchain/schema/output_parser";
-import { testResultsObjectSchema } from "./model";
-import { zodToJsonSchema } from "zod-to-json-schema";
+import {
+  TestResultsAnswerSchema,
+  testCheckingModel,
+  testResultsObjectSchema,
+} from "./model";
+import { systemTemplateForChecking } from "./templates";
+import { getBotByBotId } from "../../student/queries";
+import { z } from "zod";
 
-const getTest = cache(async function (chatId: string) {
-  const context = await prisma.botChat.findUnique({
-    where: { id: chatId },
-    select: {
-      bot: {
-        select: {
-          BotConfig: {
-            select: {
-              preferences: true,
-            },
-          },
-        },
+const getTest = cache(async function (testBotId: string) {
+  const bot = await getBotByBotId(testBotId);
+
+  if (bot) {
+    const questions = await prisma.botConfig.findUnique({
+      where: { id: bot?.BotConfig.id },
+      select: {
+        parsedQuestions: true,
       },
-    },
-  });
+    });
 
-  if (!context) {
-    console.error("context not found for chatId:", chatId);
+    if (questions && questions.parsedQuestions.length > 0) {
+      return { testQuestions: questions?.parsedQuestions };
+    }
+
+    return { testQuestions: null };
   }
 
-  let botPreferences = context?.bot?.BotConfig?.preferences;
-
-  // Add default values for preferences and then parse them when empty
-  const parsedBotPreferences = isEmptyObject(botPreferences)
-    ? { success: true, data: { fullTest: "" } }
-    : testBotPreferencesSchema.safeParse(botPreferences);
-
-  if (parsedBotPreferences.success) {
-    return {
-      test: parsedBotPreferences.data.fullTest,
-    };
-  } else {
-    console.error("Validation failed:");
-    return null;
-  }
+  return { testQuestions: null };
 });
 
 export async function getTestResults(testBotId: string) {
-  const jsonOutputParser = new JsonOutputFunctionsParser();
-  const stringOutputParser = new StringOutputParser();
   const { messages, id: botChatId } =
     await getDefaultChatMessagesByStudentBotId(testBotId);
+  const jsonOutputParser = new JsonOutputFunctionsParser();
 
-  const { test } = (await getTest(botChatId)) ?? { test: null };
+  const { testQuestions } = (await getTest(testBotId)) ?? {
+    testQuestions: null,
+  };
 
-  if (!test) {
+  if (!testQuestions) {
     console.error("Test not found");
   }
   const promptForTestChecking = ChatPromptTemplate.fromMessages([
     ["system", systemTemplateForChecking],
   ]);
 
-  const promptForJsonExtraction = ChatPromptTemplate.fromMessages([
-    ["system", systemTemplateForJson],
-    ["user", "{testResults}"],
-  ]);
-
   try {
     const testCheckingChain = promptForTestChecking
-      .pipe(baseModel)
-      .pipe(stringOutputParser);
+      .pipe(testCheckingModel)
+      .pipe(jsonOutputParser);
 
     const testResults = await testCheckingChain.invoke({
-      test: test,
+      test: testQuestions,
       answers: JSON.stringify(messages),
     });
 
-    const extractionChain = promptForJsonExtraction
-      .pipe(testDataExtractionModel)
-      .pipe(jsonOutputParser);
-
-    const testResultsJson = await extractionChain.invoke({
-      testResults: testResults,
+    //TODO: fix Property 'results' does not exist on type 'object'.
+    const finalTestResults = testQuestions?.map((question) => {
+      return {
+        ...testResults?.results[question.question_number - 1],
+        id: question.id,
+      };
     });
 
-    const parsedTestResults =
-      testResultsObjectSchema.safeParse(testResultsJson);
+    const testResultObjectSchemaWithId = z.array(
+      TestResultsAnswerSchema.extend({
+        id: z.string(),
+      })
+    );
+
+    const extendedTestResultSchema = z.object({
+      results: testResultObjectSchemaWithId,
+    });
+
+    const parsedTestResults = extendedTestResultSchema.safeParse({
+      results: finalTestResults,
+    });
+
     if (!parsedTestResults.success) {
+      console.log(parsedTestResults);
       throw new Error("Parsing failed");
     }
     const resultArray = parsedTestResults.data.results;
+
     return resultArray;
   } catch (err) {
     console.log(err);
