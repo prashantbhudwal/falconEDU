@@ -5,12 +5,10 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import {
-  unPublishBotConfig,
-  publishBotConfig,
   updateTestBotConfig,
   updateTestBotConfigName,
   saveParsedQuestions,
-} from "../../../../../mutations";
+} from "../../../../../../mutations";
 import {
   Form,
   FormControl,
@@ -24,16 +22,16 @@ import { Separator } from "@/components/ui/separator";
 import {
   botNameSchema,
   testBotPreferencesSchema,
-} from "../../../../../../schema";
+} from "../../../../../../../schema";
 import { Button } from "@/components/ui/button";
 import { TextareaWithCounter as Textarea } from "@/components/ui/textarea-counter";
 import { FiInfo } from "react-icons/fi";
-import { Paper } from "@/components/ui/paper";
-import { LIMITS_testBotPreferencesSchema } from "../../../../../../schema";
+import { LIMITS_testBotPreferencesSchema } from "../../../../../../../schema";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 import { Input } from "@/components/ui/input";
 import { getTestQuestions } from "@/app/dragon/ai/test-question-parser/get-test-questions";
-
+import { useConfigPublishing } from "./use-config-publishing";
+const MAX_CHARS = LIMITS_testBotPreferencesSchema.fullTest.maxLength;
 const defaultValues: z.infer<typeof testBotPreferencesSchema> = {
   fullTest:
     "Enter or paste the full test here. Please provide the answers too. The bot will conduct the test for you. ",
@@ -52,24 +50,52 @@ export default function TestPreferencesForm({
   botId,
   botConfig,
 }: BotPreferencesFormProps) {
+  const [parsedQuestions, setParsedQuestions] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [inputFocus, setInputFocus] = useState("");
   const [testName, setTestName] = useState<string | undefined>(botConfig?.name);
 
-  const MAX_CHARS = LIMITS_testBotPreferencesSchema.fullTest.maxLength;
-  const isEmpty = preferences === null || preferences === undefined;
-
+  const { onPublish, onUnPublish } = useConfigPublishing({
+    classId,
+    botId,
+    setError,
+  });
   const form = useForm<z.infer<typeof testBotPreferencesSchema>>({
     resolver: zodResolver(testBotPreferencesSchema),
-    defaultValues: preferences || defaultValues,
+    defaultValues: preferences || {},
   });
+  const isFormEmpty =
+    !form.getValues().fullTest ||
+    form.getValues().fullTest === defaultValues.fullTest;
+
   const { isDirty, setIsDirty } = useIsFormDirty(form);
 
   const onSubmit = async (data: z.infer<typeof testBotPreferencesSchema>) => {
     setLoading(true);
-    const result = await getTestQuestions(data.fullTest);
-    const response = await saveParsedQuestions(result, botId);
+    console.log(data.fullTest);
+    const { questions, hasQuestions, hasAnswers } = await getTestQuestions(
+      data.fullTest
+    );
+    if (!hasQuestions || !hasAnswers) {
+      const errorMessage = !hasQuestions
+        ? "No questions provided. Please provide the questions and answers."
+        : "No answers provided. Please provide the answers.";
+      console.log(errorMessage);
+      setError(errorMessage);
+      setLoading(false);
+      return;
+    }
+    if (!questions) {
+      setLoading(false);
+      setError(
+        "No questions provided. Please provide the questions and answers."
+      );
+      return;
+    }
+    console.log("I ran");
+    setParsedQuestions(questions);
+    const response = await saveParsedQuestions(questions, botId);
     const updateBotConfigResult = await updateTestBotConfig(
       classId,
       botId,
@@ -82,22 +108,6 @@ export default function TestPreferencesForm({
     } else {
       console.log("Update failed:", response.error);
       setError("Failed to update bot config. Please try again."); // set the error message
-    }
-  };
-
-  const onPublish = async () => {
-    const result = await publishBotConfig(classId, botId);
-    if (result.success) {
-    } else {
-      setError("Failed to publish bot config. Please try again."); // set the error message
-    }
-  };
-
-  const onUnPublish = async () => {
-    const result = await unPublishBotConfig(classId, botId);
-    if (result.success) {
-    } else {
-      setError("Failed to publish bot config. Please try again."); // set the error message
     }
   };
 
@@ -144,6 +154,7 @@ export default function TestPreferencesForm({
                   value={testName}
                   onChange={onTestNameChange}
                   onBlur={updateTestNameHandler}
+                  required
                   className="outline-none border-none pl-0 md:text-3xl font-bold tracking-wide focus-visible:ring-0 "
                 />
                 {error && (
@@ -152,13 +163,12 @@ export default function TestPreferencesForm({
               </div>
               <div className="flex flex-col gap-2">
                 <div className="flex flex-row gap-6">
-                  <Button
-                    type="submit"
-                    disabled={(isEmpty && !isDirty) || !isDirty}
-                  >
+                  <Button type="submit" disabled={loading || !isDirty}>
                     {loading ? "Saving" : isDirty ? "Save" : "Saved"}
                   </Button>
+
                   <Button
+                    disabled={isFormEmpty && !isDirty}
                     variant={botConfig?.published ? "destructive" : "secondary"}
                     onClick={botConfig?.published ? onUnPublish : onPublish}
                   >
@@ -188,13 +198,14 @@ export default function TestPreferencesForm({
                   </FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Enter your test here."
                       className="resize-none h-96"
                       {...field}
                       onFocus={() => setInputFocus("instructions")}
                       onBlur={() => setInputFocus("")}
                       hasCounter
                       maxChars={MAX_CHARS}
+                      required
+                      placeholder="Enter or paste the full test here. Please provide the answers too. The bot will conduct the test for you. "
                     />
                   </FormControl>
                   <FormDescription>
@@ -207,6 +218,13 @@ export default function TestPreferencesForm({
           </div>
         </form>
       </Form>
+      {/* Displaying parsed questions for testing  */}
+      <Separator />
+      <div className="bg-base-200">
+        {parsedQuestions.map((question, index) => (
+          <div key={index}>{question.question}</div>
+        ))}
+      </div>
     </>
   );
 }

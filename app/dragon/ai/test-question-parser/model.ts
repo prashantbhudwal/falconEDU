@@ -14,7 +14,9 @@ const testQuestionsSchema = z.array(
 export type TestQuestions = z.infer<typeof testQuestionsSchema>;
 
 export const testQuestionObjectSchema = z.object({
-  results: testQuestionsSchema,
+  questionsInTest: z.boolean().describe("Whether the test has questions"),
+  answersInTest: z.boolean().describe("Whether the test has answers"),
+  results: testQuestionsSchema.optional().describe("The array of questions. Empty if no questions in test"),
 });
 
 export const extractTestQuestionsAsJson = {

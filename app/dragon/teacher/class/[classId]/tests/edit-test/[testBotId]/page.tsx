@@ -1,4 +1,4 @@
-import TestPreferencesForm from "./test-preferences-form";
+import TestPreferencesForm from "./test-preferences-form/test-preferences-form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TestAnalysis } from "./test-analysis";
 import { cache } from "react";
