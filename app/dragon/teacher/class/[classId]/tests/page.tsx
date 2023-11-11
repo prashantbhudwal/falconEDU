@@ -4,7 +4,7 @@ import Link from "next/link";
 import { getTestEditBotURL } from "@/lib/urls";
 import { getFormattedDate } from "@/lib/utils";
 import { ItemCardChip, ItemCard } from "../../../components/item-card";
-import AddTestForm from "./add-test-form";
+import AddTestForm from "./components/add-test-form";
 import { getBotConfigs } from "../../../queries";
 import {
   archiveAllBotsOfBotConfig,
