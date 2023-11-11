@@ -44,6 +44,7 @@ export async function POST(req: NextRequest) {
 
   const llm = new ChatOpenAI({
     streaming: true,
+    modelName: "gpt-3.5-turbo-1106",
   });
 
   const history: BaseMessage[] = messages.map((m: any) =>
