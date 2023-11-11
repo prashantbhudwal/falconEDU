@@ -26,7 +26,6 @@ import * as z from "zod";
 import { createClassForTeacher } from "../mutations";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import IconCard from "./icon-card";
 import ClassCard from "./class-card";
 import { FolderPlusIcon } from "@heroicons/react/24/solid";
 
