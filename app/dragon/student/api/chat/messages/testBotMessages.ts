@@ -2,7 +2,7 @@ import {
   botPreferences as botPreferencesTest,
   teacherPreferences as teacherPreferencesTest,
 } from "../../../../test-data";
-import { getTestChatContextByChatId } from "../queries";
+import { getTestQuestionsByBotChatId } from "../queries";
 
 import { isEmptyObject } from "../queries";
 import {
@@ -41,6 +41,7 @@ const messageTemplates = {
   - DON'T answer the questions, in any context. 
   - DON'T give any hints, in any context.
   - DON'T give any feedback, in any context.
+  - FORMAT the question in markdown according to the question type. Options should be formatted as a list.
 
 '''TEST''': 
   {fullTest}
@@ -50,50 +51,25 @@ Start with the first question. Ask the question, and record the answer. Then mov
 };
 
 export async function getEngineeredTestBotMessages(botChatId: string) {
-  const context = await getTestChatContextByChatId(botChatId);
-  if (!context) {
-    console.error("context not found for chatId:");
-  }
-  const teacherName = context?.teacherName;
-  const studentName = context?.studentName;
-
-  let testBotPreferences = context?.botPreferences as z.infer<
-    typeof testBotPreferencesSchema
-  >;
-  let teacherPreferences = context?.teacherPreferences as z.infer<
-    typeof teacherPreferencesSchema
-  >;
-
-  if (isEmptyObject(testBotPreferences) || testBotPreferences === undefined) {
-    testBotPreferences = { fullTest: "Test This is a long Test" };
-  }
-  if (isEmptyObject(teacherPreferences) || teacherPreferences === undefined) {
-    teacherPreferences = teacherPreferencesTest[0];
-  }
-  const mergedSchema = testBotPreferencesSchema.merge(teacherPreferencesSchema);
-
-  const { fullTest } = testBotPreferences;
-
-  const { personalInformation, professionalInformation, likes, dislikes } =
-    teacherPreferences;
-
-  console.log("teacherPreferences", teacherPreferences);
+  const questions = await getTestQuestionsByBotChatId(botChatId);
 
   const { systemTemplate } = messageTemplates;
+  console.log("questions", questions);
 
-  const chatPrompt = ChatPromptTemplate.fromPromptMessages<
-    z.infer<typeof mergedSchema>
-  >([SystemMessagePromptTemplate.fromTemplate(systemTemplate)]);
+  const questionsWitRelevantFields = questions?.map((questionObject) => {
+    const { question, correct_answer, sample_answer, question_type, hint } =
+      questionObject;
+    return { question, correct_answer, sample_answer, question_type, hint };
+  });
+
+  const stringifiedQuestions = JSON.stringify(questionsWitRelevantFields ?? "");
+
+  const chatPrompt = ChatPromptTemplate.fromPromptMessages([
+    SystemMessagePromptTemplate.fromTemplate(systemTemplate),
+  ]);
 
   const engineeredMessages = await chatPrompt.formatMessages({
-    fullTest: fullTest,
-    studentName: studentName,
-    teacherName: teacherName,
-    likes: likes,
-    dislikes: dislikes,
-    personalInformation: personalInformation,
-    professionalInformation: professionalInformation,
+    fullTest: stringifiedQuestions,
   });
-  // console.log("EMsgs", engineeredMessages);
   return engineeredMessages;
 }
