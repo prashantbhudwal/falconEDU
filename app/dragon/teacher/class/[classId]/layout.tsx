@@ -1,4 +1,4 @@
-import { TeacherNav } from "../../components/teacher-nav";
+import { ClassNav } from "../../components/class-nav";
 import { _TestOverflow } from "@/components/_test-overflow";
 import { Paper } from "@/components/ui/paper";
 import { Toaster } from "@/components/ui/toaster";
@@ -60,7 +60,7 @@ export default async function ClassLayout({
   return (
     <div className="flex flex-row h-full w-full">
       <div className="w-[240px]">
-        <TeacherNav
+        <ClassNav
           classId={classId}
           nameOfClass={nameOfClass}
           testConfigs={testConfigs}
