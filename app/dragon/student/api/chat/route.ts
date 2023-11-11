@@ -3,13 +3,13 @@ import { StreamingTextResponse } from "ai";
 import { LangChainStream } from "ai";
 import { ChatOpenAI } from "langchain/chat_models/openai";
 import { HumanMessage, AIMessage } from "langchain/schema";
-import { getEngineeredChatBotMessages } from "./messages/chatBotMessages";
-import { getEngineeredTestBotMessages } from "./messages/testBotMessages";
-import { getChatContextByChatId } from "./queries";
+import { getEngineeredChatBotMessages } from "./prompts/chat-prompts/chatBotMessages";
+import { getEngineeredTestBotMessages } from "./prompts/test-prompts/testBotMessages";
+import { getChatContextByChatId } from "./prompts/chat-prompts/queries";
 import { type BaseMessage } from "langchain/schema";
 import { countPromptTokens, filterMessagesByTokenLimit } from "./utils";
 import { saveBotChatToDatabase } from "./mutations";
-import { getBotConfigTypeByBotChatId } from "./queries";
+import { getBotConfigTypeByBotChatId } from "./prompts/chat-prompts/queries";
 
 // export const runtime = "edge";
 export const dynamic = "force-dynamic";

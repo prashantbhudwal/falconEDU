@@ -1,6 +1,6 @@
 import prisma from "@/prisma";
 import { cache } from "react";
-import { type UnwrapPromise } from "../../queries";
+import { type UnwrapPromise } from "../../../../queries";
 import * as z from "zod";
 import {
   botPreferencesSchema,
@@ -110,38 +110,3 @@ export async function getBotConfigTypeByBotChatId(botChatId: string) {
 
   return botChat?.bot?.BotConfig?.type;
 }
-
-export const getTestQuestionsByBotChatId = cache(async function (
-  botChatId: string
-) {
-  const context = await prisma.botChat.findUnique({
-    where: { id: botChatId },
-    select: {
-      bot: {
-        select: {
-          BotConfig: {
-            select: {
-              preferences: true,
-              parsedQuestions: true,
-            },
-          },
-        },
-      },
-    },
-  });
-
-  if (!context) {
-    console.error("context not found for chatId:", botChatId);
-  }
-
-  let testQuestions = context?.bot?.BotConfig?.parsedQuestions;
-
-  // Add default values for preferences and then parse them when empty
-  console.log("testQuestions", testQuestions);
- 
-
-  return testQuestions;
-});
-export type TestQuestionsByBotChatId = UnwrapPromise<
-  ReturnType<typeof getTestQuestionsByBotChatId>
->;
