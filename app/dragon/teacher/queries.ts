@@ -1,6 +1,7 @@
 import prisma from "@/prisma";
 import { cache } from "react";
 export const revalidate = 3600; // 1 hour
+type UnwrapPromise<T> = T extends Promise<infer U> ? U : T;
 
 export const getTeacherId = cache(async function (userId: string) {
   console.log("getTeacherId function starts");
@@ -48,6 +49,7 @@ export const getBotConfigs = cache(
     return botConfigs;
   }
 );
+export type BotConfigs = UnwrapPromise<ReturnType<typeof getBotConfigs>>;
 
 export const getStudentsByClassId = cache(async (classId: string) => {
   const students = await prisma.class.findUnique({
@@ -72,7 +74,6 @@ export const getStudentsByClassId = cache(async (classId: string) => {
   return students?.students;
 });
 //Export return type of this function by infering the type of the return value of the function
-type UnwrapPromise<T> = T extends Promise<infer U> ? U : T;
 
 export type StudentsByClassId = UnwrapPromise<
   ReturnType<typeof getStudentsByClassId>
