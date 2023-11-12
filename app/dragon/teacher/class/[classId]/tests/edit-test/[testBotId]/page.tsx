@@ -1,10 +1,13 @@
-import TestPreferencesForm from "./test-preferences-form/test-preferences-form";
+import TestPreferencesForm from "../../components/test-preferences-form/test-preferences-form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { TestAnalysis } from "./test-analysis";
+import { TestAnalysis } from "../../components/test-analysis";
 import { cache } from "react";
 import prisma from "@/prisma";
 import { testBotPreferencesSchema } from "@/app/dragon/schema";
 import { Paper } from "@/components/ui/paper";
+import { UnwrapPromise } from "@/app/dragon/student/queries";
+import { Test } from "../../components/test";
+
 export interface BotPageProps {
   params: {
     classId: string;
@@ -14,73 +17,54 @@ export interface BotPageProps {
 
 const emptyPreferences = {}; // or whatever default you want
 
-const fetchTestBotConfig = cache(async (botId: string) => {
+const fetchTestBotConfigByConfigId = cache(async (configId: string) => {
   try {
-    const bot = await prisma.botConfig.findUnique({
-      where: { id: botId },
+    const testConfig = await prisma.botConfig.findUnique({
+      where: { id: configId },
     });
 
     console.log("Fetched successfully.");
 
     let preferences;
-    if (bot && bot.preferences) {
+    if (testConfig && testConfig.preferences) {
       preferences =
-        typeof bot.preferences === "string"
-          ? JSON.parse(bot.preferences)
-          : bot.preferences;
+        typeof testConfig.preferences === "string"
+          ? JSON.parse(testConfig.preferences)
+          : testConfig.preferences;
     } else {
       preferences = emptyPreferences;
     }
 
     const result = testBotPreferencesSchema.safeParse(preferences);
+    // Preferences are returned separately because they are parsed from JSON to enable type checking
 
     if (result.success) {
-      return { preferences: result.data, bot };
+      return { preferences: result.data, testConfig };
     } else {
       console.error("Validation failed:", result.error);
-      return { preferences: null, bot };
+      return { preferences: null, testConfig };
     }
   } catch (error) {
     console.error("Failed to fetch:", error);
-    return null;
+    return { preferences: null, testConfig: null };
   }
 });
-
+export type TestBotConfigByConfigId = UnwrapPromise<
+  ReturnType<typeof fetchTestBotConfigByConfigId>
+>;
+// https://chat.openai.com/share/021b93e8-06f6-4dd9-a687-7218a3400556
 export default async function BotPage({ params }: BotPageProps) {
   const { classId, testBotId } = params;
-  const botData = await fetchTestBotConfig(testBotId);
+  const testConfigAndPreferences =
+    await fetchTestBotConfigByConfigId(testBotId);
 
   return (
     <div className="w-full min-h-[calc(100vh-180px)] max-h-full overflow-y-scroll custom-scrollbar pt-4">
-      <Paper variant={"gray"} className="w-full max-w-5xl py-3 px-2">
-        <Tabs defaultValue="test">
-          <TabsList className="flex w-full bg-transparent h-10 mb-10 border-b">
-            <TabsTrigger
-              className="w-1/2 data-[state=active]:border-b-[1px] data-[state=active]:bg-transparent text-lg border-white rounded-none"
-              value="test"
-            >
-              Test
-            </TabsTrigger>
-            <TabsTrigger
-              value="submissions"
-              className="w-1/2 data-[state=active]:border-b-[1px] data-[state=active]:bg-transparent text-lg border-white rounded-none"
-            >
-              Submissions
-            </TabsTrigger>
-          </TabsList>
-          <TabsContent value="test" className="px-12">
-            <TestPreferencesForm
-              preferences={botData?.preferences}
-              botConfig={botData?.bot!}
-              classId={classId}
-              botId={testBotId}
-            />
-          </TabsContent>
-          <TabsContent value="submissions">
-            <TestAnalysis testBotId={testBotId} classId={classId} />
-          </TabsContent>
-        </Tabs>
-      </Paper>
+      <Test
+        classId={classId}
+        testBotId={testBotId}
+        testConfigAndPreferences={testConfigAndPreferences}
+      />
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import { Paper } from "@/components/ui/paper";
-import { getStudentsByBotConfigId } from "../../queries";
+import { getStudentsByBotConfigId } from "../queries";
 import {
   ItemCard,
   ItemCardChip,

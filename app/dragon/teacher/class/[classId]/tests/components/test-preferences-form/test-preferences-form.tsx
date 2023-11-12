@@ -8,7 +8,7 @@ import {
   updateTestBotConfig,
   updateTestBotConfigName,
   saveParsedQuestions,
-} from "../../../../../../mutations";
+} from "../../../../../mutations";
 import {
   Form,
   FormControl,
@@ -22,11 +22,11 @@ import { Separator } from "@/components/ui/separator";
 import {
   botNameSchema,
   testBotPreferencesSchema,
-} from "../../../../../../../schema";
+} from "../../../../../../schema";
 import { Button } from "@/components/ui/button";
 import { TextareaWithCounter as Textarea } from "@/components/ui/textarea-counter";
 import { FiInfo } from "react-icons/fi";
-import { LIMITS_testBotPreferencesSchema } from "../../../../../../../schema";
+import { LIMITS_testBotPreferencesSchema } from "../../../../../../schema";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 import { Input } from "@/components/ui/input";
 import { getTestQuestions } from "@/app/dragon/ai/test-question-parser/get-test-questions";
