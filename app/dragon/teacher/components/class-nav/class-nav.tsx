@@ -2,13 +2,9 @@
 import { FaRobot } from "react-icons/fa6";
 import {
   ClipboardDocumentCheckIcon,
-  UserIcon,
   UsersIcon,
-  ArchiveBoxXMarkIcon,
 } from "@heroicons/react/24/solid";
-import { FaPeopleLine } from "react-icons/fa6";
 import { FiEdit } from "react-icons/fi";
-
 import {
   getBotsURL,
   getTestsUrl,
@@ -16,14 +12,14 @@ import {
   getSettingsUrl,
 } from "@/lib/urls";
 import Link from "next/link";
-import { useSelectedLayoutSegments } from "next/navigation";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { getEditBotURL, getTestEditBotURL } from "@/lib/urls";
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { _TestOverflow } from "@/components/_test-overflow";
 import { Avatar } from "@radix-ui/react-avatar";
-import { BotConfigs } from "../class/[classId]/layout";
+import { BotConfigs } from "../../class/[classId]/layout";
+import { NewConfigButton } from "./new-config-btn";
+import { ClassNavItem } from "./class-nav-item";
+
 export function ClassNav({
   classId,
   nameOfClass,
@@ -48,6 +44,100 @@ export function ClassNav({
   );
 }
 
+const Body = function ({
+  botConfigs,
+  testConfigs,
+  classId,
+}: {
+  botConfigs: BotConfigs;
+  testConfigs: BotConfigs;
+  classId: string;
+}) {
+  const activeBots = botConfigs
+    .filter((botConfig) => botConfig.isActive)
+    .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+  const archivedBots = botConfigs
+    .filter((botConfig) => !botConfig.isActive)
+    .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+
+  const activeTests = testConfigs
+    .filter((botConfig) => botConfig.isActive)
+    .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+
+  const archivedTests = testConfigs
+    .filter((botConfig) => !botConfig.isActive)
+    .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+
+  //TODO: Layout segment is a bad name. Change it to something else.
+  const teacherNavConfig = [
+    {
+      name: "Bots",
+      activeBots,
+      archivedBots,
+      layoutSegment: "bots",
+      href: getBotsURL(classId),
+      icon: <FaRobot className="w-4" />,
+    },
+    {
+      name: "Tests",
+      activeBots: activeTests,
+      archivedBots: archivedTests,
+      layoutSegment: "tests",
+      href: getTestsUrl(classId),
+      icon: <ClipboardDocumentCheckIcon className="w-4" />,
+    },
+  ];
+  return (
+    <Tabs defaultValue={teacherNavConfig[0].layoutSegment}>
+      <TabsList className="grid grid-cols-2 bg-base-100 w-11/12">
+        {teacherNavConfig.map((item) => (
+          <TabsTrigger value={item.layoutSegment} key={item.layoutSegment}>
+            {item.name}
+          </TabsTrigger>
+        ))}
+      </TabsList>
+      {teacherNavConfig.map((item) => (
+        <TabsContent
+          value={item.layoutSegment}
+          className="flex space-y-1 flex-col"
+          key={item.layoutSegment}
+        >
+          <NewConfigButton
+            classId={classId}
+            layoutSegment={item.layoutSegment}
+          />
+          {item.activeBots.map((config) => (
+            <ClassNavItem
+              key={config.id}
+              name={config.name}
+              layoutSegment={config.id}
+              href={
+                item.layoutSegment === "bots"
+                  ? getEditBotURL(classId, config.id)
+                  : getTestEditBotURL(classId, config.id)
+              }
+              icon={item.icon}
+              isPublished={config.published}
+            />
+          ))}
+          {item.archivedBots.map((config) => (
+            <ClassNavItem
+              key={config.id}
+              name={config.name}
+              layoutSegment={config.id}
+              href={
+                item.layoutSegment === "bots"
+                  ? getEditBotURL(classId, config.id)
+                  : getTestEditBotURL(classId, config.id)
+              }
+              isArchived
+            />
+          ))}
+        </TabsContent>
+      ))}
+    </Tabs>
+  );
+};
 const Header = function ({
   nameOfClass,
   classId,
@@ -89,152 +179,6 @@ const Footer = function ({ classId }: { classId: string }) {
         </Avatar>
         <div>My Students</div>
       </Button>
-    </Link>
-  );
-};
-
-const Body = function ({
-  botConfigs,
-  testConfigs,
-  classId,
-}: {
-  botConfigs: BotConfigs;
-  testConfigs: BotConfigs;
-  classId: string;
-}) {
-  const activeBots = botConfigs
-    .filter((botConfig) => botConfig.isActive)
-    .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
-  const archivedBots = botConfigs
-    .filter((botConfig) => !botConfig.isActive)
-    .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
-
-  const activeTests = testConfigs
-    .filter((botConfig) => botConfig.isActive)
-    .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
-
-  const archivedTests = testConfigs
-    .filter((botConfig) => !botConfig.isActive)
-    .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
-  const teacherNavConfig = [
-    {
-      name: "Bots",
-      activeBots,
-      archivedBots,
-      layoutSegment: "bots",
-      href: getBotsURL(classId),
-      icon: <FaRobot className="w-4" />,
-    },
-    {
-      name: "Tests",
-      activeBots: activeTests,
-      archivedBots: archivedTests,
-      layoutSegment: "tests",
-      href: getTestsUrl(classId),
-      icon: <ClipboardDocumentCheckIcon className="w-4" />,
-    },
-  ];
-  return (
-    <Tabs defaultValue={teacherNavConfig[0].layoutSegment}>
-      <TabsList className="grid grid-cols-2 bg-base-100 w-11/12">
-        {teacherNavConfig.map((item) => (
-          <TabsTrigger value={item.layoutSegment} key={item.layoutSegment}>
-            {item.name}
-          </TabsTrigger>
-        ))}
-      </TabsList>
-      {teacherNavConfig.map((item) => (
-        <TabsContent
-          value={item.layoutSegment}
-          className="flex space-y-1 flex-col"
-          key={item.layoutSegment}
-        >
-          <div>
-            New
-          </div>
-          {item.activeBots.map((config) => (
-            <TeacherNavItem
-              key={config.id}
-              name={config.name}
-              layoutSegment={config.id}
-              href={
-                item.layoutSegment === "bots"
-                  ? getEditBotURL(classId, config.id)
-                  : getTestEditBotURL(classId, config.id)
-              }
-              icon={item.icon}
-              isPublished={config.published}
-            />
-          ))}
-          {item.archivedBots.map((config) => (
-            <TeacherNavItem
-              key={config.id}
-              name={config.name}
-              layoutSegment={config.id}
-              href={
-                item.layoutSegment === "bots"
-                  ? getEditBotURL(classId, config.id)
-                  : getTestEditBotURL(classId, config.id)
-              }
-              isArchived
-            />
-          ))}
-        </TabsContent>
-      ))}
-    </Tabs>
-  );
-};
-
-const TeacherNavItem = function ({
-  isArchived,
-  name,
-  icon,
-  href,
-  layoutSegment,
-  isPublished,
-}: {
-  name: string;
-  layoutSegment: string;
-  href: string;
-  icon?: React.ReactNode;
-  isArchived?: boolean;
-  isPublished?: boolean;
-}) {
-  const segments = useSelectedLayoutSegments();
-  const currentSegment = segments[2];
-  const segmentActive = currentSegment === layoutSegment;
-  return (
-    <Link
-      href={href}
-      className={cn(
-        "block rounded-md px-3 py-2 text-sm font-medium hover:text-neutral",
-        {
-          "text-gray-400 hover:bg-gray-800": !segmentActive,
-          "text-white bg-base-100": segmentActive,
-          "text-gray-600": isArchived,
-        }
-      )}
-    >
-      <div className="flex items-center gap-2 max-w-[200px]">
-        {isArchived ? (
-          <ArchiveBoxXMarkIcon className="w-4" />
-        ) : (
-          <div
-            className={cn({
-              "text-primary": isPublished,
-            })}
-          >
-            {icon}
-          </div>
-        )}
-        {isArchived ? (
-          <div className="truncate w-[200px] flex items-center gap-1 text-xs font-light">
-            {name}
-          </div>
-        ) : (
-          <div className="truncate w-[200px]">{name}</div>
-        )}
-      </div>
     </Link>
   );
 };

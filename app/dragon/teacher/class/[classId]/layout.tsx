@@ -1,4 +1,4 @@
-import { ClassNav } from "../../components/class-nav";
+import { ClassNav } from "../../components/class-nav/class-nav";
 import { _TestOverflow } from "@/components/_test-overflow";
 import { Paper } from "@/components/ui/paper";
 import { Toaster } from "@/components/ui/toaster";
