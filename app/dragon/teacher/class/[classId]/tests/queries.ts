@@ -6,6 +6,21 @@ import { type Message } from "ai/react";
 export const getStudentsByBotConfigId = cache(async function (
   botConfigId: string
 ) {
+  const isPublished = await prisma.botConfig.findUnique({
+    where: { id: botConfigId },
+    select: {
+      published: true,
+    },
+  });
+  console.log(isPublished);
+  if (!isPublished?.published) {
+    console.log(`Bot config not found with botConfigId ${botConfigId}`);
+    return {
+      students: [],
+      isPublished: false,
+    };
+  }
+
   const bots = await prisma.bot.findMany({
     where: { botConfigId },
     select: {
@@ -29,7 +44,10 @@ export const getStudentsByBotConfigId = cache(async function (
 
   if (bots.length === 0) {
     console.log(`No bots found with botConfigId ${botConfigId}`);
-    return null;
+    return {
+      students: [],
+      isPublished: false,
+    };
   }
 
   const students = bots.map((bot) => ({
@@ -42,7 +60,10 @@ export const getStudentsByBotConfigId = cache(async function (
     isActive: bot.isActive,
   }));
 
-  return students;
+  return {
+    students,
+    isPublished: true,
+  };
 });
 
 export const getSingleStudentByStudentBotId = cache(async function (
