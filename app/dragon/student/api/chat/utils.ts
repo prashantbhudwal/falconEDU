@@ -1,6 +1,8 @@
 import type { BaseMessage } from "langchain/schema";
 import { GPTTokens } from "gpt-tokens";
 import type { supportModelType } from "gpt-tokens";
+import { MessageContent } from "langchain/schema";
+
 import { AIMessage, SystemMessage } from "langchain/schema";
 
 export function countPromptTokens(array: BaseMessage[], modelName: string) {
@@ -14,9 +16,15 @@ export function countPromptTokens(array: BaseMessage[], modelName: string) {
         : message instanceof SystemMessage
         ? "system"
         : "user";
+
+    const messageTestSt = message.content;
+    //TODO: Rework this to use for images
+    const messageText =
+      typeof message.content === "string" ? message.content : "";
+
     return {
       role,
-      content: message.content,
+      content: messageText,
     };
   });
 
@@ -59,7 +67,6 @@ export function filterMessagesByTokenLimit(
 
   return filteredMessages;
 }
-
 
 // From docs
 /**
