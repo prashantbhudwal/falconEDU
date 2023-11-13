@@ -13,7 +13,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { ArrowUpDown, ChevronDown } from "lucide-react";
+import { LuArrowUpDown, LuChevronDown } from "react-icons/lu";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -70,7 +70,7 @@ export const columns: ColumnDef<StudentData>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Name
-          <ArrowUpDown className="ml-2 h-4 w-4" />
+          <LuArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
@@ -89,7 +89,7 @@ export const columns: ColumnDef<StudentData>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Email
-          <ArrowUpDown className="ml-2 h-4 w-4" />
+          <LuArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
