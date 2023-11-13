@@ -43,7 +43,7 @@
     "axios": "^1.6.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
-    "docx": "^8.2.4",
+    "docx": "8.0.2",
     "eventsource-parser": "^1.1.1",
     "file-saver": "^2.0.5",
     "framer-motion": "^10.16.4",
