@@ -3,6 +3,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getServerSession } from "next-auth";
 import { notFound, redirect } from "next/navigation";
 import prisma from "@/prisma";
+import ConditionalNav from "./components/conditional-navbar";
 
 async function getTeacherOrgMode(userId: string) {
   const teacherProfile = await prisma.teacherProfile.findUnique({
@@ -31,7 +32,7 @@ export default async function TeacherLayout({
 
   return (
     <div className="flex flex-col min-w-full h-screen">
-      <Navbar />
+      <ConditionalNav />
       {children}
     </div>
   );
