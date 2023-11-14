@@ -19,6 +19,7 @@ import { Avatar } from "@radix-ui/react-avatar";
 import { BotConfigs } from "../../class/[classId]/layout";
 import { NewConfigButton } from "./new-config-btn";
 import { ClassNavItem } from "./class-nav-item";
+import { useSelectedLayoutSegment } from "next/navigation";
 
 export function ClassNav({
   classId,
@@ -53,6 +54,7 @@ const Body = function ({
   testConfigs: BotConfigs;
   classId: string;
 }) {
+  const layoutSegment = useSelectedLayoutSegment();
   const activeBots = botConfigs
     .filter((botConfig) => botConfig.isActive)
     .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
@@ -88,7 +90,7 @@ const Body = function ({
     },
   ];
   return (
-    <Tabs defaultValue={teacherNavConfig[0].layoutSegment}>
+    <Tabs defaultValue={layoutSegment || teacherNavConfig[0].layoutSegment}>
       <TabsList className="grid grid-cols-2 bg-base-100 w-11/12">
         {teacherNavConfig.map((item) => (
           <TabsTrigger value={item.layoutSegment} key={item.layoutSegment}>
