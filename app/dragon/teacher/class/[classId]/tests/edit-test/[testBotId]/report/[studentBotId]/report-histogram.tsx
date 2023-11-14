@@ -13,15 +13,35 @@ export const ReportHistogram = ({
   testResults,
   allStudentResponses,
 }: ReportHistogramType) => {
-  console.log(allStudentResponses);
   let allStudentScore;
-  let maxScore;
+  let maxScore = 0;
+  let leastScore = 0;
+  let highestScore = 0;
+  let averageScore = 0;
+
   if (Array.isArray(allStudentResponses)) {
     allStudentScore = allStudentResponses.map((response) => {
       maxScore = response.BotChatQuestions.length;
-      response.BotChatQuestions.filter((question) => question.isCorrect).length;
+      return response.BotChatQuestions.filter((question) => question.isCorrect)
+        .length;
     });
+    leastScore = allStudentScore.reduce((acc, curr) =>
+      acc > curr ? curr : acc
+    );
+    highestScore = allStudentScore.reduce((acc, curr) =>
+      acc < curr ? curr : acc
+    );
+
+    const totalCorrect = allStudentScore.reduce((acc, curr) => acc + curr, 0);
+
+    // calculate the average number of correct answers
+    const numberOfStudents = allStudentScore.length;
+    averageScore = +(totalCorrect / numberOfStudents).toFixed(1);
   }
+
+  const myScore = testResults
+    ? testResults.filter((question) => question?.isCorrect).length
+    : 0;
 
   const data = [
     {
@@ -29,7 +49,7 @@ export const ReportHistogram = ({
       data: [
         {
           primary: "Test",
-          score: 10,
+          score: maxScore,
         },
       ],
     },
@@ -38,7 +58,7 @@ export const ReportHistogram = ({
       data: [
         {
           primary: "Test",
-          score: 7,
+          score: highestScore,
         },
       ],
     },
@@ -47,7 +67,7 @@ export const ReportHistogram = ({
       data: [
         {
           primary: "Test",
-          score: 5,
+          score: myScore,
         },
       ],
     },
@@ -56,7 +76,16 @@ export const ReportHistogram = ({
       data: [
         {
           primary: "Test",
-          score: 6,
+          score: averageScore,
+        },
+      ],
+    },
+    {
+      label: "Least Score",
+      data: [
+        {
+          primary: "Test",
+          score: leastScore,
         },
       ],
     },
@@ -78,24 +107,21 @@ export const ReportHistogram = ({
           min: 0,
           position: "left",
           show: true,
-          style: {
-            tick: { color: "red" },
-          },
         },
       ],
       []
     );
 
   return (
-    <div className="h-[200px] flex">
+    <div className="h-[300px]">
       <Chart
         options={{
           data,
+          dark: true,
           primaryAxis,
           secondaryAxes,
         }}
       />
-      <span className="font-bold ">helllll</span>
     </div>
   );
 };
