@@ -30,7 +30,7 @@ import { LIMITS_testBotPreferencesSchema } from "../../../../../../schema";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 import { Input } from "@/components/ui/input";
 import { getTestQuestions } from "@/app/dragon/ai/test-question-parser/get-test-questions";
-import { useConfigPublishing } from "./use-config-publishing";
+import { useConfigPublishing } from "../../../../../hooks/use-config-publishing";
 const MAX_CHARS = LIMITS_testBotPreferencesSchema.fullTest.maxLength;
 const defaultValues: z.infer<typeof testBotPreferencesSchema> = {
   fullTest:
@@ -56,11 +56,19 @@ export default function TestPreferencesForm({
   const [inputFocus, setInputFocus] = useState("");
   const [testName, setTestName] = useState<string | undefined>(botConfig?.name);
 
-  const { onPublish, onUnPublish } = useConfigPublishing({
+  const {
+    onPublish,
+    onUnPublish,
+    error: publishingError,
+  } = useConfigPublishing({
     classId,
     botId,
-    setError,
   });
+
+  if (publishingError) {
+    setError(publishingError);
+  }
+
   const form = useForm<z.infer<typeof testBotPreferencesSchema>>({
     resolver: zodResolver(testBotPreferencesSchema),
     defaultValues: preferences || {},
