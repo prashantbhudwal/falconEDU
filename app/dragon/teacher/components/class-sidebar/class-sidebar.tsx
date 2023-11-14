@@ -18,10 +18,10 @@ import { Button } from "@/components/ui/button";
 import { Avatar } from "@radix-ui/react-avatar";
 import { BotConfigs } from "../../class/[classId]/layout";
 import { NewConfigButton } from "./new-config-btn";
-import { ClassNavItem } from "./class-nav-item";
+import { ClassSidebarItem } from "./class-sidebar-item";
 import { useSelectedLayoutSegment } from "next/navigation";
 
-export function ClassNav({
+export function ClassSidebar({
   classId,
   nameOfClass,
   testConfigs,
@@ -71,7 +71,7 @@ const Body = function ({
     .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
 
   //TODO: Layout segment is a bad name. Change it to something else.
-  const teacherNavConfig = [
+  const teacherSidebarConfig = [
     {
       name: "Bots",
       activeBots,
@@ -90,15 +90,15 @@ const Body = function ({
     },
   ];
   return (
-    <Tabs defaultValue={layoutSegment || teacherNavConfig[0].layoutSegment}>
+    <Tabs defaultValue={layoutSegment || teacherSidebarConfig[0].layoutSegment}>
       <TabsList className="grid grid-cols-2 bg-base-100 w-11/12">
-        {teacherNavConfig.map((item) => (
+        {teacherSidebarConfig.map((item) => (
           <TabsTrigger value={item.layoutSegment} key={item.layoutSegment}>
             {item.name}
           </TabsTrigger>
         ))}
       </TabsList>
-      {teacherNavConfig.map((item) => (
+      {teacherSidebarConfig.map((item) => (
         <TabsContent
           value={item.layoutSegment}
           className="flex space-y-1 flex-col"
@@ -109,7 +109,7 @@ const Body = function ({
             layoutSegment={item.layoutSegment}
           />
           {item.activeBots.map((config) => (
-            <ClassNavItem
+            <ClassSidebarItem
               key={config.id}
               name={config.name}
               layoutSegment={config.id}
@@ -123,7 +123,7 @@ const Body = function ({
             />
           ))}
           {item.archivedBots.map((config) => (
-            <ClassNavItem
+            <ClassSidebarItem
               key={config.id}
               name={config.name}
               layoutSegment={config.id}

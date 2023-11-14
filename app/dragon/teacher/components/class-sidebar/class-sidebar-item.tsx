@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import { ArchiveBoxXMarkIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import { useSelectedLayoutSegments } from "next/navigation";
-export const ClassNavItem = function ({
+export const ClassSidebarItem = function ({
   isArchived,
   name,
   icon,
