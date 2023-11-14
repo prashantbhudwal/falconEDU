@@ -108,3 +108,18 @@ export const getTestResultsByBotId = cache(async (studentBotId: string) => {
 export type TestResultsByBotId = UnwrapPromise<
   ReturnType<typeof getTestResultsByBotId>
 >;
+
+export const getTotalQuestionByParsedQuestionId = cache(
+  async (parsedQuestionId: string) => {
+    try {
+      const response = await prisma.botChatQuestions.findMany({
+        where: {
+          parsedQuestionsId: parsedQuestionId,
+        },
+      });
+      return response;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+);

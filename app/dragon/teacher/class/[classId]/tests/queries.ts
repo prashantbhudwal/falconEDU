@@ -2,6 +2,7 @@ import prisma from "@/prisma";
 import { cache } from "react";
 export const revalidate = 3600; // 1 h
 import { type Message } from "ai/react";
+type UnwrapPromise<T> = T extends Promise<infer U> ? U : T;
 
 export const getStudentsByBotConfigId = cache(async function (
   botConfigId: string
@@ -148,3 +149,71 @@ export const getUserImageByStudentBotId = async function (
 
   return bot.student.User.image;
 };
+
+export const getAllQuestionResponsesByBotConfigId = cache(
+  async (botConfigId: string) => {
+    try {
+      const isPublished = await prisma.botConfig.findUnique({
+        where: { id: botConfigId },
+        select: {
+          published: true,
+        },
+      });
+      console.log(isPublished);
+      if (!isPublished?.published) {
+        console.log(`Bot config not found with botConfigId ${botConfigId}`);
+        return {
+          students: [],
+          isPublished: false,
+        };
+      }
+
+      const bots = await prisma.bot.findMany({
+        where: { botConfigId },
+        select: {
+          id: true,
+          isSubmitted: true,
+          BotChat: {
+            select: {
+              BotChatQuestions: {
+                select: {
+                  isCorrect: true,
+                  parsedQuestionsId: true,
+                  botChatId: true,
+                  student_answer: true,
+                  id: true,
+                  score: true,
+                  feedback: true,
+                },
+              },
+            },
+          },
+        },
+      });
+
+      if (bots.length === 0) {
+        console.log(`No bots found with botConfigId ${botConfigId}`);
+        return {
+          students: [],
+          isPublished: false,
+        };
+      }
+
+      const submittedBots = bots.filter((bot) => bot.isSubmitted);
+
+      const studentResponses = submittedBots.map((response) => {
+        return {
+          id: response.id,
+          BotChatQuestions: response.BotChat[0].BotChatQuestions,
+        };
+      });
+
+      return studentResponses;
+    } catch (err) {
+      return null;
+    }
+  }
+);
+export type AllStudentResponsesByBotConfigId = UnwrapPromise<
+  ReturnType<typeof getAllQuestionResponsesByBotConfigId>
+>;
