@@ -113,7 +113,7 @@ const SummaryStats = async function ({
   totalPendingTest: number;
   totalSubmittedTest: number;
 }) {
-  const { testQuestions } = await getParsedQuestionByBotConfigId(testBotId);
+  const testQuestions = await getParsedQuestionByBotConfigId(testBotId);
   const allStudentResponses =
     await getAllQuestionResponsesByBotConfigId(testBotId);
   const { averageScore, highestScore, leastScore, maxScore } =

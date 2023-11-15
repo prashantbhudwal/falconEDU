@@ -17,8 +17,13 @@ import {
 } from "@/components/ui/tooltip";
 import { InformationCircleIcon } from "@heroicons/react/24/solid";
 import { getProgressBarColor } from "../utils";
+import { typeGetParsedQuestionByBotConfigId } from "../queries";
 
-export const SummaryStatTable = ({ testQuestions }: { testQuestions: any }) => {
+export const SummaryStatTable = ({
+  testQuestions,
+}: {
+  testQuestions: typeGetParsedQuestionByBotConfigId;
+}) => {
   if (!testQuestions) return null;
   const getTotalQuestion = async (id: string) => {
     const response = await getTotalQuestionByParsedQuestionId(id);

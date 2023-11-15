@@ -23,10 +23,8 @@ import { getProgressBarColor } from "../../../../utils";
 
 export const ReportTable = ({
   testResults,
-  type,
 }: {
   testResults: TestResultsByBotId;
-  type?: string;
 }) => {
   if (!testResults) return null;
 
@@ -41,7 +39,7 @@ export const ReportTable = ({
       <TableHeader>
         <TableRow className="hover:bg-muted/0">
           <TableHead className="w-[100px]">Q.No.</TableHead>
-          {type !== "summary" && <TableHead>Status</TableHead>}
+          <TableHead>Status</TableHead>
           <TableHead className="text-right flex gap-1 items-center justify-end">
             <TooltipProvider>
               <Tooltip delayDuration={200}>
@@ -79,15 +77,13 @@ export const ReportTable = ({
           return (
             <TableRow key={i} className="hover:bg-muted/0">
               <TableCell className="font-medium">{i + 1}</TableCell>
-              {type !== "summary" && (
-                <TableCell>
-                  {question.isCorrect ? (
-                    <span className="text-green-500">Correct</span>
-                  ) : (
-                    <span className="text-red-500">Incorrect</span>
-                  )}
-                </TableCell>
-              )}
+              <TableCell>
+                {question.isCorrect ? (
+                  <span className="text-green-500">Correct</span>
+                ) : (
+                  <span className="text-red-500">Incorrect</span>
+                )}
+              </TableCell>
               <TableCell>
                 <div className="flex gap-5 items-center">
                   {correctQuestionsPercentage.toFixed(1)}%

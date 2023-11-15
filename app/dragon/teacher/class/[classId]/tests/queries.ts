@@ -229,13 +229,13 @@ export const getParsedQuestionByBotConfigId = cache(
       });
 
       if (questions && questions.parsedQuestions.length > 0) {
-        return { testQuestions: questions.parsedQuestions };
+        return questions.parsedQuestions;
       }
 
-      return { testQuestions: null };
+      return null;
     } catch (err) {
       console.log(err);
-      return { testQuestions: null };
+      return null;
     }
   }
 );
