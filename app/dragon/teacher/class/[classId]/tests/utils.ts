@@ -9,7 +9,7 @@ export const getTestMetadata = (
   let highestScore = 0;
   let averageScore = 0;
 
-  if (Array.isArray(allStudentResponses)) {
+  if (Array.isArray(allStudentResponses) && allStudentResponses.length > 0) {
     allStudentScore = allStudentResponses.map((response) => {
       maxScore = response.BotChatQuestions.length;
       return response.BotChatQuestions.filter((question) => question.isCorrect)

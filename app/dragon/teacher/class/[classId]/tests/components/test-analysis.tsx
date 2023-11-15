@@ -120,41 +120,53 @@ const SummaryStats = async function ({
     getTestMetadata(allStudentResponses);
 
   return (
-    <div className="pb-10 text-center flex flex-col gap-2">
-      <h1 className="text-3xl font-semibold mb-5 text-white">
-        ---- Summary Stats ----
-      </h1>
-      <p>
-        Total Students Submitted Test :{" "}
-        <span className="text-xl font-semibold text-white">
-          {totalSubmittedTest}
-        </span>
-      </p>
-      <p>
-        Pending Attempts :{" "}
-        <span className="text-xl font-semibold text-white">
-          {totalPendingTest}
-        </span>
-      </p>
-      <p>
-        Total Number of Questions in this Test :{" "}
-        <span className="text-xl font-semibold text-white">{maxScore}</span>
-      </p>
-      <p>
-        Average Correct Answer for this Test :{" "}
-        <span className="text-xl font-semibold text-white">{averageScore}</span>
-      </p>
-      <p>
-        Highest Number of Correct Answer for this Test :{" "}
-        <span className="text-xl font-semibold text-white">{highestScore}</span>
-      </p>
-      <p>
-        Least Number of Correct Answer for this Test :{" "}
-        <span className="text-xl font-semibold text-white">{leastScore}</span>
-      </p>
-      <div className="w-[60%] mx-auto my-10">
-        <SummaryStatTable testQuestions={testQuestions} />
-      </div>
-    </div>
+    <>
+      {Array.isArray(allStudentResponses) && allStudentResponses.length > 0 ? (
+        <div className="pb-10 text-center flex flex-col gap-2">
+          <h1 className="text-3xl font-semibold mb-5 text-white">
+            ---- Summary Stats ----
+          </h1>
+          <p>
+            Total Students Submitted Test :{" "}
+            <span className="text-xl font-semibold text-white">
+              {totalSubmittedTest}
+            </span>
+          </p>
+          <p>
+            Pending Attempts :{" "}
+            <span className="text-xl font-semibold text-white">
+              {totalPendingTest}
+            </span>
+          </p>
+          <p>
+            Total Number of Questions in this Test :{" "}
+            <span className="text-xl font-semibold text-white">{maxScore}</span>
+          </p>
+          <p>
+            Average Correct Answer for this Test :{" "}
+            <span className="text-xl font-semibold text-white">
+              {averageScore}
+            </span>
+          </p>
+          <p>
+            Highest Number of Correct Answer for this Test :{" "}
+            <span className="text-xl font-semibold text-white">
+              {highestScore}
+            </span>
+          </p>
+          <p>
+            Least Number of Correct Answer for this Test :{" "}
+            <span className="text-xl font-semibold text-white">
+              {leastScore}
+            </span>
+          </p>
+          <div className="w-[60%] mx-auto my-10">
+            <SummaryStatTable testQuestions={testQuestions} />
+          </div>
+        </div>
+      ) : (
+        <p className="text-center pb-10">Summary Stats will appear here</p>
+      )}
+    </>
   );
 };
