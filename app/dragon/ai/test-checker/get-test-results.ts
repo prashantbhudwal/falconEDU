@@ -17,6 +17,7 @@ const getTest = cache(async function (testBotId: string) {
   const bot = await getBotByBotId(testBotId);
 
   if (bot) {
+    //TODO: same logic is repated in teacher/queries
     const questions = await prisma.botConfig.findUnique({
       where: { id: bot?.BotConfig.id },
       select: {

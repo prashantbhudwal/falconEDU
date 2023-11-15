@@ -3,41 +3,19 @@ import { TestResultsByBotId } from "@/app/dragon/teacher/queries";
 import { AxisOptions, Chart } from "react-charts";
 import { AllStudentResponsesByBotConfigId } from "../../../../queries";
 import React from "react";
+import { getTestMetadata } from "../../../../utils";
 
 type ReportHistogramType = {
   testResults: TestResultsByBotId;
   allStudentResponses: AllStudentResponsesByBotConfigId;
 };
 
-export const ReportHistogram = ({
+export const ReportHistogram = async ({
   testResults,
   allStudentResponses,
 }: ReportHistogramType) => {
-  let allStudentScore;
-  let maxScore = 0;
-  let leastScore = 0;
-  let highestScore = 0;
-  let averageScore = 0;
-
-  if (Array.isArray(allStudentResponses)) {
-    allStudentScore = allStudentResponses.map((response) => {
-      maxScore = response.BotChatQuestions.length;
-      return response.BotChatQuestions.filter((question) => question.isCorrect)
-        .length;
-    });
-    leastScore = allStudentScore.reduce((acc, curr) =>
-      acc > curr ? curr : acc
-    );
-    highestScore = allStudentScore.reduce((acc, curr) =>
-      acc < curr ? curr : acc
-    );
-
-    const totalCorrect = allStudentScore.reduce((acc, curr) => acc + curr, 0);
-
-    // calculate the average number of correct answers
-    const numberOfStudents = allStudentScore.length;
-    averageScore = +(totalCorrect / numberOfStudents).toFixed(1);
-  }
+  const { maxScore, averageScore, highestScore, leastScore } =
+    getTestMetadata(allStudentResponses);
 
   const myScore = testResults
     ? testResults.filter((question) => question?.isCorrect).length
@@ -72,7 +50,7 @@ export const ReportHistogram = ({
       ],
     },
     {
-      label: "Median Score",
+      label: "Avg. Score",
       data: [
         {
           primary: "Test",

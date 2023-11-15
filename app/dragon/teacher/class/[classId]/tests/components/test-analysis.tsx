@@ -1,14 +1,18 @@
-import { Paper } from "@/components/ui/paper";
-import { getStudentsByBotConfigId } from "../queries";
+import {
+  getAllQuestionResponsesByBotConfigId,
+  getParsedQuestionByBotConfigId,
+  getStudentsByBotConfigId,
+} from "../queries";
 import {
   ItemCard,
   ItemCardChip,
 } from "@/app/dragon/teacher/components/item-card";
 import Link from "next/link";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 import { getStudentsURL } from "@/lib/urls";
 import { Button } from "@/components/ui/button";
+import { SummaryStatTable } from "./summary-stat-table";
+import { getTestMetadata } from "../utils";
 
 export async function TestAnalysis({
   testBotId,
@@ -18,6 +22,10 @@ export async function TestAnalysis({
   classId: string;
 }) {
   const { isPublished, students } = await getStudentsByBotConfigId(testBotId);
+  const totalSubmittedTest = students.filter(
+    (student) => student.isSubmitted
+  ).length;
+  const totalPendingTest = students.length - totalSubmittedTest;
 
   return (
     <div className="w-full max-w-5xl min-h-screen pt-10 flex flex-col">
@@ -25,7 +33,11 @@ export async function TestAnalysis({
         <NotPublished />
       ) : students.length !== 0 ? (
         <div>
-          <SummaryStats />
+          <SummaryStats
+            testBotId={testBotId}
+            totalSubmittedTest={totalSubmittedTest}
+            totalPendingTest={totalPendingTest}
+          />
           <Separator className="my-2" />
           <div>
             {students.map((student) => (
@@ -92,8 +104,57 @@ const NotPublished = function () {
   );
 };
 
-const SummaryStats = function () {
+const SummaryStats = async function ({
+  testBotId,
+  totalPendingTest,
+  totalSubmittedTest,
+}: {
+  testBotId: string;
+  totalPendingTest: number;
+  totalSubmittedTest: number;
+}) {
+  const { testQuestions } = await getParsedQuestionByBotConfigId(testBotId);
+  const allStudentResponses =
+    await getAllQuestionResponsesByBotConfigId(testBotId);
+  const { averageScore, highestScore, leastScore, maxScore } =
+    getTestMetadata(allStudentResponses);
+
   return (
-    <div className="py-10 text-center">Summary Stats will appear here</div>
+    <div className="pb-10 text-center flex flex-col gap-2">
+      <h1 className="text-3xl font-semibold mb-5 text-white">
+        ---- Summary Stats ----
+      </h1>
+      <p>
+        Total Students Submitted Test :{" "}
+        <span className="text-xl font-semibold text-white">
+          {totalSubmittedTest}
+        </span>
+      </p>
+      <p>
+        Pending Attempts :{" "}
+        <span className="text-xl font-semibold text-white">
+          {totalPendingTest}
+        </span>
+      </p>
+      <p>
+        Total Number of Questions in this Test :{" "}
+        <span className="text-xl font-semibold text-white">{maxScore}</span>
+      </p>
+      <p>
+        Average Correct Answer for this Test :{" "}
+        <span className="text-xl font-semibold text-white">{averageScore}</span>
+      </p>
+      <p>
+        Highest Number of Correct Answer for this Test :{" "}
+        <span className="text-xl font-semibold text-white">{highestScore}</span>
+      </p>
+      <p>
+        Least Number of Correct Answer for this Test :{" "}
+        <span className="text-xl font-semibold text-white">{leastScore}</span>
+      </p>
+      <div className="w-[60%] mx-auto my-10">
+        <SummaryStatTable testQuestions={testQuestions} />
+      </div>
+    </div>
   );
 };

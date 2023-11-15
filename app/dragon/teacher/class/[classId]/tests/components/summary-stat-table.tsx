@@ -1,7 +1,4 @@
-import {
-  TestResultsByBotId,
-  getTotalQuestionByParsedQuestionId,
-} from "@/app/dragon/teacher/queries";
+import { getTotalQuestionByParsedQuestionId } from "@/app/dragon/teacher/queries";
 import { Progress } from "@/components/progress";
 import {
   Table,
@@ -19,17 +16,10 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { InformationCircleIcon } from "@heroicons/react/24/solid";
-import { getProgressBarColor } from "../../../../utils";
+import { getProgressBarColor } from "../utils";
 
-export const ReportTable = ({
-  testResults,
-  type,
-}: {
-  testResults: TestResultsByBotId;
-  type?: string;
-}) => {
-  if (!testResults) return null;
-
+export const SummaryStatTable = ({ testQuestions }: { testQuestions: any }) => {
+  if (!testQuestions) return null;
   const getTotalQuestion = async (id: string) => {
     const response = await getTotalQuestionByParsedQuestionId(id);
     return response;
@@ -37,11 +27,9 @@ export const ReportTable = ({
 
   return (
     <Table>
-      <TableCaption>Stat for your Answers.</TableCaption>
       <TableHeader>
         <TableRow className="hover:bg-muted/0">
           <TableHead className="w-[100px]">Q.No.</TableHead>
-          {type !== "summary" && <TableHead>Status</TableHead>}
           <TableHead className="text-right flex gap-1 items-center justify-end">
             <TooltipProvider>
               <Tooltip delayDuration={200}>
@@ -61,9 +49,9 @@ export const ReportTable = ({
         </TableRow>
       </TableHeader>
       <TableBody>
-        {testResults.map(async (question, i: number) => {
+        {testQuestions.map(async (question: any, i: number) => {
           const attemptedQuestions = await getTotalQuestion(
-            question.parsedQuestionsId as string
+            question.id as string
           );
           const correctQuestions = attemptedQuestions?.filter(
             (ques) => ques.isCorrect
@@ -78,16 +66,7 @@ export const ReportTable = ({
           );
           return (
             <TableRow key={i} className="hover:bg-muted/0">
-              <TableCell className="font-medium">{i + 1}</TableCell>
-              {type !== "summary" && (
-                <TableCell>
-                  {question.isCorrect ? (
-                    <span className="text-green-500">Correct</span>
-                  ) : (
-                    <span className="text-red-500">Incorrect</span>
-                  )}
-                </TableCell>
-              )}
+              <TableCell className="font-medium text-left">{i + 1}</TableCell>
               <TableCell>
                 <div className="flex gap-5 items-center">
                   {correctQuestionsPercentage.toFixed(1)}%

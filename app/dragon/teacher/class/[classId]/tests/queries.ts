@@ -217,3 +217,28 @@ export const getAllQuestionResponsesByBotConfigId = cache(
 export type AllStudentResponsesByBotConfigId = UnwrapPromise<
   ReturnType<typeof getAllQuestionResponsesByBotConfigId>
 >;
+
+export const getParsedQuestionByBotConfigId = cache(
+  async (botConfigId: string) => {
+    try {
+      const questions = await prisma.botConfig.findUnique({
+        where: { id: botConfigId },
+        select: {
+          parsedQuestions: true,
+        },
+      });
+
+      if (questions && questions.parsedQuestions.length > 0) {
+        return { testQuestions: questions.parsedQuestions };
+      }
+
+      return { testQuestions: null };
+    } catch (err) {
+      console.log(err);
+      return { testQuestions: null };
+    }
+  }
+);
+export type typeGetParsedQuestionByBotConfigId = UnwrapPromise<
+  ReturnType<typeof getParsedQuestionByBotConfigId>
+>;
