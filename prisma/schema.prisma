@@ -122,6 +122,7 @@ model Class {
   id        String           @id @default(cuid())
   name      String
   teacherId String
+  isActive  Boolean          @default(true)
   Teacher   TeacherProfile   @relation(fields: [teacherId], references: [id])
   students  StudentProfile[]
   BotShare  BotShare[]
