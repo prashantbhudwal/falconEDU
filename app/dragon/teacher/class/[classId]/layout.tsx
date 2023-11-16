@@ -7,6 +7,7 @@ import { cache } from "react";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { UnwrapPromise } from "@/app/dragon/student/queries";
+import { getClassNameByClassId } from "./utils";
 
 export type BotConfigs = UnwrapPromise<ReturnType<typeof getBotConfigs>>;
 const getBotConfigs = cache(
@@ -28,19 +29,6 @@ const getBotConfigs = cache(
     return botConfigs;
   }
 );
-
-const getClassNameByClassId = cache(async (classId: string) => {
-  const classData = await prisma.class.findUnique({
-    where: {
-      id: classId,
-    },
-    select: {
-      name: true,
-    },
-  });
-  if (!classData) return "";
-  return classData.name;
-});
 
 export default async function ClassLayout({
   children,

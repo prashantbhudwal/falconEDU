@@ -1,4 +1,7 @@
+"use server";
+import { cache } from "react";
 import { AllStudentResponsesByBotConfigId } from "./tests/queries";
+import prisma from "@/prisma";
 
 export const getTestMetadata = (
   allStudentResponses: AllStudentResponsesByBotConfigId
@@ -32,6 +35,8 @@ export const getTestMetadata = (
   return { maxScore, highestScore, leastScore, averageScore };
 };
 
+// ----------------------------------------------------------------------------------
+
 export const getProgressBarColor = (percentageValue: number) => {
   if (percentageValue < 40) {
     return "bg-red-500";
@@ -45,3 +50,18 @@ export const getProgressBarColor = (percentageValue: number) => {
     return "bg-orange-400";
   }
 };
+
+// ----------------------------------------------------------------------------------
+
+export const getClassNameByClassId = cache(async (classId: string) => {
+  const classData = await prisma.class.findUnique({
+    where: {
+      id: classId,
+    },
+    select: {
+      name: true,
+    },
+  });
+  if (!classData) return "";
+  return classData.name;
+});
