@@ -12,7 +12,7 @@ import { Separator } from "@/components/ui/separator";
 import { getStudentsURL } from "@/lib/urls";
 import { Button } from "@/components/ui/button";
 import { SummaryStatTable } from "./summary-stat-table";
-import { getTestMetadata } from "../utils";
+import { getTestMetadata } from "../../utils";
 
 export async function TestAnalysis({
   testBotId,

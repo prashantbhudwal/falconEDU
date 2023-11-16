@@ -1,4 +1,4 @@
-import { AllStudentResponsesByBotConfigId } from "./queries";
+import { AllStudentResponsesByBotConfigId } from "./tests/queries";
 
 export const getTestMetadata = (
   allStudentResponses: AllStudentResponsesByBotConfigId

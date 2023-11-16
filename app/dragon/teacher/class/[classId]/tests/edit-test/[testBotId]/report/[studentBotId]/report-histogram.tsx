@@ -3,7 +3,7 @@ import { TestResultsByBotId } from "@/app/dragon/teacher/queries";
 import { AxisOptions, Chart } from "react-charts";
 import { AllStudentResponsesByBotConfigId } from "../../../../queries";
 import React from "react";
-import { getTestMetadata } from "../../../../utils";
+import { getTestMetadata } from "../../../../../utils";
 
 type ReportHistogramType = {
   testResults: TestResultsByBotId;
