@@ -8,8 +8,6 @@ import { getFormattedDate } from "@/lib/utils";
 
 export default function BasicInfo() {
   const { user, error, isLoading } = useUserData();
-  // console.log(user);
-
   if (isLoading) {
     return (
       <div className="flex h-screen items-center justify-center">

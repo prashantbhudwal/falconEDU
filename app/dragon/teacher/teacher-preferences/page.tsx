@@ -18,8 +18,6 @@ const getTeacherPreferences = cache(async (teacherId: string) => {
       where: { id: teacherId },
     });
 
-    // console.log("Fetched successfully.")
-
     let preferences;
     if (profile && profile.preferences) {
       preferences =

@@ -8,6 +8,5 @@ export async function GET(req: NextRequest, res: NextResponse) {
     apiVersion: "2023-08-16",
   });
   const prices = await stripe.prices.list();
-  console.log(prices);
   return NextResponse.json(prices);
 }

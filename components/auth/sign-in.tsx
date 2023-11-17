@@ -51,9 +51,8 @@ export default function SignIn() {
   const handleSignIn = async (provider: string, callbackUrl: string) => {
     try {
       const data = await signIn(provider, { callbackUrl });
-      console.log(data);
     } catch (error) {
-      console.log("SignIn Error", error);
+      console.error("SignIn Error", error);
     }
   };
 

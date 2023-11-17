@@ -21,7 +21,6 @@ const checkout = async (priceId: string) => {
   const res = await axios.post("/api/stripe/checkout", {
     priceId,
   });
-  console.log(res.data);
   window.location.assign(res.data);
 };
 

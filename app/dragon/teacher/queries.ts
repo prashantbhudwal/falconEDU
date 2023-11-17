@@ -4,11 +4,9 @@ export const revalidate = 3600; // 1 hour
 type UnwrapPromise<T> = T extends Promise<infer U> ? U : T;
 
 export const getTeacherId = cache(async function (userId: string) {
-  console.log("getTeacherId function starts");
   const teacherProfile = await prisma.teacherProfile.findUnique({
     where: { userId },
   });
-  console.log("getTeacherId function ends", teacherProfile?.id);
   return teacherProfile?.id;
 });
 
@@ -95,13 +93,12 @@ export const getTestResultsByBotId = cache(async (studentBotId: string) => {
         },
       },
     });
-    console.log(response);
     if (response?.BotChatQuestions.length) {
       return response.BotChatQuestions;
     }
     return null;
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return null;
   }
 });
@@ -119,7 +116,7 @@ export const getTotalQuestionByParsedQuestionId = cache(
       });
       return response;
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   }
 );

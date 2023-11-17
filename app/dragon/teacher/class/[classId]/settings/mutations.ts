@@ -18,7 +18,7 @@ export const archiveClassByClassId = async (classId: string) => {
 
     return archivedClass;
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return null;
   }
 };
@@ -40,7 +40,7 @@ export const unarchiveClassByClassId = async (classId: string) => {
 
     return archivedClass;
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return null;
   }
 };
@@ -58,7 +58,7 @@ export const updateClassNameByClassId = async (
     });
     return response;
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return null;
   }
 };

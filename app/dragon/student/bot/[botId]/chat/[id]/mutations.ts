@@ -40,7 +40,7 @@ export const saveTestResultsByBotId = async function (
         where: { botId: studentBotId },
       });
       if (!existingBotChat) {
-        console.log("Bot not found");
+        console.error("Bot not found");
         return null;
       }
       const response = await prisma.botChatQuestions.createMany({
@@ -51,11 +51,9 @@ export const saveTestResultsByBotId = async function (
           parsedQuestionsId: ques.id,
         })),
       });
-      console.log(response);
     });
-    console.log("results saved successfully", transaction);
   } catch (err) {
-    console.log(err);
+    console.error(err);
     throw new Error("Failed to save results");
   }
 };

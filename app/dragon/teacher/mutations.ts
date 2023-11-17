@@ -113,7 +113,6 @@ export const updateBotConfig = async (
     return { success: true };
   } catch (error) {
     console.error("Failed to update:", error);
-    console.log("Failed to update:", error);
     return { success: false, error };
   }
 };
@@ -137,7 +136,6 @@ export const updateBotConfigName = async (
     return { success: true };
   } catch (error) {
     console.error("Failed to update:", error);
-    console.log("Failed to update:", error);
     return { success: false, error };
   }
 };
@@ -161,7 +159,6 @@ export const updateTestBotConfig = async (
     return { success: true };
   } catch (error) {
     console.error("Failed to update:", error);
-    console.log("Failed to update:", error);
     return { success: false, error };
   }
 };
@@ -185,7 +182,6 @@ export const updateTestBotConfigName = async (
     return { success: true };
   } catch (error) {
     console.error("Failed to update:", error);
-    console.log("Failed to update:", error);
     return { success: false, error };
   }
 };
@@ -276,7 +272,6 @@ export const publishBotConfig = async (
       }
     });
 
-    console.log("BotConfig successfully published", transaction);
     return { success: true };
   } catch (error) {
     console.error("Error:", error);
@@ -348,10 +343,9 @@ export const saveParsedQuestions = async (
         })),
       });
     });
-    console.log("results saved successfully", transaction);
     return { success: true, error: false };
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return { success: false, error: err };
   }
 };

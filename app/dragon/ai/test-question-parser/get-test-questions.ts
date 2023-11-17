@@ -36,7 +36,7 @@ export async function getTestQuestions(test: string) {
 
     return {questions, hasQuestions, hasAnswers};
   } catch (err) {
-    console.log(err);
+    console.error(err);
     throw new Error("Can't generate results");
   }
 }

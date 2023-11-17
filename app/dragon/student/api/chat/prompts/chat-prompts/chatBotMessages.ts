@@ -63,8 +63,6 @@ export async function getEngineeredChatBotMessages(botChatId: string) {
   const { personalInformation, professionalInformation, likes, dislikes } =
     teacherPreferences;
 
-  // console.log("botPreferences", botPreferences);
-  // console.log("teacherPreferences", teacherPreferences);
 
   const { systemTemplate, humanTemplate } = messageTemplates;
 
@@ -91,6 +89,5 @@ export async function getEngineeredChatBotMessages(botChatId: string) {
     studentName: studentName,
     teacherName: teacherName,
   });
-  // console.log("EMsgs", engineeredMessages);
   return engineeredMessages;
 }

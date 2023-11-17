@@ -92,7 +92,7 @@ export default function BotPreferencesForm({
       setIsDirty(false);
       setError(null); // clear any existing error
     } else {
-      console.log("Update failed:", result.error);
+      console.error("Update failed:", result.error);
       setError("Failed to update bot config. Please try again."); // set the error message
     }
   };

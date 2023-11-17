@@ -128,7 +128,7 @@ const jwtCallback = async ({
   if (user && isNewUser) {
     try {
       await createUserProfile(user.id, user.userType);
-      console.log("User profile created");
+      // console.log("User profile created");
     } catch (e) {
       return false;
     }

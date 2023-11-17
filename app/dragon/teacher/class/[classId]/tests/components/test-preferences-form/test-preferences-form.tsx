@@ -81,7 +81,6 @@ export default function TestPreferencesForm({
 
   const onSubmit = async (data: z.infer<typeof testBotPreferencesSchema>) => {
     setLoading(true);
-    console.log(data.fullTest);
     const { questions, hasQuestions, hasAnswers } = await getTestQuestions(
       data.fullTest
     );
@@ -89,7 +88,6 @@ export default function TestPreferencesForm({
       const errorMessage = !hasQuestions
         ? "No questions provided. Please provide the questions and answers."
         : "No answers provided. Please provide the answers.";
-      console.log(errorMessage);
       setError(errorMessage);
       setLoading(false);
       return;
@@ -101,7 +99,6 @@ export default function TestPreferencesForm({
       );
       return;
     }
-    console.log("I ran");
     setParsedQuestions(questions);
     const response = await saveParsedQuestions(questions, botId);
     const updateBotConfigResult = await updateTestBotConfig(
@@ -114,7 +111,6 @@ export default function TestPreferencesForm({
       setError(null); // clear any existing error
       setIsDirty(false);
     } else {
-      console.log("Update failed:", response.error);
       setError("Failed to update bot config. Please try again."); // set the error message
     }
   };

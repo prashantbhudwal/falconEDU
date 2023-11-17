@@ -43,7 +43,7 @@ export default function SubmitTestButton({
     } catch (err) {
       setLoading(false);
       setShowDialog(false);
-      console.log(err);
+      console.error(err);
     }
   };
 

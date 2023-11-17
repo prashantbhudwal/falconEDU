@@ -22,11 +22,9 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       );
     event = stripe.webhooks.constructEvent(buf, sig, endpointSecret);
   } catch (error) {
-    console.log(error);
     return NextResponse.json({ error }, { status: 500 });
   }
 
-  console.log(event);
   switch (event.type) {
     case "payment_intent.succeeded":
       const paymentIntentSucceeded = event.data.object as Stripe.PaymentIntent;
@@ -39,7 +37,6 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         where: { stripePaymentId: stripePaymentId },
       });
       if (existingPayment) {
-        console.log("Payment already processed");
         break;
       }
 
@@ -85,7 +82,6 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         },
       });
 
-      console.log("data", paymentIntentSucceeded.metadata);
       // Then define and call a function to handle the event payment_intent.succeeded
       break;
     // ... handle other event types

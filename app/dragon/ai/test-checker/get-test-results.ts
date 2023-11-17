@@ -83,14 +83,13 @@ export async function getTestResults(testBotId: string) {
     });
 
     if (!parsedTestResults.success) {
-      console.log(parsedTestResults);
       throw new Error("Parsing failed");
     }
     const resultArray = parsedTestResults.data.results;
 
     return resultArray;
   } catch (err) {
-    console.log(err);
+    console.error(err);
     throw new Error("Can't generate results");
   }
 }

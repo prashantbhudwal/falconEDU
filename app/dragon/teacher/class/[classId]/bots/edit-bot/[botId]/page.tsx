@@ -17,9 +17,6 @@ const fetchBotConfig = cache(async (botId: string) => {
     const bot = await prisma.botConfig.findUnique({
       where: { id: botId },
     });
-
-    console.log("Fetched successfully.");
-
     let preferences;
     if (bot && bot.preferences) {
       preferences =

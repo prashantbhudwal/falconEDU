@@ -9,14 +9,12 @@ import {
 } from "../schema";
 
 export const getStudentId = cache(async function (userId: string) {
-  console.log("getStudentId function starts");
 
   const studentProfile = await prisma.studentProfile.findFirst({
     where: { userId },
     select: { id: true },
   });
 
-  console.log("getStudentId function ends", studentProfile?.id);
   return studentProfile?.id;
 });
 
@@ -81,7 +79,6 @@ export const getBotConfigByChatId = cache(async function (chatId: string) {
       },
     },
   });
-  console.log("botChat", botChat);
 
   const botConfig = botChat?.bot?.BotConfig;
 
@@ -221,7 +218,6 @@ export const getTeachersByUserId = cache(async function (userId: string) {
     }
   });
 
-  console.log("teachers", teachers);
   return teachers;
 });
 export type GetTeachersByUserId = UnwrapPromise<

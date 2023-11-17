@@ -13,9 +13,7 @@ export const getStudentsByBotConfigId = cache(async function (
       published: true,
     },
   });
-  console.log(isPublished);
   if (!isPublished?.published) {
-    console.log(`Bot config not found with botConfigId ${botConfigId}`);
     return {
       students: [],
       isPublished: false,
@@ -44,7 +42,6 @@ export const getStudentsByBotConfigId = cache(async function (
   });
 
   if (bots.length === 0) {
-    console.log(`No bots found with botConfigId ${botConfigId}`);
     return {
       students: [],
       isPublished: false,
@@ -107,7 +104,6 @@ export const getDefaultChatMessagesByStudentBotId = cache(async function (
     // },
   });
 
-  console.log(defaultChat);
 
   if (!defaultChat || !defaultChat.messages) {
     throw new Error(`Default chat not found for studentBotId ${studentBotId}`);
@@ -118,7 +114,6 @@ export const getDefaultChatMessagesByStudentBotId = cache(async function (
     if (!Array.isArray(parsedMessages)) {
       throw new Error("Parsed messages are not an array");
     }
-    console.log(parsedMessages);
     return { messages: parsedMessages, id: defaultChat?.id };
   } else {
     return { messages: [], id: defaultChat?.id };
@@ -159,9 +154,7 @@ export const getAllQuestionResponsesByBotConfigId = cache(
           published: true,
         },
       });
-      console.log(isPublished);
       if (!isPublished?.published) {
-        console.log(`Bot config not found with botConfigId ${botConfigId}`);
         return {
           students: [],
           isPublished: false,
@@ -192,7 +185,6 @@ export const getAllQuestionResponsesByBotConfigId = cache(
       });
 
       if (bots.length === 0) {
-        console.log(`No bots found with botConfigId ${botConfigId}`);
         return {
           students: [],
           isPublished: false,
@@ -234,7 +226,7 @@ export const getParsedQuestionByBotConfigId = cache(
 
       return null;
     } catch (err) {
-      console.log(err);
+      console.error(err);
       return null;
     }
   }

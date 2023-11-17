@@ -20,7 +20,7 @@ export const getClassIsActiveByClassId = cache(async (classId: string) => {
     }
     return false;
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return false;
   }
 });
@@ -41,7 +41,7 @@ export const getTotalStudentsByClassId = cache(async (classId: string) => {
     }
     return null;
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return null;
   }
 });
@@ -66,7 +66,7 @@ export const getTotalPublishedTestsByClassId = cache(
       }
       return null;
     } catch (err) {
-      console.log(err);
+      console.error(err);
       return null;
     }
   }
@@ -95,7 +95,7 @@ export const getTotalUnPublishedTestsByClassId = cache(
       }
       return null;
     } catch (err) {
-      console.log(err);
+      console.error(err);
       return null;
     }
   }
@@ -120,7 +120,7 @@ export const getTotalPublishedBotsByClassId = cache(async (classId: string) => {
     }
     return null;
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return null;
   }
 });
@@ -148,7 +148,7 @@ export const getTotalUnpublishedBotsByClassId = cache(
       }
       return null;
     } catch (err) {
-      console.log(err);
+      console.error(err);
       return null;
     }
   }

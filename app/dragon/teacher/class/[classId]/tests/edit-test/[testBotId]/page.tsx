@@ -23,7 +23,6 @@ const fetchTestBotConfigByConfigId = cache(async (configId: string) => {
       where: { id: configId },
     });
 
-    console.log("Fetched successfully.");
 
     let preferences;
     if (testConfig && testConfig.preferences) {

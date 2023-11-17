@@ -28,8 +28,6 @@ export function countPromptTokens(array: BaseMessage[], modelName: string) {
     };
   });
 
-  // console.log("transformedMessages", transformedMessages);
-
   const gptTokens = new GPTTokens({
     model: model,
     messages: transformedMessages,

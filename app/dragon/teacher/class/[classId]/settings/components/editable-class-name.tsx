@@ -46,7 +46,7 @@ const EditableClassName = ({ classId }: { classId: string }) => {
       }
       setShowEditableClassName(false);
     } catch (err) {
-      console.log(err);
+      console.error(err);
       setError("");
       setShowEditableClassName(false);
     }

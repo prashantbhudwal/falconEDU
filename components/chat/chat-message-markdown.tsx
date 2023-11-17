@@ -33,7 +33,6 @@ export function ChatMessageMarkdown({
 
           // Check if the parent node is 'pre' to determine if it's a block code
           if (node && node.tagName === "code" && match) {
-            console.log(Array.isArray(children)); // Should be true
             let codeValue = "";
             if (
               Array.isArray(node.children) &&
