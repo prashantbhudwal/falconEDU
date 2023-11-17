@@ -9,7 +9,11 @@ import { useSelectedLayoutSegment } from "next/navigation";
 export default function DragonHomeBtn() {
   const segment = useSelectedLayoutSegment();
   const { currentPage } = usePageTracking();
-  if (segment == "class" || currentPage == "/dragon/teacher")
+  if (
+    segment == "class" ||
+    currentPage == "/dragon/teacher" ||
+    currentPage == "/dragon/teacher/teacher-preferences"
+  )
     return (
       <Link href="/dragon/teacher">
         <Button variant={"ghost"} size={"icon"}>
