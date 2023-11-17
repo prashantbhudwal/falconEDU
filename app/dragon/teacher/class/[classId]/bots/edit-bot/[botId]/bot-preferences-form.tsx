@@ -4,12 +4,8 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import {
-  updateBotConfig,
-  unPublishBotConfig,
-  publishBotConfig,
-  updateBotConfigName,
-} from "../../../../../mutations";
+import { updateBotConfig, updateBotConfigName } from "../../../../../mutations";
+import { db } from "@/app/dragon/teacher/routers";
 import {
   Form,
   FormControl,
@@ -98,7 +94,10 @@ export default function BotPreferencesForm({
   };
 
   const onPublish = async () => {
-    const result = await publishBotConfig(classId, botId);
+    const result = await db.botConfig.publishBotConfig({
+      classId,
+      botConfigId: botId,
+    });
     if (result.success) {
     } else {
       setError("Failed to publish bot config. Please try again."); // set the error message
@@ -106,7 +105,10 @@ export default function BotPreferencesForm({
   };
 
   const onUnPublish = async () => {
-    const result = await unPublishBotConfig(classId, botId);
+    const result = await db.botConfig.unPublishBotConfig({
+      classId,
+      botConfigId: botId,
+    });
     if (result.success) {
     } else {
       setError("Failed to publish bot config. Please try again."); // set the error message
