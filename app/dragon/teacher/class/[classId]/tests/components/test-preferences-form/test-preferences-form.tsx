@@ -1,6 +1,6 @@
 "use client";
 import { type BotConfig } from "@prisma/client";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, use, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -48,30 +48,45 @@ export default function TestPreferencesForm({
   preferences,
   classId,
   botId,
-  botConfig,
+  botConfig: config,
 }: BotPreferencesFormProps) {
   const [parsedQuestions, setParsedQuestions] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [inputFocus, setInputFocus] = useState("");
-  const [testName, setTestName] = useState<string | undefined>(botConfig?.name);
+  const [testName, setTestName] = useState<string | undefined>(config?.name);
+  const [botConfig, setBotConfig] = useState<BotConfig | null>(config);
 
   const {
     onPublish,
     onUnPublish,
     error: publishingError,
+    config: updatedConfig,
   } = useConfigPublishing({
     classId,
     botId,
   });
+  //TODO: This is a bad idea. We should not be using useEffect to update state.
+  useEffect(() => {
+    if (updatedConfig) {
+      setBotConfig(updatedConfig);
+    }
+  }, [updatedConfig]);
 
   if (publishingError) {
     setError(publishingError);
   }
 
+  if (!testBotPreferencesSchema.safeParse(config?.preferences)) {
+    setError("Failed to parse bot preferences. Please try again.");
+  }
+
   const form = useForm<z.infer<typeof testBotPreferencesSchema>>({
     resolver: zodResolver(testBotPreferencesSchema),
-    defaultValues: preferences || {},
+    defaultValues:
+      (config?.preferences as {
+        fullTest: string;
+      }) || {},
   });
   const isFormEmpty =
     !form.getValues().fullTest ||
