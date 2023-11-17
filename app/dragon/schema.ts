@@ -66,6 +66,13 @@ export const botNameSchema = z.object({
     .max(LIMITS_botNameSchema.name.maxLength),
 });
 
+export const classNameSchema = z.object({
+  name: z
+    .string()
+    .min(LIMITS_botNameSchema.name.minLength)
+    .max(LIMITS_botNameSchema.name.maxLength),
+});
+
 // Schema: teacherPreferencesSchema
 export const LIMITS_teacherPreferencesSchema = {
   professionalInformation: {

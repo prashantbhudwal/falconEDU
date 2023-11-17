@@ -11,11 +11,34 @@ export const archiveClassByClassId = async (classId: string) => {
       throw new Error("class not found");
     }
 
-    const updatedBotConfig = await prisma.botConfig.updateMany({
-      where: { classId },
+    const archivedClass = await prisma.class.update({
+      where: { id: classId },
       data: { isActive: false },
     });
-    return updatedBotConfig;
+
+    return archivedClass;
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+};
+
+export const unarchiveClassByClassId = async (classId: string) => {
+  try {
+    const isClassExist = await prisma.class.findUnique({
+      where: { id: classId },
+    });
+
+    if (!isClassExist) {
+      throw new Error("class not found");
+    }
+
+    const archivedClass = await prisma.class.update({
+      where: { id: classId },
+      data: { isActive: true },
+    });
+
+    return archivedClass;
   } catch (err) {
     console.log(err);
     return null;
