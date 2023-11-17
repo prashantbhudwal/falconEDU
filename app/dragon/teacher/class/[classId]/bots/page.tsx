@@ -8,11 +8,7 @@ import AddBotForm from "./add-bot-form";
 import { getBotConfigs } from "../../../queries";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FiArchive, FiCornerRightUp, FiTrash } from "react-icons/fi";
-import {
-  archiveAllBotsOfBotConfig,
-  unArchiveAllBotsOfBotConfig,
-  deleteBotConfigAndDeactivateBots,
-} from "./mutations";
+import { db } from "../../../routers";
 
 type BotDashboardProps = {
   params: {
@@ -60,7 +56,7 @@ export default async function Dashboard({ params }: BotDashboardProps) {
                             "are you sure you want to archive this bot?",
                           name: "Archive Bot: Instantly disables the bot for all students.",
                           icon: <FiArchive />,
-                          action: archiveAllBotsOfBotConfig,
+                          action: db.bot.archiveAllBotsOfBotConfig,
                           actionParams: [bot.id],
                         },
                       ]}
@@ -105,7 +101,7 @@ export default async function Dashboard({ params }: BotDashboardProps) {
                             "are you sure you want to unarchive this bot?",
                           name: "Activate Bot: Instantly activates the bot for all students.",
                           icon: <FiCornerRightUp />,
-                          action: unArchiveAllBotsOfBotConfig,
+                          action: db.bot.unArchiveAllBotsOfBotConfig,
                           actionParams: [bot.id],
                         },
                         {
@@ -114,7 +110,7 @@ export default async function Dashboard({ params }: BotDashboardProps) {
                             "are you sure you want to delete this bot?",
                           name: "DELETE: This will delete the bot permanently. The students will still be able to see the bot if they have already attempted it.",
                           icon: <FiTrash />,
-                          action: deleteBotConfigAndDeactivateBots,
+                          action: db.bot.deleteBotConfigAndDeactivateBots,
                           actionParams: [bot.id],
                         },
                       ]}

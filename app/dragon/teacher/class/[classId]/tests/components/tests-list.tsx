@@ -9,11 +9,7 @@ import {
 } from "@/app/dragon/teacher/components/item-card";
 import { FiArchive, FiCornerRightUp, FiTrash } from "react-icons/fi";
 import { getFormattedDate } from "@/lib/utils";
-import {
-  archiveAllBotsOfBotConfig,
-  unArchiveAllBotsOfBotConfig,
-  deleteBotConfigAndDeactivateBots,
-} from "../mutations";
+import { db } from "@/app/dragon/teacher/routers";
 
 export async function TestList({
   testConfigs,
@@ -51,7 +47,7 @@ export async function TestList({
                     description: "are you sure you want to archive this test?",
                     name: "Archive Test: Instantly disables the test for all students.",
                     icon: <FiArchive />,
-                    action: archiveAllBotsOfBotConfig,
+                    action: db.bot.archiveAllBotsOfBotConfig,
                     actionParams: [botConfig.id],
                   },
                 ]}
@@ -95,7 +91,7 @@ export async function TestList({
                       "are you sure you want to unarchive this test?",
                     name: "Activate Test: Instantly activates the test for all students.",
                     icon: <FiCornerRightUp />,
-                    action: unArchiveAllBotsOfBotConfig,
+                    action: db.bot.unArchiveAllBotsOfBotConfig,
                     actionParams: [botConfig.id],
                   },
                   {
@@ -103,7 +99,7 @@ export async function TestList({
                     description: "are you sure you want to delete this test?",
                     name: "DELETE: This will delete the test permanently. The students will still be able to see the test if they have already attempted it.",
                     icon: <FiTrash />,
-                    action: deleteBotConfigAndDeactivateBots,
+                    action: db.bot.deleteBotConfigAndDeactivateBots,
                     actionParams: [botConfig.id],
                   },
                 ]}

@@ -1,3 +1,4 @@
+"use server";
 import { isAuthorized } from "@/lib/is-authorized";
 import { getClassesURL } from "@/lib/urls";
 import prisma from "@/prisma";
