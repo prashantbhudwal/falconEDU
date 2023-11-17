@@ -13,7 +13,7 @@ import {
   typePublishedBotByClassId,
   typePublishedTestByClassId,
 } from "../queries";
-import { createBotConfig } from "@/app/dragon/teacher/mutations";
+import { db } from "@/app/dragon/teacher/routers";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
@@ -65,7 +65,7 @@ const TotalBotConfigCount = ({
   };
   const { data } = useSession();
   const userId = data?.user?.id ?? "";
-  const [botConfigCount, setbotConfigCount] = useState(
+  const [botConfigCount, setBotConfigCount] = useState(
     getBotConfigValue(configType)
   );
   const [loading, setLoading] = useState(false);
@@ -80,12 +80,12 @@ const TotalBotConfigCount = ({
     const configName =
       botConfigType === "bots" ? "Untitled Bot" : "Untitled Test";
     const configType = botConfigType === "bots" ? "chat" : "test";
-    const botConfig = await createBotConfig(
+    const botConfig = await db.botConfig.createBotConfig({
       userId,
       classId,
       configName,
-      configType
-    );
+      configType,
+    });
     const configId = botConfig?.id;
     if (!configId) {
       setLoading(false);
@@ -105,7 +105,7 @@ const TotalBotConfigCount = ({
         Total Number of
         <Select
           onValueChange={(value) =>
-            setbotConfigCount(getBotConfigValue(configType, value))
+            setBotConfigCount(getBotConfigValue(configType, value))
           }
         >
           <SelectTrigger className="min-w-[150px] max-w-fit">

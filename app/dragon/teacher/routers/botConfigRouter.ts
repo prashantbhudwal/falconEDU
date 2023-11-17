@@ -7,8 +7,15 @@ import { isAuthorized } from "@/lib/utils";
 import prisma from "@/prisma";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { botPreferencesSchema, testBotPreferencesSchema } from "../../schema";
+type BotPreferencesSchemaType = z.infer<typeof botPreferencesSchema>;
+type TestBotPreferencesSchemaType = z.infer<typeof testBotPreferencesSchema>;
+type ConfigTypeSchemaMap = {
+  chat: BotPreferencesSchemaType;
+  test: TestBotPreferencesSchemaType;
+};
 
-export async function publishBotConfig({
+export const publishBotConfig = async function ({
   classId,
   botConfigId,
 }: {
@@ -77,9 +84,9 @@ export async function publishBotConfig({
     console.error("Error:", error);
     throw error;
   }
-}
+};
 
-export async function unPublishBotConfig({
+export const unPublishBotConfig = async function ({
   classId,
   botConfigId,
 }: {
@@ -108,4 +115,94 @@ export async function unPublishBotConfig({
     console.error("Error updating BotConfig:", error);
     throw error;
   }
-}
+};
+export const createBotConfig = async function ({
+  userId,
+  classId,
+  configName,
+  configType,
+}: {
+  userId: string;
+  classId: string;
+  configName: string;
+  configType: string;
+}) {
+  await isAuthorized({
+    userType: "TEACHER",
+  });
+  const teacherProfile = await prisma.teacherProfile.findUnique({
+    where: { userId },
+  });
+
+  if (!teacherProfile) {
+    throw new Error(`TeacherProfile with userId ${userId} not found`);
+  }
+  try {
+    const botConfig = await prisma.botConfig.create({
+      data: {
+        teacherId: teacherProfile.id,
+        classId,
+        name: configName,
+        type: configType.toLocaleLowerCase(),
+      },
+    });
+    revalidatePath(getBotsURL(classId));
+    return botConfig;
+  } catch (error) {
+    console.error("Error: ", error);
+  }
+};
+export const updateBotConfig = async function <T extends "chat" | "test">({
+  classId,
+  botId,
+  data,
+  configType,
+}: {
+  classId: string;
+  botId: string;
+  data: ConfigTypeSchemaMap[T];
+  configType: T;
+}): Promise<{ success: boolean; error?: any }> {
+  await isAuthorized({
+    userType: "TEACHER",
+  });
+  try {
+    const result = await prisma.botConfig.update({
+      where: { id: botId },
+      data: {
+        preferences: data,
+      },
+    });
+    revalidatePath(getEditBotURL(classId, botId));
+    return { success: true };
+  } catch (error) {
+    console.error("Failed to update:", error);
+    return { success: false, error };
+  }
+};
+export const updateBotConfigName = async function ({
+  classId,
+  botId,
+  name,
+}: {
+  classId: string;
+  botId: string;
+  name: string;
+}): Promise<{ success: boolean; error?: any }> {
+  await isAuthorized({
+    userType: "TEACHER",
+  });
+  try {
+    const result = await prisma.botConfig.update({
+      where: { id: botId },
+      data: {
+        name: name,
+      },
+    });
+    revalidatePath(getEditBotURL(classId, botId));
+    return { success: true };
+  } catch (error) {
+    console.error("Failed to update:", error);
+    return { success: false, error };
+  }
+};

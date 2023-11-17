@@ -1,11 +1,6 @@
 import { revalidatePath } from "next/cache";
-import { publishBotConfig, unPublishBotConfig } from "./botConfigRouter";
-
-const botConfigRouter = {
-  publishBotConfig,
-  unPublishBotConfig,
-};
+import * as botConfig from "./botConfigRouter";
 
 export const db = {
-  botConfig: botConfigRouter,
+  botConfig,
 };

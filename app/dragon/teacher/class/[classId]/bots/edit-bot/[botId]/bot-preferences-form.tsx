@@ -4,7 +4,6 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { updateBotConfig, updateBotConfigName } from "../../../../../mutations";
 import { db } from "@/app/dragon/teacher/routers";
 import {
   Form,
@@ -82,7 +81,7 @@ export default function BotPreferencesForm({
 
   const onSubmit = async (data: z.infer<typeof botPreferencesSchema>) => {
     setLoading(true);
-    const result = await updateBotConfig(classId, botId, data);
+    const result = await db.botConfig.updateBotConfig({ classId, botId, data, configType: "chat" });
     setLoading(false);
     if (result.success) {
       setIsDirty(false);
@@ -137,11 +136,11 @@ export default function BotPreferencesForm({
       setBotName(botConfig?.name);
       return;
     }
-    const result = await updateBotConfigName(
+    const result = await db.botConfig.updateBotConfigName({
       classId,
       botId,
-      botName || "Bot Preferences"
-    );
+      name: botName || "Bot Preferences",
+    });
     if (result.success) {
       setError("");
     } else {

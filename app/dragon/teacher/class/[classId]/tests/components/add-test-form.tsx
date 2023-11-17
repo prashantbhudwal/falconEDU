@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createBotConfig } from "../../../../mutations";
+import { db } from "@/app/dragon/teacher/routers";
 import {
   Form,
   FormItem,
@@ -35,12 +35,12 @@ export default function AddTestForm({ classId }: AddTestFormProps) {
 
   const onSubmit = async function (values: z.infer<typeof AddTestFormSchema>) {
     const { botConfigName } = values;
-    const botConfig = await createBotConfig(
+    const botConfig = await db.botConfig.createBotConfig({
       userId,
       classId,
-      botConfigName,
-      "test"
-    );
+      configName: botConfigName,
+      configType: "test",
+    });
     if (botConfig) {
       form.reset();
     }

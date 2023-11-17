@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { getEditBotURL, getTestEditBotURL } from "@/lib/urls";
-import { createBotConfig } from "../../mutations";
+import { db } from "../../routers";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
@@ -24,12 +24,12 @@ export const NewConfigButton = function ({
     const configName =
       layoutSegment === "bots" ? "Untitled Bot" : "Untitled Test";
     const configType = layoutSegment === "bots" ? "chat" : "test";
-    const botConfig = await createBotConfig(
+    const botConfig = await db.botConfig.createBotConfig({
       userId,
       classId,
       configName,
-      configType
-    );
+      configType,
+    });
     const configId = botConfig?.id;
     if (!configId) {
       throw new Error("Failed to create bot config");

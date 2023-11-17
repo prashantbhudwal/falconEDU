@@ -4,11 +4,9 @@ import { ChangeEvent, use, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import {
-  updateTestBotConfig,
-  updateTestBotConfigName,
-  saveParsedQuestions,
-} from "../../../../../mutations";
+import { saveParsedQuestions } from "../../../../../mutations";
+import { db } from "@/app/dragon/teacher/routers";
+
 import {
   Form,
   FormControl,
@@ -116,11 +114,12 @@ export default function TestPreferencesForm({
     }
     setParsedQuestions(questions);
     const response = await saveParsedQuestions(questions, botId);
-    const updateBotConfigResult = await updateTestBotConfig(
+    const updateBotConfigResult = await db.botConfig.updateBotConfig({
       classId,
       botId,
-      data
-    );
+      data,
+      configType: "test",
+    });
     setLoading(false);
     if (response.success && updateBotConfigResult.success) {
       setError(null); // clear any existing error
@@ -139,11 +138,11 @@ export default function TestPreferencesForm({
       setTestName(botConfig?.name);
       return;
     }
-    const result = await updateTestBotConfigName(
+    const result = await db.botConfig.updateBotConfigName({
       classId,
       botId,
-      testName || "Bot Preferences"
-    );
+      name: testName || "Test Preferences",
+    });
     if (result.success) {
       setError("");
     } else {

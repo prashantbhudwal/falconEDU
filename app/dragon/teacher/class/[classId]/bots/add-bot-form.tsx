@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createBotConfig } from "../../../mutations";
+import { db } from "../../../routers";
 import {
   Form,
   FormItem,
@@ -35,12 +35,12 @@ export default function AddBotForm({ classId }: AddBotFormProps) {
 
   const onSubmit = async function (values: z.infer<typeof AddBotFormSchema>) {
     const { botConfigName } = values;
-    const botConfig = await createBotConfig(
+    const botConfig = await db.botConfig.createBotConfig({
       userId,
       classId,
-      botConfigName,
-      "chat"
-    );
+      configName: botConfigName,
+      configType: "chat",
+    });
     if (botConfig) {
       form.reset();
     }
