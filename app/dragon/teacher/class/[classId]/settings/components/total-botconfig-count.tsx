@@ -16,6 +16,7 @@ import {
 import { createBotConfig } from "@/app/dragon/teacher/mutations";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { Button } from "@/components/ui/button";
 
 type propType = {
   classId: string;
@@ -135,16 +136,16 @@ const TotalBotConfigCount = ({
           {botConfigCount}
         </span>
       </span>
-      <button
+      <Button
         onClick={() => createNewConfig(userId, classId, configType)}
-        className="px-4 py-2 rounded-lg bg-accent text-xs font-semibold flex items-center justify-center min-w-[130px] text-accent-content"
+        className="text-xs font-semibold cursor-pointer rounded-lg flex items-center justify-center min-w-[130px]"
       >
         {loading ? (
           <span className="loading loading-infinity loading-sm"></span>
         ) : (
           <span>Create new {configType === "bots" ? "Bot" : "Test"}</span>
         )}
-      </button>
+      </Button>
     </div>
   );
 };
