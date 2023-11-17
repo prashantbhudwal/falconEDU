@@ -3,7 +3,7 @@ export default function Layout(props: {
   modal: React.ReactNode;
 }) {
   return (
-    <div>
+    <div className="h-full">
       {props.children}
       {props.modal}
     </div>

@@ -1,10 +1,6 @@
-import TestPreferencesForm from "../../components/test-preferences-form/test-preferences-form";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { TestAnalysis } from "../../components/test-analysis";
 import { cache } from "react";
 import prisma from "@/prisma";
 import { testBotPreferencesSchema } from "@/app/dragon/schema";
-import { Paper } from "@/components/ui/paper";
 import { UnwrapPromise } from "@/app/dragon/student/queries";
 import { Test } from "../../components/test";
 
@@ -22,7 +18,6 @@ const fetchTestBotConfigByConfigId = cache(async (configId: string) => {
     const testConfig = await prisma.botConfig.findUnique({
       where: { id: configId },
     });
-
 
     let preferences;
     if (testConfig && testConfig.preferences) {
