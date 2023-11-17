@@ -1,5 +1,3 @@
-import { DeleteDialog } from "../../../components/delete-dialog";
-import { deleteClassByClassId } from "../../../mutations";
 import {
   getTotalPublishedBotsByClassId,
   getTotalPublishedTestsByClassId,

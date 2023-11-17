@@ -23,11 +23,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import * as z from "zod";
-import { createClassForTeacher } from "../mutations";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ClassCard from "./class-card";
 import { FolderPlusIcon } from "@heroicons/react/24/solid";
+import { db } from "../routers";
 
 const formSchema = z.object({
   className: z.string().min(3).max(50),
@@ -35,7 +35,7 @@ const formSchema = z.object({
 
 export function NewClassCard() {
   const { data } = useSession();
-  const teacherId = data?.user?.id ?? "";
+  const userId = data?.user?.id ?? "";
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -43,7 +43,7 @@ export function NewClassCard() {
     const { className } = values;
     try {
       setLoading(true);
-      await createClassForTeacher(className, teacherId);
+      await db.class.createClassForTeacher({ className, userId });
       setLoading(false);
       setOpen(false);
     } catch (error) {
