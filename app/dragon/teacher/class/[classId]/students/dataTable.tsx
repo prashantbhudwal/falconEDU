@@ -36,6 +36,7 @@ import {
 } from "@/components/ui/tooltip";
 import { ClassDialog } from "../../../components/class-dialog";
 import { removeStudentFromClass } from "./mutations";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 type StudentData = NonNullable<StudentsByClassId>[0];
 
@@ -51,14 +52,12 @@ export const columns: ColumnDef<StudentData>[] = [
     accessorKey: "User.image",
     header: "",
     cell: ({ row }) => (
-      //TODO: Add fallback image using avatar component
-      <Image
-        src={row.original?.User.image || "/chubbi.png"}
-        alt="User"
-        width={30}
-        height={30}
-        className="rounded-full"
-      />
+      <Avatar>
+        <AvatarImage src={row.original?.User.image!} />
+        <AvatarFallback>
+          <Image src="/chubbi.png" alt="User" width={30} height={30} />
+        </AvatarFallback>
+      </Avatar>
     ),
   },
   {
