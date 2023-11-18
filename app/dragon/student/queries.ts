@@ -9,7 +9,6 @@ import {
 } from "../schema";
 
 export const getStudentId = cache(async function (userId: string) {
-
   const studentProfile = await prisma.studentProfile.findFirst({
     where: { userId },
     select: { id: true },
@@ -238,3 +237,27 @@ export const getDefaultChatReadStatus = async function (botId: string) {
   if (!readStatus) throw new Error("No default chat found");
   return { isRead: readStatus?.isRead };
 };
+
+export const getClassByBotId = async function ({ botId }: { botId: string }) {
+  try {
+    const response = await prisma.bot.findUnique({
+      where: { id: botId },
+      select: {
+        BotConfig: {
+          select: {
+            Class: true,
+          },
+        },
+      },
+    });
+    if (response?.BotConfig.Class) {
+      return response.BotConfig.Class;
+    }
+    return null;
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+};
+
+export type GetClassByBotId = UnwrapPromise<ReturnType<typeof getClassByBotId>>;

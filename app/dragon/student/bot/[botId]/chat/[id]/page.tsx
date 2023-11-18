@@ -4,6 +4,7 @@ import { getStudentTeacherURL } from "@/lib/urls";
 import {
   getBotByBotId,
   getBotChatByChatId,
+  getClassByBotId,
 } from "@/app/dragon/student/queries";
 import { Chat } from "@/components/chat/chat-dragon";
 import { AvatarNavbar } from "@/app/dragon/student/components/student-navbar";
@@ -56,6 +57,7 @@ export default async function ChatPage({ params }: ChatPageProps) {
   const redirectUrl = getStudentTeacherURL(teacherId!);
   const botImage = chat?.botImage;
   const initialMessages: Message[] = chat?.messages || [];
+  const classDetails = await getClassByBotId({ botId });
   const emptyMessage =
     bot?.BotConfig.type === "test"
       ? "Say hello to start the test"
@@ -83,7 +85,7 @@ export default async function ChatPage({ params }: ChatPageProps) {
           chatId: id,
         }}
         botImage={botImage}
-        isDisabled={!bot?.isActive}
+        isDisabled={!classDetails?.isActive || !bot?.isActive}
         isSubmitted={bot?.isSubmitted}
       />
     </>
