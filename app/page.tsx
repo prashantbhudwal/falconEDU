@@ -1,10 +1,12 @@
+// TODO This is a mess, need to clean up
 "use client";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import useTrackPage from "@/hooks/analytics/useTrackPage";
 import SignIn from "@/components/auth/sign-in";
+import { LandingPageEngines } from "./landing-engines";
 
 const MainUrls = {
   localhost: "https://app.falconai.in/dragon/auth",
@@ -29,6 +31,7 @@ const getHostNameOfCurrentURL = () => {
 };
 
 const LandingPage = () => {
+  const [hostName, setHostName] = useState("");
   useTrackPage("Landing Page");
   const { data: session, status: sessionStatus } = useSession();
   const router = useRouter();
@@ -59,6 +62,7 @@ const LandingPage = () => {
   //Test UseEffect
   useEffect(() => {
     const hostName = getHostNameOfCurrentURL();
+    setHostName(hostName);
     if (hostName === "localhost") {
       router.push("/dragon/auth");
     } else if (hostName === "https://app.falconai.in") {
@@ -74,7 +78,16 @@ const LandingPage = () => {
 
   return (
     <div className="flex min-h-screen flex-col place-content-center">
-      <Image src="/chubbi.png" alt="Falcon AI Logo" width={200} height={200} />
+      {hostName === "https://app.falconai.in" ? (
+        <LandingPageEngines />
+      ) : (
+        <Image
+          src="/chubbi.png"
+          alt="Falcon AI Logo"
+          width={200}
+          height={200}
+        />
+      )}
     </div>
   );
 };
