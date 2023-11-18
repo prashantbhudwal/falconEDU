@@ -4,6 +4,7 @@ import { getClassesURL } from "@/lib/urls";
 import prisma from "@/prisma";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { cache } from "react";
 
 export const createClassForTeacher = async function ({
   className,
@@ -64,3 +65,16 @@ export const deleteClass = async (classId: string) => {
     return { success: false, message: "Failed to delete class" };
   }
 };
+
+export const getClassNameByClassId = cache(async (classId: string) => {
+  const classData = await prisma.class.findUnique({
+    where: {
+      id: classId,
+    },
+    select: {
+      name: true,
+    },
+  });
+  if (!classData) return "";
+  return classData.name;
+});

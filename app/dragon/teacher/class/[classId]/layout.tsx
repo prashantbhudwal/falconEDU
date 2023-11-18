@@ -7,7 +7,7 @@ import { cache } from "react";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { UnwrapPromise } from "@/app/dragon/student/queries";
-import { getClassNameByClassId } from "./utils";
+import { db } from "../../routers";
 
 export type BotConfigs = UnwrapPromise<ReturnType<typeof getBotConfigs>>;
 const getBotConfigs = cache(
@@ -38,7 +38,7 @@ export default async function ClassLayout({
   params: { classId: string };
 }) {
   const { classId } = params;
-  const nameOfClass = await getClassNameByClassId(classId);
+  const nameOfClass = await db.class.getClassNameByClassId(classId);
   const session = await getServerSession(authOptions);
   if (!session) return null;
   const userId = session?.user?.id;

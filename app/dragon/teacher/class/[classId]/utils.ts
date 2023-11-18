@@ -1,7 +1,7 @@
-"use server";
 import { cache } from "react";
 import { AllStudentResponsesByBotConfigId } from "./tests/queries";
 import prisma from "@/prisma";
+import { ConditionalPromptSelector } from "langchain/prompts";
 
 export const getTestMetadata = (
   allStudentResponses: AllStudentResponsesByBotConfigId
@@ -31,7 +31,7 @@ export const getTestMetadata = (
     const numberOfStudents = allStudentScore.length;
     averageScore = +(totalCorrect / numberOfStudents).toFixed(1);
   }
-
+  console.log(maxScore, highestScore, leastScore, averageScore);
   return { maxScore, highestScore, leastScore, averageScore };
 };
 
@@ -50,18 +50,3 @@ export const getProgressBarColor = (percentageValue: number) => {
     return "bg-orange-400";
   }
 };
-
-// ----------------------------------------------------------------------------------
-
-export const getClassNameByClassId = cache(async (classId: string) => {
-  const classData = await prisma.class.findUnique({
-    where: {
-      id: classId,
-    },
-    select: {
-      name: true,
-    },
-  });
-  if (!classData) return "";
-  return classData.name;
-});

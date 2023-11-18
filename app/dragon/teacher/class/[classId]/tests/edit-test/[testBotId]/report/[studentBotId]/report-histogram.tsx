@@ -10,7 +10,7 @@ type ReportHistogramType = {
   allStudentResponses: AllStudentResponsesByBotConfigId;
 };
 
-export const ReportHistogram = async ({
+export const ReportHistogram = ({
   testResults,
   allStudentResponses,
 }: ReportHistogramType) => {

@@ -2,7 +2,7 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { BiEditAlt } from "react-icons/bi";
 import { updateClassNameByClassId } from "../mutations";
-import { getClassNameByClassId } from "../../utils";
+import { db } from "@/app/dragon/teacher/routers";
 import { classNameSchema } from "@/app/dragon/schema";
 
 const EditableClassName = ({ classId }: { classId: string }) => {
@@ -12,7 +12,7 @@ const EditableClassName = ({ classId }: { classId: string }) => {
 
   useEffect(() => {
     (async () => {
-      const nameOfClass = await getClassNameByClassId(classId);
+      const nameOfClass = await db.class.getClassNameByClassId(classId);
       setClassName(nameOfClass);
     })();
   }, []);
@@ -30,8 +30,9 @@ const EditableClassName = ({ classId }: { classId: string }) => {
   const updateClassNameHandler = async () => {
     try {
       const isValidName = classNameSchema.safeParse({ name: className });
+      const classname = await db.class.getClassNameByClassId(classId);
       if (!isValidName.success) {
-        setClassName(await getClassNameByClassId(classId));
+        setClassName(classname);
         setError(
           "Failed to update , Class names should be between 3 and 30 characters in length."
         ); // set the error message
@@ -41,7 +42,7 @@ const EditableClassName = ({ classId }: { classId: string }) => {
       const response = await updateClassNameByClassId(classId, className);
       if (!response) {
         setError("Failed to update , Try again later.");
-        setClassName(await getClassNameByClassId(classId));
+        setClassName(classname);
         setShowEditableClassName(false);
       }
       setShowEditableClassName(false);
