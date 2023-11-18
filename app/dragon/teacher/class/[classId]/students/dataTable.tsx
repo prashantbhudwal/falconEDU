@@ -51,8 +51,9 @@ export const columns: ColumnDef<StudentData>[] = [
     accessorKey: "User.image",
     header: "",
     cell: ({ row }) => (
+      //TODO: Add fallback image using avatar component
       <Image
-        src={row.original?.User.image!}
+        src={row.original?.User.image || "/chubbi.png"}
         alt="User"
         width={30}
         height={30}
