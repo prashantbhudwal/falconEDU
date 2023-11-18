@@ -1,12 +1,8 @@
-import { publicProcedure, router } from "./trpc";
+import { publicProcedure, createTRPCRouter } from "./trpc";
+import { botConfigRouter } from "./routers/botConfigRouter";
 
-export const appRouter = router({
-  getTodos: publicProcedure.query(async () => {
-    return [
-      { id: 1, text: "Buy milk", done: false },
-      { id: 2, text: "Buy eggs", done: false },
-    ];
-  }),
+export const appRouter = createTRPCRouter({
+  botConfig: botConfigRouter,
 });
 
 export type AppRouter = typeof appRouter;

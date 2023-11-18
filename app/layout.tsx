@@ -3,6 +3,8 @@ import { Analytics } from "@vercel/analytics/react";
 import Providers from "../components/providers";
 import { Inter } from "next/font/google";
 import Chubbi from "../components/chubbi";
+import TRPCProvider from "./_trpc/provider";
+import { headers } from "next/headers";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -26,7 +28,7 @@ export default function RootLayout({
       <body className="flex min-h-screen flex-col bg-slate-900 text-slate-400 custom-scrollbar overflow-hidden">
         <Providers>
           <main className="flex grow flex-col items-center">
-            {children}
+            <TRPCProvider headers={headers()}>{children}</TRPCProvider>
             <Chubbi />
           </main>
         </Providers>
