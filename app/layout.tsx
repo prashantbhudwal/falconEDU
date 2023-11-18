@@ -4,7 +4,6 @@ import Providers from "../components/providers";
 import { Inter } from "next/font/google";
 import Chubbi from "../components/chubbi";
 
-
 const inter = Inter({
   subsets: ["latin"],
   display: "swap",
