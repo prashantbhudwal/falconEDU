@@ -8,6 +8,7 @@ const testQuestionsSchema = z.array(
     correct_answer: z.array(
       z.string().describe("Correct answer for the question")
     ),
+    options: z.array(z.string().describe("Options fot the question")),
     question: z.string().describe("The question asked"),
   })
 );
@@ -16,7 +17,9 @@ export type TestQuestions = z.infer<typeof testQuestionsSchema>;
 export const testQuestionObjectSchema = z.object({
   questionsInTest: z.boolean().describe("Whether the test has questions"),
   answersInTest: z.boolean().describe("Whether the test has answers"),
-  results: testQuestionsSchema.optional().describe("The array of questions. Empty if no questions in test"),
+  results: testQuestionsSchema
+    .optional()
+    .describe("The array of questions. Empty if no questions in test"),
 });
 
 export const extractTestQuestionsAsJson = {
