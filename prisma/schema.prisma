@@ -166,6 +166,7 @@ model parsedQuestions {
   question         String
   hint             String?
   question_number  Int
+  options          String[]           @default([])
   correct_answer   String[]           @default([])
   sample_answer    String?
   max_score        Float?
