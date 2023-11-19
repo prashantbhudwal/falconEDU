@@ -59,12 +59,12 @@ export async function POST(req: NextRequest) {
 
   const array = [...engineeredMessages, ...history];
 
-  const { promptTokens, cost } = countPromptTokens(array, llm.modelName);
+  // const { promptTokens, cost } = countPromptTokens(array, llm.modelName);
 
-  const messagesNew = filterMessagesByTokenLimit(array, 3500, llm.modelName);
+  // const messagesNew = filterMessagesByTokenLimit(array, 3500, llm.modelName);
 
   const { promptTokens: newPromptTokens } = countPromptTokens(
-    messagesNew,
+    array,
     llm.modelName
   );
   llm.call(array, {}, [handlers]).catch(console.error);
