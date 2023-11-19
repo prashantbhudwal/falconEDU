@@ -90,7 +90,13 @@ const Body = function ({
     },
   ];
   return (
-    <Tabs defaultValue={layoutSegment || teacherSidebarConfig[0].layoutSegment}>
+    <Tabs
+      defaultValue={
+        layoutSegment === "settings"
+          ? "bots"
+          : layoutSegment || teacherSidebarConfig[0].layoutSegment
+      }
+    >
       <TabsList className="grid grid-cols-2 bg-base-100 w-11/12">
         {teacherSidebarConfig.map((item) => (
           <TabsTrigger value={item.layoutSegment} key={item.layoutSegment}>
@@ -112,7 +118,7 @@ const Body = function ({
             <ClassSidebarItem
               key={config.id}
               name={config.name}
-              layoutSegment={config.id}
+              configId={config.id}
               href={
                 item.layoutSegment === "bots"
                   ? getEditBotURL(classId, config.id)
@@ -126,7 +132,7 @@ const Body = function ({
             <ClassSidebarItem
               key={config.id}
               name={config.name}
-              layoutSegment={config.id}
+              configId={config.id}
               href={
                 item.layoutSegment === "bots"
                   ? getEditBotURL(classId, config.id)
