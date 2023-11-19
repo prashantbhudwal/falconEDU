@@ -5,14 +5,13 @@ import { ChatOpenAI } from "langchain/chat_models/openai";
 import { HumanMessage, AIMessage } from "langchain/schema";
 import { getEngineeredChatBotMessages } from "./prompts/chat-prompts/chatBotMessages";
 import { getEngineeredTestBotMessages } from "./prompts/test-prompts/testBotMessages";
-import { getChatContextByChatId } from "./prompts/chat-prompts/queries";
 import { type BaseMessage } from "langchain/schema";
 import { countPromptTokens, filterMessagesByTokenLimit } from "./utils";
 import { saveBotChatToDatabase } from "./mutations";
-import { getBotConfigTypeByBotChatId } from "./prompts/chat-prompts/queries";
 
 // export const runtime = "edge";
 export const dynamic = "force-dynamic";
+export const maxDuration = 180;
 
 const getEngineeredMessages = async (
   chatType: string,
