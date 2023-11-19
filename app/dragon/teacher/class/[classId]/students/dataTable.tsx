@@ -42,7 +42,7 @@ type StudentData = NonNullable<StudentsByClassId>[0];
 
 export const columns: ColumnDef<StudentData>[] = [
   {
-    id: "seialNumber",
+    id: "serialNumber",
     accessorKey: "",
     header: "S.No.",
     cell: ({ row }) => <div>{row.index + 1}</div>,

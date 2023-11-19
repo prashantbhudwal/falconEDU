@@ -8,7 +8,7 @@ const testQuestionsSchema = z.array(
     correct_answer: z.array(
       z.string().describe("Correct answer for the question")
     ),
-    options: z.array(z.string().describe("Options fot the question")),
+    options: z.array(z.string().describe("Options for the question")),
     question: z.string().describe("The question asked"),
   })
 );
