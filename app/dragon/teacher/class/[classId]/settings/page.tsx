@@ -11,6 +11,9 @@ import Link from "next/link";
 import { getStudentsURL } from "@/lib/urls";
 import ClassStatus from "./components/class-status";
 import TotalBotConfigCount from "./components/total-botconfig-count";
+import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
+import { PlusCircleIcon, PlusIcon } from "@heroicons/react/24/solid";
 
 export default async function ClassSettings({
   params,
@@ -25,36 +28,33 @@ export default async function ClassSettings({
   const unpublishedBot = await getTotalUnpublishedBotsByClassId(classId);
 
   return (
-    <div className="w-[80%] mx-auto my-10">
+    <div className="w-[80%] mx-auto my-10 flex flex-col">
       {/* ------------------------------------------------------------------------------- */}
 
       <div className="flex justify-between items-center">
         <EditableClassName classId={classId} />
-        <ClassStatus classId={classId} />
+        <div className="flex items-center gap-5 p-4 rounded-xl bg-base-100">
+          <div className="flex flex-col items-center text-xs">
+            <div className="text-2xl">
+              {" "}
+              {totalStudents ? totalStudents?.length : 0}
+            </div>
+            <div>Students</div>
+          </div>
+          <Separator
+            decorative
+            orientation="vertical"
+            className="h-[20px] bg-secondary"
+          />
+
+          <Link href={getStudentsURL(classId)}>
+            <Button variant={"outline"} size={"icon"}>
+              <PlusIcon className="w-10 h-10" />
+            </Button>
+          </Link>
+        </div>
       </div>
-
-      {/* ------------------------------------------------------------------------------- */}
-
-      <div className="my-10 flex flex-col items-start text-lg">
-        <span className="tracking-wide">
-          Total Number of students in your class :{" "}
-          <span className="text-white font-semibold text-xl">
-            {totalStudents ? totalStudents?.length : 0}
-          </span>
-        </span>
-        <p className="flex gap-1 text-[10px] tracking-wide items-center">
-          <InformationCircleIcon className="w-3 h-3" />
-          Class students gain automatic access to all class Bots and Tests
-        </p>
-        <Link
-          href={getStudentsURL(classId)}
-          className="px-4 py-2 rounded-lg bg-accent text-xs font-semibold text-accent-content"
-        >
-          Manage Students
-        </Link>
-      </div>
-
-      {/* ----------------------------------------------------------------------------------- */}
+      {/* <ClassStatus classId={classId} /> */}
 
       <TotalBotConfigCount
         classId={classId}
