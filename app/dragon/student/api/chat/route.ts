@@ -63,10 +63,10 @@ export async function POST(req: NextRequest) {
 
   // const messagesNew = filterMessagesByTokenLimit(array, 3500, llm.modelName);
 
-  const { promptTokens: newPromptTokens } = countPromptTokens(
-    array,
-    llm.modelName
-  );
+  // const { promptTokens: newPromptTokens } = countPromptTokens(
+  //   array,
+  //   llm.modelName
+  // );
   llm.call(array, {}, [handlers]).catch(console.error);
 
   return new StreamingTextResponse(stream);
