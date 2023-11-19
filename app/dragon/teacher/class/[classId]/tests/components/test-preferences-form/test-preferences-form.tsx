@@ -54,6 +54,7 @@ export default function TestPreferencesForm({
   const [inputFocus, setInputFocus] = useState("");
   const [testName, setTestName] = useState<string | undefined>(config?.name);
   const [botConfig, setBotConfig] = useState<BotConfig | null>(config);
+  const [hasErrorWhileSaving, setHasErrorWhileSaving] = useState(true);
 
   const {
     onPublish,
@@ -103,14 +104,14 @@ export default function TestPreferencesForm({
         : "No answers provided. Please provide the answers.";
       setError(errorMessage);
       setLoading(false);
-      return;
+      return { success: false };
     }
     if (!questions) {
       setLoading(false);
       setError(
         "No questions provided. Please provide the questions and answers."
       );
-      return;
+      return { success: false };
     }
     setParsedQuestions(questions);
     const response = await saveParsedQuestions(questions, botId);
@@ -124,8 +125,10 @@ export default function TestPreferencesForm({
     if (response.success && updateBotConfigResult.success) {
       setError(null); // clear any existing error
       setIsDirty(false);
+      return { success: true };
     } else {
       setError("Failed to update bot config. Please try again."); // set the error message
+      return { success: false };
     }
   };
 
@@ -160,6 +163,13 @@ export default function TestPreferencesForm({
     setError("");
   };
 
+  const publishHandler = async () => {
+    const { success }: { success: boolean } = await onSubmit(form.getValues());
+    if (success) {
+      onPublish();
+    }
+  };
+
   return (
     <>
       <Form {...form}>
@@ -187,8 +197,11 @@ export default function TestPreferencesForm({
 
                   <Button
                     disabled={isFormEmpty && !isDirty}
+                    type="button"
                     variant={botConfig?.published ? "destructive" : "secondary"}
-                    onClick={botConfig?.published ? onUnPublish : onPublish}
+                    onClick={
+                      botConfig?.published ? onUnPublish : publishHandler
+                    }
                   >
                     {botConfig?.published ? "Un-publish" : "Publish"}
                   </Button>
