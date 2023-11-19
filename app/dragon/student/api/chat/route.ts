@@ -14,11 +14,16 @@ import { getBotConfigTypeByBotChatId } from "./prompts/chat-prompts/queries";
 // export const runtime = "edge";
 export const dynamic = "force-dynamic";
 
-const getEngineeredMessages = async (chatType: string, botChatId: string) => {
+const getEngineeredMessages = async (
+  chatType: string,
+  botChatId: string,
+  context: any
+) => {
+  const parsedContext = JSON.parse(context);
   if (chatType === "chat") {
-    return await getEngineeredChatBotMessages(botChatId);
+    return await getEngineeredChatBotMessages(botChatId, parsedContext);
   } else if (chatType === "test") {
-    return await getEngineeredTestBotMessages(botChatId);
+    return await getEngineeredTestBotMessages(botChatId, parsedContext);
   }
   return [];
 };
@@ -27,13 +32,16 @@ export async function POST(req: NextRequest) {
   const json = await req.json();
   let { messages } = json;
   const botChatId = json.chatId;
-
-  const botType = await getBotConfigTypeByBotChatId(botChatId);
-
+  const context = json.context;
+  const botType = json.type;
   if (!botType) {
     throw new Error(`BotConfig with botChatId ${botChatId} not found`);
   }
-  const engineeredMessages = await getEngineeredMessages(botType, botChatId);
+  const engineeredMessages = await getEngineeredMessages(
+    botType,
+    botChatId,
+    context
+  );
 
   const { stream, handlers, writer } = LangChainStream({
     async onCompletion(completion) {

@@ -38,9 +38,10 @@ export const getTestQuestionsByBotChatId = cache(async function (
   return testQuestions;
 });
 
-export async function getEngineeredTestBotMessages(botChatId: string) {
-  const questions = await getTestQuestionsByBotChatId(botChatId);
-
+export async function getEngineeredTestBotMessages(
+  botChatId: string,
+  questions: TestQuestionsByBotChatId
+) {
   const questionsWitRelevantFields = questions?.map((questionObject) => {
     const { question, correct_answer, sample_answer, question_type, hint } =
       questionObject;

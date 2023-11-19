@@ -11,6 +11,9 @@ import { AvatarNavbar } from "@/app/dragon/student/components/student-navbar";
 import SubmitTestButton from "./submit-test-btn";
 import prisma from "@/prisma";
 import { revalidatePath } from "next/cache";
+import { getTestQuestionsByBotChatId } from "@/app/dragon/student/api/chat/prompts/test-prompts/testBotMessages";
+import { getChatContextByChatId } from "@/app/dragon/student/api/chat/prompts/chat-prompts/queries";
+import { json } from "stream/consumers";
 
 export interface ChatPageProps {
   params: {
@@ -63,6 +66,16 @@ export default async function ChatPage({ params }: ChatPageProps) {
       ? "Say hello to start the test"
       : "Start chatting with your teacher";
 
+  let context;
+
+  if (bot?.BotConfig.type === "test") {
+    const parsedQuestions = await getTestQuestionsByBotChatId(id);
+    context = JSON.stringify(parsedQuestions);
+  } else {
+    const chatContext = await getChatContextByChatId(id);
+    context = JSON.stringify(chatContext);
+  }
+
   return (
     <>
       <AvatarNavbar
@@ -83,6 +96,8 @@ export default async function ChatPage({ params }: ChatPageProps) {
         emptyMessage={emptyMessage}
         chatBody={{
           chatId: id,
+          context,
+          type: bot?.BotConfig.type,
         }}
         botImage={botImage}
         isDisabled={!classDetails?.isActive || !bot?.isActive}

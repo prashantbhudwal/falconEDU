@@ -2,7 +2,7 @@ import {
   botPreferences as botPreferencesTest,
   teacherPreferences as teacherPreferencesTest,
 } from "../../../../../test-data";
-import { getChatContextByChatId } from "./queries";
+import { ChatContextByChatId, getChatContextByChatId } from "./queries";
 import { messageTemplates } from "./chat-template";
 
 import { isEmptyObject } from "./queries";
@@ -26,8 +26,10 @@ const studentPreferences = {
 
 const { name: studentName, likes, dislikes } = studentPreferences;
 
-export async function getEngineeredChatBotMessages(botChatId: string) {
-  const context = await getChatContextByChatId(botChatId);
+export async function getEngineeredChatBotMessages(
+  botChatId: string,
+  context: ChatContextByChatId
+) {
   if (!context) {
     console.error("context not found for chatId:");
   }
@@ -62,7 +64,6 @@ export async function getEngineeredChatBotMessages(botChatId: string) {
 
   const { personalInformation, professionalInformation, likes, dislikes } =
     teacherPreferences;
-
 
   const { systemTemplate, humanTemplate } = messageTemplates;
 
