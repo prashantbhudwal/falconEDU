@@ -159,10 +159,21 @@ export default function useNavbarButtons() {
         {
           name: "My Preferences",
           href: "/dragon/teacher/teacher-preferences",
-          linkClass: "btn-secondary",
+          linkClass: "btn-primary rounded-xl",
           icon: {
             Icon: FiSettings,
             additionalClass: "",
+          },
+          onClick: () => {},
+          isEnabled: true,
+        },
+        {
+          name: "AI Tools",
+          href: "/preferences",
+          linkClass: "btn-outline border-slate-700 bg-base-100 rounded-xl",
+          icon: {
+            Icon: FiSettings,
+            additionalClass: "text-fuchsia-700",
           },
           onClick: () => {},
           isEnabled: true,
