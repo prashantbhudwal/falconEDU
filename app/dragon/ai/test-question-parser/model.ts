@@ -31,7 +31,7 @@ export const extractTestQuestionsAsJson = {
 //Infer TYpes from Zod Schema
 
 const MODEL_OPTIONS = {
-  name: "gpt-3.5-turbo-1106",
+  name: "gpt-4-1106-preview",
   temperature: 0,
 };
 
