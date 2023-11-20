@@ -1,9 +1,6 @@
 import prisma from "@/prisma";
 import { cache } from "react";
-import {
-  ChatPromptTemplate,
-  SystemMessagePromptTemplate,
-} from "langchain/prompts";
+import { ChatPromptTemplate } from "langchain/prompts";
 import { UnwrapPromise } from "../../../../queries";
 import { systemTemplate } from "./test-template";
 export type TestQuestionsByBotChatId = UnwrapPromise<
@@ -39,7 +36,6 @@ export const getTestQuestionsByBotChatId = cache(async function (
 });
 
 export async function getEngineeredTestBotMessages(
-  botChatId: string,
   questions: TestQuestionsByBotChatId
 ) {
   const questionsWitRelevantFields = questions?.map((questionObject) => {
@@ -63,12 +59,10 @@ export async function getEngineeredTestBotMessages(
 
   const stringifiedQuestions = JSON.stringify(questionsWitRelevantFields ?? "");
 
-  const chatPrompt = ChatPromptTemplate.fromPromptMessages([
-    SystemMessagePromptTemplate.fromTemplate(systemTemplate),
-  ]);
+  const prompt = ChatPromptTemplate.fromMessages([["system", systemTemplate]]);
 
-  const engineeredMessages = await chatPrompt.formatMessages({
+  const engineeredMessages = await prompt.formatMessages({
     fullTest: stringifiedQuestions,
   });
-  return engineeredMessages;
+  return { engineeredMessages, prompt };
 }

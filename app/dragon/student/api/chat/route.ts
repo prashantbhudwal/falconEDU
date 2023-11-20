@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
-import { StreamingTextResponse } from "ai";
-import { LangChainStream } from "ai";
-import { ChatOpenAI } from "langchain/chat_models/openai";
+import OpenAI from "openai";
+const openai = new OpenAI();
+import { OpenAIStream, StreamingTextResponse } from "ai";
 import { HumanMessage, AIMessage } from "langchain/schema";
 import { getEngineeredChatBotMessages } from "./prompts/chat-prompts/chatBotMessages";
 import { getEngineeredTestBotMessages } from "./prompts/test-prompts/testBotMessages";
@@ -13,19 +13,22 @@ import { saveBotChatToDatabase } from "./mutations";
 export const dynamic = "force-dynamic";
 export const maxDuration = 180;
 
-const getEngineeredMessages = async (
-  chatType: string,
-  botChatId: string,
-  context: any
-) => {
-  const parsedContext = JSON.parse(context);
-  if (chatType === "chat") {
-    return await getEngineeredChatBotMessages(botChatId, parsedContext);
-  } else if (chatType === "test") {
-    return await getEngineeredTestBotMessages(botChatId, parsedContext);
-  }
-  return [];
-};
+//TODO - this is a big jugaad, need to fix this, either use LangChain or OpenAI Format, don't mix both
+function formatLangchainMessagesForOpenAI(messages: BaseMessage[]) {
+  return messages.map((m: BaseMessage) => {
+    let role: "user" | "assistant" | "system";
+    if (m._getType() === "human") {
+      role = "user";
+    } else if (m._getType() === "ai") {
+      role = "assistant";
+    } else if (m._getType() === "system") {
+      role = "system";
+    } else {
+      role = "user";
+    }
+    return { role, content: m.content as string };
+  });
+}
 
 export async function POST(req: NextRequest) {
   const json = await req.json();
@@ -36,38 +39,42 @@ export async function POST(req: NextRequest) {
   if (!botType) {
     throw new Error(`BotConfig with botChatId ${botChatId} not found`);
   }
-  const engineeredMessages = await getEngineeredMessages(
-    botType,
-    botChatId,
-    context
-  );
-
-  const { stream, handlers, writer } = LangChainStream({
-    async onCompletion(completion) {
-      await saveBotChatToDatabase(botChatId, completion, messages);
-    },
-  });
-
-  const llm = new ChatOpenAI({
-    streaming: true,
-    modelName: "gpt-3.5-turbo-1106",
-  });
+  const parsedContext = JSON.parse(context);
+  const { engineeredMessages } =
+    botType === "chat"
+      ? await getEngineeredChatBotMessages(parsedContext)
+      : await getEngineeredTestBotMessages(parsedContext);
 
   const history: BaseMessage[] = messages.map((m: any) =>
     m.role == "user" ? new HumanMessage(m.content) : new AIMessage(m.content)
   );
 
-  const array = [...engineeredMessages, ...history];
+  const langChainMessageArray = [...engineeredMessages, ...history];
 
-  // const { promptTokens, cost } = countPromptTokens(array, llm.modelName);
+  const openAiFormatMessages = formatLangchainMessagesForOpenAI(
+    langChainMessageArray
+  );
 
-  // const messagesNew = filterMessagesByTokenLimit(array, 3500, llm.modelName);
+  const completion = await openai.chat.completions.create({
+    stream: true,
+    messages: openAiFormatMessages,
+    model: "gpt-3.5-turbo-1106",
+  });
 
-  // const { promptTokens: newPromptTokens } = countPromptTokens(
-  //   array,
-  //   llm.modelName
-  // );
-  llm.call(array, {}, [handlers]).catch(console.error);
+  const newStream = OpenAIStream(completion, {
+    async onCompletion(completion) {
+      await saveBotChatToDatabase(botChatId, completion, messages);
+    },
+  });
 
-  return new StreamingTextResponse(stream);
+  return new StreamingTextResponse(newStream);
 }
+//TODO - implement token limit filtering
+// const { promptTokens, cost } = countPromptTokens(array, llm.modelName);
+
+// const messagesNew = filterMessagesByTokenLimit(array, 3500, llm.modelName);
+
+// const { promptTokens: newPromptTokens } = countPromptTokens(
+//   array,
+//   llm.modelName
+// );
