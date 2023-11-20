@@ -4,6 +4,8 @@ import {
   FiMail,
   FiDownload,
   FiSkipBack,
+  FiSliders,
+  FiTool,
 } from "react-icons/fi"; // import necessary icons
 import { worksheetAnswerKeyAtom } from "@/lib/atoms/worksheet";
 import { FaWandMagicSparkles } from "react-icons/fa6";
@@ -161,7 +163,7 @@ export default function useNavbarButtons() {
           href: "/dragon/teacher/teacher-preferences",
           linkClass: "btn-primary rounded-xl",
           icon: {
-            Icon: FiSettings,
+            Icon: FiSliders,
             additionalClass: "",
           },
           onClick: () => {},
@@ -172,7 +174,7 @@ export default function useNavbarButtons() {
           href: "/preferences",
           linkClass: "btn-outline border-slate-700 bg-base-100 rounded-xl",
           icon: {
-            Icon: FiSettings,
+            Icon: FiTool,
             additionalClass: "text-fuchsia-700",
           },
           onClick: () => {},
