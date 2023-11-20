@@ -1,7 +1,13 @@
 "use client";
 import usePreferences from "@/hooks/usePreferences";
 import usePageTracking from "@/hooks/usePageTracking";
-const hideConfig = ["/pricing", "/profile", "/dragon"];
+const hideConfig = [
+  "/pricing",
+  "/profile/teacher",
+  "/dragon",
+  "/dragon/teacher",
+  "/dragon/teacher/teacher-preferences",
+];
 export default function FalconBreadCrumbs() {
   const { currentPage } = usePageTracking();
   const { topic, subtopic, grade, board, subject } = usePreferences();
