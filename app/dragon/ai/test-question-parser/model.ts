@@ -15,8 +15,12 @@ const testQuestionsSchema = z.array(
 export type TestQuestions = z.infer<typeof testQuestionsSchema>;
 
 export const testQuestionObjectSchema = z.object({
-  questionsInTest: z.boolean().describe("Whether the test has questions"),
-  answersInTest: z.boolean().describe("Whether the test has answers"),
+  questionsInTest: z
+    .boolean()
+    .describe("Whether questions are provided in test."),
+  answersInTest: z
+    .boolean()
+    .describe("Whether answers are provided in the test."),
   results: testQuestionsSchema
     .optional()
     .describe("The array of questions. Empty if no questions in test"),
