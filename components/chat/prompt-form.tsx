@@ -22,10 +22,10 @@ export function PromptForm({
   const inputRef = React.useRef<HTMLTextAreaElement>(null);
 
   React.useEffect(() => {
-    if (inputRef.current) {
+    if (inputRef.current && !isLoading) {
       inputRef.current.focus();
     }
-  }, []);
+  }, [isLoading]);
 
   return (
     <form
@@ -46,10 +46,11 @@ export function PromptForm({
           onKeyDown={onKeyDown}
           rows={1}
           value={input}
+          disabled={isLoading}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Send a message"
           spellCheck={false}
-          className="min-h-[60px] w-full resize-none bg-transparent px-4 py-[1.3rem] focus-within:outline-none sm:text-sm"
+          className="min-h-[60px] w-full resize-none bg-transparent px-4 py-[1.3rem] focus-within:outline-none sm:text-sm disabled:cursor-not-allowed"
         />
         <div className="absolute right-0 bottom-2 sm:right-4">
           <Button
