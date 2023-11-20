@@ -23,28 +23,43 @@ export default function SubmitTestButton({
 }) {
   const [loading, setLoading] = useState(false);
   const [showDialog, setShowDialog] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const router = useRouter();
 
-  const handleSubmit = async () => {
+  const saveTestHandler = async () => {
     try {
       setLoading(true);
-      setShowDialog(true);
-
       const testResults = await getTestResults(testBotId);
       if (testResults) {
         await saveTestResultsByBotId(testBotId, testResults);
         await submitTestBot(testBotId);
+        setLoading(false);
+        return { success: true };
       }
       setLoading(false);
-      setTimeout(() => {
-        setShowDialog(false);
-      }, 2000);
-      router.push(redirectUrl);
+      return { success: false };
     } catch (err) {
       setLoading(false);
       setShowDialog(false);
-      console.error(err);
+      console.log(err);
+      return { success: false };
     }
+  };
+
+  const handleSubmit = async () => {
+    setShowDialog(true);
+    const { success }: { success: boolean } = await saveTestHandler();
+    if (!success) {
+      setLoading(false);
+      setShowDialog(false);
+      return;
+    }
+    setIsSubmitted(true);
+    setTimeout(() => {
+      setIsSubmitted(false);
+      setShowDialog(false);
+      router.push(redirectUrl);
+    }, 3000);
   };
 
   return (
@@ -55,11 +70,8 @@ export default function SubmitTestButton({
             <DialogTitle className="text-lg mb-2 flex items-center">
               {loading ? "Submitting..." : "Good Job! Taking you home..."}
             </DialogTitle>
-            {loading ? (
-              <Lottie animationData={loadingBall} />
-            ) : (
-              <Lottie animationData={testCheckAnimation} />
-            )}
+            {loading && <Lottie animationData={loadingBall} />}
+            {isSubmitted && <Lottie animationData={testCheckAnimation} />}
           </DialogHeader>
         </DialogContent>
       </Dialog>
