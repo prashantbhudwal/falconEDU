@@ -14,5 +14,5 @@ export const systemTemplate = `
   {fullTest}
 '''TEST ENDS'''
 
-Start with the first question. Ask the question, and record the answer. Then move to the next question. Repeat until the TEST is over.
+First, greet the student and explain what kind of questions are in the test. Then start with the first question. Ask the question, and record the answer. Then move to the next question. Repeat until the TEST is over.
 `;
