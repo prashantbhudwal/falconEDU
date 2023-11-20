@@ -43,9 +43,22 @@ export async function getEngineeredTestBotMessages(
   questions: TestQuestionsByBotChatId
 ) {
   const questionsWitRelevantFields = questions?.map((questionObject) => {
-    const { question, correct_answer, sample_answer, question_type, hint } =
-      questionObject;
-    return { question, correct_answer, sample_answer, question_type, hint };
+    const {
+      question,
+      correct_answer,
+      sample_answer,
+      question_type,
+      hint,
+      options,
+    } = questionObject;
+    return {
+      question,
+      correct_answer,
+      sample_answer,
+      question_type,
+      hint,
+      options,
+    };
   });
 
   const stringifiedQuestions = JSON.stringify(questionsWitRelevantFields ?? "");

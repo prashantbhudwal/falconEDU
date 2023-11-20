@@ -66,6 +66,7 @@ export const saveParsedQuestions = async (
           question_number: ques.question_number,
           question_type: "OBJECTIVE_FILL_IN_THE_BLANK_MULTIPLE_ANSWER",
           correct_answer: ques.correct_answer,
+          options: ques.options,
         })),
       });
     });
