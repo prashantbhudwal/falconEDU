@@ -15,6 +15,16 @@ export const getChatContextByChatId = cache(async function (chatId: string) {
     select: {
       bot: {
         select: {
+          student: {
+            select: {
+              preferences: true,
+              User: {
+                select: {
+                  name: true,
+                },
+              },
+            },
+          },
           BotConfig: {
             select: {
               preferences: true,
@@ -28,20 +38,6 @@ export const getChatContextByChatId = cache(async function (chatId: string) {
                   },
                 },
               },
-              Bot: {
-                select: {
-                  student: {
-                    select: {
-                      preferences: true,
-                      User: {
-                        select: {
-                          name: true,
-                        },
-                      },
-                    },
-                  },
-                },
-              },
             },
           },
         },
@@ -49,14 +45,26 @@ export const getChatContextByChatId = cache(async function (chatId: string) {
     },
   });
 
+  const test = await prisma.bot.findMany({
+    where: {
+      BotChat: {
+        some: {
+          id: chatId,
+        },
+      },
+    },
+  });
+  console.log("test", test);
+
+  console.log("context", context);
   if (!context) {
     console.error("context not found for chatId:", chatId);
   }
 
   let botPreferences = context?.bot?.BotConfig?.preferences;
   let teacherPreferences = context?.bot?.BotConfig?.teacher?.preferences;
-  let studentPreferences =
-    context?.bot?.BotConfig?.Bot?.[0].student?.preferences;
+  let studentPreferences = context?.bot?.student?.preferences;
+    
 
   // Add default values for preferences and then parse them when empty
 
@@ -75,9 +83,10 @@ export const getChatContextByChatId = cache(async function (chatId: string) {
     parsedTeacherPreferences.success &&
     parsedStudentPreferences.success
   ) {
+   
     const flatContext = {
       teacherName: context?.bot?.BotConfig?.teacher?.User?.name,
-      studentName: context?.bot?.BotConfig?.Bot?.[0].student?.User?.name,
+      studentName: context?.bot.student.User.name,
       botPreferences: parsedBotPreferences.data,
       teacherPreferences: parsedTeacherPreferences.data,
       studentPreferences: parsedStudentPreferences.data,
