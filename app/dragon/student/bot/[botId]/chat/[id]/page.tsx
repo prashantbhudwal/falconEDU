@@ -100,7 +100,9 @@ export default async function ChatPage({ params }: ChatPageProps) {
           type: bot?.BotConfig.type,
         }}
         botImage={botImage}
-        isDisabled={!classDetails?.isActive || !bot?.isActive}
+        isDisabled={
+          !classDetails?.isActive || !bot?.isActive || !bot?.BotConfig.published
+        }
         isSubmitted={bot?.isSubmitted}
       />
     </>
