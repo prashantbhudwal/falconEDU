@@ -46,7 +46,7 @@ export const addStudentToClass = async (email: string, classId: string) => {
 
       // Fetch existing botConfigs for the class
       const botConfigs = await prisma.botConfig.findMany({
-        where: { classId, isActive: true },
+        where: { classId, isActive: true, published: true },
       });
 
       // Fetch teacher's name for the bot
