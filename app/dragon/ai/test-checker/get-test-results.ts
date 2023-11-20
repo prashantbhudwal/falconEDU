@@ -12,7 +12,6 @@ import {
 import { systemTemplateForChecking } from "./templates";
 import { getBotByBotId } from "../../student/queries";
 import { z } from "zod";
-export const maxDuration = 180;
 
 
 const getTest = cache(async function (testBotId: string) {

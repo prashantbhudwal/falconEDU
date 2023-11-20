@@ -7,7 +7,6 @@ import {
   type TestResults,
 } from "@/app/dragon/ai/test-checker/model";
 import { z } from "zod";
-export const maxDuration = 180;
 
 const testResultObjectSchemaWithId = z.array(
   TestResultsAnswerSchema.extend({
