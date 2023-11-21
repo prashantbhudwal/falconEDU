@@ -18,7 +18,13 @@ export const TestResultsAnswerSchema = z.object({
   question_type: QuestionTypeSchema,
   question: z.string().describe("The question asked"),
   hint: z.string().optional().describe("The hint, if provided"),
-  question_number: z.number().describe("Question number of the test"),
+  question_number: z
+    .number()
+    .min(1)
+    .max(100)
+    .describe(
+      "The serial number of each question in the test. The question asked FIRST in the test is numbered as 1, and so on. Never count duplicate questions."
+    ),
   correct_answer: z.array(
     z.string().describe("Correct answer for the question")
   ),
@@ -42,16 +48,16 @@ export type TestResults = z.infer<typeof TestResultsSchema>;
 export const testResultsObjectSchema = z.object({
   results: TestResultsSchema,
 });
+export type TestResultsObject = z.infer<typeof testResultsObjectSchema>;
 
 export const checkTest = {
   name: "checkTest",
   description: "Checks the test based on answers provided",
   parameters: zodToJsonSchema(testResultsObjectSchema),
 };
-//Infer TYpes from Zod Schem
 
 const MODEL_OPTIONS = {
-  name: "gpt-4-1106-preview",
+  name: "gpt-3.5-turbo-1106",
   temperature: 0,
 };
 
