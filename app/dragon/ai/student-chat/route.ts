@@ -45,6 +45,8 @@ export async function POST(req: NextRequest) {
       ? await getEngineeredChatBotMessages(parsedContext)
       : await getEngineeredTestBotMessages(parsedContext);
 
+  const TEMPERATURE = botType === "chat" ? 1 : 0.2;
+
   const history: BaseMessage[] = messages.map((m: any) =>
     m.role == "user" ? new HumanMessage(m.content) : new AIMessage(m.content)
   );
@@ -57,6 +59,7 @@ export async function POST(req: NextRequest) {
 
   const completion = await openai.chat.completions.create({
     stream: true,
+    temperature: TEMPERATURE,
     messages: openAiFormatMessages,
     model: "gpt-3.5-turbo-1106",
   });
