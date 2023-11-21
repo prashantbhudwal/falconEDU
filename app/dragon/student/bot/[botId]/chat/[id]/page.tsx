@@ -11,8 +11,8 @@ import { AvatarNavbar } from "@/app/dragon/student/components/student-navbar";
 import SubmitTestButton from "./submit-test-btn";
 import prisma from "@/prisma";
 import { revalidatePath } from "next/cache";
-import { getTestQuestionsByBotChatId } from "@/app/dragon/student/api/chat/prompts/test-prompts/testBotMessages";
-import { getChatContextByChatId } from "@/app/dragon/student/api/chat/prompts/chat-prompts/queries";
+import { getTestQuestionsByBotChatId } from "@/app/dragon/ai/student-chat/prompts/test-prompts/testBotMessages";
+import { getChatContextByChatId } from "@/app/dragon/ai/student-chat/prompts/chat-prompts/queries";
 import { json } from "stream/consumers";
 
 export interface ChatPageProps {

@@ -1,7 +1,7 @@
 import prisma from "@/prisma";
 import { cache } from "react";
 import { ChatPromptTemplate } from "langchain/prompts";
-import { UnwrapPromise } from "../../../../queries";
+import { UnwrapPromise } from "../../../../student/queries";
 import { systemTemplate } from "./test-template";
 export type TestQuestionsByBotChatId = UnwrapPromise<
   ReturnType<typeof getTestQuestionsByBotChatId>

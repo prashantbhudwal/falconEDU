@@ -3,12 +3,12 @@ import { ChatPromptTemplate } from "langchain/prompts";
 import {
   botPreferences as botPreferencesTest,
   teacherPreferences as teacherPreferencesTest,
-} from "../../../../../test-data";
+} from "../../../../test-data";
 import { ChatContextByChatId, isEmptyObject } from "./queries";
 import {
   botPreferencesSchema,
   teacherPreferencesSchema,
-} from "../../../../../schema";
+} from "../../../../schema";
 import * as z from "zod";
 
 export const getPreferences = (context: ChatContextByChatId) => {
