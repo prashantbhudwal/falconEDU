@@ -153,7 +153,7 @@ const Header = function ({
         className={cn(
           "text-base font-semibold text-slate-400 mb-4 text-left flex items-center justify-between hover:bg-base-100 hover:text-slate-300 rounded-sm",
           {
-            "shadow-sm shadow-primary": isActive,
+            "shadow-sm shadow-accent": isActive,
           }
         )}
       >
@@ -168,7 +168,7 @@ const Header = function ({
               >
                 <MdDashboard
                   className={cn("text-slate-300", {
-                    "text-primary": isActive,
+                    "text-accent": isActive,
                   })}
                 />
               </Button>
