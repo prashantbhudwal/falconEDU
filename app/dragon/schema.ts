@@ -154,6 +154,38 @@ export const testBotPreferencesSchema = z.object({
   fullTest: z.string().max(LIMITS_testBotPreferencesSchema.fullTest.maxLength),
 });
 
+export const parsedQuestionsSchema = z.object({
+  correct_answer: z
+    .array(
+      z.object({
+        value: z.string().min(3, {
+          message: "Answer must be at least 3 characters",
+        }),
+      })
+    )
+    .min(1)
+    .max(4),
+  options: z
+    .array(
+      z.object({
+        value: z.string().min(3, {
+          message: "Options must be at least 3 characters",
+        }),
+      })
+    )
+    .min(2)
+    .max(4),
+  question: z
+    .string()
+    .min(4, {
+      message: "Question must be at least 4 characters.",
+    })
+    .max(100, {
+      message: "Question must not exceed 100 characters.",
+    }),
+  //later add other properties like hint , description , questionType etc...
+});
+
 // Exhaustive bot preferences schema
 // export const exhaustiveBotPreferencesSchema = z.object({
 //   // Core Config

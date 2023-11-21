@@ -1,6 +1,6 @@
 "use client";
 import { type BotConfig } from "@prisma/client";
-import { ChangeEvent, use, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -29,6 +29,9 @@ import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 import { Input } from "@/components/ui/input";
 import { getTestQuestions } from "@/app/dragon/ai/test-question-parser/get-test-questions";
 import { useConfigPublishing } from "../../../../../hooks/use-config-publishing";
+import { TestParsedQuestions } from "./test-parsed-question";
+import { ClassDialog } from "@/app/dragon/teacher/components/class-dialog";
+import { typeGetParsedQuestionByBotConfigId } from "@/app/dragon/teacher/routers/parsedQuestionRouter";
 const MAX_CHARS = LIMITS_testBotPreferencesSchema.fullTest.maxLength;
 const defaultValues: z.infer<typeof testBotPreferencesSchema> = {
   fullTest:
@@ -40,6 +43,7 @@ type BotPreferencesFormProps = {
   classId: string;
   botId: string;
   botConfig: BotConfig | null;
+  parsedQuestions: typeGetParsedQuestionByBotConfigId;
 };
 
 export default function TestPreferencesForm({
@@ -47,14 +51,15 @@ export default function TestPreferencesForm({
   classId,
   botId,
   botConfig: config,
+  parsedQuestions,
 }: BotPreferencesFormProps) {
-  const [parsedQuestions, setParsedQuestions] = useState<any[]>([]);
+  const [questions, setQuestions] =
+    useState<typeGetParsedQuestionByBotConfigId>(parsedQuestions);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [inputFocus, setInputFocus] = useState("");
   const [testName, setTestName] = useState<string | undefined>(config?.name);
   const [botConfig, setBotConfig] = useState<BotConfig | null>(config);
-  const [hasErrorWhileSaving, setHasErrorWhileSaving] = useState(true);
 
   const {
     onPublish,
@@ -65,12 +70,21 @@ export default function TestPreferencesForm({
     classId,
     botId,
   });
+  const getParsedQuestions = async () => {
+    const response =
+      await db.parseQuestionRouter.getParsedQuestionByBotConfigId({
+        botConfigId: botId,
+      });
+    if (response) {
+      setQuestions(response);
+    }
+  };
   //TODO: This is a bad idea. We should not be using useEffect to update state.
   useEffect(() => {
     if (updatedConfig) {
       setBotConfig(updatedConfig);
     }
-  }, [updatedConfig]);
+  }, [updatedConfig, botId]);
 
   if (publishingError) {
     setError(publishingError);
@@ -87,12 +101,14 @@ export default function TestPreferencesForm({
         fullTest: string;
       }) || {},
   });
+
   const isFormEmpty =
     !form.getValues().fullTest ||
     form.getValues().fullTest === defaultValues.fullTest;
 
   const { isDirty, setIsDirty } = useIsFormDirty(form);
 
+  // --------------------------------------------- On Parsing ----------------------------------------------------------------
   const onSubmit = async (data: z.infer<typeof testBotPreferencesSchema>) => {
     setLoading(true);
     const { questions, hasQuestions, hasAnswers } = await getTestQuestions(
@@ -113,7 +129,6 @@ export default function TestPreferencesForm({
       );
       return { success: false };
     }
-    setParsedQuestions(questions);
     const response = await saveParsedQuestions(questions, botId);
     const updateBotConfigResult = await db.botConfig.updateBotConfig({
       classId,
@@ -123,6 +138,8 @@ export default function TestPreferencesForm({
     });
     setLoading(false);
     if (response.success && updateBotConfigResult.success) {
+      //calling this function to update the state of questions after successfully saving to database
+      await getParsedQuestions();
       setError(null); // clear any existing error
       setIsDirty(false);
       return { success: true };
@@ -163,13 +180,6 @@ export default function TestPreferencesForm({
     setError("");
   };
 
-  const publishHandler = async () => {
-    const { success }: { success: boolean } = await onSubmit(form.getValues());
-    if (success) {
-      onPublish();
-    }
-  };
-
   return (
     <>
       <Form {...form}>
@@ -189,23 +199,57 @@ export default function TestPreferencesForm({
                   <div className="text-red-500 text-sm mt-3">{error}</div>
                 )}
               </div>
-              <div className="flex flex-col gap-2">
-                <div className="flex flex-row gap-6">
-                  <Button type="submit" disabled={loading || !isDirty}>
-                    {loading ? "Saving" : isDirty ? "Save" : "Saved"}
-                  </Button>
-
+              <div className="flex flex-col gap-2 items-end">
+                {!questions && (
                   <Button
-                    disabled={isFormEmpty && !isDirty}
-                    type="button"
-                    variant={botConfig?.published ? "destructive" : "secondary"}
-                    onClick={
-                      botConfig?.published ? onUnPublish : publishHandler
-                    }
+                    type="submit"
+                    disabled={loading || !isDirty}
+                    className="min-w-[100px]"
                   >
-                    {botConfig?.published ? "Un-publish" : "Publish"}
+                    {loading ? (
+                      <span className="loading loading-infinity loading-sm"></span>
+                    ) : isDirty ? (
+                      "Save"
+                    ) : (
+                      "Saved"
+                    )}
                   </Button>
-                </div>
+                )}
+                {questions && (
+                  <>
+                    {botConfig?.published ? (
+                      <ClassDialog
+                        title="Un-publish Test"
+                        description="Completing this action will render the Test inactive."
+                        action={onUnPublish}
+                        trigger={
+                          <Button
+                            // disabled={isFormEmpty && !isDirty}
+                            type="button"
+                            variant="destructive"
+                          >
+                            Un-publish
+                          </Button>
+                        }
+                      />
+                    ) : (
+                      <ClassDialog
+                        title="Publish Test"
+                        description="This action will make the Test available to all students in the class."
+                        action={onPublish}
+                        trigger={
+                          <Button
+                            // disabled={isFormEmpty && !isDirty}
+                            type="button"
+                            variant="secondary"
+                          >
+                            Publish
+                          </Button>
+                        }
+                      />
+                    )}
+                  </>
+                )}
                 {isDirty && (
                   <div className="text-sm text-slate-500">
                     You have unsaved changes.
@@ -214,48 +258,57 @@ export default function TestPreferencesForm({
               </div>
             </div>
             <Separator className="my-6" />
-            <FormField
-              control={form.control}
-              name="fullTest"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel
-                    className={`mb-5 flex gap-2 align-middle font-bold ${
-                      inputFocus === "instructions" ? "text-white" : ""
-                    }`}
-                  >
-                    Instructions
-                    <FiInfo />
-                  </FormLabel>
-                  <FormControl>
-                    <Textarea
-                      className="resize-none h-96"
-                      {...field}
-                      onFocus={() => setInputFocus("instructions")}
-                      onBlur={() => setInputFocus("")}
-                      hasCounter
-                      maxChars={MAX_CHARS}
-                      required
-                      placeholder="Enter or paste the full test here. Please provide the answers too. The bot will conduct the test for you. "
+            {!questions && (
+              <FormField
+                control={form.control}
+                name="fullTest"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel
+                      className={`mb-5 flex gap-2 align-middle font-bold ${
+                        inputFocus === "instructions" ? "text-white" : ""
+                      }`}
+                    >
+                      Instructions
+                      <FiInfo />
+                    </FormLabel>
+                    <FormControl>
+                      <Textarea
+                        className="resize-none h-96"
+                        {...field}
+                        onFocus={() => setInputFocus("instructions")}
+                        onBlur={() => setInputFocus("")}
+                        hasCounter
+                        maxChars={MAX_CHARS}
+                        required
+                        placeholder="Enter or paste the full test here. Please provide the answers too. The bot will conduct the test for you. "
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      {"Don't forget to provide answers."}
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
+            {questions && questions.length > 0 && (
+              <>
+                {questions.map((question, i) => {
+                  return (
+                    <TestParsedQuestions
+                      key={i}
+                      question={question}
+                      className="mt-10"
                     />
-                  </FormControl>
-                  <FormDescription>
-                    {"Don't forget to provide answers."}
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                  );
+                })}
+              </>
+            )}
           </div>
         </form>
       </Form>
       {/* Displaying parsed questions for testing  */}
-      <Separator />
-      <div className="bg-base-200">
-        {parsedQuestions.map((question, index) => (
-          <div key={index}>{question.question}</div>
-        ))}
-      </div>
     </>
   );
 }

@@ -1,6 +1,5 @@
 import {
   getAllQuestionResponsesByBotConfigId,
-  getParsedQuestionByBotConfigId,
   getStudentsByBotConfigId,
 } from "../queries";
 import {
@@ -13,6 +12,7 @@ import { getStudentsURL } from "@/lib/urls";
 import { Button } from "@/components/ui/button";
 import { SummaryStatTable } from "./summary-stat-table";
 import { getTestMetadata } from "../../utils";
+import { db } from "@/app/dragon/teacher/routers";
 
 export async function TestAnalysis({
   testBotId,
@@ -113,7 +113,10 @@ const SummaryStats = async function ({
   totalPendingTest: number;
   totalSubmittedTest: number;
 }) {
-  const testQuestions = await getParsedQuestionByBotConfigId(testBotId);
+  const testQuestions =
+    await db.parseQuestionRouter.getParsedQuestionByBotConfigId({
+      botConfigId: testBotId,
+    });
   const allStudentResponses =
     await getAllQuestionResponsesByBotConfigId(testBotId);
   const { averageScore, highestScore, leastScore, maxScore } =

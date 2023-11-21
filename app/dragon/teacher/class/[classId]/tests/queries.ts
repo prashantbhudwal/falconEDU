@@ -104,7 +104,6 @@ export const getDefaultChatMessagesByStudentBotId = cache(async function (
     // },
   });
 
-
   if (!defaultChat || !defaultChat.messages) {
     throw new Error(`Default chat not found for studentBotId ${studentBotId}`);
   }
@@ -208,29 +207,4 @@ export const getAllQuestionResponsesByBotConfigId = cache(
 );
 export type AllStudentResponsesByBotConfigId = UnwrapPromise<
   ReturnType<typeof getAllQuestionResponsesByBotConfigId>
->;
-
-export const getParsedQuestionByBotConfigId = cache(
-  async (botConfigId: string) => {
-    try {
-      const questions = await prisma.botConfig.findUnique({
-        where: { id: botConfigId },
-        select: {
-          parsedQuestions: true,
-        },
-      });
-
-      if (questions && questions.parsedQuestions.length > 0) {
-        return questions.parsedQuestions;
-      }
-
-      return null;
-    } catch (err) {
-      console.error(err);
-      return null;
-    }
-  }
-);
-export type typeGetParsedQuestionByBotConfigId = UnwrapPromise<
-  ReturnType<typeof getParsedQuestionByBotConfigId>
 >;

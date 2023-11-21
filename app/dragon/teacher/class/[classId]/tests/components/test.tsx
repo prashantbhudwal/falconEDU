@@ -4,6 +4,7 @@ import TestPreferencesForm from "./test-preferences-form/test-preferences-form";
 import { TestAnalysis } from "./test-analysis";
 import { BotConfig } from "@prisma/client";
 import { type TestBotConfigByConfigId } from "../edit-test/[testBotId]/page";
+import { db } from "@/app/dragon/teacher/routers";
 
 export async function Test({
   classId,
@@ -15,6 +16,10 @@ export async function Test({
   testConfigAndPreferences: TestBotConfigByConfigId;
 }) {
   const { preferences, testConfig } = testConfigAndPreferences;
+  const parsedQuestions =
+    await db.parseQuestionRouter.getParsedQuestionByBotConfigId({
+      botConfigId: testBotId,
+    });
   return (
     <Paper variant={"gray"} className="w-full max-w-5xl py-3 px-2">
       <Tabs defaultValue="test">
@@ -38,6 +43,7 @@ export async function Test({
             botConfig={testConfig}
             classId={classId}
             botId={testBotId}
+            parsedQuestions={parsedQuestions}
           />
         </TabsContent>
         <TabsContent value="submissions">

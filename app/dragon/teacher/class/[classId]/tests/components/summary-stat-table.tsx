@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/tooltip";
 import { InformationCircleIcon } from "@heroicons/react/24/solid";
 import { getProgressBarColor } from "../../utils";
-import { typeGetParsedQuestionByBotConfigId } from "../queries";
+import { typeGetParsedQuestionByBotConfigId } from "@/app/dragon/teacher/routers/parsedQuestionRouter";
 
 export const SummaryStatTable = ({
   testQuestions,
