@@ -10,7 +10,7 @@ export const getStudentsURL = (classId: string) =>
 export const getTestsUrl = (classId: string) =>
   `${baseUrl}/teacher/class/${classId}/tests`;
 export const getSettingsUrl = (classId: string) =>
-  `${baseUrl}/teacher/class/${classId}/settings`;
+  `${baseUrl}/teacher/class/${classId}/dashboard`;
 
 export const getEditBotURL = (classId: string, botId: string) =>
   `${baseUrl}/teacher/class/${classId}/bots/edit-bot/${botId}`;

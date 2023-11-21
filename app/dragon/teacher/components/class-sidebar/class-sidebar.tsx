@@ -92,7 +92,7 @@ const Body = function ({
   return (
     <Tabs
       defaultValue={
-        layoutSegment === "settings" || layoutSegment === "students"
+        layoutSegment === "dashboard" || layoutSegment === "students"
           ? "bots"
           : layoutSegment || teacherSidebarConfig[0].layoutSegment
       }
