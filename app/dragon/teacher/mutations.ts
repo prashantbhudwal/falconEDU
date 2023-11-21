@@ -64,7 +64,7 @@ export const saveParsedQuestions = async (
           botConfigId: botId,
           question: ques.question,
           question_number: ques.question_number,
-          question_type: "OBJECTIVE_FILL_IN_THE_BLANK_MULTIPLE_ANSWER",
+          question_type: ques.question_type,
           correct_answer: ques.correct_answer,
           options: ques.options,
         })),

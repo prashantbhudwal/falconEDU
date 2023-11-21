@@ -1,7 +1,8 @@
 import * as z from "zod";
 import { zodToJsonSchema } from "zod-to-json-schema";
+import { QuestionType } from "@prisma/client"; // Find a way to type check question type with prisma
 
-const QuestionTypeSchema = z.enum([
+const questionTypes = [
   "OBJECTIVE_MULTIPLE_CHOICE_SINGLE_ANSWER",
   "OBJECTIVE_TRUE_FALSE",
   "OBJECTIVE_FILL_IN_THE_BLANK_SINGLE_ANSWER",
@@ -11,8 +12,12 @@ const QuestionTypeSchema = z.enum([
   "SUBJECTIVE_ESSAY",
   "SUBJECTIVE_SHORT_ANSWER",
   "OTHER",
-]);
-// Define the rest of the related schemas if necessary
+] as const;
+
+export const QuestionTypeSchema = z
+  .enum(questionTypes)
+  .describe("The type of question asked");
+
 export const TestResultsAnswerSchema = z.object({
   question_type: QuestionTypeSchema,
   question: z.string().describe("The question asked"),

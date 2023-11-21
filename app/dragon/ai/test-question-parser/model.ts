@@ -1,6 +1,7 @@
 import { ChatOpenAI } from "langchain/chat_models/openai";
 import * as z from "zod";
 import { zodToJsonSchema } from "zod-to-json-schema";
+import { QuestionTypeSchema } from "../test-checker/tool";
 
 const testQuestionsSchema = z.array(
   z.object({
@@ -10,6 +11,7 @@ const testQuestionsSchema = z.array(
     ),
     options: z.array(z.string().describe("Options for the question")),
     question: z.string().describe("The question asked"),
+    question_type: QuestionTypeSchema,
   })
 );
 export type TestQuestions = z.infer<typeof testQuestionsSchema>;
