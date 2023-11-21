@@ -5,7 +5,7 @@ import prisma from "@/prisma";
 import {
   TestResultsAnswerSchema,
   type TestResults,
-} from "@/app/dragon/ai/test-checker/model";
+} from "@/app/dragon/ai/test-checker/tool";
 import { z } from "zod";
 
 const testResultObjectSchemaWithId = z.array(

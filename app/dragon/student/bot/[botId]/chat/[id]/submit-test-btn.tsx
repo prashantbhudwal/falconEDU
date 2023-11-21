@@ -12,7 +12,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { getTestResults } from "@/app/dragon/ai/test-checker/get-test-results";
+import { checkTest } from "@/app/dragon/ai/test-checker";
 
 export default function SubmitTestButton({
   testBotId,
@@ -29,7 +29,7 @@ export default function SubmitTestButton({
   const saveTestHandler = async () => {
     try {
       setLoading(true);
-      const testResults = await getTestResults(testBotId);
+      const testResults = await checkTest(testBotId);
       if (testResults) {
         await saveTestResultsByBotId(testBotId, testResults);
         await submitTestBot(testBotId);
