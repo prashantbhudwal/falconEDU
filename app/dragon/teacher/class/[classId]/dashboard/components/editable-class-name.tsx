@@ -63,14 +63,14 @@ const EditableClassName = ({ classId }: { classId: string }) => {
             onChange={onClassNameChange}
             autoFocus
             onBlur={updateClassNameHandler}
-            className="outline-none pb-2 text-4xl pl-0 font-bold w-fit tracking-wide bg-transparent"
+            className="outline-none pb-2 text-2xl pl-0 font-bold w-fit tracking-wide bg-transparent"
           />
           {error && <p className="text-xs text-red-500">{error}</p>}
         </div>
       ) : (
         <>
           <div className="flex gap-8 items-baseline w-fit pb-2">
-            <h1 className="text-4xl font-bold tracking-wide">{className}</h1>
+            <h1 className="text-2xl font-bold tracking-wide">{className}</h1>
             <BiEditAlt
               onClick={() => setShowEditableClassName(true)}
               className="text-xl transition-all cursor-pointer box-content p-2 translate-y-2 hover:bg-accent hover:text-accent-content rounded-full"

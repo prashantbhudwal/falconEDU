@@ -1,13 +1,23 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { getClassIsActiveByClassId } from "../queries";
 import { ClassDialog } from "@/app/dragon/teacher/components/class-dialog";
 import { Button } from "@/components/ui/button";
 import { LuArchive, LuArchiveRestore } from "react-icons/lu";
 import { archiveClassByClassId, unarchiveClassByClassId } from "../mutations";
+import { Card } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 
-const ClassStatus = ({ classId }: { classId: string }) => {
+export const ToggleClassStatusCard = ({ classId }: { classId: string }) => {
+  const buttonRef = useRef<HTMLDivElement>(null);
+
   const [isActive, setIsActive] = useState(true);
+
+  const onCardClick = () => {
+    if (buttonRef.current) {
+      buttonRef.current.click();
+    }
+  };
 
   useEffect(() => {
     (async () => {
@@ -32,20 +42,28 @@ const ClassStatus = ({ classId }: { classId: string }) => {
   };
 
   return (
-    <div className="flex items-center gap-5">
+    <Card
+      onClick={onCardClick}
+      className={cn(
+        "flex items-center gap-5 w-[400px] justify-start pl-10 hover:cursor-pointer hover:text-base-100",
+        {
+          "hover:bg-primary": !isActive,
+          "hover:bg-destructive": isActive,
+        }
+      )}
+    >
       {isActive ? (
         <ClassDialog
           title="Archive Class"
           description="This action will Archive the class and all the Test/Bots will become Inactive "
           action={() => archiveHandler("archive")}
           trigger={
-            <Button
-              variant={"outline"}
-              size={"icon"}
-              className="hover:bg-destructive"
-            >
-              <LuArchive />
-            </Button>
+            <div ref={buttonRef}>
+              <div className="flex items-center gap-4 text-lg">
+                <LuArchive />
+                Archive Class
+              </div>
+            </div>
           }
         />
       ) : (
@@ -54,28 +72,16 @@ const ClassStatus = ({ classId }: { classId: string }) => {
           description="This action will Unarchive the class and all the Test/Bots will become Active "
           action={() => archiveHandler("unarchive")}
           trigger={
-            <Button
-              variant={"outline"}
-              size={"icon"}
-              className="hover:bg-destructive"
-            >
-              <LuArchiveRestore />
-            </Button>
+            <div ref={buttonRef}>
+              <div className="flex items-center gap-4 text-lg">
+                <LuArchiveRestore />
+                Archive Class
+              </div>
+            </div>
           }
         />
       )}
-      <div className="text-[10px] flex flex-col items-end">
-        <p className="font-semibold text-[18px] flex items-center gap-2">
-          <span
-            className={`p-[6px] rounded-full ${
-              isActive ? "bg-green-400" : "bg-red-400"
-            }`}
-          ></span>
-          {isActive ? "Active" : "Archived"}
-        </p>
-      </div>
-    </div>
+    </Card>
   );
 };
 
-export default ClassStatus;

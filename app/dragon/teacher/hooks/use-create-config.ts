@@ -5,14 +5,17 @@ import { getEditBotURL, getTestEditBotURL } from "@/lib/urls";
 
 export function useCreateNewConfig() {
   const router = useRouter();
-  const createNewConfig = async (
-    userId: string,
-    classId: string,
-    layoutSegment: string
-  ) => {
-    const configName =
-      layoutSegment === "bots" ? "Untitled Bot" : "Untitled Test";
-    const configType = layoutSegment === "bots" ? "chat" : "test";
+  const createNewConfig = async ({
+    userId,
+    classId,
+
+    configType,
+  }: {
+    userId: string;
+    classId: string;
+    configType: "chat" | "test";
+  }) => {
+    const configName = configType === "chat" ? "Untitled Bot" : "Untitled Test";
     const botConfig = await db.botConfig.createBotConfig({
       userId,
       classId,
