@@ -1,6 +1,13 @@
 "use client";
 import { FaRobot } from "react-icons/fa6";
 import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+  TooltipProvider,
+} from "@ui/tooltip";
+
+import {
   ClipboardDocumentCheckIcon,
   UsersIcon,
 } from "@heroicons/react/24/solid";
@@ -20,6 +27,8 @@ import { BotConfigs } from "../../class/[classId]/layout";
 import { NewConfigButton } from "./new-config-btn";
 import { ClassSidebarItem } from "./class-sidebar-item";
 import { useSelectedLayoutSegment } from "next/navigation";
+import { MdDashboard } from "react-icons/md";
+import { cn } from "@/lib/utils";
 
 export function ClassSidebar({
   classId,
@@ -153,19 +162,42 @@ const Header = function ({
   nameOfClass: string;
   classId: string;
 }) {
+  const layoutSegment = useSelectedLayoutSegment();
+  const isActive = layoutSegment === "dashboard";
+
   return (
-    <div className="text-base font-semibold text-slate-400 mb-4 text-left flex items-center justify-between">
-      <div className="truncate w-[220] px-2">{nameOfClass}</div>
-      <Link href={getSettingsUrl(classId)}>
-        <Button
-          variant={"ghost"}
-          size={"icon"}
-          className="rounded-full hover:bg-base-300 hover:text-slate-400 text-slate-600"
-        >
-          <FiEdit className="w-6" />
-        </Button>
-      </Link>
-    </div>
+    <Link href={getSettingsUrl(classId)}>
+      <div
+        className={cn(
+          "text-base font-semibold text-slate-400 mb-4 text-left flex items-center justify-between hover:bg-base-100 hover:text-slate-300 rounded-sm",
+          {
+            "shadow-sm shadow-primary": isActive,
+          }
+        )}
+      >
+        <div className="truncate w-[220] px-2">{nameOfClass}</div>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant={"ghost"}
+                size={"icon"}
+                className="rounded-full hover:bg-base-100 hover:text-slate-400 text-slate-600"
+              >
+                <MdDashboard
+                  className={cn("text-slate-300", {
+                    "text-primary": isActive,
+                  })}
+                />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent className="bg-base-200 text-slate-300">
+              Class Dashboard
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      </div>
+    </Link>
   );
 };
 
