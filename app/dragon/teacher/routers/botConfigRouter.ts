@@ -128,7 +128,7 @@ export const createBotConfig = async function ({
   userId: string;
   classId: string;
   configName: string;
-  configType: string;
+  configType: "chat" | "test";
 }) {
   await isAuthorized({
     userType: "TEACHER",
