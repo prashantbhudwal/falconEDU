@@ -8,12 +8,15 @@ import prisma from "@/prisma";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { botPreferencesSchema, testBotPreferencesSchema } from "../../schema";
+import { cache } from "react";
+import { UnwrapPromise } from "../../student/queries";
 type BotPreferencesSchemaType = z.infer<typeof botPreferencesSchema>;
 type TestBotPreferencesSchemaType = z.infer<typeof testBotPreferencesSchema>;
 type ConfigTypeSchemaMap = {
   chat: BotPreferencesSchemaType;
   test: TestBotPreferencesSchemaType;
 };
+export type Configs = UnwrapPromise<ReturnType<typeof getConfigs>>;
 
 export const publishBotConfig = async function ({
   classId,
@@ -206,3 +209,73 @@ export const updateBotConfigName = async function ({
     return { success: false, error };
   }
 };
+export const getConfigs = cache(
+  async ({ userId, classId }: { userId: string; classId: string }) => {
+    const teacherProfile = await prisma.teacherProfile.findUnique({
+      where: { userId },
+    });
+
+    if (!teacherProfile) {
+      throw new Error(`TeacherProfile with userId ${userId} not found`);
+    }
+    const botConfigs = await prisma.botConfig.findMany({
+      where: {
+        teacherId: teacherProfile.id,
+        classId,
+      },
+    });
+
+    const testConfigs = botConfigs.filter(
+      (botConfig) => botConfig.type === "test"
+    );
+    const chatConfigs = botConfigs.filter(
+      (botConfig) => botConfig.type === "chat"
+    );
+
+    const activeChatsConfigs = chatConfigs
+      .filter((botConfig) => botConfig.isActive)
+      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+    const archivedChatsConfigs = chatConfigs
+      .filter((botConfig) => !botConfig.isActive)
+      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+
+    const activeTestConfigs = testConfigs
+      .filter((botConfig) => botConfig.isActive)
+      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+
+    const archivedTestConfigs = testConfigs
+      .filter((botConfig) => !botConfig.isActive)
+      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+
+    const publishedChatConfigs = chatConfigs.filter(
+      (botConfig) => botConfig.published
+    );
+    const unPublishedChatConfigs = chatConfigs.filter(
+      (botConfig) => !botConfig.published
+    );
+    const publishedTestConfigs = testConfigs.filter(
+      (botConfig) => botConfig.published
+    );
+    const unPublishedTestConfigs = testConfigs.filter(
+      (botConfig) => !botConfig.published
+    );
+
+    const configs = {
+      chat: {
+        all: chatConfigs,
+        active: activeChatsConfigs,
+        archived: archivedChatsConfigs,
+        published: publishedChatConfigs,
+        unpublished: unPublishedChatConfigs,
+      },
+      test: {
+        all: testConfigs,
+        active: activeTestConfigs,
+        archived: archivedTestConfigs,
+        published: publishedTestConfigs,
+        unpublished: unPublishedTestConfigs,
+      },
+    };
+    return configs;
+  }
+);

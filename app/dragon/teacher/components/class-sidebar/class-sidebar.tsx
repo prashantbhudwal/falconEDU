@@ -23,61 +23,43 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { getEditBotURL, getTestEditBotURL } from "@/lib/urls";
 import { Button } from "@/components/ui/button";
 import { Avatar } from "@radix-ui/react-avatar";
-import { BotConfigs } from "../../class/[classId]/layout";
 import { NewConfigButton } from "./new-config-btn";
 import { ClassSidebarItem } from "./class-sidebar-item";
 import { useSelectedLayoutSegment } from "next/navigation";
 import { MdDashboard } from "react-icons/md";
 import { cn } from "@/lib/utils";
+import { Configs } from "../../routers/botConfigRouter";
 
 export function ClassSidebar({
   classId,
   nameOfClass,
-  testConfigs,
-  botConfigs,
+  configs,
 }: {
   classId: string;
   nameOfClass: string;
-  testConfigs: BotConfigs;
-  botConfigs: BotConfigs;
+  configs: Configs;
 }) {
   return (
     <nav className="bg-base-200 w-full flex flex-col custom-scrollbar overflow-y-auto h-full py-4 space-y-1 pl-2 pb-32">
       <Header nameOfClass={nameOfClass} classId={classId} />
-      <Body
-        botConfigs={botConfigs}
-        testConfigs={testConfigs}
-        classId={classId}
-      />
+      <Body configs={configs} classId={classId} />
       <Footer classId={classId} />
     </nav>
   );
 }
 
 const Body = function ({
-  botConfigs,
-  testConfigs,
+  configs,
   classId,
 }: {
-  botConfigs: BotConfigs;
-  testConfigs: BotConfigs;
+  configs: Configs;
   classId: string;
 }) {
   const layoutSegment = useSelectedLayoutSegment();
-  const activeBots = botConfigs
-    .filter((botConfig) => botConfig.isActive)
-    .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
-  const archivedBots = botConfigs
-    .filter((botConfig) => !botConfig.isActive)
-    .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
-
-  const activeTests = testConfigs
-    .filter((botConfig) => botConfig.isActive)
-    .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
-
-  const archivedTests = testConfigs
-    .filter((botConfig) => !botConfig.isActive)
-    .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+  const activeBots = configs.chat.active;
+  const archivedBots = configs.chat.archived;
+  const activeTests = configs.test.active;
+  const archivedTests = configs.test.archived;
 
   //TODO: Layout segment is a bad name. Change it to something else.
   const teacherSidebarConfig = [
