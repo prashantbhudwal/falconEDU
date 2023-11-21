@@ -5,17 +5,20 @@ import { cn } from "@/lib/utils";
 import { ChatMessageActions } from "./chat-message-actions";
 import { ChatMessageMarkdown } from "./chat-message-markdown";
 
-
 export interface ChatMessageProps {
   message: Message;
   botImage?: string;
   studentImage?: string;
+  isLastMessage?: boolean;
+  isLoading?: boolean;
 }
 
 export function ChatMessage({
   message,
   botImage,
   studentImage,
+  isLastMessage,
+  isLoading,
   ...props
 }: ChatMessageProps) {
   return (
@@ -44,7 +47,13 @@ export function ChatMessage({
         )}
       </div>
       <div className="ml-4 flex-1 space-y-2 overflow-hidden px-1">
-        <ChatMessageMarkdown messageContent={message.content} />
+        <ChatMessageMarkdown
+          key={`message-${isLoading}`}
+          messageContent={message.content}
+          isLastMessage={isLastMessage}
+          isLoading={isLoading}
+          messageRole={message.role}
+        />
         <ChatMessageActions message={message} />
       </div>
     </div>

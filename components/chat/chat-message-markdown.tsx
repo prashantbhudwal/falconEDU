@@ -3,22 +3,50 @@ import { ElementContent } from "react-markdown/lib";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import { CodeBlock } from "@/app/(engines)/(merlin)/merlin/components/code-block";
+import Image from "next/image";
 type TextElementContent = ElementContent & {
   value: string;
 };
 
 export function ChatMessageMarkdown({
   messageContent,
+  isLastMessage,
+  isLoading,
+  messageRole,
 }: {
   messageContent: string;
+  isLastMessage?: boolean;
+  isLoading?: boolean;
+  messageRole?: string;
 }) {
   return (
     <MemoizedReactMarkdown
       className="prose break-words dark:prose-invert prose-p:leading-relaxed prose-pre:p-0"
       remarkPlugins={[remarkGfm, remarkMath]}
       components={{
-        p({ children }) {
-          return <p className="mb-2 last:mb-0">{children}</p>;
+        p({ children, node, ...props }) {
+          const isLastParagraph =
+            node?.position?.end.offset === messageContent.length;
+          const showChubbi =
+            messageRole !== "user" &&
+            isLastMessage === true &&
+            isLoading === true &&
+            isLastParagraph;
+
+          return (
+            <p className={`mb-2 last:mb-0`} {...props}>
+              {children}
+              {showChubbi && (
+                <Image
+                  src="/chubbi.png"
+                  alt="dot"
+                  width={25}
+                  height={25}
+                  className="inline-block ml-1"
+                />
+              )}
+            </p>
+          );
         },
         code({ node, className, children, ...props }) {
           if (Array.isArray(children) && children.length) {

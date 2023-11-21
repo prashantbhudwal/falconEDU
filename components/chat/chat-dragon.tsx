@@ -62,7 +62,7 @@ export function Chat({
       <div className={cn("pb-[200px] pt-4 md:pt-10", className)}>
         {messages.length ? (
           <>
-            <ChatList messages={messages} botImage={botImage} />
+            <ChatList messages={messages} botImage={botImage} isLoading = {isLoading} />
           </>
         ) : (
           <div className="mx-auto max-w-2xl px-4 pt-8">
