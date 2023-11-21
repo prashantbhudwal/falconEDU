@@ -31,10 +31,9 @@ export default async function ClassSettings({
   return (
     <div className="w-[80%] mx-auto my-10 flex flex-col space-y-10">
       {/* ------------------------------------------------------------------------------- */}
-
-      <div className="flex justify-between items-center">
-        <EditableClassName classId={classId} />
-      </div>
+      <EditableClassName classId={classId} />
+      {/* ------------------------------------------------------------------------------- */}
+      <Separator decorative orientation="horizontal" className="w-full" />
       <div className="flex justify-start items-center space-x-10">
         <ConfigCard classId={classId} configType="chat" configs={configs} />
         <ConfigCard classId={classId} configType="test" configs={configs} />
@@ -67,7 +66,7 @@ const StudentsCard = function ({
       <Separator
         decorative
         orientation="vertical"
-        className="h-[20px] bg-secondary"
+        className="h-[20px] bg-accent"
       />
 
       <Link href={getStudentsURL(classId)}>
