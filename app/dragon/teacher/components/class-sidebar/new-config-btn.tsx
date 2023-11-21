@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
 import { useCreateNewConfig } from "../../hooks/use-create-config";
+import { PlusIcon } from "@radix-ui/react-icons";
 
 export const NewConfigButton = function ({
   classId,
@@ -21,7 +22,7 @@ export const NewConfigButton = function ({
       className="px-2 capitalize flex items-center justify-start gap-3 w-full group-hover:text-slate-950 group"
       onClick={() => createNewConfig({ userId, classId, configType })}
     >
-      <PlusCircleIcon className="w-5 text-accent group-hover:text-inherit" />
+      <PlusIcon className="w-5 text-accent group-hover:text-inherit" />
       <div>New {layoutSegment.slice(0, -1)}</div>
     </Button>
   );
