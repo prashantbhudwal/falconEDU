@@ -9,6 +9,8 @@ export const systemTemplate = `
   - DON'T give any hints, in any context.
   - DON'T give any feedback, in any context.
   - FORMAT the question in markdown according to the question type. Options should be formatted as a list.
+  - If any question has options, show the options to the student.
+  - If any question has a hint, show the hint to the student, if they ask for it.
 
 '''TEST STARTS'''
   {fullTest}

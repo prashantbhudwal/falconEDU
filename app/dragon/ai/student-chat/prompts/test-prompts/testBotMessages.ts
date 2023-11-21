@@ -39,21 +39,12 @@ export async function getEngineeredTestBotMessages(
   questions: TestQuestionsByBotChatId
 ) {
   const questionsWitRelevantFields = questions?.map((questionObject) => {
-    const {
-      question,
-      correct_answer,
-      sample_answer,
-      question_type,
-      hint,
-      options,
-    } = questionObject;
+    const { question, question_type, hint, options } = questionObject;
     return {
       question,
-      correct_answer,
-      sample_answer,
+      options,
       question_type,
       hint,
-      options,
     };
   });
 
