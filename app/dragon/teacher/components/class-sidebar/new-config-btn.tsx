@@ -1,10 +1,8 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { getEditBotURL, getTestEditBotURL } from "@/lib/urls";
-import { db } from "../../routers";
-import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
+import {useCreateNewConfig} from "../../hooks/use-create-config";
 
 export const NewConfigButton = function ({
   classId,
@@ -13,33 +11,9 @@ export const NewConfigButton = function ({
   classId: string;
   layoutSegment: string;
 }) {
-  const router = useRouter();
   const { data } = useSession();
   const userId = data?.user?.id ?? "";
-  const createNewConfig = async (
-    userId: string,
-    classId: string,
-    layoutSegment: string
-  ) => {
-    const configName =
-      layoutSegment === "bots" ? "Untitled Bot" : "Untitled Test";
-    const configType = layoutSegment === "bots" ? "chat" : "test";
-    const botConfig = await db.botConfig.createBotConfig({
-      userId,
-      classId,
-      configName,
-      configType,
-    });
-    const configId = botConfig?.id;
-    if (!configId) {
-      throw new Error("Failed to create bot config");
-    }
-    router.push(
-      configType === "chat"
-        ? getEditBotURL(classId, configId)
-        : getTestEditBotURL(classId, configId)
-    );
-  };
+  const createNewConfig = useCreateNewConfig();
   return (
     <Button
       variant={"ghost"}
