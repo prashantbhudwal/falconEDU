@@ -86,7 +86,6 @@ export default function InviteDropdown() {
           <div className="flex justify-between gap-2">
             <FacebookShareButton
               url="https://falconai.in"
-              quote={share.facebook.quote}
               hashtag={share.facebook.hashtag}
             >
               Facebook
