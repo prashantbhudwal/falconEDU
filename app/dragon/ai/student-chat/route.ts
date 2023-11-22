@@ -11,7 +11,6 @@ import { saveBotChatToDatabase } from "./mutations";
 
 // export const runtime = "edge";
 export const dynamic = "force-dynamic";
-export const maxDuration = 180;
 
 //TODO - this is a big jugaad, need to fix this, either use LangChain or OpenAI Format, don't mix both
 function formatLangchainMessagesForOpenAI(messages: BaseMessage[]) {
