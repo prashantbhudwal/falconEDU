@@ -40,10 +40,15 @@ export async function POST(req: NextRequest) {
     throw new Error(`BotConfig with botChatId ${botChatId} not found`);
   }
   const parsedContext = JSON.parse(context);
+
+  console.log("1. context parsed", parsedContext);
+
   const { engineeredMessages } =
     botType === "chat"
       ? await getEngineeredChatBotMessages(parsedContext)
       : await getEngineeredTestBotMessages(parsedContext);
+
+  console.log("2. engineered messages fetched", engineeredMessages);
 
   const TEMPERATURE = botType === "chat" ? 1 : 0.2;
 
@@ -53,9 +58,13 @@ export async function POST(req: NextRequest) {
 
   const langChainMessageArray = [...engineeredMessages, ...history];
 
+  console.log("3. messages combined", langChainMessageArray);
+
   const openAiFormatMessages = formatLangchainMessagesForOpenAI(
     langChainMessageArray
   );
+
+  console.log("4. messages formatted", openAiFormatMessages);
 
   const completion = await openai.chat.completions.create({
     stream: true,
@@ -64,11 +73,14 @@ export async function POST(req: NextRequest) {
     model: "gpt-3.5-turbo-1106",
   });
 
+  console.log("5. completion fetched");
+
   const newStream = OpenAIStream(completion, {
     async onCompletion(completion) {
       await saveBotChatToDatabase(botChatId, completion, messages);
     },
   });
+  console.log("6. new stream created");
 
   return new StreamingTextResponse(newStream);
 }
