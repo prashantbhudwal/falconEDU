@@ -41,14 +41,10 @@ export async function POST(req: NextRequest) {
     }
     const parsedContext = JSON.parse(context);
 
-    console.log("1. context parsed", parsedContext);
-
     const { engineeredMessages } =
       botType === "chat"
         ? await getEngineeredChatBotMessages(parsedContext)
         : await getEngineeredTestBotMessages(parsedContext);
-
-    console.log("2. engineered messages fetched", engineeredMessages);
 
     const TEMPERATURE = botType === "chat" ? 1 : 0.2;
 
@@ -58,33 +54,26 @@ export async function POST(req: NextRequest) {
 
     const langChainMessageArray = [...engineeredMessages, ...history];
 
-    console.log("3. messages combined", langChainMessageArray);
-
     const openAiFormatMessages = formatLangchainMessagesForOpenAI(
       langChainMessageArray
     );
-
-    console.log("4. messages formatted", openAiFormatMessages);
 
     const completion = await openai.chat.completions.create({
       stream: true,
       temperature: TEMPERATURE,
       messages: openAiFormatMessages,
-      model: "gpt-3.5-turbo-1106",
+      model: "gpt-3.5-turbo",
     });
-
-    console.log("5. completion fetched");
 
     const newStream = OpenAIStream(completion, {
       async onCompletion(completion) {
         await saveBotChatToDatabase(botChatId, completion, messages);
       },
     });
-    console.log("6. new stream created");
+
     return new StreamingTextResponse(newStream);
   } catch (e) {
     return new Response("Error", { status: 500 });
-    console.log("error", e);
   }
 }
 //TODO - implement token limit filtering
