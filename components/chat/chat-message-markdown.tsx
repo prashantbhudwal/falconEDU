@@ -2,8 +2,11 @@ import { MemoizedReactMarkdown } from "@/components/markdown";
 import { ElementContent } from "react-markdown/lib";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
+import "katex/dist/katex.min.css";
 import { CodeBlock } from "@/app/(engines)/(merlin)/merlin/components/code-block";
 import Image from "next/image";
+import rehypeKatex from "rehype-katex";
+
 type TextElementContent = ElementContent & {
   value: string;
 };
@@ -23,6 +26,7 @@ export function ChatMessageMarkdown({
     <MemoizedReactMarkdown
       className="prose break-words dark:prose-invert prose-p:leading-relaxed prose-pre:p-0"
       remarkPlugins={[remarkGfm, remarkMath]}
+      rehypePlugins={[rehypeKatex]}
       components={{
         p({ children, node, ...props }) {
           const isLastParagraph =
