@@ -181,10 +181,11 @@ export default function TestPreferencesForm({
   };
 
   return (
-    <>
+    <div className="min-h-screen">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="w-full max-w-5xl min-h-screen">
+          <div className="w-full max-w-5xl">
+            {/* -------------------------------------- Form Header-------------------------------- */}
             <div className="flex justify-between flex-wrap p-5">
               <div>
                 <Input
@@ -258,6 +259,7 @@ export default function TestPreferencesForm({
               </div>
             </div>
             <Separator className="my-6" />
+            {/* -------------------------------------- Form Fields -------------------------------- */}
             {!questions && (
               <FormField
                 control={form.control}
@@ -292,23 +294,22 @@ export default function TestPreferencesForm({
                 )}
               />
             )}
-            {questions && questions.length > 0 && (
-              <>
-                {questions.map((question, i) => {
-                  return (
-                    <TestParsedQuestions
-                      key={i}
-                      question={question}
-                      className="mt-10"
-                    />
-                  );
-                })}
-              </>
-            )}
           </div>
         </form>
       </Form>
-      {/* Displaying parsed questions for testing  */}
-    </>
+      {questions && questions.length > 0 && (
+        <>
+          {questions.map((question, i) => {
+            return (
+              <TestParsedQuestions
+                key={i}
+                question={question}
+                className="mt-10"
+              />
+            );
+          })}
+        </>
+      )}
+    </div>
   );
 }
