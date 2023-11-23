@@ -4,11 +4,32 @@ import clsx from "clsx"; // for combining class names
 import { useRouter } from "next/navigation";
 import { ButtonConfig } from "@/components/navbar/use-navbar-buttons";
 import useNavbarButtons from "@/components/navbar/use-navbar-buttons";
+import { useEffect, useState } from "react";
+import {
+  getTeacherData,
+  typeGetTeacherPreferences,
+} from "@/app/dragon/teacher/teacher-preferences/getTeacherData";
+import { teacherPreferencesSchema } from "@/app/dragon/schema";
+import { removeOptionalFieldFormZodTypes } from "@/lib/utils";
+import useSWR from "swr";
 
 export default function RightActionBar() {
   const { currentPage } = usePageTracking();
   const router = useRouter();
   const buttonConfiguration = useNavbarButtons();
+  const [preferences, setPreferences] = useState({});
+
+  useEffect(() => {
+    const asyncFunction = async () => {
+      const { preferences } = (await getTeacherData()) as {
+        preferences: typeGetTeacherPreferences;
+      };
+      if (preferences) {
+        setPreferences(preferences);
+      }
+    };
+    asyncFunction();
+  }, []);
 
   const createButton = (
     key: string,
@@ -20,22 +41,43 @@ export default function RightActionBar() {
       isEnabled = true,
       onClick,
     }: ButtonConfig
-  ) => (
-    <button
-      key={key}
-      onClick={() => {
-        onClick();
-        href !== "" && router.push(href);
-      }}
-      className={clsx(`btn btn-xs py-4 rounded-sm font-medium capitalize flex place-content-center`, linkClass)}
-      disabled={!isEnabled}
-    >
-      <Icon
-        className={clsx(`text-slate-600 text-sm font-bold`, additionalClass)}
-      />
-      {name}
-    </button>
-  );
+  ) => {
+    let isFormIncomplete = false;
+    if (name === "My Preferences") {
+      const updatedTeacherPreferencesSchema = removeOptionalFieldFormZodTypes(
+        teacherPreferencesSchema
+      );
+      const { success } =
+        updatedTeacherPreferencesSchema.safeParse(preferences);
+      if (!success) isFormIncomplete = true;
+    }
+
+    return (
+      <button
+        key={key}
+        onClick={() => {
+          onClick();
+          href !== "" && router.push(href);
+        }}
+        className={clsx(
+          `btn btn-xs py-4 relative rounded-sm font-medium capitalize flex place-content-center`,
+          linkClass
+        )}
+        disabled={!isEnabled}
+      >
+        <Icon
+          className={clsx(`text-slate-600 text-sm font-bold`, additionalClass)}
+        />
+        {name}
+        {/* ---------------------------------------------- */}
+        {name === "My Preferences" && isFormIncomplete && (
+          <span className="absolute -top-2 -right-2 h-[20px] w-[20px] rounded-full bg-red-400 text-white text-sm font-semibold">
+            !
+          </span>
+        )}
+      </button>
+    );
+  };
 
   const pageConfig = buttonConfiguration.find(({ pattern }) =>
     pattern.test(currentPage)

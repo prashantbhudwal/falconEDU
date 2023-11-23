@@ -1,6 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { customAlphabet } from "nanoid";
 import { twMerge } from "tailwind-merge";
+import { z } from "zod";
 export * from "./is-authorized";
 
 export function cn(...inputs: ClassValue[]) {
@@ -49,4 +50,22 @@ export const getFormattedDate = (date: string) => {
     month: "short",
     day: "numeric",
   });
+};
+
+type SchemaType<T extends z.ZodTypeAny> = T extends z.ZodType<infer R, any, any>
+  ? R
+  : never;
+
+export const removeOptionalFieldFormZodTypes = <T extends z.ZodObject<any>>(
+  schema: T
+): z.ZodObject<SchemaType<T>> => {
+  const updatedSchema = schema.partial().refine((data) => {
+    const requiredFields = Object.keys(schema.shape).filter((field) =>
+      schema.shape[field as keyof typeof schema.shape].optional()
+    ) as (keyof typeof schema.shape)[];
+
+    return requiredFields.every((field) => data[String(field)] !== undefined);
+  });
+
+  return updatedSchema as unknown as z.ZodObject<SchemaType<T>>;
 };
