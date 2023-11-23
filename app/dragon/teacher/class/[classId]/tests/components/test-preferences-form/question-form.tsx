@@ -26,7 +26,7 @@ type PropType = React.HTMLProps<HTMLDivElement> & {
   question: QuestionProps;
 };
 
-export const TestParsedQuestions = ({ question, ...props }: PropType) => {
+export const QuestionForm = ({ question, ...props }: PropType) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [isUpdated, setIsUpdated] = useState(false);

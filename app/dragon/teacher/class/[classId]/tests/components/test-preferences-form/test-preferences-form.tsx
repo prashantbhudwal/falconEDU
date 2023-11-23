@@ -27,9 +27,8 @@ import { FiInfo } from "react-icons/fi";
 import { LIMITS_testBotPreferencesSchema } from "../../../../../../schema";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 import { Input } from "@/components/ui/input";
-import { getTestQuestions } from "@/app/dragon/ai/test-question-parser/get-test-questions";
+import { parseTestQuestions } from "@/app/dragon/ai/test-question-parser/get-test-questions";
 import { useConfigPublishing } from "../../../../../hooks/use-config-publishing";
-import { TestParsedQuestions } from "./test-parsed-question";
 import { ClassDialog } from "@/app/dragon/teacher/components/class-dialog";
 import { typeGetParsedQuestionByBotConfigId } from "@/app/dragon/teacher/routers/parsedQuestionRouter";
 const MAX_CHARS = LIMITS_testBotPreferencesSchema.fullTest.maxLength;
@@ -53,8 +52,6 @@ export default function TestPreferencesForm({
   botConfig: config,
   parsedQuestions,
 }: BotPreferencesFormProps) {
-  const [questions, setQuestions] =
-    useState<typeGetParsedQuestionByBotConfigId>(parsedQuestions);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [inputFocus, setInputFocus] = useState("");
@@ -70,15 +67,7 @@ export default function TestPreferencesForm({
     classId,
     botId,
   });
-  const getParsedQuestions = async () => {
-    const response =
-      await db.parseQuestionRouter.getParsedQuestionByBotConfigId({
-        botConfigId: botId,
-      });
-    if (response) {
-      setQuestions(response);
-    }
-  };
+
   //TODO: This is a bad idea. We should not be using useEffect to update state.
   useEffect(() => {
     if (updatedConfig) {
@@ -111,9 +100,8 @@ export default function TestPreferencesForm({
   // --------------------------------------------- On Parsing ----------------------------------------------------------------
   const onSubmit = async (data: z.infer<typeof testBotPreferencesSchema>) => {
     setLoading(true);
-    const { questions, hasQuestions, hasAnswers } = await getTestQuestions(
-      data.fullTest
-    );
+    const { parsedQuestions, hasQuestions, hasAnswers } =
+      await parseTestQuestions(data.fullTest);
     if (!hasQuestions || !hasAnswers) {
       const errorMessage = !hasQuestions
         ? "No questions provided. Please provide the questions and answers."
@@ -122,14 +110,18 @@ export default function TestPreferencesForm({
       setLoading(false);
       return { success: false };
     }
-    if (!questions) {
+    if (!parsedQuestions) {
       setLoading(false);
       setError(
         "No questions provided. Please provide the questions and answers."
       );
       return { success: false };
     }
-    const response = await saveParsedQuestions(questions, botId);
+    const response = await saveParsedQuestions({
+      parsedQuestions,
+      botId,
+      classId,
+    });
     const updateBotConfigResult = await db.botConfig.updateBotConfig({
       classId,
       botId,
@@ -138,8 +130,6 @@ export default function TestPreferencesForm({
     });
     setLoading(false);
     if (response.success && updateBotConfigResult.success) {
-      //calling this function to update the state of questions after successfully saving to database
-      await getParsedQuestions();
       setError(null); // clear any existing error
       setIsDirty(false);
       return { success: true };
@@ -181,7 +171,7 @@ export default function TestPreferencesForm({
   };
 
   return (
-    <div className="min-h-screen">
+    <div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="w-full max-w-5xl">
@@ -194,14 +184,14 @@ export default function TestPreferencesForm({
                   onChange={onTestNameChange}
                   onBlur={updateTestNameHandler}
                   required
-                  className="outline-none border-none pl-0 md:text-3xl font-bold tracking-wide focus-visible:ring-0 "
+                  className="outline-none border-none pl-0 md:text-2xl font-bold tracking-wide focus-visible:ring-0 "
                 />
                 {error && (
                   <div className="text-red-500 text-sm mt-3">{error}</div>
                 )}
               </div>
               <div className="flex flex-col gap-2 items-end">
-                {!questions && (
+                {!parsedQuestions && (
                   <Button
                     type="submit"
                     disabled={loading || !isDirty}
@@ -216,7 +206,7 @@ export default function TestPreferencesForm({
                     )}
                   </Button>
                 )}
-                {questions && (
+                {parsedQuestions && (
                   <>
                     {botConfig?.published ? (
                       <ClassDialog
@@ -258,9 +248,9 @@ export default function TestPreferencesForm({
                 )}
               </div>
             </div>
-            <Separator className="my-6" />
+            <Separator className="mb-6" />
             {/* -------------------------------------- Form Fields -------------------------------- */}
-            {!questions && (
+            {!parsedQuestions && (
               <FormField
                 control={form.control}
                 name="fullTest"
@@ -297,19 +287,6 @@ export default function TestPreferencesForm({
           </div>
         </form>
       </Form>
-      {questions && questions.length > 0 && (
-        <>
-          {questions.map((question, i) => {
-            return (
-              <TestParsedQuestions
-                key={i}
-                question={question}
-                className="mt-10"
-              />
-            );
-          })}
-        </>
-      )}
     </div>
   );
 }

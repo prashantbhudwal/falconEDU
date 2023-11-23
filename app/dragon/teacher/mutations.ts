@@ -1,7 +1,7 @@
 "use server";
 import prisma from "@/prisma";
 import { revalidatePath } from "next/cache";
-import { getBotsURL, getClassURL } from "@/lib/urls";
+import { getBotsURL, getClassURL, getTestEditBotURL } from "@/lib/urls";
 import { botPreferencesSchema, testBotPreferencesSchema } from "../schema";
 import { getEditBotURL } from "@/lib/urls";
 import * as z from "zod";
@@ -35,10 +35,15 @@ export const updateTeacherPreferences = async (
   }
 };
 
-export const saveParsedQuestions = async (
-  parsedQuestion: TestQuestions,
-  botId: string
-) => {
+export const saveParsedQuestions = async ({
+  parsedQuestions,
+  botId,
+  classId,
+}: {
+  parsedQuestions: TestQuestions;
+  botId: string;
+  classId: string;
+}) => {
   await isAuthorized({
     userType: "TEACHER",
   });
@@ -60,7 +65,7 @@ export const saveParsedQuestions = async (
       }
 
       await prisma.parsedQuestions.createMany({
-        data: parsedQuestion.map((ques) => ({
+        data: parsedQuestions.map((ques) => ({
           botConfigId: botId,
           question: ques.question,
           question_number: ques.question_number,
@@ -70,6 +75,7 @@ export const saveParsedQuestions = async (
         })),
       });
     });
+    revalidatePath("/dragon/teacher/class");
     return { success: true, error: false };
   } catch (err) {
     console.error(err);

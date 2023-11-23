@@ -8,7 +8,7 @@ import {
 } from "./model";
 import { systemTemplateForParsing } from "./template";
 
-export async function getTestQuestions(test: string) {
+export async function parseTestQuestions(test: string) {
   const jsonOutputParser = new JsonOutputFunctionsParser();
   //   const stringOutputParser = new StringOutputParser();
 
@@ -30,11 +30,11 @@ export async function getTestQuestions(test: string) {
     if (!parsedTestResults.success) {
       throw new Error("Parsing failed");
     }
-    const questions = parsedTestResults.data.results;
+    const parsedQuestions = parsedTestResults.data.results;
     const hasQuestions = parsedTestResults.data.questionsInTest;
     const hasAnswers = parsedTestResults.data.answersInTest;
 
-    return {questions, hasQuestions, hasAnswers};
+    return { parsedQuestions, hasQuestions, hasAnswers };
   } catch (err) {
     console.error(err);
     throw new Error("Can't generate results");
