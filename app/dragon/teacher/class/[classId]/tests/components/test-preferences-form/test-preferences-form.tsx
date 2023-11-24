@@ -231,23 +231,32 @@ export default function TestPreferencesForm({
               <div className="flex flex-col gap-2 items-end">
                 <div className="flex gap-3">
                   {isArchived ? (
-                    <Button
-                      onClick={() => archiveHandler("unarchive")}
-                      type="button"
-                      className="gap-1"
-                    >
-                      <LuArchiveRestore /> Unarchive
-                    </Button>
+                    <ClassDialog
+                      title="Un-archive Test"
+                      description="This action will make the Test active to all students in the class."
+                      action={() => archiveHandler("unarchive")}
+                      trigger={
+                        <Button type="button" className="gap-1">
+                          <LuArchiveRestore /> Unarchive
+                        </Button>
+                      }
+                    />
                   ) : (
-                    <Button
-                      onClick={() => archiveHandler("archive")}
-                      className="gap-1"
-                      type="button"
-                      variant="destructive"
-                    >
-                      <LuArchive />
-                      Archive
-                    </Button>
+                    <ClassDialog
+                      title="Archive Test"
+                      description="Completing this action will render the Test inactive."
+                      action={() => archiveHandler("archive")}
+                      trigger={
+                        <Button
+                          className="gap-1"
+                          type="button"
+                          variant="destructive"
+                        >
+                          <LuArchive />
+                          Archive
+                        </Button>
+                      }
+                    />
                   )}
                   {!questions && (
                     <Button
