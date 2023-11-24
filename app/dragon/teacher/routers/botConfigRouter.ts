@@ -29,6 +29,26 @@ export const publishBotConfig = async function ({
     userType: "TEACHER",
   });
   try {
+    //step 0: checking if botconfig is active or not
+    const botConfig = await prisma.botConfig.findUnique({
+      where: { id: botConfigId },
+      select: {
+        isActive: true,
+        type: true,
+      },
+    });
+    if (!botConfig) throw new Error(`BotConfig not found`);
+
+    if (!botConfig.isActive) {
+      return {
+        success: false,
+        message: `Can't Publish an Archived ${
+          botConfig.type === "chat" ? "Bot" : "Test"
+        }`,
+        updatedBotConfig: null,
+      };
+    }
+
     const transaction = await prisma.$transaction(async (prisma) => {
       // Step 1: Set published to true for BotConfig
       const updatedBotConfig = await prisma.botConfig.update({
@@ -82,7 +102,11 @@ export const publishBotConfig = async function ({
       where: { id: botConfigId },
     });
 
-    return { success: true, updatedBotConfig };
+    return {
+      success: true,
+      updatedBotConfig,
+      message: "Published Successfully",
+    };
   } catch (error) {
     console.error("Error:", error);
     throw error;
@@ -100,6 +124,26 @@ export const unPublishBotConfig = async function ({
     userType: "TEACHER",
   });
   try {
+    //step 0: checking if botconfig is active or not
+    const botConfig = await prisma.botConfig.findUnique({
+      where: { id: botConfigId },
+      select: {
+        isActive: true,
+        type: true,
+      },
+    });
+    if (!botConfig) throw new Error(`BotConfig not found`);
+
+    if (!botConfig.isActive) {
+      return {
+        success: false,
+        message: `Can't Unpublish an Archived ${
+          botConfig.type === "chat" ? "Bot" : "Test"
+        }`,
+        updatedBotConfig: null,
+      };
+    }
+
     const updatedBotConfig = await prisma.botConfig.update({
       where: {
         id: botConfigId,
@@ -113,12 +157,17 @@ export const unPublishBotConfig = async function ({
         },
       },
     });
-    return { success: true, updatedBotConfig };
+    return {
+      success: true,
+      updatedBotConfig,
+      message: "Unpublished Successfully",
+    };
   } catch (error) {
     console.error("Error updating BotConfig:", error);
     throw error;
   }
 };
+
 export const createBotConfig = async function ({
   userId,
   classId,
@@ -277,5 +326,26 @@ export const getConfigs = cache(
       },
     };
     return configs;
+  }
+);
+
+export const getIsBotConfigArchivedByBotConfigId = cache(
+  async ({ botConfigId }: { botConfigId: string }) => {
+    try {
+      const botConfig = await prisma.botConfig.findUnique({
+        where: { id: botConfigId },
+      });
+      if (!botConfig) {
+        return { success: false, message: "Bot config not found" };
+      }
+
+      if (botConfig.isActive)
+        return { success: true, message: "Bot is active" };
+
+      return { success: false, message: "Bot is archived" };
+    } catch (err) {
+      console.log(err);
+      return { success: false, message: "Something went wrong" };
+    }
   }
 );

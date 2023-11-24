@@ -17,9 +17,14 @@ export function useConfigPublishing({
       classId,
       botConfigId: botId,
     });
+
     if (result.success) {
       setConfig(result.updatedBotConfig);
     } else {
+      if (result.message) {
+        setError(result.message);
+        return;
+      }
       setError("Failed to publish bot config. Please try again."); // set the error message
     }
   };
@@ -32,6 +37,10 @@ export function useConfigPublishing({
     if (result.success) {
       setConfig(result.updatedBotConfig);
     } else {
+      if (result.message) {
+        setError(result.message);
+        return;
+      }
       setError("Failed to publish bot config. Please try again."); // set the error message
     }
   };

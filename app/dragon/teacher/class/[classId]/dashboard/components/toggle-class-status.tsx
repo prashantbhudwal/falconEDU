@@ -75,7 +75,7 @@ export const ToggleClassStatusCard = ({ classId }: { classId: string }) => {
             <div ref={buttonRef}>
               <div className="flex items-center gap-4 text-lg">
                 <LuArchiveRestore />
-                Archive Class
+                Unarchive Class
               </div>
             </div>
           }
@@ -84,4 +84,3 @@ export const ToggleClassStatusCard = ({ classId }: { classId: string }) => {
     </Card>
   );
 };
-

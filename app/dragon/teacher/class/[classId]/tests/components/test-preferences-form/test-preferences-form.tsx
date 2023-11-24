@@ -31,6 +31,8 @@ import { parseTestQuestions } from "@/app/dragon/ai/test-question-parser/get-tes
 import { useConfigPublishing } from "../../../../../hooks/use-config-publishing";
 import { ClassDialog } from "@/app/dragon/teacher/components/class-dialog";
 import { typeGetParsedQuestionByBotConfigId } from "@/app/dragon/teacher/routers/parsedQuestionRouter";
+import { TestParsedQuestion } from "./test-parsed-questions";
+import { LuArchive, LuArchiveRestore } from "react-icons/lu";
 const MAX_CHARS = LIMITS_testBotPreferencesSchema.fullTest.maxLength;
 const defaultValues: z.infer<typeof testBotPreferencesSchema> = {
   fullTest:
@@ -43,6 +45,7 @@ type BotPreferencesFormProps = {
   botId: string;
   botConfig: BotConfig | null;
   parsedQuestions: typeGetParsedQuestionByBotConfigId;
+  isActive: boolean;
 };
 
 export default function TestPreferencesForm({
@@ -50,13 +53,17 @@ export default function TestPreferencesForm({
   classId,
   botId,
   botConfig: config,
-  parsedQuestions,
+  parsedQuestions: parsedQuestionFromDb,
+  isActive,
 }: BotPreferencesFormProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [inputFocus, setInputFocus] = useState("");
   const [testName, setTestName] = useState<string | undefined>(config?.name);
   const [botConfig, setBotConfig] = useState<BotConfig | null>(config);
+  const [questions, setQuestions] =
+    useState<typeGetParsedQuestionByBotConfigId>(parsedQuestionFromDb);
+  const [isArchived, setIsArchived] = useState(!isActive);
 
   const {
     onPublish,
@@ -68,16 +75,25 @@ export default function TestPreferencesForm({
     botId,
   });
 
+  const getParsedQuestions = async () => {
+    const response =
+      await db.parseQuestionRouter.getParsedQuestionByBotConfigId({
+        botConfigId: botId,
+      });
+    if (response) {
+      setQuestions(response);
+    }
+  };
+
   //TODO: This is a bad idea. We should not be using useEffect to update state.
   useEffect(() => {
     if (updatedConfig) {
       setBotConfig(updatedConfig);
     }
-  }, [updatedConfig, botId]);
-
-  if (publishingError) {
-    setError(publishingError);
-  }
+    if (publishingError) {
+      setError(publishingError);
+    }
+  }, [updatedConfig, botId, publishingError]);
 
   if (!testBotPreferencesSchema.safeParse(config?.preferences)) {
     setError("Failed to parse bot preferences. Please try again.");
@@ -130,6 +146,8 @@ export default function TestPreferencesForm({
     });
     setLoading(false);
     if (response.success && updateBotConfigResult.success) {
+      //calling this function to update the state of questions after successfully saving to database
+      await getParsedQuestions();
       setError(null); // clear any existing error
       setIsDirty(false);
       return { success: true };
@@ -170,11 +188,31 @@ export default function TestPreferencesForm({
     setError("");
   };
 
+  const archiveHandler = async (type: string) => {
+    setError("");
+    if (type === "archive") {
+      const { success } = await db.bot.archiveAllBotsOfBotConfig(botId);
+      if (success) {
+        setIsArchived(true);
+        return;
+      }
+      setError("Can't archive Test");
+    }
+    if (type === "unarchive") {
+      const { success } = await db.bot.unArchiveAllBotsOfBotConfig(botId);
+      if (success) {
+        setIsArchived(false);
+        return;
+      }
+      setError("Can't unarchive Test");
+    }
+  };
+
   return (
-    <div>
+    <div className="w-full max-w-5xl">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="w-full max-w-5xl">
+          <div>
             {/* -------------------------------------- Form Header-------------------------------- */}
             <div className="flex justify-between flex-wrap p-5">
               <div>
@@ -191,56 +229,77 @@ export default function TestPreferencesForm({
                 )}
               </div>
               <div className="flex flex-col gap-2 items-end">
-                {!parsedQuestions && (
-                  <Button
-                    type="submit"
-                    disabled={loading || !isDirty}
-                    className="min-w-[100px]"
-                  >
-                    {loading ? (
-                      <span className="loading loading-infinity loading-sm"></span>
-                    ) : isDirty ? (
-                      "Save"
-                    ) : (
-                      "Saved"
-                    )}
-                  </Button>
-                )}
-                {parsedQuestions && (
-                  <>
-                    {botConfig?.published ? (
-                      <ClassDialog
-                        title="Un-publish Test"
-                        description="Completing this action will render the Test inactive."
-                        action={onUnPublish}
-                        trigger={
-                          <Button
-                            // disabled={isFormEmpty && !isDirty}
-                            type="button"
-                            variant="destructive"
-                          >
-                            Un-publish
-                          </Button>
-                        }
-                      />
-                    ) : (
-                      <ClassDialog
-                        title="Publish Test"
-                        description="This action will make the Test available to all students in the class."
-                        action={onPublish}
-                        trigger={
-                          <Button
-                            // disabled={isFormEmpty && !isDirty}
-                            type="button"
-                            variant="secondary"
-                          >
-                            Publish
-                          </Button>
-                        }
-                      />
-                    )}
-                  </>
-                )}
+                <div className="flex gap-3">
+                  {isArchived ? (
+                    <Button
+                      onClick={() => archiveHandler("unarchive")}
+                      type="button"
+                      className="gap-1"
+                    >
+                      <LuArchiveRestore /> Unarchive
+                    </Button>
+                  ) : (
+                    <Button
+                      onClick={() => archiveHandler("archive")}
+                      className="gap-1"
+                      type="button"
+                      variant="destructive"
+                    >
+                      <LuArchive />
+                      Archive
+                    </Button>
+                  )}
+                  {!questions && (
+                    <Button
+                      type="submit"
+                      disabled={loading || !isDirty}
+                      className="min-w-[100px]"
+                    >
+                      {loading ? (
+                        <span className="loading loading-infinity loading-sm"></span>
+                      ) : isDirty ? (
+                        "Save"
+                      ) : (
+                        "Saved"
+                      )}
+                    </Button>
+                  )}
+                  {questions && !isArchived && (
+                    <>
+                      {botConfig?.published ? (
+                        <ClassDialog
+                          title="Un-publish Test"
+                          description="Completing this action will render the Test inactive."
+                          action={onUnPublish}
+                          trigger={
+                            <Button
+                              // disabled={isFormEmpty && !isDirty}
+                              type="button"
+                              variant="destructive"
+                            >
+                              Un-publish
+                            </Button>
+                          }
+                        />
+                      ) : (
+                        <ClassDialog
+                          title="Publish Test"
+                          description="This action will make the Test available to all students in the class."
+                          action={onPublish}
+                          trigger={
+                            <Button
+                              // disabled={isFormEmpty && !isDirty}
+                              type="button"
+                              variant="secondary"
+                            >
+                              Publish
+                            </Button>
+                          }
+                        />
+                      )}
+                    </>
+                  )}
+                </div>
                 {isDirty && (
                   <div className="text-sm text-slate-500">
                     You have unsaved changes.
@@ -250,7 +309,7 @@ export default function TestPreferencesForm({
             </div>
             <Separator className="mb-6" />
             {/* -------------------------------------- Form Fields -------------------------------- */}
-            {!parsedQuestions && (
+            {!questions && (
               <FormField
                 control={form.control}
                 name="fullTest"
@@ -287,6 +346,7 @@ export default function TestPreferencesForm({
           </div>
         </form>
       </Form>
+      <TestParsedQuestion parsedQuestions={questions} />
     </div>
   );
 }

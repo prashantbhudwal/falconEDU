@@ -7,7 +7,6 @@ import { Paper } from "@/components/ui/paper";
 import TestPreferencesForm from "../../components/test-preferences-form/test-preferences-form";
 import { TestAnalysis } from "../../components/test-analysis";
 import { db } from "@/app/dragon/teacher/routers";
-import { TestParsedQuestion } from "../../components/test-preferences-form/test-parsed-questions";
 
 export interface BotPageProps {
   params: {
@@ -61,6 +60,10 @@ export default async function BotPage({ params }: BotPageProps) {
     await db.parseQuestionRouter.getParsedQuestionByBotConfigId({
       botConfigId: testBotId,
     });
+  const { success: isActive, message } =
+    await db.botConfig.getIsBotConfigArchivedByBotConfigId({
+      botConfigId: testBotId,
+    });
   return (
     <div className="w-full min-h-[calc(100vh-180px)] max-h-full overflow-y-scroll custom-scrollbar pt-4">
       <Paper variant={"gray"} className="w-full max-w-5xl py-3 px-2">
@@ -86,8 +89,8 @@ export default async function BotPage({ params }: BotPageProps) {
               classId={classId}
               botId={testBotId}
               parsedQuestions={parsedQuestions}
+              isActive={isActive}
             />
-            <TestParsedQuestion parsedQuestions={parsedQuestions} />
           </TabsContent>
           <TabsContent value="submissions">
             <TestAnalysis testBotId={testBotId} classId={classId} />

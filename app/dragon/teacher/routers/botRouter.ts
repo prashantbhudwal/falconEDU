@@ -32,10 +32,10 @@ export const archiveAllBotsOfBotConfig = async (botConfigId: string) => {
     ]);
 
     revalidatePath("/dragon/teacher/");
-    return { success: true };
+    return { success: true, error: null };
   } catch (error) {
     console.error("Error removing student from class:", error);
-    return { error: true };
+    return { error: true, success: false };
   }
 };
 
@@ -68,10 +68,10 @@ export const unArchiveAllBotsOfBotConfig = async (botConfigId: string) => {
     ]);
 
     revalidatePath("/dragon/teacher/");
-    return { success: true };
+    return { success: true, error: null };
   } catch (error) {
     console.error("Error removing student from class:", error);
-    return { error: true };
+    return { error: true, success: false };
   }
 };
 

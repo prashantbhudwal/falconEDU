@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { UseFormReturn, FieldValues } from "react-hook-form";
 
 export function useIsFormDirty<T extends FieldValues>(
@@ -7,9 +7,11 @@ export function useIsFormDirty<T extends FieldValues>(
 ) {
   const [isDirty, setIsDirty] = useState(initialValue);
 
-  form.watch(() => {
-    setIsDirty(true);
-  });
+  useEffect(() => {
+    if (Object.keys(form.formState.dirtyFields).length > 0) {
+      setIsDirty(true);
+    }
+  }, [form.formState.dirtyFields]);
 
   return { isDirty, setIsDirty };
 }

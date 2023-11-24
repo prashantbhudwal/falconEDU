@@ -1,7 +1,7 @@
 "use client";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import {
   Form,
@@ -29,7 +29,6 @@ type PropType = React.HTMLProps<HTMLDivElement> & {
 export const QuestionForm = ({ question, ...props }: PropType) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [isUpdated, setIsUpdated] = useState(false);
 
   const defaultValues: Partial<z.infer<typeof parsedQuestionsSchema>> = {
     correct_answer: question?.correct_answer.map((answer) => ({
@@ -38,13 +37,14 @@ export const QuestionForm = ({ question, ...props }: PropType) => {
     question: question?.question,
     options: question?.options.map((answer) => ({ value: answer })),
   };
-  const [initialValues, setInitialValues] = useState(defaultValues);
 
   const form = useForm<z.infer<typeof parsedQuestionsSchema>>({
     resolver: zodResolver(parsedQuestionsSchema),
     defaultValues,
     mode: "onChange",
   });
+
+  const { isDirty, setIsDirty } = useIsFormDirty(form);
 
   const { fields, append } = useFieldArray({
     name: "options",
@@ -55,14 +55,6 @@ export const QuestionForm = ({ question, ...props }: PropType) => {
     name: "correct_answer",
     control: form.control,
   });
-
-  //TODO: checking form is Dirty by this method cause using the useDirtyHook always return true cause the values are set whenever the form is rendered
-  const formValues = form.getValues();
-  const isFormEdited =
-    JSON.stringify(formValues) !== JSON.stringify(initialValues);
-
-  // const { isDirty } = useIsFormDirty(form);
-  // console.log(isDirty);
 
   const onSubmit = async (data: z.infer<typeof parsedQuestionsSchema>) => {
     setError("");
@@ -83,8 +75,7 @@ export const QuestionForm = ({ question, ...props }: PropType) => {
       if (success) {
         setLoading(false);
         setError("");
-        setInitialValues(data);
-        setIsUpdated(true);
+        setIsDirty(false);
         return;
       }
       setLoading(false);
@@ -131,12 +122,12 @@ export const QuestionForm = ({ question, ...props }: PropType) => {
                 <Button
                   className="min-w-[100px] disabled:cursor-not-allowed"
                   onClick={form.handleSubmit(onSubmit)}
-                  disabled={!isFormEdited}
+                  disabled={!isDirty}
                 >
                   {loading ? (
                     <span className="loading loading-infinity loading-sm"></span>
                   ) : (
-                    <span>Save</span>
+                    <span>{isDirty ? "save" : "saved"}</span>
                   )}
                 </Button>
                 {error && (
