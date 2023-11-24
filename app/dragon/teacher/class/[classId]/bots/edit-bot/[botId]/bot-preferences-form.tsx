@@ -40,6 +40,8 @@ import {
 import subjectsArray from "../../../../../../../data/subjects.json";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 import { Input } from "@/components/ui/input";
+import { LuArchive, LuArchiveRestore } from "react-icons/lu";
+import { ClassDialog } from "@/app/dragon/teacher/components/class-dialog";
 
 const MAX_CHARS = LIMITS_botPreferencesSchema.instructions.maxLength;
 
@@ -59,6 +61,7 @@ type BotPreferencesFormProps = {
   classId: string;
   botId: string;
   botConfig: BotConfig | null;
+  isActive: boolean;
 };
 
 export default function BotPreferencesForm({
@@ -66,11 +69,13 @@ export default function BotPreferencesForm({
   classId,
   botId,
   botConfig,
+  isActive,
 }: BotPreferencesFormProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [inputFocus, setInputFocus] = useState("");
   const [botName, setBotName] = useState<string | undefined>(botConfig?.name);
+  const [isArchived, setIsArchived] = useState(!isActive);
 
   const form = useForm<z.infer<typeof botPreferencesSchema>>({
     resolver: zodResolver(botPreferencesSchema),
@@ -81,7 +86,12 @@ export default function BotPreferencesForm({
 
   const onSubmit = async (data: z.infer<typeof botPreferencesSchema>) => {
     setLoading(true);
-    const result = await db.botConfig.updateBotConfig({ classId, botId, data, configType: "chat" });
+    const result = await db.botConfig.updateBotConfig({
+      classId,
+      botId,
+      data,
+      configType: "chat",
+    });
     setLoading(false);
     if (result.success) {
       setIsDirty(false);
@@ -99,6 +109,10 @@ export default function BotPreferencesForm({
     });
     if (result.success) {
     } else {
+      if (result.message) {
+        setError(result.message);
+        return;
+      }
       setError("Failed to publish bot config. Please try again."); // set the error message
     }
   };
@@ -110,6 +124,10 @@ export default function BotPreferencesForm({
     });
     if (result.success) {
     } else {
+      if (result.message) {
+        setError(result.message);
+        return;
+      }
       setError("Failed to publish bot config. Please try again."); // set the error message
     }
   };
@@ -158,6 +176,26 @@ export default function BotPreferencesForm({
     setError("");
   };
 
+  const archiveHandler = async (type: string) => {
+    setError("");
+    if (type === "archive") {
+      const { success } = await db.bot.archiveAllBotsOfBotConfig(botId);
+      if (success) {
+        setIsArchived(true);
+        return;
+      }
+      setError("Can't archive Bot");
+    }
+    if (type === "unarchive") {
+      const { success } = await db.bot.unArchiveAllBotsOfBotConfig(botId);
+      if (success) {
+        setIsArchived(false);
+        return;
+      }
+      setError("Can't unarchive Bot");
+    }
+  };
+
   return (
     <>
       <Form {...form}>
@@ -179,20 +217,52 @@ export default function BotPreferencesForm({
                   <div className="text-red-500 text-sm mt-3">{error}</div>
                 )}
               </div>
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-2 items-end">
                 <div className="flex flex-row gap-6">
+                  {isArchived ? (
+                    <ClassDialog
+                      title="Un-archive Test"
+                      description="This action will make the Test active to all students in the class."
+                      action={() => archiveHandler("unarchive")}
+                      trigger={
+                        <Button type="button" className="gap-1">
+                          <LuArchiveRestore /> Unarchive
+                        </Button>
+                      }
+                    />
+                  ) : (
+                    <ClassDialog
+                      title="Archive Test"
+                      description="Completing this action will render the Test inactive."
+                      action={() => archiveHandler("archive")}
+                      trigger={
+                        <Button
+                          className="gap-1"
+                          type="button"
+                          variant="destructive"
+                        >
+                          <LuArchive />
+                          Archive
+                        </Button>
+                      }
+                    />
+                  )}
                   <Button
                     type="submit"
                     disabled={(isEmpty && !isDirty) || !isDirty}
                   >
                     {loading ? "Saving" : isDirty ? "Save" : "Saved"}
                   </Button>
-                  <Button
-                    variant={botConfig?.published ? "destructive" : "secondary"}
-                    onClick={botConfig?.published ? onUnPublish : onPublish}
-                  >
-                    {botConfig?.published ? "Un-publish" : "Publish"}
-                  </Button>
+                  {!isArchived && (
+                    <Button
+                      variant={
+                        botConfig?.published ? "destructive" : "secondary"
+                      }
+                      onClick={botConfig?.published ? onUnPublish : onPublish}
+                    >
+                      {botConfig?.published ? "Un-publish" : "Publish"}
+                    </Button>
+                  )}
                 </div>
                 {isDirty && (
                   <div className="text-sm text-slate-500">

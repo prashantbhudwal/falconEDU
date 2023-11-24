@@ -2,6 +2,7 @@ import { cache } from "react";
 import BotPreferencesForm from "./bot-preferences-form";
 import prisma from "@/prisma";
 import { botPreferencesSchema } from "@/app/dragon/schema";
+import { db } from "@/app/dragon/teacher/routers";
 
 export interface BotPageProps {
   params: {
@@ -44,6 +45,10 @@ const fetchBotConfig = cache(async (botId: string) => {
 export default async function BotPage({ params }: BotPageProps) {
   const { classId, botId } = params;
   const botData = await fetchBotConfig(botId);
+  const { success: isActive, message } =
+    await db.botConfig.getIsBotConfigArchivedByBotConfigId({
+      botConfigId: botId,
+    });
 
   return (
     <BotPreferencesForm
@@ -51,6 +56,7 @@ export default async function BotPage({ params }: BotPageProps) {
       botConfig={botData?.bot!}
       classId={classId}
       botId={botId}
+      isActive={isActive}
     />
   );
 }
