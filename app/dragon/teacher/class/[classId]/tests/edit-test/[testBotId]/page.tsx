@@ -7,6 +7,7 @@ import { Paper } from "@/components/ui/paper";
 import TestPreferencesForm from "../../components/test-preferences-form/test-preferences-form";
 import { TestAnalysis } from "../../components/test-analysis";
 import { db } from "@/app/dragon/teacher/routers";
+import { TestParsedQuestion } from "../../components/test-preferences-form/test-parsed-questions";
 
 export interface BotPageProps {
   params: {
@@ -91,6 +92,7 @@ export default async function BotPage({ params }: BotPageProps) {
               parsedQuestions={parsedQuestions}
               isActive={isActive}
             />
+            <TestParsedQuestion parsedQuestions={parsedQuestions} />
           </TabsContent>
           <TabsContent value="submissions">
             <TestAnalysis testBotId={testBotId} classId={classId} />

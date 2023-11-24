@@ -61,8 +61,6 @@ export default function TestPreferencesForm({
   const [inputFocus, setInputFocus] = useState("");
   const [testName, setTestName] = useState<string | undefined>(config?.name);
   const [botConfig, setBotConfig] = useState<BotConfig | null>(config);
-  const [questions, setQuestions] =
-    useState<typeGetParsedQuestionByBotConfigId>(parsedQuestionFromDb);
   const [isArchived, setIsArchived] = useState(!isActive);
 
   const {
@@ -74,16 +72,6 @@ export default function TestPreferencesForm({
     classId,
     botId,
   });
-
-  const getParsedQuestions = async () => {
-    const response =
-      await db.parseQuestionRouter.getParsedQuestionByBotConfigId({
-        botConfigId: botId,
-      });
-    if (response) {
-      setQuestions(response);
-    }
-  };
 
   //TODO: This is a bad idea. We should not be using useEffect to update state.
   useEffect(() => {
@@ -146,8 +134,6 @@ export default function TestPreferencesForm({
     });
     setLoading(false);
     if (response.success && updateBotConfigResult.success) {
-      //calling this function to update the state of questions after successfully saving to database
-      await getParsedQuestions();
       setError(null); // clear any existing error
       setIsDirty(false);
       return { success: true };
@@ -258,7 +244,7 @@ export default function TestPreferencesForm({
                       }
                     />
                   )}
-                  {!questions && (
+                  {!parsedQuestionFromDb && (
                     <Button
                       type="submit"
                       disabled={loading || !isDirty}
@@ -273,7 +259,7 @@ export default function TestPreferencesForm({
                       )}
                     </Button>
                   )}
-                  {questions && !isArchived && (
+                  {parsedQuestionFromDb && !isArchived && (
                     <>
                       {botConfig?.published ? (
                         <ClassDialog
@@ -318,7 +304,7 @@ export default function TestPreferencesForm({
             </div>
             <Separator className="mb-6" />
             {/* -------------------------------------- Form Fields -------------------------------- */}
-            {!questions && (
+            {!parsedQuestionFromDb && (
               <FormField
                 control={form.control}
                 name="fullTest"
@@ -355,7 +341,6 @@ export default function TestPreferencesForm({
           </div>
         </form>
       </Form>
-      <TestParsedQuestion parsedQuestions={questions} />
     </div>
   );
 }
