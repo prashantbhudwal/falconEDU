@@ -1,7 +1,6 @@
 "use client";
-import { PropagateLoader } from "react-spinners";
-import { usePrediction } from "@/app/(engines)/preferences/hooks/usePrediction";
-import { contentStreamCompletedAtom } from "@/lib/atoms/lesson";
+import { predictTopics } from "../../ai/predictor";
+import { GridLoader, PropagateLoader } from "react-spinners";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
 import CheckboxGrid from "../checkbox-grid";
@@ -13,18 +12,18 @@ import { gradeAtom, boardAtom, subjectAtom } from "@/lib/atoms/preferences";
 import { worksheetSubtopicsAtom } from "@/lib/atoms/worksheet";
 import { savedQuestionsAtom } from "@/lib/atoms/worksheet";
 import { userFlowAtom } from "@/lib/atoms/app";
+import { set } from "zod";
 
 export default function Page() {
+  const [loading, setLoading] = useState(false);
   const [userFlow] = useAtom(userFlowAtom);
   const [lastIndex, setLastIndex] = useState<number | null>(null);
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
-  const [contentStreamCompleted] = useAtom(contentStreamCompletedAtom);
   const [topic] = useAtom(topicAtom);
   const [allContent, setAllContent] = useState([""]);
   const [inputValue, setInputValue] = useState("");
   const [_, setStarted] = useAtom(startedAtom);
   const router = useRouter();
-  const { content, startStreaming } = usePrediction(topic, "predictSubtopics");
   const [board] = useAtom(boardAtom);
   const [subject] = useAtom(subjectAtom);
   const [grade] = useAtom(gradeAtom);
@@ -101,14 +100,23 @@ export default function Page() {
   };
   useEffect(() => {
     setWorksheetSubtopics([]);
-    startStreaming();
-  }, []);
-
-  useEffect(() => {
-    if (contentStreamCompleted) {
+    setLoading(true);
+    const predict = async (
+      topic: string,
+      subject: string,
+      board: string,
+      grade: string
+    ) => {
+      const content = await predictTopics({
+        chapter: topic,
+        subject,
+        board,
+        grade,
+      });
       setAllContent(content);
-    }
-  }, [contentStreamCompleted]);
+    };
+    predict(topic, subject, board, grade).then(() => setLoading(false));
+  }, []);
 
   return (
     <div className="m-4 flex w-full flex-col items-center gap-10">
@@ -150,7 +158,7 @@ export default function Page() {
           onClick={
             userFlow === "worksheet" ? handleRaptorStart : handleMerlinStart
           }
-          disabled={worksheetSubtopics.length === 0 || !contentStreamCompleted}
+          disabled={worksheetSubtopics.length === 0 || loading}
         >
           {userFlow === "worksheet" ? "Worksheet" : "Lesson"}
         </button>
@@ -184,33 +192,28 @@ export default function Page() {
         </button>
       </div>
 
-      {!contentStreamCompleted ? (
+      {loading ? (
         <div className="flex h-12 flex-col items-center justify-center gap-2">
-          <PropagateLoader
+          <GridLoader
             color={`${userFlow === "worksheet" ? "#D946EF" : "#10B981"}`}
           />
         </div>
       ) : (
-        contentStreamCompleted &&
-        allContent && (
-          <CheckboxGrid
-            userFlow={userFlow}
-            content={allContent}
-            selectedOptions={worksheetSubtopics}
-            handleChange={(event) => {
-              const selectedOption = event.target.value;
-              if (event.target.checked) {
-                setWorksheetSubtopics([...worksheetSubtopics, selectedOption]);
-              } else {
-                setWorksheetSubtopics(
-                  worksheetSubtopics.filter(
-                    (option) => option !== selectedOption
-                  )
-                );
-              }
-            }}
-          />
-        )
+        <CheckboxGrid
+          userFlow={userFlow}
+          content={allContent}
+          selectedOptions={worksheetSubtopics}
+          handleChange={(event) => {
+            const selectedOption = event.target.value;
+            if (event.target.checked) {
+              setWorksheetSubtopics([...worksheetSubtopics, selectedOption]);
+            } else {
+              setWorksheetSubtopics(
+                worksheetSubtopics.filter((option) => option !== selectedOption)
+              );
+            }
+          }}
+        />
       )}
     </div>
   );

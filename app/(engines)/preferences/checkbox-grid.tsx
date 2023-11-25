@@ -11,12 +11,6 @@ export default function CheckboxGrid({
   handleChange,
   userFlow,
 }: PredictionGridProps) {
-  const contentString = content.join("");
-  const contentWithoutNewLines = contentString.replace(/\n/g, "");
-  const contentArray = contentString
-    .replace(/\n/g, "")
-    .replace(/\$\$(?:(?!\$\$|\n).)*\$\$/g, (match) => match.slice(2, -2))
-    .split("_");
 
   return (
     <div className="flex flex-col items-center gap-4">
@@ -24,7 +18,7 @@ export default function CheckboxGrid({
         Or choose as many from the list...
       </div>
       <div className="flex w-4/5 flex-row flex-wrap justify-center gap-3">
-        {contentArray.map((topic, index) => (
+        {content.map((topic, index) => (
           <label
             key={index}
             htmlFor={`topic-${index}`}

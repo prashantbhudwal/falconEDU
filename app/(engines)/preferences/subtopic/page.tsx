@@ -1,7 +1,6 @@
 "use client";
-import { PropagateLoader } from "react-spinners";
-import { usePrediction } from "@/app/(engines)/preferences/hooks/usePrediction";
-import { contentStreamCompletedAtom } from "@/lib/atoms/lesson";
+import { predictTopics } from "../../ai/predictor";
+import { GridLoader } from "react-spinners";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
 import PredictionGrid from "../prediction-grid";
@@ -11,14 +10,13 @@ import { lessonIdeasAtom } from "@/lib/atoms/lesson";
 import { useRouter } from "next/navigation";
 import { gradeAtom, boardAtom, subjectAtom } from "@/lib/atoms/preferences";
 export default function Page() {
-  const [contentStreamCompleted] = useAtom(contentStreamCompletedAtom);
+  const [loading, setLoading] = useState(false);
   const [topic] = useAtom(topicAtom);
-  const [allContent, setAllContent] = useState([""]);
+  const [topics, setTopics] = useState([""]);
   const [subtopic, setSubtopic] = useAtom(subtopicAtom);
   const [_, setStarted] = useAtom(startedAtom);
   const [__, setLessonIdeas] = useAtom(lessonIdeasAtom);
   const router = useRouter();
-  const { content, startStreaming } = usePrediction(topic, "predictSubtopics");
   const [board] = useAtom(boardAtom);
   const [subject] = useAtom(subjectAtom);
   const [grade] = useAtom(gradeAtom);
@@ -40,14 +38,18 @@ export default function Page() {
 
   useEffect(() => {
     setSubtopic("");
-    startStreaming();
+    setLoading(true);
+    const predict = async (
+      chapter: string,
+      subject: string,
+      board: string,
+      grade: string
+    ) => {
+      const content = await predictTopics({ chapter, subject, board, grade });
+      setTopics(content);
+    };
+    predict(topic, subject, board, grade).then(() => setLoading(false));
   }, []);
-
-  useEffect(() => {
-    if (contentStreamCompleted) {
-      setAllContent(content);
-    }
-  }, [contentStreamCompleted]);
 
   return (
     <div className="m-4 flex flex-col items-center gap-10">
@@ -61,27 +63,24 @@ export default function Page() {
 
         <button
           onClick={handleStart}
-          disabled={!subtopic || !contentStreamCompleted}
+          disabled={!subtopic || loading}
           className={`btn btn-primary join-item my-auto`}
         >
           New Lesson
         </button>
       </div>
 
-      {!contentStreamCompleted ? (
+      {loading ? (
         <div className="flex h-12 flex-col items-center justify-center gap-2">
-          <PropagateLoader color="#10B981" />
+          <GridLoader color="#10B981" />
         </div>
       ) : (
-        contentStreamCompleted &&
-        allContent && (
-          <PredictionGrid
-            content={allContent}
-            selectedOption={subtopic}
-            handleChange={handleChange}
-            className="bg-primary"
-          />
-        )
+        <PredictionGrid
+          content={topics}
+          selectedOption={subtopic}
+          handleChange={handleChange}
+          className="bg-primary"
+        />
       )}
     </div>
   );
