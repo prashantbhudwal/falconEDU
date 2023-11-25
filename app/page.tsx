@@ -5,33 +5,25 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import useTrackPage from "@/hooks/analytics/useTrackPage";
-import SignIn from "@/components/auth/sign-in";
 import { LandingPageEngines } from "./landing-engines";
+import { Button } from "@/components/ui/button";
 
-const MainUrls = {
+const Url = {
   localhost: "https://app.falconai.in/dragon/auth",
-  "student.falconai.in": "https://app.falconai.in/dragon/auth/student",
-  "teacher.falconai.in": "https://app.falconai.in/dragon/auth/teacher",
-};
-
-const testUrls = {
-  localhost: "http://localhost:3000/dragon/auth",
   "student.falconai.in":
     "https://falcon-one-git-add-context-falconai.vercel.app/dragon/auth/student",
   "teacher.falconai.in":
     "https://falcon-one-git-add-context-falconai.vercel.app/dragon/auth/teacher",
+  "app.falconai.in": "https://app.falconai.in/",
 };
 
-const getHostNameOfCurrentURL = () => {
-  if (typeof window !== "undefined") {
-    return window.location.hostname;
-  }
+const getHostNameOfCurrentURL = () =>
+  typeof window !== "undefined" ? window.location.hostname : "";
 
-  return "";
-};
+type HostName = keyof typeof Url;
 
 const LandingPage = () => {
-  const [hostName, setHostName] = useState("");
+  const [hostName, setHostName] = useState<HostName>();
   useTrackPage("Landing Page");
   const { data: session, status: sessionStatus } = useSession();
   const router = useRouter();
@@ -46,47 +38,56 @@ const LandingPage = () => {
     }
   };
 
-  // useEffect(() => {
-  //   const hostName = getHostNameOfCurrentURL();
-  //   if (hostName === "localhost") {
-  //     router.push("/dragon/auth");
-  //   } else if (hostName === "https://app.falconai.in") {
-  //     enginesFlow();
-  //   } else if (hostName === "student.falconai.in") {
-  //     window.location.href = "https://app.falconai.in/dragon/auth/student";
-  //   } else if (hostName === "teacher.falconai.in") {
-  //     window.location.href = "https://app.falconai.in/dragon/auth/teacher";
-  //   }
-  // }, []);
-
-  //Test UseEffect
   useEffect(() => {
-    const hostName = getHostNameOfCurrentURL();
+    const hostName = getHostNameOfCurrentURL() as HostName;
     setHostName(hostName);
     if (hostName === "localhost") {
       router.push("/dragon/auth");
-    } else if (hostName === "https://app.falconai.in") {
+    } else if (hostName === "app.falconai.in") {
       enginesFlow();
-    } else if (hostName === "student.falconai.in") {
-      window.location.href =
-        "https://falcon-one-git-add-context-falconai.vercel.app/dragon/auth/student";
-    } else if (hostName === "teacher.falconai.in") {
-      window.location.href =
-        "https://falcon-one-git-add-context-falconai.vercel.app/dragon/auth/teacher";
+    } else if (
+      hostName === "student.falconai.in" ||
+      hostName === "teacher.falconai.in"
+    ) {
+      window.location.href = Url[hostName];
     }
   }, []);
 
   return (
     <div className="flex min-h-screen flex-col place-content-center">
-      {hostName === "https://app.falconai.in" ? (
+      {hostName === "app.falconai.in" ? (
         <LandingPageEngines />
       ) : (
-        <Image
-          src="/chubbi.png"
-          alt="Falcon AI Logo"
-          width={200}
-          height={200}
-        />
+        <div>
+          <Image
+            src="/chubbi.png"
+            alt="Falcon AI Logo"
+            width={200}
+            height={200}
+          />
+          <div className="flex flex-col items-center justify-center gap-2">
+            <Button
+              variant="default"
+              rel="noopener noreferrer"
+              size={"lg"}
+              onClick={() => {
+                window.location.href = Url["teacher.falconai.in"];
+              }}
+            >
+              Teacher
+            </Button>
+            <Button
+              variant="default"
+              rel="noopener noreferrer"
+              size={"lg"}
+              onClick={() => {
+                window.location.href = Url["student.falconai.in"];
+              }}
+            >
+              Student
+            </Button>
+          </div>
+        </div>
       )}
     </div>
   );
