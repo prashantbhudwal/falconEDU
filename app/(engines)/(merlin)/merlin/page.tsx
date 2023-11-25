@@ -15,18 +15,19 @@ import DraggableChip from "../../../../components/draggable-chip";
 import { itemTypes } from "../../../../lib/config/itemTypes";
 import { useRouter } from "next/navigation";
 import MerlinGrid from "../components/grid";
-import { worksheetSubtopicsAtom } from "@/lib/atoms/worksheet";
+import { subtopicsAtom } from "@/lib/atoms/preferences";
+
 import { subtopicAtom } from "@/lib/atoms/preferences";
 import useTrackPage from "@/hooks/analytics/useTrackPage";
 export default function Merlin() {
   useTrackPage("Merlin");
   const [subtopic, setSubtopic] = useAtom(subtopicAtom);
-  const [worksheetSubtopics] = useAtom(worksheetSubtopicsAtom);
+  const [subtopics] = useAtom(subtopicsAtom);
   const [teachingAids, setTeachingAids] = useAtom(teachingAidsAtom);
   const router = useRouter();
   const [lessonIdeas] = useAtom(lessonIdeasAtom);
-  if (subtopic === "" && worksheetSubtopics.length > 0)
-    setSubtopic(worksheetSubtopics[0]);
+  if (subtopic === "" && subtopics.length > 0)
+    setSubtopic(subtopics[0]);
   return (
     <DndProvider backend={HTML5Backend}>
       <MerlinGrid>
@@ -47,8 +48,8 @@ export default function Merlin() {
         <Sidebar className="col-span-2 col-start-11 ">
           <Section title="Topics">
             <div className="flex flex-col gap-2">
-              {worksheetSubtopics.length > 0 &&
-                worksheetSubtopics.map((subTopic, index) => (
+              {subtopics.length > 0 &&
+                subtopics.map((subTopic, index) => (
                   <label className="label text-sm" key={index}>
                     <span className={"label-text text-xs"}>{subTopic}</span>
                     <input

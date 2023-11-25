@@ -14,12 +14,12 @@ import { useAtom } from "jotai";
 import { useQuestionGeneration } from "./hooks/useQuestionGeneration";
 import { contentStreamCompletedAtom } from "@/lib/atoms/lesson";
 import {
-  worksheetSubtopicsAtom,
   worksheetAnswerKeyAtom,
   savedQuestionsAtom,
   isAdvancedModeAtom,
   batchSizeAtom,
 } from "../../../lib/atoms/worksheet";
+import { subtopicsAtom } from "../../../lib/atoms/preferences";
 import {
   topicAtom,
   gradeAtom,
@@ -55,7 +55,7 @@ export default function Raptor() {
   const [subject] = useAtom(subjectAtom);
   const [currentQuestion, setCurrentQuestion] = useAtom(currentQuestionAtom);
   const [contentStreamCompleted] = useAtom(contentStreamCompletedAtom);
-  const [worksheetSubtopics] = useAtom(worksheetSubtopicsAtom);
+  const [subtopics] = useAtom(subtopicsAtom);
   const [worksheetAnswerKey, setWorksheetAnswerKey] = useAtom(
     worksheetAnswerKeyAtom
   );
@@ -180,8 +180,8 @@ export default function Raptor() {
       >
         <Sidebar className="col-span-3 col-start-1 row-start-1">
           <Section title={"Topics"} color={"gray"}>
-            {worksheetSubtopics.length > 0 &&
-              worksheetSubtopics.map((topic, index) => (
+            {subtopics.length > 0 &&
+              subtopics.map((topic, index) => (
                 <DraggableChip
                   key={index}
                   color="secondary"

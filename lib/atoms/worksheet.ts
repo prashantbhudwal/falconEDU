@@ -7,8 +7,6 @@ type CurrentQuestion = {
   subtopic: string;
 };
 
-export const worksheetSubtopicsAtom = atom([""]);
-
 export const currentQuestionAtom = atom<CurrentQuestion>({
   type: "multipleChoiceSingleCorrect",
   bloomLevel: "",

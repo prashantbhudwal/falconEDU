@@ -1,6 +1,6 @@
 "use client";
 import { predictTopics } from "../../ai/predictor";
-import { GridLoader, PropagateLoader } from "react-spinners";
+import { GridLoader } from "react-spinners";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
 import CheckboxGrid from "../checkbox-grid";
@@ -9,7 +9,7 @@ import { startedAtom } from "@/lib/atoms/app";
 import { lessonIdeasAtom } from "@/lib/atoms/lesson";
 import { useRouter } from "next/navigation";
 import { gradeAtom, boardAtom, subjectAtom } from "@/lib/atoms/preferences";
-import { worksheetSubtopicsAtom } from "@/lib/atoms/worksheet";
+import { subtopicsAtom } from "@/lib/atoms/preferences";
 import { savedQuestionsAtom } from "@/lib/atoms/worksheet";
 import { userFlowAtom } from "@/lib/atoms/app";
 import { set } from "zod";
@@ -27,9 +27,7 @@ export default function Page() {
   const [board] = useAtom(boardAtom);
   const [subject] = useAtom(subjectAtom);
   const [grade] = useAtom(gradeAtom);
-  const [worksheetSubtopics, setWorksheetSubtopics] = useAtom(
-    worksheetSubtopicsAtom
-  );
+  const [subtopics, setSubtopics] = useAtom(subtopicsAtom);
   const [__, setLessonIdeas] = useAtom(lessonIdeasAtom);
   const [savedQuestions, setSavedQuestions] = useAtom(savedQuestionsAtom);
 
@@ -90,16 +88,16 @@ export default function Page() {
 
   const handleAddSubtopic = () => {
     if (inputValue) {
-      setWorksheetSubtopics([...worksheetSubtopics, inputValue]);
+      setSubtopics([...subtopics, inputValue]);
       setInputValue("");
       setHoverIndex(null); // Add this line to reset hoverIndex
     }
   };
   const handleDeleteSubtopic = (index: number) => {
-    setWorksheetSubtopics(worksheetSubtopics.filter((_, i) => i !== index));
+    setSubtopics(subtopics.filter((_, i) => i !== index));
   };
   useEffect(() => {
-    setWorksheetSubtopics([]);
+    setSubtopics([]);
     setLoading(true);
     const predict = async (
       topic: string,
@@ -122,7 +120,7 @@ export default function Page() {
     <div className="m-4 flex w-full flex-col items-center gap-10">
       <div className="join  flex  w-5/6 items-center justify-center">
         <div className="join-item flex min-h-[4rem] w-4/6 flex-row flex-wrap gap-3 rounded-md px-6 py-4 ring-2 ring-base-100">
-          {worksheetSubtopics.map((subtopic, index) => (
+          {subtopics.map((subtopic, index) => (
             <div
               className="relative"
               key={index}
@@ -158,7 +156,7 @@ export default function Page() {
           onClick={
             userFlow === "worksheet" ? handleRaptorStart : handleMerlinStart
           }
-          disabled={worksheetSubtopics.length === 0 || loading}
+          disabled={subtopics.length === 0 || loading}
         >
           {userFlow === "worksheet" ? "Worksheet" : "Lesson"}
         </button>
@@ -202,14 +200,14 @@ export default function Page() {
         <CheckboxGrid
           userFlow={userFlow}
           content={allContent}
-          selectedOptions={worksheetSubtopics}
+          selectedOptions={subtopics}
           handleChange={(event) => {
             const selectedOption = event.target.value;
             if (event.target.checked) {
-              setWorksheetSubtopics([...worksheetSubtopics, selectedOption]);
+              setSubtopics([...subtopics, selectedOption]);
             } else {
-              setWorksheetSubtopics(
-                worksheetSubtopics.filter((option) => option !== selectedOption)
+              setSubtopics(
+                subtopics.filter((option) => option !== selectedOption)
               );
             }
           }}
