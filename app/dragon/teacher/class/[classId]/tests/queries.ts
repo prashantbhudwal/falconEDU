@@ -64,6 +64,10 @@ export const getStudentsByBotConfigId = cache(async function (
   };
 });
 
+export type StudentsByBotConfigId = UnwrapPromise<
+  ReturnType<typeof getStudentsByBotConfigId>
+>;
+
 export const getSingleStudentByStudentBotId = cache(async function (
   botConfigId: string
 ) {
