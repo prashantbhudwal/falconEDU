@@ -87,13 +87,16 @@ export const QuestionForm = ({ question, ...props }: PropType) => {
     }
   };
 
+  const onUnfocusedHandler = () => {
+    if (isDirty) {
+      onSubmit(form.getValues());
+    }
+  };
+
   return (
     <>
       <Form {...form}>
-        <form
-          // onSubmit={form.handleSubmit(onSubmit)}
-          className={cn("", props.className)}
-        >
+        <form onBlur={onUnfocusedHandler} className={cn("", props.className)}>
           <div className="mb-10 rounded-lg p-5 bg-base-200">
             {/* ---------------------------------- Questions -------------------------------------- */}
             <div className="flex gap-5 justify-between items-start">
