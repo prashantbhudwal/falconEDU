@@ -34,9 +34,22 @@ export async function parseTestQuestions(test: string) {
     const hasQuestions = parsedTestResults.data.questionsInTest;
     const hasAnswers = parsedTestResults.data.answersInTest;
 
-    return { parsedQuestions, hasQuestions, hasAnswers };
+    return {
+      parsedQuestions,
+      hasQuestions,
+      hasAnswers,
+      error: false,
+      message: "Parsing Successfull",
+    };
   } catch (err) {
     console.error(err);
+    return {
+      parsedQuestions: null,
+      hasQuestions: null,
+      hasAnswers: null,
+      error: true,
+      message: "Can't generate questions for test",
+    };
     throw new Error("Can't generate results");
   }
 }

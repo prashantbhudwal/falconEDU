@@ -104,8 +104,15 @@ export default function TestPreferencesForm({
   // --------------------------------------------- On Parsing ----------------------------------------------------------------
   const onSubmit = async (data: z.infer<typeof testBotPreferencesSchema>) => {
     setLoading(true);
-    const { parsedQuestions, hasQuestions, hasAnswers } =
+    const { parsedQuestions, hasQuestions, hasAnswers, error, message } =
       await parseTestQuestions(data.fullTest);
+
+    if (error) {
+      setError(message);
+      setLoading(false);
+      return { success: false };
+    }
+
     if (!hasQuestions || !hasAnswers) {
       const errorMessage = !hasQuestions
         ? "No questions provided. Please provide the questions and answers."
