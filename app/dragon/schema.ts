@@ -157,25 +157,25 @@ export const testBotPreferencesSchema = z.object({
 export const parsedQuestionsSchema = z.object({
   correct_answer: z.array(
     z.object({
-      value: z.string().min(3, {
-        message: "Answer must be at least 3 characters",
+      value: z.string().min(1, {
+        message: "Answer must be at least 1 characters",
       }),
     })
   ),
   options: z.array(
     z.object({
-      value: z.string().min(3, {
-        message: "Options must be at least 3 characters",
+      value: z.string().min(1, {
+        message: "Options must be at least 1 characters",
       }),
     })
   ),
   question: z
     .string()
-    .min(4, {
-      message: "Question must be at least 4 characters.",
+    .min(1, {
+      message: "Question must be at least 1 characters.",
     })
-    .max(100, {
-      message: "Question must not exceed 100 characters.",
+    .max(1000, {
+      message: "Question must not exceed 1000 characters.",
     }),
   //later add other properties like hint , description , questionType etc...
 });
