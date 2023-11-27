@@ -1,5 +1,4 @@
 "use client";
-import { predictTopics } from "../../ai/predictor";
 import { GridLoader } from "react-spinners";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
@@ -12,9 +11,39 @@ import { gradeAtom, boardAtom, subjectAtom } from "@/lib/atoms/preferences";
 import { subtopicsAtom } from "@/lib/atoms/preferences";
 import { savedQuestionsAtom } from "@/lib/atoms/worksheet";
 import { userFlowAtom } from "@/lib/atoms/app";
-import { set } from "zod";
+import { Button } from "@/components/ui/button";
+
+const fetchPredictions = async (
+  topic: string,
+  subject: string,
+  board: string,
+  grade: string
+) => {
+  const topicsJson = await fetch("/ai/predictor", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      predictionType: "predictTopics",
+      data: {
+        chapter: topic,
+        subject,
+        board,
+        grade,
+      },
+    }),
+  });
+  if (!topicsJson.ok) {
+    throw new Error("Something went wrong");
+  }
+  const topics = await topicsJson.json();
+  return topics;
+};
 
 export default function Page() {
+  const [retryFetch, setRetryFetch] = useState(false);
+  const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [userFlow] = useAtom(userFlowAtom);
   const [lastIndex, setLastIndex] = useState<number | null>(null);
@@ -76,6 +105,9 @@ export default function Page() {
       },
     ]);
   };
+  const handleRetry = () => {
+    setRetryFetch((prev) => !prev);
+  };
 
   const handleMerlinStart = () => {
     router.push("/merlin");
@@ -98,6 +130,7 @@ export default function Page() {
     setSubtopics(subtopics.filter((_, i) => i !== index));
   };
   useEffect(() => {
+    if (!topic || !subject || !board || !grade) return;
     setSubtopics([]);
     setLoading(true);
     const predict = async (
@@ -107,26 +140,16 @@ export default function Page() {
       grade: string
     ) => {
       // post request to the api
-      const topicsJson = await fetch(API, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          predictionType: "predictTopics",
-          data: {
-            chapter: topic,
-            subject,
-            board,
-            grade,
-          },
-        }),
-      });
-      const topics = await topicsJson.json();
-      setAllContent(topics);
+      try {
+        const topics = await fetchPredictions(topic, subject, board, grade);
+        setAllContent(topics);
+        setError(false);
+      } catch (error) {
+        setError(true);
+      }
     };
     predict(topic, subject, board, grade).then(() => setLoading(false));
-  }, []);
+  }, [retryFetch, topic, subject, board, grade]);
 
   return (
     <div className="m-4 flex w-full flex-col items-center gap-10">
@@ -208,6 +231,13 @@ export default function Page() {
             color={`${userFlow === "worksheet" ? "#D946EF" : "#10B981"}`}
           />
         </div>
+      ) : error ? (
+        <>
+          <div className="flex h-12 flex-col items-center justify-center gap-2">
+            <p className="text-red-500">Something went wrong with AI.</p>
+          </div>
+          <Button onClick={handleRetry}>Retry</Button>
+        </>
       ) : (
         <CheckboxGrid
           userFlow={userFlow}
