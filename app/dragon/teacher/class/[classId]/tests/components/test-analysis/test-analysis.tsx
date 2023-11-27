@@ -1,4 +1,7 @@
-import { getStudentsByBotConfigId } from "../../queries";
+import {
+  getAllQuestionResponsesByBotConfigId,
+  getStudentsByBotConfigId,
+} from "../../queries";
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
 import { getStudentsURL } from "@/lib/urls";
@@ -13,6 +16,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { getTestMetadata } from "../../../utils";
+import { getTestResults } from "@/app/dragon/teacher/routers/parsedQuestionRouter";
 
 export async function TestAnalysis({
   testBotId,
@@ -21,15 +26,32 @@ export async function TestAnalysis({
   testBotId: string;
   classId: string;
 }) {
+  const allStudentResponses =
+    await getAllQuestionResponsesByBotConfigId(testBotId);
+  const { averageScore, highestScore, leastScore, maxScore } =
+    getTestMetadata(allStudentResponses);
   const testQuestions =
     await db.parseQuestionRouter.getParsedQuestionByBotConfigId({
       botConfigId: testBotId,
     });
+  const results = await db.parseQuestionRouter.getTestResults({
+    botConfigId: testBotId,
+  });
+
   const { isPublished, students } = await getStudentsByBotConfigId(testBotId);
   const totalSubmittedTest = students.filter(
     (student) => student.isSubmitted
   ).length;
   const totalPendingTest = students.length - totalSubmittedTest;
+  const resultObject = await getTestResults({ botConfigId: testBotId });
+  if (!resultObject) return null;
+
+  const {
+    allQuestions,
+    botChatScores,
+    botChatWiseResults,
+    studentWiseResults,
+  } = resultObject;
 
   return (
     <div className="w-full max-w-5xl min-h-screen flex flex-col gap-2 ">
@@ -38,10 +60,13 @@ export async function TestAnalysis({
       ) : students.length !== 0 ? (
         <div className="flex flex-col gap-4 items-center">
           <SummaryStats
-            testBotId={testBotId}
+            averageScore={averageScore}
+            highestScore={highestScore}
+            leastScore={leastScore}
             totalSubmittedTest={totalSubmittedTest}
             totalPendingTest={totalPendingTest}
           />
+
           {/* <Accordion type="single" collapsible>
             <AccordionItem value="item-1">
               <AccordionTrigger>Is it accessible?</AccordionTrigger>
@@ -51,6 +76,8 @@ export async function TestAnalysis({
             </AccordionItem>
           </Accordion> */}
           {/* Individual responses */}
+
+          {/* <SummaryStatTable testQuestions={testQuestions} /> */}
 
           <Separator />
           <h1 className="text-center font-semibold text-xl mt-10 ">

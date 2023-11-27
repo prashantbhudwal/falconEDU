@@ -1,21 +1,18 @@
-import { getTestMetadata } from "../../../utils";
-import { getAllQuestionResponsesByBotConfigId } from "../../queries";
 import { FaChartLine, FaThumbsDown, FaTrophy, FaUsers } from "react-icons/fa6";
 
 export const SummaryStats = async function ({
-  testBotId,
+  averageScore,
+  highestScore,
+  leastScore,
   totalPendingTest,
   totalSubmittedTest,
 }: {
-  testBotId: string;
+  averageScore: number;
+  highestScore: number;
+  leastScore: number;
   totalPendingTest: number;
   totalSubmittedTest: number;
 }) {
-  const allStudentResponses =
-    await getAllQuestionResponsesByBotConfigId(testBotId);
-  const { averageScore, highestScore, leastScore, maxScore } =
-    getTestMetadata(allStudentResponses);
-
   return (
     <div className="bg-dark-500 px-10 rounded-lg">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
