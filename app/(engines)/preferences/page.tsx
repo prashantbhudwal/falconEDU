@@ -7,6 +7,9 @@ import {
   boardAtom,
   subjectAtom,
   gradeAtom,
+  subtopicAtom,
+  subtopicsAtom,
+  topicAtom,
 } from "../../../lib/atoms/preferences";
 import { userFlowAtom } from "../../../lib/atoms/app";
 
@@ -17,8 +20,17 @@ export default function Home() {
   const [subject, setSubject] = useAtom(subjectAtom);
   const [grade, setGrade] = useAtom(gradeAtom);
   const [userFlow, setUserFlow] = useAtom(userFlowAtom);
+  const [, setTopic] = useAtom(topicAtom);
+  const [, setSubtopic] = useAtom(subtopicAtom);
+  const [, setSubtopics] = useAtom(subtopicsAtom);
 
   useEffect(() => {
+    setBoard("");
+    setSubject("");
+    setGrade("");
+    setTopic("");
+    setSubtopic("");
+    setSubtopics([]);
     router.prefetch("/preferences/topic");
     if (userFlow === "lesson") {
       router.prefetch("/preferences/subtopic");
