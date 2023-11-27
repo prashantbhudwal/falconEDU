@@ -77,7 +77,7 @@ export async function TestAnalysis({
           </Accordion> */}
           {/* Individual responses */}
 
-          {/* <SummaryStatTable testQuestions={testQuestions} /> */}
+          <SummaryStatTable testQuestions={testQuestions} />
 
           <Separator />
           <h1 className="text-center font-semibold text-xl mt-10 ">

@@ -18,64 +18,69 @@ import {
 import { InformationCircleIcon } from "@heroicons/react/24/solid";
 import { getProgressBarColor } from "../../../utils";
 import { typeGetParsedQuestionByBotConfigId } from "@/app/dragon/teacher/routers/parsedQuestionRouter";
-
+import { Suspense } from "react";
 
 export const SummaryStatTable = ({
   testQuestions,
 }: {
   testQuestions: typeGetParsedQuestionByBotConfigId;
 }) => {
-
   if (!testQuestions) return null;
-  
+
   const getTotalQuestion = async (id: string) => {
     const response = await getTotalQuestionByParsedQuestionId(id);
     return response;
   };
 
   return (
-    <Table>
-      <Header />
-      <TableBody>
-        {
-        testQuestions.map(async (question: any, i: number) => {
+    <Suspense
+      fallback={
+        <div>
+          <Header />
+        </div>
+      }
+    >
+      <Table>
+        <Header />
+        <TableBody>
+          {testQuestions.map(async (question: any, i: number) => {
+            const attemptedQuestions = await getTotalQuestion(
+              question.id as string
+            );
 
-          const attemptedQuestions = await getTotalQuestion(
-            question.id as string
-          );
+            const correctQuestions = attemptedQuestions?.filter(
+              (ques) => ques.isCorrect
+            );
 
-          const correctQuestions = attemptedQuestions?.filter(
-            (ques) => ques.isCorrect
-          );
+            let correctQuestionsPercentage = 20;
 
-          let correctQuestionsPercentage = 20;
+            if (correctQuestions && attemptedQuestions) {
+              correctQuestionsPercentage =
+                (correctQuestions.length / attemptedQuestions.length) * 100;
+            }
 
-          if (correctQuestions && attemptedQuestions) {
-            correctQuestionsPercentage =
-              (correctQuestions.length / attemptedQuestions.length) * 100;
-          }
+            const progressBarColor = getProgressBarColor(
+              correctQuestionsPercentage
+            );
 
-          const progressBarColor = getProgressBarColor(
-            correctQuestionsPercentage
-          ); 
-
-          return (
-            <TableRow key={i} className="hover:bg-muted/0">
-              <TableCell className="font-medium text-left">{i + 1}</TableCell>
-              <TableCell>
-                <div className="flex gap-5 items-center">
-                  {correctQuestionsPercentage.toFixed(1)}%
-                  <Progress
-                    value={correctQuestionsPercentage}
-                    indicatorColor={progressBarColor}
-                  />
-                </div>
-              </TableCell>
-            </TableRow>
-          );
-        })}
-      </TableBody>
-    </Table>
+            return (
+              <TableRow key={i} className="hover:bg-muted/0">
+                <TableCell className="font-medium text-left">{i + 1}</TableCell>
+                <TableCell>
+                  <div className="flex gap-5 items-center">
+                    {correctQuestionsPercentage.toFixed(1)}%
+                    <Progress
+                      value={correctQuestionsPercentage}
+                      indicatorColor={progressBarColor}
+                    />
+                  </div>
+                </TableCell>
+              </TableRow>
+            );
+          })}
+        </TableBody>
+      </Table>
+    </Suspense>
   );
 };
 
