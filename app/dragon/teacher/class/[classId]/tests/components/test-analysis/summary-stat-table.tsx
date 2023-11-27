@@ -19,7 +19,7 @@ import { InformationCircleIcon } from "@heroicons/react/24/solid";
 import { getProgressBarColor } from "../../../utils";
 import { typeGetParsedQuestionByBotConfigId } from "@/app/dragon/teacher/routers/parsedQuestionRouter";
 import { Suspense } from "react";
-
+import { Skeleton } from "@/components/ui/skeleton";
 export const SummaryStatTable = ({
   testQuestions,
 }: {
@@ -35,8 +35,9 @@ export const SummaryStatTable = ({
   return (
     <Suspense
       fallback={
-        <div>
-          <Header />
+        <div className="flex flex-col items-center space-y-2">
+          <Skeleton className="h-2 w-full rounded-lg" />
+          <Skeleton className="h-2 w-full rounded-lg" />
         </div>
       }
     >
