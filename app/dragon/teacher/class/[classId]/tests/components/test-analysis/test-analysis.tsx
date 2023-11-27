@@ -67,17 +67,20 @@ export async function TestAnalysis({
             totalPendingTest={totalPendingTest}
           />
 
-          {/* <Accordion type="single" collapsible>
-            <AccordionItem value="item-1">
-              <AccordionTrigger>Is it accessible?</AccordionTrigger>
-              <AccordionContent>
+          <Accordion
+            type="single"
+            collapsible
+            className="w-5/6 bg-base-200 rounded-lg p-2"
+          >
+            <AccordionItem value="item-1" className="border-none">
+              <AccordionTrigger className="text-lg hover:no-underline">
+                Question-wise performance
+              </AccordionTrigger>
+              <AccordionContent className="border-none">
                 <SummaryStatTable testQuestions={testQuestions} />
               </AccordionContent>
             </AccordionItem>
-          </Accordion> */}
-          {/* Individual responses */}
-
-          <SummaryStatTable testQuestions={testQuestions} />
+          </Accordion>
 
           <Separator />
           <h1 className="text-center font-semibold text-xl mt-10 ">
