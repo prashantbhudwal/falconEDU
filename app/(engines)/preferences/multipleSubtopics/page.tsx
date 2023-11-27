@@ -31,6 +31,7 @@ export default function Page() {
   const [__, setLessonIdeas] = useAtom(lessonIdeasAtom);
   const [savedQuestions, setSavedQuestions] = useAtom(savedQuestionsAtom);
 
+  const API = "/ai/predictor";
   useEffect(() => {
     if (board === "" || subject === "" || grade === "") {
       router.push("/preferences");
@@ -105,13 +106,24 @@ export default function Page() {
       board: string,
       grade: string
     ) => {
-      const content = await predictTopics({
-        chapter: topic,
-        subject,
-        board,
-        grade,
+      // post request to the api
+      const topicsJson = await fetch(API, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          predictionType: "predictTopics",
+          data: {
+            chapter: topic,
+            subject,
+            board,
+            grade,
+          },
+        }),
       });
-      setAllContent(content);
+      const topics = await topicsJson.json();
+      setAllContent(topics);
     };
     predict(topic, subject, board, grade).then(() => setLoading(false));
   }, []);

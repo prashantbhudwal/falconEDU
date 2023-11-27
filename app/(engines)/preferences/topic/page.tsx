@@ -8,6 +8,7 @@ import { topicAtom, subtopicAtom } from "@/lib/atoms/preferences";
 import { useRouter } from "next/navigation";
 import { gradeAtom, boardAtom, subjectAtom } from "@/lib/atoms/preferences";
 import { userFlowAtom } from "@/lib/atoms/app";
+const API_URL = "/ai/predictor";
 export default function Page() {
   const [loading, setLoading] = useState(false);
   const [_, setSubtopic] = useAtom(subtopicAtom);
@@ -34,7 +35,22 @@ export default function Page() {
     setSubtopic("");
     const predict = async (subject: string, board: string, grade: string) => {
       setLoading(true);
-      const chapters = await predictChapters({ subject, board, grade });
+      //Create a post request to the api
+      const chaptersJson = await fetch(API_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          predictionType: "predictChapters",
+          data: {
+            subject,
+            board,
+            grade,
+          },
+        }),
+      });
+      const chapters = await chaptersJson.json();
       setChapters(chapters);
     };
     predict(subject, board, grade).then(() => setLoading(false));
