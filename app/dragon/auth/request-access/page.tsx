@@ -26,7 +26,7 @@ const AccessRequestForm = () => {
       router.push("/dragon/auth/");
     }
   }, [sessionStatus, router]);
-  if (!userId) return notFound();
+  if (!userId) return;
   if (sessionStatus === "loading") {
     return <div>Loading...</div>; // Show a loading indicator while the session is loading
   }

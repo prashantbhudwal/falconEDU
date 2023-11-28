@@ -11,8 +11,8 @@ export default async function TeacherLayout({
 }) {
   const session = await getServerSession(authOptions);
   console.log("session", session);
-  if (!session) return notFound();
-  if (session?.user.userType !== "TEACHER") return notFound();
+  if (!session) return;
+  if (session?.user.userType !== "TEACHER") return;
   console.log("session", session);
   const userId = session.user.id;
   const orgMode = await db.teacher.teacherHasOrgMode({ userId });
