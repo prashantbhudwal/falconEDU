@@ -10,8 +10,8 @@ import { Button } from "@/components/ui/button";
 
 const Url = {
   localhost: "http://localhost:3000/dragon/auth",
-  "student.falconai.in": process.env.STUDENT_AUTH_URL ?? "",
-  "teacher.falconai.in": process.env.TEACHER_AUTH_URL ?? "",
+  "student.falconai.in": "https://app.falconai.in/dragon/auth/student",
+  "teacher.falconai.in": "https://app.falconai.in/dragon/auth/teacher",
   "app.falconai.in": "https://app.falconai.in/preferences",
 };
 
@@ -69,7 +69,7 @@ const LandingPage = () => {
               rel="noopener noreferrer"
               size={"lg"}
               onClick={() => {
-                window.location.href = Url["teacher.falconai.in"];
+                window.location.href = process.env.TEACHER_AUTH_URL ?? "";
               }}
             >
               Teacher
@@ -79,7 +79,7 @@ const LandingPage = () => {
               rel="noopener noreferrer"
               size={"lg"}
               onClick={() => {
-                window.location.href = Url["student.falconai.in"];
+                window.location.href = process.env.STUDENT_AUTH_URL ?? "";
               }}
             >
               Student
