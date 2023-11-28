@@ -1,3 +1,5 @@
+//TODO: Fix content limits in chat : https://chat.openai.com/share/7f953646-f41c-4ee5-b0a5-528c084edd32
+
 import { OpenAIStream, StreamingTextResponse } from "ai";
 import {
   ChatCompletionRequestMessage,
@@ -7,7 +9,7 @@ import {
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/authOptions";
 import prisma from "@/prisma";
-import { nanoid } from "@/utils";
+import { nanoid } from "@/lib";
 const base: ChatCompletionRequestMessage[] = [
   {
     role: "system",

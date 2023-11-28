@@ -6,30 +6,33 @@ import { Adapter } from "next-auth/adapters";
 import { AuthOptions } from "next-auth";
 import { User, Account, Profile } from "next-auth";
 import { JWT } from "next-auth/jwt";
+import { redirect } from "next/navigation";
+import { createUserProfile } from "./mutations";
 
 const TRIAL_DURATION = 14;
 
 // Assign trial user properties
-const assignTrialUserProperties = async () => {
+const assignTrialUserProperties = async (userType: string) => {
   const trialStartDate = new Date();
   const trialEndDate = new Date(trialStartDate);
   trialEndDate.setDate(trialStartDate.getDate() + TRIAL_DURATION);
 
   return {
     role: "TRIAL",
-    userType: "TEACHER",
+    userType: userType,
     subscriptionStart: trialStartDate,
     subscriptionEnd: trialEndDate,
   };
 };
 
-// Find or create profile for a Google user
-const googleProfileHandler = async (profile: any, tokens: any) => {
+const handleProfile = async (profile: any, token: any, userType: string) => {
   const existingUser: PrismaUser | null = await prisma.user.findUnique({
     where: { email: profile.email },
   });
   // console.log("ProfileTOken", tokens);
-
+  if (existingUser && existingUser.userType !== userType) {
+    throw new Error("User type mismatch");
+  }
   if (existingUser) {
     const { sub, ...profileWithoutSub } = profile;
     return {
@@ -38,7 +41,7 @@ const googleProfileHandler = async (profile: any, tokens: any) => {
     };
   } else {
     // Set trial user properties for new users
-    const trialUserProperties = await assignTrialUserProperties();
+    const trialUserProperties = await assignTrialUserProperties(userType);
     return {
       id: profile.sub, // Google returns the id as 'sub'
       name: profile.name,
@@ -49,12 +52,45 @@ const googleProfileHandler = async (profile: any, tokens: any) => {
   }
 };
 
+// Find or create profile for a Google user
+const googleProfileHandlerStudent = async (profile: any, tokens: any) => {
+  return handleProfile(profile, tokens, "STUDENT");
+};
+
+const googleProfileHandlerTeacher = async (profile: any, tokens: any) => {
+  return handleProfile(profile, tokens, "TEACHER");
+};
+
 // Provider for Google authentication
-const GoogleProvider = () => {
+const GoogleTeacherProvider = () => {
   return Google({
     clientId: process.env.GOOGLE_CLIENT_ID ?? "",
     clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
-    profile: googleProfileHandler,
+    profile: googleProfileHandlerTeacher,
+    authorization: {
+      params: {
+        prompt: "select_account",
+        access_type: "offline",
+        response_type: "code",
+      },
+    },
+  });
+};
+
+const GoogleStudentProvider = () => {
+  return Google({
+    clientId: process.env.GOOGLE_CLIENT_ID ?? "",
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
+    profile: googleProfileHandlerStudent,
+    id: "google-student",
+    name: "google-student",
+    authorization: {
+      params: {
+        prompt: "select_account",
+        access_type: "offline",
+        response_type: "code",
+      },
+    },
   });
 };
 
@@ -63,6 +99,10 @@ const jwtCallback = async ({
   token,
   user,
   account,
+  isNewUser,
+  profile,
+  trigger,
+  session,
 }: {
   token: JWT;
   user: User | null;
@@ -73,11 +113,25 @@ const jwtCallback = async ({
   session?: any;
 }): Promise<any> => {
   // console.log("token", token);
+  // console.log("isNewUser", isNewUser);
+  // console.log("trigger", trigger);
+  // console.log("session", session);
+
   if (user) {
     token.id = user.id;
     token.role = user.role;
     token.subscriptionStart = user.subscriptionStart;
     token.subscriptionEnd = user.subscriptionEnd;
+    token.userType = user.userType;
+  }
+
+  if (user && isNewUser) {
+    try {
+      await createUserProfile(user.id, user.userType);
+      // console.log("User profile created");
+    } catch (e) {
+      return false;
+    }
   }
   // console.log("TokenM", token);
   return token;
@@ -99,6 +153,7 @@ const sessionCallback = async ({
     session.user.role = token.role;
     session.user.subscriptionStart = token.subscriptionStart;
     session.user.subscriptionEnd = token.subscriptionEnd;
+    session.user.userType = token.userType;
   }
   // console.log("SessionM", session);
 
@@ -108,10 +163,13 @@ const sessionCallback = async ({
 // The main handler
 export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma) as Adapter,
-  providers: [GoogleProvider()],
+  providers: [GoogleTeacherProvider(), GoogleStudentProvider()],
   callbacks: {
-    session: sessionCallback,
+    signIn: async ({ account, user, credentials, email, profile }) => {
+      return true;
+    },
     jwt: jwtCallback,
+    session: sessionCallback,
   },
   session: {
     strategy: "jwt",

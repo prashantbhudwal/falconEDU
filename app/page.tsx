@@ -1,24 +1,34 @@
+// TODO This is a mess, need to clean up
 "use client";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
-import { signIn, useSession } from "next-auth/react";
-import { PropagateLoader } from "react-spinners";
-import Header from "@/app/Header";
-import Footer from "@/app/Footer";
+import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 import useTrackPage from "@/hooks/analytics/useTrackPage";
+import { LandingPageEngines } from "./landing-engines";
+import { Button } from "@/components/ui/button";
+
+const Url = {
+  localhost: "https://app.falconai.in/dragon/auth",
+  "student.falconai.in":
+    "https://falcon-one-git-add-context-falconai.vercel.app/dragon/auth/student",
+  "teacher.falconai.in":
+    "https://falcon-one-git-add-context-falconai.vercel.app/dragon/auth/teacher",
+  "app.falconai.in": "https://app.falconai.in/",
+};
+
+const getHostNameOfCurrentURL = () =>
+  typeof window !== "undefined" ? window.location.hostname : "";
+
+type HostName = keyof typeof Url;
+
 const LandingPage = () => {
+  const [hostName, setHostName] = useState<HostName>();
   useTrackPage("Landing Page");
   const { data: session, status: sessionStatus } = useSession();
   const router = useRouter();
 
-  useEffect(() => {
-    if (session && sessionStatus === "authenticated") {
-      router.push("/preferences");
-    }
-  }, [session, sessionStatus]);
-
-  useEffect(() => {
-    router.prefetch("/auth/login");
+  const enginesFlow = () => {
     router.prefetch("/preferences");
     if (session && sessionStatus === "authenticated") {
       router.prefetch("/preferences/topic");
@@ -26,45 +36,59 @@ const LandingPage = () => {
       router.prefetch("/merlin");
       router.prefetch("/magic/aid/lesson");
     }
+  };
+
+  useEffect(() => {
+    const hostName = getHostNameOfCurrentURL() as HostName;
+    setHostName(hostName);
+    if (hostName === "localhost") {
+      router.push("/dragon/auth");
+    } else if (hostName === "app.falconai.in") {
+      enginesFlow();
+    } else if (
+      hostName === "student.falconai.in" ||
+      hostName === "teacher.falconai.in"
+    ) {
+      window.location.href = Url[hostName];
+    }
   }, []);
 
   return (
-    <div>
-      <Header />
-      <div className="flex min-h-screen flex-col items-center pt-8 text-center">
-        <h1 className="my-6 max-w-xl text-2xl leading-10 text-slate-300 md:text-5xl lg:text-5xl">
-          <div className="inline-flex items-start">
-            <p className="">Welcome to FalconAI</p>
-            <span className="-mt-1 ml-2 rounded bg-yellow-300 px-2 py-1 text-sm font-semibold text-yellow-800">
-              beta
-            </span>
+    <div className="flex min-h-screen flex-col place-content-center">
+      {hostName === "app.falconai.in" ? (
+        <LandingPageEngines />
+      ) : (
+        <div>
+          <Image
+            src="/chubbi.png"
+            alt="Falcon AI Logo"
+            width={200}
+            height={200}
+          />
+          <div className="flex flex-col items-center justify-center gap-2">
+            <Button
+              variant="default"
+              rel="noopener noreferrer"
+              size={"lg"}
+              onClick={() => {
+                window.location.href = Url["teacher.falconai.in"];
+              }}
+            >
+              Teacher
+            </Button>
+            <Button
+              variant="default"
+              rel="noopener noreferrer"
+              size={"lg"}
+              onClick={() => {
+                window.location.href = Url["student.falconai.in"];
+              }}
+            >
+              Student
+            </Button>
           </div>
-        </h1>
-        <p className={"mb-12 mt-6 max-w-xl text-lg text-gray-500 md:text-xl"}>
-          Create Lesson Plans, Worksheets, Activities and Assessments with AI
-          that is easy to use and strictly follows your syllabus.
-        </p>
-        <button
-          onClick={() => signIn("google", { callbackUrl: "/preferences" })}
-          className={`rounded-lg bg-emerald-500 px-28 py-4 text-lg font-semibold text-slate-800 transition duration-200 ease-in-out hover:bg-emerald-600`}
-        >
-          {sessionStatus === "loading"
-            ? "Signing you in..."
-            : sessionStatus === "authenticated"
-            ? "Taking you to the app..."
-            : "Sign In"}
-        </button>
-        <p className="mt-2 text-xs">
-          Works on large screens only. Use chrome, edge or any major browser for
-          access.
-        </p>
-        {(sessionStatus === "loading" || sessionStatus === "authenticated") && (
-          <div className="flex h-12 flex-col items-center justify-center gap-2">
-            <PropagateLoader color={"#10B981"} />
-          </div>
-        )}
-      </div>
-      <Footer />
+        </div>
+      )}
     </div>
   );
 };

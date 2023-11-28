@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useSession } from "next-auth/react";
-import { trackPage } from "@/mixpanel/actions";
+import { trackPage } from "@/lib/mixpanel/actions";
 
 const useTrackPage = (pageName: string) => {
   const { data: session } = useSession();

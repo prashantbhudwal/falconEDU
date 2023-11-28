@@ -7,8 +7,8 @@ import {
   contentStreamAtom,
   currentStreamIdAtom,
   prevStreamIdAtom,
-} from "@/atoms/lesson";
-import fetchContentStream from "@/utils/fetchContentStream";
+} from "@/lib/atoms/lesson";
+import fetchContentStream from "@/lib/fetchContentStream";
 import {
   aidType,
   APIRoute,

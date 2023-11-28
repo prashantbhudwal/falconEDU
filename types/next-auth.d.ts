@@ -7,6 +7,7 @@ declare module "next-auth" {
       role: string;
       subscriptionStart: Date;
       subscriptionEnd: Date;
+      userType: string;
     } & DefaultSession["user"];
   }
 
@@ -14,5 +15,6 @@ declare module "next-auth" {
     role: string;
     subscriptionStart: Date;
     subscriptionEnd: Date;
+    userType: string;
   }
 }

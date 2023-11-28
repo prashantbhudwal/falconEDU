@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
-import { stripe } from "@/utils/stripe";
+import { stripe } from "@/lib/stripe";
 import prisma from "@/prisma";
 //Todo extract all payment configs to one file
 const ONE_MONTH_PRICE = 400;
@@ -8,21 +8,23 @@ const THREE_MONTHS_PRICE = 800;
 const SIX_MONTHS_PRICE = 1500;
 const ONE_YEAR_PRICE = 2500;
 
-export async function POST(req: NextRequest) {
+export async function POST(req: NextRequest): Promise<NextResponse> {
   const sig = req.headers.get("stripe-signature");
   const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
   const buf = await req.text();
   let event: Stripe.Event;
 
   try {
-    if (!sig || !endpointSecret) return;
+    if (!sig || !endpointSecret)
+      return NextResponse.json(
+        { error: "Missing Stripe signature" },
+        { status: 400 }
+      );
     event = stripe.webhooks.constructEvent(buf, sig, endpointSecret);
   } catch (error) {
-    console.log(error);
-    return NextResponse.error();
+    return NextResponse.json({ error }, { status: 500 });
   }
 
-  console.log(event);
   switch (event.type) {
     case "payment_intent.succeeded":
       const paymentIntentSucceeded = event.data.object as Stripe.PaymentIntent;
@@ -35,7 +37,6 @@ export async function POST(req: NextRequest) {
         where: { stripePaymentId: stripePaymentId },
       });
       if (existingPayment) {
-        console.log("Payment already processed");
         break;
       }
 
@@ -81,7 +82,6 @@ export async function POST(req: NextRequest) {
         },
       });
 
-      console.log("data", paymentIntentSucceeded.metadata);
       // Then define and call a function to handle the event payment_intent.succeeded
       break;
     // ... handle other event types
