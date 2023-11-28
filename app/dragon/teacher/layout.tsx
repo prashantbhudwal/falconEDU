@@ -17,7 +17,7 @@ export default async function TeacherLayout({
   const userId = session.user.id;
   const orgMode = await db.teacher.teacherHasOrgMode({ userId });
   console.log("orgMode", orgMode);
-  if (!orgMode) return redirect("/dragon/auth/request-access");
+  if (!orgMode) redirect("/dragon/auth/request-access");
 
   return (
     <div className="flex flex-col min-w-full h-screen">
