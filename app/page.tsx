@@ -68,9 +68,9 @@ const LandingPage = () => {
               variant="default"
               rel="noopener noreferrer"
               size={"lg"}
-              onClick={() => {
-                window.location.href = process.env.TEACHER_AUTH_URL ?? "";
-              }}
+              onClick={() =>
+                (window.location.href = process.env.TEACHER_AUTH_URL ?? "")
+              }
             >
               Teacher
             </Button>
@@ -78,9 +78,9 @@ const LandingPage = () => {
               variant="default"
               rel="noopener noreferrer"
               size={"lg"}
-              onClick={() => {
-                window.location.href = process.env.STUDENT_AUTH_URL ?? "";
-              }}
+              onClick={() =>
+                (window.location.href = process.env.STUDENT_AUTH_URL ?? "")
+              }
             >
               Student
             </Button>
