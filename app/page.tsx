@@ -11,10 +11,10 @@ import { Button } from "@/components/ui/button";
 const Url = {
   localhost: "https://app.falconai.in/dragon/auth",
   "student.falconai.in":
-    "https://falcon-one-git-add-context-falconai.vercel.app/dragon/auth/student",
+    "https://falcon-one-git-patch-post-launch-bugs-falconai.vercel.app/dragon/auth/student",
   "teacher.falconai.in":
-    "https://falcon-one-git-add-context-falconai.vercel.app/dragon/auth/teacher",
-  "app.falconai.in": "https://app.falconai.in/",
+    "https://falcon-one-git-patch-post-launch-bugs-falconai.vercel.app/dragon/auth/teacher",
+  "app.falconai.in": "https://app.falconai.in/preferences",
 };
 
 const getHostNameOfCurrentURL = () =>
