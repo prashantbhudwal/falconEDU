@@ -11,15 +11,15 @@ export async function checkTest(testBotId: string) {
     }
     const { testQuestions, messages } = context;
 
-    console.log("testQuestions", testQuestions);
-    console.log("messages", messages);
+    //console.log("testQuestions", testQuestions);
+    //console.log("messages", messages);
 
     const results = await getTestResultsFromOpenAI({
       testQuestions,
       messages,
     });
 
-    console.log("testResults", results);
+    //console.log("testResults", results);
 
     // Error
     const finalTestResults = mapQuestionsWithResults({

@@ -46,8 +46,8 @@ export const mapQuestionsWithResults = function ({
   testQuestions: parsedQuestions[];
   results: TestResultsObject;
 }) {
-  console.log("testQuestions", testQuestions);
-  console.log("results", results);
+  //console.log("testQuestions", testQuestions);
+  //console.log("results", results);
 
   const resultsWithQuestionID =
     testQuestions.reduce<TestResultObjectWithIdArray>((acc, question) => {
@@ -63,7 +63,7 @@ export const mapQuestionsWithResults = function ({
       return acc;
     }, []);
 
-  console.log("finalTestResults", resultsWithQuestionID);
+  //console.log("finalTestResults", resultsWithQuestionID);
 
   //  Parsing Logic
   const extendedTestResultSchema = z.object({
@@ -74,7 +74,7 @@ export const mapQuestionsWithResults = function ({
     results: resultsWithQuestionID,
   });
 
-  console.log("parsedTestResults", parsedTestResultsWithQuestionID);
+  //console.log("parsedTestResults", parsedTestResultsWithQuestionID);
 
   if (!parsedTestResultsWithQuestionID.success) {
     throw new Error("Parsing failed");

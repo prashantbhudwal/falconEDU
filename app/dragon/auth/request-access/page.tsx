@@ -6,23 +6,37 @@ import { notFound } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { setTeacherOrgModeToTrue } from "../mutations";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const GOOGLE_FORM_URL = "https://forms.gle/ZBQAs2XoZoze7aDc6";
 
+const giveOrgModeAccess = async ({ userId }: { userId: string }) => {
+  await setTeacherOrgModeToTrue(userId);
+};
+
 const AccessRequestForm = () => {
+  const [showAccessButton, setShowAccessButton] = useState(false);
+
   const { data: session, status: sessionStatus } = useSession();
   const router = useRouter();
+  const userId = session?.user?.id;
 
   useEffect(() => {
     if (sessionStatus === "unauthenticated") {
-      notFound();
+      router.push("/dragon/auth/");
     }
-  }, [sessionStatus, router]);
+
+    // Show access button only when userId is available
+    if (userId) {
+      setShowAccessButton(true);
+    }
+  }, [sessionStatus, userId, router]);
 
   if (sessionStatus === "loading") {
-    return <div>Loading...</div>; // Show a loading indicator while the session is loading
+    return <div>Loading...</div>;
   }
+
+  if (!userId) return;
 
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-background p-4 custom-scrollbar">
@@ -52,18 +66,16 @@ const AccessRequestForm = () => {
               Request Access
             </Button>
           </Link>
-          <Button
-            variant="default"
-            rel="noopener noreferrer"
-            size={"lg"}
-            onClick={() => {
-              if (session?.user?.id) {
-                setTeacherOrgModeToTrue(session.user.id);
-              }
-            }}
-          >
-            Testing: Click to get access
-          </Button>
+          {showAccessButton && (
+            <Button
+              variant="default"
+              rel="noopener noreferrer"
+              size={"lg"}
+              onClick={() => giveOrgModeAccess({ userId })}
+            >
+              Testing: Click to get access
+            </Button>
+          )}
         </div>
       </div>
     </div>

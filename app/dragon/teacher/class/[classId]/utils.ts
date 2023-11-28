@@ -31,7 +31,7 @@ export const getTestMetadata = (
     const numberOfStudents = allStudentScore.length;
     averageScore = +(totalCorrect / numberOfStudents).toFixed(1);
   }
-  console.log(maxScore, highestScore, leastScore, averageScore);
+  //console.log(maxScore, highestScore, leastScore, averageScore);
   return { maxScore, highestScore, leastScore, averageScore };
 };
 
