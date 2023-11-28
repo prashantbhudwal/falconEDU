@@ -59,6 +59,59 @@ export type typeGetParsedQuestionByBotConfigId = UnwrapPromise<
   ReturnType<typeof getParsedQuestionByBotConfigId>
 >;
 
+export const getParsedQuestionsByBotChatId = cache(
+  async ({ botChatId }: { botChatId: string }) => {
+    try {
+      const questions = await prisma.botChatQuestions.findMany({
+        where: { botChatId },
+        select: {
+          isCorrect: true,
+          student_answer: true,
+          score: true,
+          parsedQuestions: {
+            select: {
+              correct_answer: true,
+              options: true,
+              question: true,
+              question_number: true,
+              sample_answer: true,
+              question_type: true,
+              max_score: true,
+              hint: true,
+            },
+          },
+        },
+      });
+
+      if (!questions || questions.length === 0) return null;
+
+      const parsedQuestions = questions.map((question) => {
+        const { parsedQuestions, ...rest } = question;
+        return {
+          ...parsedQuestions,
+          ...rest,
+        };
+      });
+
+      //check that question_numbers always exist on parsed questions and then sort parsed questions by question number
+
+      parsedQuestions.sort((a, b) => {
+        if (a.question_number && b.question_number) {
+          return a.question_number - b.question_number;
+        }
+        return 0;
+      });
+
+      return parsedQuestions;
+
+      return null;
+    } catch (err) {
+      console.log(err);
+      return null;
+    }
+  }
+);
+
 export const getTestResults = cache(
   async ({ botConfigId }: { botConfigId: string }) => {
     try {
@@ -155,8 +208,6 @@ export const getTestResults = cache(
       // Operations
       const studentWiseResults = groupBy(questionWithAnswers, "student_id");
       const botChatWiseResults = groupBy(questionWithAnswers, "botChat_id");
-
-    
 
       const botChatScores = calculateBotChatScores(botChatWiseResults);
 

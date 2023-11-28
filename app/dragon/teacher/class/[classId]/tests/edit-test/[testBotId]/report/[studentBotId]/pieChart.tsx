@@ -34,28 +34,46 @@ export default function PieChartComponent({
   ];
 
   return (
-    <div className="flex justify-center items-center gap-10">
-      <div>
-        <p className="whitespace-nowrap">Total Questions : {totalQuestions}</p>
-        <p className="whitespace-nowrap pt-5 flex items-center gap-2">
-          <span className="p-2 bg-green-500"></span>Correct answers :
-          {correctAnswers}
-        </p>
-        <p className="whitespace-nowrap pt-5 flex items-center gap-2">
-          <span className="p-2 bg-red-500"></span>
-          Incorrect answers : {incorrectAnswers}
-        </p>
+    <div className="flex items-center justify-center space-x-4">
+      <div className="w-40 h-40">
+        <PieChart
+          animate
+          animationDuration={500}
+          data={chartData}
+          lengthAngle={360}
+          lineWidth={20}
+          paddingAngle={6}
+          radius={30}
+          startAngle={4}
+        />
       </div>
-      <PieChart
-        animate
-        animationDuration={500}
-        data={chartData}
-        lengthAngle={360}
-        lineWidth={30}
-        paddingAngle={5}
-        radius={50}
-        startAngle={20}
-      />
+      <div>
+        {/*  Show toltal, correct and incorrect */}
+        <div className="flex flex-col gap-3">
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+            <div className=" flex justify-between w-full space-x-10">
+              <div>Total</div>
+              <div>{totalQuestions}</div>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+            <div className=" flex justify-between w-full space-x-10">
+              <div>Correct</div>
+              <div>{correctAnswers}</div>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+            <div className=" flex justify-between w-full space-x-10">
+              <div>Incorrect</div>
+              <div>{incorrectAnswers}</div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

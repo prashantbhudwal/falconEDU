@@ -34,6 +34,7 @@ import { ChatList } from "@/components/chat/chat-list";
 import { Separator } from "@/components/ui/separator";
 import { ReportTable } from "./report-table";
 import { ReportHistogram } from "./report-histogram";
+import { QuestionList } from "./question-list";
 
 export default async function Report({
   params,
@@ -84,19 +85,17 @@ export default async function Report({
             ) : (
               <>
                 {testResults ? (
-                  <>
-                    <h1 className="text-3xl text-center font-semibold ">
-                      Report
-                    </h1>
-                    <div className="h-[200px] flex justify-center w-full gap-10 my-20">
-                      <PieChartComponent testResults={testResults} />
-                    </div>
-                    <ReportTable testResults={testResults} />
-                    <ReportHistogram
+                  <div className="flex flex-col items-center space-y-5">
+                    <PieChartComponent testResults={testResults} />
+                    <Separator />
+                    <QuestionList botId={studentBotId} />
+
+                    {/* <ReportTable testResults={testResults} /> */}
+                    {/* <ReportHistogram
                       testResults={testResults}
                       allStudentResponses={allStudentResponses}
-                    />
-                  </>
+                    /> */}
+                  </div>
                 ) : (
                   <div className="text-center text-lg ">
                     Can&apos;t generate report . Try again later...
