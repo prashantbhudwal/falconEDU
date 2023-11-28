@@ -10,10 +10,13 @@ export default async function TeacherLayout({
   children: React.ReactNode;
 }) {
   const session = await getServerSession(authOptions);
+  console.log("session", session);
   if (!session) return notFound();
   if (session?.user.userType !== "TEACHER") return notFound();
+  console.log("session", session);
   const userId = session.user.id;
   const orgMode = await db.teacher.teacherHasOrgMode({ userId });
+  console.log("orgMode", orgMode);
   if (!orgMode) return redirect("/dragon/auth/request-access");
 
   return (

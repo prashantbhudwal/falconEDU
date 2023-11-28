@@ -10,13 +10,21 @@ import { useEffect } from "react";
 
 const GOOGLE_FORM_URL = "https://forms.gle/ZBQAs2XoZoze7aDc6";
 
+const giveOrgModeAccess = async ({ userId }: { userId: string }) => {
+  await setTeacherOrgModeToTrue(userId);
+};
+
 const AccessRequestForm = () => {
   const { data: session, status: sessionStatus } = useSession();
+  console.log("session", session);
   const router = useRouter();
+  const userId = session?.user?.id;
+  console.log("userId", userId);
+  if (!userId) return notFound();
 
   useEffect(() => {
     if (sessionStatus === "unauthenticated") {
-      notFound();
+      router.push("/dragon/auth/");
     }
   }, [sessionStatus, router]);
 
@@ -56,11 +64,7 @@ const AccessRequestForm = () => {
             variant="default"
             rel="noopener noreferrer"
             size={"lg"}
-            onClick={() => {
-              if (session?.user?.id) {
-                setTeacherOrgModeToTrue(session.user.id);
-              }
-            }}
+            onClick={() => giveOrgModeAccess({ userId })}
           >
             Testing: Click to get access
           </Button>
