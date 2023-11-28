@@ -9,9 +9,9 @@ import { LandingPageEngines } from "./landing-engines";
 import { Button } from "@/components/ui/button";
 
 const Url = {
-  localhost: "https://app.falconai.in/dragon/auth",
-  "student.falconai.in": "https://app.falconai.in/dragon/auth/student",
-  "teacher.falconai.in": "https://app.falconai.in/dragon/auth/teacher",
+  localhost: "http://localhost:3000/dragon/auth",
+  "student.falconai.in": process.env.STUDENT_AUTH_URL ?? "",
+  "teacher.falconai.in": process.env.TEACHER_AUTH_URL ?? "",
   "app.falconai.in": "https://app.falconai.in/preferences",
 };
 
