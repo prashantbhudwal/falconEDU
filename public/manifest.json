@@ -27,14 +27,14 @@
     {
       "src": "/ScreenshotAppDesktop.png",
       "form_factor": "wide",
-      "sizes": "1920x936",
+      "sizes": "2880x1626",
       "type": "image/png",
       "label": "Test Creation page"
     },
     {
       "src": "/ScreenshotAppMobile.png",
       "form_factor": "narrow",
-      "sizes": "462x820",
+      "sizes": "512x1110",
       "type": "image/png",
       "label": "Test Chat View"
     }
