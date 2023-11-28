@@ -20,14 +20,13 @@ const AccessRequestForm = () => {
   const router = useRouter();
   const userId = session?.user?.id;
   console.log("userId", userId);
-  if (!userId) return notFound();
 
   useEffect(() => {
     if (sessionStatus === "unauthenticated") {
       router.push("/dragon/auth/");
     }
   }, [sessionStatus, router]);
-
+  if (!userId) return notFound();
   if (sessionStatus === "loading") {
     return <div>Loading...</div>; // Show a loading indicator while the session is loading
   }
