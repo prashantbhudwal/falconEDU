@@ -16,6 +16,7 @@ export const metadata = {
   description:
     "Create lesson plans specific to your curriculum, with effortless drag and drop.",
   metadataBase: new URL("https://falconai.in"),
+  manifest: "/manifest.json",
 };
 
 export default function RootLayout({
