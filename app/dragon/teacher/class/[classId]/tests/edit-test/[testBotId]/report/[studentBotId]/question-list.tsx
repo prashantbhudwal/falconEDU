@@ -30,7 +30,7 @@ export async function QuestionList({ botId }: { botId: string }) {
     <Suspense fallback={<div>Loading...</div>}>
       <div className="w-full space-y-3">
         {questions.map((question) => (
-          <Question isCorrect={question.isCorrect}>
+          <Question isCorrect={question.isCorrect} key={question.id}>
             <QuestionText questionNumber={question.question_number}>
               {question.question}
             </QuestionText>

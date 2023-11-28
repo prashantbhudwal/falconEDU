@@ -65,6 +65,7 @@ export const getParsedQuestionsByBotChatId = cache(
       const questions = await prisma.botChatQuestions.findMany({
         where: { botChatId },
         select: {
+          id: true,
           isCorrect: true,
           student_answer: true,
           score: true,
