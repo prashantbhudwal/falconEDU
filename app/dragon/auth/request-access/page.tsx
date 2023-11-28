@@ -18,10 +18,8 @@ const AccessRequestForm = () => {
   const [showAccessButton, setShowAccessButton] = useState(false);
 
   const { data: session, status: sessionStatus } = useSession();
-  console.log("session", session);
   const router = useRouter();
   const userId = session?.user?.id;
-  console.log("userId", userId);
 
   useEffect(() => {
     if (sessionStatus === "unauthenticated") {
