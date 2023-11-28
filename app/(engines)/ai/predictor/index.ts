@@ -35,15 +35,15 @@ export async function predictChapters({
       subject: subject,
       board: board,
     });
-    console.log(chapterPrediction);
+   //console.log(chapterPrediction);
 
     const parsedChapterPrediction = chapterSchema.safeParse(chapterPrediction);
-    console.log(parsedChapterPrediction);
+    //console.log(parsedChapterPrediction);
 
     if (!parsedChapterPrediction.success) {
       throw new Error("Error parsing chapter prediction");
     }
-    console.log(parsedChapterPrediction.data.chaptersArray);
+    //console.log(parsedChapterPrediction.data.chaptersArray);
 
     return parsedChapterPrediction.data.chaptersArray;
   } catch (err) {

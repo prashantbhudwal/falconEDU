@@ -212,9 +212,9 @@ export const getTestResults = cache(
 
       const botChatScores = calculateBotChatScores(botChatWiseResults);
 
-      console.log("studentWiseResults", studentWiseResults);
-      console.log("botChatWiseResults", botChatWiseResults);
-      console.log("botChatScores", botChatScores);
+      //console.log("studentWiseResults", studentWiseResults);
+      //console.log("botChatWiseResults", botChatWiseResults);
+      //console.log("botChatScores", botChatScores);
 
       return {
         allQuestions: questionWithAnswers,

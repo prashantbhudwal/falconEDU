@@ -54,9 +54,9 @@ export const getChatContextByChatId = cache(async function (chatId: string) {
       },
     },
   });
-  console.log("test", test);
+  //console.log("test", test);
 
-  console.log("context", context);
+ // console.log("context", context);
   if (!context) {
     console.error("context not found for chatId:", chatId);
   }
