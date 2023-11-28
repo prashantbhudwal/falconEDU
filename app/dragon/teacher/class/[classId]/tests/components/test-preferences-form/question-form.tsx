@@ -1,4 +1,11 @@
 "use client";
+import {
+  Question,
+  QuestionText,
+  Answer,
+  Options,
+  Option,
+} from "../question/question";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import React, { useEffect, useState } from "react";
@@ -97,92 +104,73 @@ export const QuestionForm = ({ question, ...props }: PropType) => {
     <>
       <Form {...form}>
         <form onBlur={onUnfocusedHandler} className={cn("", props.className)}>
-          <div className="mb-10 rounded-lg p-5 bg-base-200">
+          <Question>
             {/* ---------------------------------- Questions -------------------------------------- */}
-            <div className="flex gap-5 justify-between items-start">
-              <div className="flex flex-col gap-1 pb-2 w-full">
-                <span className="text-xs">
-                  Question {question.question_number}:
-                </span>
-                <FormField
-                  control={form.control}
-                  name="question"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <TextareaAutosize
-                          className="bg-transparent min-h-fit resize-none overflow-y-auto whitespace-pre-line border-none outline-none focus-visible:ring-0 p-0 text-lg"
-                          placeholder={!field.value ? "Add your Question" : ""}
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <div className="flex flex-col gap-1 items-end">
-                <Button
-                  className="min-w-[100px] disabled:cursor-not-allowed"
-                  onClick={form.handleSubmit(onSubmit)}
-                  disabled={!isDirty}
-                >
-                  {loading ? (
-                    <span className="loading loading-infinity loading-sm"></span>
-                  ) : (
-                    <span>{isDirty ? "save" : "saved"}</span>
-                  )}
-                </Button>
-                {error && (
-                  <p className="text-xs whitespace-nowrap font-medium text-red-400">
-                    {error}
-                  </p>
+            <QuestionText questionNumber={question.question_number}>
+              <FormField
+                control={form.control}
+                name="question"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <TextareaAutosize
+                        className="bg-transparent min-h-fit resize-none overflow-y-auto whitespace-pre-line border-none outline-none focus-visible:ring-0 p-0 text-lg w-full"
+                        placeholder={!field.value ? "Add your Question" : ""}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
                 )}
-              </div>
+              />
+            </QuestionText>
+            <div className="flex flex-col gap-1 items-end">
+              {error && (
+                <p className="text-xs whitespace-nowrap font-medium text-red-400">
+                  {error}
+                </p>
+              )}
             </div>
-            <Separator className="border-white" />
             {/* -------------------------------------- Options -------------------------------- */}
             {question.options.length > 0 && (
-              <div className="mt-3">
-                <span className="text-xs">Options:</span>
+              <Options>
                 {fields.map((option, index) => {
                   return (
-                    <FormField
-                      key={index}
-                      control={form.control}
-                      name={`options.${index}.value`}
-                      render={({ field }) => {
-                        return (
-                          <>
-                            <div className="pt-1 pb-2">
-                              <FormItem>
-                                <FormControl>
-                                  <TextareaAutosize
-                                    className="bg-transparent min-h-fit resize-none overflow-y-auto whitespace-pre-line border-none outline-none focus-visible:ring-0 p-0 text-[16px]"
-                                    placeholder={
-                                      !option.value
-                                        ? "Provide Options for your Question"
-                                        : ""
-                                    }
-                                    {...field}
-                                  />
-                                </FormControl>
-                                <FormMessage />
-                              </FormItem>
-                            </div>
-                          </>
-                        );
-                      }}
-                    />
+                    <Option key={index}>
+                      <FormField
+                        control={form.control}
+                        name={`options.${index}.value`}
+                        render={({ field }) => {
+                          return (
+                            <>
+                              <div className="pt-1 pb-2">
+                                <FormItem>
+                                  <FormControl>
+                                    <TextareaAutosize
+                                      className="bg-transparent min-h-fit resize-none overflow-y-auto whitespace-pre-line border-none outline-none focus-visible:ring-0 p-0 text-[16px]"
+                                      placeholder={
+                                        !option.value
+                                          ? "Provide Options for your Question"
+                                          : ""
+                                      }
+                                      {...field}
+                                    />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              </div>
+                            </>
+                          );
+                        }}
+                      />
+                    </Option>
                   );
                 })}
-              </div>
+              </Options>
             )}
-            <Separator className="border-white" />
             {/* ----------------------------------------- Answers -------------------------------- */}
             {question.correct_answer.length > 0 && (
-              <div className="mt-3">
-                <span className="text-xs">Answer:</span>
+              <Answer>
                 {answerFields.map((answer, index) => (
                   <FormField
                     key={index}
@@ -195,7 +183,7 @@ export const QuestionForm = ({ question, ...props }: PropType) => {
                             <FormItem>
                               <FormControl>
                                 <TextareaAutosize
-                                  className="bg-transparent min-h-fit resize-none overflow-y-auto whitespace-pre-line border-none outline-none focus-visible:ring-0 p-0 text-[16px]"
+                                  className="bg-transparent min-h-fit resize-none overflow-y-auto whitespace-pre-line border-none outline-none focus-visible:ring-0 p-0"
                                   placeholder={
                                     !answer.value
                                       ? "Provide Answers for your Question"
@@ -212,10 +200,10 @@ export const QuestionForm = ({ question, ...props }: PropType) => {
                     }}
                   />
                 ))}
-              </div>
+              </Answer>
             )}
             {/* ---------------------------------------------------------------------------------------------------- */}
-          </div>
+          </Question>
         </form>
       </Form>
     </>

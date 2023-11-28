@@ -1,6 +1,4 @@
-import { db } from "@/app/dragon/teacher/routers";
 import { typeGetParsedQuestionByBotConfigId } from "@/app/dragon/teacher/routers/parsedQuestionRouter";
-import { useState } from "react";
 import { QuestionForm } from "./question-form";
 
 export function TestParsedQuestion({
@@ -9,20 +7,12 @@ export function TestParsedQuestion({
   parsedQuestions: typeGetParsedQuestionByBotConfigId;
 }) {
   return (
-    <>
-      {parsedQuestions && parsedQuestions.length > 0 && (
-        <>
-          {parsedQuestions.map((question, i) => {
-            return (
-              <QuestionForm
-                key={question.id}
-                question={question}
-                className="mt-10"
-              />
-            );
-          })}
-        </>
-      )}
-    </>
+    <div className="flex flex-col space-y-3">
+      {parsedQuestions &&
+        parsedQuestions.length > 0 &&
+        parsedQuestions.map((question) => (
+          <QuestionForm key={question.id} question={question} />
+        ))}
+    </div>
   );
 }
