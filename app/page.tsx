@@ -7,6 +7,7 @@ import { useSession } from "next-auth/react";
 import useTrackPage from "@/hooks/analytics/useTrackPage";
 import { LandingPageEngines } from "./landing-engines";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const Url = {
   localhost: "http://localhost:3000/dragon/auth",
@@ -64,26 +65,16 @@ const LandingPage = () => {
             height={200}
           />
           <div className="flex flex-col items-center justify-center gap-2">
-            <Button
-              variant="default"
-              rel="noopener noreferrer"
-              size={"lg"}
-              onClick={() =>
-                (window.location.href = process.env.TEACHER_AUTH_URL ?? "")
-              }
-            >
-              Teacher
-            </Button>
-            <Button
-              variant="default"
-              rel="noopener noreferrer"
-              size={"lg"}
-              onClick={() =>
-                (window.location.href = process.env.STUDENT_AUTH_URL ?? "")
-              }
-            >
-              Student
-            </Button>
+            <Link href={"/dragon/auth/teacher"}>
+              <Button variant="default" rel="noopener noreferrer" size={"lg"}>
+                Teacher
+              </Button>
+            </Link>
+            <Link href={"/dragon/auth/student"}>
+              <Button variant="default" rel="noopener noreferrer" size={"lg"}>
+                Student
+              </Button>
+            </Link>
           </div>
         </div>
       )}
