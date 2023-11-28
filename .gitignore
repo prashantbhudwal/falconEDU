@@ -40,3 +40,10 @@ next-env.d.ts
 .env.production
 .env.development
 (test)
+
+# All js fules in public folder
+/public/**/*.js
+
+# all js map files in public folder
+/public/*.map
+
