@@ -1,7 +1,7 @@
 export const ideaOptions: OpenAIOptions = {
   MODEL: "gpt-3.5-turbo",
   TEMPERATURE: 1.2,
-  MAX_TOKENS: 500,
+  MAX_TOKENS: 1000,
   N: 1,
   STREAM: true,
 };
