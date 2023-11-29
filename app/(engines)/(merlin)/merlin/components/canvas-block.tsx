@@ -42,13 +42,13 @@ export default function CanvasBlock({
             className="btn btn-square btn-ghost btn-sm"
             onClick={() => onRemove(id)}
           >
-            <FiTrash className="text-base font-medium" />
+            <FiTrash className="text-base font-medium text-slate-400" />
           </button>
           <button
             className="btn btn-square btn-ghost btn-sm"
             onClick={() => onDownload()}
           >
-            <FiDownload className="text-base font-medium" />
+            <FiDownload className="text-base font-medium text-slate-400" />
           </button>
 
           <input
