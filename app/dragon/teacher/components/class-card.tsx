@@ -26,20 +26,18 @@ export default function ClassCard({
         <TooltipTrigger asChild>
           <Card
             className={cn(
-              "h-48 w-48 shadow-md flex flex-col items-center justify-between rounded-xl border-transparent cursor-pointer bg-base-200 hover:bg-base-100 transition-colors duration-200 ease-in-out",
+              "py-2 px-4 h-32 w-72 shadow-md flex items-center space-x-2 rounded-2xl border-transparent cursor-pointer bg-base-200 hover:bg-base-100 transition-colors duration-200 ease-in-out",
               className
             )}
             {...props}
           >
-            <div className="flex-1 flex items-center justify-center">
-              {icon}
+            <div className="bg-base-300 p-4 rounded-full">{icon}</div>
+            <div className="flex font-medium tracking-wide capitalize truncate w-5/6 px-2 text-center">
+              <div className="truncate text-base text-slate-400">{name}</div>
             </div>
-            <CardFooter className="flex place-content-center font-medium tracking-wide capitalize truncate w-5/6 px-2 text-center">
-              <div className="truncate">{name}</div>
-            </CardFooter>
           </Card>
         </TooltipTrigger>
-        <TooltipContent className="bg-base-300 text-inherit text-center absolute top-[10.6rem] rounded-md shadow-md p-2">
+        <TooltipContent className="bg-base-300 text-inherit text-center absolute top-[5.6rem] rounded-md shadow-md p-2">
           <p className="whitespace-nowrap">{name}</p>
         </TooltipContent>
       </Tooltip>
