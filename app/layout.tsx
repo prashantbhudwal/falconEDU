@@ -12,9 +12,8 @@ const inter = Inter({
 });
 
 export const metadata = {
-  title: "FalconAI | Teaching Assistant",
-  description:
-    "Create lesson plans specific to your curriculum, with effortless drag and drop.",
+  title: "FalconAI",
+  description: "AI for Teachers, and Schools.",
   metadataBase: new URL("https://falconai.in"),
   manifest: "/manifest.json",
 };
