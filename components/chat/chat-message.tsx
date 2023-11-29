@@ -11,6 +11,7 @@ export interface ChatMessageProps {
   studentImage?: string;
   isLastMessage?: boolean;
   isLoading?: boolean;
+  hideActions?: boolean;
 }
 
 export function ChatMessage({
@@ -19,6 +20,7 @@ export function ChatMessage({
   studentImage,
   isLastMessage,
   isLoading,
+  hideActions,
   ...props
 }: ChatMessageProps) {
   return (
@@ -54,7 +56,7 @@ export function ChatMessage({
           isLoading={isLoading}
           messageRole={message.role}
         />
-        <ChatMessageActions message={message} />
+        {!hideActions && <ChatMessageActions message={message} />}
       </div>
     </div>
   );

@@ -104,6 +104,7 @@ export default async function ChatPage({ params }: ChatPageProps) {
           !classDetails?.isActive || !bot?.isActive || !bot?.BotConfig.published
         }
         isSubmitted={bot?.isSubmitted}
+        type={bot?.BotConfig.type ?? "chat"}
       />
     </>
   );

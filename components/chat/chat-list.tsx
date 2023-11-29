@@ -7,6 +7,7 @@ export interface ChatList {
   botImage?: string;
   studentImage?: string;
   isLoading?: boolean;
+  hideActions?: boolean;
 }
 
 export function ChatList({
@@ -14,6 +15,7 @@ export function ChatList({
   botImage,
   studentImage,
   isLoading,
+  hideActions,
 }: ChatList) {
   if (!messages.length) {
     return null;
@@ -31,6 +33,7 @@ export function ChatList({
               studentImage={studentImage}
               isLastMessage={isLastMessage}
               isLoading={isLoading}
+              hideActions={hideActions}
             />
           </div>
         );

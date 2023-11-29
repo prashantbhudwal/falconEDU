@@ -15,6 +15,7 @@ export interface ChatProps extends React.ComponentProps<"div"> {
   botImage?: string;
   isDisabled?: boolean;
   isSubmitted?: boolean;
+  type: string;
 }
 
 export function Chat({
@@ -27,6 +28,7 @@ export function Chat({
   botImage,
   isDisabled = false,
   isSubmitted = false,
+  type,
 }: ChatProps) {
   const { messages, append, reload, stop, isLoading, input, setInput } =
     useChat({
@@ -62,7 +64,12 @@ export function Chat({
       <div className={cn("pb-[200px] pt-4 md:pt-10", className)}>
         {messages.length ? (
           <>
-            <ChatList messages={messages} botImage={botImage} isLoading = {isLoading} />
+            <ChatList
+              messages={messages}
+              botImage={botImage}
+              isLoading={isLoading}
+              hideActions={type === "test"}
+            />
           </>
         ) : (
           <div className="mx-auto max-w-2xl px-4 pt-8">
