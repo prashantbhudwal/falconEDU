@@ -6,7 +6,7 @@ export type StreamPayload = {
   board: string;
   subject: string;
   topic: string;
-  subtopic: string;
+  subtopics: string[];
   grade: string;
   prompt: string;
   payloadType: aidType;

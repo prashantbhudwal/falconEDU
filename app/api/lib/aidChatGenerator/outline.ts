@@ -3,7 +3,7 @@ import { type ChatCompletionRequestMessage } from "openai-edge";
 import { processStreamText } from "@/app/api/lib/utils";
 
 export default function getOutlineMessages(payload: StreamPayload) {
-  const { prompt, grade, topic, subtopic } = payload;
+  const { prompt } = payload;
   const data = JSON.parse(prompt);
   const lesson = processStreamText(data);
 

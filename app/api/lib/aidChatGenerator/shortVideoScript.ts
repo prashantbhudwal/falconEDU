@@ -8,14 +8,14 @@ interface Idea {
 }
 
 export default function getShortVideoScriptMessages(payload: StreamPayload) {
-  const { topic, subtopic, grade, prompt, board, subject } = payload;
+  const { topic, subtopics, grade, prompt, board, subject } = payload;
   const ideasArray = JSON.parse(prompt);
   const newArray = processIdeas(ideasArray);
   const ideas = generateMarkdownWithoutQuiz(newArray);
   const messages: ChatCompletionRequestMessage[] = [
     {
       role: "system",
-      content: `You are a video script writer. I am a teacher in India teaching grade ${grade} ${subject} at a school that follows "${board}" textbooks. I am teaching the chapter "${subtopic}" from the chapter "${topic}". My students' primary language is not English. I will give you some ideas and you give me a video script. Start your response with "Short Video Script:".`,
+      content: `You are a video script writer. I am a teacher in India teaching grade ${grade} ${subject} at a school that follows "${board}" textbooks. I am teaching the topics "${subtopics}" from the chapter "${topic}". My students' primary language is not English. I will give you some ideas and you give me a video script. Start your response with "Short Video Script:".`,
     },
     {
       role: "user",

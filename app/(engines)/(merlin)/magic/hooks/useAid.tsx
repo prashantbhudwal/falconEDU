@@ -8,7 +8,8 @@ const ROUTE: APIRoute = "/api/contentStreamOnEdge";
 import usePreferences from "@/hooks/usePreferences";
 import { useCompletion } from "ai/react";
 export function useAid(aidType: aidType) {
-  const { topic, subtopic, grade, board, subject } = usePreferences();
+  const { topic, subtopic, subtopics, grade, board, subject } =
+    usePreferences();
   const [lessonIdeas] = useAtom(lessonIdeasAtom);
 
   const [__, setTeachingAids] = useAtom(teachingAidsAtom);
@@ -25,7 +26,7 @@ export function useAid(aidType: aidType) {
       board: board,
       topic: topic,
       subject: subject,
-      subtopic: subtopic,
+      subtopics: subtopics,
       grade: grade,
       payloadType: aidType,
     },
