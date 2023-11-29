@@ -1,6 +1,7 @@
 "use client";
 import { useCallback, useRef, useEffect, MouseEventHandler } from "react";
 import { useRouter } from "next/navigation";
+import { CloseModalButton } from "./close-modal-btn";
 
 export default function Modal({ children }: { children: React.ReactNode }) {
   const overlay = useRef(null);
@@ -39,6 +40,7 @@ export default function Modal({ children }: { children: React.ReactNode }) {
       onClick={onClick}
     >
       <div ref={wrapper} className="w-4/5 relative top-2">
+        <CloseModalButton className="absolute top-2 right-2 " />
         {children}
       </div>
     </div>
