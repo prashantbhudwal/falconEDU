@@ -52,3 +52,8 @@ export const isAdvancedModeAtom = atom(false);
 
 export const worksheetAnswerKeyAtom = atom<string | string[]>([]);
 export const batchSizeAtom = atom(1);
+
+export const checkedQuestionTypesAtom = atom<QuestionType[]>([
+  "multipleChoiceSingleCorrect",
+]);
+

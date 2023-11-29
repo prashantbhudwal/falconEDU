@@ -1,4 +1,5 @@
 "use client";
+import { checkedQuestionTypesAtom } from "../../../lib/atoms/worksheet";
 import { itemTypes } from "../../../lib/config/itemTypes";
 import objectHash from "object-hash";
 import React, { useState, useEffect } from "react";
@@ -59,9 +60,9 @@ export default function Raptor() {
   const [worksheetAnswerKey, setWorksheetAnswerKey] = useAtom(
     worksheetAnswerKeyAtom
   );
-  const [checkedQuestionTypes, setCheckedQuestionTypes] = useState<
-    QuestionType[]
-  >(["multipleChoiceSingleCorrect"]);
+  const [checkedQuestionTypes, setCheckedQuestionTypes] = useAtom(
+    checkedQuestionTypesAtom
+  );
   const [isAdvancedMode, setIsAdvancedMode] = useAtom(isAdvancedModeAtom);
   const [firstRender, setFirstRender] = useState(true);
   const [batchSize, setBatchSize] = useAtom(batchSizeAtom);
