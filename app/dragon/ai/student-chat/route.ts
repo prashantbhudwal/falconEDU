@@ -6,8 +6,8 @@ import { HumanMessage, AIMessage } from "langchain/schema";
 import { getEngineeredChatBotMessages } from "./prompts/chat-prompts/chatBotMessages";
 import { getEngineeredTestBotMessages } from "./prompts/test-prompts/testBotMessages";
 import { type BaseMessage } from "langchain/schema";
-import { countPromptTokens, filterMessagesByTokenLimit } from "./utils";
 import { saveBotChatToDatabase } from "./mutations";
+import { TokenTextSplitter } from "langchain/text_splitter";
 
 // export const runtime = "edge";
 export const dynamic = "force-dynamic";
@@ -52,7 +52,10 @@ export async function POST(req: NextRequest) {
       m.role == "user" ? new HumanMessage(m.content) : new AIMessage(m.content)
     );
 
-    const langChainMessageArray = [...engineeredMessages, ...history];
+    // Only keep the last 20 messages
+    const relevantHistory = history.slice(-20);
+
+    const langChainMessageArray = [...engineeredMessages, ...relevantHistory];
 
     const openAiFormatMessages = formatLangchainMessagesForOpenAI(
       langChainMessageArray
@@ -73,6 +76,7 @@ export async function POST(req: NextRequest) {
 
     return new StreamingTextResponse(newStream);
   } catch (e) {
+    console.log(e);
     return new Response("Error", { status: 500 });
   }
 }
