@@ -1,5 +1,6 @@
 "use server";
 import prisma from "@/prisma";
+import { revalidatePath } from "next/cache";
 
 export const archiveClassByClassId = async (classId: string) => {
   try {
@@ -15,6 +16,7 @@ export const archiveClassByClassId = async (classId: string) => {
       where: { id: classId },
       data: { isActive: false },
     });
+    revalidatePath("/dragon/teacher/");
 
     return archivedClass;
   } catch (err) {
@@ -37,6 +39,7 @@ export const unarchiveClassByClassId = async (classId: string) => {
       where: { id: classId },
       data: { isActive: true },
     });
+    revalidatePath("/dragon/teacher/");
 
     return archivedClass;
   } catch (err) {

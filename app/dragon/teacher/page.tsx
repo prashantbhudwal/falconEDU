@@ -8,6 +8,7 @@ import Avvvatars from "avvvatars-react";
 import ClassCard from "./components/class-card";
 import { getClassesByUserId } from "./queries";
 import { Paper } from "@/components/ui/paper";
+import { arch } from "os";
 
 export default async function Classes() {
   const session = await getServerSession(authOptions);
@@ -16,11 +17,15 @@ export default async function Classes() {
     return null;
   }
   const classes = await getClassesByUserId(userId);
+
+  const activeClasses = classes.filter((classData) => classData.isActive);
+  const archivedClasses = classes.filter((classData) => !classData.isActive);
+
   return (
-    <Paper className="h-full w-full overflow-y-auto custom-scrollbar bg-base-300">
-      <div className="flex flex-row gap-10 items-center flex-wrap">
+    <Paper className="h-full w-full overflow-y-auto custom-scrollbar bg-base-300 flex flex-col space-y-6">
+      <div className="flex flex-row gap-10 flex-wrap min-h-[40%]">
         <NewClassCard />
-        {classes.map((classData) => (
+        {activeClasses.map((classData) => (
           <Link href={getSettingsUrl(classData.id)} key={classData.id}>
             <ClassCard
               className="rounded-lg"
@@ -30,6 +35,27 @@ export default async function Classes() {
           </Link>
         ))}
       </div>
+      {archivedClasses.length > 0 && (
+        <div className=" flex flex-col gap-4">
+          <h2 className="text-2xl text-slate-600">Archived</h2>
+          <Separator />
+          <div className="flex flex-row gap-10">
+            {archivedClasses.map((classData) => (
+              <Link href={getSettingsUrl(classData.id)} key={classData.id}>
+                <ClassCard
+                  className="rounded-lg"
+                  icon={
+                    <div className="text-base-100">
+                      <Avvvatars value={classData.id} style="shape" size={80} />
+                    </div>
+                  }
+                  name={classData.name}
+                />
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
     </Paper>
   );
 }

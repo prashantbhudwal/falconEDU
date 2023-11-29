@@ -4,11 +4,16 @@ import { getClassIsActiveByClassId } from "../queries";
 import { ClassDialog } from "@/app/dragon/teacher/components/class-dialog";
 import { Button } from "@/components/ui/button";
 import { LuArchive, LuArchiveRestore } from "react-icons/lu";
+import { BoltIcon } from "@heroicons/react/24/solid";
 import { archiveClassByClassId, unarchiveClassByClassId } from "../mutations";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { revalidatePath } from "next/cache";
+import { redirect, useRouter } from "next/navigation";
+import { getTeacherHomeURL } from "@/lib/urls";
 
 export const ToggleClassStatusCard = ({ classId }: { classId: string }) => {
+  const router = useRouter();
   const buttonRef = useRef<HTMLDivElement>(null);
 
   const [isActive, setIsActive] = useState(true);
@@ -31,6 +36,7 @@ export const ToggleClassStatusCard = ({ classId }: { classId: string }) => {
       const response = await archiveClassByClassId(classId);
       if (response) {
         setIsActive(false);
+        router.push(getTeacherHomeURL());
       }
     }
     if (type === "unarchive") {
@@ -47,7 +53,7 @@ export const ToggleClassStatusCard = ({ classId }: { classId: string }) => {
       className={cn(
         "flex items-center gap-5 w-[400px] justify-start pl-10 hover:cursor-pointer hover:text-base-100",
         {
-          "hover:bg-primary": !isActive,
+          "hover:bg-primary bg-primary": !isActive,
           "hover:bg-destructive": isActive,
         }
       )}
@@ -55,7 +61,7 @@ export const ToggleClassStatusCard = ({ classId }: { classId: string }) => {
       {isActive ? (
         <ClassDialog
           title="Archive Class"
-          description="This action will Archive the class and all the Test/Bots will become Inactive "
+          description="Archiving the class archives all the bots and tests in the class. Students won't be able to take use them."
           action={() => archiveHandler("archive")}
           trigger={
             <div ref={buttonRef}>
@@ -68,14 +74,18 @@ export const ToggleClassStatusCard = ({ classId }: { classId: string }) => {
         />
       ) : (
         <ClassDialog
-          title="Unarchive Class"
-          description="This action will Unarchive the class and all the Test/Bots will become Active "
+          title="Activate Class"
+          description="Activating the class will make all the bots and tests in the class available to the students."
           action={() => archiveHandler("unarchive")}
           trigger={
             <div ref={buttonRef}>
-              <div className="flex items-center gap-4 text-lg">
-                <LuArchiveRestore />
-                Unarchive Class
+              <div
+                className={cn("flex items-center gap-4 text-lg", {
+                  "text-base-100": !isActive,
+                })}
+              >
+                <BoltIcon className="w-6" />
+                Activate Class
               </div>
             </div>
           }
