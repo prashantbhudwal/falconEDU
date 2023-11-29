@@ -1,5 +1,9 @@
+"use client";
 import { cn } from "@/lib/utils";
-import { ArchiveBoxXMarkIcon } from "@heroicons/react/24/solid";
+import {
+  ArchiveBoxXMarkIcon,
+  DocumentDuplicateIcon,
+} from "@heroicons/react/24/solid";
 import {
   archiveAllBotsOfBotConfig,
   unArchiveAllBotsOfBotConfig,
@@ -20,6 +24,7 @@ import {
   ContextMenuShortcut,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
+import { useDuplicateConfig } from "../../hooks/use-duplicate-config";
 
 export const ClassSidebarItem = function ({
   isArchived,
@@ -28,6 +33,8 @@ export const ClassSidebarItem = function ({
   href,
   configId,
   isPublished,
+  classId,
+  userId,
 }: {
   name: string;
   configId: string;
@@ -35,9 +42,13 @@ export const ClassSidebarItem = function ({
   icon?: React.ReactNode;
   isArchived?: boolean;
   isPublished?: boolean;
+  classId: string;
+  userId: string;
 }) {
   const segment = useSelectedLayoutSegment();
   const segments = useSelectedLayoutSegments();
+  const { duplicateConfig } = useDuplicateConfig();
+
   const currentSegment = segments[2];
   const segmentActive = currentSegment === configId;
   return (
@@ -96,6 +107,23 @@ export const ClassSidebarItem = function ({
             )}
           </ContextMenuShortcut>
         </ContextMenuItem>
+        {!isArchived && (
+          <ContextMenuItem
+            className="text-sm"
+            onSelect={() =>
+              duplicateConfig({
+                classId,
+                configId,
+                userId,
+              })
+            }
+          >
+            Duplicate
+            <ContextMenuShortcut>
+              <DocumentDuplicateIcon className="w-4" />
+            </ContextMenuShortcut>
+          </ContextMenuItem>
+        )}
       </ContextMenuContent>
     </ContextMenu>
   );

@@ -24,6 +24,7 @@ export default async function ClassLayout({
     <div className="flex flex-row h-full w-full">
       <div className="w-[240px]">
         <ClassSidebar
+          userId={userId}
           classId={classId}
           nameOfClass={nameOfClass}
           configs={configs}

@@ -1,6 +1,11 @@
 "use server";
 import * as z from "zod";
-import { getBotsURL, getClassURL } from "@/lib/urls";
+import {
+  getBotsURL,
+  getClassURL,
+  getTeacherHomeURL,
+  getTestEditBotURL,
+} from "@/lib/urls";
 import { getClassesURL, getStudentsURL } from "@/lib/urls";
 import { getEditBotURL } from "@/lib/urls";
 import { isAuthorized } from "@/lib/utils";
@@ -349,3 +354,63 @@ export const getIsBotConfigArchivedByBotConfigId = cache(
     }
   }
 );
+
+export const duplicateConfig = async function ({
+  userId,
+  classId,
+  configId,
+}: {
+  userId: string;
+  classId: string;
+  configId: string;
+}) {
+  await isAuthorized({
+    userType: "TEACHER",
+  });
+  const teacherProfile = await prisma.teacherProfile.findUnique({
+    where: { userId },
+  });
+
+  if (!teacherProfile) {
+    throw new Error(`TeacherProfile with userId ${userId} not found`);
+  }
+  try {
+    const botConfig = await prisma.botConfig.findUnique({
+      where: { id: configId },
+      include: {
+        parsedQuestions: true,
+      },
+    });
+
+    if (!botConfig) {
+      throw new Error(`BotConfig with id ${configId} not found`);
+    }
+    const parsedQuestions = botConfig.parsedQuestions;
+    // Prisma automatically adds id to the parsedQuestions array, need to remove it. This will be automatically added by prisma
+    const parsedQuestionsWithoutId = parsedQuestions.map(
+      ({ botConfigId, id, ...rest }) => rest
+    );
+    const nameOfCopy = `Copy of ${botConfig.name}`;
+    const newBotConfig = await prisma.botConfig
+      .create({
+        data: {
+          teacherId: teacherProfile.id,
+          classId,
+          name: nameOfCopy,
+          type: botConfig.type,
+          preferences: botConfig.preferences ?? {},
+          parsedQuestions: {
+            create: parsedQuestionsWithoutId,
+          },
+        },
+      })
+      .catch((err) => {
+        console.log(err);
+        throw new Error("Failed to create bot config");
+      });
+    revalidatePath(getTeacherHomeURL());
+    return newBotConfig;
+  } catch (error) {
+    console.error("Error: ", error);
+  }
+};

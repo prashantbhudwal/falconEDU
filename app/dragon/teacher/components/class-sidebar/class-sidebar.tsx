@@ -31,10 +31,12 @@ import { cn } from "@/lib/utils";
 import { Configs } from "../../routers/botConfigRouter";
 
 export function ClassSidebar({
+  userId,
   classId,
   nameOfClass,
   configs,
 }: {
+  userId: string;
   classId: string;
   nameOfClass: string;
   configs: Configs;
@@ -42,7 +44,7 @@ export function ClassSidebar({
   return (
     <nav className="bg-base-200 w-full flex flex-col custom-scrollbar overflow-y-auto h-full py-4 space-y-1 pl-2 pb-32">
       <Header nameOfClass={nameOfClass} classId={classId} />
-      <Body configs={configs} classId={classId} />
+      <Body configs={configs} classId={classId} userId={userId} />
       <Footer classId={classId} />
     </nav>
   );
@@ -51,9 +53,11 @@ export function ClassSidebar({
 const Body = function ({
   configs,
   classId,
+  userId,
 }: {
   configs: Configs;
   classId: string;
+  userId: string;
 }) {
   const layoutSegment = useSelectedLayoutSegment();
   const activeBots = configs.chat.active;
@@ -108,6 +112,8 @@ const Body = function ({
           {item.activeBots.map((config) => (
             <ClassSidebarItem
               key={config.id}
+              classId={classId}
+              userId={userId}
               name={config.name}
               configId={config.id}
               href={
@@ -122,6 +128,8 @@ const Body = function ({
           {item.archivedBots.map((config) => (
             <ClassSidebarItem
               key={config.id}
+              classId={classId}
+              userId={userId}
               name={config.name}
               configId={config.id}
               href={
