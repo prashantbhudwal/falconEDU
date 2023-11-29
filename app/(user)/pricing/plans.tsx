@@ -48,9 +48,9 @@ const getNumberOfMonths = (lookupKey: string) => {
 const Plans: React.FC<PlansProps> = ({ products }) => {
   const [rangeValue, setRangeValue] = useState(2);
 
-  // Filter products with Stripe.Price as default_price
+  // Filter products with Stripe.Price as default_price and active
   const validProducts = products
-    .filter((product) => isStripePrice(product.default_price))
+    .filter((product) => isStripePrice(product.default_price) && product.active)
     .map((product) => ({
       ...product,
       default_price: product.default_price as Stripe.Price,
