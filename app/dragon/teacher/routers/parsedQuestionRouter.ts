@@ -1,5 +1,6 @@
 "use server";
 import prisma from "@/prisma";
+import { revalidatePath } from "next/cache";
 import { cache } from "react";
 type UnwrapPromise<T> = T extends Promise<infer U> ? U : T;
 
@@ -228,3 +229,23 @@ export const getTestResults = cache(
     }
   }
 );
+
+export const deleteParsedQuestion = async ({
+  parsedQuestionId,
+}: {
+  parsedQuestionId: string;
+}) => {
+  try {
+    const questions = await prisma.parsedQuestions.delete({
+      where: { id: parsedQuestionId },
+    });
+    if (questions) {
+      revalidatePath("/dragon/teacher");
+      return { success: true };
+    }
+    return { success: false };
+  } catch (err) {
+    console.log(err);
+    return { success: false };
+  }
+};

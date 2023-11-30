@@ -31,9 +31,14 @@ type QuestionProps = NonNullable<typeGetParsedQuestionByBotConfigId>[number];
 
 type PropType = React.HTMLProps<HTMLDivElement> & {
   question: QuestionProps;
+  questionNumber: number;
 };
 
-export const QuestionForm = ({ question, ...props }: PropType) => {
+export const QuestionForm = ({
+  question,
+  questionNumber,
+  ...props
+}: PropType) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -102,30 +107,49 @@ export const QuestionForm = ({ question, ...props }: PropType) => {
     }
   };
 
+  const deleteQuestionHandler = async () => {
+    const { success } = await db.parseQuestionRouter.deleteParsedQuestion({
+      parsedQuestionId: question.id,
+    });
+    if (!success) {
+      setError("Can't Delete Question Try Again later");
+    }
+  };
+
   return (
     <>
       <Form {...form}>
         <form onBlur={onUnfocusedHandler} className={cn("", props.className)}>
           <Question>
             {/* ---------------------------------- Questions -------------------------------------- */}
-            <QuestionText questionNumber={question.question_number}>
-              <FormField
-                control={form.control}
-                name="question"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <TextareaAutosize
-                        className="bg-transparent min-h-fit resize-none overflow-y-auto whitespace-pre-line border-none outline-none focus-visible:ring-0 p-0 text-lg w-full"
-                        placeholder={!field.value ? "Add your Question" : ""}
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </QuestionText>
+            <div className="flex w-full justify-between gap-5">
+              <QuestionText questionNumber={questionNumber} className="w-full">
+                <FormField
+                  control={form.control}
+                  name="question"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <TextareaAutosize
+                          className="bg-transparent min-h-fit resize-none overflow-y-auto whitespace-pre-line border-none outline-none focus-visible:ring-0 p-0 text-lg w-full"
+                          placeholder={!field.value ? "Add your Question" : ""}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </QuestionText>
+              <Button
+                variant="destructive"
+                type="button"
+                onClick={deleteQuestionHandler}
+                className="cursor-pointer"
+              >
+                Delete
+              </Button>
+            </div>
             <div className="flex flex-col gap-1 items-end">
               {error && (
                 <p className="text-xs whitespace-nowrap font-medium text-red-400">

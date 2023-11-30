@@ -10,8 +10,12 @@ export function TestParsedQuestion({
     <div className="flex flex-col space-y-3">
       {parsedQuestions &&
         parsedQuestions.length > 0 &&
-        parsedQuestions.map((question) => (
-          <QuestionForm key={question.id} question={question} />
+        parsedQuestions.map((question, index) => (
+          <QuestionForm
+            key={question.id}
+            question={question}
+            questionNumber={index + 1}
+          />
         ))}
     </div>
   );
