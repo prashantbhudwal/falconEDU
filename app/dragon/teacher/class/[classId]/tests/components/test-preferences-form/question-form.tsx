@@ -95,7 +95,9 @@ export const QuestionForm = ({ question, ...props }: PropType) => {
   };
 
   const onUnfocusedHandler = () => {
-    if (isDirty) {
+    const validData = parsedQuestionsSchema.safeParse(form.getValues());
+
+    if (isDirty && validData.success) {
       onSubmit(form.getValues());
     }
   };
