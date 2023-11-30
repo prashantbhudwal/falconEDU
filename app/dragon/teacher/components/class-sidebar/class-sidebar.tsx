@@ -28,7 +28,7 @@ import { ClassSidebarItem } from "./class-sidebar-item";
 import { useSelectedLayoutSegment } from "next/navigation";
 import { MdDashboard } from "react-icons/md";
 import { cn } from "@/lib/utils";
-import { Configs } from "../../routers/botConfigRouter";
+import { AllConfigsInClass } from "../../routers/botConfigRouter";
 
 export function ClassSidebar({
   userId,
@@ -39,7 +39,7 @@ export function ClassSidebar({
   userId: string;
   classId: string;
   nameOfClass: string;
-  configs: Configs;
+  configs: AllConfigsInClass;
 }) {
   return (
     <nav className="bg-base-200 w-full flex flex-col custom-scrollbar overflow-y-auto h-full py-4 space-y-1 pl-2 pb-32">
@@ -55,7 +55,7 @@ const Body = function ({
   classId,
   userId,
 }: {
-  configs: Configs;
+  configs: AllConfigsInClass;
   classId: string;
   userId: string;
 }) {

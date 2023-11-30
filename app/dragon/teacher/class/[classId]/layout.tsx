@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { db } from "../../routers";
+import { ClassNavbar } from "../../components/class-navbar/navbar";
 
 export default async function ClassLayout({
   children,
@@ -18,22 +19,34 @@ export default async function ClassLayout({
   const session = await getServerSession(authOptions);
   if (!session) return null;
   const userId = session?.user?.id;
-  const configs = await db.botConfig.getConfigs({ userId, classId });
+  const classConfigs = await db.botConfig.getAllConfigsInClass({
+    userId,
+    classId,
+  });
+
+  const classesWithConfigs = await db.class.getClassesByUserId({ userId });
 
   return (
-    <div className="flex flex-row h-full w-full">
-      <div className="w-[240px]">
-        <ClassSidebar
-          userId={userId}
-          classId={classId}
-          nameOfClass={nameOfClass}
-          configs={configs}
-        />
+    <div className="flex flex-col h-full w-full">
+      <ClassNavbar
+        classId={classId}
+        userId={userId}
+        classesWithConfigs={classesWithConfigs}
+      />
+      <div className="flex flex-row h-full w-full">
+        <div className="w-[240px]">
+          <ClassSidebar
+            userId={userId}
+            classId={classId}
+            nameOfClass={nameOfClass}
+            configs={classConfigs}
+          />
+        </div>
+        <Paper className="flex flex-col shadow-inner shadow-slate-900 flex-1 bg-slate-950 h-full p-0 pb-24">
+          {children}
+        </Paper>
+        <Toaster />
       </div>
-      <Paper className="flex flex-col shadow-inner shadow-slate-900 flex-1 bg-slate-950 h-full p-0 pb-24">
-        {children}
-      </Paper>
-      <Toaster />
     </div>
   );
 }

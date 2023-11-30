@@ -16,7 +16,7 @@ import {
 import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { useCreateNewConfig } from "@/app/dragon/teacher/hooks/use-create-config";
-import { Configs } from "@/app/dragon/teacher/routers/botConfigRouter";
+import { AllConfigsInClass } from "@/app/dragon/teacher/routers/botConfigRouter";
 import {
   Card,
   CardContent,
@@ -31,7 +31,7 @@ import { PlusIcon } from "@radix-ui/react-icons";
 type propType = {
   classId: string;
   configType: "chat" | "test";
-  configs: Configs;
+  configs: AllConfigsInClass;
 };
 
 export const ConfigCard = ({ classId, configType, configs }: propType) => {

@@ -27,7 +27,7 @@ export default async function ClassSettings({
   if (!session) return null;
   const userId = session?.user?.id;
   const totalStudents = await getTotalStudentsByClassId(classId);
-  const configs = await db.botConfig.getConfigs({ userId, classId });
+  const configs = await db.botConfig.getAllConfigsInClass({ userId, classId });
   return (
     <div className="w-[80%] mx-auto my-10 flex flex-col space-y-10">
       {/* ------------------------------------------------------------------------------- */}

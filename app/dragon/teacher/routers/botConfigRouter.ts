@@ -6,6 +6,7 @@ import {
   getTeacherHomeURL,
   getTestEditBotURL,
 } from "@/lib/urls";
+import { type BotConfig } from "@prisma/client";
 import { getClassesURL, getStudentsURL } from "@/lib/urls";
 import { getEditBotURL } from "@/lib/urls";
 import { isAuthorized } from "@/lib/utils";
@@ -21,7 +22,10 @@ type ConfigTypeSchemaMap = {
   chat: BotPreferencesSchemaType;
   test: TestBotPreferencesSchemaType;
 };
-export type Configs = UnwrapPromise<ReturnType<typeof getConfigs>>;
+export type AllConfigsInClass = UnwrapPromise<
+  ReturnType<typeof getAllConfigsInClass>
+>;
+export type AllConfigs = UnwrapPromise<ReturnType<typeof getAllConfigs>>;
 
 export const publishBotConfig = async function ({
   classId,
@@ -263,7 +267,64 @@ export const updateBotConfigName = async function ({
     return { success: false, error };
   }
 };
-export const getConfigs = cache(
+
+const organizeConfigs = (botConfigs: BotConfig[]) => {
+  const testConfigs = botConfigs.filter(
+    (botConfig) => botConfig.type === "test"
+  );
+  const chatConfigs = botConfigs.filter(
+    (botConfig) => botConfig.type === "chat"
+  );
+
+  const activeChatsConfigs = chatConfigs
+    .filter((botConfig) => botConfig.isActive)
+    .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+  const archivedChatsConfigs = chatConfigs
+    .filter((botConfig) => !botConfig.isActive)
+    .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+
+  const activeTestConfigs = testConfigs
+    .filter((botConfig) => botConfig.isActive)
+    .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+
+  const archivedTestConfigs = testConfigs
+    .filter((botConfig) => !botConfig.isActive)
+    .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+
+  const publishedChatConfigs = chatConfigs.filter(
+    (botConfig) => botConfig.published
+  );
+  const unPublishedChatConfigs = chatConfigs.filter(
+    (botConfig) => !botConfig.published
+  );
+  const publishedTestConfigs = testConfigs.filter(
+    (botConfig) => botConfig.published
+  );
+  const unPublishedTestConfigs = testConfigs.filter(
+    (botConfig) => !botConfig.published
+  );
+
+  const configs = {
+    all: botConfigs,
+    chat: {
+      all: chatConfigs,
+      active: activeChatsConfigs,
+      archived: archivedChatsConfigs,
+      published: publishedChatConfigs,
+      unpublished: unPublishedChatConfigs,
+    },
+    test: {
+      all: testConfigs,
+      active: activeTestConfigs,
+      archived: archivedTestConfigs,
+      published: publishedTestConfigs,
+      unpublished: unPublishedTestConfigs,
+    },
+  };
+  return configs;
+};
+
+export const getAllConfigsInClass = cache(
   async ({ userId, classId }: { userId: string; classId: string }) => {
     const teacherProfile = await prisma.teacherProfile.findUnique({
       where: { userId },
@@ -278,61 +339,26 @@ export const getConfigs = cache(
         classId,
       },
     });
-
-    const testConfigs = botConfigs.filter(
-      (botConfig) => botConfig.type === "test"
-    );
-    const chatConfigs = botConfigs.filter(
-      (botConfig) => botConfig.type === "chat"
-    );
-
-    const activeChatsConfigs = chatConfigs
-      .filter((botConfig) => botConfig.isActive)
-      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
-    const archivedChatsConfigs = chatConfigs
-      .filter((botConfig) => !botConfig.isActive)
-      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
-
-    const activeTestConfigs = testConfigs
-      .filter((botConfig) => botConfig.isActive)
-      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
-
-    const archivedTestConfigs = testConfigs
-      .filter((botConfig) => !botConfig.isActive)
-      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
-
-    const publishedChatConfigs = chatConfigs.filter(
-      (botConfig) => botConfig.published
-    );
-    const unPublishedChatConfigs = chatConfigs.filter(
-      (botConfig) => !botConfig.published
-    );
-    const publishedTestConfigs = testConfigs.filter(
-      (botConfig) => botConfig.published
-    );
-    const unPublishedTestConfigs = testConfigs.filter(
-      (botConfig) => !botConfig.published
-    );
-
-    const configs = {
-      chat: {
-        all: chatConfigs,
-        active: activeChatsConfigs,
-        archived: archivedChatsConfigs,
-        published: publishedChatConfigs,
-        unpublished: unPublishedChatConfigs,
-      },
-      test: {
-        all: testConfigs,
-        active: activeTestConfigs,
-        archived: archivedTestConfigs,
-        published: publishedTestConfigs,
-        unpublished: unPublishedTestConfigs,
-      },
-    };
+    const configs = organizeConfigs(botConfigs);
     return configs;
   }
 );
+export const getAllConfigs = cache(async ({ userId }: { userId: string }) => {
+  const teacherProfile = await prisma.teacherProfile.findUnique({
+    where: { userId },
+  });
+
+  if (!teacherProfile) {
+    throw new Error(`TeacherProfile with userId ${userId} not found`);
+  }
+  const botConfigs = await prisma.botConfig.findMany({
+    where: {
+      teacherId: teacherProfile.id,
+    },
+  });
+  const configs = organizeConfigs(botConfigs);
+  return configs;
+});
 
 export const getIsBotConfigArchivedByBotConfigId = cache(
   async ({ botConfigId }: { botConfigId: string }) => {

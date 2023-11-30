@@ -4,5 +4,5 @@ import { ClassNavbar } from "./class-navbar/navbar";
 import { useSelectedLayoutSegment } from "next/navigation";
 export default function ConditionalNav() {
   const layoutSegment = useSelectedLayoutSegment();
-  return <>{layoutSegment === "class" ? <ClassNavbar /> : <Navbar />}</>;
+  return <>{layoutSegment === "class" ? null : <Navbar />}</>;
 }

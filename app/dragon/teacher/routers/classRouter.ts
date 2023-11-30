@@ -5,6 +5,7 @@ import prisma from "@/prisma";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { cache } from "react";
+import { UnwrapPromise } from "../../student/queries";
 
 export const createClassForTeacher = async function ({
   className,
@@ -78,3 +79,29 @@ export const getClassNameByClassId = cache(async (classId: string) => {
   if (!classData) return "";
   return classData.name;
 });
+
+export const getClassesByUserId = cache(
+  async ({ userId }: { userId: string }) => {
+    const teacherProfile = await prisma.teacherProfile.findUnique({
+      where: {
+        userId,
+      },
+    });
+    if (!teacherProfile) {
+      throw new Error(`TeacherProfile with userId ${userId} not found`);
+    }
+    const classes = await prisma.class.findMany({
+      where: {
+        teacherId: teacherProfile.id,
+      },
+      include: {
+        BotConfig: true,
+      },
+    });
+    return classes;
+  }
+);
+
+export type ClassesByUserId = UnwrapPromise<
+  ReturnType<typeof getClassesByUserId>
+>;
