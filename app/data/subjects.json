@@ -258,57 +258,5 @@
       "Business Studies",
       "Mathematics"
     ]
-  },
-  {
-    "grade": "11",
-    "subjects": [
-      "Hindi",
-      "English Grammar",
-      "English Language",
-      "Physics",
-      "Chemistry",
-      "Biology",
-      "Computer Science",
-      "Economics",
-      "Accountancy",
-      "Geography",
-      "History",
-      "Political Science",
-      "Sociology",
-      "Psychology",
-      "Philosophy",
-      "Business Studies",
-      "Java",
-      "Python",
-      "Javascript",
-      "Social Emotional Learning (SEL)",
-      "Design Thinking"
-    ]
-  },
-  {
-    "grade": "12",
-    "subjects": [
-      "Hindi",
-      "English Grammar",
-      "English Language",
-      "Physics",
-      "Chemistry",
-      "Biology",
-      "Computer Science",
-      "Economics",
-      "Accountancy",
-      "Geography",
-      "History",
-      "Political Science",
-      "Sociology",
-      "Psychology",
-      "Philosophy",
-      "Business Studies",
-      "Java",
-      "Python",
-      "Javascript",
-      "Social Emotional Learning (SEL)",
-      "Design Thinking"
-    ]
   }
 ]
