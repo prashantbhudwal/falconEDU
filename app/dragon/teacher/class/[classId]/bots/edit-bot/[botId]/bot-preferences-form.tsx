@@ -199,10 +199,7 @@ export default function BotPreferencesForm({
   return (
     <>
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="w-full"
-        >
+        <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
           <Paper variant="gray" className="w-full max-w-5xl">
             <div className="flex justify-between flex-wrap p-5">
               <div className="w-[50%]">
@@ -316,9 +313,6 @@ export default function BotPreferencesForm({
                       Grades
                       <AcademicCapIcon className="h-4 w-4" />
                     </FormLabel>
-                    <FormDescription>
-                      Which grades do you want the AI to teach?
-                    </FormDescription>
                   </div>
                   <div className="flex flex-row gap-y-5 flex-wrap gap-x-6">
                     {grades.map((grade) => (
@@ -364,9 +358,6 @@ export default function BotPreferencesForm({
                         Subjects
                         <FiBookOpen />
                       </FormLabel>
-                      <FormDescription>
-                        Which subjects do you want the AI to teach?
-                      </FormDescription>
                     </div>
                     <div className="flex flex-row gap-y-5 flex-wrap gap-x-6 ">
                       {updateSubjectsHandler().map((subject) => (
@@ -432,7 +423,7 @@ export default function BotPreferencesForm({
                           <FormControl>
                             <RadioGroupItem
                               value={board}
-                              className="border-none shadow-inner shadow-slate-600 active:scale-90 transition-all duration-200 hover:scale-[1.2]"
+                              className=" active:scale-90 transition-all duration-200 hover:scale-[1.2]"
                             />
                           </FormControl>
                           <FormLabel className="font-normal">{board}</FormLabel>
@@ -469,7 +460,7 @@ export default function BotPreferencesForm({
                           <FormControl>
                             <RadioGroupItem
                               value={tone}
-                              className="border-none shadow-inner shadow-slate-600 active:scale-90 transition-all duration-200 hover:scale-[1.2]"
+                              className=" active:scale-90 transition-all duration-200 hover:scale-[1.2]"
                             />
                           </FormControl>
                           <FormLabel className="font-normal">{tone}</FormLabel>
@@ -478,9 +469,6 @@ export default function BotPreferencesForm({
                     </RadioGroup>
                   </FormControl>
                   <FormMessage />
-                  <FormDescription>
-                    Do you want your AI to be friendly or formal?
-                  </FormDescription>
                 </FormItem>
               )}
             />
@@ -509,7 +497,7 @@ export default function BotPreferencesForm({
                           <FormControl>
                             <RadioGroupItem
                               value={humorLevel}
-                              className="border-none shadow-inner shadow-slate-600 active:scale-90 transition-all duration-200 hover:scale-[1.2]"
+                              className=" active:scale-90 transition-all duration-200 hover:scale-[1.2]"
                             />
                           </FormControl>
                           <FormLabel className="font-normal">
@@ -520,9 +508,6 @@ export default function BotPreferencesForm({
                     </RadioGroup>
                   </FormControl>
                   <FormMessage />
-                  <FormDescription>
-                    Do you want your AI to be stoic or funny?
-                  </FormDescription>
                 </FormItem>
               )}
             />
@@ -551,7 +536,7 @@ export default function BotPreferencesForm({
                           <FormControl>
                             <RadioGroupItem
                               value={languageProficiency}
-                              className="border-none shadow-inner shadow-slate-600 active:scale-90 transition-all duration-200 hover:scale-[1.2]"
+                              className=" active:scale-90 transition-all duration-200 hover:scale-[1.2]"
                             />
                           </FormControl>
                           <FormLabel className="font-normal">
@@ -562,9 +547,6 @@ export default function BotPreferencesForm({
                     </RadioGroup>
                   </FormControl>
                   <FormMessage />
-                  <FormDescription>
-                    How comfortable are your students with English?
-                  </FormDescription>
                 </FormItem>
               )}
             />

@@ -15,7 +15,7 @@ const Chip = React.forwardRef<
   <CheckboxPrimitive.Root
     ref={ref}
     className={cn(
-      "font-medium min-w-[50px] w-full active:scale-90 mx-2 h-8 transition-all duration-200 hover:scale-[1.2] shadow-inner  border-0 shadow-slate-700 rounded-lg  data-[state=checked]:shadow-inherit   data-[state=checked]:bg-primary data-[state=checked]:text-slate-800 text-sm",
+      "font-medium min-w-[50px] border w-full active:scale-90 mx-2 h-8 transition-all duration-200 hover:scale-[1.2] rounded-lg  data-[state=checked]:shadow-inherit   data-[state=checked]:bg-primary data-[state=checked]:text-slate-800 text-sm",
       className
     )}
     {...props}
