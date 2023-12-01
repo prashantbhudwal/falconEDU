@@ -61,7 +61,7 @@ export const ToggleClassStatusCard = ({ classId }: { classId: string }) => {
       {isActive ? (
         <ClassDialog
           title="Archive Class"
-          description="Archiving the class archives all the bots and tests in the class. Students won't be able to take use them."
+          description="Archiving the class archives all the bots and tests in the class. Students won't be able to use them."
           action={() => archiveHandler("archive")}
           trigger={
             <div ref={buttonRef}>

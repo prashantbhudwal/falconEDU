@@ -8,7 +8,12 @@ import Avvvatars from "avvvatars-react";
 import ClassCard from "./components/class-card";
 import { getClassesByUserId } from "./queries";
 import { Paper } from "@/components/ui/paper";
-import { arch } from "os";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 export default async function Classes() {
   const session = await getServerSession(authOptions);
@@ -22,8 +27,8 @@ export default async function Classes() {
   const archivedClasses = classes.filter((classData) => !classData.isActive);
 
   return (
-    <Paper className="h-full w-full overflow-y-auto custom-scrollbar bg-base-300 flex flex-col space-y-6">
-      <div className="flex flex-row gap-10 flex-wrap min-h-[40%]">
+    <Paper className="h-full w-full overflow-y-auto custom-scrollbar bg-base-300 flex flex-col justify-between space-y-6">
+      <div className="flex flex-row gap-10 flex-wrap">
         <NewClassCard />
         {activeClasses.map((classData) => (
           <Link href={getSettingsUrl(classData.id)} key={classData.id}>
@@ -37,23 +42,41 @@ export default async function Classes() {
       </div>
       {archivedClasses.length > 0 && (
         <div className=" flex flex-col gap-4">
-          <h2 className="text-2xl text-slate-600">Archived</h2>
-          <Separator />
-          <div className="flex flex-row gap-10">
-            {archivedClasses.map((classData) => (
-              <Link href={getSettingsUrl(classData.id)} key={classData.id}>
-                <ClassCard
-                  className="rounded-lg"
-                  icon={
-                    <div className="text-base-100">
-                      <Avvvatars value={classData.id} style="shape" size={80} />
-                    </div>
-                  }
-                  name={classData.name}
-                />
-              </Link>
-            ))}
-          </div>
+          <Accordion
+            type="single"
+            collapsible
+            className="rounded-lg ring-base-200 ring-1"
+          >
+            <AccordionItem value="item-1" className="border-none">
+              <AccordionTrigger className="text-slate-500 text-xl font-bold hover:no-underline bg-base-200 px-2 ">
+                Archived
+              </AccordionTrigger>
+              <AccordionContent className="border-none px-2 py-4">
+                <div className="flex flex-row gap-10">
+                  {archivedClasses.map((classData) => (
+                    <Link
+                      href={getSettingsUrl(classData.id)}
+                      key={classData.id}
+                    >
+                      <ClassCard
+                        className="rounded-lg"
+                        icon={
+                          <div className="text-base-100">
+                            <Avvvatars
+                              value={classData.id}
+                              style="shape"
+                              size={80}
+                            />
+                          </div>
+                        }
+                        name={classData.name}
+                      />
+                    </Link>
+                  ))}
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
         </div>
       )}
     </Paper>
