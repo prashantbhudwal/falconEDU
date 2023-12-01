@@ -416,7 +416,31 @@ export const duplicateConfig = async function ({
     const parsedQuestionsWithoutId = parsedQuestions.map(
       ({ botConfigId, id, ...rest }) => rest
     );
-    const nameOfCopy = `Copy of ${botConfig.name}`;
+    const originalName = botConfig.name;
+    const copyTag = "Copy";
+    let nameOfCopy;
+    let copyNumber;
+
+    // Extract the base name by removing any existing copy tags and numbers
+    const baseNamePattern = /^(Copy(-\d+)?)\s(.*)$/;
+    const baseNameMatch = originalName.match(baseNamePattern);
+    const baseName = baseNameMatch ? baseNameMatch[3] : originalName;
+
+    // Check for existing copy tag and number
+    if (baseNameMatch) {
+      // If already a copy, increment the number
+      copyNumber = baseNameMatch[2]
+        ? parseInt(baseNameMatch[2].slice(1)) + 1
+        : 1;
+      nameOfCopy = `${copyTag}-${copyNumber} ${baseName}`;
+    } else {
+      // For the first copy, just add "Copy"
+      nameOfCopy = `${copyTag} ${baseName}`;
+    }
+
+    // Truncate to ensure it's within the 30-character limit
+    nameOfCopy = nameOfCopy.slice(0, 30);
+
     const newBotConfig = await prisma.botConfig
       .create({
         data: {
