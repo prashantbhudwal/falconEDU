@@ -49,27 +49,28 @@ export const saveParsedQuestions = async ({
   });
   try {
     const transaction = await prisma.$transaction(async (prisma) => {
-      const existingParsedQuestionWithBotId =
-        await prisma.parsedQuestions.findMany({
-          where: {
-            botConfigId: botId,
-          },
-        });
+      // const existingParsedQuestionWithBotId =
+      //   await prisma.parsedQuestions.findMany({
+      //     where: {
+      //       botConfigId: botId,
+      //     },
+      //   });
 
-      if (existingParsedQuestionWithBotId.length > 0) {
-        await prisma.parsedQuestions.deleteMany({
-          where: {
-            botConfigId: botId,
-          },
-        });
-      }
+      // if (existingParsedQuestionWithBotId.length > 0) {
+      //   await prisma.parsedQuestions.deleteMany({
+      //     where: {
+      //       botConfigId: botId,
+      //     },
+      //   });
+      // }
 
       await prisma.parsedQuestions.createMany({
         data: parsedQuestions.map((ques) => ({
           botConfigId: botId,
           question: ques.question,
           question_number: ques.question_number,
-          question_type: ques.question_type,
+          question_type:
+            ques.question_type || "OBJECTIVE_MULTIPLE_CHOICE_SINGLE_ANSWER",
           correct_answer: ques.correct_answer,
           options: ques.options,
         })),

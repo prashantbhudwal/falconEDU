@@ -92,7 +92,11 @@ export default async function BotPage({ params }: BotPageProps) {
               parsedQuestions={parsedQuestions}
               isActive={isActive}
             />
-            <TestParsedQuestion parsedQuestions={parsedQuestions} />
+            <TestParsedQuestion
+              botId={testBotId}
+              classId={classId}
+              parsedQuestions={parsedQuestions}
+            />
           </TabsContent>
           <TabsContent value="submissions">
             <TestAnalysis testBotId={testBotId} classId={classId} />
