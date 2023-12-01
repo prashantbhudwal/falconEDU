@@ -43,7 +43,7 @@ export default function RightActionBar() {
     }: ButtonConfig
   ) => {
     let isFormIncomplete = false;
-    if (name === "My Preferences") {
+    if (name === "My Avatar") {
       const updatedTeacherPreferencesSchema = removeOptionalFieldFormZodTypes(
         teacherPreferencesSchema
       );
@@ -70,7 +70,7 @@ export default function RightActionBar() {
         />
         {name}
         {/* ---------------------------------------------- */}
-        {name === "My Preferences" && isFormIncomplete && (
+        {name === "My Avatar" && isFormIncomplete && (
           <span className="absolute -top-2 -right-2 h-[20px] w-[20px] rounded-full bg-red-400 text-white text-sm font-semibold">
             !
           </span>

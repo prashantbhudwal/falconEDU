@@ -159,7 +159,7 @@ export default function useNavbarButtons() {
       pattern: /^\/dragon\/teacher$/,
       buttons: [
         {
-          name: "My Preferences",
+          name: "My Avatar",
           href: "/dragon/teacher/teacher-preferences",
           linkClass: "btn-primary rounded-xl",
           icon: {
