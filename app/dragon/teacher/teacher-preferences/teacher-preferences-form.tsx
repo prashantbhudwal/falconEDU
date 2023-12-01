@@ -124,20 +124,20 @@ export default function TeacherPreferencesForm({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <Paper variant="gray" className="my-8">
+        <Paper variant="gray" className="my-8 ">
           <div className="flex justify-between p-5 rounded-lg ">
             <div className=" flex flex-col gap-2">
-              <h2 className="md:text-3xl font-bold tracking-wide">
-                My Preferences
+              <h2 className="md:text-3xl text-slate-200 font-bold tracking-wide">
+                My Avatar
               </h2>
               <p
                 className={` text-base max-w-lg hover:transition-all duration-300 ${
-                  onHover ? "text-slate-400" : "text-slate-500"
+                  onHover ? "text-slate-400" : "text-slate-400"
                 } `}
               >
-                This includes information about you that stays common for all
-                the bots. The more information you provide, the better the AI
-                will be able to form a connection with the students.
+                Your avatar that will represent you in the classroom. The more
+                information you provide, the more your avatar will be able to
+                connect with your students.
               </p>
             </div>
             <div className="relative">
