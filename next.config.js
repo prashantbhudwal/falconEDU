@@ -17,6 +17,14 @@ const nextConfig = {
   //   }
   //   return config;
   // },
+
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      //fs false
+      config.resolve.fallback = { fs: false };
+    }
+    return config;
+  },
   experimental: {},
   images: {
     remotePatterns: [
