@@ -47,7 +47,7 @@ export function ClassSidebar({
   classesWithConfigs: ClassesByUserId;
 }) {
   return (
-    <nav className="bg-base-200 w-full flex flex-col custom-scrollbar overflow-y-auto h-full py-4 space-y-1 pl-2 pb-32">
+    <nav className="bg-base-200 flex flex-col custom-scrollbar overflow-y-auto h-full py-4 space-y-1 pl-2 pb-32 w-[240px]">
       <Header nameOfClass={nameOfClass} classId={classId} />
       <Body configs={configs} classId={classId} userId={userId} />
       <Footer
@@ -179,7 +179,7 @@ const Header = function ({
           <TooltipTrigger asChild>
             <div
               className={cn(
-                "text-sm text-slate-400 ring-1 ring-slate-700  truncate text-left flex items-center justify-between hover:bg-base-100 hover:text-slate-300 rounded-lg mr-2",
+                "w-full text-sm text-slate-400 ring-1 ring-slate-700  truncate text-left flex items-center justify-between hover:bg-base-100 hover:text-slate-300 rounded-lg mr-2",
                 {
                   "shadow-sm shadow-accent": isActive,
                 }
