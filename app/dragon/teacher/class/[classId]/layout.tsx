@@ -38,10 +38,8 @@ export default async function ClassLayout({
           />
         </div>
         <div className="w-full overflow-y-auto custom-scrollbar bg-base-200 pt-1">
-          <div className="w-full bg-base-300 shadow-sm shadow-base-100">
-            <Paper className="flex flex-col shadow-inner shadow-slate-900 flex-1 bg-slate-950 h-full p-0 pb-24">
-              {children}
-            </Paper>
+          <div className="w-full bg-base-300 shadow-sm shadow-base-100 pb-10 min-h-screen">
+            {children}
             <Toaster />
           </div>
         </div>

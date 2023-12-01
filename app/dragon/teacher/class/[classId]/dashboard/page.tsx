@@ -38,13 +38,13 @@ export default async function ClassSettings({
   const totalStudents = await getTotalStudentsByClassId(classId);
   const configs = await db.botConfig.getAllConfigsInClass({ userId, classId });
   return (
-    <div className="w-[80%] mx-auto my-10 flex flex-col space-y-10">
+    <div className="w-[80%] mx-auto flex flex-col space-y-10 pt-10">
       {/* ------------------------------------------------------------------------------- */}
-
+      <h1 className="text-3xl font-bold  text-slate-400">Class Dashboard</h1>
+      <Separator decorative orientation="horizontal" className="w-full" />
       <EditableClassName classId={classId} />
 
       {/* ------------------------------------------------------------------------------- */}
-      <Separator decorative orientation="horizontal" className="w-full" />
 
       <div className="flex space-x-10">
         <StudentsCard

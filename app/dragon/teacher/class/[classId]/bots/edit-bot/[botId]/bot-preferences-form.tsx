@@ -201,7 +201,7 @@ export default function BotPreferencesForm({
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="w-full pt-10"
+          className="w-full"
         >
           <Paper variant="gray" className="w-full max-w-5xl">
             <div className="flex justify-between flex-wrap p-5">

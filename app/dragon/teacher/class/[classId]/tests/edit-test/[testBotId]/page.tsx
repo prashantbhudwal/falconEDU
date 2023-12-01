@@ -66,8 +66,8 @@ export default async function BotPage({ params }: BotPageProps) {
       botConfigId: testBotId,
     });
   return (
-    <div className="w-full pt-4">
-      <Paper variant={"gray"} className="w-full max-w-5xl py-3 px-2">
+    <div className="w-full">
+      <Paper variant={"gray"} className="w-full max-w-5xl py-3 px-2 min-h-screen">
         <Tabs defaultValue="test">
           <TabsList className="flex w-full bg-transparent h-10 mb-10 border-b">
             <TabsTrigger

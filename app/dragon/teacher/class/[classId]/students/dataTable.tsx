@@ -160,7 +160,7 @@ export function DataTable({ students }: { students: StudentData[] }) {
 
   return (
     <div className="w-full">
-      <div className="flex items-center py-4">
+      {/* <div className="flex items-center py-4">
         <Input
           placeholder="Filter Students by Name..."
           value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
@@ -169,7 +169,7 @@ export function DataTable({ students }: { students: StudentData[] }) {
           }
           className="max-w-sm"
         />
-      </div>
+      </div> */}
       <div className="rounded-md border">
         <Table>
           <TableHeader>
