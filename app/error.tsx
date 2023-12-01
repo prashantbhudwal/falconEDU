@@ -2,7 +2,8 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { toast } from "@/components/ui/use-toast";
 
 export default function Error({
   error,
@@ -11,7 +12,11 @@ export default function Error({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  const [isOnline, setIsOnline] = useState(true);
   useEffect(() => {
+    if (!navigator.onLine) {
+      setIsOnline(false);
+    }
     //TODO Log the error to an error reporting service
     console.error(error);
   }, [error]);
@@ -24,7 +29,10 @@ export default function Error({
         height={200}
         className="rounded-full"
       />
-      <div className="text-4xl font-bold">Something went wrong!</div>
+
+      <div className="text-4xl font-bold">
+        {isOnline ? "Something went wrong!" : "Check your internet connection!"}
+      </div>
       <div>
         <span className="">
           If the error persists please reach out to us at:{" "}
