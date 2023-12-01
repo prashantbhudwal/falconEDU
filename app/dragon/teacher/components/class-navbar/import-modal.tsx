@@ -87,7 +87,7 @@ export function ImportModal({
       <DialogContent>
         <DialogHeader>
           <DialogTitle className="text-2xl font-medium pb-5">
-            Import bots or test from another class
+            Import Bots and Tests
           </DialogTitle>
         </DialogHeader>
         <Form {...form}>
