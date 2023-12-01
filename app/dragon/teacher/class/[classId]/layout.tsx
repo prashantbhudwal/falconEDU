@@ -5,7 +5,6 @@ import { Toaster } from "@/components/ui/toaster";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { db } from "../../routers";
-import { ClassNavbar } from "../../components/class-navbar/navbar";
 
 export default async function ClassLayout({
   children,
@@ -28,11 +27,6 @@ export default async function ClassLayout({
 
   return (
     <div className="flex flex-col h-full w-full">
-      <ClassNavbar
-        classId={classId}
-        userId={userId}
-        classesWithConfigs={classesWithConfigs}
-      />
       <div className="flex flex-row h-full w-full">
         <div className="w-[240px]">
           <ClassSidebar
@@ -40,12 +34,17 @@ export default async function ClassLayout({
             classId={classId}
             nameOfClass={nameOfClass}
             configs={classConfigs}
+            classesWithConfigs={classesWithConfigs}
           />
         </div>
-        <Paper className="flex flex-col shadow-inner shadow-slate-900 flex-1 bg-slate-950 h-full p-0 pb-24">
-          {children}
-        </Paper>
-        <Toaster />
+        <div className="w-full overflow-y-auto custom-scrollbar bg-base-200 pt-1">
+          <div className="w-full bg-base-300 shadow-sm shadow-base-100">
+            <Paper className="flex flex-col shadow-inner shadow-slate-900 flex-1 bg-slate-950 h-full p-0 pb-24">
+              {children}
+            </Paper>
+            <Toaster />
+          </div>
+        </div>
       </div>
     </div>
   );

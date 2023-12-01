@@ -1,4 +1,10 @@
 import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+  TooltipProvider,
+} from "@ui/tooltip";
+import {
   getTotalPublishedBotsByClassId,
   getTotalPublishedTestsByClassId,
   getTotalStudentsByClassId,
@@ -16,7 +22,10 @@ import { Button } from "@/components/ui/button";
 import { PlusCircleIcon, PlusIcon } from "@heroicons/react/24/solid";
 import { db } from "../../../routers";
 import { getServerSession } from "next-auth";
+import { UsersIcon } from "@heroicons/react/24/outline";
+
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import MyStudentsBtn from "../../../components/class-sidebar/my-students-btn";
 export default async function ClassSettings({
   params,
 }: {
@@ -31,19 +40,22 @@ export default async function ClassSettings({
   return (
     <div className="w-[80%] mx-auto my-10 flex flex-col space-y-10">
       {/* ------------------------------------------------------------------------------- */}
+
       <EditableClassName classId={classId} />
+
       {/* ------------------------------------------------------------------------------- */}
       <Separator decorative orientation="horizontal" className="w-full" />
-      <div className="flex justify-start items-center space-x-10">
-        <ConfigCard classId={classId} configType="chat" configs={configs} />
-        <ConfigCard classId={classId} configType="test" configs={configs} />
-      </div>
+
       <div className="flex space-x-10">
         <StudentsCard
           classId={classId}
           totalStudents={totalStudents?.length || 0}
         />
         <ToggleClassStatusCard classId={classId} />
+      </div>
+      <div className="flex justify-start items-center space-x-10">
+        <ConfigCard classId={classId} configType="chat" configs={configs} />
+        <ConfigCard classId={classId} configType="test" configs={configs} />
       </div>
       {/* ----------------------------------------------------------------------------------- */}
     </div>
@@ -58,22 +70,35 @@ const StudentsCard = function ({
   totalStudents: number;
 }) {
   return (
-    <div className="flex items-center justify-center gap-5 p-4 rounded-md border-border border-[1px] bg-base-200 w-[200px]">
-      <div className="flex flex-col items-center text-xs">
-        <div className="text-2xl"> {totalStudents}</div>
-        <div>Students</div>
-      </div>
-      <Separator
-        decorative
-        orientation="vertical"
-        className="h-[20px] bg-accent"
-      />
+    <TooltipProvider>
+      <Tooltip delayDuration={20}>
+        <TooltipTrigger asChild>
+          <Link
+            href={getStudentsURL(classId)}
+            className="rounded-md border-border border-[1px] bg-base-200 w-[200px] hover:bg-primary hover:text-base-300"
+          >
+            <div className="flex items-center justify-center gap-5 p-4 ">
+              <div className="flex flex-col items-center text-xs">
+                <div className="text-2xl"> {totalStudents}</div>
+                <div>Students</div>
+              </div>
+              <Separator
+                decorative
+                orientation="vertical"
+                className="h-[20px] bg-accent"
+              />
 
-      <Link href={getStudentsURL(classId)}>
-        <Button variant={"outline"} size={"icon"} className="border-none">
-          <PlusIcon className="w-10 h-10" />
-        </Button>
-      </Link>
-    </div>
+              <UsersIcon className="w-7 h-7" />
+            </div>
+          </Link>
+        </TooltipTrigger>
+        <TooltipContent
+          className="bg-base-200 text-slate-300 text-base "
+          sideOffset={10}
+        >
+          Add students to your class
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
 };

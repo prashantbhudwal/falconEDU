@@ -77,7 +77,7 @@ export function ImportModal({
       <DialogTrigger asChild>
         <Button
           variant={"ghost"}
-          className="flex items-center space-x-2"
+          className="flex items-center justify-end gap-3 w-full hover:bg-slate-500 hover:text-slate-950"
           onClick={() => setIsOpen(true)}
         >
           <div>Import</div>

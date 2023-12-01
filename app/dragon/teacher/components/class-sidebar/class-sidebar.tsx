@@ -1,11 +1,13 @@
 "use client";
 import { FaRobot } from "react-icons/fa6";
+import { ImportModal } from "../class-navbar/import-modal";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
   TooltipProvider,
 } from "@ui/tooltip";
+import DragonHomeBtn from "@/components/navbar/dragon-home-btn";
 
 import {
   ClipboardDocumentCheckIcon,
@@ -29,23 +31,30 @@ import { useSelectedLayoutSegment } from "next/navigation";
 import { MdDashboard } from "react-icons/md";
 import { cn } from "@/lib/utils";
 import { AllConfigsInClass } from "../../routers/botConfigRouter";
+import { ClassesByUserId } from "../../routers/classRouter";
 
 export function ClassSidebar({
   userId,
   classId,
   nameOfClass,
   configs,
+  classesWithConfigs,
 }: {
   userId: string;
   classId: string;
   nameOfClass: string;
   configs: AllConfigsInClass;
+  classesWithConfigs: ClassesByUserId;
 }) {
   return (
     <nav className="bg-base-200 w-full flex flex-col custom-scrollbar overflow-y-auto h-full py-4 space-y-1 pl-2 pb-32">
       <Header nameOfClass={nameOfClass} classId={classId} />
       <Body configs={configs} classId={classId} userId={userId} />
-      <Footer classId={classId} />
+      <Footer
+        classId={classId}
+        userId={userId}
+        classesWithConfigs={classesWithConfigs}
+      />
     </nav>
   );
 }
@@ -92,9 +101,13 @@ const Body = function ({
           : layoutSegment || teacherSidebarConfig[0].layoutSegment
       }
     >
-      <TabsList className="grid grid-cols-2 bg-base-100 w-11/12">
+      <TabsList className="grid grid-cols-2 bg-base-100 w-11/12 rounded-md">
         {teacherSidebarConfig.map((item) => (
-          <TabsTrigger value={item.layoutSegment} key={item.layoutSegment}>
+          <TabsTrigger
+            value={item.layoutSegment}
+            key={item.layoutSegment}
+            className="rounded-md"
+          >
             {item.name}
           </TabsTrigger>
         ))}
@@ -156,19 +169,24 @@ const Header = function ({
   const isActive = layoutSegment === "dashboard";
 
   return (
-    <Link href={getSettingsUrl(classId)}>
-      <div
-        className={cn(
-          "text-base font-semibold text-slate-400 mb-4 text-left flex items-center justify-between hover:bg-base-100 hover:text-slate-300 rounded-sm",
-          {
-            "shadow-sm shadow-accent": isActive,
-          }
-        )}
-      >
-        <div className="truncate w-[220] px-2">{nameOfClass}</div>
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
+    <Link
+      href={getSettingsUrl(classId)}
+      className="flex items-center mb-4 gap-2"
+    >
+      <DragonHomeBtn className="ring-1 ring-slate-700 rounded-lg" />
+      <TooltipProvider>
+        <Tooltip delayDuration={20}>
+          <TooltipTrigger asChild>
+            <div
+              className={cn(
+                "text-sm text-slate-400 ring-1 ring-slate-700  truncate text-left flex items-center justify-between hover:bg-base-100 hover:text-slate-300 rounded-lg mr-2",
+                {
+                  "shadow-sm shadow-accent": isActive,
+                }
+              )}
+            >
+              <div className="truncate w-[100] px-2 text-xs">{nameOfClass}</div>
+
               <Button
                 variant={"ghost"}
                 size={"icon"}
@@ -180,35 +198,36 @@ const Header = function ({
                   })}
                 />
               </Button>
-            </TooltipTrigger>
-            <TooltipContent className="bg-base-200 text-slate-300">
-              Class Dashboard
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-      </div>
+            </div>
+          </TooltipTrigger>
+          <TooltipContent className="bg-base-200 text-slate-300">
+            Class Dashboard
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
     </Link>
   );
 };
 
-const Footer = function ({ classId }: { classId: string }) {
+const Footer = function ({
+  classId,
+  userId,
+  classesWithConfigs,
+}: {
+  classId: string;
+  userId: string;
+  classesWithConfigs: ClassesByUserId;
+}) {
   {
     /* TODO This is a big jugaad. Fix this later using flexbox. Make ths header and footer of the navbar be at the top and bottom using flexbox. */
   }
   return (
-    <Link
-      href={getStudentsURL(classId)}
-      className="flex items-center gap-1 fixed bottom-0 left-0 w-[240px] h-10 bg-slate-800 "
-    >
-      <Button
-        variant={"ghost"}
-        className="flex items-center justify-start gap-3 w-full hover:bg-slate-500 hover:text-slate-950"
-      >
-        <Avatar>
-          <UsersIcon className="w-5 text-secondary" />
-        </Avatar>
-        <div>My Students</div>
-      </Button>
-    </Link>
+    <div className="flex items-center gap-1 fixed bottom-0 left-0 w-[240px] h-10 bg-slate-800 ">
+      <ImportModal
+        classId={classId}
+        userId={userId}
+        classesWithConfigs={classesWithConfigs}
+      />
+    </div>
   );
 };

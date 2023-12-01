@@ -66,7 +66,7 @@ export default async function BotPage({ params }: BotPageProps) {
       botConfigId: testBotId,
     });
   return (
-    <div className="w-full min-h-[calc(100vh-180px)] max-h-full overflow-y-scroll custom-scrollbar pt-4">
+    <div className="w-full pt-4">
       <Paper variant={"gray"} className="w-full max-w-5xl py-3 px-2">
         <Tabs defaultValue="test">
           <TabsList className="flex w-full bg-transparent h-10 mb-10 border-b">
