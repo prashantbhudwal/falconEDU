@@ -37,6 +37,7 @@ export const getParsedQuestionByBotConfigId = cache(
         where: { id: botConfigId },
         select: {
           parsedQuestions: {
+            where: { isArchived: false },
             orderBy: {
               question_number: "asc",
             },
@@ -236,8 +237,11 @@ export const deleteParsedQuestion = async ({
   parsedQuestionId: string;
 }) => {
   try {
-    const questions = await prisma.parsedQuestions.delete({
+    const questions = await prisma.parsedQuestions.update({
       where: { id: parsedQuestionId },
+      data: {
+        isArchived: true,
+      },
     });
     if (questions) {
       revalidatePath("/dragon/teacher");
