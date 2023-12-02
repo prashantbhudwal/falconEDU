@@ -47,7 +47,7 @@ export function ClassSidebar({
   classesWithConfigs: ClassesByUserId;
 }) {
   return (
-    <nav className="bg-base-200 flex flex-col custom-scrollbar overflow-y-auto h-full py-4 space-y-1 pl-2 pb-32 w-[240px]">
+    <nav className="bg-base-200 flex flex-col custom-scrollbar overflow-y-scroll h-full py-4 space-y-1 pl-2 pb-32 w-[240px]">
       <Header nameOfClass={nameOfClass} classId={classId} />
       <Body configs={configs} classId={classId} userId={userId} />
       <Footer
@@ -113,11 +113,7 @@ const Body = function ({
         ))}
       </TabsList>
       {teacherSidebarConfig.map((item) => (
-        <TabsContent
-          value={item.layoutSegment}
-          className="flex space-y-1 flex-col"
-          key={item.layoutSegment}
-        >
+        <TabsContent value={item.layoutSegment} key={item.layoutSegment}>
           <NewConfigButton
             classId={classId}
             layoutSegment={item.layoutSegment}
