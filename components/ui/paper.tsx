@@ -6,7 +6,7 @@ const paperVariants = cva("m-auto", {
   variants: {
     variant: {
       black: "shadow-md rounded-sm shadow-base-300 p-8",
-      gray: "space-y-10 w-3/5 rounded-sm p-10 shadow-inner shadow-slate-700 hover:transition-all duration-300",
+      gray: "space-y-10 w-3/5 rounded-sm p-10 shadow shadow-base-100 border border-base-200 hover:transition-all duration-300",
     },
   },
   defaultVariants: {
