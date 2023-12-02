@@ -26,17 +26,26 @@ import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 
 import { db } from "@/app/dragon/teacher/routers";
 import { typeGetParsedQuestionByBotConfigId } from "@/app/dragon/teacher/routers/parsedQuestionRouter";
+import { LuCopy, LuTrash } from "react-icons/lu";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 type QuestionProps = NonNullable<typeGetParsedQuestionByBotConfigId>[number];
 
 type PropType = React.HTMLProps<HTMLDivElement> & {
   question: QuestionProps;
   questionNumber: number;
+  createDuplicate: ({ data }: { data: QuestionProps }) => void;
 };
 
 export const QuestionForm = ({
   question,
   questionNumber,
+  createDuplicate,
   ...props
 }: PropType) => {
   const [loading, setLoading] = useState(false);
@@ -107,8 +116,8 @@ export const QuestionForm = ({
     }
   };
 
-  const deleteQuestionHandler = async () => {
-    const { success } = await db.parseQuestionRouter.deleteParsedQuestion({
+  const archiveQuestionHandler = async () => {
+    const { success } = await db.parseQuestionRouter.archiveParsedQuestion({
       parsedQuestionId: question.id,
     });
     if (!success) {
@@ -141,14 +150,40 @@ export const QuestionForm = ({
                   )}
                 />
               </QuestionText>
-              <Button
-                variant="destructive"
-                type="button"
-                onClick={deleteQuestionHandler}
-                className="cursor-pointer"
-              >
-                Delete
-              </Button>
+              <div className="flex items-center gap-3 self-start">
+                <TooltipProvider delayDuration={100}>
+                  <Tooltip>
+                    <TooltipTrigger type="button">
+                      <button
+                        type="button"
+                        onClick={archiveQuestionHandler}
+                        className="cursor-pointer rounded-full bg-error h-fit p-2 text-error-content"
+                      >
+                        <LuTrash />
+                      </button>
+                    </TooltipTrigger>
+                    <TooltipContent className="bg-slate-600 text-black">
+                      Delete Question
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+                <TooltipProvider delayDuration={100}>
+                  <Tooltip>
+                    <TooltipTrigger type="button">
+                      <button
+                        type="button"
+                        onClick={() => createDuplicate({ data: question })}
+                        className="cursor-pointer rounded-full bg-accent h-fit p-2 text-accent-content"
+                      >
+                        <LuCopy />
+                      </button>
+                    </TooltipTrigger>
+                    <TooltipContent className="bg-slate-600 text-black">
+                      Duplicate Question
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </div>
             </div>
             <div className="flex flex-col gap-1 items-end">
               {error && (

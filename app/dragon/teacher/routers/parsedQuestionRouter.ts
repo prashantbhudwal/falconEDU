@@ -231,7 +231,7 @@ export const getTestResults = cache(
   }
 );
 
-export const deleteParsedQuestion = async ({
+export const archiveParsedQuestion = async ({
   parsedQuestionId,
 }: {
   parsedQuestionId: string;
@@ -241,6 +241,29 @@ export const deleteParsedQuestion = async ({
       where: { id: parsedQuestionId },
       data: {
         isArchived: true,
+      },
+    });
+    if (questions) {
+      revalidatePath("/dragon/teacher");
+      return { success: true };
+    }
+    return { success: false };
+  } catch (err) {
+    console.log(err);
+    return { success: false };
+  }
+};
+
+export const unarchiveParsedQuestion = async ({
+  parsedQuestionId,
+}: {
+  parsedQuestionId: string;
+}) => {
+  try {
+    const questions = await prisma.parsedQuestions.update({
+      where: { id: parsedQuestionId },
+      data: {
+        isArchived: false,
       },
     });
     if (questions) {

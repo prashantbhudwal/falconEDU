@@ -19,15 +19,21 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { parsedQuestionsSchema } from "@/app/dragon/schema";
-import { z } from "zod";
+import { ZodType, z } from "zod";
 import { TextareaAutosize } from "@/components/ui/textarea-autosize";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
-import { LuX } from "react-icons/lu";
-
+import { LuCopy, LuX } from "react-icons/lu";
+import { LuTrash } from "react-icons/lu";
 import { db } from "@/app/dragon/teacher/routers";
 import { typeGetParsedQuestionByBotConfigId } from "@/app/dragon/teacher/routers/parsedQuestionRouter";
 import { saveParsedQuestions } from "@/app/dragon/teacher/mutations";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 type QuestionProps = NonNullable<typeGetParsedQuestionByBotConfigId>[number];
 
@@ -35,6 +41,11 @@ type PropType = React.HTMLProps<HTMLDivElement> & {
   question: QuestionProps;
   questionNumber: number;
   deleteQuestions: ({ id }: { id: string }) => void;
+  createDuplicate: ({
+    data,
+  }: {
+    data: Partial<z.infer<typeof parsedQuestionsSchema>>;
+  }) => void;
   botConfigId: string;
   classId: string;
 };
@@ -45,6 +56,7 @@ export const AddQuestionForm = ({
   deleteQuestions,
   botConfigId,
   classId,
+  createDuplicate,
   ...props
 }: PropType) => {
   const [loading, setLoading] = useState(false);
@@ -176,20 +188,50 @@ export const AddQuestionForm = ({
                   )}
                 />
               </QuestionText>
-              <Button
-                variant="destructive"
-                type="button"
-                onClick={() => deleteQuestions({ id: question.id })}
-                className="cursor-pointer"
-              >
-                Delete
-              </Button>
-              <Button
-                disabled={!isDirty || loading}
-                className="cursor-pointer min-w-[90px] disabled:brightness-75 disabled:cursor-not-allowed"
-              >
-                {loading ? "Saving..." : "Save"}
-              </Button>
+              <div className="flex items-center gap-3 self-start">
+                <TooltipProvider delayDuration={100}>
+                  <Tooltip>
+                    <TooltipTrigger type="button">
+                      <button
+                        type="button"
+                        onClick={() => deleteQuestions({ id: question.id })}
+                        className="cursor-pointer rounded-full bg-error h-fit p-2 text-error-content"
+                      >
+                        <LuTrash />
+                      </button>
+                    </TooltipTrigger>
+                    <TooltipContent className="bg-slate-600 text-black">
+                      Delete Question
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+
+                <TooltipProvider delayDuration={100}>
+                  <Tooltip>
+                    <TooltipTrigger type="button">
+                      <button
+                        type="button"
+                        onClick={() =>
+                          createDuplicate({ data: form.getValues() })
+                        }
+                        className="cursor-pointer rounded-full bg-accent h-fit p-2 text-accent-content"
+                      >
+                        <LuCopy />
+                      </button>
+                    </TooltipTrigger>
+                    <TooltipContent className="bg-slate-600 text-black">
+                      Duplicate Question
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+
+                <Button
+                  disabled={!isDirty || loading}
+                  className="cursor-pointer min-w-[90px] disabled:brightness-75 disabled:cursor-not-allowed"
+                >
+                  {loading ? "Saving..." : "Save"}
+                </Button>
+              </div>
             </div>
             <div className="flex flex-col gap-1 items-end">
               {error && (
