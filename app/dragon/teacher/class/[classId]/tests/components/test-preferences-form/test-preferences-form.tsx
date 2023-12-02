@@ -316,7 +316,7 @@ export default function TestPreferencesForm({
                 control={form.control}
                 name="fullTest"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className="pb-10">
                     <FormLabel
                       className={`mb-5 flex gap-2 align-middle font-bold ${
                         inputFocus === "instructions" ? "text-white" : ""

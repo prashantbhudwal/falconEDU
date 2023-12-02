@@ -3,6 +3,12 @@ import { AllStudentResponsesByBotConfigId } from "./tests/queries";
 import prisma from "@/prisma";
 import { ConditionalPromptSelector } from "langchain/prompts";
 
+/**
+ * Calculates the test metadata based on the given student responses.
+ *
+ * @param {AllStudentResponsesByBotConfigId} allStudentResponses - The student responses for all bot configurations.
+ * @return {Object} - An object containing the maximum score, highest score, least score, and average score.
+ */
 export const getTestMetadata = (
   allStudentResponses: AllStudentResponsesByBotConfigId
 ) => {

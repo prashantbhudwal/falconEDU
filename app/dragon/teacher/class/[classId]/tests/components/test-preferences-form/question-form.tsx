@@ -8,7 +8,7 @@ import {
 } from "../question/question";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import React, { useEffect, useState } from "react";
+import React, { RefObject, useEffect, useRef, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import {
   Form,
@@ -50,6 +50,7 @@ export const QuestionForm = ({
 }: PropType) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const questionRef = useRef<HTMLDivElement>(null);
 
   const defaultValues: Partial<z.infer<typeof parsedQuestionsSchema>> = {
     correct_answer: question?.correct_answer.map((answer) => ({
@@ -111,7 +112,7 @@ export const QuestionForm = ({
   const onUnfocusedHandler = () => {
     const validData = parsedQuestionsSchema.safeParse(form.getValues());
 
-    if (isDirty && validData.success) {
+    if (isDirty && validData) {
       onSubmit(form.getValues());
     }
   };
@@ -125,8 +126,12 @@ export const QuestionForm = ({
     }
   };
 
+  const createDuplicateHandler = () => {
+    createDuplicate({ data: question });
+  };
+
   return (
-    <>
+    <div ref={questionRef}>
       <Form {...form}>
         <form onBlur={onUnfocusedHandler} className={cn("", props.className)}>
           <Question>
@@ -172,7 +177,7 @@ export const QuestionForm = ({
                     <TooltipTrigger type="button">
                       <button
                         type="button"
-                        onClick={() => createDuplicate({ data: question })}
+                        onClick={createDuplicateHandler}
                         className="cursor-pointer rounded-full bg-accent h-fit p-2 text-accent-content"
                       >
                         <LuCopy />
@@ -267,6 +272,6 @@ export const QuestionForm = ({
           </Question>
         </form>
       </Form>
-    </>
+    </div>
   );
 };

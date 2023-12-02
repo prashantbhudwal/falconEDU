@@ -6,20 +6,24 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 import { HTMLProps, useRef } from "react";
 import { LuPlusCircle } from "react-icons/lu";
-import { LuCopy } from "react-icons/lu";
+import { RiListCheck3 } from "react-icons/ri";
+import { LuFileText } from "react-icons/lu";
 
 type PropTypes = HTMLProps<HTMLDivElement> & {
   addQuestions: () => void;
-  createDuplicate: ({ data }: { data: any }) => void;
   questionCardHeight: number;
+  createMcq: () => void;
+  createFillInBlanks: () => void;
 };
 
 export const Actions = ({
   addQuestions,
-  createDuplicate,
   questionCardHeight,
+  createMcq,
+  createFillInBlanks,
   ...props
 }: PropTypes) => {
   const actionBoxRef = useRef<HTMLDivElement>(null);
@@ -54,12 +58,25 @@ export const Actions = ({
       <TooltipProvider delayDuration={100}>
         <Tooltip>
           <TooltipTrigger>
-            <button className="text-white" onClick={() => addQuestions()}>
-              <LuCopy />
+            <button className="text-white" onClick={() => createMcq()}>
+              <RiListCheck3 />
             </button>
           </TooltipTrigger>
           <TooltipContent className="bg-slate-600 text-black">
-            Duplicate Question
+            Create MCQ
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+
+      <TooltipProvider delayDuration={100}>
+        <Tooltip>
+          <TooltipTrigger>
+            <button className="text-white" onClick={() => createFillInBlanks()}>
+              <LuFileText />
+            </button>
+          </TooltipTrigger>
+          <TooltipContent className="bg-slate-600 text-black">
+            Create Fill in Blanks
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
