@@ -101,12 +101,12 @@ const Body = function ({
           : layoutSegment || teacherSidebarConfig[0].layoutSegment
       }
     >
-      <TabsList className="grid grid-cols-2 bg-base-100 w-11/12 rounded-md">
+      <TabsList className="grid grid-cols-2 w-11/12 rounded-md bg-slate-800/60">
         {teacherSidebarConfig.map((item) => (
           <TabsTrigger
             value={item.layoutSegment}
             key={item.layoutSegment}
-            className="rounded-md"
+            className="rounded-md bg-none data-[state=active]:bg-slate-700/60 data-[state=active]:text-accent/80"
           >
             {item.name}
           </TabsTrigger>
