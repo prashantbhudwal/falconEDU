@@ -11,8 +11,18 @@ const inter = Inter({
   display: "swap",
 });
 
+const isDev = process.env.NODE_ENV === "development";
+const url = process.env.NEXT_PUBLIC_VERCEL_URL;
+const isTestUrl = url?.includes("chubbi.falconai.in");
+
+const title = isDev
+  ? "🟠 DEV | FalconAI"
+  : isTestUrl
+    ? "🟣 TEST | FalconAI"
+    : "FalconAI";
+
 export const metadata = {
-  title: "FalconAI",
+  title: title,
   description: "AI for Teachers, and Schools.",
   metadataBase: new URL("https://falconai.in"),
   manifest: "/manifest.json",
