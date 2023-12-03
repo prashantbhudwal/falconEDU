@@ -23,7 +23,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 export const SummaryStatTable = ({
   testQuestions,
 }: {
-  testQuestions: typeGetParsedQuestionByBotConfigId;
+  testQuestions: typeGetParsedQuestionByBotConfigId["activeParsedQuestions"];
 }) => {
   if (!testQuestions) return null;
 

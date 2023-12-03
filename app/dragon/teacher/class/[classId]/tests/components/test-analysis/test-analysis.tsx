@@ -30,7 +30,7 @@ export async function TestAnalysis({
     await getAllQuestionResponsesByBotConfigId(testBotId);
   const { averageScore, highestScore, leastScore, maxScore } =
     getTestMetadata(allStudentResponses);
-  const testQuestions =
+  const { activeParsedQuestions, archivedParsedQuestions } =
     await db.parseQuestionRouter.getParsedQuestionByBotConfigId({
       botConfigId: testBotId,
     });
@@ -77,7 +77,14 @@ export async function TestAnalysis({
                 Question-wise performance
               </AccordionTrigger>
               <AccordionContent className="border-none">
-                <SummaryStatTable testQuestions={testQuestions} />
+                <SummaryStatTable
+                  testQuestions={
+                    Array.isArray(archivedParsedQuestions) &&
+                    Array.isArray(activeParsedQuestions)
+                      ? [...archivedParsedQuestions, ...activeParsedQuestions]
+                      : null
+                  }
+                />
               </AccordionContent>
             </AccordionItem>
           </Accordion>
