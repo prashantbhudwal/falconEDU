@@ -34,6 +34,9 @@ import { typeGetParsedQuestionByBotConfigId } from "@/app/dragon/teacher/routers
 import { TestParsedQuestion } from "./test-parsed-questions";
 import { LuArchive, LuArchiveRestore } from "react-icons/lu";
 const MAX_CHARS = LIMITS_testBotPreferencesSchema.fullTest.maxLength;
+import { MdCloudUpload } from "react-icons/md";
+import { motion } from "framer-motion";
+
 const defaultValues: z.infer<typeof testBotPreferencesSchema> = {
   fullTest:
     "Enter or paste the full test here. Please provide the answers too. The bot will conduct the test for you. ",
@@ -94,10 +97,6 @@ export default function TestPreferencesForm({
         fullTest: string;
       }) || {},
   });
-
-  const isFormEmpty =
-    !form.getValues().fullTest ||
-    form.getValues().fullTest === defaultValues.fullTest;
 
   const { isDirty, setIsDirty } = useIsFormDirty(form);
 
@@ -326,16 +325,47 @@ export default function TestPreferencesForm({
                       <FiInfo />
                     </FormLabel>
                     <FormControl>
-                      <Textarea
-                        className="resize-none h-96"
-                        {...field}
-                        onFocus={() => setInputFocus("instructions")}
-                        onBlur={() => setInputFocus("")}
-                        hasCounter
-                        maxChars={MAX_CHARS}
-                        required
-                        placeholder="Enter or paste the full test here. Please provide the answers too. The bot will conduct the test for you. "
-                      />
+                      <div className="relative">
+                        <Textarea
+                          className="resize-none h-96"
+                          {...field}
+                          onFocus={() => setInputFocus("instructions")}
+                          onBlur={() => setInputFocus("")}
+                          hasCounter
+                          maxChars={MAX_CHARS}
+                          required
+                          placeholder="Enter or paste the full test here. Please provide the answers too. The bot will conduct the test for you."
+                        />
+                        <motion.button
+                          type="button"
+                          whileHover="animate"
+                          animate="initial"
+                          initial="initial"
+                          className="absolute bottom-3 right-3 flex items-center text-slate-200 p-2 border-[3px] border-text-slate-500 rounded-full overflow-hidden"
+                        >
+                          <MdCloudUpload className="w-full" />
+                          <motion.div
+                            variants={{
+                              initial: {
+                                x: "100%",
+                                opacity: 0,
+                                width: "0",
+                              },
+                              animate: {
+                                x: "0",
+                                opacity: 1,
+                                width: "100%",
+                              },
+                            }}
+                            className="text-xs text-slate-400"
+                          >
+                            {/* adding this span to give space between upload icon and text cause framer motion don't animate
+                              padding or other space realted field smoothly */}
+                            <span className="text-transparent">..</span>
+                            Upload
+                          </motion.div>
+                        </motion.button>
+                      </div>
                     </FormControl>
                     <FormDescription>
                       {"Don't forget to provide answers."}

@@ -38,7 +38,7 @@ export const ArchivedQuestions = ({ archivedQuestions }: PropTypes) => {
         <>
           {archivedQuestions.map((question) => {
             return (
-              <div key={question.id}>
+              <div key={question.id} className="mb-5">
                 <Question>
                   {/* ---------------------------------- Questions -------------------------------------- */}
                   <div className="flex w-full justify-between gap-5">
