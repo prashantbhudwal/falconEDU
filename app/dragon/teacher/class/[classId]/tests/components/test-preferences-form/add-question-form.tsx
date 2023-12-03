@@ -35,7 +35,9 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-type QuestionProps = NonNullable<typeGetParsedQuestionByBotConfigId>[number];
+type QuestionProps = NonNullable<
+  typeGetParsedQuestionByBotConfigId["activeParsedQuestions"]
+>[number];
 
 type PropType = React.HTMLProps<HTMLDivElement> & {
   question: QuestionProps;
@@ -197,19 +199,19 @@ export const AddQuestionForm = forwardRef<HTMLDivElement, PropType>(
                     )}
                   />
                 </QuestionText>
-                <div className="flex items-center gap-3 self-start">
+                <div className="flex items-center gap-1 self-start">
                   <TooltipProvider delayDuration={100}>
                     <Tooltip>
                       <TooltipTrigger type="button">
                         <button
                           type="button"
                           onClick={() => deleteQuestions({ id: question.id })}
-                          className="cursor-pointer rounded-full bg-error h-fit p-2 text-error-content"
+                          className="cursor-pointer rounded-full hover:bg-base-100 hover:shadow-slate-700 hover:shadow-sm h-fit p-2 hover:text-base-content text-slate-500"
                         >
                           <LuTrash />
                         </button>
                       </TooltipTrigger>
-                      <TooltipContent className="bg-slate-600 text-black">
+                      <TooltipContent className="bg-slate-600 text-slate-100">
                         Delete Question
                       </TooltipContent>
                     </Tooltip>
@@ -223,12 +225,12 @@ export const AddQuestionForm = forwardRef<HTMLDivElement, PropType>(
                           onClick={() =>
                             createDuplicate({ data: form.getValues() })
                           }
-                          className="cursor-pointer rounded-full bg-accent h-fit p-2 text-accent-content"
+                          className="cursor-pointer rounded-full hover:bg-base-100 hover:shadow-slate-700 hover:shadow-sm h-fit p-2 hover:text-base-content text-slate-500"
                         >
                           <LuCopy />
                         </button>
                       </TooltipTrigger>
-                      <TooltipContent className="bg-slate-600 text-black">
+                      <TooltipContent className="bg-slate-600 text-slate-100">
                         Duplicate Question
                       </TooltipContent>
                     </Tooltip>
@@ -236,7 +238,7 @@ export const AddQuestionForm = forwardRef<HTMLDivElement, PropType>(
 
                   <Button
                     disabled={!isDirty || loading}
-                    className="cursor-pointer min-w-[90px] disabled:brightness-75 disabled:cursor-not-allowed"
+                    className="cursor-pointer min-w-[90px] disabled:brightness-75 ml-2 disabled:cursor-not-allowed"
                   >
                     {loading ? "Saving..." : "Save"}
                   </Button>
@@ -252,12 +254,12 @@ export const AddQuestionForm = forwardRef<HTMLDivElement, PropType>(
               {/* -------------------------------------- Options -------------------------------- */}
               <div className="relative">
                 {options.length > 0 && (
-                  <Options>
+                  <Options className="mb-0">
                     {fields.map((option, index) => {
                       return (
                         <Option
                           key={option.id}
-                          className="flex items-center justify-between gap-5 "
+                          className="flex items-center justify-between gap-5 group"
                         >
                           <FormField
                             control={form.control}
@@ -271,7 +273,7 @@ export const AddQuestionForm = forwardRef<HTMLDivElement, PropType>(
                                         className="bg-transparent min-h-fit resize-none overflow-y-auto whitespace-pre-line border-none outline-none focus-visible:ring-0 p-0 text-[16px]"
                                         placeholder={
                                           !option.value
-                                            ? "Provide Options for your Question"
+                                            ? `Option ${index + 1}`
                                             : ""
                                         }
                                         {...field}
@@ -285,30 +287,31 @@ export const AddQuestionForm = forwardRef<HTMLDivElement, PropType>(
                           />
                           <button
                             type="button"
+                            className="hidden group-hover:block"
                             onClick={() =>
                               removeFieldsHandler({ field: "options", index })
                             }
                           >
-                            <LuX className="h-6 w-6 p-1 rounded-full bg-base-300" />
+                            <LuX className="h-6 w-6 p-1 rounded-full" />
                           </button>
                         </Option>
                       );
                     })}
                   </Options>
                 )}
-                <Button
+                <button
                   type="button"
+                  className="text-xs ml-3 underline text-primary"
                   onClick={() => addFieldsHandler({ field: "options" })}
-                  variant={"default"}
                 >
                   Add Option
-                </Button>
+                </button>
               </div>
               {/* ----------------------------------------- Answers -------------------------------- */}
               <Answer>
                 {answerFields.map((answer, index) => (
                   <div
-                    className="flex gap-5 justify-between items-center"
+                    className="flex gap-5 justify-between items-center group"
                     key={answer.id}
                   >
                     <FormField
@@ -321,11 +324,7 @@ export const AddQuestionForm = forwardRef<HTMLDivElement, PropType>(
                               <FormControl>
                                 <TextareaAutosize
                                   className="bg-transparent min-h-fit resize-none overflow-y-auto whitespace-pre-line border-none outline-none focus-visible:ring-0 p-0"
-                                  placeholder={
-                                    !answer.value
-                                      ? "Provide Answers for your Question"
-                                      : ""
-                                  }
+                                  placeholder={!answer.value ? "Answer..." : ""}
                                   {...field}
                                 />
                               </FormControl>
@@ -337,22 +336,23 @@ export const AddQuestionForm = forwardRef<HTMLDivElement, PropType>(
                     />
                     <button
                       type="button"
+                      className="hidden group-hover:block"
                       onClick={() =>
                         removeFieldsHandler({ field: "correct_answer", index })
                       }
                     >
-                      <LuX className="h-6 w-6 p-1 rounded-full bg-base-300" />
+                      <LuX className="h-6 w-6 p-1 rounded-full" />
                     </button>
                   </div>
                 ))}
               </Answer>
-              <Button
+              <button
                 type="button"
+                className="text-xs ml-3 underline text-primary"
                 onClick={() => addFieldsHandler({ field: "correct_answer" })}
-                variant={"default"}
               >
                 Add Answer
-              </Button>
+              </button>
               {/* ---------------------------------------------------------------------------------------------------- */}
             </Question>
           </form>

@@ -20,6 +20,7 @@ type QuestionProps = CommonProps & {
 
 type AccordionProps = CommonProps & {
   hidden?: boolean;
+  accordianTitleStyles?: string;
 };
 type QuestionTextProps = CommonProps & {
   questionNumber?: number;
@@ -91,7 +92,7 @@ const Option = React.forwardRef<HTMLDivElement, CommonProps>(
 Option.displayName = "Option";
 
 const Answer = React.forwardRef<HTMLDivElement, AccordionProps>(
-  ({ children, className, hidden }, ref) => (
+  ({ children, className, hidden, accordianTitleStyles }, ref) => (
     <Accordion
       type="single"
       collapsible
@@ -100,7 +101,9 @@ const Answer = React.forwardRef<HTMLDivElement, AccordionProps>(
       className={cn("", className)}
     >
       <AccordionItem value="item-1" className="border-none">
-        <AccordionTrigger className={cn(AccordionHeaderStyle)}>
+        <AccordionTrigger
+          className={cn(AccordionHeaderStyle, accordianTitleStyles)}
+        >
           Answer
         </AccordionTrigger>
         <AccordionContent className={cn(AccordionContentStyle)}>
@@ -113,7 +116,7 @@ const Answer = React.forwardRef<HTMLDivElement, AccordionProps>(
 Answer.displayName = "Answer";
 
 const StudentResponse = React.forwardRef<HTMLDivElement, AccordionProps>(
-  ({ children, className, hidden }, ref) => (
+  ({ children, className, hidden, accordianTitleStyles }, ref) => (
     <Accordion
       type="single"
       collapsible
@@ -122,7 +125,9 @@ const StudentResponse = React.forwardRef<HTMLDivElement, AccordionProps>(
       className={cn("", className)}
     >
       <AccordionItem value="item-1" className="border-none">
-        <AccordionTrigger className={cn(AccordionHeaderStyle)}>
+        <AccordionTrigger
+          className={cn(AccordionHeaderStyle, accordianTitleStyles)}
+        >
           Student Response
         </AccordionTrigger>
 
@@ -137,7 +142,7 @@ const StudentResponse = React.forwardRef<HTMLDivElement, AccordionProps>(
 StudentResponse.displayName = "StudentResponse";
 
 const Hint = React.forwardRef<HTMLDivElement, AccordionProps>(
-  ({ children, className, hidden }, ref) => (
+  ({ children, className, hidden, accordianTitleStyles }, ref) => (
     <Accordion
       type="single"
       collapsible
@@ -146,7 +151,9 @@ const Hint = React.forwardRef<HTMLDivElement, AccordionProps>(
       className={cn("", className)}
     >
       <AccordionItem value="item-1" className="border-none">
-        <AccordionTrigger className={cn(AccordionHeaderStyle)}>
+        <AccordionTrigger
+          className={cn(AccordionHeaderStyle, accordianTitleStyles)}
+        >
           Hint
         </AccordionTrigger>
         <AccordionContent className={cn(AccordionContentStyle)}>

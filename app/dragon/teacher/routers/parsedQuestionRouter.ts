@@ -9,7 +9,9 @@ export const updateParsedQuestion = async ({
   data,
 }: {
   parseQuestionId: string;
-  data: NonNullable<typeGetParsedQuestionByBotConfigId>[number];
+  data: NonNullable<
+    typeGetParsedQuestionByBotConfigId["activeParsedQuestions"]
+  >[number];
 }) => {
   try {
     const response = await prisma.parsedQuestions.update({
@@ -37,7 +39,6 @@ export const getParsedQuestionByBotConfigId = cache(
         where: { id: botConfigId },
         select: {
           parsedQuestions: {
-            where: { isArchived: false },
             orderBy: {
               question_number: "asc",
             },
@@ -46,13 +47,28 @@ export const getParsedQuestionByBotConfigId = cache(
       });
 
       if (questions && questions.parsedQuestions.length > 0) {
-        return questions.parsedQuestions;
+        const archivedParsedQuestions = questions.parsedQuestions.filter(
+          (question) => question.isArchived
+        );
+        const activeParsedQuestions = questions.parsedQuestions.filter(
+          (question) => !question.isArchived
+        );
+        return {
+          archivedParsedQuestions,
+          activeParsedQuestions,
+        };
       }
 
-      return null;
+      return {
+        archivedParsedQuestions: null,
+        activeParsedQuestions: null,
+      };
     } catch (err) {
       console.log(err);
-      return null;
+      return {
+        archivedParsedQuestions: null,
+        activeParsedQuestions: null,
+      };
     }
   }
 );

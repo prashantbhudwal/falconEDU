@@ -34,7 +34,9 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-type QuestionProps = NonNullable<typeGetParsedQuestionByBotConfigId>[number];
+type QuestionProps = NonNullable<
+  typeGetParsedQuestionByBotConfigId["activeParsedQuestions"]
+>[number];
 
 type PropType = React.HTMLProps<HTMLDivElement> & {
   question: QuestionProps;
@@ -155,19 +157,19 @@ export const QuestionForm = ({
                   )}
                 />
               </QuestionText>
-              <div className="flex items-center gap-3 self-start">
+              <div className="flex items-center gap-1 self-start">
                 <TooltipProvider delayDuration={100}>
                   <Tooltip>
                     <TooltipTrigger type="button">
                       <button
                         type="button"
                         onClick={archiveQuestionHandler}
-                        className="cursor-pointer rounded-full bg-error h-fit p-2 text-error-content"
+                        className="cursor-pointer rounded-full hover:bg-base-100 hover:shadow-slate-700 hover:shadow-sm h-fit p-2 hover:text-base-content text-slate-500"
                       >
                         <LuTrash />
                       </button>
                     </TooltipTrigger>
-                    <TooltipContent className="bg-slate-600 text-black">
+                    <TooltipContent className="bg-slate-600 text-slate-100">
                       Delete Question
                     </TooltipContent>
                   </Tooltip>
@@ -178,12 +180,12 @@ export const QuestionForm = ({
                       <button
                         type="button"
                         onClick={createDuplicateHandler}
-                        className="cursor-pointer rounded-full bg-accent h-fit p-2 text-accent-content"
+                        className="cursor-pointer rounded-full hover:bg-base-100 hover:shadow-slate-700 hover:shadow-sm h-fit p-2 hover:text-base-content text-slate-500"
                       >
                         <LuCopy />
                       </button>
                     </TooltipTrigger>
-                    <TooltipContent className="bg-slate-600 text-black">
+                    <TooltipContent className="bg-slate-600 text-slate-100">
                       Duplicate Question
                     </TooltipContent>
                   </Tooltip>
@@ -216,7 +218,7 @@ export const QuestionForm = ({
                                       className="bg-transparent min-h-fit resize-none overflow-y-auto whitespace-pre-line border-none outline-none focus-visible:ring-0 p-0 text-[16px]"
                                       placeholder={
                                         !option.value
-                                          ? "Provide Options for your Question"
+                                          ? `Option ${index + 1}`
                                           : ""
                                       }
                                       {...field}
@@ -250,11 +252,7 @@ export const QuestionForm = ({
                               <FormControl>
                                 <TextareaAutosize
                                   className="bg-transparent min-h-fit resize-none overflow-y-auto whitespace-pre-line border-none outline-none focus-visible:ring-0 p-0"
-                                  placeholder={
-                                    !answer.value
-                                      ? "Provide Answers for your Question"
-                                      : ""
-                                  }
+                                  placeholder={!answer.value ? "Answer" : ""}
                                   {...field}
                                 />
                               </FormControl>

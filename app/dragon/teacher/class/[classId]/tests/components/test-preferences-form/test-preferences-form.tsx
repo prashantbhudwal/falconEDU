@@ -44,7 +44,7 @@ type BotPreferencesFormProps = {
   classId: string;
   botId: string;
   botConfig: BotConfig | null;
-  parsedQuestions: typeGetParsedQuestionByBotConfigId;
+  activeParsedQuestions: typeGetParsedQuestionByBotConfigId["activeParsedQuestions"];
   isActive: boolean;
 };
 
@@ -53,7 +53,7 @@ export default function TestPreferencesForm({
   classId,
   botId,
   botConfig: config,
-  parsedQuestions: parsedQuestionFromDb,
+  activeParsedQuestions: parsedQuestionFromDb,
   isActive,
 }: BotPreferencesFormProps) {
   const [loading, setLoading] = useState(false);

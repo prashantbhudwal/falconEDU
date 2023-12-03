@@ -36,7 +36,7 @@ export const Actions = ({
     <div
       ref={actionBoxRef}
       className={cn(
-        `absolute flex flex-col gap-2 bottom-0 -right-10 rounded border border-base-100 p-2`
+        `absolute flex flex-col gap-2 bg-base-200 bottom-0 -right-10 rounded border border-base-100 p-2`
       )}
       style={{
         transform: `translateY(${-(questionCardHeight - actionBoxHeight)}px)`,
@@ -45,7 +45,7 @@ export const Actions = ({
       <TooltipProvider delayDuration={100}>
         <Tooltip>
           <TooltipTrigger>
-            <button className="text-white" onClick={() => addQuestions()}>
+            <button className="text-slate-100" onClick={() => addQuestions()}>
               <LuPlusCircle />
             </button>
           </TooltipTrigger>
@@ -58,7 +58,7 @@ export const Actions = ({
       <TooltipProvider delayDuration={100}>
         <Tooltip>
           <TooltipTrigger>
-            <button className="text-white" onClick={() => createMcq()}>
+            <button className="text-slate-100" onClick={() => createMcq()}>
               <RiListCheck3 />
             </button>
           </TooltipTrigger>
@@ -71,7 +71,10 @@ export const Actions = ({
       <TooltipProvider delayDuration={100}>
         <Tooltip>
           <TooltipTrigger>
-            <button className="text-white" onClick={() => createFillInBlanks()}>
+            <button
+              className="text-slate-100"
+              onClick={() => createFillInBlanks()}
+            >
               <LuFileText />
             </button>
           </TooltipTrigger>

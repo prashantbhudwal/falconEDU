@@ -57,7 +57,7 @@ export default async function BotPage({ params }: BotPageProps) {
   const testConfigAndPreferences =
     await fetchTestBotConfigByConfigId(testBotId);
   const { preferences, testConfig } = testConfigAndPreferences;
-  const parsedQuestions =
+  const { archivedParsedQuestions, activeParsedQuestions } =
     await db.parseQuestionRouter.getParsedQuestionByBotConfigId({
       botConfigId: testBotId,
     });
@@ -67,7 +67,10 @@ export default async function BotPage({ params }: BotPageProps) {
     });
   return (
     <div className="w-full">
-      <Paper variant={"gray"} className="w-full max-w-5xl py-3 px-2 min-h-screen">
+      <Paper
+        variant={"gray"}
+        className="w-full max-w-5xl py-3 px-2 min-h-screen"
+      >
         <Tabs defaultValue="test">
           <TabsList className="flex w-full bg-transparent h-10 mb-10 border-b">
             <TabsTrigger
@@ -89,13 +92,14 @@ export default async function BotPage({ params }: BotPageProps) {
               botConfig={testConfig}
               classId={classId}
               botId={testBotId}
-              parsedQuestions={parsedQuestions}
+              activeParsedQuestions={activeParsedQuestions}
               isActive={isActive}
             />
             <TestParsedQuestion
               botId={testBotId}
               classId={classId}
-              parsedQuestions={parsedQuestions}
+              activeParsedQuestions={activeParsedQuestions}
+              archivedParsedQuestions={archivedParsedQuestions}
             />
           </TabsContent>
           <TabsContent value="submissions">

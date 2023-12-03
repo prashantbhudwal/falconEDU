@@ -8,18 +8,28 @@ import { AddQuestionForm } from "./add-question-form";
 import { nanoid } from "nanoid";
 import { Actions } from "./actions";
 import { ZodType, z } from "zod";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { ArchivedQuestions } from "./archived-questions";
 
 export function TestParsedQuestion({
-  parsedQuestions,
+  activeParsedQuestions,
+  archivedParsedQuestions,
   botId,
   classId,
 }: {
-  parsedQuestions: typeGetParsedQuestionByBotConfigId;
+  activeParsedQuestions: typeGetParsedQuestionByBotConfigId["activeParsedQuestions"];
+  archivedParsedQuestions: typeGetParsedQuestionByBotConfigId["archivedParsedQuestions"];
   botId: string;
   classId: string;
 }) {
   const [addedQuestions, setAddedQuestions] = useState<
-    NonNullable<typeGetParsedQuestionByBotConfigId> | []
+    | NonNullable<typeGetParsedQuestionByBotConfigId["activeParsedQuestions"]>
+    | []
   >([]);
   const [questionCardHeight, setQuestionCardHeight] = useState(218);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -32,8 +42,8 @@ export function TestParsedQuestion({
     question: "",
     hint: null,
     question_number: 1,
-    options: [],
-    correct_answer: [],
+    options: [""],
+    correct_answer: [""],
     sample_answer: null,
     max_score: null,
     isArchived: false,
@@ -56,7 +66,7 @@ export function TestParsedQuestion({
         resizeObserver.unobserve(lastChild);
       }
     };
-  }, [addedQuestions, parsedQuestions]);
+  }, [addedQuestions, activeParsedQuestions]);
 
   // ------------------------------------------------ Adding question to list ------------------------------------------------
   const addQuestionHandler = () => {
@@ -94,13 +104,16 @@ export function TestParsedQuestion({
   const duplicateSavedQuestionHandler = ({
     data,
   }: {
-    data: NonNullable<typeGetParsedQuestionByBotConfigId>[number];
-  }) => {
+    data: NonNullable<
+      typeGetParsedQuestionByBotConfigId["activeParsedQuestions"]
+    >[number];
+  }): void => {
     setAddedQuestions((prev) => [
       ...prev,
       {
         ...data,
         question_number: prev.length + 1,
+        id: nanoid(),
       },
     ]);
   };
@@ -147,9 +160,9 @@ export function TestParsedQuestion({
     <>
       <div className="relative w-11/12 mx-auto">
         <div ref={containerRef} className="flex flex-col space-y-3">
-          {parsedQuestions &&
-            parsedQuestions.length > 0 &&
-            parsedQuestions.map((question, index) => (
+          {activeParsedQuestions &&
+            activeParsedQuestions.length > 0 &&
+            activeParsedQuestions.map((question, index) => (
               <QuestionForm
                 key={question.id}
                 createDuplicate={duplicateSavedQuestionHandler}
@@ -171,8 +184,8 @@ export function TestParsedQuestion({
                   createDuplicate={duplicateQuestionHandler}
                   question={question}
                   questionNumber={
-                    parsedQuestions
-                      ? parsedQuestions.length + index + 1
+                    activeParsedQuestions
+                      ? activeParsedQuestions.length + index + 1
                       : index + 1
                   }
                   deleteQuestions={deleteAddQuestion}
@@ -180,7 +193,7 @@ export function TestParsedQuestion({
               );
             })}
         </div>
-        {((parsedQuestions && parsedQuestions.length > 0) ||
+        {((activeParsedQuestions && activeParsedQuestions.length > 0) ||
           (addedQuestions && addedQuestions.length > 0)) && (
           <Actions
             addQuestions={addQuestionHandler}
@@ -190,6 +203,22 @@ export function TestParsedQuestion({
           />
         )}
       </div>
+      <Accordion
+        type="single"
+        collapsible
+        className="w-11/12 mx-auto my-10 bg-slate-900/70 text-slate-500"
+      >
+        <div className="w-11/12 mx-auto">
+          <AccordionItem value="item-1" className="border-none">
+            <AccordionTrigger className="text-lg text-slate-400">
+              Deleted Questions
+            </AccordionTrigger>
+            <AccordionContent>
+              <ArchivedQuestions archivedQuestions={archivedParsedQuestions} />
+            </AccordionContent>
+          </AccordionItem>
+        </div>
+      </Accordion>
     </>
   );
 }
