@@ -42,7 +42,6 @@ const textVariant: Variants = {
 };
 
 const FileUploader = ({ setParsedDocs }: PropTypes) => {
-  const [docs, setDocs] = useState("");
   const [isButtonHovered, setIsButtonHovered] = useState(false);
 
   const onDrop = useCallback(async (acceptedFiles: any) => {
@@ -71,7 +70,8 @@ const FileUploader = ({ setParsedDocs }: PropTypes) => {
             const arrayBuffer = target.result as ArrayBuffer;
             try {
               const result = await mammoth.extractRawText({ arrayBuffer });
-              setDocs(result.value);
+              console.log(result.value);
+              setParsedDocs({ docs: result.value });
             } catch (error) {
               console.error("Error loading DOCX:", error);
             }
@@ -81,10 +81,29 @@ const FileUploader = ({ setParsedDocs }: PropTypes) => {
       } catch (error) {
         console.error("Error loading DOCX:", error);
       }
+    } else if (file.type === "text/plain") {
+      try {
+        const reader = new FileReader();
+        reader.onload = async (event) => {
+          if (reader.result) {
+            setParsedDocs({ docs: reader.result as string });
+          }
+        };
+        reader.readAsText(file);
+      } catch (error) {
+        console.log("Error loading TXT:", error);
+      }
     }
   }, []);
 
-  const { getRootProps, getInputProps } = useDropzone({ onDrop });
+  const { getRootProps, getInputProps } = useDropzone({
+    onDrop,
+    accept: {
+      "application/pdf": [".pdf"],
+      "application/msword": [".doc", ".docx"],
+      "text/plain": [".txt"],
+    },
+  });
 
   return (
     <>
