@@ -36,6 +36,7 @@ import { LuArchive, LuArchiveRestore } from "react-icons/lu";
 const MAX_CHARS = LIMITS_testBotPreferencesSchema.fullTest.maxLength;
 import { MdCloudUpload } from "react-icons/md";
 import { motion } from "framer-motion";
+import FileUploader from "../file-uploader";
 
 const defaultValues: z.infer<typeof testBotPreferencesSchema> = {
   fullTest:
@@ -200,6 +201,12 @@ export default function TestPreferencesForm({
     }
   };
 
+  const parsedDocsHandler = async ({ docs }: { docs: string }) => {
+    if (docs) {
+      form.setValue("fullTest", docs);
+    }
+  };
+
   return (
     <div className="w-full max-w-5xl">
       <Form {...form}>
@@ -310,71 +317,41 @@ export default function TestPreferencesForm({
             </div>
             <Separator className="mb-6" />
             {/* -------------------------------------- Form Fields -------------------------------- */}
-            {!parsedQuestionFromDb && (
-              <FormField
-                control={form.control}
-                name="fullTest"
-                render={({ field }) => (
-                  <FormItem className="pb-10">
-                    <FormLabel
-                      className={`mb-5 flex gap-2 align-middle font-bold ${
-                        inputFocus === "instructions" ? "text-white" : ""
-                      }`}
-                    >
-                      Instructions
-                      <FiInfo />
-                    </FormLabel>
-                    <FormControl>
-                      <div className="relative">
-                        <Textarea
-                          className="resize-none h-96"
-                          {...field}
-                          onFocus={() => setInputFocus("instructions")}
-                          onBlur={() => setInputFocus("")}
-                          hasCounter
-                          maxChars={MAX_CHARS}
-                          required
-                          placeholder="Enter or paste the full test here. Please provide the answers too. The bot will conduct the test for you."
-                        />
-                        <motion.button
-                          type="button"
-                          whileHover="animate"
-                          animate="initial"
-                          initial="initial"
-                          className="absolute bottom-3 right-3 flex items-center text-slate-200 p-2 border-[3px] border-text-slate-500 rounded-full overflow-hidden"
-                        >
-                          <MdCloudUpload className="w-full" />
-                          <motion.div
-                            variants={{
-                              initial: {
-                                x: "100%",
-                                opacity: 0,
-                                width: "0",
-                              },
-                              animate: {
-                                x: "0",
-                                opacity: 1,
-                                width: "100%",
-                              },
-                            }}
-                            className="text-xs text-slate-400"
-                          >
-                            {/* adding this span to give space between upload icon and text cause framer motion don't animate
-                              padding or other space realted field smoothly */}
-                            <span className="text-transparent">..</span>
-                            Upload
-                          </motion.div>
-                        </motion.button>
-                      </div>
-                    </FormControl>
-                    <FormDescription>
-                      {"Don't forget to provide answers."}
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            )}
+            <FormField
+              control={form.control}
+              name="fullTest"
+              render={({ field }) => (
+                <FormItem className="pb-10">
+                  <FormLabel
+                    className={`mb-5 flex gap-2 align-middle font-bold ${
+                      inputFocus === "instructions" ? "text-white" : ""
+                    }`}
+                  >
+                    Instructions
+                    <FiInfo />
+                  </FormLabel>
+                  <FormControl>
+                    <div className="relative">
+                      <Textarea
+                        className="resize-none h-96"
+                        {...field}
+                        onFocus={() => setInputFocus("instructions")}
+                        onBlur={() => setInputFocus("")}
+                        hasCounter
+                        maxChars={MAX_CHARS}
+                        required
+                        placeholder="Enter or paste the full test here. Please provide the answers too. The bot will conduct the test for you."
+                      />
+                      <FileUploader setParsedDocs={parsedDocsHandler} />
+                    </div>
+                  </FormControl>
+                  <FormDescription>
+                    {"Don't forget to provide answers."}
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
         </form>
       </Form>
