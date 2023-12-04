@@ -3,15 +3,47 @@ import { useState, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { WebPDFLoader } from "langchain/document_loaders/web/pdf";
 import mammoth from "mammoth";
-import { motion } from "framer-motion";
+import { Variants, cubicBezier, motion } from "framer-motion";
 import { MdCloudUpload } from "react-icons/md";
 
 type PropTypes = {
   setParsedDocs: ({ docs }: { docs: string }) => void;
 };
 
+const containerVariant: Variants = {
+  expanded: {
+    width: "auto",
+    transition: { duration: 0.8, ease: [0.6, 0.05, -0.01, 0.9] },
+  },
+  collapsed: {
+    width: "44px",
+    transition: { duration: 0.8, ease: [0.6, 0.05, -0.01, 0.9] },
+  },
+};
+
+const textVariant: Variants = {
+  show: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      duration: 0.6,
+      ease: cubicBezier(0.6, 0.05, -0.01, 0.9),
+      delay: 0.3,
+    },
+  },
+  hide: {
+    opacity: 0,
+    x: 12,
+    transition: {
+      duration: 0.3,
+      ease: cubicBezier(0.6, 0.05, -0.01, 0.9),
+    },
+  },
+};
+
 const FileUploader = ({ setParsedDocs }: PropTypes) => {
   const [docs, setDocs] = useState("");
+  const [isButtonHovered, setIsButtonHovered] = useState(false);
 
   const onDrop = useCallback(async (acceptedFiles: any) => {
     const file = acceptedFiles[0];
@@ -59,30 +91,22 @@ const FileUploader = ({ setParsedDocs }: PropTypes) => {
       <div {...getRootProps()} className="dropzone absolute bottom-3 right-3 ">
         <input {...getInputProps()} />
         <motion.div
-          whileHover="animate"
-          animate="initial"
-          initial="initial"
-          className="cursor-pointer flex items-center text-slate-200 p-2 border-[3px] border-text-slate-500 rounded-full overflow-hidden"
+          onMouseEnter={() => setIsButtonHovered(true)}
+          onMouseLeave={() => setIsButtonHovered(false)}
+          variants={containerVariant}
+          initial="collapsed"
+          animate={isButtonHovered ? "expanded" : "collapsed"}
+          className="cursor-pointer w-11 h-11 flex items-center justify-center text-slate-200 border-[3px] border-text-slate-500 rounded-full overflow-hidden"
         >
-          <MdCloudUpload className="w-full" />
+          <div className="w-11 h-11 rounded-[28px] flex absolute left-0 items-center">
+            <MdCloudUpload className="h-5 w-11" />
+          </div>
           <motion.span
-            variants={{
-              initial: {
-                x: "100%",
-                opacity: 0,
-                width: "0",
-              },
-              animate: {
-                x: "0",
-                opacity: 1,
-                width: "100%",
-              },
-            }}
-            className="text-xs text-slate-400"
+            variants={textVariant}
+            initial="hide"
+            animate={isButtonHovered ? "show" : "hide"}
+            className="text-xs text-slate-400 mr-2 ml-9 whitespace-nowrap"
           >
-            {/* adding this span to give space between upload icon and text cause framer motion don't animate
-                              padding or other space realted field smoothly */}
-            <span className="text-transparent">..</span>
             Upload
           </motion.span>
         </motion.div>
