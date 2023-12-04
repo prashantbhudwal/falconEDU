@@ -98,6 +98,7 @@ const FileUploader = ({ setParsedDocs }: PropTypes) => {
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
+    noDrag: false,
     accept: {
       "application/pdf": [".pdf"],
       "application/msword": [".doc", ".docx"],
