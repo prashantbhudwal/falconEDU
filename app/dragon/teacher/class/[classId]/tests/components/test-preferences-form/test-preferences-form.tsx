@@ -34,14 +34,13 @@ import { typeGetParsedQuestionByBotConfigId } from "@/app/dragon/teacher/routers
 import { TestParsedQuestion } from "./test-parsed-questions";
 import { LuArchive, LuArchiveRestore } from "react-icons/lu";
 const MAX_CHARS = LIMITS_testBotPreferencesSchema.fullTest.maxLength;
-import { MdCloudUpload } from "react-icons/md";
-import { motion } from "framer-motion";
 import FileUploader from "../file-uploader";
-
-const defaultValues: z.infer<typeof testBotPreferencesSchema> = {
-  fullTest:
-    "Enter or paste the full test here. Please provide the answers too. The bot will conduct the test for you. ",
-};
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 type BotPreferencesFormProps = {
   preferences?: z.infer<typeof testBotPreferencesSchema> | null;
@@ -93,26 +92,26 @@ export default function TestPreferencesForm({
 
   const form = useForm<z.infer<typeof testBotPreferencesSchema>>({
     resolver: zodResolver(testBotPreferencesSchema),
-    defaultValues:
-      (config?.preferences as {
-        fullTest: string;
-      }) || {},
   });
 
   const { isDirty, setIsDirty } = useIsFormDirty(form);
 
   // --------------------------------------------- On Parsing ----------------------------------------------------------------
   const onSubmit = async (data: z.infer<typeof testBotPreferencesSchema>) => {
+    // setting error and loading state whenever the form is submitted
+    setError("");
     setLoading(true);
+
+    // geting parsed Question via function call
     const { parsedQuestions, hasQuestions, hasAnswers, error, message } =
       await parseTestQuestions(data.fullTest);
 
+    // handling errors and exception case from parsing the questions
     if (error) {
       setError(message);
       setLoading(false);
       return { success: false };
     }
-
     if (!hasQuestions || !hasAnswers) {
       const errorMessage = !hasQuestions
         ? "No questions provided. Please provide the questions and answers."
@@ -128,24 +127,51 @@ export default function TestPreferencesForm({
       );
       return { success: false };
     }
+
+    // updating the question_number of the questions from the parsed questions and saving it to database
+    const updatedParsedQuestions =
+      Array.isArray(parsedQuestionFromDb) &&
+      parsedQuestionFromDb.length > 0 &&
+      parsedQuestions.map((question, index) => {
+        return {
+          ...question,
+          question_number: parsedQuestionFromDb.length + index + 1,
+        };
+      });
     const response = await saveParsedQuestions({
-      parsedQuestions,
+      parsedQuestions: updatedParsedQuestions || parsedQuestions,
       botId,
       classId,
     });
+
+    // updating the test in botconfig and saving it to database
+    let fullTest = data.fullTest;
+    if (
+      config?.preferences &&
+      typeof config.preferences === "object" &&
+      "fullTest" in config.preferences
+    ) {
+      fullTest = config.preferences.fullTest + "\n" + fullTest;
+    }
     const updateBotConfigResult = await db.botConfig.updateBotConfig({
       classId,
       botId,
-      data,
+      data: {
+        fullTest: fullTest,
+      },
       configType: "test",
     });
-    setLoading(false);
+
+    // if both saving the parsedQuestion and botconfig are successful, then handling updating the state and reseting the form
     if (response.success && updateBotConfigResult.success) {
       setError(null); // clear any existing error
       setIsDirty(false);
+      setLoading(false);
+      form.setValue("fullTest", "");
       return { success: true };
     } else {
       setError("Failed to update bot config. Please try again."); // set the error message
+      setLoading(false);
       return { success: false };
     }
   };
@@ -203,7 +229,9 @@ export default function TestPreferencesForm({
 
   const parsedDocsHandler = async ({ docs }: { docs: string }) => {
     if (docs) {
-      form.setValue("fullTest", docs);
+      const test = form.getValues("fullTest");
+      const updatedTest = test ? test + "\n" + docs : docs;
+      form.setValue("fullTest", updatedTest);
     }
   };
 
@@ -257,21 +285,19 @@ export default function TestPreferencesForm({
                       }
                     />
                   )}
-                  {!parsedQuestionFromDb && (
-                    <Button
-                      type="submit"
-                      disabled={loading || !isDirty}
-                      className="min-w-[100px]"
-                    >
-                      {loading ? (
-                        <span className="loading loading-infinity loading-sm"></span>
-                      ) : isDirty ? (
-                        "Save"
-                      ) : (
-                        "Saved"
-                      )}
-                    </Button>
-                  )}
+                  <Button
+                    type="submit"
+                    disabled={loading || !isDirty}
+                    className="min-w-[100px]"
+                  >
+                    {loading ? (
+                      <span className="loading loading-infinity loading-sm"></span>
+                    ) : isDirty ? (
+                      "Save"
+                    ) : (
+                      "Saved"
+                    )}
+                  </Button>
                   {parsedQuestionFromDb && !isArchived && (
                     <>
                       {botConfig?.published ? (
@@ -331,9 +357,39 @@ export default function TestPreferencesForm({
                     <FiInfo />
                   </FormLabel>
                   <FormControl>
-                    <div className="relative">
+                    <div className="relative w-full rounded-md border border-input bg-transparent px-3 py-2 shadow-sm min-h-[200px] sm:min-h-[150px] text-sm">
+                      {config?.preferences &&
+                        typeof config.preferences === "object" &&
+                        "fullTest" in config.preferences && (
+                          <Accordion
+                            type="single"
+                            collapsible
+                            className="mt-5 bg-slate-900/70 text-slate-500 cursor-pointer"
+                          >
+                            <AccordionItem
+                              value="item-1"
+                              className="border-none"
+                            >
+                              <AccordionTrigger className="text-lg px-4 text-slate-400">
+                                Existing Test
+                              </AccordionTrigger>
+                              <AccordionContent>
+                                <Textarea
+                                  className="resize-none min-h-fit sm:min-h-fit focus-visible:ring-0 text-slate-500 outline-none border-none"
+                                  value={
+                                    typeof config.preferences.fullTest ===
+                                    "string"
+                                      ? config.preferences.fullTest
+                                      : ""
+                                  }
+                                  readOnly
+                                />
+                              </AccordionContent>
+                            </AccordionItem>
+                          </Accordion>
+                        )}
                       <Textarea
-                        className="resize-none h-96"
+                        className="resize-none mt-5 placeholder:text-slate-400 text-slate-200 h-96 focus-visible:ring-0 outline-none border-none"
                         {...field}
                         onFocus={() => setInputFocus("instructions")}
                         onBlur={() => setInputFocus("")}

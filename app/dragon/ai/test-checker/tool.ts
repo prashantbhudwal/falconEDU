@@ -2,7 +2,7 @@ import * as z from "zod";
 import { zodToJsonSchema } from "zod-to-json-schema";
 import { QuestionType } from "@prisma/client"; // Find a way to type check question type with prisma
 
-const questionTypes = [
+export const questionTypes = [
   "OBJECTIVE_MULTIPLE_CHOICE_SINGLE_ANSWER",
   "OBJECTIVE_TRUE_FALSE",
   "OBJECTIVE_FILL_IN_THE_BLANK_SINGLE_ANSWER",

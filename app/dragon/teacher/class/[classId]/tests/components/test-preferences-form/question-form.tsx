@@ -33,6 +33,14 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { questionTypes } from "@/app/dragon/ai/test-checker/tool";
 
 type QuestionProps = NonNullable<
   typeGetParsedQuestionByBotConfigId["activeParsedQuestions"]
@@ -60,6 +68,7 @@ export const QuestionForm = ({
     })),
     question: question?.question,
     options: question?.options.map((answer) => ({ value: answer })),
+    question_type: question?.question_type,
   };
 
   const form = useForm<z.infer<typeof parsedQuestionsSchema>>({
@@ -91,6 +100,7 @@ export const QuestionForm = ({
         (answer) => answer.value
       );
       formattedData.options = data.options.map((option) => option.value);
+      formattedData.question_type = data.question_type;
 
       const { success } = await db.parseQuestionRouter.updateParsedQuestion({
         parseQuestionId: question.id,
@@ -138,7 +148,72 @@ export const QuestionForm = ({
         <form onBlur={onUnfocusedHandler} className={cn("", props.className)}>
           <Question>
             {/* ---------------------------------- Questions -------------------------------------- */}
-            <div className="flex w-full justify-between gap-5">
+            <div className="">
+              <div className="pb-5 w-full flex items-center justify-between">
+                <FormField
+                  control={form.control}
+                  name="question_type"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Select onValueChange={field.onChange} {...field}>
+                          <SelectTrigger className="w-fit">
+                            <SelectValue placeholder={question.question_type} />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {questionTypes.map((question, index) => {
+                              return (
+                                <SelectItem
+                                  key={index}
+                                  value={question}
+                                  onSelect={(value) => field.onChange(value)}
+                                >
+                                  {question}
+                                </SelectItem>
+                              );
+                            })}
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <div className="flex items-center gap-1 self-start">
+                  <TooltipProvider delayDuration={100}>
+                    <Tooltip>
+                      <TooltipTrigger type="button">
+                        <button
+                          type="button"
+                          onClick={archiveQuestionHandler}
+                          className="cursor-pointer rounded-full hover:bg-base-100 hover:shadow-slate-700 hover:shadow-sm h-fit p-2 hover:text-base-content text-slate-500"
+                        >
+                          <LuTrash />
+                        </button>
+                      </TooltipTrigger>
+                      <TooltipContent className="bg-slate-600 text-slate-100">
+                        Delete Question
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                  <TooltipProvider delayDuration={100}>
+                    <Tooltip>
+                      <TooltipTrigger type="button">
+                        <button
+                          type="button"
+                          onClick={createDuplicateHandler}
+                          className="cursor-pointer rounded-full hover:bg-base-100 hover:shadow-slate-700 hover:shadow-sm h-fit p-2 hover:text-base-content text-slate-500"
+                        >
+                          <LuCopy />
+                        </button>
+                      </TooltipTrigger>
+                      <TooltipContent className="bg-slate-600 text-slate-100">
+                        Duplicate Question
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </div>
+              </div>
               <QuestionText questionNumber={questionNumber} className="w-full">
                 <FormField
                   control={form.control}
@@ -157,40 +232,6 @@ export const QuestionForm = ({
                   )}
                 />
               </QuestionText>
-              <div className="flex items-center gap-1 self-start">
-                <TooltipProvider delayDuration={100}>
-                  <Tooltip>
-                    <TooltipTrigger type="button">
-                      <button
-                        type="button"
-                        onClick={archiveQuestionHandler}
-                        className="cursor-pointer rounded-full hover:bg-base-100 hover:shadow-slate-700 hover:shadow-sm h-fit p-2 hover:text-base-content text-slate-500"
-                      >
-                        <LuTrash />
-                      </button>
-                    </TooltipTrigger>
-                    <TooltipContent className="bg-slate-600 text-slate-100">
-                      Delete Question
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-                <TooltipProvider delayDuration={100}>
-                  <Tooltip>
-                    <TooltipTrigger type="button">
-                      <button
-                        type="button"
-                        onClick={createDuplicateHandler}
-                        className="cursor-pointer rounded-full hover:bg-base-100 hover:shadow-slate-700 hover:shadow-sm h-fit p-2 hover:text-base-content text-slate-500"
-                      >
-                        <LuCopy />
-                      </button>
-                    </TooltipTrigger>
-                    <TooltipContent className="bg-slate-600 text-slate-100">
-                      Duplicate Question
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-              </div>
             </div>
             <div className="flex flex-col gap-1 items-end">
               {error && (

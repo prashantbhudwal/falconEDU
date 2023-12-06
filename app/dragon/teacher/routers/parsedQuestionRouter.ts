@@ -20,6 +20,7 @@ export const updateParsedQuestion = async ({
         correct_answer: data.correct_answer,
         question: data.question,
         options: data.options,
+        question_type: data.question_type,
       },
     });
     if (response) {

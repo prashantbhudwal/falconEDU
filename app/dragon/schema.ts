@@ -177,6 +177,17 @@ export const parsedQuestionsSchema = z.object({
     .max(1000, {
       message: "Question must not exceed 1000 characters.",
     }),
+  question_type: z.enum([
+    "OBJECTIVE_MULTIPLE_CHOICE_SINGLE_ANSWER",
+    "OBJECTIVE_TRUE_FALSE",
+    "OBJECTIVE_FILL_IN_THE_BLANK_SINGLE_ANSWER",
+    "OBJECTIVE_FILL_IN_THE_BLANK_MULTIPLE_ANSWER",
+    "OBJECTIVE_MATCH_THE_FOLLOWING",
+    "OBJECTIVE_MULTIPLE_CHOICE_MULTIPLE_ANSWER",
+    "SUBJECTIVE_ESSAY",
+    "SUBJECTIVE_SHORT_ANSWER",
+    "OTHER",
+  ]),
   //later add other properties like hint , description , questionType etc...
 });
 

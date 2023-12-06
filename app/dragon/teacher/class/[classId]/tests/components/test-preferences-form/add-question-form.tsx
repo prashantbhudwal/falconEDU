@@ -19,13 +19,12 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { parsedQuestionsSchema } from "@/app/dragon/schema";
-import { ZodType, z } from "zod";
+import { z } from "zod";
 import { TextareaAutosize } from "@/components/ui/textarea-autosize";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 import { LuCopy, LuX } from "react-icons/lu";
 import { LuTrash } from "react-icons/lu";
-import { db } from "@/app/dragon/teacher/routers";
 import { typeGetParsedQuestionByBotConfigId } from "@/app/dragon/teacher/routers/parsedQuestionRouter";
 import { saveParsedQuestions } from "@/app/dragon/teacher/mutations";
 import {
@@ -34,6 +33,14 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { questionTypes } from "@/app/dragon/ai/test-checker/tool";
 
 type QuestionProps = NonNullable<
   typeGetParsedQuestionByBotConfigId["activeParsedQuestions"]
@@ -175,6 +182,64 @@ export const AddQuestionForm = forwardRef<HTMLDivElement, PropType>(
           >
             <Question>
               {/* ---------------------------------- Questions -------------------------------------- */}
+              <div className="pb-5 w-full flex items-center justify-between">
+                <Select>
+                  <SelectTrigger className="w-fit">
+                    <SelectValue placeholder={`${question.question_type}`} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {questionTypes.map((question, index) => {
+                      return (
+                        <SelectItem key={index} value={question}>
+                          {question}
+                        </SelectItem>
+                      );
+                    })}
+                  </SelectContent>
+                </Select>
+                <div>
+                  <TooltipProvider delayDuration={100}>
+                    <Tooltip>
+                      <TooltipTrigger type="button">
+                        <button
+                          type="button"
+                          onClick={() => deleteQuestions({ id: question.id })}
+                          className="cursor-pointer rounded-full hover:bg-base-100 hover:shadow-slate-700 hover:shadow-sm h-fit p-2 hover:text-base-content text-slate-500"
+                        >
+                          <LuTrash />
+                        </button>
+                      </TooltipTrigger>
+                      <TooltipContent className="bg-slate-600 text-slate-100">
+                        Delete Question
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                  <TooltipProvider delayDuration={100}>
+                    <Tooltip>
+                      <TooltipTrigger type="button">
+                        <button
+                          type="button"
+                          onClick={() =>
+                            createDuplicate({ data: form.getValues() })
+                          }
+                          className="cursor-pointer rounded-full hover:bg-base-100 hover:shadow-slate-700 hover:shadow-sm h-fit p-2 hover:text-base-content text-slate-500"
+                        >
+                          <LuCopy />
+                        </button>
+                      </TooltipTrigger>
+                      <TooltipContent className="bg-slate-600 text-slate-100">
+                        Duplicate Question
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                  <Button
+                    disabled={!isDirty || loading}
+                    className="cursor-pointer min-w-[90px] disabled:brightness-75 ml-2 disabled:cursor-not-allowed"
+                  >
+                    {loading ? "Saving..." : "Save"}
+                  </Button>
+                </div>
+              </div>
               <div className="flex w-full justify-between gap-5">
                 <QuestionText
                   questionNumber={questionNumber}
@@ -199,50 +264,6 @@ export const AddQuestionForm = forwardRef<HTMLDivElement, PropType>(
                     )}
                   />
                 </QuestionText>
-                <div className="flex items-center gap-1 self-start">
-                  <TooltipProvider delayDuration={100}>
-                    <Tooltip>
-                      <TooltipTrigger type="button">
-                        <button
-                          type="button"
-                          onClick={() => deleteQuestions({ id: question.id })}
-                          className="cursor-pointer rounded-full hover:bg-base-100 hover:shadow-slate-700 hover:shadow-sm h-fit p-2 hover:text-base-content text-slate-500"
-                        >
-                          <LuTrash />
-                        </button>
-                      </TooltipTrigger>
-                      <TooltipContent className="bg-slate-600 text-slate-100">
-                        Delete Question
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-
-                  <TooltipProvider delayDuration={100}>
-                    <Tooltip>
-                      <TooltipTrigger type="button">
-                        <button
-                          type="button"
-                          onClick={() =>
-                            createDuplicate({ data: form.getValues() })
-                          }
-                          className="cursor-pointer rounded-full hover:bg-base-100 hover:shadow-slate-700 hover:shadow-sm h-fit p-2 hover:text-base-content text-slate-500"
-                        >
-                          <LuCopy />
-                        </button>
-                      </TooltipTrigger>
-                      <TooltipContent className="bg-slate-600 text-slate-100">
-                        Duplicate Question
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-
-                  <Button
-                    disabled={!isDirty || loading}
-                    className="cursor-pointer min-w-[90px] disabled:brightness-75 ml-2 disabled:cursor-not-allowed"
-                  >
-                    {loading ? "Saving..." : "Save"}
-                  </Button>
-                </div>
               </div>
               <div className="flex flex-col gap-1 items-end">
                 {error && (

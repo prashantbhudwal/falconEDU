@@ -6,7 +6,6 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
-import Image from "next/image";
 import { HTMLProps, useRef } from "react";
 import { LuPlusCircle } from "react-icons/lu";
 import { RiListCheck3 } from "react-icons/ri";
