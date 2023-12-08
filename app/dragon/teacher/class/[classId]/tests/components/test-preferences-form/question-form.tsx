@@ -100,7 +100,8 @@ export const QuestionForm = ({
         (answer) => answer.value
       );
       formattedData.options = data.options.map((option) => option.value);
-      formattedData.question_type = data.question_type;
+      formattedData.question_type =
+        data.question_type || "OBJECTIVE_MULTIPLE_CHOICE_SINGLE_ANSWER";
 
       const { success } = await db.parseQuestionRouter.updateParsedQuestion({
         parseQuestionId: question.id,
@@ -163,11 +164,7 @@ export const QuestionForm = ({
                           <SelectContent>
                             {questionTypes.map((question, index) => {
                               return (
-                                <SelectItem
-                                  key={index}
-                                  value={question}
-                                  onSelect={(value) => field.onChange(value)}
-                                >
+                                <SelectItem key={index} value={question}>
                                   {question}
                                 </SelectItem>
                               );

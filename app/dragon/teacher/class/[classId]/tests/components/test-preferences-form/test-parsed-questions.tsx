@@ -97,6 +97,8 @@ export function TestParsedQuestion({
         correct_answer,
         options,
         question_number: prev.length + 1,
+        question_type:
+          data.question_type || "OBJECTIVE_MULTIPLE_CHOICE_SINGLE_ANSWER",
       },
     ]);
   };

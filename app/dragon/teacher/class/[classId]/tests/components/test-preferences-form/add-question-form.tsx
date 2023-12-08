@@ -42,6 +42,12 @@ import {
 } from "@/components/ui/select";
 import { questionTypes } from "@/app/dragon/ai/test-checker/tool";
 
+// const questionTypeOptions: { [key: string]: string }[] = questionTypes.map(
+//   (type) => {
+//     return { [type.split("_").join(" ")]: type };
+//   }
+// );
+
 type QuestionProps = NonNullable<
   typeGetParsedQuestionByBotConfigId["activeParsedQuestions"]
 >[number];
@@ -75,12 +81,17 @@ export const AddQuestionForm = forwardRef<HTMLDivElement, PropType>(
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
+    // const defaultQuestionType = questionTypeOptions.find(
+    //   (question) => question[Object.keys(question)[0]] === questionType
+    // ) || { [questionType]: questionType };
+
     const defaultValues: Partial<z.infer<typeof parsedQuestionsSchema>> = {
       correct_answer: question?.correct_answer.map((answer) => ({
         value: answer,
       })),
       question: question?.question,
       options: question?.options.map((answer) => ({ value: answer })),
+      question_type: question?.question_type,
     };
 
     const form = useForm<z.infer<typeof parsedQuestionsSchema>>({
@@ -139,14 +150,13 @@ export const AddQuestionForm = forwardRef<HTMLDivElement, PropType>(
       setError("");
       try {
         setLoading(true);
-        const formattedData = {} as QuestionProps;
-        // mapping these values because the data is changed during the form creation process when using useFieldArray hook for looping through the array
-        formattedData.question = data.question;
-        formattedData.correct_answer = data.correct_answer.map(
-          (answer) => answer.value
-        );
-        formattedData.options = data.options.map((option) => option.value);
-        formattedData.question_number = questionNumber;
+        const formattedData = {
+          question: data.question,
+          correct_answer: data.correct_answer.map((answer) => answer.value),
+          options: data.options.map((option) => option.value),
+          question_number: questionNumber,
+          question_type: data.question_type,
+        };
 
         const { success } = await saveParsedQuestions({
           parsedQuestions: [formattedData],
@@ -162,10 +172,10 @@ export const AddQuestionForm = forwardRef<HTMLDivElement, PropType>(
           return;
         }
         setLoading(false);
-        setError("Can't Saving Question");
+        setError("Can't Save Question");
       } catch (err) {
         setLoading(false);
-        setError("Error Saving Question");
+        setError("Something went wrong, Try Again");
         console.log(err);
       }
     };
@@ -176,27 +186,37 @@ export const AddQuestionForm = forwardRef<HTMLDivElement, PropType>(
       <div ref={ref}>
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit(onSubmit)}
             onBlur={onUnfocusedHandler}
+            onSubmit={form.handleSubmit(onSubmit)}
             className={cn("", props.className)}
           >
             <Question>
-              {/* ---------------------------------- Questions -------------------------------------- */}
               <div className="pb-5 w-full flex items-center justify-between">
-                <Select>
-                  <SelectTrigger className="w-fit">
-                    <SelectValue placeholder={`${question.question_type}`} />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {questionTypes.map((question, index) => {
-                      return (
-                        <SelectItem key={index} value={question}>
-                          {question}
-                        </SelectItem>
-                      );
-                    })}
-                  </SelectContent>
-                </Select>
+                <FormField
+                  control={form.control}
+                  name="question_type"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Select onValueChange={field.onChange} {...field}>
+                          <SelectTrigger className="w-fit">
+                            <SelectValue placeholder={question.question_type} />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {questionTypes.map((question, index) => {
+                              return (
+                                <SelectItem key={index} value={question}>
+                                  {question}
+                                </SelectItem>
+                              );
+                            })}
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                ></FormField>
                 <div>
                   <TooltipProvider delayDuration={100}>
                     <Tooltip>
@@ -220,7 +240,12 @@ export const AddQuestionForm = forwardRef<HTMLDivElement, PropType>(
                         <button
                           type="button"
                           onClick={() =>
-                            createDuplicate({ data: form.getValues() })
+                            createDuplicate({
+                              data: {
+                                ...form.getValues(),
+                                question_type: form.getValues("question_type"),
+                              },
+                            })
                           }
                           className="cursor-pointer rounded-full hover:bg-base-100 hover:shadow-slate-700 hover:shadow-sm h-fit p-2 hover:text-base-content text-slate-500"
                         >
@@ -234,12 +259,21 @@ export const AddQuestionForm = forwardRef<HTMLDivElement, PropType>(
                   </TooltipProvider>
                   <Button
                     disabled={!isDirty || loading}
+                    type="submit"
                     className="cursor-pointer min-w-[90px] disabled:brightness-75 ml-2 disabled:cursor-not-allowed"
                   >
                     {loading ? "Saving..." : "Save"}
                   </Button>
                 </div>
               </div>
+              <div className="flex flex-col gap-1 items-end">
+                {error && (
+                  <p className="text-xs whitespace-nowrap font-medium text-red-400">
+                    {error}
+                  </p>
+                )}
+              </div>
+              {/* ---------------------------------- Questions -------------------------------------- */}
               <div className="flex w-full justify-between gap-5">
                 <QuestionText
                   questionNumber={questionNumber}
@@ -264,13 +298,6 @@ export const AddQuestionForm = forwardRef<HTMLDivElement, PropType>(
                     )}
                   />
                 </QuestionText>
-              </div>
-              <div className="flex flex-col gap-1 items-end">
-                {error && (
-                  <p className="text-xs whitespace-nowrap font-medium text-red-400">
-                    {error}
-                  </p>
-                )}
               </div>
               {/* -------------------------------------- Options -------------------------------- */}
               <div className="relative">
