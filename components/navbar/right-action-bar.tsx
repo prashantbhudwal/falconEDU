@@ -1,4 +1,10 @@
 "use client";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+  TooltipProvider,
+} from "@ui/tooltip";
 import usePageTracking from "@/hooks/usePageTracking";
 import clsx from "clsx"; // for combining class names
 import { useRouter } from "next/navigation";
@@ -11,7 +17,7 @@ import {
 } from "@/app/dragon/teacher/teacher-preferences/getTeacherData";
 import { teacherPreferencesSchema } from "@/app/dragon/schema";
 import { removeOptionalFieldFormZodTypes } from "@/lib/utils";
-import useSWR from "swr";
+import { SparklesIcon } from "@heroicons/react/24/solid";
 
 export default function RightActionBar() {
   const { currentPage } = usePageTracking();
@@ -71,9 +77,18 @@ export default function RightActionBar() {
         {name}
         {/* ---------------------------------------------- */}
         {name === "My Avatar" && isFormIncomplete && (
-          <span className="absolute -top-2 -right-2 h-[20px] w-[20px] rounded-full bg-red-400 text-white text-sm font-semibold">
-            !
-          </span>
+          <TooltipProvider>
+            <Tooltip delayDuration={20}>
+              <TooltipTrigger asChild>
+                <span className="absolute -top-2 -left-2 h-[20px] w-[20px] text-destructive">
+                  <SparklesIcon />
+                </span>
+              </TooltipTrigger>
+              <TooltipContent className="bg-base-200 text-slate-300">
+                Your Avatar is Incomplete
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         )}
       </button>
     );
