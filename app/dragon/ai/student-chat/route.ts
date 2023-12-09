@@ -81,11 +81,12 @@ export async function POST(req: NextRequest) {
       async onCompletion(completion) {
         await saveBotChatToDatabase(botChatId, completion, messages);
         mp.track(
-          `${botType.charAt(0).toUpperCase() + botType.slice(1)}" Message"`,
+          `${botType.charAt(0).toUpperCase() + botType.slice(1)} Message`,
           {
             distinct_id: email,
             botType: botType,
             teacherName: parsedContext.teacherName ?? "",
+            studentName: parsedContext.studentName ?? "",
           }
         );
       },
