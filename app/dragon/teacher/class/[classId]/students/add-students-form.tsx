@@ -32,7 +32,8 @@ export default function AddStudentForm({ classId }: AddStudentFormProps) {
   const onSubmit = async function (
     values: z.infer<typeof addStudentFormSchema>
   ) {
-    const { email } = values;
+    let  { email } = values;
+    email = email.replace(/^www\./, "");
     const result = await addStudentToClass(email, classId);
     if (result.notFound) {
       form.setError("email", {
