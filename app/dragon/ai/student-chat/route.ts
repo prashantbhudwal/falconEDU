@@ -9,6 +9,8 @@ import { type BaseMessage } from "langchain/schema";
 import { saveBotChatToDatabase } from "./mutations";
 import { TokenTextSplitter } from "langchain/text_splitter";
 import { mp } from "@/lib/mixpanel";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 // export const runtime = "edge";
 export const dynamic = "force-dynamic";
 
@@ -30,12 +32,19 @@ function formatLangchainMessagesForOpenAI(messages: BaseMessage[]) {
 }
 
 export async function POST(req: NextRequest) {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    return new Response("Unauthorized", { status: 401 });
+  }
+
+  const email = session.user.email;
+
   try {
     const json = await req.json();
     let { messages } = json;
     const botChatId = json.chatId;
     const context = json.context;
-    const botType = json.type;
+    const botType = json.type as string;
     if (!botType) {
       throw new Error(`BotConfig with botChatId ${botChatId} not found`);
     }
@@ -71,10 +80,14 @@ export async function POST(req: NextRequest) {
     const newStream = OpenAIStream(completion, {
       async onCompletion(completion) {
         await saveBotChatToDatabase(botChatId, completion, messages);
-        mp.track("Student Message", {
-          distinct_id: botChatId,
-          botType: botType,
-        });
+        mp.track(
+          `${botType.charAt(0).toUpperCase() + botType.slice(1)}" Message"`,
+          {
+            distinct_id: email,
+            botType: botType,
+            teacherName: parsedContext.teacherName ?? "",
+          }
+        );
       },
     });
 
