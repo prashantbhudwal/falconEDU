@@ -8,7 +8,7 @@ import { getEngineeredTestBotMessages } from "./prompts/test-prompts/testBotMess
 import { type BaseMessage } from "langchain/schema";
 import { saveBotChatToDatabase } from "./mutations";
 import { TokenTextSplitter } from "langchain/text_splitter";
-
+import { mp } from "@/lib/mixpanel";
 // export const runtime = "edge";
 export const dynamic = "force-dynamic";
 
@@ -71,6 +71,10 @@ export async function POST(req: NextRequest) {
     const newStream = OpenAIStream(completion, {
       async onCompletion(completion) {
         await saveBotChatToDatabase(botChatId, completion, messages);
+        mp.track("Student Message", {
+          distinct_id: botChatId,
+          botType: botType,
+        });
       },
     });
 
