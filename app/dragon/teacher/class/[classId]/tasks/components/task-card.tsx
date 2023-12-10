@@ -57,7 +57,7 @@ export function TaskCard({
   return (
     <div
       className={cn(
-        "group max-w-4xl py-4 px-2 flex items-center space-x-2 h-24 shadow-md rounded-2xl border-transparent cursor-pointer bg-base-300 hover:bg-base-100 transition-colors duration-200 ease-in-out",
+        "bg-base-200 group py-4 px-2 flex items-center space-x-2 h-24 shadow-md rounded-2xl border-transparent cursor-pointer hover:bg-base-100 transition-colors duration-200 ease-in-out",
         className
       )}
       {...props}

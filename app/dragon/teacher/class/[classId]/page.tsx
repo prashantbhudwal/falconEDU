@@ -29,34 +29,32 @@ export default async function Classes({
   const activeConfigs = classConfigs.active;
   const archivedConfigs = classConfigs.archived;
   return (
-    <Paper className="h-full w-full overflow-y-auto custom-scrollbar bg-base-300 flex flex-col justify-between space-y-6">
-      <div className="flex flex-col space-y-4">
+    <Paper className="h-full flex flex-col items-center w-5/6 overflow-y-auto custom-scrollbar justify-between">
+      <div className="w-8/12 max-w-6xl flex flex-col space-y-6">
         <TaskList tasks={activeConfigs} classId={classId} userId={userId} />
-      </div>
-      {archivedConfigs.length > 0 && (
-        <div className=" flex flex-col gap-4">
-          <Accordion
-            type="single"
-            collapsible
-            className="rounded-lg ring-base-200 ring-1"
-          >
-            <AccordionItem value="item-1" className="border-none">
-              <AccordionTrigger className="text-slate-500 text-xl font-bold hover:no-underline bg-base-200 px-2 ">
-                Archived
-              </AccordionTrigger>
-              <AccordionContent className="border-none px-2 py-4">
-                <div className="flex flex-col gap-10">
+        {archivedConfigs.length > 0 && (
+          <div className=" flex flex-col gap-4">
+            <Accordion
+              type="single"
+              collapsible
+              className="rounded-lg ring-base-200 ring-1"
+            >
+              <AccordionItem value="item-1" className="border-none">
+                <AccordionTrigger className="text-slate-500 text-xl font-bold hover:no-underline bg-base-200 px-2 ">
+                  Archived
+                </AccordionTrigger>
+                <AccordionContent className="border-none px-2 py-4">
                   <TaskList
                     tasks={archivedConfigs}
                     classId={classId}
                     userId={userId}
                   />
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
-        </div>
-      )}
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+          </div>
+        )}
+      </div>
     </Paper>
   );
 }

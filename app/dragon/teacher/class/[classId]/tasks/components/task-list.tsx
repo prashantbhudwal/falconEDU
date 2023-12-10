@@ -47,24 +47,26 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, classId, userId }) => {
     <>
       {Object.keys(groupedTasks).map((group) => (
         <section key={group}>
-          <h2 className="font-semibold">{group}</h2>
-          {groupedTasks[group].map((task: BotConfig) => (
-            <Link
-              href={getTaskUrlByType({
-                classId: classId,
-                configId: task.id,
-                type: task.type,
-              })}
-              key={task.id}
-            >
-              <TaskCard
+          <h2 className="font-semibold mb-2">{group}</h2>
+          <div className="flex flex-col space-y-4 mb-3">
+            {groupedTasks[group].map((task: BotConfig) => (
+              <Link
+                href={getTaskUrlByType({
+                  classId: classId,
+                  configId: task.id,
+                  type: task.type,
+                })}
                 key={task.id}
-                config={task}
-                classId={classId}
-                userId={userId}
-              />
-            </Link>
-          ))}
+              >
+                <TaskCard
+                  key={task.id}
+                  config={task}
+                  classId={classId}
+                  userId={userId}
+                />
+              </Link>
+            ))}
+          </div>
         </section>
       ))}
     </>
