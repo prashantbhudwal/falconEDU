@@ -56,3 +56,8 @@ export const getProgressBarColor = (percentageValue: number) => {
     return "bg-orange-400";
   }
 };
+
+export const getQuestionTypeName = (questionType: string) => {
+  const name = questionType.split("_").join(" ");
+  return name;
+};

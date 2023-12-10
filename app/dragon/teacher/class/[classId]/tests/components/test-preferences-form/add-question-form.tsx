@@ -41,12 +41,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { questionTypes } from "@/app/dragon/ai/test-checker/tool";
-
-// const questionTypeOptions: { [key: string]: string }[] = questionTypes.map(
-//   (type) => {
-//     return { [type.split("_").join(" ")]: type };
-//   }
-// );
+import { getQuestionTypeName } from "../../../utils";
 
 type QuestionProps = NonNullable<
   typeGetParsedQuestionByBotConfigId["activeParsedQuestions"]
@@ -80,10 +75,6 @@ export const AddQuestionForm = forwardRef<HTMLDivElement, PropType>(
   ) => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
-
-    // const defaultQuestionType = questionTypeOptions.find(
-    //   (question) => question[Object.keys(question)[0]] === questionType
-    // ) || { [questionType]: questionType };
 
     const defaultValues: Partial<z.infer<typeof parsedQuestionsSchema>> = {
       correct_answer: question?.correct_answer.map((answer) => ({
@@ -206,7 +197,7 @@ export const AddQuestionForm = forwardRef<HTMLDivElement, PropType>(
                             {questionTypes.map((question, index) => {
                               return (
                                 <SelectItem key={index} value={question}>
-                                  {question}
+                                  {getQuestionTypeName(question)}
                                 </SelectItem>
                               );
                             })}

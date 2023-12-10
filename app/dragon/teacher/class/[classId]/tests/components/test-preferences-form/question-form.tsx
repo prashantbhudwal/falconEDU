@@ -41,6 +41,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { questionTypes } from "@/app/dragon/ai/test-checker/tool";
+import { getQuestionTypeName } from "../../../utils";
 
 type QuestionProps = NonNullable<
   typeGetParsedQuestionByBotConfigId["activeParsedQuestions"]
@@ -165,7 +166,7 @@ export const QuestionForm = ({
                             {questionTypes.map((question, index) => {
                               return (
                                 <SelectItem key={index} value={question}>
-                                  {question}
+                                  {getQuestionTypeName(question)}
                                 </SelectItem>
                               );
                             })}
