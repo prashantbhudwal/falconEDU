@@ -17,15 +17,11 @@ export default async function ClassLayout({
   const nameOfTask = await db.botConfig.getConfigNameByConfigId({
     configId: taskId,
   });
+  const task = await db.botConfig.getBotConfigByConfigId({ configId: taskId });
+  if (!task) return null;
   const session = await getServerSession(authOptions);
   if (!session) return null;
   const userId = session?.user?.id;
-  const classConfigs = await db.botConfig.getAllConfigsInClass({
-    userId,
-    classId,
-  });
-
-  const classesWithConfigs = await db.class.getClassesByUserId({ userId });
 
   return (
     <div className="flex flex-col w-full h-screen">
@@ -34,9 +30,8 @@ export default async function ClassLayout({
           <TasksNavbar
             classId={classId}
             userId={userId}
-            taskId={taskId}
             nameOfClass={nameOfClass}
-            nameOfTask={nameOfTask}
+            task={task}
           />
         </div>
         <div className="w-full overflow-y-auto custom-scrollbar bg-base-200">

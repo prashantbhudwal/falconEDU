@@ -2,7 +2,10 @@ import { cache } from "react";
 import { AllStudentResponsesByBotConfigId } from "./(tasks)/[taskId]/test/queries";
 import prisma from "@/prisma";
 import { ConditionalPromptSelector } from "langchain/prompts";
-
+import {
+  AcademicCapIcon,
+  ClipboardDocumentCheckIcon,
+} from "@heroicons/react/24/solid";
 /**
  * Calculates the test metadata based on the given student responses.
  *
@@ -60,4 +63,24 @@ export const getProgressBarColor = (percentageValue: number) => {
 export const getQuestionTypeName = (questionType: string) => {
   const name = questionType.split("_").join(" ");
   return name;
+};
+
+export const getTaskIcon = (taskType: string) => {
+  switch (taskType) {
+    case "chat":
+      return {
+        Icon: AcademicCapIcon,
+        iconColor: "text-primary",
+      };
+    case "test":
+      return {
+        Icon: ClipboardDocumentCheckIcon,
+        iconColor: "text-secondary",
+      };
+    default:
+      return {
+        Icon: AcademicCapIcon,
+        iconColor: "text-blue-500",
+      };
+  }
 };

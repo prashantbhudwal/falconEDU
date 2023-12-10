@@ -484,3 +484,21 @@ export const getConfigNameByConfigId = cache(async function ({
     return "";
   }
 });
+
+export const getBotConfigByConfigId = cache(async function ({
+  configId,
+}: {
+  configId: string;
+}) {
+  try {
+    const botConfig = await prisma.botConfig.findUnique({
+      where: { id: configId },
+    });
+    if (!botConfig) {
+      return null;
+    }
+    return botConfig;
+  } catch (error) {
+    return null;
+  }
+});

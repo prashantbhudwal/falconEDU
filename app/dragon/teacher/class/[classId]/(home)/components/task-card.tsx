@@ -6,29 +6,8 @@ import {
 } from "@heroicons/react/24/solid";
 import { cva } from "class-variance-authority";
 import { TaskActions } from "./task-actions";
+import { getTaskIcon } from "../../utils";
 
-const Icons = [
-  {
-    name: "chat",
-    icon: <AcademicCapIcon />,
-  },
-  {
-    name: "test",
-    icon: <ClipboardDocumentCheckIcon />,
-  },
-];
-
-const taskVariants = cva("", {
-  variants: {
-    variant: {
-      chat: "text-primary",
-      test: "text-secondary",
-    },
-  },
-  defaultVariants: {
-    variant: "chat",
-  },
-});
 type TaskCardProps = {
   className?: string;
   config: BotConfig;
@@ -54,7 +33,7 @@ export function TaskCard({
     month: "short",
     day: "numeric",
   });
-  const iconNew = Icons.find((i) => i.name === variant)?.icon;
+  const { Icon, iconColor } = getTaskIcon(type);
   return (
     <div
       className={cn(
@@ -66,11 +45,13 @@ export function TaskCard({
       <section
         className={cn(
           "flex-none w-1/12 min-w-[100px] h-full flex pl-4",
-          taskVariants({ variant })
+          iconColor
         )}
       >
         <div className="flex flex-col justify-center items-center gap-1">
-          <div className="w-10 h-10">{iconNew}</div>
+          <div className="w-10 h-10">
+            <Icon />
+          </div>
           <div className="rounded-full text-sm">{type}</div>
         </div>
       </section>
