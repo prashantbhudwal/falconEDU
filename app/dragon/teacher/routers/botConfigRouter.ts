@@ -306,6 +306,8 @@ const organizeConfigs = (botConfigs: BotConfig[]) => {
 
   const configs = {
     all: botConfigs,
+    active: botConfigs.filter((botConfig) => botConfig.isActive),
+    archived: botConfigs.filter((botConfig) => !botConfig.isActive),
     chat: {
       all: chatConfigs,
       active: activeChatsConfigs,
