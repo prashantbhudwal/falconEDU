@@ -46,6 +46,7 @@ export function TaskCard({
   const name = config.name;
   const type = config.type;
   const isArchived = !config.isActive;
+  const isPublished = config.published;
   const variant = type as "chat" | "test";
   const createdAt = config.createdAt;
   const formattedDate = new Date(createdAt).toLocaleDateString("en-UK", {
@@ -73,16 +74,26 @@ export function TaskCard({
           <div className="rounded-full text-sm">{type}</div>
         </div>
       </section>
-      <section className="flex-grow h-full py-1 flex flex-col space-y-2">
-        <div className="font-medium tracking-wide capitalize truncate ">
-          <div className="truncate text-lg font-semibold text-slate-400 ">
-            {name}
+      <section className="flex-grow h-full py-1 flex items-center">
+        <div className="flex flex-col space-y-2 flex-grow">
+          <div className="font-medium tracking-wide capitalize truncate ">
+            <div className="truncate text-lg font-semibold text-slate-400 ">
+              {name}
+            </div>
           </div>
+          <div className="text-sm text-slate-500">{formattedDate}</div>
         </div>
-        <div className="text-sm text-slate-500">{formattedDate}</div>
+        <div
+          className={cn("text-slate-600 text-sm w-16", {
+            "text-primary": isPublished,
+            "": !isPublished,
+          })}
+        >
+          {isPublished ? "Published" : ""}
+        </div>
       </section>
-      <section className="flex-none w-3/12 flex">
-        <div className="hidden group-hover:block">
+      <section className="flex-none w-2/12 flex">
+        <div className="hidden group-hover:block w-full">
           <TaskActions
             configId={config.id}
             classId={classId}
