@@ -8,14 +8,21 @@ export function useCreateNewConfig() {
   const createNewConfig = async ({
     userId,
     classId,
-
     configType,
+    name,
   }: {
     userId: string;
     classId: string;
     configType: "chat" | "test";
+    name?: string;
   }) => {
-    const configName = configType === "chat" ? "Untitled Bot" : "Untitled Test";
+    let configName =
+      name && name.length > 0
+        ? name
+        : configType === "chat"
+          ? "Untitled Bot"
+          : "Untitled Test";
+
     const botConfig = await db.botConfig.createBotConfig({
       userId,
       classId,

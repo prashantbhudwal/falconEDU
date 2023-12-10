@@ -34,9 +34,10 @@ export default async function ClassLayout({
             classId={classId}
             userId={userId}
             classesWithConfigs={classesWithConfigs}
+            name= {nameOfClass}
           />
         </div>
-        <div className="w-full overflow-y-auto custom-scrollbar bg-base-200 pt-1">
+        <div className="w-full overflow-y-auto custom-scrollbar bg-base-200">
           <div className="w-full bg-base-300 shadow-sm shadow-base-100 pb-10 min-h-screen">
             {children}
             <Toaster />
