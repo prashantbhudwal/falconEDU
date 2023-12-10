@@ -20,12 +20,12 @@ import { ConfigCard } from "./components/config-card";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { PlusCircleIcon, PlusIcon } from "@heroicons/react/24/solid";
-import { db } from "../../../routers";
+import { db } from "../../../../routers";
 import { getServerSession } from "next-auth";
 import { UsersIcon } from "@heroicons/react/24/outline";
 
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-import MyStudentsBtn from "../../../components/class-sidebar/my-students-btn";
+import MyStudentsBtn from "../../../../components/class-sidebar/my-students-btn";
 export default async function ClassSettings({
   params,
 }: {

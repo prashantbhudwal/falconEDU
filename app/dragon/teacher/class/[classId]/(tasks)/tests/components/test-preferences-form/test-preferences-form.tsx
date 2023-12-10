@@ -4,7 +4,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { saveParsedQuestions } from "../../../../../mutations";
+import { saveParsedQuestions } from "../../../../../../mutations";
 import { db } from "@/app/dragon/teacher/routers";
 
 import {
@@ -20,15 +20,15 @@ import { Separator } from "@/components/ui/separator";
 import {
   botNameSchema,
   testBotPreferencesSchema,
-} from "../../../../../../schema";
+} from "../../../../../../../schema";
 import { Button } from "@/components/ui/button";
 import { TextareaWithCounter as Textarea } from "@/components/ui/textarea-counter";
 import { FiInfo } from "react-icons/fi";
-import { LIMITS_testBotPreferencesSchema } from "../../../../../../schema";
+import { LIMITS_testBotPreferencesSchema } from "../../../../../../../schema";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 import { Input } from "@/components/ui/input";
 import { parseTestQuestions } from "@/app/dragon/ai/test-question-parser/get-test-questions";
-import { useConfigPublishing } from "../../../../../hooks/use-config-publishing";
+import { useConfigPublishing } from "../../../../../../hooks/use-config-publishing";
 import { ClassDialog } from "@/app/dragon/teacher/components/class-dialog";
 import { typeGetParsedQuestionByBotConfigId } from "@/app/dragon/teacher/routers/parsedQuestionRouter";
 import { TestParsedQuestion } from "./test-parsed-questions";

@@ -1,5 +1,5 @@
 import { cache } from "react";
-import { AllStudentResponsesByBotConfigId } from "./tests/queries";
+import { AllStudentResponsesByBotConfigId } from "./(tasks)/tests/queries";
 import prisma from "@/prisma";
 import { ConditionalPromptSelector } from "langchain/prompts";
 

@@ -1,14 +1,16 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { Paper } from "@/components/ui/paper";
-import TaskList from "./tasks/components/task-list";
+import TaskList from "./components/task-list";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { db } from "../../routers";
+import { db } from "../../../routers";
+import { Toaster } from "@/components/ui/toaster";
+import { ClassNavbar } from "../../../components/class-navbar/navbar";
 
 export default async function Classes({
   params,
@@ -28,6 +30,8 @@ export default async function Classes({
   });
   const activeConfigs = classConfigs.active;
   const archivedConfigs = classConfigs.archived;
+  const nameOfClass = await db.class.getClassNameByClassId(classId);
+
   return (
     <Paper className="h-full flex flex-col items-center w-5/6 overflow-y-auto custom-scrollbar justify-between">
       <div className="w-8/12 max-w-6xl flex flex-col space-y-6">

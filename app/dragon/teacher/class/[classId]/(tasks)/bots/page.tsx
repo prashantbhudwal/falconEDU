@@ -3,12 +3,12 @@ import { getServerSession } from "next-auth";
 import Link from "next/link";
 import { getEditBotURL } from "@/lib/urls";
 import { getFormattedDate } from "@/lib/utils";
-import { ItemCardChip, ItemCard } from "../../../components/item-card";
+import { ItemCardChip, ItemCard } from "../../../../components/item-card";
 import AddBotForm from "./add-bot-form";
-import { getBotConfigs } from "../../../queries";
+import { getBotConfigs } from "../../../../queries";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FiArchive, FiCornerRightUp, FiTrash } from "react-icons/fi";
-import { db } from "../../../routers";
+import { db } from "../../../../routers";
 
 type BotDashboardProps = {
   params: {

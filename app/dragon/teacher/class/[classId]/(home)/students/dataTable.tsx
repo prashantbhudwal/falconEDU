@@ -25,7 +25,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { StudentsByClassId } from "../../../../teacher/queries";
+import { StudentsByClassId } from "../../../../queries";
 import Image from "next/image";
 import { FiTrash } from "react-icons/fi";
 import {
@@ -34,7 +34,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { ClassDialog } from "../../../components/class-dialog";
+import { ClassDialog } from "../../../../components/class-dialog";
 import { removeStudentFromClass } from "./mutations";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 

@@ -1,5 +1,5 @@
 import AddStudentForm from "./add-students-form";
-import { getStudentsByClassId } from "../../../queries";
+import { getStudentsByClassId } from "../../../../queries";
 import { DataTable } from "./dataTable";
 import { _TestOverflow } from "@/components/_test-overflow";
 import { Paper } from "@/components/ui/paper";

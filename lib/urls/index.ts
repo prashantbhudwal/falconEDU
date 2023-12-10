@@ -29,7 +29,7 @@ export const getTaskUrlByType = ({
   type: string;
 }) => {
   if (type === "chat") {
-    return `${baseUrl}/teacher/class/${classId}/tests/edit-test/${configId}`;
+    return `${baseUrl}/teacher/class/${classId}/bots/edit-bot/${configId}`;
   } else if (type === "test") {
     return `${baseUrl}/teacher/class/${classId}/tests/edit-test/${configId}`;
   } else {
