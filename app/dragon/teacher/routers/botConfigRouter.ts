@@ -466,3 +466,21 @@ export const duplicateConfig = async function ({
     console.error("Error: ", error);
   }
 };
+
+export const getConfigNameByConfigId = cache(async function ({
+  configId,
+}: {
+  configId: string;
+}) {
+  try {
+    const botConfig = await prisma.botConfig.findUnique({
+      where: { id: configId },
+    });
+    if (!botConfig) {
+      return "";
+    }
+    return botConfig.name;
+  } catch (error) {
+    return "";
+  }
+});

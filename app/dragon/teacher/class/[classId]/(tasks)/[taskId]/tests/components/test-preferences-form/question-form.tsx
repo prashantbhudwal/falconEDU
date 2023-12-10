@@ -41,7 +41,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { questionTypes } from "@/app/dragon/ai/test-checker/tool";
-import { getQuestionTypeName } from "../../../../utils";
+import { getQuestionTypeName } from "../../../../../utils";
 
 type QuestionProps = NonNullable<
   typeGetParsedQuestionByBotConfigId["activeParsedQuestions"]

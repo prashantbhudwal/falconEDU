@@ -16,7 +16,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { getTestMetadata } from "../../../../utils";
+import { getTestMetadata } from "../../../../../utils";
 import { getTestResults } from "@/app/dragon/teacher/routers/parsedQuestionRouter";
 
 export async function TestAnalysis({

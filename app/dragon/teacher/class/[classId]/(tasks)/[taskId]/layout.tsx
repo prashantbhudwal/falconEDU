@@ -1,8 +1,8 @@
 import { Toaster } from "@/components/ui/toaster";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-import { db } from "../../../routers";
-import { ClassNavbar } from "../(home)/components/class-navbar";
+import { db } from "../../../../routers";
+import { ClassNavbar } from "../../(home)/components/class-navbar";
 import { TasksNavbar } from "./tasks-navbar";
 
 export default async function ClassLayout({
@@ -10,10 +10,13 @@ export default async function ClassLayout({
   params,
 }: {
   children: React.ReactNode;
-  params: { classId: string };
+  params: { classId: string; taskId: string };
 }) {
-  const { classId } = params;
+  const { classId, taskId } = params;
   const nameOfClass = await db.class.getClassNameByClassId(classId);
+  const nameOfTask = await db.botConfig.getConfigNameByConfigId({
+    configId: taskId,
+  });
   const session = await getServerSession(authOptions);
   if (!session) return null;
   const userId = session?.user?.id;
@@ -31,7 +34,9 @@ export default async function ClassLayout({
           <TasksNavbar
             classId={classId}
             userId={userId}
+            taskId={taskId}
             nameOfClass={nameOfClass}
+            nameOfTask={nameOfTask}
           />
         </div>
         <div className="w-full overflow-y-auto custom-scrollbar bg-base-200">

@@ -20,7 +20,7 @@ import { Chip } from "@/components/ui/chip";
 import {
   botNameSchema,
   botPreferencesSchema,
-} from "../../../../../../../schema";
+} from "../../../../../../../../schema";
 import { Button } from "@/components/ui/button";
 import { TextareaWithCounter as Textarea } from "@/components/ui/textarea-counter";
 import { FiInfo } from "react-icons/fi";
@@ -39,8 +39,8 @@ import {
   humorLevel,
   subjects,
   LIMITS_botPreferencesSchema,
-} from "../../../../../../../schema";
-import subjectsArray from "../../../../../../../../data/subjects.json";
+} from "../../../../../../../../schema";
+import subjectsArray from "../../../../../../../../../data/subjects.json";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 import { Input } from "@/components/ui/input";
 import { LuArchive, LuArchiveRestore } from "react-icons/lu";

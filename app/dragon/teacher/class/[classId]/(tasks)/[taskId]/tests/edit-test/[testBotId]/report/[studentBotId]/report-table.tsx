@@ -19,7 +19,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { InformationCircleIcon } from "@heroicons/react/24/solid";
-import { getProgressBarColor } from "../../../../../../utils";
+import { getProgressBarColor } from "../../../../../../../utils";
 
 export const ReportTable = ({
   testResults,

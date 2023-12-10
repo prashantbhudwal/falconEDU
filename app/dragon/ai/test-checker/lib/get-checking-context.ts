@@ -3,7 +3,7 @@
 import { cache } from "react";
 import prisma from "@/prisma";
 import { getBotByBotId } from "@/app/dragon/student/queries";
-import { getDefaultChatMessagesByStudentBotId } from "@/app/dragon/teacher/class/[classId]/(tasks)/tests/queries";
+import { getDefaultChatMessagesByStudentBotId } from "@/app/dragon/teacher/class/[classId]/(tasks)/[taskId]/tests/queries";
 
 const getTest = cache(async function (testBotId: string) {
   const bot = await getBotByBotId(testBotId);
