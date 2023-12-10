@@ -82,13 +82,13 @@ export function NewTaskModal({
       <DialogOverlay />
       <DialogTrigger asChild>
         <Button
-          variant={"secondary"}
+          variant={"ghost"}
           size={"sm"}
-          className="flex items-center justify-end gap-3"
+          className="group flex items-center justify-end gap-3 text-primary hover:bg-primary border border-primary"
           onClick={() => setOpen(true)}
         >
           <PlusIcon className="w-5 h-5" />
-          <div>New Task</div>
+          <div className="font-bold">New Task</div>
         </Button>
       </DialogTrigger>
       <DialogContent>

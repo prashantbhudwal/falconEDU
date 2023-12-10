@@ -27,14 +27,14 @@ export default async function ClassLayout({
   const classesWithConfigs = await db.class.getClassesByUserId({ userId });
 
   return (
-    <div className="flex flex-col h-full w-full">
+    <div className="flex flex-col w-full h-screen">
       <div className="flex flex-col h-full w-full">
         <div>
           <ClassNavbar
             classId={classId}
             userId={userId}
             classesWithConfigs={classesWithConfigs}
-            name= {nameOfClass}
+            name={nameOfClass}
           />
         </div>
         <div className="w-full overflow-y-auto custom-scrollbar bg-base-200">
