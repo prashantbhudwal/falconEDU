@@ -1,6 +1,6 @@
 "use client";
 import { FaRobot } from "react-icons/fa6";
-import { ImportModal } from "../class-navbar/import-modal";
+import { ImportModal } from "../../class/[classId]/(home)/components/import-modal";
 import {
   Tooltip,
   TooltipContent,

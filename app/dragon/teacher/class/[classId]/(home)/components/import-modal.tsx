@@ -12,7 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "@/components/ui/use-toast";
-import { useDuplicateConfig } from "../../hooks/use-duplicate-config";
+import { useDuplicateConfig } from "../../../../hooks/use-duplicate-config";
 import { ArrowLeftOnRectangleIcon } from "@heroicons/react/24/solid";
 import {
   Dialog,
@@ -22,7 +22,7 @@ import {
   DialogTrigger,
   DialogOverlay,
 } from "@/components/ui/dialog";
-import { ClassesByUserId } from "../../routers/classRouter";
+import { ClassesByUserId } from "../../../../routers/classRouter";
 import { useState } from "react";
 
 export function ImportModal({

@@ -1,9 +1,9 @@
 import DragonHomeBtn from "@/components/navbar/dragon-home-btn";
 import { ImportModal } from "./import-modal";
-import { db } from "../../routers";
-import type { ClassesByUserId } from "../../routers/classRouter";
-import { NewTaskModal } from "../../class/[classId]/(home)/components/new-task-modal";
-import MyStudentsBtn from "../class-sidebar/my-students-btn";
+import { db } from "../../../../routers";
+import type { ClassesByUserId } from "../../../../routers/classRouter";
+import { NewTaskModal } from "./new-task-modal";
+import MyStudentsBtn from "../../../../components/class-sidebar/my-students-btn";
 import { Button } from "@/components/ui/button";
 import { MdDashboard } from "react-icons/md";
 import { getSettingsUrl } from "@/lib/urls";

@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/accordion";
 import { db } from "../../../routers";
 import { Toaster } from "@/components/ui/toaster";
-import { ClassNavbar } from "../../../components/class-navbar/navbar";
+import { ClassNavbar } from "./components/class-navbar";
 
 export default async function Classes({
   params,

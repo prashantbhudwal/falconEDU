@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { db } from "../../../routers";
-import { ClassNavbar } from "../../../components/class-navbar/navbar";
+import { ClassNavbar } from "./components/class-navbar";
 
 export default async function ClassLayout({
   children,

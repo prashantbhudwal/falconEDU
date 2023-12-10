@@ -2,7 +2,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { db } from "../../../routers";
-import { ClassNavbar } from "../../../components/class-navbar/navbar";
+import { ClassNavbar } from "../(home)/components/class-navbar";
+import { TasksNavbar } from "./tasks-navbar";
 
 export default async function ClassLayout({
   children,
@@ -27,11 +28,10 @@ export default async function ClassLayout({
     <div className="flex flex-col w-full h-screen">
       <div className="flex flex-col h-full w-full">
         <div>
-          <ClassNavbar
+          <TasksNavbar
             classId={classId}
             userId={userId}
-            classesWithConfigs={classesWithConfigs}
-            name={nameOfClass}
+            nameOfClass={nameOfClass}
           />
         </div>
         <div className="w-full overflow-y-auto custom-scrollbar bg-base-200">
