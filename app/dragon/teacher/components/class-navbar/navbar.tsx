@@ -1,6 +1,3 @@
-import ChubbiDropdown from "@/components/navbar/chubbi-dropdown";
-import ProfileDropDown from "@/components/navbar/profile-dropdown";
-import HelpDropdown from "@/components/navbar/help-dropdown";
 import DragonHomeBtn from "@/components/navbar/dragon-home-btn";
 import { ImportModal } from "./import-modal";
 import { db } from "../../routers";
@@ -16,19 +13,17 @@ export async function ClassNavbar({
   classesWithConfigs: ClassesByUserId;
 }) {
   return (
-    <div className="navbar h-2 bg-base-200 shadow-sm shadow-base-100">
-      <div className="navbar-start gap-4 pr-2">
-        <ChubbiDropdown />
+    <div className="flex items-center justify-between h-12 bg-base-200 shadow-sm shadow-base-100 w-full">
+      <div className="flex-none gap-4 pr-2 pl-6">
         <DragonHomeBtn />
       </div>
-      <div className="navbar-center"></div>
-      <div className="navbar-end gap-3 pr-1">
+      <div className="flex-grow"></div>
+      <div className="flex-none gap-3 pr-1">
         <ImportModal
           classId={classId}
           userId={userId}
           classesWithConfigs={classesWithConfigs}
         />
-        <ProfileDropDown url={"/profile/teacher"} />
       </div>
     </div>
   );

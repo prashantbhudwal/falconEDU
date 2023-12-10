@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { db } from "../../routers";
+import { ClassNavbar } from "../../components/class-navbar/navbar";
 
 export default async function ClassLayout({
   children,
@@ -27,13 +28,11 @@ export default async function ClassLayout({
 
   return (
     <div className="flex flex-col h-full w-full">
-      <div className="flex flex-row h-full w-full">
-        <div className="w-[240px]">
-          <ClassSidebar
-            userId={userId}
+      <div className="flex flex-col h-full w-full">
+        <div>
+          <ClassNavbar
             classId={classId}
-            nameOfClass={nameOfClass}
-            configs={classConfigs}
+            userId={userId}
             classesWithConfigs={classesWithConfigs}
           />
         </div>
