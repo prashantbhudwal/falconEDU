@@ -41,11 +41,11 @@ export default async function Report({
 }: {
   params: {
     classId: string;
-    testBotId: string;
+    taskId: string;
     studentBotId: string;
   };
 }) {
-  const { classId, testBotId, studentBotId } = params;
+  const { classId, taskId: testBotId, studentBotId } = params;
   const userImage = await getUserImageByStudentBotId(studentBotId);
   const { messages, id } =
     await getDefaultChatMessagesByStudentBotId(studentBotId);

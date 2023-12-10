@@ -3,7 +3,7 @@ import Report from "./report";
 type ReportProps = {
   params: {
     classId: string;
-    testBotId: string;
+    taskId: string;
     studentBotId: string;
   };
 };

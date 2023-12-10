@@ -5,7 +5,7 @@ import { _TestOverflow } from "@/components/_test-overflow";
 type ReportProps = {
   params: {
     classId: string;
-    testBotId: string;
+    taskId: string;
     studentBotId: string;
   };
 };
