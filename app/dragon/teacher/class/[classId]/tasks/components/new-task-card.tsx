@@ -59,10 +59,7 @@ export function NewTaskCard() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild className="rounded-lg">
-        <TaskCard
-          icon={<FolderPlusIcon className="h-12 w-12 text-secondary" />}
-          name="New Task"
-        />
+        <div>New Task</div>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px">
         <DialogHeader>

@@ -10,6 +10,7 @@ export const getStudentsURL = (classId: string) =>
   `${baseUrl}/teacher/class/${classId}/students`;
 export const getTestsUrl = (classId: string) =>
   `${baseUrl}/teacher/class/${classId}/tests`;
+
 export const getSettingsUrl = (classId: string) =>
   `${baseUrl}/teacher/class/${classId}/dashboard`;
 
@@ -17,6 +18,24 @@ export const getEditBotURL = (classId: string, botId: string) =>
   `${baseUrl}/teacher/class/${classId}/bots/edit-bot/${botId}`;
 export const getTestEditBotURL = (classId: string, botId: string) =>
   `${baseUrl}/teacher/class/${classId}/tests/edit-test/${botId}`;
+
+export const getTaskUrlByType = ({
+  classId,
+  configId,
+  type,
+}: {
+  classId: string;
+  configId: string;
+  type: string;
+}) => {
+  if (type === "chat") {
+    return `${baseUrl}/teacher/class/${classId}/tests/edit-test/${configId}`;
+  } else if (type === "test") {
+    return `${baseUrl}/teacher/class/${classId}/tests/edit-test/${configId}`;
+  } else {
+    return `${baseUrl}/teacher/class/${classId}/tests/edit-test/${configId}`;
+  }
+};
 
 // Student Url
 export const studentHomeURL = `${baseUrl}/student/`;
