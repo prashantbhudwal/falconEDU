@@ -20,7 +20,7 @@ import {
   getSingleStudentByStudentBotId,
   getStudentsByBotConfigId,
   getUserImageByStudentBotId,
-} from "../../../../queries";
+} from "../../queries";
 import {
   Tooltip,
   TooltipContent,

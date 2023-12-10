@@ -8,7 +8,7 @@ import {
   StudentResponse,
   Hint,
   Question,
-} from "../../../../components/question/question";
+} from "../../components/question/question";
 import prisma from "@/prisma";
 
 export async function QuestionList({ botId }: { botId: string }) {

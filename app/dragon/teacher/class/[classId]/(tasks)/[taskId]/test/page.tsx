@@ -4,15 +4,15 @@ import { testBotPreferencesSchema } from "@/app/dragon/schema";
 import { UnwrapPromise } from "@/app/dragon/student/queries";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Paper } from "@/components/ui/paper";
-import TestPreferencesForm from "../../components/test-preferences-form/test-preferences-form";
-import { TestAnalysis } from "../../components/test-analysis/test-analysis";
+import TestPreferencesForm from "./components/test-preferences-form/test-preferences-form";
+import { TestAnalysis } from "./components/test-analysis/test-analysis";
 import { db } from "@/app/dragon/teacher/routers";
-import { TestParsedQuestion } from "../../components/test-preferences-form/test-parsed-questions";
+import { TestParsedQuestion } from "./components/test-preferences-form/test-parsed-questions";
 
 export interface BotPageProps {
   params: {
     classId: string;
-    testBotId: string;
+    taskId: string;
   };
 }
 
@@ -53,7 +53,7 @@ export type TestBotConfigByConfigId = UnwrapPromise<
 >;
 // https://chat.openai.com/share/021b93e8-06f6-4dd9-a687-7218a3400556
 export default async function BotPage({ params }: BotPageProps) {
-  const { classId, testBotId } = params;
+  const { classId, taskId: testBotId } = params;
   const testConfigAndPreferences =
     await fetchTestBotConfigByConfigId(testBotId);
   const { preferences, testConfig } = testConfigAndPreferences;

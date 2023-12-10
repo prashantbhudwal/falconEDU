@@ -7,7 +7,7 @@ import { db } from "@/app/dragon/teacher/routers";
 export interface BotPageProps {
   params: {
     classId: string;
-    botId: string;
+    taskId: string;
   };
 }
 
@@ -43,7 +43,7 @@ const fetchBotConfig = cache(async (botId: string) => {
 });
 
 export default async function BotPage({ params }: BotPageProps) {
-  const { classId, botId } = params;
+  const { classId, taskId: botId } = params;
   const botData = await fetchBotConfig(botId);
   const { success: isActive, message } =
     await db.botConfig.getIsBotConfigArchivedByBotConfigId({

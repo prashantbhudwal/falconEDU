@@ -15,9 +15,20 @@ export const getSettingsUrl = (classId: string) =>
   `${baseUrl}/teacher/class/${classId}/dashboard`;
 
 export const getEditBotURL = (classId: string, botId: string) =>
-  `${baseUrl}/teacher/class/${classId}/${botId}/bots/edit-bot/${botId}`;
+  `${baseUrl}/teacher/class/${classId}/${botId}/bot`;
 export const getTestEditBotURL = (classId: string, botId: string) =>
-  `${baseUrl}/teacher/class/${classId}/${botId}/tests/edit-test/${botId}`;
+  `${baseUrl}/teacher/class/${classId}/${botId}/test`;
+
+export const getTestReportUrl = ({
+  classId,
+  testId,
+  studentBotId,
+}: {
+  classId: string;
+  testId: string;
+  studentBotId: string;
+}) =>
+  `${baseUrl}/teacher/class/${classId}/${testId}/test/report/${studentBotId}`;
 
 export const getTaskUrlByType = ({
   classId,
@@ -29,11 +40,11 @@ export const getTaskUrlByType = ({
   type: string;
 }) => {
   if (type === "chat") {
-    return `${baseUrl}/teacher/class/${classId}/${configId}/bots/edit-bot/${configId}`;
+    return `${baseUrl}/teacher/class/${classId}/${configId}/bot`;
   } else if (type === "test") {
-    return `${baseUrl}/teacher/class/${classId}/${configId}/tests/edit-test/${configId}`;
+    return `${baseUrl}/teacher/class/${classId}/${configId}/test`;
   } else {
-    return `${baseUrl}/teacher/class/${classId}/${configId}/tests/edit-test/${configId}`;
+    return `${baseUrl}/teacher/class/${classId}/${configId}/test`;
   }
 };
 
