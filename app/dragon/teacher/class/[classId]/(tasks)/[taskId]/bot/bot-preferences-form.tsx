@@ -75,7 +75,6 @@ export default function BotPreferencesForm({
   const [error, setError] = useState<string | null>(null);
   const [inputFocus, setInputFocus] = useState("");
   const [botName, setBotName] = useState<string | undefined>(botConfig?.name);
-  const [isArchived, setIsArchived] = useState(!isActive);
 
   const form = useForm<z.infer<typeof botPreferencesSchema>>({
     resolver: zodResolver(botPreferencesSchema),
@@ -99,36 +98,6 @@ export default function BotPreferencesForm({
     } else {
       console.error("Update failed:", result.error);
       setError("Failed to update bot config. Please try again."); // set the error message
-    }
-  };
-
-  const onPublish = async () => {
-    const result = await db.botConfig.publishBotConfig({
-      classId,
-      botConfigId: botId,
-    });
-    if (result.success) {
-    } else {
-      if (result.message) {
-        setError(result.message);
-        return;
-      }
-      setError("Failed to publish bot config. Please try again."); // set the error message
-    }
-  };
-
-  const onUnPublish = async () => {
-    const result = await db.botConfig.unPublishBotConfig({
-      classId,
-      botConfigId: botId,
-    });
-    if (result.success) {
-    } else {
-      if (result.message) {
-        setError(result.message);
-        return;
-      }
-      setError("Failed to publish bot config. Please try again."); // set the error message
     }
   };
 
@@ -176,26 +145,6 @@ export default function BotPreferencesForm({
     setError("");
   };
 
-  const archiveHandler = async (type: string) => {
-    setError("");
-    if (type === "archive") {
-      const { success } = await db.bot.archiveAllBotsOfBotConfig(botId);
-      if (success) {
-        setIsArchived(true);
-        return;
-      }
-      setError("Can't archive Bot");
-    }
-    if (type === "unarchive") {
-      const { success } = await db.bot.unArchiveAllBotsOfBotConfig(botId);
-      if (success) {
-        setIsArchived(false);
-        return;
-      }
-      setError("Can't unarchive Bot");
-    }
-  };
-
   return (
     <>
       <Form {...form}>
@@ -216,50 +165,12 @@ export default function BotPreferencesForm({
               </div>
               <div className="flex flex-col gap-2 items-end">
                 <div className="flex flex-row gap-6">
-                  {isArchived ? (
-                    <ClassDialog
-                      title="Un-archive Test"
-                      description="This action will make the Test active to all students in the class."
-                      action={() => archiveHandler("unarchive")}
-                      trigger={
-                        <Button type="button" className="gap-1">
-                          <LuArchiveRestore /> Unarchive
-                        </Button>
-                      }
-                    />
-                  ) : (
-                    <ClassDialog
-                      title="Archive Test"
-                      description="Completing this action will render the Test inactive."
-                      action={() => archiveHandler("archive")}
-                      trigger={
-                        <Button
-                          className="gap-1"
-                          type="button"
-                          variant="destructive"
-                        >
-                          <LuArchive />
-                          Archive
-                        </Button>
-                      }
-                    />
-                  )}
                   <Button
                     type="submit"
                     disabled={(isEmpty && !isDirty) || !isDirty}
                   >
                     {loading ? "Saving" : isDirty ? "Save" : "Saved"}
                   </Button>
-                  {!isArchived && (
-                    <Button
-                      variant={
-                        botConfig?.published ? "destructive" : "secondary"
-                      }
-                      onClick={botConfig?.published ? onUnPublish : onPublish}
-                    >
-                      {botConfig?.published ? "Un-publish" : "Publish"}
-                    </Button>
-                  )}
                 </div>
                 {isDirty && (
                   <div className="text-sm text-slate-500">

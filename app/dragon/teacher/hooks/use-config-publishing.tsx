@@ -11,12 +11,15 @@ export function useConfigPublishing({
   botId: string;
 }) {
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
   const [config, setConfig] = useState<BotConfig | null>(null);
   const onPublish = async () => {
+    setLoading(true);
     const result = await db.botConfig.publishBotConfig({
       classId,
       botConfigId: botId,
     });
+    setLoading(false);
 
     if (result.success) {
       setConfig(result.updatedBotConfig);
@@ -30,19 +33,22 @@ export function useConfigPublishing({
   };
 
   const onUnPublish = async () => {
+    setLoading(true);
     const result = await db.botConfig.unPublishBotConfig({
       classId,
       botConfigId: botId,
     });
+    setLoading(false);
     if (result.success) {
       setConfig(result.updatedBotConfig);
     } else {
       if (result.message) {
         setError(result.message);
+
         return;
       }
       setError("Failed to publish bot config. Please try again."); // set the error message
     }
   };
-  return { onPublish, onUnPublish, error, config };
+  return { onPublish, onUnPublish, error, config, loading };
 }

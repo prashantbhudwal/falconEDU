@@ -28,11 +28,8 @@ import { LIMITS_testBotPreferencesSchema } from "../../../../../../../../schema"
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 import { Input } from "@/components/ui/input";
 import { parseTestQuestions } from "@/app/dragon/ai/test-question-parser/get-test-questions";
-import { useConfigPublishing } from "../../../../../../../hooks/use-config-publishing";
-import { ClassDialog } from "@/app/dragon/teacher/components/class-dialog";
 import { typeGetParsedQuestionByBotConfigId } from "@/app/dragon/teacher/routers/parsedQuestionRouter";
 import { TestParsedQuestion } from "./test-parsed-questions";
-import { LuArchive, LuArchiveRestore } from "react-icons/lu";
 const MAX_CHARS = LIMITS_testBotPreferencesSchema.fullTest.maxLength;
 import FileUploader from "../file-uploader";
 import {
@@ -65,26 +62,6 @@ export default function TestPreferencesForm({
   const [testName, setTestName] = useState<string | undefined>(config?.name);
   const [botConfig, setBotConfig] = useState<BotConfig | null>(config);
   const [isArchived, setIsArchived] = useState(!isActive);
-
-  const {
-    onPublish,
-    onUnPublish,
-    error: publishingError,
-    config: updatedConfig,
-  } = useConfigPublishing({
-    classId,
-    botId,
-  });
-
-  //TODO: This is a bad idea. We should not be using useEffect to update state.
-  useEffect(() => {
-    if (updatedConfig) {
-      setBotConfig(updatedConfig);
-    }
-    if (publishingError) {
-      setError(publishingError);
-    }
-  }, [updatedConfig, botId, publishingError]);
 
   if (!testBotPreferencesSchema.safeParse(config?.preferences)) {
     setError("Failed to parse bot preferences. Please try again.");
@@ -207,26 +184,6 @@ export default function TestPreferencesForm({
     setError("");
   };
 
-  const archiveHandler = async (type: string) => {
-    setError("");
-    if (type === "archive") {
-      const { success } = await db.bot.archiveAllBotsOfBotConfig(botId);
-      if (success) {
-        setIsArchived(true);
-        return;
-      }
-      setError("Can't archive Test");
-    }
-    if (type === "unarchive") {
-      const { success } = await db.bot.unArchiveAllBotsOfBotConfig(botId);
-      if (success) {
-        setIsArchived(false);
-        return;
-      }
-      setError("Can't unarchive Test");
-    }
-  };
-
   const parsedDocsHandler = async ({ docs }: { docs: string }) => {
     if (docs) {
       const test = form.getValues("fullTest");
@@ -257,34 +214,6 @@ export default function TestPreferencesForm({
               </div>
               <div className="flex flex-col gap-2 items-end">
                 <div className="flex gap-3">
-                  {isArchived ? (
-                    <ClassDialog
-                      title="Un-archive Test"
-                      description="This action will make the Test active to all students in the class."
-                      action={() => archiveHandler("unarchive")}
-                      trigger={
-                        <Button type="button" className="gap-1">
-                          <LuArchiveRestore /> Unarchive
-                        </Button>
-                      }
-                    />
-                  ) : (
-                    <ClassDialog
-                      title="Archive Test"
-                      description="Completing this action will render the Test inactive."
-                      action={() => archiveHandler("archive")}
-                      trigger={
-                        <Button
-                          className="gap-1"
-                          type="button"
-                          variant="destructive"
-                        >
-                          <LuArchive />
-                          Archive
-                        </Button>
-                      }
-                    />
-                  )}
                   <Button
                     type="submit"
                     disabled={loading || !isDirty}
@@ -298,41 +227,6 @@ export default function TestPreferencesForm({
                       "Saved"
                     )}
                   </Button>
-                  {parsedQuestionFromDb && !isArchived && (
-                    <>
-                      {botConfig?.published ? (
-                        <ClassDialog
-                          title="Un-publish Test"
-                          description="Completing this action will render the Test inactive."
-                          action={onUnPublish}
-                          trigger={
-                            <Button
-                              // disabled={isFormEmpty && !isDirty}
-                              type="button"
-                              variant="destructive"
-                            >
-                              Un-publish
-                            </Button>
-                          }
-                        />
-                      ) : (
-                        <ClassDialog
-                          title="Publish Test"
-                          description="This action will make the Test available to all students in the class."
-                          action={onPublish}
-                          trigger={
-                            <Button
-                              // disabled={isFormEmpty && !isDirty}
-                              type="button"
-                              variant="secondary"
-                            >
-                              Publish
-                            </Button>
-                          }
-                        />
-                      )}
-                    </>
-                  )}
                 </div>
                 {isDirty && (
                   <div className="text-sm text-slate-500">
