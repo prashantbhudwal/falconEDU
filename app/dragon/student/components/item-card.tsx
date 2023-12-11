@@ -42,7 +42,7 @@ export function ItemCard({
       <div className="flex flex-row space-x-5 px-4 py-5">
         <div className="pl-2">
           <Avatar>
-            <AvatarImage src="some-image-url" alt="User Avatar" />
+            <AvatarImage src={imageUrl} alt="User Avatar" />
             <AvatarFallback className="bg-base-300">
               {(icon && <div className="w-7">{icon}</div>) || (
                 <Avvvatars value={title} style="shape" />
