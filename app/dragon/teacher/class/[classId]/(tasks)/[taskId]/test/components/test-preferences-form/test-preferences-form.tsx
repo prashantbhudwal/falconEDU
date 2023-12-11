@@ -235,21 +235,13 @@ export default function TestPreferencesForm({
                 )}
               </div>
             </div>
-            <Separator className="mb-6" />
+            <div className="mb-6" />
             {/* -------------------------------------- Form Fields -------------------------------- */}
             <FormField
               control={form.control}
               name="fullTest"
               render={({ field }) => (
                 <FormItem className="pb-10">
-                  <FormLabel
-                    className={`mb-5 flex gap-2 align-middle font-bold ${
-                      inputFocus === "instructions" ? "text-white" : ""
-                    }`}
-                  >
-                    Instructions
-                    <FiInfo />
-                  </FormLabel>
                   <FormControl>
                     <div className="relative w-full rounded-md border border-input bg-transparent px-3 py-2 shadow-sm min-h-[200px] sm:min-h-[150px] text-sm">
                       {config?.preferences &&

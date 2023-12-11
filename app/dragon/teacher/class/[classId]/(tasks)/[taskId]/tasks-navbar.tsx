@@ -46,8 +46,6 @@ export function TasksNavbar({
 }) {
   const { currentPage } = usePageTracking();
   const layoutSegment = useSelectedLayoutSegment();
-  console.log("layoutSegment", layoutSegment);
-  console.log("currentPage", currentPage);
   const test = currentPage.endsWith("test");
   const responses = currentPage.endsWith("responses");
   const name = task.name;
@@ -59,7 +57,7 @@ export function TasksNavbar({
       </div>
       <div className="navbar-center self-end">
         <Tabs defaultValue="test">
-          <TabsList className="flex w-72 bg-transparent border-b">
+          <TabsList className="flex w-96 bg-transparent border-b">
             <TabsTrigger
               className="w-1/2 data-[state=active]:border-b-[1px] data-[state=active]:bg-transparent text-lg border-white rounded-none"
               value="test"
@@ -128,8 +126,9 @@ const TaskLink = function ({
         classId,
         configId: taskId,
       })}
+      className="w-full  flex justify-center"
     >
-      <div className={cn("flex items-center gap-1", iconColor)}>
+      <div className={cn("flex items-center gap-1 ", iconColor)}>
         <Icon className="w-5" />
         <div className="capitalize">{type}</div>
       </div>
@@ -153,6 +152,7 @@ const ResponseLink = function ({
         classId,
         configId,
       })}
+      className="w-full  flex justify-center"
     >
       Responses
     </Link>

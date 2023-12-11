@@ -68,7 +68,6 @@ export default async function BotPage({ params }: BotPageProps) {
   return (
     <div className="w-full">
       <Paper
-        variant={"gray"}
         className="w-full max-w-5xl py-3 px-2 min-h-screen"
       >
         <TestPreferencesForm
