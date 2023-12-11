@@ -82,6 +82,7 @@ export default function TeacherPreferencesForm({
   const form = useForm<z.infer<typeof teacherPreferencesSchema>>({
     resolver: zodResolver(teacherPreferencesSchema),
     defaultValues: initialValues ?? defaultValues,
+    mode: "onChange",
   });
 
   const { isDirty, setIsDirty } = useIsFormDirty(form);
