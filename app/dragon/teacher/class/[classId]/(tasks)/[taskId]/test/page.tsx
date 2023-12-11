@@ -106,14 +106,16 @@ export default async function BotPage({ params }: BotPageProps) {
             </AccordionItem>
           </Accordion>
         )}
-
         {activeParsedQuestions && (
-          <TestParsedQuestion
-            botId={testBotId}
-            classId={classId}
-            activeParsedQuestions={activeParsedQuestions}
-            archivedParsedQuestions={archivedParsedQuestions}
-          />
+          <div className="flex flex-col space-y-4 items-center">
+            <h1 className="text-2xl font-semibold text-slate-500">Review</h1>
+            <TestParsedQuestion
+              botId={testBotId}
+              classId={classId}
+              activeParsedQuestions={activeParsedQuestions}
+              archivedParsedQuestions={archivedParsedQuestions}
+            />
+          </div>
         )}
       </Paper>
     </div>
