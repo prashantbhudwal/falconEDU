@@ -5,7 +5,8 @@ import { getTaskIcon } from "../../utils";
 import { BotConfig } from "@prisma/client";
 import { ChevronLeftIcon } from "@heroicons/react/24/solid";
 import { cn } from "@/lib/utils";
-import { getClassURL } from "@/lib/urls";
+import { getClassURL, getTaskResponsesUrlByType } from "@/lib/urls";
+import { UsersIcon } from "@heroicons/react/24/outline";
 
 export async function TasksNavbar({
   classId,
@@ -41,7 +42,23 @@ export async function TasksNavbar({
           <div>{name}</div>
         </div>
       </div>
-      <div className="navbar-end pr-1 flex gap-2"></div>
+      <div className="navbar-end pr-1 flex gap-2">
+        <Link
+          href={getTaskResponsesUrlByType({
+            type,
+            classId,
+            configId: task.id,
+          })}
+        >
+          <Button
+            className="flex items-center gap-1 hover:text-base-100 hover:font-semibold"
+            variant="outline"
+          >
+            <UsersIcon className="w-5" />
+            <div>Student Responses</div>
+          </Button>
+        </Link>
+      </div>
     </div>
   );
 }

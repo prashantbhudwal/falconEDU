@@ -71,41 +71,20 @@ export default async function BotPage({ params }: BotPageProps) {
         variant={"gray"}
         className="w-full max-w-5xl py-3 px-2 min-h-screen"
       >
-        <Tabs defaultValue="test">
-          <TabsList className="flex w-full bg-transparent h-10 mb-10 border-b">
-            <TabsTrigger
-              className="w-1/2 data-[state=active]:border-b-[1px] data-[state=active]:bg-transparent text-lg border-white rounded-none"
-              value="test"
-            >
-              Test
-            </TabsTrigger>
-            <TabsTrigger
-              value="submissions"
-              className="w-1/2 data-[state=active]:border-b-[1px] data-[state=active]:bg-transparent text-lg border-white rounded-none"
-            >
-              Submissions
-            </TabsTrigger>
-          </TabsList>
-          <TabsContent value="test" className="px-12 min-h-screen">
-            <TestPreferencesForm
-              preferences={preferences}
-              botConfig={testConfig}
-              classId={classId}
-              botId={testBotId}
-              activeParsedQuestions={activeParsedQuestions}
-              isActive={isActive}
-            />
-            <TestParsedQuestion
-              botId={testBotId}
-              classId={classId}
-              activeParsedQuestions={activeParsedQuestions}
-              archivedParsedQuestions={archivedParsedQuestions}
-            />
-          </TabsContent>
-          <TabsContent value="submissions">
-            <TestAnalysis testBotId={testBotId} classId={classId} />
-          </TabsContent>
-        </Tabs>
+        <TestPreferencesForm
+          preferences={preferences}
+          botConfig={testConfig}
+          classId={classId}
+          botId={testBotId}
+          activeParsedQuestions={activeParsedQuestions}
+          isActive={isActive}
+        />
+        <TestParsedQuestion
+          botId={testBotId}
+          classId={classId}
+          activeParsedQuestions={activeParsedQuestions}
+          archivedParsedQuestions={archivedParsedQuestions}
+        />
       </Paper>
     </div>
   );

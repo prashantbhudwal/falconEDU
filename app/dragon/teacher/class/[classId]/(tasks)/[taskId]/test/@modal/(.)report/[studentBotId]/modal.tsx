@@ -36,14 +36,10 @@ export default function Modal({ children }: { children: React.ReactNode }) {
   return (
     <div
       ref={overlay}
-      className="fixed z-10 left-0 right-0 top-0  bg-base-200/75 first-line:w-full flex items-end justify-end h-screen"
+      className="fixed z-10 left-0 right-0 top-0 bg-base-200/75 first-line:w-full flex justify-center"
       onClick={onClick}
     >
-      <div
-        ref={wrapper}
-        style={{ width: "calc(100vw - 240px)" }}
-        className=" relative top-2 shadow-lg rounded-md shadow-slate-600"
-      >
+      <div ref={wrapper} className="relative w-full max-w-7xl">
         <CloseModalButton className="absolute top-2 right-2" />
         {children}
       </div>

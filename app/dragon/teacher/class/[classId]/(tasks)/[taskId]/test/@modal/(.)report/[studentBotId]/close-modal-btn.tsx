@@ -18,8 +18,7 @@ export const CloseModalButton = ({ className }: { className?: string }) => {
       size={"icon"}
       onClick={handleBack}
     >
-      <XCircleIcon className="w-8 text-slate-500" />
+      <XCircleIcon className="w-12 text-destructive" />
     </Button>
   );
 };
-

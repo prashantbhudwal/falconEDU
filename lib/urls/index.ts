@@ -48,6 +48,24 @@ export const getTaskUrlByType = ({
   }
 };
 
+export const getTaskResponsesUrlByType = ({
+  classId,
+  configId,
+  type,
+}: {
+  classId: string;
+  configId: string;
+  type: string;
+}) => {
+  if (type === "chat") {
+    return `${baseUrl}/teacher/class/${classId}/${configId}/bot/responses`;
+  } else if (type === "test") {
+    return `${baseUrl}/teacher/class/${classId}/${configId}/test/responses`;
+  } else {
+    return `${baseUrl}/teacher/class/${classId}/${configId}/test/responses`;
+  }
+};
+
 // Student Url
 export const studentHomeURL = `${baseUrl}/student/`;
 
