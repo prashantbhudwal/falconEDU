@@ -8,7 +8,12 @@ import TestPreferencesForm from "./components/test-preferences-form/test-prefere
 import { TestAnalysis } from "./components/test-analysis/test-analysis";
 import { db } from "@/app/dragon/teacher/routers";
 import { TestParsedQuestion } from "./components/test-preferences-form/test-parsed-questions";
-
+import {
+  Accordion,
+  AccordionContent,
+  AccordionTrigger,
+  AccordionItem,
+} from "@/components/ui/accordion";
 export interface BotPageProps {
   params: {
     classId: string;
@@ -67,23 +72,49 @@ export default async function BotPage({ params }: BotPageProps) {
     });
   return (
     <div className="w-full">
-      <Paper
-        className="w-full max-w-5xl py-3 px-2 min-h-screen"
-      >
-        <TestPreferencesForm
-          preferences={preferences}
-          botConfig={testConfig}
-          classId={classId}
-          botId={testBotId}
-          activeParsedQuestions={activeParsedQuestions}
-          isActive={isActive}
-        />
-        <TestParsedQuestion
-          botId={testBotId}
-          classId={classId}
-          activeParsedQuestions={activeParsedQuestions}
-          archivedParsedQuestions={archivedParsedQuestions}
-        />
+      <Paper className="w-full max-w-5xl py-3 px-2 min-h-screen">
+        {!activeParsedQuestions ? (
+          <TestPreferencesForm
+            preferences={preferences}
+            botConfig={testConfig}
+            classId={classId}
+            botId={testBotId}
+            activeParsedQuestions={activeParsedQuestions}
+            isActive={isActive}
+          />
+        ) : (
+          <Accordion
+            type="single"
+            collapsible
+            className="my-5 p-5 text-slate-500 cursor-pointer border border-base-200 "
+            defaultValue={!activeParsedQuestions ? "item-1" : undefined}
+          >
+            <AccordionItem value="item-1" className="border-none">
+              <AccordionTrigger className="text-lg px-4 text-slate-400">
+                Question Text
+              </AccordionTrigger>
+              <AccordionContent className="pl-2 text-slate-400 text-base">
+                <TestPreferencesForm
+                  preferences={preferences}
+                  botConfig={testConfig}
+                  classId={classId}
+                  botId={testBotId}
+                  activeParsedQuestions={activeParsedQuestions}
+                  isActive={isActive}
+                />
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        )}
+
+        {activeParsedQuestions && (
+          <TestParsedQuestion
+            botId={testBotId}
+            classId={classId}
+            activeParsedQuestions={activeParsedQuestions}
+            archivedParsedQuestions={archivedParsedQuestions}
+          />
+        )}
       </Paper>
     </div>
   );
