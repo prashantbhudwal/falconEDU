@@ -61,7 +61,16 @@ export const getProgressBarColor = (percentageValue: number) => {
 };
 
 export const getQuestionTypeName = (questionType: string) => {
-  const name = questionType.split("_").join(" ");
+  const words = questionType
+    .split("_")
+    .join(" ")
+    .toLocaleLowerCase()
+    .split(" ");
+
+  const name = words
+    .slice(1)
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
   return name;
 };
 
