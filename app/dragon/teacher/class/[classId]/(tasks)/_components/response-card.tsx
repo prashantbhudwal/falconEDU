@@ -1,4 +1,5 @@
 "use client";
+import { StudentsByBotConfigId } from "../[taskId]/test/queries";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import Avvvatars from "avvvatars-react";
@@ -21,37 +22,41 @@ type action = {
 };
 
 type ResponseCardProps = {
-  avatarUrl?: string;
-  title: string;
-  description?: string;
   children: React.ReactNode;
   className?: string;
   actions?: action[];
   link: string;
+  student: StudentsByBotConfigId["students"][0];
 };
 
 function ResponseCard({
-  avatarUrl,
-  title,
-  description,
   children,
   className,
   actions,
   link,
+  student,
 }: ResponseCardProps) {
+  const email = student.email;
+  const title = student.name;
+  const description = student.email;
+  const avatarUrl = student.image;
+  const isSubmitted = student.isSubmitted;
   return (
     <Link
-      href={link}
+      href={isSubmitted ? link : ""}
       className={cn(
         "bg-base-200 max-w-3xl flex items-start py-6 space-x-6 w-full px-6 rounded-md hover:bg-base-100 relative my-1 border border-base-200",
+        {
+          "cursor-not-allowed hover:bg-base-200": !isSubmitted,
+        },
         className
       )}
     >
       <div className="py-1">
         <Avatar className={cn("h-12 w-12 ring ring-base-300/80", {})}>
-          <AvatarImage src={avatarUrl} />
+          <AvatarImage src={avatarUrl ?? ""} />
           <AvatarFallback className="bg-base-300">
-            <Avvvatars value={title} style="shape" />
+            <Avvvatars value={title ?? ""} style="shape" />
           </AvatarFallback>
         </Avatar>
       </div>

@@ -7,7 +7,7 @@ import { Separator } from "@/components/ui/separator";
 import { getStudentsURL } from "@/lib/urls";
 import { Button } from "@/components/ui/button";
 import { SummaryStats } from "./summary-stats";
-import { ResponsesList } from "../../../../_components/rsponses-list";
+import { IndividualResponsesList } from "../../../../_components/individual-responses-list";
 import { SummaryStatTable } from "./summary-stat-table";
 import { db } from "@/app/dragon/teacher/routers";
 import {
@@ -18,6 +18,8 @@ import {
 } from "@/components/ui/accordion";
 import { getTestMetadata } from "../../../../../utils";
 import { getTestResults } from "@/app/dragon/teacher/routers/parsedQuestionRouter";
+import { NoStudents } from "../../../../_components/no-students";
+import { NotPublished } from "../../../../_components/not-published";
 
 export async function TestAnalysis({
   testBotId,
@@ -52,7 +54,6 @@ export async function TestAnalysis({
     botChatWiseResults,
     studentWiseResults,
   } = resultObject;
-  console.log(isPublished);
 
   return (
     <div className="w-full max-w-5xl min-h-screen flex flex-col gap-2 ">
@@ -89,43 +90,18 @@ export async function TestAnalysis({
               </AccordionContent>
             </AccordionItem>
           </Accordion>
-
           <Separator />
-          <h1 className="text-center font-semibold text-xl mt-10 ">
-            Individual Responses
-          </h1>
-          <ResponsesList
-            students={students}
+          <IndividualResponsesList
             classId={classId}
             taskId={testBotId}
+            type={"test"}
           />
         </div>
       ) : (
-        <AddStudents classId={classId} />
+        <NoStudents classId={classId} />
       )}
     </div>
   );
 }
 
-const AddStudents = function ({ classId }: { classId: string }) {
-  return (
-    <div className="flex flex-col items-center gap-3">
-      <h1 className="text-center font-semibold text-xl mt-10 ">
-        You have no students in this class.
-      </h1>
-      <Link href={getStudentsURL(classId)}>
-        <Button variant={"outline"}>Add Students</Button>
-      </Link>
-    </div>
-  );
-};
 
-const NotPublished = function () {
-  return (
-    <div className="flex flex-col items-center gap-3">
-      <h1 className="text-center font-semibold text-xl mt-10 ">
-        This test is not published yet.
-      </h1>
-    </div>
-  );
-};

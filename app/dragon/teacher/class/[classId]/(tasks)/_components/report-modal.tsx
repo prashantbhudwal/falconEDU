@@ -1,9 +1,9 @@
 "use client";
 import { useCallback, useRef, useEffect, MouseEventHandler } from "react";
 import { useRouter } from "next/navigation";
-import { CloseModalButton } from "./close-modal-btn";
+import { CloseModalButton } from "../[taskId]/test/_modal_archived/(.)report/[studentBotId]/close-modal-btn";
 
-export default function Modal({ children }: { children: React.ReactNode }) {
+export function ReportModal({ children }: { children: React.ReactNode }) {
   const overlay = useRef(null);
   const wrapper = useRef(null);
   const router = useRouter();

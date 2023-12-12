@@ -30,6 +30,21 @@ export const getTestReportUrl = ({
 }) =>
   `${baseUrl}/teacher/class/${classId}/${testId}/test/report/${studentBotId}`;
 
+export const getReportUrl = ({
+  classId,
+  testId,
+  studentBotId,
+  type,
+}: {
+  classId: string;
+  testId: string;
+  studentBotId: string;
+  type: string;
+}) => {
+  const route = type === "test" ? "test" : "bot";
+  return `${baseUrl}/teacher/class/${classId}/${testId}/${route}/responses/individual-response/${studentBotId}`;
+};
+
 export const getTaskUrlByType = ({
   classId,
   configId,
