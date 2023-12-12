@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/dialog";
 import { ClassesByUserId } from "../../../../routers/classRouter";
 import { useState } from "react";
+import { TaskType } from "@/types/dragon";
 
 export function ImportModal({
   classId,
@@ -68,6 +69,7 @@ export function ImportModal({
       configId: data.configId,
       classId: classId,
       userId: userId,
+      type: data.botType as TaskType,
     }).then(() => setIsOpen(false));
   }
 

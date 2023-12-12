@@ -32,6 +32,7 @@ import { LuArchive, LuArchiveRestore } from "react-icons/lu";
 import { ClassDialog } from "@/app/dragon/teacher/components/class-dialog";
 import { useConfigPublishing } from "@/app/dragon/teacher/hooks/use-config-publishing";
 import { useEffect, useState } from "react";
+import { TaskType } from "@/types/dragon";
 
 export function TasksNavbar({
   classId,
@@ -49,7 +50,7 @@ export function TasksNavbar({
   const test = currentPage.endsWith("test");
   const responses = currentPage.endsWith("responses");
   const name = task.name;
-  const type = task.type;
+  const type = task.type as TaskType;
   return (
     <div className="navbar flex w-full bg-base-300 border-b border-base-200 py-0 h-full">
       <div className="navbar-start gap-4 pr-2 flex">
@@ -113,7 +114,7 @@ const TaskLink = function ({
   taskId,
   name,
 }: {
-  type: string;
+  type: TaskType;
   classId: string;
   taskId: string;
   name: string;

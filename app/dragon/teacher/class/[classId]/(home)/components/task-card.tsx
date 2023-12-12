@@ -7,6 +7,7 @@ import {
 import { cva } from "class-variance-authority";
 import { TaskActions } from "./task-actions";
 import { getTaskProperties } from "../../../../utils";
+import { TaskType } from "@/types/dragon";
 
 type TaskCardProps = {
   className?: string;
@@ -23,7 +24,7 @@ export function TaskCard({
   ...props
 }: TaskCardProps) {
   const name = config.name;
-  const type = config.type;
+  const type = config.type as TaskType;
   const isArchived = !config.isActive;
   const isPublished = config.published;
   const variant = type as "chat" | "test";
@@ -82,6 +83,7 @@ export function TaskCard({
             userId={userId}
             isArchived={isArchived}
             isPublished={isPublished}
+            type={type}
           />
         </div>
       </section>

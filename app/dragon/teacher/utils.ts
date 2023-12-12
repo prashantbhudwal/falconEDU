@@ -7,6 +7,7 @@ import {
   ClipboardDocumentCheckIcon,
 } from "@heroicons/react/24/solid";
 import { FaRobot } from "react-icons/fa6";
+import { TaskType } from "@/types/dragon";
 /**
  * Calculates the test metadata based on the given student responses.
  *
@@ -95,31 +96,35 @@ export const getTaskIcon = (taskType: string) => {
   }
 };
 
-export const getTaskProperties = (taskType: string) => {
+export const getTaskProperties = (taskType: TaskType) => {
   switch (taskType) {
     case "chat":
       return {
         formattedType: "Bot",
         Icon: FaRobot,
         iconColor: "text-primary",
+        newName: "Untitled Bot",
       };
     case "test":
       return {
         formattedType: "Test",
         Icon: ClipboardDocumentCheckIcon,
         iconColor: "text-secondary",
+        newName: "Untitled Test",
       };
     case "lesson":
       return {
         formattedType: "Lesson",
         Icon: AcademicCapIcon,
         iconColor: "text-secondary",
+        newName: "Untitled Lesson",
       };
     default:
       return {
         formattedType: "Chat",
         Icon: AcademicCapIcon,
         iconColor: "text-blue-500",
+        newName: "Untitled Chat",
       };
   }
 };

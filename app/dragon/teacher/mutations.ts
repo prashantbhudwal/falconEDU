@@ -3,7 +3,6 @@ import prisma from "@/prisma";
 import { revalidatePath } from "next/cache";
 import { getBotsURL, getClassURL, getTestEditBotURL } from "@/lib/urls";
 import { botPreferencesSchema, testBotPreferencesSchema } from "../schema";
-import { getEditBotURL } from "@/lib/urls";
 import * as z from "zod";
 import { getClassesURL, getStudentsURL } from "@/lib/urls";
 import { isAuthorized } from "@/lib/utils";

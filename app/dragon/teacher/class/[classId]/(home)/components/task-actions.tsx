@@ -8,6 +8,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { TaskType } from "@/types/dragon";
 import {
   ArchiveBoxArrowDownIcon,
   ArrowUpOnSquareIcon,
@@ -21,12 +22,14 @@ export function TaskActions({
   userId,
   isArchived,
   isPublished,
+  type,
 }: {
   classId: string;
   configId: string;
   userId: string;
   isArchived: boolean;
   isPublished: boolean;
+  type: TaskType;
 }) {
   const { duplicateConfig } = useDuplicateConfig();
   const archivedIcon = isArchived ? (
@@ -54,7 +57,9 @@ export function TaskActions({
               <Button
                 variant="ghost"
                 size="icon"
-                onClick={() => duplicateConfig({ classId, configId, userId })}
+                onClick={() =>
+                  duplicateConfig({ classId, configId, userId, type })
+                }
               >
                 <DocumentDuplicateIcon className="w-4" />
               </Button>

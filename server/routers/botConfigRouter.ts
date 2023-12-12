@@ -4,7 +4,8 @@ import { publicProcedure, createTRPCRouter } from "../trpc";
 import prisma from "@/prisma";
 import { isAuthorized } from "@/lib/is-authorized";
 import { revalidatePath } from "next/cache";
-import { getBotsURL, getEditBotURL } from "@/lib/urls";
+import { getBotsURL, getTaskUrl } from "@/lib/urls";
+import { TaskType } from "@/types/dragon";
 
 export const botConfigRouter = createTRPCRouter({
   publishBotConfig: publicProcedure
@@ -171,7 +172,9 @@ export const botConfigRouter = createTRPCRouter({
             preferences: data,
           },
         });
-        revalidatePath(getEditBotURL(classId, botId));
+        revalidatePath(
+          getTaskUrl({ classId, taskId: botId, type: configType })
+        );
         return { success: true };
       } catch (error) {
         console.error("Failed to update:", error);
@@ -199,7 +202,9 @@ export const botConfigRouter = createTRPCRouter({
             name: name,
           },
         });
-        revalidatePath(getEditBotURL(classId, botId));
+        revalidatePath(
+          getTaskUrl({ classId, taskId: botId, type: result.type as TaskType })
+        );
         return { success: true };
       } catch (error) {
         console.error("Failed to update:", error);

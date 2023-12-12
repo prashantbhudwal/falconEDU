@@ -1,3 +1,5 @@
+import { TaskType } from "@/types/dragon";
+
 // Dragon urls
 const baseUrl = `/dragon`;
 export const getTeacherHomeURL = () => `${baseUrl}/teacher/`;
@@ -13,6 +15,24 @@ export const getTestsUrl = (classId: string) =>
 
 export const getSettingsUrl = (classId: string) =>
   `${baseUrl}/teacher/class/${classId}/dashboard`;
+
+export const getTaskUrl = ({
+  classId,
+  taskId,
+  type,
+}: {
+  classId: string;
+  taskId: string;
+  type: TaskType;
+}) => {
+  if (type === "chat") {
+    return `${baseUrl}/teacher/class/${classId}/${taskId}/bot`;
+  } else if (type === "test") {
+    return `${baseUrl}/teacher/class/${classId}/${taskId}/test`;
+  } else {
+    return `${baseUrl}/teacher/class/${classId}/${taskId}/test`;
+  }
+};
 
 export const getEditBotURL = (classId: string, botId: string) =>
   `${baseUrl}/teacher/class/${classId}/${botId}/bot`;

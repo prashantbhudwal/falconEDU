@@ -3,12 +3,12 @@ import * as z from "zod";
 import {
   getBotsURL,
   getClassURL,
+  getTaskUrl,
   getTeacherHomeURL,
   getTestEditBotURL,
 } from "@/lib/urls";
 import { type BotConfig } from "@prisma/client";
 import { getClassesURL, getStudentsURL } from "@/lib/urls";
-import { getEditBotURL } from "@/lib/urls";
 import { isAuthorized } from "@/lib/utils";
 import prisma from "@/prisma";
 import { redirect } from "next/navigation";
@@ -16,6 +16,7 @@ import { revalidatePath } from "next/cache";
 import { botPreferencesSchema, testBotPreferencesSchema } from "../../schema";
 import { cache } from "react";
 import { UnwrapPromise } from "../../student/queries";
+import { TaskType } from "@/types/dragon";
 type BotPreferencesSchemaType = z.infer<typeof botPreferencesSchema>;
 type TestBotPreferencesSchemaType = z.infer<typeof testBotPreferencesSchema>;
 type ConfigTypeSchemaMap = {
@@ -186,7 +187,7 @@ export const createBotConfig = async function ({
   userId: string;
   classId: string;
   configName: string;
-  configType: "chat" | "test";
+  configType: TaskType;
 }) {
   await isAuthorized({
     userType: "TEACHER",
@@ -234,7 +235,7 @@ export const updateBotConfig = async function <T extends "chat" | "test">({
         preferences: data,
       },
     });
-    revalidatePath(getEditBotURL(classId, botId));
+    revalidatePath(getTaskUrl({ classId, taskId: botId, type: configType }));
     return { success: true };
   } catch (error) {
     console.error("Failed to update:", error);
@@ -260,7 +261,9 @@ export const updateBotConfigName = async function ({
         name: name,
       },
     });
-    revalidatePath(getEditBotURL(classId, botId));
+    revalidatePath(
+      getTaskUrl({ classId, taskId: botId, type: result.type as TaskType })
+    );
     return { success: true };
   } catch (error) {
     console.error("Failed to update:", error);

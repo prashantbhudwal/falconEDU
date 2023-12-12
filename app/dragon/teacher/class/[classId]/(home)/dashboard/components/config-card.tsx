@@ -1,18 +1,6 @@
 "use client";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { getEditBotURL, getStudentsURL, getTestEditBotURL } from "@/lib/urls";
-import Link from "next/link";
+
 import React, { useState } from "react";
-import {
-  typePublishedBotByClassId,
-  typePublishedTestByClassId,
-} from "../queries";
 import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { useCreateNewConfig } from "@/app/dragon/teacher/hooks/use-create-config";

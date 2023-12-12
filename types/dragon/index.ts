@@ -1,1 +1,1 @@
-export type TaskType = "chat" | "test";
+export type TaskType = "chat" | "test" | "lesson";
