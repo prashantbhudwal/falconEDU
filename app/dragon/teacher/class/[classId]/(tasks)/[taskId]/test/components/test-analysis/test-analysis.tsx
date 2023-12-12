@@ -7,7 +7,7 @@ import { Separator } from "@/components/ui/separator";
 import { getStudentsURL } from "@/lib/urls";
 import { Button } from "@/components/ui/button";
 import { SummaryStats } from "./summary-stats";
-import { SubmissionsList } from "./submissions-list";
+import { ResponsesList } from "../../../../_components/rsponses-list";
 import { SummaryStatTable } from "./summary-stat-table";
 import { db } from "@/app/dragon/teacher/routers";
 import {
@@ -52,10 +52,11 @@ export async function TestAnalysis({
     botChatWiseResults,
     studentWiseResults,
   } = resultObject;
+  console.log(isPublished);
 
   return (
     <div className="w-full max-w-5xl min-h-screen flex flex-col gap-2 ">
-      {!isPublished && students.length === 0 ? (
+      {!isPublished || (!isPublished && students.length === 0) ? (
         <NotPublished />
       ) : students.length !== 0 ? (
         <div className="flex flex-col gap-4 items-center">
@@ -93,10 +94,10 @@ export async function TestAnalysis({
           <h1 className="text-center font-semibold text-xl mt-10 ">
             Individual Responses
           </h1>
-          <SubmissionsList
+          <ResponsesList
             students={students}
             classId={classId}
-            testBotId={testBotId}
+            taskId={testBotId}
           />
         </div>
       ) : (

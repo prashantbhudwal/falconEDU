@@ -2,13 +2,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import Avvvatars from "avvvatars-react";
-import { ClassDialog } from "./class-dialog";
-import {
-  Card,
-  CardHeader,
-  CardContent,
-  CardDescription,
-} from "@/components/ui/card";
+import { ClassDialog } from "../../../../components/class-dialog";
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
@@ -16,6 +10,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import Link from "next/link";
 type action = {
   name: string;
   title: string;
@@ -25,44 +20,50 @@ type action = {
   actionParams: any[];
 };
 
-type ItemCardProps = {
+type ResponseCardProps = {
   avatarUrl?: string;
   title: string;
   description?: string;
   children: React.ReactNode;
   className?: string;
   actions?: action[];
+  link: string;
 };
 
-function ItemCard({
+function ResponseCard({
   avatarUrl,
   title,
   description,
   children,
   className,
   actions,
-}: ItemCardProps) {
+  link,
+}: ResponseCardProps) {
   return (
-    <Card
+    <Link
+      href={link}
       className={cn(
-        "max-w-3xl bg-base-200 flex items-center space-x-4 w-full px-6 rounded-md hover:bg-base-100 border-none shadow-md shadow-base-200 hover:shadow-base-100 relative",
+        "bg-base-200 max-w-3xl flex items-start py-6 space-x-6 w-full px-6 rounded-md hover:bg-base-100 relative my-1 border border-base-200",
         className
       )}
     >
-      <Avatar className="h-16 w-16">
-        <AvatarImage src={avatarUrl} />
-        <AvatarFallback className="bg-base-300">
-          <Avvvatars value={title} style="shape" />
-        </AvatarFallback>
-      </Avatar>
-
-      <Card className="flex-grow border-none bg-inherit shadow-none">
-        <CardHeader>
-          <h1 className="font-medium text-lg">{title}</h1>
-          {description && <CardDescription>{description}</CardDescription>}
-        </CardHeader>
-        <CardContent>{children}</CardContent>
-      </Card>
+      <div className="py-1">
+        <Avatar className={cn("h-12 w-12 ring ring-base-300/80", {})}>
+          <AvatarImage src={avatarUrl} />
+          <AvatarFallback className="bg-base-300">
+            <Avvvatars value={title} style="shape" />
+          </AvatarFallback>
+        </Avatar>
+      </div>
+      <div className="flex-grow border-none bg-inherit shadow-none flex flex-col space-y-3">
+        <div className="flex flex-col space-y-1">
+          <h1 className="font-bold ">{title}</h1>
+          {description && (
+            <div className="text-slate-600 text-sm">{description}</div>
+          )}
+        </div>
+        <div>{children}</div>
+      </div>
       <div className="absolute flex top-2 right-5">
         <TooltipProvider>
           {actions?.map((action) => (
@@ -90,18 +91,18 @@ function ItemCard({
           ))}
         </TooltipProvider>
       </div>
-    </Card>
+    </Link>
   );
 }
 
-type ItemCardChipProps = {
-  label: string;
+type CardChipProps = {
+  label?: string;
   value: string | React.ReactNode;
   valueColor?: string;
   className?: string;
 };
 
-const ItemCardChip: React.FC<ItemCardChipProps> = ({
+const CardChip: React.FC<CardChipProps> = ({
   label,
   value,
   valueColor,
@@ -110,16 +111,16 @@ const ItemCardChip: React.FC<ItemCardChipProps> = ({
   return (
     <div
       className={cn(
-        "rounded-md px-4 pl-0 py-2 flex items-center text-sm ",
+        "rounded-md px-4 pl-0 flex items-center justify-start text-sm ",
         className
       )}
     >
-      <span className="text-base-content font-semibold">{label}:</span>
-      <span className={`${valueColor || "text-base-content"} ml-2`}>
-        {value}
-      </span>
+      {label && (
+        <span className="text-base-content font-semibold">{label}:</span>
+      )}
+      <span className={`${valueColor || "text-base-content"}`}>{value}</span>
     </div>
   );
 };
 
-export { ItemCard, ItemCardChip };
+export { ResponseCard, CardChip };
