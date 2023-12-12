@@ -38,6 +38,7 @@ export function TaskCard({
     <div
       className={cn(
         "bg-base-200 group py-4 px-2 flex items-center space-x-2 h-24 shadow-md rounded-2xl border-transparent cursor-pointer hover:bg-base-100 transition-colors duration-200 ease-in-out",
+        isArchived && "bg-base-200/40 hover:bg-base-200",
         className
       )}
       {...props}
@@ -79,7 +80,8 @@ export function TaskCard({
             configId={config.id}
             classId={classId}
             userId={userId}
-            isArchived
+            isArchived={isArchived}
+            isPublished={isPublished}
           />
         </div>
       </section>

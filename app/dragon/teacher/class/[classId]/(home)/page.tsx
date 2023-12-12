@@ -35,8 +35,12 @@ export default async function Classes({
   return (
     <Paper className="h-full flex flex-col items-center w-5/6 overflow-y-auto custom-scrollbar justify-between">
       <div className="w-8/12 max-w-6xl flex flex-col space-y-6">
-        <TaskList tasks={activeConfigs} classId={classId} userId={userId} />
-        {archivedConfigs.length > 0 && (
+        <TaskList
+          tasks={[...activeConfigs, ...archivedConfigs]}
+          classId={classId}
+          userId={userId}
+        />
+        {/* {archivedConfigs.length > 0 && (
           <div className=" flex flex-col gap-4">
             <Accordion
               type="single"
@@ -57,7 +61,7 @@ export default async function Classes({
               </AccordionItem>
             </Accordion>
           </div>
-        )}
+        )} */}
       </div>
     </Paper>
   );
