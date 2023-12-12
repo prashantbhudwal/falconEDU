@@ -186,8 +186,7 @@ model StudentProfile {
   createdAt   DateTime   @default(now())
   bot         Bot[]
   BotShare    BotShare[]
-  Class       Class?     @relation(fields: [classId], references: [id])
-  classId     String?
+  Class       Class[]
   bio         String?    @default("")
   Org         Org?       @relation(fields: [orgId], references: [id])
   orgId       String?

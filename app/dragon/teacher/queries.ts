@@ -53,11 +53,11 @@ export const getStudentsByClassId = cache(async (classId: string) => {
   const students = await prisma.class.findUnique({
     where: { id: classId },
     select: {
+      id: true,
       students: {
         select: {
           grade: true,
           id: true,
-          classId: true,
           User: {
             select: {
               email: true,

@@ -14,7 +14,6 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { LuArrowUpDown, LuChevronDown } from "react-icons/lu";
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -40,100 +39,103 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 type StudentData = NonNullable<StudentsByClassId>[0];
 
-export const columns: ColumnDef<StudentData>[] = [
-  {
-    id: "serialNumber",
-    accessorKey: "",
-    header: "S.No.",
-    cell: ({ row }) => <div>{row.index + 1}</div>,
-  },
-  {
-    id: "userImage",
-    accessorKey: "User.image",
-    header: "",
-    cell: ({ row }) => (
-      <Avatar>
-        <AvatarImage src={row.original?.User.image!} />
-        <AvatarFallback>
-          <Image src="/chubbi.png" alt="User" width={30} height={30} />
-        </AvatarFallback>
-      </Avatar>
-    ),
-  },
-  {
-    id: "name",
-    accessorKey: "User.name",
-    header: ({ column }) => {
-      return (
-        <Button
-          className="bg-transparent text-inherit px-0 hover:bg-transparent hover:text-base-content"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Name
-          <LuArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
+export function DataTable({
+  students,
+  classId,
+}: {
+  students: StudentData[];
+  classId: string;
+}) {
+  const columns: ColumnDef<StudentData>[] = [
+    {
+      id: "serialNumber",
+      accessorKey: "",
+      header: "S.No.",
+      cell: ({ row }) => <div>{row.index + 1}</div>,
     },
-    cell: ({ row }) => {
-      return <div className="font-medium">{row.original?.User.name}</div>;
+    {
+      id: "userImage",
+      accessorKey: "User.image",
+      header: "",
+      cell: ({ row }) => (
+        <Avatar>
+          <AvatarImage src={row.original?.User.image!} />
+          <AvatarFallback>
+            <Image src="/chubbi.png" alt="User" width={30} height={30} />
+          </AvatarFallback>
+        </Avatar>
+      ),
     },
-  },
-  {
-    id: "email",
-    accessorKey: "User.email",
-    enableSorting: true,
-    header: ({ column }) => {
-      return (
-        <Button
-          className="bg-transparent text-inherit px-0 hover:bg-transparent hover:text-base-content"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Email
-          <LuArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
+    {
+      id: "name",
+      accessorKey: "User.name",
+      header: ({ column }) => {
+        return (
+          <Button
+            className="bg-transparent text-inherit px-0 hover:bg-transparent hover:text-base-content"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Name
+            <LuArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+      cell: ({ row }) => {
+        return <div className="font-medium">{row.original?.User.name}</div>;
+      },
     },
-    cell: ({ row }) => (
-      <div className="lowercase">{row.original?.User.email}</div>
-    ),
-  },
-
-  {
-    id: "actions",
-    enableHiding: false,
-    cell: ({ row }) => {
-      const id = row.original?.id;
-      const classId = row.original?.classId;
-      return (
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger>
-              <ClassDialog
-                title="Delete Student"
-                description="are you sure you want to delete this student?"
-                action={() => removeStudentFromClass(id, classId!)}
-                trigger={
-                  <Button
-                    variant={"ghost"}
-                    size={"icon"}
-                    className="hover:bg-slate-600"
-                  >
-                    <FiTrash />
-                  </Button>
-                }
-              />
-            </TooltipTrigger>
-            <TooltipContent className="bg-slate-600 text-black">
-              Delete Student
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-      );
+    {
+      id: "email",
+      accessorKey: "User.email",
+      enableSorting: true,
+      header: ({ column }) => {
+        return (
+          <Button
+            className="bg-transparent text-inherit px-0 hover:bg-transparent hover:text-base-content"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Email
+            <LuArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+      cell: ({ row }) => (
+        <div className="lowercase">{row.original?.User.email}</div>
+      ),
     },
-  },
-];
-
-export function DataTable({ students }: { students: StudentData[] }) {
+    {
+      id: "actions",
+      enableHiding: false,
+      cell: ({ row }) => {
+        const id = row.original?.id;
+        return (
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger>
+                <ClassDialog
+                  title="Delete Student"
+                  description="are you sure you want to delete this student?"
+                  action={() => removeStudentFromClass(id, classId!)}
+                  trigger={
+                    <Button
+                      variant={"ghost"}
+                      size={"icon"}
+                      className="hover:bg-slate-600"
+                    >
+                      <FiTrash />
+                    </Button>
+                  }
+                />
+              </TooltipTrigger>
+              <TooltipContent className="bg-slate-600 text-black">
+                Delete Student
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        );
+      },
+    },
+  ];
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []

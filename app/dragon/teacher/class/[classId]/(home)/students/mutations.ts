@@ -32,7 +32,7 @@ export const addStudentToClass = async (email: string, classId: string) => {
             grade: "",
           },
         });
-      }
+      }   
 
       // Add student to class
       await prisma.class.update({
