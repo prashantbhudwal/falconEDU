@@ -52,7 +52,10 @@ export function Chat({
   const scrollToEnd = () => {
     const container = containerRef.current;
     if (container) {
-      container.scrollTop = container.scrollHeight; //  might need to adjust this if there's a fixed header/footer.
+      container.scrollTo({
+        top: container.scrollHeight,
+        behavior: "smooth",
+      }); //  might need to adjust this if there's a fixed header/footer.
     }
   };
 
