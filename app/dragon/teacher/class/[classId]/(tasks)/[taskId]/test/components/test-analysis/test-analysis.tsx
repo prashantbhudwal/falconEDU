@@ -16,7 +16,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { getTestMetadata } from "../../../../../utils";
+import { getTestMetadata } from "../../../../../../../utils";
 import { getTestResults } from "@/app/dragon/teacher/routers/parsedQuestionRouter";
 import { NoStudents } from "../../../../_components/no-students";
 import { NotPublished } from "../../../../_components/not-published";
@@ -103,5 +103,3 @@ export async function TestAnalysis({
     </div>
   );
 }
-
-

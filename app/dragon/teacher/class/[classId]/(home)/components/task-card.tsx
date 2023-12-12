@@ -6,7 +6,7 @@ import {
 } from "@heroicons/react/24/solid";
 import { cva } from "class-variance-authority";
 import { TaskActions } from "./task-actions";
-import { getTaskIcon } from "../../utils";
+import { getTaskProperties } from "../../../../utils";
 
 type TaskCardProps = {
   className?: string;
@@ -33,7 +33,7 @@ export function TaskCard({
     month: "short",
     day: "numeric",
   });
-  const { Icon, iconColor } = getTaskIcon(type);
+  const { Icon, iconColor, formattedType } = getTaskProperties(type);
   return (
     <div
       className={cn(
@@ -51,9 +51,9 @@ export function TaskCard({
       >
         <div className="flex flex-col justify-center items-center gap-1">
           <div className="w-10 h-10">
-            <Icon />
+            <Icon className="h-10 w-10" />
           </div>
-          <div className="rounded-full text-sm">{type}</div>
+          <div className="rounded-full text-sm">{formattedType}</div>
         </div>
       </section>
       <section className="flex-grow h-full py-1 flex items-center">

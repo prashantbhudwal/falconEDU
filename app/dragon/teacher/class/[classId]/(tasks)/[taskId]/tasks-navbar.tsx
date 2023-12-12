@@ -10,7 +10,7 @@ import {
 import { db } from "../../../../routers";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { getTaskIcon } from "../../utils";
+import { getTaskProperties } from "../../../../utils";
 import { BotConfig } from "@prisma/client";
 import {
   ChevronLeftIcon,
@@ -118,7 +118,7 @@ const TaskLink = function ({
   taskId: string;
   name: string;
 }) {
-  const { Icon, iconColor } = getTaskIcon(type);
+  const { Icon, iconColor, formattedType } = getTaskProperties(type);
   return (
     <Link
       href={getTaskUrlByType({
@@ -130,7 +130,7 @@ const TaskLink = function ({
     >
       <div className={cn("flex items-center gap-1 ", iconColor)}>
         <Icon className="w-5" />
-        <div className="capitalize">{type}</div>
+        <div className="capitalize">{formattedType}</div>
       </div>
     </Link>
   );

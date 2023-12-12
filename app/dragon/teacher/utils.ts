@@ -1,11 +1,12 @@
 import { cache } from "react";
-import { AllStudentResponsesByBotConfigId } from "./(tasks)/[taskId]/test/queries";
+import { AllStudentResponsesByBotConfigId } from "./class/[classId]/(tasks)/[taskId]/test/queries";
 import prisma from "@/prisma";
 import { ConditionalPromptSelector } from "langchain/prompts";
 import {
   AcademicCapIcon,
   ClipboardDocumentCheckIcon,
 } from "@heroicons/react/24/solid";
+import { FaRobot } from "react-icons/fa6";
 /**
  * Calculates the test metadata based on the given student responses.
  *
@@ -88,6 +89,35 @@ export const getTaskIcon = (taskType: string) => {
       };
     default:
       return {
+        Icon: AcademicCapIcon,
+        iconColor: "text-blue-500",
+      };
+  }
+};
+
+export const getTaskProperties = (taskType: string) => {
+  switch (taskType) {
+    case "chat":
+      return {
+        formattedType: "Bot",
+        Icon: FaRobot,
+        iconColor: "text-primary",
+      };
+    case "test":
+      return {
+        formattedType: "Test",
+        Icon: ClipboardDocumentCheckIcon,
+        iconColor: "text-secondary",
+      };
+    case "lesson":
+      return {
+        formattedType: "Lesson",
+        Icon: AcademicCapIcon,
+        iconColor: "text-secondary",
+      };
+    default:
+      return {
+        formattedType: "Chat",
         Icon: AcademicCapIcon,
         iconColor: "text-blue-500",
       };
