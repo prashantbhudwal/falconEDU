@@ -37,7 +37,7 @@ import { ClassDialog } from "../../../../components/class-dialog";
 import { removeStudentFromClass } from "./mutations";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-type StudentData = NonNullable<StudentsByClassId>[0];
+type StudentData = NonNullable<StudentsByClassId["students"]>[number];
 
 export function DataTable({
   students,

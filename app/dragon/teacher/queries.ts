@@ -72,7 +72,6 @@ export const getStudentsByClassId = cache(async (classId: string) => {
   });
   return { students: students?.students, nameOfClass: students?.name };
 });
-//Export return type of this function by infering the type of the return value of the function
 
 export type StudentsByClassId = UnwrapPromise<
   ReturnType<typeof getStudentsByClassId>
