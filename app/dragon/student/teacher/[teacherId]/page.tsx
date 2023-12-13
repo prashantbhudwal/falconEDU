@@ -146,20 +146,20 @@ export default async function TeacherDashboard({
           const defaultChatUrl = await getDefaultStudentChatUrl(bot.id);
           const multipleChatUrl = getStudentBotURL(bot.id);
           const readStatus = await getDefaultChatReadStatus(bot.id);
+          const type = bot.BotConfig.type as TaskType;
 
-          const taskProperties = getTaskProperties(
-            bot.BotConfig.type as TaskType
-          );
+          const taskProperties = getTaskProperties(type);
           const Icon = taskProperties.Icon;
           const formattedType = taskProperties.formattedType;
           return (
             <Link href={defaultChatUrl || multipleChatUrl} key={bot.id}>
               <ChatCard
                 title={bot.BotConfig.name!}
-                type={formattedType}
+                type={type}
                 icon={<Icon className="w-6" />}
                 botId={bot.id}
                 readStatus={readStatus.isRead}
+                createdAt={bot.createdAt}
               />
             </Link>
           );
@@ -172,9 +172,9 @@ export default async function TeacherDashboard({
               const defaultChatUrl = await getDefaultStudentChatUrl(bot.id);
               const multipleChatUrl = getStudentBotURL(bot.id);
               const readStatus = await getDefaultChatReadStatus(bot.id);
-              const taskProperties = getTaskProperties(
-                bot.BotConfig.type as TaskType
-              );
+              const type = bot.BotConfig.type as TaskType;
+
+              const taskProperties = getTaskProperties(type);
               const Icon = taskProperties.Icon;
               const formattedType = taskProperties.formattedType;
 
@@ -182,10 +182,11 @@ export default async function TeacherDashboard({
                 <Link href={defaultChatUrl || multipleChatUrl} key={bot.id}>
                   <ChatCard
                     title={bot.BotConfig.name!}
-                    type={formattedType}
+                    type={type}
                     icon={<Icon className="w-6" />}
                     botId={bot.id}
                     readStatus={readStatus.isRead}
+                    createdAt={bot.createdAt}
                   />
                 </Link>
               );

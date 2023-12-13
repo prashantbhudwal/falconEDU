@@ -120,7 +120,7 @@ export const getTaskProperties = (taskType: TaskType) => {
       return {
         formattedType: "Lesson",
         Icon: AcademicCapIcon,
-        iconColor: "text-secondary",
+        iconColor: "text-info",
         newName: "Untitled Lesson",
         emptyChatMessage: "Say hello to start the lesson",
         aiTemperature: 1,
@@ -136,3 +136,10 @@ export const getTaskProperties = (taskType: TaskType) => {
       };
   }
 };
+
+export const getFormattedDate = (date: Date) =>
+  new Date(date).toLocaleDateString("en-UK", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });

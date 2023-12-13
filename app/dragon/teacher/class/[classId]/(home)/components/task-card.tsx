@@ -6,7 +6,7 @@ import {
 } from "@heroicons/react/24/solid";
 import { cva } from "class-variance-authority";
 import { TaskActions } from "./task-actions";
-import { getTaskProperties } from "../../../../utils";
+import { getFormattedDate, getTaskProperties } from "../../../../utils";
 import { TaskType } from "@/types/dragon";
 
 type TaskCardProps = {
@@ -28,11 +28,7 @@ export function TaskCard({
   const isArchived = !config.isActive;
   const isPublished = config.published;
   const createdAt = config.createdAt;
-  const formattedDate = new Date(createdAt).toLocaleDateString("en-UK", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
+  const formattedDate = getFormattedDate(createdAt);
   const { Icon, iconColor, formattedType } = getTaskProperties(type);
   return (
     <div

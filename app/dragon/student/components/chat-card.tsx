@@ -1,5 +1,5 @@
 "use client";
-
+import { getFormattedDate } from "../../teacher/utils";
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Avvvatars from "avvvatars-react";
@@ -9,6 +9,8 @@ const testPriorities = ["HIGH", "MEDIUM", "LOW"] as const;
 import { Badge } from "@/components/ui/badge";
 
 import { getDefaultChatReadStatus } from "../queries";
+import { getTaskProperties } from "../../teacher/utils";
+import { TaskType } from "@/types/dragon";
 
 const priorityColor: Record<(typeof testPriorities)[number], string> = {
   HIGH: "bg-destructive",
@@ -20,10 +22,11 @@ type ChatCardProps = {
   imageUrl?: string;
   priority?: (typeof testPriorities)[number];
   title: string;
-  type: string;
+  type: TaskType;
   icon?: React.ReactNode;
   botId: string;
   readStatus: boolean;
+  createdAt: Date;
 };
 export function ChatCard({
   imageUrl,
@@ -32,6 +35,7 @@ export function ChatCard({
   type,
   icon,
   botId,
+  createdAt,
   readStatus: initialReadStatus,
 }: ChatCardProps) {
   const [isRead, setIsRead] = useState(initialReadStatus);
@@ -43,6 +47,7 @@ export function ChatCard({
     getStatus();
   }, [botId]);
 
+  const taskProperties = getTaskProperties(type);
   return (
     <Card className="relative flex flex-row max-w-sm border-none bg-base-300">
       <div
@@ -55,18 +60,13 @@ export function ChatCard({
           </div>
         )}
       </div>
-      <div className="flex flex-row space-x-5 px-4 py-5">
+      <div className="flex flex-row space-x-5 px-4 py-5 w-full">
         <div
           className={cn("pl-2", {
             "text-accent": !isRead,
           })}
         >
-          <Avatar
-            className={cn("h-12 w-12", {
-              "text-secondary": type === "Chat",
-              "text-primary": type === "Test",
-            })}
-          >
+          <Avatar className={cn("h-12 w-12", taskProperties.iconColor)}>
             <AvatarImage src={imageUrl} alt="User Avatar" />
             <AvatarFallback className="bg-base-100">
               {(icon && <div className="w-6">{icon}</div>) || (
@@ -75,11 +75,16 @@ export function ChatCard({
             </AvatarFallback>
           </Avatar>
         </div>
-        <div className="flex flex-col space-y-1 items-start">
+        <div className="flex flex-col space-y-2 items-start w-full">
           <h1 className="">{title}</h1>
-          <Badge variant={"outline"} className=" text-slate-500">
-            {type}
-          </Badge>
+          <div className="flex flex-row justify-between w-full">
+            <Badge variant={"outline"} className=" text-slate-500 text-xs">
+              {taskProperties.formattedType}
+            </Badge>
+            <div className="text-slate-600 text-xs">
+              {getFormattedDate(createdAt)}
+            </div>
+          </div>
         </div>
       </div>
     </Card>
