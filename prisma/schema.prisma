@@ -156,22 +156,25 @@ model BotConfig {
   type            String            @default("chat")
   isActive        Boolean           @default(true)
   parsedQuestions parsedQuestions[]
+  isHidden        Boolean           @default(false)
 }
 
 model parsedQuestions {
-  id               String             @id @default(cuid())
-  botConfigId      String
-  BotConfig        BotConfig          @relation(fields: [botConfigId], references: [id])
-  question_type    QuestionType
-  question         String
-  hint             String?
-  question_number  Int
-  options          String[]           @default([])
-  correct_answer   String[]           @default([])
-  sample_answer    String?
-  max_score        Float?
-  isArchived       Boolean            @default(false)
-  botChatQuestions BotChatQuestions[]
+  id                  String             @id @default(cuid())
+  botConfigId         String
+  BotConfig           BotConfig          @relation(fields: [botConfigId], references: [id])
+  question_type       QuestionType
+  question            String
+  hint                String?
+  question_number     Int
+  options             String[]           @default([])
+  correct_answer      String[]           @default([])
+  sample_answer       String?
+  max_score           Float?
+  isArchived          Boolean            @default(false)
+  isPossiblyWrong     Boolean            @default(false)
+  isPossiblyWrongDesc String             @default("")
+  botChatQuestions    BotChatQuestions[]
 }
 
 //**************** App > Student Models ****************//
@@ -206,6 +209,7 @@ model Bot {
   isActive    Boolean        @default(true)
   isSubmitted Boolean        @default(false)
   isChecked   Boolean        @default(false)
+  isHidden    Boolean        @default(false)
 }
 
 model BotChat {
