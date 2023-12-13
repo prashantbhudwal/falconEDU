@@ -44,7 +44,7 @@ export function ChatCard({
   }, [botId]);
 
   return (
-    <Card className="relative flex flex-row max-w-sm border-none">
+    <Card className="relative flex flex-row max-w-sm border-none bg-base-300">
       <div
         className={cn("absolute inset-y-0 w-4", priorityColor[priority])}
       ></div>

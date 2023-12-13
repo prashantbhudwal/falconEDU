@@ -12,6 +12,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import Link from "next/link";
+import { TaskType } from "@/types/dragon";
 type action = {
   name: string;
   title: string;
@@ -27,6 +28,7 @@ type ResponseCardProps = {
   actions?: action[];
   link: string;
   student: StudentsByBotConfigId["students"][0];
+  type: TaskType;
 };
 
 function ResponseCard({
@@ -35,19 +37,21 @@ function ResponseCard({
   actions,
   link,
   student,
+  type,
 }: ResponseCardProps) {
   const email = student.email;
   const title = student.name;
   const description = student.email;
   const avatarUrl = student.image;
   const isSubmitted = student.isSubmitted;
+  const disabled = isSubmitted && type == "test";
   return (
     <Link
-      href={isSubmitted ? link : ""}
+      href={disabled ? "" : link}
       className={cn(
         "bg-base-200 max-w-3xl flex items-start py-6 space-x-6 w-full px-6 rounded-md hover:bg-base-100 relative my-1 border border-base-200",
         {
-          "cursor-not-allowed hover:bg-base-200": !isSubmitted,
+          "cursor-not-allowed hover:bg-base-200": disabled,
         },
         className
       )}

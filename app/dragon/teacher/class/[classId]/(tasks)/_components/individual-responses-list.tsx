@@ -42,15 +42,18 @@ export const IndividualResponsesList = async function ({
               studentBotId: student.studentBotId,
               type,
             })}
+            type={type}
           >
-            <div className="flex gap-2">
-              <CardChip
-                value={student.isSubmitted ? "Attempted" : "Pending"}
-                valueColor={
-                  student.isSubmitted ? "text-primary" : "text-accent"
-                }
-              />
-            </div>
+            {type === "test" && (
+              <div className="flex gap-2">
+                <CardChip
+                  value={student.isSubmitted ? "Attempted" : "Pending"}
+                  valueColor={
+                    student.isSubmitted ? "text-primary" : "text-accent"
+                  }
+                />
+              </div>
+            )}
           </ResponseCard>
         ))}
       </div>
