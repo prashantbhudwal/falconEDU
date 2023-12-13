@@ -54,6 +54,7 @@ export const getStudentsByClassId = cache(async (classId: string) => {
     where: { id: classId },
     select: {
       id: true,
+      name: true,
       students: {
         select: {
           grade: true,
@@ -69,7 +70,7 @@ export const getStudentsByClassId = cache(async (classId: string) => {
       },
     },
   });
-  return students?.students;
+  return { students: students?.students, nameOfClass: students?.name };
 });
 //Export return type of this function by infering the type of the return value of the function
 
