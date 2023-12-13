@@ -11,6 +11,12 @@ const testQuestionsSchema = z.array(
     ),
     options: z.array(z.string().describe("Options for the question")),
     question: z.string().describe("The question asked"),
+    possiblyWrong: z.object({
+      isPossiblyWrong: z
+        .boolean()
+        .describe("Whether the answer is possibly wrong"),
+      reason: z.string().describe("Why is the answer possibly wrong").max(200),
+    }),
     question_type: QuestionTypeSchema,
   })
 );
