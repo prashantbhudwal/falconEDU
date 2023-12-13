@@ -31,10 +31,13 @@ import {
 } from "@/components/ui/dialog";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
-import { db } from "@/app/dragon/teacher/routers";
 import { useCreateNewConfig } from "@/app/dragon/teacher/hooks/use-create-config";
 import { getTaskProperties } from "@/app/dragon/teacher/utils";
 import { TaskType } from "@/types/dragon";
+import { RadioGroup } from "@/components/ui/radio-group";
+import { RadioGroupItem } from "@/components/ui/radio-group-form";
+import { IoIosCheckmarkCircle } from "react-icons/io";
+import { Label } from "@/components/ui/label";
 
 export function NewTaskModal({
   classId,
@@ -46,6 +49,7 @@ export function NewTaskModal({
   const createNewConfig = useCreateNewConfig();
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
+  const [error, setError] = useState("");
 
   const types: TaskType[] = ["chat", "test", "lesson"];
 
@@ -67,29 +71,48 @@ export function NewTaskModal({
         });
         setLoading(false);
         setOpen(false);
+        return;
       } catch (error) {
         console.error(error);
+        return;
       }
+    } else {
+      setError("Please select a task type");
     }
   }
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       taskName: "",
+      type: "",
     },
   });
 
+  const getTypeIcon = (type: TaskType) => {
+    const { Icon } = getTaskProperties(type);
+    return <Icon />;
+  };
+
   return (
-    <Dialog modal={true} open={open} onOpenChange={() => setOpen(!open)}>
+    <Dialog
+      modal={true}
+      open={open}
+      onOpenChange={() => {
+        setOpen(!open);
+        form.reset();
+        setError("");
+      }}
+    >
       <DialogOverlay />
       <DialogTrigger asChild>
         <Button
           variant={"ghost"}
           size={"sm"}
-          className="group flex items-center justify-end gap-3 text-primary hover:bg-primary border border-primary"
+          className="group flex items-center justify-end gap-2 text-primary hover:bg-primary border border-primary rounded-2xl"
           onClick={() => setOpen(true)}
         >
-          <PlusIcon className="w-5 h-5" />
+          <PlusIcon className="w-4 h-4" />
           <div className="font-bold">New Task</div>
         </Button>
       </DialogTrigger>
@@ -100,29 +123,34 @@ export function NewTaskModal({
           </DialogTitle>
         </DialogHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="">
             <FormField
               control={form.control}
               name="type"
               render={({ field }) => (
                 <FormItem>
-                  <Select onValueChange={field.onChange} value={field.value}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Type of Task" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {types.map((type) => (
-                        <SelectItem
-                          key={type}
-                          value={type}
-                          className="hover:bg-slate-600 hover:cursor-pointer"
-                        >
-                          {getTaskProperties(type).formattedType}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
                   <FormMessage />
+                  <RadioGroup
+                    onValueChange={field.onChange}
+                    className="flex gap-4 justify-around"
+                  >
+                    {types.map((type, index) => (
+                      <FormItem key={index}>
+                        <FormLabel className="[&:has([data-state=checked])>div]:border-primary [&:has([data-state=checked])>div>span]:block flex flex-col items-center gap-2 cursor-pointer">
+                          <FormControl>
+                            <RadioGroupItem value={type} className="sr-only" />
+                          </FormControl>
+                          <div className="text-5xl relative p-4 border-2 rounded-full">
+                            {getTypeIcon(type)}
+                            <span className="absolute top-0 hidden -right-1 text-primary text-2xl bg-base-200 rounded-full">
+                              <IoIosCheckmarkCircle />
+                            </span>
+                          </div>
+                          <span>{getTaskProperties(type).formattedType}</span>
+                        </FormLabel>
+                      </FormItem>
+                    ))}
+                  </RadioGroup>
                 </FormItem>
               )}
             />
@@ -130,16 +158,16 @@ export function NewTaskModal({
               control={form.control}
               name="taskName"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="my-8">
                   <FormLabel>Name</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input autoComplete="off" {...field} />
                   </FormControl>
-                  <FormDescription>Name</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
+            {error && <p className="text-error text-sm pb-2">{error}</p>}
             <Button type="submit" className="w-full" disabled={loading}>
               {loading ? (
                 <span className="loading loading-infinity loading-xs"></span>

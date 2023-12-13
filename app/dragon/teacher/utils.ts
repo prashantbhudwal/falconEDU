@@ -2,12 +2,12 @@ import { cache } from "react";
 import { AllStudentResponsesByBotConfigId } from "./class/[classId]/(tasks)/[taskId]/test/queries";
 import prisma from "@/prisma";
 import { ConditionalPromptSelector } from "langchain/prompts";
-import {
-  AcademicCapIcon,
-  ClipboardDocumentCheckIcon,
-} from "@heroicons/react/24/solid";
+import { AcademicCapIcon } from "@heroicons/react/24/solid";
 import { FaRobot } from "react-icons/fa6";
+import { HiClipboardDocumentCheck, HiAcademicCap } from "react-icons/hi2";
 import { TaskType } from "@/types/dragon";
+import { IoIosChatboxes } from "react-icons/io";
+
 /**
  * Calculates the test metadata based on the given student responses.
  *
@@ -80,17 +80,17 @@ export const getTaskIcon = (taskType: string) => {
   switch (taskType) {
     case "chat":
       return {
-        Icon: AcademicCapIcon,
+        Icon: IoIosChatboxes,
         iconColor: "text-primary",
       };
     case "test":
       return {
-        Icon: ClipboardDocumentCheckIcon,
+        Icon: HiClipboardDocumentCheck,
         iconColor: "text-secondary",
       };
     default:
       return {
-        Icon: AcademicCapIcon,
+        Icon: HiAcademicCap,
         iconColor: "text-blue-500",
       };
   }
@@ -110,7 +110,7 @@ export const getTaskProperties = (taskType: TaskType) => {
     case "test":
       return {
         formattedType: "Test",
-        Icon: ClipboardDocumentCheckIcon,
+        Icon: HiClipboardDocumentCheck,
         iconColor: "text-secondary",
         newName: "Untitled Test",
         emptyChatMessage: "Say hello to start the test",
@@ -119,7 +119,7 @@ export const getTaskProperties = (taskType: TaskType) => {
     case "lesson":
       return {
         formattedType: "Lesson",
-        Icon: AcademicCapIcon,
+        Icon: HiAcademicCap,
         iconColor: "text-info",
         newName: "Untitled Lesson",
         emptyChatMessage: "Say hello to start the lesson",
@@ -128,7 +128,7 @@ export const getTaskProperties = (taskType: TaskType) => {
     default:
       return {
         formattedType: "Chat",
-        Icon: AcademicCapIcon,
+        Icon: IoIosChatboxes,
         iconColor: "text-blue-500",
         newName: "Untitled Chat",
         emptyChatMessage: "Start chatting with your teacher.",
