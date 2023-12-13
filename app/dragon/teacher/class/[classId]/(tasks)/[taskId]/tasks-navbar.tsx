@@ -3,8 +3,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { db } from "../../../../routers";
@@ -22,12 +20,8 @@ import {
   getTaskResponsesUrlByType,
   getTaskUrlByType,
 } from "@/lib/urls";
-import { UsersIcon } from "@heroicons/react/24/outline";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { TestAnalysis } from "./test/components/test-analysis/test-analysis";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import usePageTracking from "@/hooks/usePageTracking";
-import { useSelectedLayoutSegment } from "next/navigation";
-import { ChevronDownIcon } from "@radix-ui/react-icons";
 import { LuArchive, LuArchiveRestore } from "react-icons/lu";
 import { ClassDialog } from "@/app/dragon/teacher/components/class-dialog";
 import { useConfigPublishing } from "@/app/dragon/teacher/hooks/use-config-publishing";
@@ -46,9 +40,7 @@ export function TasksNavbar({
   task: BotConfig;
 }) {
   const { currentPage } = usePageTracking();
-  const layoutSegment = useSelectedLayoutSegment();
-  const test = currentPage.endsWith("test");
-  const responses = currentPage.endsWith("responses");
+  const isResponse = currentPage.endsWith("responses");
   const name = task.name;
   const type = task.type as TaskType;
   return (
@@ -60,8 +52,13 @@ export function TasksNavbar({
         <Tabs defaultValue="test">
           <TabsList className="flex w-96 bg-transparent border-b">
             <TabsTrigger
-              className="w-1/2 data-[state=active]:border-b-[1px] data-[state=active]:bg-transparent text-lg border-white rounded-none"
-              value="test"
+              className={cn(
+                "w-1/2 text-lg border-white rounded-none bg-base-300 data-[state=active]:bg-transparent",
+                {
+                  "border-b-[1px]": !isResponse,
+                }
+              )}
+              value="task"
             >
               <TaskLink
                 type={type}
@@ -72,7 +69,12 @@ export function TasksNavbar({
             </TabsTrigger>
             <TabsTrigger
               value="responses"
-              className="w-1/2 data-[state=active]:border-b-[1px] data-[state=active]:bg-transparent text-lg border-white rounded-none"
+              className={cn(
+                "w-1/2 text-lg border-white rounded-none bg-base-300 data-[state=active]:bg-transparent",
+                {
+                  "border-b-[1px] ": isResponse,
+                }
+              )}
             >
               <ResponseLink type={type} classId={classId} configId={task.id} />
             </TabsTrigger>
