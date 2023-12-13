@@ -107,7 +107,7 @@ export function NewTaskModal({
         <Button
           variant={"ghost"}
           size={"sm"}
-          className="group flex items-center justify-end gap-2 text-primary hover:bg-primary border border-primary rounded-2xl"
+          className="group flex items-center justify-end gap-2 text-primary hover:bg-primary border border-primary"
           onClick={() => setOpen(true)}
         >
           <PlusIcon className="w-4 h-4" />
