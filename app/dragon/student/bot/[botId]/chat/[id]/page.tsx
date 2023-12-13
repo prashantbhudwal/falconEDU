@@ -53,10 +53,10 @@ const setIsReadToTrue = async function (botChatId: string) {
 
 const getChatContext = async function (type: TaskType, chatId: string) {
   switch (type) {
-    case "chat":
+    case "test":
       const parsedQuestions = await getTestQuestionsByBotChatId(chatId);
       return JSON.stringify(parsedQuestions);
-    case "test":
+    case "chat":
       const chatContext = await getChatContextByChatId(chatId);
       return JSON.stringify(chatContext);
     case "lesson":
