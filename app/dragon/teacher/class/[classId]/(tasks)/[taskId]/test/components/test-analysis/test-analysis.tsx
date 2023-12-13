@@ -45,19 +45,19 @@ export async function TestAnalysis({
     (student) => student.isSubmitted
   ).length;
   const totalPendingTest = students.length - totalSubmittedTest;
-  const resultObject = await getTestResults({ botConfigId: testBotId });
-  if (!resultObject) return null;
+  // const resultObject = await getTestResults({ botConfigId: testBotId });
+  // if (!resultObject) return null;
 
-  const {
-    allQuestions,
-    botChatScores,
-    botChatWiseResults,
-    studentWiseResults,
-  } = resultObject;
+  // const {
+  //   allQuestions,
+  //   botChatScores,
+  //   botChatWiseResults,
+  //   studentWiseResults,
+  // } = resultObject;
 
   return (
     <div className="w-full max-w-5xl min-h-screen flex flex-col gap-2 ">
-      {!isPublished || (!isPublished && students.length === 0) ? (
+      {!isPublished ? (
         <NotPublished />
       ) : students.length !== 0 ? (
         <div className="flex flex-col gap-4 items-center">
