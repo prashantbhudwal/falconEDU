@@ -47,6 +47,8 @@ export function TestParsedQuestion({
     sample_answer: null,
     max_score: null,
     isArchived: false,
+    isPossiblyWrong: false,
+    isPossiblyWrongDesc: "",
   };
 
   useEffect(() => {
@@ -99,6 +101,8 @@ export function TestParsedQuestion({
         question_number: prev.length + 1,
         question_type:
           data.question_type || "OBJECTIVE_MULTIPLE_CHOICE_SINGLE_ANSWER",
+        isPossiblyWrong: false,  // TODO: Fix dummy values if needed
+        isPossiblyWrongDesc: "",
       },
     ]);
   };

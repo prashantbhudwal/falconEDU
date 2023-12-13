@@ -147,6 +147,11 @@ export const AddQuestionForm = forwardRef<HTMLDivElement, PropType>(
           options: data.options.map((option) => option.value),
           question_number: questionNumber,
           question_type: data.question_type,
+          // TODO fix dummy values if needed
+          possiblyWrong: {
+            isPossiblyWrong: false,
+            reason: "",
+          },
         };
 
         const { success } = await saveParsedQuestions({
