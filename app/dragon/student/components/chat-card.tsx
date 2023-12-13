@@ -83,7 +83,7 @@ export function ChatCard({
         </div>
         <div className="flex flex-col space-y-2 items-start w-full">
           <div className="flex flex-row justify-between w-full">
-            <h1 className="">{title}</h1>{" "}
+            <h1 className="capitalize">{title.toLocaleLowerCase()}</h1>{" "}
             {!isActive && (
               <span className="text-xs text-slate-500">Inactive</span>
             )}
