@@ -27,7 +27,6 @@ export function TaskCard({
   const type = config.type as TaskType;
   const isArchived = !config.isActive;
   const isPublished = config.published;
-  const variant = type as "chat" | "test";
   const createdAt = config.createdAt;
   const formattedDate = new Date(createdAt).toLocaleDateString("en-UK", {
     year: "numeric",

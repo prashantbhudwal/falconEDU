@@ -1,8 +1,6 @@
-import { cache } from "react";
-import BotPreferencesForm from "./bot-preferences-form";
-import prisma from "@/prisma";
-import { botPreferencesSchema } from "@/app/dragon/schema";
 import { db } from "@/app/dragon/teacher/routers";
+import LessonForm from "./lesson-form";
+import { lessonPreferencesSchema } from "@/app/dragon/schema";
 
 export interface BotPageProps {
   params: {
@@ -15,18 +13,18 @@ export default async function BotPage({ params }: BotPageProps) {
   const { classId, taskId } = params;
   const botData = await db.botConfig.fetchConfigAndPreferences({
     configId: taskId,
-    type: "chat",
+    type: "lesson",
   });
-  const result = botPreferencesSchema.safeParse(botData?.preferences);
+  const result = lessonPreferencesSchema.safeParse(botData?.preferences);
 
   const preferences = result.success ? result.data : undefined;
 
   return (
-    <BotPreferencesForm
-      preferences={preferences}
-      botConfig={botData?.config!}
+    <LessonForm
       classId={classId}
-      botId={taskId}
+      taskId={taskId}
+      preferences={preferences}
+      taskConfig={botData?.config!}
     />
   );
 }

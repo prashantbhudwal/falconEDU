@@ -104,6 +104,8 @@ export const getTaskProperties = (taskType: TaskType) => {
         Icon: FaRobot,
         iconColor: "text-primary",
         newName: "Untitled Bot",
+        emptyChatMessage: "Start chatting with your teacher.",
+        aiTemperature: 1,
       };
     case "test":
       return {
@@ -111,6 +113,8 @@ export const getTaskProperties = (taskType: TaskType) => {
         Icon: ClipboardDocumentCheckIcon,
         iconColor: "text-secondary",
         newName: "Untitled Test",
+        emptyChatMessage: "Say hello to start the test",
+        aiTemperature: 0.2,
       };
     case "lesson":
       return {
@@ -118,6 +122,8 @@ export const getTaskProperties = (taskType: TaskType) => {
         Icon: AcademicCapIcon,
         iconColor: "text-secondary",
         newName: "Untitled Lesson",
+        emptyChatMessage: "Say hello to start the lesson",
+        aiTemperature: 1,
       };
     default:
       return {
@@ -125,6 +131,8 @@ export const getTaskProperties = (taskType: TaskType) => {
         Icon: AcademicCapIcon,
         iconColor: "text-blue-500",
         newName: "Untitled Chat",
+        emptyChatMessage: "Start chatting with your teacher.",
+        aiTemperature: 1,
       };
   }
 };

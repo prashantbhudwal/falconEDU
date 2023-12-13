@@ -39,6 +39,22 @@ export const LIMITS_botPreferencesSchema = {
   },
 };
 
+export const LIMITS_lessonPreferencesSchema = {
+  content: {
+    maxLength: 1500,
+  },
+  topic: {
+    maxLength: 30,
+  },
+};
+
+export const LIMITS_lessonNameSchema = {
+  name: {
+    maxLength: 30,
+    minLength: 3,
+  },
+};
+
 export const LIMITS_botNameSchema = {
   name: {
     maxLength: 30,
@@ -64,6 +80,25 @@ export const botNameSchema = z.object({
     .string()
     .min(LIMITS_botNameSchema.name.minLength)
     .max(LIMITS_botNameSchema.name.maxLength),
+});
+
+export const lessonPreferencesSchema = z.object({
+  topic: z.string().max(LIMITS_lessonPreferencesSchema.topic.maxLength),
+  content: z.string().max(LIMITS_lessonPreferencesSchema.content.maxLength),
+  subjects: z.array(z.string()),
+  grades: z.array(z.enum(grades)),
+  board: z.enum(board),
+  tone: z.enum(tone),
+  language: z.enum(language),
+  humorLevel: z.enum(humorLevel),
+  languageProficiency: z.enum(languageProficiency),
+});
+
+export const lessonNameSchema = z.object({
+  name: z
+    .string()
+    .min(LIMITS_lessonNameSchema.name.minLength)
+    .max(LIMITS_lessonNameSchema.name.maxLength),
 });
 
 export const classNameSchema = z.object({

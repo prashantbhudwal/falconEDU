@@ -29,26 +29,12 @@ export const getTaskUrl = ({
     return `${baseUrl}/teacher/class/${classId}/${taskId}/bot`;
   } else if (type === "test") {
     return `${baseUrl}/teacher/class/${classId}/${taskId}/test`;
+  } else if (type === "lesson") {
+    return `${baseUrl}/teacher/class/${classId}/${taskId}/lesson`;
   } else {
     return `${baseUrl}/teacher/class/${classId}/${taskId}/test`;
   }
 };
-
-export const getEditBotURL = (classId: string, botId: string) =>
-  `${baseUrl}/teacher/class/${classId}/${botId}/bot`;
-export const getTestEditBotURL = (classId: string, botId: string) =>
-  `${baseUrl}/teacher/class/${classId}/${botId}/test`;
-
-export const getTestReportUrl = ({
-  classId,
-  testId,
-  studentBotId,
-}: {
-  classId: string;
-  testId: string;
-  studentBotId: string;
-}) =>
-  `${baseUrl}/teacher/class/${classId}/${testId}/test/report/${studentBotId}`;
 
 export const getReportUrl = ({
   classId,
@@ -59,9 +45,9 @@ export const getReportUrl = ({
   classId: string;
   testId: string;
   studentBotId: string;
-  type: string;
+  type: TaskType;
 }) => {
-  const route = type === "test" ? "test" : "bot";
+  const route = type === "test" ? "test" : type === "lesson" ? "lesson" : "bot";
   return `${baseUrl}/teacher/class/${classId}/${testId}/${route}/responses/individual-response/${studentBotId}`;
 };
 
@@ -72,12 +58,14 @@ export const getTaskUrlByType = ({
 }: {
   classId: string;
   configId: string;
-  type: string;
+  type: TaskType;
 }) => {
   if (type === "chat") {
     return `${baseUrl}/teacher/class/${classId}/${configId}/bot`;
   } else if (type === "test") {
     return `${baseUrl}/teacher/class/${classId}/${configId}/test`;
+  } else if (type === "lesson") {
+    return `${baseUrl}/teacher/class/${classId}/${configId}/lesson`;
   } else {
     return `${baseUrl}/teacher/class/${classId}/${configId}/test`;
   }
@@ -90,12 +78,14 @@ export const getTaskResponsesUrlByType = ({
 }: {
   classId: string;
   configId: string;
-  type: string;
+  type: TaskType;
 }) => {
   if (type === "chat") {
     return `${baseUrl}/teacher/class/${classId}/${configId}/bot/responses`;
   } else if (type === "test") {
     return `${baseUrl}/teacher/class/${classId}/${configId}/test/responses`;
+  } else if (type === "lesson") {
+    return `${baseUrl}/teacher/class/${classId}/${configId}/lesson/responses`;
   } else {
     return `${baseUrl}/teacher/class/${classId}/${configId}/test/responses`;
   }

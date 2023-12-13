@@ -4,22 +4,13 @@ import {
   TooltipTrigger,
   TooltipProvider,
 } from "@ui/tooltip";
-import {
-  getTotalPublishedBotsByClassId,
-  getTotalPublishedTestsByClassId,
-  getTotalStudentsByClassId,
-  getTotalUnPublishedTestsByClassId,
-  getTotalUnpublishedBotsByClassId,
-} from "./queries";
-import { InformationCircleIcon } from "@heroicons/react/24/outline";
+import { getTotalStudentsByClassId } from "./queries";
 import EditableClassName from "./components/editable-class-name";
 import Link from "next/link";
 import { getStudentsURL } from "@/lib/urls";
 import { ToggleClassStatusCard } from "./components/toggle-class-status";
 import { ConfigCard } from "./components/config-card";
 import { Separator } from "@/components/ui/separator";
-import { Button } from "@/components/ui/button";
-import { PlusCircleIcon, PlusIcon } from "@heroicons/react/24/solid";
 import { db } from "../../../../routers";
 import { getServerSession } from "next-auth";
 import { UsersIcon } from "@heroicons/react/24/outline";

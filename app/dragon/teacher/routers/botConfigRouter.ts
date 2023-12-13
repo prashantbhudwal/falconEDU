@@ -5,7 +5,6 @@ import {
   getClassURL,
   getTaskUrl,
   getTeacherHomeURL,
-  getTestEditBotURL,
 } from "@/lib/urls";
 import { type BotConfig } from "@prisma/client";
 import { getClassesURL, getStudentsURL } from "@/lib/urls";
@@ -13,15 +12,22 @@ import { isAuthorized } from "@/lib/utils";
 import prisma from "@/prisma";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
-import { botPreferencesSchema, testBotPreferencesSchema } from "../../schema";
+import {
+  botPreferencesSchema,
+  lessonPreferencesSchema,
+  testBotPreferencesSchema,
+} from "../../schema";
 import { cache } from "react";
 import { UnwrapPromise } from "../../student/queries";
 import { TaskType } from "@/types/dragon";
+import { getTaskProperties } from "../utils";
 type BotPreferencesSchemaType = z.infer<typeof botPreferencesSchema>;
 type TestBotPreferencesSchemaType = z.infer<typeof testBotPreferencesSchema>;
+type LessonPreferencesSchemaType = z.infer<typeof lessonPreferencesSchema>;
 type ConfigTypeSchemaMap = {
   chat: BotPreferencesSchemaType;
   test: TestBotPreferencesSchemaType;
+  lesson: LessonPreferencesSchemaType;
 };
 export type AllConfigsInClass = UnwrapPromise<
   ReturnType<typeof getAllConfigsInClass>
@@ -31,9 +37,11 @@ export type AllConfigs = UnwrapPromise<ReturnType<typeof getAllConfigs>>;
 export const publishBotConfig = async function ({
   classId,
   botConfigId,
+  type,
 }: {
   classId: string;
   botConfigId: string;
+  type: TaskType;
 }) {
   await isAuthorized({
     userType: "TEACHER",
@@ -53,7 +61,7 @@ export const publishBotConfig = async function ({
       return {
         success: false,
         message: `Can't Publish an Archived ${
-          botConfig.type === "chat" ? "Bot" : "Test"
+          getTaskProperties(type).formattedType
         }`,
         updatedBotConfig: null,
       };
@@ -126,9 +134,11 @@ export const publishBotConfig = async function ({
 export const unPublishBotConfig = async function ({
   classId,
   botConfigId,
+  type,
 }: {
   classId: string;
   botConfigId: string;
+  type: TaskType;
 }) {
   await isAuthorized({
     userType: "TEACHER",
@@ -148,7 +158,7 @@ export const unPublishBotConfig = async function ({
       return {
         success: false,
         message: `Can't Unpublish an Archived ${
-          botConfig.type === "chat" ? "Bot" : "Test"
+          getTaskProperties(type).formattedType
         }`,
         updatedBotConfig: null,
       };
@@ -214,7 +224,7 @@ export const createBotConfig = async function ({
     console.error("Error: ", error);
   }
 };
-export const updateBotConfig = async function <T extends "chat" | "test">({
+export const updateBotConfig = async function ({
   classId,
   botId,
   data,
@@ -222,8 +232,8 @@ export const updateBotConfig = async function <T extends "chat" | "test">({
 }: {
   classId: string;
   botId: string;
-  data: ConfigTypeSchemaMap[T];
-  configType: T;
+  data: ConfigTypeSchemaMap[TaskType];
+  configType: TaskType;
 }): Promise<{ success: boolean; error?: any }> {
   await isAuthorized({
     userType: "TEACHER",
@@ -279,6 +289,17 @@ const organizeConfigs = (botConfigs: BotConfig[]) => {
     (botConfig) => botConfig.type === "chat"
   );
 
+  const lessonConfigs = botConfigs.filter(
+    (botConfig) => botConfig.type === "lesson"
+  );
+
+  const activeLessonConfigs = lessonConfigs
+    .filter((botConfig) => botConfig.isActive)
+    .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+  const archivedLessonConfigs = lessonConfigs
+    .filter((botConfig) => !botConfig.isActive)
+    .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+
   const activeChatsConfigs = chatConfigs
     .filter((botConfig) => botConfig.isActive)
     .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
@@ -293,6 +314,13 @@ const organizeConfigs = (botConfigs: BotConfig[]) => {
   const archivedTestConfigs = testConfigs
     .filter((botConfig) => !botConfig.isActive)
     .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+
+  const publishedLessonConfigs = lessonConfigs.filter(
+    (botConfig) => botConfig.published
+  );
+  const unPublishedLessonConfigs = lessonConfigs.filter(
+    (botConfig) => !botConfig.published
+  );
 
   const publishedChatConfigs = chatConfigs.filter(
     (botConfig) => botConfig.published
@@ -324,6 +352,13 @@ const organizeConfigs = (botConfigs: BotConfig[]) => {
       archived: archivedTestConfigs,
       published: publishedTestConfigs,
       unpublished: unPublishedTestConfigs,
+    },
+    lesson: {
+      all: lessonConfigs,
+      active: activeLessonConfigs,
+      archived: archivedLessonConfigs,
+      published: publishedLessonConfigs,
+      unpublished: unPublishedLessonConfigs,
     },
   };
   return configs;
@@ -505,3 +540,27 @@ export const getBotConfigByConfigId = cache(async function ({
     return null;
   }
 });
+export const fetchConfigAndPreferences = cache(
+  async ({ configId, type }: { configId: string; type: TaskType }) => {
+    const emptyPreferences = {};
+    try {
+      const config = await prisma.botConfig.findUnique({
+        where: { id: configId },
+      });
+      let preferences;
+      if (config && config.preferences) {
+        preferences =
+          typeof config.preferences === "string"
+            ? JSON.parse(config.preferences)
+            : config.preferences;
+      } else {
+        preferences = emptyPreferences;
+      }
+
+      return { preferences, config };
+    } catch (error) {
+      console.error("Failed to fetch:", error);
+      return null;
+    }
+  }
+);

@@ -7,23 +7,15 @@ import { Separator } from "@/components/ui/separator";
 import prisma from "@/prisma";
 import { cache } from "react";
 import { UnwrapPromise, getChatsByBotId } from "../../queries";
+import { getTaskProperties } from "@/app/dragon/teacher/utils";
 import {
   ChatBubbleLeftRightIcon,
   ClipboardDocumentCheckIcon,
 } from "@heroicons/react/24/outline";
 import { ChatCard } from "../../components/chat-card";
 import { getDefaultChatReadStatus } from "../../queries";
+import { TaskType } from "@/types/dragon";
 
-function getBotDescription(type: string) {
-  switch (type) {
-    case "chat":
-      return "Chat";
-    case "test":
-      return "Test";
-    default:
-      return "Chat";
-  }
-}
 const getBotsByTeacherAndStudentID = cache(async function (
   teacherId: string,
   userId: string
@@ -155,18 +147,17 @@ export default async function TeacherDashboard({
           const multipleChatUrl = getStudentBotURL(bot.id);
           const readStatus = await getDefaultChatReadStatus(bot.id);
 
+          const taskProperties = getTaskProperties(
+            bot.BotConfig.type as TaskType
+          );
+          const Icon = taskProperties.Icon;
+          const formattedType = taskProperties.formattedType;
           return (
             <Link href={defaultChatUrl || multipleChatUrl} key={bot.id}>
               <ChatCard
                 title={bot.BotConfig.name!}
-                type={getBotDescription(bot.BotConfig.type!)}
-                icon={
-                  bot.BotConfig.type === "chat" ? (
-                    <ChatBubbleLeftRightIcon />
-                  ) : (
-                    <ClipboardDocumentCheckIcon />
-                  )
-                }
+                type={formattedType}
+                icon={<Icon className="w-6" />}
                 botId={bot.id}
                 readStatus={readStatus.isRead}
               />
@@ -181,19 +172,18 @@ export default async function TeacherDashboard({
               const defaultChatUrl = await getDefaultStudentChatUrl(bot.id);
               const multipleChatUrl = getStudentBotURL(bot.id);
               const readStatus = await getDefaultChatReadStatus(bot.id);
+              const taskProperties = getTaskProperties(
+                bot.BotConfig.type as TaskType
+              );
+              const Icon = taskProperties.Icon;
+              const formattedType = taskProperties.formattedType;
 
               return (
                 <Link href={defaultChatUrl || multipleChatUrl} key={bot.id}>
                   <ChatCard
                     title={bot.BotConfig.name!}
-                    type={getBotDescription(bot.BotConfig.type!)}
-                    icon={
-                      bot.BotConfig.type === "chat" ? (
-                        <ChatBubbleLeftRightIcon />
-                      ) : (
-                        <ClipboardDocumentCheckIcon />
-                      )
-                    }
+                    type={formattedType}
+                    icon={<Icon className="w-6" />}
                     botId={bot.id}
                     readStatus={readStatus.isRead}
                   />

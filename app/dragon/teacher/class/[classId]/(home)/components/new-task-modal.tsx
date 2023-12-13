@@ -33,6 +33,8 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { db } from "@/app/dragon/teacher/routers";
 import { useCreateNewConfig } from "@/app/dragon/teacher/hooks/use-create-config";
+import { getTaskProperties } from "@/app/dragon/teacher/utils";
+import { TaskType } from "@/types/dragon";
 
 export function NewTaskModal({
   classId,
@@ -45,7 +47,7 @@ export function NewTaskModal({
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const types = ["chat", "test"];
+  const types: TaskType[] = ["chat", "test", "lesson"];
 
   const formSchema = z.object({
     taskName: z.string().min(3).max(50),
@@ -54,7 +56,7 @@ export function NewTaskModal({
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const { taskName, type } = values;
-    if (type === "chat" || type === "test") {
+    if (type === "chat" || type === "test" || type === "lesson") {
       try {
         setLoading(true);
         await createNewConfig({
@@ -115,7 +117,7 @@ export function NewTaskModal({
                           value={type}
                           className="hover:bg-slate-600 hover:cursor-pointer"
                         >
-                          {type === "test" ? "Test" : "Bot"}
+                          {getTaskProperties(type).formattedType}
                         </SelectItem>
                       ))}
                     </SelectContent>

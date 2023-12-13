@@ -20,7 +20,7 @@ type ChatCardProps = {
   imageUrl?: string;
   priority?: (typeof testPriorities)[number];
   title: string;
-  type: "Chat" | "Test";
+  type: string;
   icon?: React.ReactNode;
   botId: string;
   readStatus: boolean;

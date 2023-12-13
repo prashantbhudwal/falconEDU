@@ -1,6 +1,6 @@
 "use client";
 import { type BotConfig } from "@prisma/client";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -8,7 +8,6 @@ import { db } from "@/app/dragon/teacher/routers";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -17,7 +16,10 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group-form";
 import { Separator } from "@/components/ui/separator";
 import { Chip } from "@/components/ui/chip";
-import { botNameSchema, botPreferencesSchema } from "../../../../../../schema";
+import {
+  lessonPreferencesSchema,
+  lessonNameSchema,
+} from "../../../../../../schema";
 import { Button } from "@/components/ui/button";
 import { TextareaWithCounter as Textarea } from "@/components/ui/textarea-counter";
 import { FiInfo } from "react-icons/fi";
@@ -35,18 +37,17 @@ import {
   tone,
   humorLevel,
   subjects,
-  LIMITS_botPreferencesSchema,
+  LIMITS_lessonPreferencesSchema,
 } from "../../../../../../schema";
 import subjectsArray from "../../../../../../../data/subjects.json";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 import { Input } from "@/components/ui/input";
-import { LuArchive, LuArchiveRestore } from "react-icons/lu";
-import { ClassDialog } from "@/app/dragon/teacher/components/class-dialog";
 
-const MAX_CHARS = LIMITS_botPreferencesSchema.instructions.maxLength;
+const MAX_CHARS = LIMITS_lessonPreferencesSchema.content.maxLength;
 
-const defaultValues: z.infer<typeof botPreferencesSchema> = {
-  instructions: "",
+const defaultValues: z.infer<typeof lessonPreferencesSchema> = {
+  topic: "",
+  content: "",
   subjects: [],
   grades: [],
   board: "CBSE",
@@ -56,38 +57,40 @@ const defaultValues: z.infer<typeof botPreferencesSchema> = {
   languageProficiency: "Beginner",
 };
 
-type BotPreferencesFormProps = {
-  preferences?: z.infer<typeof botPreferencesSchema> | null;
+type LessonFormProps = {
+  preferences?: z.infer<typeof lessonPreferencesSchema>;
   classId: string;
-  botId: string;
-  botConfig: BotConfig | null;
+  taskId: string;
+  taskConfig: BotConfig | null;
 };
 
-export default function BotPreferencesForm({
+export default function LessonForm({
   preferences,
   classId,
-  botId,
-  botConfig,
-}: BotPreferencesFormProps) {
+  taskId,
+  taskConfig,
+}: LessonFormProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [inputFocus, setInputFocus] = useState("");
-  const [botName, setBotName] = useState<string | undefined>(botConfig?.name);
+  const [lessonName, setLessonName] = useState<string | undefined>(
+    taskConfig?.name
+  );
 
-  const form = useForm<z.infer<typeof botPreferencesSchema>>({
-    resolver: zodResolver(botPreferencesSchema),
+  const form = useForm<z.infer<typeof lessonPreferencesSchema>>({
+    resolver: zodResolver(lessonPreferencesSchema),
     defaultValues: preferences || defaultValues,
   });
   const { isDirty, setIsDirty } = useIsFormDirty(form);
   const isEmpty = preferences === null || preferences === undefined;
 
-  const onSubmit = async (data: z.infer<typeof botPreferencesSchema>) => {
+  const onSubmit = async (data: z.infer<typeof lessonPreferencesSchema>) => {
     setLoading(true);
     const result = await db.botConfig.updateBotConfig({
       classId,
-      botId,
+      botId: taskId,
       data,
-      configType: "chat",
+      configType: "lesson",
     });
     setLoading(false);
     if (result.success) {
@@ -113,18 +116,18 @@ export default function BotPreferencesForm({
   };
 
   const updateBotNameHandler = async () => {
-    const isValidName = botNameSchema.safeParse({ name: botName });
+    const isValidName = lessonNameSchema.safeParse({ name: lessonName });
     if (!isValidName.success) {
       setError(
         "Failed to update , Bot names should be between 3 and 30 characters in length."
       ); // set the error message
-      setBotName(botConfig?.name);
+      setLessonName(taskConfig?.name);
       return;
     }
     const result = await db.botConfig.updateBotConfigName({
       classId,
-      botId,
-      name: botName || "Bot Preferences",
+      botId: taskId,
+      name: lessonName || "Lesson Preferences",
     });
     if (result.success) {
       setError("");
@@ -134,8 +137,8 @@ export default function BotPreferencesForm({
   };
 
   const onBotNameChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setBotName(e.target.value);
-    const isValidName = botNameSchema.safeParse({ name: e.target.value });
+    setLessonName(e.target.value);
+    const isValidName = lessonNameSchema.safeParse({ name: e.target.value });
     if (!isValidName.success) {
       setError("Warning: Message length is out of the 3-30 character limit."); // set the error message
       return;
@@ -152,7 +155,7 @@ export default function BotPreferencesForm({
               <div className="w-[50%]">
                 <Input
                   type="text"
-                  value={botName}
+                  value={lessonName}
                   onChange={onBotNameChange}
                   onBlur={updateBotNameHandler}
                   className="outline-none border-none md:text-3xl pl-0 font-bold tracking-wide focus-visible:ring-0 "
@@ -178,35 +181,61 @@ export default function BotPreferencesForm({
               </div>
             </div>
             <Separator className="my-6" />
+            {/* ------------------------Topic ------------------------- */}
             <FormField
               control={form.control}
-              name="instructions"
+              name="topic"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel
                     className={`mb-5 flex justify-between w-full align-middle font-bold ${
-                      inputFocus === "instructions" ? "text-white" : ""
+                      inputFocus === "topic" ? "text-white" : ""
                     }`}
                   >
                     <div className="flex gap-2">
-                      Instructions
+                      Topic
+                      <FiInfo />
+                    </div>
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Topic you want to teach. For multiple topics, separate them with commas."
+                      {...field}
+                      onFocus={() => setInputFocus("topic")}
+                      onBlur={() => setInputFocus("")}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            {/* ------------------------Content ------------------------- */}
+            <FormField
+              control={form.control}
+              name="content"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel
+                    className={`mb-5 flex justify-between w-full align-middle font-bold ${
+                      inputFocus === "content" ? "text-white" : ""
+                    }`}
+                  >
+                    <div className="flex gap-2">
+                      Content
                       <FiInfo />
                     </div>
                   </FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Be polite with the students. Never use negative language."
+                      placeholder="Add any additional reference material"
                       className="resize-none"
                       {...field}
-                      onFocus={() => setInputFocus("instructions")}
+                      onFocus={() => setInputFocus("content")}
                       onBlur={() => setInputFocus("")}
                       hasCounter
                       maxChars={MAX_CHARS}
                     />
                   </FormControl>
-                  <FormDescription>
-                    How do you want the bot to behave?
-                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -306,6 +335,7 @@ export default function BotPreferencesForm({
                 )}
               />
             )}
+            {/* ------------------------Board ------------------------- */}
 
             <FormField
               control={form.control}
@@ -344,6 +374,7 @@ export default function BotPreferencesForm({
                 </FormItem>
               )}
             />
+            {/* ------------------------Tone ------------------------- */}
             <FormField
               control={form.control}
               name="tone"
@@ -381,6 +412,7 @@ export default function BotPreferencesForm({
                 </FormItem>
               )}
             />
+            {/* ------------------------Language ------------------------- */}
             <FormField
               control={form.control}
               name="humorLevel"
@@ -420,6 +452,7 @@ export default function BotPreferencesForm({
                 </FormItem>
               )}
             />
+            {/* ------------------------Language ------------------------- */}
             <FormField
               control={form.control}
               name="languageProficiency"

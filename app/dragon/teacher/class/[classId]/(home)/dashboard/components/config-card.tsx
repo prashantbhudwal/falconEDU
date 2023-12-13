@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { useCreateNewConfig } from "@/app/dragon/teacher/hooks/use-create-config";
@@ -13,12 +13,13 @@ import {
   CardDescription,
   CardFooter,
 } from "@/components/ui/card";
-import { PlusCircleIcon } from "@heroicons/react/24/outline";
 import { PlusIcon } from "@radix-ui/react-icons";
+import { TaskType } from "@/types/dragon";
+import { getTaskProperties } from "@/app/dragon/teacher/utils";
 
 type propType = {
   classId: string;
-  configType: "chat" | "test";
+  configType: TaskType;
   configs: AllConfigsInClass;
 };
 
@@ -27,7 +28,12 @@ export const ConfigCard = ({ classId, configType, configs }: propType) => {
   const userId = data?.user?.id ?? "";
   const createNewConfig = useCreateNewConfig();
 
-  const cardConfigs = configType === "chat" ? configs.chat : configs.test;
+  const cardConfigs =
+    configType === "chat"
+      ? configs.chat
+      : configType === "lesson"
+        ? configs.lesson
+        : configs.test;
   const allConfigs = cardConfigs.all;
   const publishedConfigs = cardConfigs.published;
   const unpublishedConfigs = cardConfigs.unpublished;
@@ -38,7 +44,7 @@ export const ConfigCard = ({ classId, configType, configs }: propType) => {
     <Card className="w-[300px] h-[300px] flex flex-col justify-between">
       <CardHeader>
         <CardTitle className="capitalize text-2xl">
-          {configType === "chat" ? "Bots" : "Tests"}
+          {getTaskProperties(configType).formattedType}
         </CardTitle>
         <CardDescription>
           {publishedConfigs.length}/{allConfigs.length} published
@@ -65,7 +71,7 @@ export const ConfigCard = ({ classId, configType, configs }: propType) => {
           onClick={() => createNewConfig({ userId, classId, configType })}
         >
           <PlusIcon className="w-5 text-accent group-hover:text-inherit" />
-          <div>New {configType === "chat" ? "bot" : "test"}</div>
+          <div>New {getTaskProperties(configType).formattedType}</div>
         </Button>
       </CardFooter>
     </Card>

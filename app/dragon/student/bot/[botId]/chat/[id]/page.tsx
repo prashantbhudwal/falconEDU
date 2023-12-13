@@ -13,7 +13,10 @@ import prisma from "@/prisma";
 import { revalidatePath } from "next/cache";
 import { getTestQuestionsByBotChatId } from "@/app/dragon/ai/student-chat/prompts/test-prompts/testBotMessages";
 import { getChatContextByChatId } from "@/app/dragon/ai/student-chat/prompts/chat-prompts/queries";
+import { getLessonContextByChatId } from "@/app/dragon/ai/student-chat/prompts/lesson-prompts/queries";
 import { json } from "stream/consumers";
+import { getTaskProperties } from "@/app/dragon/teacher/utils";
+import { TaskType } from "@/types/dragon";
 
 export interface ChatPageProps {
   params: {
@@ -47,6 +50,23 @@ const setIsReadToTrue = async function (botChatId: string) {
     throw new Error("Failed to update Chat Status");
   }
 };
+
+const getChatContext = async function (type: TaskType, chatId: string) {
+  switch (type) {
+    case "chat":
+      const parsedQuestions = await getTestQuestionsByBotChatId(chatId);
+      return JSON.stringify(parsedQuestions);
+    case "test":
+      const chatContext = await getChatContextByChatId(chatId);
+      return JSON.stringify(chatContext);
+    case "lesson":
+      const lessonContext = await getLessonContextByChatId(chatId);
+      return JSON.stringify(lessonContext);
+    default:
+      throw new Error("Invalid type");
+  }
+};
+
 export default async function ChatPage({ params }: ChatPageProps) {
   const id = params.id;
   const botId = params.botId;
@@ -61,20 +81,9 @@ export default async function ChatPage({ params }: ChatPageProps) {
   const botImage = chat?.botImage;
   const initialMessages: Message[] = chat?.messages || [];
   const classDetails = await getClassByBotId({ botId });
-  const emptyMessage =
-    bot?.BotConfig.type === "test"
-      ? "Say hello to start the test"
-      : "Start chatting with your teacher";
-
-  let context;
-
-  if (bot?.BotConfig.type === "test") {
-    const parsedQuestions = await getTestQuestionsByBotChatId(id);
-    context = JSON.stringify(parsedQuestions);
-  } else {
-    const chatContext = await getChatContextByChatId(id);
-    context = JSON.stringify(chatContext);
-  }
+  const type = bot?.BotConfig.type as TaskType;
+  const emptyMessage = getTaskProperties(type).emptyChatMessage;
+  const context = await getChatContext(type, id);
 
   return (
     <>
@@ -97,14 +106,14 @@ export default async function ChatPage({ params }: ChatPageProps) {
         chatBody={{
           chatId: id,
           context,
-          type: bot?.BotConfig.type,
+          type,
         }}
         botImage={botImage}
         isDisabled={
           !classDetails?.isActive || !bot?.isActive || !bot?.BotConfig.published
         }
         isSubmitted={bot?.isSubmitted}
-        type={bot?.BotConfig.type ?? "chat"}
+        type={type ?? "chat"}
       />
     </>
   );

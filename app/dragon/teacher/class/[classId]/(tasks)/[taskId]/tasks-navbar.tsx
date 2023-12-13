@@ -102,7 +102,7 @@ const ClassLink = function ({
         size="sm"
       >
         <ChevronLeftIcon className="w-6" />
-        <div>{name}</div>
+        {/* <div>{name}</div> */}
       </Button>
     </Link>
   );
@@ -142,7 +142,7 @@ const ResponseLink = function ({
   classId,
   configId,
 }: {
-  type: string;
+  type: TaskType;
   classId: string;
   configId: string;
 }) {
@@ -235,7 +235,7 @@ const PublishButton = function ({
   const [hover, setHover] = useState(false);
   const isPublished = task.published;
   const taskId = task.id;
-  const type = task.type;
+  const type = task.type as TaskType;
   const {
     onPublish,
     onUnPublish,
@@ -245,6 +245,7 @@ const PublishButton = function ({
   } = useConfigPublishing({
     classId,
     botId: taskId,
+    type,
   });
 
   useEffect(() => {

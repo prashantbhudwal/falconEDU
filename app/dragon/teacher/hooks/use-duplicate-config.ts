@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { db } from "../routers";
-import { getEditBotURL, getTaskUrl, getTestEditBotURL } from "@/lib/urls";
+import { getTaskUrl } from "@/lib/urls";
 import { TaskType } from "@/types/dragon";
 
 export function useDuplicateConfig() {

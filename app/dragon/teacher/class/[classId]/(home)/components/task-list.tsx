@@ -3,6 +3,7 @@ import { BotConfig } from "@prisma/client";
 import { TaskCard } from "./task-card";
 import Link from "next/link";
 import { getTaskUrlByType } from "@/lib/urls";
+import { TaskType } from "@/types/dragon";
 
 type GroupedTasks = {
   [key: string]: BotConfig[];
@@ -54,7 +55,7 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, classId, userId }) => {
                 href={getTaskUrlByType({
                   classId: classId,
                   configId: task.id,
-                  type: task.type,
+                  type: task.type as TaskType,
                 })}
                 key={task.id}
               >

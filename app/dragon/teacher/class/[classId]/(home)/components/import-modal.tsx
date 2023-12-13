@@ -25,6 +25,7 @@ import {
 import { ClassesByUserId } from "../../../../routers/classRouter";
 import { useState } from "react";
 import { TaskType } from "@/types/dragon";
+import { getTaskProperties } from "@/app/dragon/teacher/utils";
 
 export function ImportModal({
   classId,
@@ -37,7 +38,7 @@ export function ImportModal({
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const { duplicateConfig } = useDuplicateConfig();
-  const types = ["chat", "test"];
+  const types: TaskType[] = ["chat", "test", "lesson"];
 
   const ImportFormSchema = z.object({
     classId: z.string(),
@@ -89,7 +90,7 @@ export function ImportModal({
       <DialogContent>
         <DialogHeader>
           <DialogTitle className="text-2xl font-medium pb-5">
-            Import Bots and Tests
+            Import Tasks
           </DialogTitle>
         </DialogHeader>
         <Form {...form}>
@@ -102,7 +103,7 @@ export function ImportModal({
                 <FormItem>
                   <Select onValueChange={field.onChange} value={field.value}>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select a class" />
+                      <SelectValue placeholder="Select a class to import from" />
                     </SelectTrigger>
                     <SelectContent className="max-h-80">
                       {classesWithConfigs.map((cls) => (
@@ -130,7 +131,7 @@ export function ImportModal({
                     <SelectContent>
                       {types.map((type) => (
                         <SelectItem key={type} value={type}>
-                          {type === "test" ? "Test" : "Bot"}
+                          {getTaskProperties(type).formattedType}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -150,7 +151,8 @@ export function ImportModal({
                     <SelectTrigger>
                       <SelectValue
                         placeholder={`Select a ${
-                          selectedBotType === "test" ? "test" : "bot"
+                          getTaskProperties(selectedBotType as TaskType)
+                            .formattedType
                         }`}
                       />
                     </SelectTrigger>

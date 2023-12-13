@@ -9,6 +9,7 @@ import {
 import { getReportUrl } from "@/lib/urls";
 import { NoStudents } from "./no-students";
 import { NotPublished } from "./not-published";
+import { TaskType } from "@/types/dragon";
 
 export const IndividualResponsesList = async function ({
   classId,
@@ -17,7 +18,7 @@ export const IndividualResponsesList = async function ({
 }: {
   classId: string;
   taskId: string;
-  type: "test" | "chat";
+  type: TaskType;
 }) {
   const { isPublished, students } = await getStudentsByBotConfigId(taskId);
 
