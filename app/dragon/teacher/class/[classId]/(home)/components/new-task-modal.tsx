@@ -71,10 +71,8 @@ export function NewTaskModal({
         });
         setLoading(false);
         setOpen(false);
-        return;
       } catch (error) {
         console.error(error);
-        return;
       }
     } else {
       setError("Please select a task type");
