@@ -60,7 +60,7 @@ const QuestionText = React.forwardRef<HTMLHeadingElement, QuestionTextProps>(
         className
       )}
     >
-      {questionNumber && <span className="mr-2">{questionNumber}.</span>}
+      {questionNumber && <span className="mr-1">{questionNumber}.</span>}
       <div className="w-full">{children}</div>
     </h2>
   )
