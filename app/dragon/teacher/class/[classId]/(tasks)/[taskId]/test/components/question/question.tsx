@@ -26,8 +26,8 @@ type QuestionTextProps = CommonProps & {
   questionNumber?: number;
 };
 
-const AccordionHeaderStyle = `text-base leading-none tracking-tight rounded-sm text-slate-300`;
-const AccordionContentStyle = `pl-2 text-slate-400 text-base`;
+const AccordionHeaderStyle = `text-sm text-base leading-none tracking-tight rounded-sm text-slate-400 pb-2 font-normal`;
+const AccordionContentStyle = `pl-2 text-slate-400 text-base text-sm`;
 
 const Question = React.forwardRef<HTMLDivElement, QuestionProps>(
   ({ children, className, isCorrect, ...props }, ref) => {
@@ -36,7 +36,7 @@ const Question = React.forwardRef<HTMLDivElement, QuestionProps>(
         ref={ref}
         className={cn(
           className,
-          "py-4 px-4 text-slate-300",
+          "py-2 px-4 text-slate-300",
 
           {
             "ring-1 ring-primary": isCorrect,
@@ -56,7 +56,7 @@ const QuestionText = React.forwardRef<HTMLHeadingElement, QuestionTextProps>(
     <h2
       ref={ref}
       className={cn(
-        "leading-none tracking-tight text-lg mb-5 flex flex-row items-start font-medium",
+        "leading-none tracking-tight flex flex-row items-baseline",
         className
       )}
     >
@@ -71,7 +71,7 @@ const Options = React.forwardRef<HTMLDivElement, CommonProps>(
   ({ children, className }, ref) => (
     <div
       ref={ref}
-      className={cn("flex flex-col space-y-2 pl-2 mb-3", className)}
+      className={cn("flex flex-col space-y-2 pl-2 my-3", className)}
     >
       {children}
     </div>
@@ -83,7 +83,7 @@ const Option = React.forwardRef<HTMLDivElement, CommonProps>(
   ({ children, className }, ref) => (
     <div
       ref={ref}
-      className={cn("border rounded-md p-1 pl-2 text-sm", className)}
+      className={cn("border rounded-md p-1 pl-2 text-xs", className)}
     >
       {children}
     </div>

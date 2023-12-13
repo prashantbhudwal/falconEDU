@@ -151,7 +151,7 @@ export const QuestionForm = ({
           <Question>
             {/* ---------------------------------- Questions -------------------------------------- */}
             <div className="">
-              <div className="pb-5 w-full flex items-center justify-between">
+              <div className="pb-2 w-full flex items-center justify-between text-slate-500">
                 <FormField
                   control={form.control}
                   name="question_type"
@@ -159,7 +159,7 @@ export const QuestionForm = ({
                     <FormItem>
                       <FormControl>
                         <Select onValueChange={field.onChange} {...field}>
-                          <SelectTrigger className="w-fit">
+                          <SelectTrigger className="w-fit ring-0 border-none pl-0 focus:ring-0">
                             <SelectValue placeholder={question.question_type} />
                           </SelectTrigger>
                           <SelectContent>
