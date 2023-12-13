@@ -47,6 +47,7 @@ const getBotsByTeacherAndStudentID = cache(async function (
       id: true,
       isSubmitted: true,
       createdAt: true,
+      isActive: true,
       BotConfig: {
         select: {
           name: true,
@@ -160,6 +161,7 @@ export default async function TeacherDashboard({
                 botId={bot.id}
                 readStatus={readStatus.isRead}
                 createdAt={bot.createdAt}
+                isActive={bot.isActive}
               />
             </Link>
           );
@@ -187,6 +189,7 @@ export default async function TeacherDashboard({
                     botId={bot.id}
                     readStatus={readStatus.isRead}
                     createdAt={bot.createdAt}
+                    isActive={bot.isActive}
                   />
                 </Link>
               );

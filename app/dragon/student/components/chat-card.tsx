@@ -27,6 +27,7 @@ type ChatCardProps = {
   botId: string;
   readStatus: boolean;
   createdAt: Date;
+  isActive: boolean;
 };
 export function ChatCard({
   imageUrl,
@@ -36,6 +37,7 @@ export function ChatCard({
   icon,
   botId,
   createdAt,
+  isActive,
   readStatus: initialReadStatus,
 }: ChatCardProps) {
   const [isRead, setIsRead] = useState(initialReadStatus);
@@ -49,7 +51,11 @@ export function ChatCard({
 
   const taskProperties = getTaskProperties(type);
   return (
-    <Card className="relative flex flex-row max-w-sm border-none bg-base-300">
+    <Card
+      className={cn("relative flex flex-row max-w-sm border-none bg-base-300", {
+        grayscale: !isActive,
+      })}
+    >
       <div
         className={cn("absolute inset-y-0 w-4", priorityColor[priority])}
       ></div>
@@ -76,11 +82,16 @@ export function ChatCard({
           </Avatar>
         </div>
         <div className="flex flex-col space-y-2 items-start w-full">
-          <h1 className="">{title}</h1>
           <div className="flex flex-row justify-between w-full">
-            <Badge variant={"outline"} className=" text-slate-500 text-xs">
+            <h1 className="">{title}</h1>{" "}
+            {!isActive && (
+              <span className="text-xs text-slate-500">Inactive</span>
+            )}
+          </div>
+          <div className="flex flex-row justify-between w-full">
+            <div className=" text-slate-500 text-xs">
               {taskProperties.formattedType}
-            </Badge>
+            </div>
             <div className="text-slate-600 text-xs">
               {getFormattedDate(createdAt)}
             </div>
