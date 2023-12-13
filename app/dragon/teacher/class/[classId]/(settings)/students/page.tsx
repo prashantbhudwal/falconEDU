@@ -15,14 +15,11 @@ export default async function EditStudents({ params }: EditClassProps) {
   const { classId } = params;
   const students = await getStudentsByClassId(classId);
   return (
-    <Paper
-      className="flex flex-col gap-10 w-full max-w-5xl min-h-screen"
-      variant={"gray"}
-    >
+    <Paper className="flex flex-col gap-10 w-full max-w-5xl min-h-screen">
       <h1 className="text-3xl font-bold  text-slate-400">My Students</h1>
       <div className="flex space-y-5 flex-col w-full">
         <AddStudentForm classId={classId} />
-        <DataTable students={students || []} classId ={classId} />
+        <DataTable students={students || []} classId={classId} />
       </div>
     </Paper>
   );

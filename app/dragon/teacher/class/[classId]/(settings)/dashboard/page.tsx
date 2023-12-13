@@ -29,7 +29,7 @@ export default async function ClassSettings({
   const totalStudents = await getTotalStudentsByClassId(classId);
   const configs = await db.botConfig.getAllConfigsInClass({ userId, classId });
   return (
-    <div className="w-[80%] mx-auto flex flex-col space-y-10 pt-10">
+    <div className="w-[80%] mx-auto flex flex-col space-y-10 pt-10 max-w-5xl">
       {/* ------------------------------------------------------------------------------- */}
       <h1 className="text-3xl font-bold  text-slate-400">Class Dashboard</h1>
       <Separator decorative orientation="horizontal" className="w-full" />

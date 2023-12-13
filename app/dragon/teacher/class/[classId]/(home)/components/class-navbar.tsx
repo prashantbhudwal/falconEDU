@@ -6,6 +6,7 @@ import { NewTaskModal } from "./new-task-modal";
 import MyStudentsBtn from "../../../../components/class-sidebar/my-students-btn";
 import { Button } from "@/components/ui/button";
 import { MdDashboard } from "react-icons/md";
+import { WrenchScrewdriverIcon } from "@heroicons/react/24/solid";
 import { getSettingsUrl } from "@/lib/urls";
 import Link from "next/link";
 
@@ -36,7 +37,7 @@ export async function ClassNavbar({
         />
         <Link href={getSettingsUrl(classId)}>
           <Button variant="ghost" size="icon">
-            <MdDashboard className="w-6" />
+            <WrenchScrewdriverIcon className="w-5" />
           </Button>
         </Link>
       </div>
