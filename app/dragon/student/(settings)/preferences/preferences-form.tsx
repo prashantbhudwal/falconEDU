@@ -15,41 +15,78 @@ import { Button } from "@/components/ui/button";
 import { TextareaAutosize } from "@/components/ui/textarea-autosize";
 import { Paper } from "@/components/ui/paper";
 import { useToast } from "@/components/ui/use-toast";
+import { useState } from "react";
+import { updateStudentPreferences } from "./mutations";
+import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 
-const FormSchema = z.object({
+export const FormSchema = z.object({
   interests: z
     .string()
     .min(1, "Interests is required")
-    .max(200, "Interests can't exceed 200 characters"),
+    .max(200, "Interests can't exceed 200 characters")
+    .optional(),
   favoriteCartoons: z
     .string()
     .min(1, "Favorite Cartoons is required")
-    .max(200, "Favorite Cartoons can't exceed 200 characters"),
+    .max(200, "Favorite Cartoons can't exceed 200 characters")
+    .optional(),
   favoriteFoods: z
     .string()
     .min(1, "Favorite Foods is required")
-    .max(200, "Favorite Foods can't exceed 200 characters"),
+    .max(200, "Favorite Foods can't exceed 200 characters")
+    .optional(),
   aboutYourself: z
     .string()
     .min(1, "About Yourself is required")
-    .max(500, "About Yourself can't exceed 500 characters"),
+    .max(500, "About Yourself can't exceed 500 characters")
+    .optional(),
 });
 
-export function StudentPreferencesForm() {
+const defaultValues = {
+  interests: "",
+  favoriteCartoons: "",
+  favoriteFoods: "",
+  aboutYourself: "",
+};
+
+export function StudentPreferencesForm({
+  initialPreferences,
+  studentId,
+}: {
+  initialPreferences: z.infer<typeof FormSchema>;
+  studentId: string;
+}) {
   const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
-    defaultValues: {
-      interests: "",
-      favoriteCartoons: "",
-      favoriteFoods: "",
-      aboutYourself: "",
-    },
+    defaultValues: initialPreferences || defaultValues,
   });
 
-  const onSubmit = (data: z.infer<typeof FormSchema>) => {
-    console.log(data);
+  const { isDirty, setIsDirty } = useIsFormDirty(form);
+
+  const onSubmit = async (data: z.infer<typeof FormSchema>) => {
+    setIsLoading(true);
+    setError("");
+    try {
+      const { success } = await updateStudentPreferences({
+        studentId: studentId,
+        data,
+      });
+      if (!success) {
+        setIsLoading(false);
+        console.log(error);
+        setError("Failed to update preferences.");
+      }
+      setIsDirty(false);
+    } catch (error) {
+      setIsLoading(false);
+      console.log(error);
+      setError("Failed to update preferences.");
+    }
+    setIsLoading(false);
   };
   return (
     <Paper className="w-full flex flex-col items-center">
@@ -115,7 +152,12 @@ export function StudentPreferencesForm() {
               </FormItem>
             )}
           />
-          <Button type="submit">Save</Button>
+          {error && (
+            <div className="text-destructive font-semibold my-2">{error}</div>
+          )}
+          <Button type="submit" disabled={!isDirty}>
+            {isLoading ? "Saving" : isDirty ? "Save" : "Saved"}
+          </Button>
         </form>
       </Form>
     </Paper>
