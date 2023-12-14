@@ -115,6 +115,7 @@ export default function TestPreferencesForm({
           question_number: parsedQuestionFromDb.length + index + 1,
         };
       });
+
     const response = await saveParsedQuestions({
       parsedQuestions: updatedParsedQuestions || parsedQuestions,
       botId,

@@ -277,7 +277,7 @@ export const QuestionForm = ({
             )}
             {/* ----------------------------------------- Answers -------------------------------- */}
             {question.correct_answer.length > 0 && (
-              <Answer>
+              <Answer question={question}>
                 {answerFields.map((answer, index) => (
                   <FormField
                     key={index}

@@ -8,6 +8,31 @@ import {
   AccordionTrigger,
   AccordionItem,
 } from "@/components/ui/accordion";
+import { BsFillInfoCircleFill } from "react-icons/bs";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { IoClose } from "react-icons/io5";
+import { typeGetParsedQuestionByBotConfigId } from "@/app/dragon/teacher/routers/parsedQuestionRouter";
+import { Button } from "@/components/ui/button";
+import { db } from "@/app/dragon/teacher/routers";
+import { useState } from "react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+
+type ParsedQuestionType = NonNullable<
+  typeGetParsedQuestionByBotConfigId["activeParsedQuestions"]
+>[number];
 
 type CommonProps = {
   children: React.ReactNode;
@@ -21,6 +46,7 @@ type QuestionProps = CommonProps & {
 type AccordionProps = CommonProps & {
   hidden?: boolean;
   accordianTitleStyles?: string;
+  question?: ParsedQuestionType;
 };
 type QuestionTextProps = CommonProps & {
   questionNumber?: number;
@@ -92,26 +118,96 @@ const Option = React.forwardRef<HTMLDivElement, CommonProps>(
 Option.displayName = "Option";
 
 const Answer = React.forwardRef<HTMLDivElement, AccordionProps>(
-  ({ children, className, hidden, accordianTitleStyles }, ref) => (
-    <Accordion
-      type="single"
-      collapsible
-      defaultValue={!hidden ? "item-1" : undefined}
-      ref={ref}
-      className={cn("", className)}
-    >
-      <AccordionItem value="item-1" className="border-none">
-        <AccordionTrigger
-          className={cn(AccordionHeaderStyle, accordianTitleStyles)}
-        >
-          Answer
-        </AccordionTrigger>
-        <AccordionContent className={cn(AccordionContentStyle)}>
-          {children}
-        </AccordionContent>
-      </AccordionItem>
-    </Accordion>
-  )
+  ({ children, className, hidden, question, accordianTitleStyles }, ref) => {
+    const [open, setOpen] = useState(false);
+    const [error, setError] = useState("");
+
+    const removeWarningHandler = async (e: React.MouseEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (!question) return;
+      setError("");
+
+      const { success } = await db.parseQuestionRouter.updateParsedQuestion({
+        parseQuestionId: question.id,
+        data: {
+          isPossiblyWrong: false,
+          isPossiblyWrongDesc: "",
+        } as ParsedQuestionType,
+      });
+
+      if (!success) {
+        setError("Can't remove warning");
+      }
+
+      if (success) {
+        setError("");
+      }
+    };
+    return (
+      <Accordion
+        type="single"
+        collapsible
+        defaultValue={!hidden ? "item-1" : undefined}
+        ref={ref}
+        className={cn("", className)}
+      >
+        <AccordionItem value="item-1" className="border-none">
+          <AccordionTrigger
+            className={cn(
+              AccordionHeaderStyle,
+              accordianTitleStyles,
+              "hover:no-underline cursor-pointer"
+            )}
+          >
+            <div className="flex items-center gap-3">
+              Answer
+              {question?.isPossiblyWrong && question?.isPossiblyWrongDesc && (
+                <TooltipProvider delayDuration={100}>
+                  <Tooltip>
+                    <TooltipTrigger className="group">
+                      <div className="flex gap-4 items-center">
+                        <div className="text-error flex gap-2 text-sm items-center hover:underline">
+                          <BsFillInfoCircleFill className="text-xs" /> Possibly
+                          incorrect.
+                        </div>
+                        <button
+                          onClick={removeWarningHandler}
+                          className="w-fit group-hover:block rounded-full hover:text-slate-100 text-sm hidden text-slate-500"
+                        >
+                          <IoClose />
+                        </button>
+                      </div>
+                    </TooltipTrigger>
+                    {error && <p className="text-xs text-error">{error}</p>}
+                    <TooltipContent className="bg-slate-700 text-slate-100 text-start max-w-[400px] cursor-default">
+                      <div className="">
+                        <h3 className="text-lg font-medium text-slate-300">
+                          Answer Verification
+                        </h3>
+                        <p className="text-xs pt-3 pb-1">Provided Answer:</p>
+                        <div className="flex flex-col gap-2 px-3 py-2 border border-slate-500 rounded-lg">
+                          {question.correct_answer.map((answer, index) => {
+                            return <p key={index}>{answer}</p>;
+                          })}
+                        </div>
+                        <p className="text-slate-100 text-sm py-3">
+                          {question.isPossiblyWrongDesc}
+                        </p>
+                      </div>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              )}
+            </div>
+          </AccordionTrigger>
+          <AccordionContent className={cn(AccordionContentStyle)}>
+            {children}
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+    );
+  }
 );
 Answer.displayName = "Answer";
 
