@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 import {
   getTeacherData,
   typeGetTeacherPreferences,
-} from "@/app/dragon/teacher/teacher-preferences/getTeacherData";
+} from "@/app/dragon/teacher/(settings)/teacher-preferences/getTeacherData";
 import { teacherPreferencesSchema } from "@/app/dragon/schema";
 import { removeOptionalFieldFormZodTypes } from "@/lib/utils";
 import { SparklesIcon } from "@heroicons/react/24/solid";

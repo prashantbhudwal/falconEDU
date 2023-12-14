@@ -5,8 +5,8 @@ import { TextareaWithCounter as Textarea } from "@/components/ui/textarea-counte
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { teacherPreferencesSchema } from "../../schema";
-import { updateTeacherPreferences } from "../mutations";
+import { teacherPreferencesSchema } from "../../../schema";
+import { updateTeacherPreferences } from "../../mutations";
 import { FiThumbsDown } from "react-icons/fi";
 import { FiThumbsUp } from "react-icons/fi";
 import { FiInfo } from "react-icons/fi";
@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/form";
 import { useState } from "react";
 import { Paper } from "@/components/ui/paper";
-import { LIMITS_teacherPreferencesSchema } from "../../schema";
+import { LIMITS_teacherPreferencesSchema } from "../../../schema";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 
 const defaultValues: z.infer<typeof teacherPreferencesSchema> = {
@@ -123,50 +123,50 @@ export default function TeacherPreferencesForm({
   };
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
-        <Paper variant="gray" className="my-8 ">
-          <div className="flex justify-between p-5 rounded-lg ">
-            <div className=" flex flex-col gap-2">
-              <h2 className="md:text-3xl text-slate-200 font-bold tracking-wide">
-                My Avatar
-              </h2>
+    <Paper variant="gray" className="my-8 bg-base-200">
+      <div className="flex justify-between p-5 rounded-lg ">
+        <div className=" flex flex-col gap-2">
+          <h2 className="md:text-3xl text-slate-200 font-bold tracking-wide">
+            My Avatar
+          </h2>
 
-              <p
-                className={` text-base max-w-lg hover:transition-all duration-300 ${
-                  onHover ? "text-slate-400" : "text-slate-400"
-                } `}
-              >
-                Your avatar that will represent you in the classroom. The more
-                information you provide, the more your avatar will be able to
-                connect with your students.
-              </p>
-            </div>
-            <div className="w-36">
-              <Button
-                type="submit"
-                onMouseEnter={handleDescriptionHoverEnter}
-                onMouseLeave={handleDescriptionHoverLeave}
-                disabled={!isDirty}
-                className="w-full"
-              >
-                {loading ? "Saving" : isDirty ? "Save" : "Saved"}
-              </Button>
-              <div className="flex flex-col space-y-2">
-                {isDirty && (
-                  <div className="text-sm font-semibold text-slate-500  mt-2 whitespace-nowrap ">
-                    Unsaved changes
-                  </div>
-                )}
-                {Object.keys(form.formState.errors).length > 0 && (
-                  <div className="text-destructive font-semibold my-2 text-sm">
-                    Check all fields
-                  </div>
-                )}
+          <p
+            className={` text-base max-w-lg hover:transition-all duration-300 ${
+              onHover ? "text-slate-400" : "text-slate-400"
+            } `}
+          >
+            Your avatar that will represent you in the classroom. The more
+            information you provide, the more your avatar will be able to
+            connect with your students.
+          </p>
+        </div>
+        <div className="w-36">
+          <Button
+            type="submit"
+            onMouseEnter={handleDescriptionHoverEnter}
+            onMouseLeave={handleDescriptionHoverLeave}
+            disabled={!isDirty}
+            className="w-full"
+          >
+            {loading ? "Saving" : isDirty ? "Save" : "Saved"}
+          </Button>
+          <div className="flex flex-col space-y-2">
+            {isDirty && (
+              <div className="text-sm font-semibold text-slate-500  mt-2 whitespace-nowrap ">
+                Unsaved changes
               </div>
-            </div>
+            )}
+            {Object.keys(form.formState.errors).length > 0 && (
+              <div className="text-destructive font-semibold my-2 text-sm">
+                Check all fields
+              </div>
+            )}
           </div>
-          <Separator className="my-4" />
+        </div>
+      </div>
+      <Separator className="my-4" />
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
           {personalInfo.map((item) => (
             <FormField
               key={item.name}
@@ -201,8 +201,8 @@ export default function TeacherPreferencesForm({
               )}
             />
           ))}
-        </Paper>
-      </form>
-    </Form>
+        </form>
+      </Form>
+    </Paper>
   );
 }
