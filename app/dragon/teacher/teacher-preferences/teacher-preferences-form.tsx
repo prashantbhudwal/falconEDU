@@ -131,6 +131,7 @@ export default function TeacherPreferencesForm({
               <h2 className="md:text-3xl text-slate-200 font-bold tracking-wide">
                 My Avatar
               </h2>
+
               <p
                 className={` text-base max-w-lg hover:transition-all duration-300 ${
                   onHover ? "text-slate-400" : "text-slate-400"
@@ -141,20 +142,28 @@ export default function TeacherPreferencesForm({
                 connect with your students.
               </p>
             </div>
-            <div className="relative">
+            <div className="w-36">
               <Button
                 type="submit"
                 onMouseEnter={handleDescriptionHoverEnter}
                 onMouseLeave={handleDescriptionHoverLeave}
                 disabled={!isDirty}
+                className="w-full"
               >
                 {loading ? "Saving" : isDirty ? "Save" : "Saved"}
               </Button>
-              {isDirty && (
-                <div className="text-sm font-semibold text-slate-500 absolute mt-2 right-0 whitespace-nowrap ">
-                  Unsaved changes
-                </div>
-              )}
+              <div className="flex flex-col space-y-2">
+                {isDirty && (
+                  <div className="text-sm font-semibold text-slate-500  mt-2 whitespace-nowrap ">
+                    Unsaved changes
+                  </div>
+                )}
+                {Object.keys(form.formState.errors).length > 0 && (
+                  <div className="text-destructive font-semibold my-2 text-sm">
+                    Check all fields
+                  </div>
+                )}
+              </div>
             </div>
           </div>
           <Separator className="my-4" />
