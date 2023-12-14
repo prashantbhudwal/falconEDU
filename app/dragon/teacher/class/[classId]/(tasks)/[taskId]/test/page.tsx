@@ -14,6 +14,7 @@ import {
   AccordionTrigger,
   AccordionItem,
 } from "@/components/ui/accordion";
+import { typeGetParsedQuestionByBotConfigId } from "@/app/dragon/teacher/routers/parsedQuestionRouter";
 export interface BotPageProps {
   params: {
     classId: string;
@@ -70,6 +71,19 @@ export default async function BotPage({ params }: BotPageProps) {
     await db.botConfig.getIsBotConfigArchivedByBotConfigId({
       botConfigId: testBotId,
     });
+
+  const isAnswersPossiblyIncorrect = (
+    activeParsedQuestions: typeGetParsedQuestionByBotConfigId["activeParsedQuestions"]
+  ): boolean => {
+    if (!activeParsedQuestions) return false;
+    const incorrectQuestions = activeParsedQuestions.filter((question) => {
+      return question.isPossiblyWrong;
+    });
+    if (incorrectQuestions.length > 0) {
+      return true;
+    }
+    return false;
+  };
   return (
     <div className="w-full">
       <Paper className="w-full max-w-5xl py-3 px-2 min-h-screen">
@@ -108,7 +122,14 @@ export default async function BotPage({ params }: BotPageProps) {
         )}
         {activeParsedQuestions && (
           <div className="flex flex-col space-y-4 items-center">
-            <h1 className="text-2xl font-semibold text-slate-500">Review</h1>
+            <div className="text-center">
+              <h1 className="text-2xl font-semibold text-slate-500">Review</h1>
+              {isAnswersPossiblyIncorrect(activeParsedQuestions) && (
+                <p className="text-xs text-warning">
+                  ( Some of the responses may be potentially incorrect )
+                </p>
+              )}
+            </div>
             <TestParsedQuestion
               botId={testBotId}
               classId={classId}
