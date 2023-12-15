@@ -96,6 +96,7 @@ export const studentHomeURL = `${baseUrl}/student/`;
 
 //TODO This url pattern is not consistent with other urls
 export const studentProfileURL = `/profile/student`;
+export const getStudentPreferencesURL = () => `${baseUrl}/student/preferences`;
 export const studentChatURL = (chatId: string) =>
   `${baseUrl}/student/chat/${chatId}`;
 

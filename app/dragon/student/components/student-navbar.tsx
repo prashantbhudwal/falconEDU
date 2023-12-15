@@ -5,7 +5,12 @@ import { ReactNode } from "react";
 import SignOutButton from "@/components/auth/sign-out-btn";
 import Image from "next/image";
 import Link from "next/link";
-import { studentHomeURL, studentProfileURL } from "@/lib/urls";
+import {
+  getStudentPreferencesURL,
+  studentHomeURL,
+  studentProfileURL,
+} from "@/lib/urls";
+import { Button } from "@/components/ui/button";
 
 const SettingsIcon: React.FC = () => (
   <div className="dropdown-end dropdown">
@@ -38,7 +43,12 @@ export const StudentHomeNavbar: React.FC = () => (
       <Image src={"/chubbi.png"} height={30} width={30} alt="Falcon Logo" />
       <p className="text-xl">FalconAI</p>
     </div>
-    <div className="navbar-end">
+    <div className="navbar-end flex items-center gap-2">
+      <Link href={getStudentPreferencesURL()}>
+        <Button variant="ghost" size={"sm"}>
+          My Profile
+        </Button>
+      </Link>
       <SettingsIcon />
     </div>
   </StudentNavbar>
