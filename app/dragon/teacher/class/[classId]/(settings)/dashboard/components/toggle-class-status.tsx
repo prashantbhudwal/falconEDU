@@ -2,15 +2,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { getClassIsActiveByClassId } from "../queries";
 import { ClassDialog } from "@/app/dragon/teacher/components/class-dialog";
-import { Button } from "@/components/ui/button";
-import { LuArchive, LuArchiveRestore } from "react-icons/lu";
+import { LuArchive } from "react-icons/lu";
 import { BoltIcon } from "@heroicons/react/24/solid";
-import { archiveClassByClassId, unarchiveClassByClassId } from "../mutations";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { revalidatePath } from "next/cache";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { getTeacherHomeURL } from "@/lib/urls";
+import { db } from "@/app/dragon/teacher/routers";
 
 export const ToggleClassStatusCard = ({ classId }: { classId: string }) => {
   const router = useRouter();
@@ -33,15 +31,15 @@ export const ToggleClassStatusCard = ({ classId }: { classId: string }) => {
 
   const archiveHandler = async (type: string) => {
     if (type === "archive") {
-      const response = await archiveClassByClassId(classId);
-      if (response) {
+      const { success } = await db.class.archiveClassByClassId({ classId });
+      if (success) {
         setIsActive(false);
         router.push(getTeacherHomeURL());
       }
     }
     if (type === "unarchive") {
-      const response = await unarchiveClassByClassId(classId);
-      if (response) {
+      const { success } = await db.class.unarchiveClassByClassId({ classId });
+      if (success) {
         setIsActive(true);
       }
     }

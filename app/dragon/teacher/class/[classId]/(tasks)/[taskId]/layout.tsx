@@ -4,6 +4,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { db } from "../../../../routers";
 import { ClassNavbar } from "../../(home)/components/class-navbar";
 import { TasksNavbar } from "./tasks-navbar";
+import { typeGetBotConfigByConfigId } from "@/app/dragon/teacher/routers/botConfigRouter";
 
 export default async function ClassLayout({
   children,

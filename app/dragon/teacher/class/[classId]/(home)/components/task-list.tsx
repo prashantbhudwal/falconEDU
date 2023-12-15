@@ -1,22 +1,23 @@
 import { format, isToday, isThisWeek, isThisMonth } from "date-fns";
-import { BotConfig } from "@prisma/client";
+import { BotConfig, Class } from "@prisma/client";
 import { TaskCard } from "./task-card";
 import Link from "next/link";
 import { getTaskUrlByType } from "@/lib/urls";
 import { TaskType } from "@/types/dragon";
 
+type BotConfigWithClass = BotConfig & { Class: Class };
 type GroupedTasks = {
-  [key: string]: BotConfig[];
+  [key: string]: BotConfigWithClass[];
 };
 
 type TaskListProps = {
-  tasks: BotConfig[];
+  tasks: BotConfigWithClass[];
   classId: string;
   userId: string;
 };
 
 const TaskList: React.FC<TaskListProps> = ({ tasks, classId, userId }) => {
-  const groupTasks = (sortedTasks: BotConfig[]): GroupedTasks => {
+  const groupTasks = (sortedTasks: BotConfigWithClass[]): GroupedTasks => {
     return sortedTasks.reduce((acc: GroupedTasks, task) => {
       const date = new Date(task.createdAt);
       let groupName = "Older than a month";
@@ -50,23 +51,25 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, classId, userId }) => {
         <section key={group}>
           <h2 className="font-semibold mb-2">{group}</h2>
           <div className="flex flex-col space-y-4 mb-3">
-            {groupedTasks[group].map((task: BotConfig) => (
-              <Link
-                href={getTaskUrlByType({
-                  classId: classId,
-                  configId: task.id,
-                  type: task.type as TaskType,
-                })}
-                key={task.id}
-              >
-                <TaskCard
+            {groupedTasks[group].map((task: BotConfigWithClass) => {
+              return (
+                <Link
+                  href={getTaskUrlByType({
+                    classId: classId,
+                    configId: task.id,
+                    type: task.type as TaskType,
+                  })}
                   key={task.id}
-                  config={task}
-                  classId={classId}
-                  userId={userId}
-                />
-              </Link>
-            ))}
+                >
+                  <TaskCard
+                    key={task.id}
+                    config={task}
+                    classId={classId}
+                    userId={userId}
+                  />
+                </Link>
+              );
+            })}
           </div>
         </section>
       ))}

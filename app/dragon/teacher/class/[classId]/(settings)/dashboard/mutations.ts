@@ -2,52 +2,6 @@
 import prisma from "@/prisma";
 import { revalidatePath } from "next/cache";
 
-export const archiveClassByClassId = async (classId: string) => {
-  try {
-    const isClassExist = await prisma.class.findUnique({
-      where: { id: classId },
-    });
-
-    if (!isClassExist) {
-      throw new Error("class not found");
-    }
-
-    const archivedClass = await prisma.class.update({
-      where: { id: classId },
-      data: { isActive: false },
-    });
-    revalidatePath("/dragon/teacher/");
-
-    return archivedClass;
-  } catch (err) {
-    console.error(err);
-    return null;
-  }
-};
-
-export const unarchiveClassByClassId = async (classId: string) => {
-  try {
-    const isClassExist = await prisma.class.findUnique({
-      where: { id: classId },
-    });
-
-    if (!isClassExist) {
-      throw new Error("class not found");
-    }
-
-    const archivedClass = await prisma.class.update({
-      where: { id: classId },
-      data: { isActive: true },
-    });
-    revalidatePath("/dragon/teacher/");
-
-    return archivedClass;
-  } catch (err) {
-    console.error(err);
-    return null;
-  }
-};
-
 // ----------------------------------------------------------------
 
 export const updateClassNameByClassId = async (

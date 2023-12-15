@@ -1,17 +1,12 @@
-import { type BotConfig } from "@prisma/client";
+import { type BotConfig, type Class } from "@prisma/client";
 import { cn } from "@/lib/utils";
-import {
-  AcademicCapIcon,
-  ClipboardDocumentCheckIcon,
-} from "@heroicons/react/24/solid";
-import { cva } from "class-variance-authority";
 import { TaskActions } from "./task-actions";
 import { getFormattedDate, getTaskProperties } from "../../../../utils";
 import { TaskType } from "@/types/dragon";
 
 type TaskCardProps = {
   className?: string;
-  config: BotConfig;
+  config: BotConfig & { Class: Class };
   classId: string;
   userId: string;
 };
@@ -30,6 +25,7 @@ export function TaskCard({
   const createdAt = config.createdAt;
   const formattedDate = getFormattedDate(createdAt);
   const { Icon, iconColor, formattedType } = getTaskProperties(type);
+
   return (
     <div
       className={cn(
@@ -72,14 +68,16 @@ export function TaskCard({
       </section>
       <section className="flex-none w-2/12 flex">
         <div className="hidden group-hover:block w-full">
-          <TaskActions
-            configId={config.id}
-            classId={classId}
-            userId={userId}
-            isArchived={isArchived}
-            isPublished={isPublished}
-            type={type}
-          />
+          {config.Class.isActive && (
+            <TaskActions
+              configId={config.id}
+              classId={classId}
+              userId={userId}
+              isArchived={isArchived}
+              isPublished={isPublished}
+              type={type}
+            />
+          )}
         </div>
       </section>
     </div>

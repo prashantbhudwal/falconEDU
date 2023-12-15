@@ -2,15 +2,10 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { Paper } from "@/components/ui/paper";
 import TaskList from "./components/task-list";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import { db } from "../../../routers";
-import { Toaster } from "@/components/ui/toaster";
-import { ClassNavbar } from "./components/class-navbar";
+import { BotConfig, Class } from "@prisma/client";
+
+type BotConfigWithClass = BotConfig & { Class: Class };
 
 export default async function Classes({
   params,
@@ -23,20 +18,20 @@ export default async function Classes({
   if (!userId) {
     return null;
   }
-  const classesWithConfigs = await db.class.getClassesByUserId({ userId });
+  // const classesWithConfigs = await db.class.getClassesByUserId({ userId });
+  // const nameOfClass = await db.class.getClassNameByClassId(classId);
   const classConfigs = await db.botConfig.getAllConfigsInClass({
     userId,
     classId,
   });
   const activeConfigs = classConfigs.active;
   const archivedConfigs = classConfigs.archived;
-  const nameOfClass = await db.class.getClassNameByClassId(classId);
 
   return (
     <Paper className="h-full flex flex-col items-center w-5/6 overflow-y-auto custom-scrollbar justify-between">
       <div className="w-8/12 max-w-6xl flex flex-col space-y-6">
         <TaskList
-          tasks={[...activeConfigs, ...archivedConfigs]}
+          tasks={[...activeConfigs, ...archivedConfigs] as BotConfigWithClass[]}
           classId={classId}
           userId={userId}
         />

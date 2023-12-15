@@ -27,6 +27,7 @@ import { ClassDialog } from "@/app/dragon/teacher/components/class-dialog";
 import { useConfigPublishing } from "@/app/dragon/teacher/hooks/use-config-publishing";
 import { useEffect, useState } from "react";
 import { TaskType } from "@/types/dragon";
+import { typeGetBotConfigByConfigId } from "@/app/dragon/teacher/routers/botConfigRouter";
 
 export function TasksNavbar({
   classId,
@@ -37,12 +38,13 @@ export function TasksNavbar({
   classId: string;
   userId: string;
   nameOfClass: string;
-  task: BotConfig;
+  task: NonNullable<typeGetBotConfigByConfigId>;
 }) {
   const { currentPage } = usePageTracking();
   const isResponse = currentPage.endsWith("responses");
   const name = task.name;
   const type = task.type as TaskType;
+
   return (
     <div className="navbar flex w-full bg-base-300 border-b border-base-200 py-0 h-full">
       <div className="navbar-start gap-4 pr-2 flex">
@@ -82,7 +84,17 @@ export function TasksNavbar({
         </Tabs>
       </div>
       <div className="navbar-end pr-1 flex gap-4">
-        <TaskOptionsDropdown classId={classId} userId={userId} task={task} />
+        {task.Class?.isActive && (
+          <>
+            {!task.published && (
+              <TaskOptionsDropdown
+                classId={classId}
+                userId={userId}
+                task={task}
+              />
+            )}
+          </>
+        )}
         <PublishButton task={task} classId={classId} />
       </div>
     </div>
@@ -173,12 +185,15 @@ export const TaskOptionsDropdown = function ({
 }) {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild className="flex items-center gap-1">
+      <DropdownMenuTrigger
+        asChild
+        className="flex items-center cursor-pointer gap-1"
+      >
         <EllipsisHorizontalIcon className="w-6 text-slate-500" />
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-48">
+      <DropdownMenuContent className="w-48 cursor-pointer">
         <DropdownMenuItem
-          className="flex items-center gap-1"
+          className="flex items-center gap-1 cursor-pointer"
           onSelect={() => {}}
         >
           <ArchiveButton task={task} />
@@ -263,31 +278,35 @@ const PublishButton = function ({
   const action = isPublished ? onUnPublish : onPublish;
 
   return (
-    <ClassDialog
-      title={title}
-      description={description}
-      action={action}
-      trigger={
-        <Button
-          onMouseEnter={() => setHover(true)}
-          onMouseLeave={() => setHover(false)}
-          type="button"
-          variant={isPublished ? "outline" : "default"}
-          size="sm"
-          className={cn({
-            "text-primary hover:bg-destructive ": isPublished,
-          })}
-          disabled={loading}
-        >
-          {loading
-            ? "Processing..."
-            : isPublished
-              ? hover
-                ? "Unpublish"
-                : "Published"
-              : "Publish"}
-        </Button>
-      }
-    />
+    <>
+      {task.isActive && (
+        <ClassDialog
+          title={title}
+          description={description}
+          action={action}
+          trigger={
+            <Button
+              onMouseEnter={() => setHover(true)}
+              onMouseLeave={() => setHover(false)}
+              type="button"
+              variant={isPublished ? "outline" : "default"}
+              size="sm"
+              className={cn({
+                "text-primary hover:bg-destructive ": isPublished,
+              })}
+              disabled={loading}
+            >
+              {loading
+                ? "Processing..."
+                : isPublished
+                  ? hover
+                    ? "Unpublish"
+                    : "Published"
+                  : "Publish"}
+            </Button>
+          }
+        />
+      )}
+    </>
   );
 };

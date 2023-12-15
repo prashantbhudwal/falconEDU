@@ -105,3 +105,74 @@ export const getClassesByUserId = cache(
 export type ClassesByUserId = UnwrapPromise<
   ReturnType<typeof getClassesByUserId>
 >;
+
+export const archiveClassByClassId = async ({
+  classId,
+}: {
+  classId: string;
+}) => {
+  try {
+    const transaction = await prisma.$transaction(async (prisma) => {
+      const isClassExist = await prisma.class.findUnique({
+        where: { id: classId },
+      });
+
+      if (!isClassExist) {
+        throw new Error("class not found");
+      }
+      await prisma.class.update({
+        where: { id: classId },
+        data: { isActive: false },
+      });
+
+      await prisma.botConfig.updateMany({
+        where: { classId },
+        data: { isActive: false },
+      });
+
+      //TODO: need to update the bot isActive to false
+    });
+    revalidatePath("/dragon/teacher/");
+    return { success: true };
+  } catch (err) {
+    console.error(err);
+    return { success: false };
+  }
+};
+
+export const unarchiveClassByClassId = async ({
+  classId,
+}: {
+  classId: string;
+}) => {
+  try {
+    const transaction = await prisma.$transaction(async (prisma) => {
+      const isClassExist = await prisma.class.findUnique({
+        where: { id: classId },
+      });
+
+      if (!isClassExist) {
+        throw new Error("class not found");
+      }
+
+      await prisma.class.update({
+        where: { id: classId },
+        data: { isActive: true },
+      });
+
+      await prisma.botConfig.updateMany({
+        where: { classId },
+        data: { isActive: true },
+      });
+
+      //TODO: need to update the bot isActive to true
+    });
+
+    revalidatePath("/dragon/teacher/");
+
+    return { success: true };
+  } catch (err) {
+    console.error(err);
+    return { success: false };
+  }
+};

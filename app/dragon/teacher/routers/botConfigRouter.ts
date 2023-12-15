@@ -120,6 +120,8 @@ export const publishBotConfig = async function ({
       where: { id: botConfigId },
     });
 
+    revalidatePath("/dragon/teacher/class");
+
     return {
       success: true,
       updatedBotConfig,
@@ -177,6 +179,8 @@ export const unPublishBotConfig = async function ({
         },
       },
     });
+
+    revalidatePath("/dragon/teacher/class");
     return {
       success: true,
       updatedBotConfig,
@@ -378,11 +382,15 @@ export const getAllConfigsInClass = cache(
         teacherId: teacherProfile.id,
         classId,
       },
+      include: {
+        Class: true,
+      },
     });
     const configs = organizeConfigs(botConfigs);
     return configs;
   }
 );
+
 export const getAllConfigs = cache(async ({ userId }: { userId: string }) => {
   const teacherProfile = await prisma.teacherProfile.findUnique({
     where: { userId },
@@ -531,6 +539,9 @@ export const getBotConfigByConfigId = cache(async function ({
   try {
     const botConfig = await prisma.botConfig.findUnique({
       where: { id: configId },
+      include: {
+        Class: true,
+      },
     });
     if (!botConfig) {
       return null;
@@ -540,6 +551,11 @@ export const getBotConfigByConfigId = cache(async function ({
     return null;
   }
 });
+
+export type typeGetBotConfigByConfigId = UnwrapPromise<
+  ReturnType<typeof getBotConfigByConfigId>
+>;
+
 export const fetchConfigAndPreferences = cache(
   async ({ configId, type }: { configId: string; type: TaskType }) => {
     const emptyPreferences = {};

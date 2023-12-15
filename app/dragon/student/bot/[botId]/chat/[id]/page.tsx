@@ -53,10 +53,10 @@ const setIsReadToTrue = async function (botChatId: string) {
 
 const getChatContext = async function (type: TaskType, chatId: string) {
   switch (type) {
-    case "test":
+    case "chat":
       const parsedQuestions = await getTestQuestionsByBotChatId(chatId);
       return JSON.stringify(parsedQuestions);
-    case "chat":
+    case "test":
       const chatContext = await getChatContextByChatId(chatId);
       return JSON.stringify(chatContext);
     case "lesson":
@@ -109,9 +109,7 @@ export default async function ChatPage({ params }: ChatPageProps) {
           type,
         }}
         botImage={botImage}
-        isDisabled={
-          !classDetails?.isActive || !bot?.isActive || !bot?.BotConfig.published
-        }
+        isDisabled={!classDetails?.isActive || !bot?.BotConfig.isActive}
         isSubmitted={bot?.isSubmitted}
         type={type ?? "chat"}
       />

@@ -40,6 +40,7 @@ const getBotsByTeacherAndStudentID = cache(async function (
     where: {
       BotConfig: {
         teacherId: teacherId,
+        published: true,
       },
       studentId: studentId,
     },
@@ -52,6 +53,7 @@ const getBotsByTeacherAndStudentID = cache(async function (
         select: {
           name: true,
           type: true,
+          isActive: true,
           teacher: {
             select: {
               User: {
@@ -65,7 +67,6 @@ const getBotsByTeacherAndStudentID = cache(async function (
       },
     },
   });
-
   return bots;
 });
 
@@ -152,6 +153,7 @@ export default async function TeacherDashboard({
           const taskProperties = getTaskProperties(type);
           const Icon = taskProperties.Icon;
           const formattedType = taskProperties.formattedType;
+
           return (
             <Link href={defaultChatUrl || multipleChatUrl} key={bot.id}>
               <ChatCard
@@ -161,7 +163,7 @@ export default async function TeacherDashboard({
                 botId={bot.id}
                 readStatus={readStatus.isRead}
                 createdAt={bot.createdAt}
-                isActive={bot.isActive}
+                isActive={bot.BotConfig.isActive}
               />
             </Link>
           );
@@ -189,7 +191,7 @@ export default async function TeacherDashboard({
                     botId={bot.id}
                     readStatus={readStatus.isRead}
                     createdAt={bot.createdAt}
-                    isActive={bot.isActive}
+                    isActive={bot.BotConfig.isActive}
                   />
                 </Link>
               );

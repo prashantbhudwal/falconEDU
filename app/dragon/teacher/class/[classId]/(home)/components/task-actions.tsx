@@ -57,9 +57,11 @@ export function TaskActions({
               <Button
                 variant="ghost"
                 size="icon"
-                onClick={() =>
-                  duplicateConfig({ classId, configId, userId, type })
-                }
+                onClick={(e: React.MouseEvent) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  duplicateConfig({ classId, configId, userId, type });
+                }}
               >
                 <DocumentDuplicateIcon className="w-4" />
               </Button>
