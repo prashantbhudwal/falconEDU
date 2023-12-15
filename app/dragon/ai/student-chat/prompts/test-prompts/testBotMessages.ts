@@ -7,6 +7,27 @@ export type TestQuestionsByBotChatId = UnwrapPromise<
   ReturnType<typeof getTestQuestionsByBotChatId>
 >;
 
+function formatToMarkdown(questions: any[]): string {
+  if (!questions) {
+    return "";
+  }
+  return questions
+    .map((question, index) => {
+      let markdown = `### ${index + 1}. ${question.question}\n`;
+      if (question.hint) {
+        markdown += `**Hint:** ${question.hint}\n`;
+      }
+      if (question.options && question.options.length > 0) {
+        markdown += `**Options:**\n`;
+        question.options.forEach((option: string) => {
+          markdown += `- ${option}\n`;
+        });
+      }
+      return markdown;
+    })
+    .join("\n");
+}
+
 export const getTestQuestionsByBotChatId = cache(async function (
   botChatId: string
 ) {
@@ -40,15 +61,24 @@ export async function getEngineeredTestBotMessages(
 ) {
   const questionsWitRelevantFields = questions?.map((questionObject) => {
     const { question, question_type, hint, options } = questionObject;
-    return {
-      question,
-      options,
-      question_type,
-      hint,
-    };
+
+    const result: Partial<typeof questionObject> = { question_type, question };
+
+    if (options && options.length > 0) {
+      result.options = options;
+    }
+    if (hint) {
+      result.hint = hint;
+    }
+
+    return result;
   });
 
-  const stringifiedQuestions = JSON.stringify(questionsWitRelevantFields ?? "");
+  const markdownQuestions = formatToMarkdown(
+    questionsWitRelevantFields as any[]
+  );
+
+  const stringifiedQuestions = JSON.stringify(markdownQuestions ?? "");
 
   const prompt = ChatPromptTemplate.fromMessages([["system", systemTemplate]]);
 
