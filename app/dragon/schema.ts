@@ -41,7 +41,7 @@ export const LIMITS_botPreferencesSchema = {
 
 export const LIMITS_lessonPreferencesSchema = {
   content: {
-    maxLength: 1500,
+    maxLength: 2500,
   },
   topic: {
     maxLength: 30,
@@ -174,28 +174,92 @@ export const teacherPreferencesSchema = z.object({
 // Schema: StudentPreferencesSchema
 
 export const LIMITS_StudentPreferencesSchema = {
-  likes: {
-    minLength: 20,
-    maxLength: 500,
+  interests: {
+    minLength: {
+      message: "Interests is required",
+      value: 1,
+    },
+    maxLength: {
+      message: "Interests can't exceed 200 characters",
+      value: 200,
+    },
   },
-  dislikes: {
-    minLength: 20,
-    maxLength: 500,
+  favoriteCartoons: {
+    minLength: {
+      message: "Favorite Cartoons is required",
+      value: 1,
+    },
+    maxLength: {
+      message: "Favorite Cartoons can't exceed 200 characters",
+      value: 200,
+    },
+  },
+  favoriteFoods: {
+    minLength: {
+      message: "Favorite Foods is required",
+      value: 1,
+    },
+    maxLength: {
+      message: "Favorite Foods can't exceed 200 characters",
+      value: 200,
+    },
+  },
+  aboutYourself: {
+    minLength: {
+      message: "About Yourself is required",
+      value: 1,
+    },
+    maxLength: {
+      message: "About Yourself can't exceed 500 characters",
+      value: 500,
+    },
   },
 };
 
-export const StudentPreferencesSchema = z.object({
-  grade: z.enum(grades),
-  board: z.enum(board),
-  likes: z
+export const StudentPreferenceSchema = z.object({
+  interests: z
     .string()
-    .min(LIMITS_StudentPreferencesSchema.likes.minLength)
-    .max(LIMITS_StudentPreferencesSchema.likes.maxLength)
+    .min(
+      LIMITS_StudentPreferencesSchema.interests.minLength.value,
+      LIMITS_StudentPreferencesSchema.interests.minLength.message
+    )
+    .max(
+      LIMITS_StudentPreferencesSchema.interests.maxLength.value,
+      LIMITS_StudentPreferencesSchema.interests.maxLength.message
+    )
     .optional(),
-  dislikes: z
+  favoriteCartoons: z
     .string()
-    .min(LIMITS_StudentPreferencesSchema.dislikes.minLength)
-    .max(LIMITS_StudentPreferencesSchema.dislikes.maxLength)
+    .min(
+      LIMITS_StudentPreferencesSchema.favoriteCartoons.minLength.value,
+      LIMITS_StudentPreferencesSchema.favoriteCartoons.minLength.message
+    )
+    .max(
+      LIMITS_StudentPreferencesSchema.favoriteCartoons.maxLength.value,
+      LIMITS_StudentPreferencesSchema.favoriteCartoons.maxLength.message
+    )
+    .optional(),
+  favoriteFoods: z
+    .string()
+    .min(
+      LIMITS_StudentPreferencesSchema.favoriteFoods.minLength.value,
+      LIMITS_StudentPreferencesSchema.favoriteFoods.minLength.message
+    )
+    .max(
+      LIMITS_StudentPreferencesSchema.favoriteFoods.maxLength.value,
+      LIMITS_StudentPreferencesSchema.favoriteFoods.maxLength.message
+    )
+    .optional(),
+  aboutYourself: z
+    .string()
+    .min(
+      LIMITS_StudentPreferencesSchema.aboutYourself.minLength.value,
+      LIMITS_StudentPreferencesSchema.aboutYourself.minLength.message
+    )
+    .max(
+      LIMITS_StudentPreferencesSchema.aboutYourself.maxLength.value,
+      LIMITS_StudentPreferencesSchema.aboutYourself.maxLength.message
+    )
     .optional(),
 });
 

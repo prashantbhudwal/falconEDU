@@ -3,11 +3,13 @@ import { ChatPromptTemplate } from "langchain/prompts";
 import {
   botPreferences as botPreferencesTest,
   teacherPreferences as teacherPreferencesTest,
+  studentPreferences as studentPreferencesTest,
 } from "../../../../test-data";
 import { ChatContextByChatId, isEmptyObject } from "./queries";
 import {
   botPreferencesSchema,
   teacherPreferencesSchema,
+  StudentPreferenceSchema,
 } from "../../../../schema";
 import * as z from "zod";
 
@@ -18,11 +20,19 @@ export const getPreferences = (context: ChatContextByChatId) => {
   let botPreferences = context?.botPreferences as z.infer<
     typeof botPreferencesSchema
   >;
+
   if (isEmptyObject(botPreferences) || botPreferences === undefined) {
     botPreferences = botPreferencesTest[0];
   }
   if (isEmptyObject(teacherPreferences) || teacherPreferences === undefined) {
     teacherPreferences = teacherPreferencesTest[0];
+  }
+  let studentPreferences = context?.studentPreferences as z.infer<
+    typeof StudentPreferenceSchema
+  >;
+
+  if (isEmptyObject(studentPreferences) || studentPreferences === undefined) {
+    studentPreferences = studentPreferencesTest[0];
   }
   const teacherName = context?.teacherName;
   const studentName = context?.studentName;
@@ -38,6 +48,8 @@ export const getPreferences = (context: ChatContextByChatId) => {
   } = botPreferences;
   const { personalInformation, professionalInformation, likes, dislikes } =
     teacherPreferences;
+  const { aboutYourself, favoriteCartoons, favoriteFoods, interests } =
+    studentPreferences;
 
   const stringifiedGrades = JSON.stringify(grades);
   const stringifiedSubjects = JSON.stringify(subjects);
@@ -57,6 +69,10 @@ export const getPreferences = (context: ChatContextByChatId) => {
     professionalInformation,
     likes,
     dislikes,
+    aboutYourself,
+    favoriteCartoons,
+    favoriteFoods,
+    interests,
   } as const;
   return preferences;
 };

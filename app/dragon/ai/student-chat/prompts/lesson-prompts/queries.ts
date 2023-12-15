@@ -5,7 +5,7 @@ import * as z from "zod";
 import {
   lessonPreferencesSchema,
   teacherPreferencesSchema,
-  StudentPreferencesSchema,
+  StudentPreferenceSchema,
 } from "@/app/dragon/schema";
 import { isEmptyObject } from "../chat-prompts/queries";
 
@@ -75,7 +75,7 @@ export const getLessonContextByChatId = cache(async function (chatId: string) {
     : teacherPreferencesSchema.safeParse(teacherPreferences);
   const parsedStudentPreferences = isEmptyObject(studentPreferences)
     ? { success: true, data: {} }
-    : StudentPreferencesSchema.safeParse(studentPreferences);
+    : StudentPreferenceSchema.safeParse(studentPreferences);
 
   if (
     parsedLessonPreferences.success &&

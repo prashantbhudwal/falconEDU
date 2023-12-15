@@ -4,7 +4,7 @@ import prisma from "@/prisma";
 import { getServerSession } from "next-auth";
 import { cache } from "react";
 import { getStudentId } from "../../queries";
-import { FormSchema } from "./preferences-form";
+import { StudentPreferenceSchema } from "@/app/dragon/schema";
 
 type UnwrapPromise<T> = T extends Promise<infer U> ? U : T;
 

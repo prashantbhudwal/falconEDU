@@ -3,12 +3,14 @@ import { ChatPromptTemplate } from "langchain/prompts";
 import {
   lessonPreferences as lessonPreferencesTest,
   teacherPreferences as teacherPreferencesTest,
+  studentPreferences as studentPreferencesTest,
 } from "../../../../test-data";
 import { LessonContextByChatId } from "./queries";
 import { isEmptyObject } from "../chat-prompts/queries";
 import {
   lessonPreferencesSchema,
   teacherPreferencesSchema,
+  StudentPreferenceSchema,
 } from "../../../../schema";
 import * as z from "zod";
 
@@ -19,6 +21,14 @@ export const getPreferences = (context: LessonContextByChatId) => {
   let lessonPreferences = context?.lessonPreferences as z.infer<
     typeof lessonPreferencesSchema
   >;
+
+  let studentPreferences = context?.studentPreferences as z.infer<
+    typeof StudentPreferenceSchema
+  >;
+
+  if (isEmptyObject(studentPreferences) || studentPreferences === undefined) {
+    studentPreferences = studentPreferencesTest[0];
+  }
   if (isEmptyObject(lessonPreferences) || lessonPreferences === undefined) {
     lessonPreferences = lessonPreferencesTest[0];
   }
@@ -41,6 +51,9 @@ export const getPreferences = (context: LessonContextByChatId) => {
   const { personalInformation, professionalInformation, likes, dislikes } =
     teacherPreferences;
 
+  const { aboutYourself, favoriteCartoons, favoriteFoods, interests } =
+    studentPreferences;
+
   const stringifiedGrades = JSON.stringify(grades);
   const stringifiedSubjects = JSON.stringify(subjects);
 
@@ -60,6 +73,10 @@ export const getPreferences = (context: LessonContextByChatId) => {
     professionalInformation,
     likes,
     dislikes,
+    aboutYourself,
+    favoriteCartoons,
+    favoriteFoods,
+    interests,
   } as const;
   return preferences;
 };

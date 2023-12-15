@@ -1,5 +1,6 @@
 import { type Bot } from "./student/types";
 import { type User } from "@prisma/client";
+import { StudentPreferenceSchema } from "./schema";
 import {
   teacherPreferencesSchema,
   botPreferencesSchema,
@@ -162,5 +163,16 @@ export const teacherPreferences: Array<
       "10 years in software industry, 3 years in teaching.",
     likes: "Real-world applications, problem-solving.",
     dislikes: "Lack of practicality, missing deadlines.",
+  },
+];
+
+export const studentPreferences: Array<
+  z.infer<typeof StudentPreferenceSchema>
+> = [
+  {
+    aboutYourself: "",
+    interests: "",
+    favoriteCartoons: "",
+    favoriteFoods: "",
   },
 ];

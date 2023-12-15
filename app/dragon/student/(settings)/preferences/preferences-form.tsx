@@ -18,30 +18,10 @@ import { useToast } from "@/components/ui/use-toast";
 import { useState } from "react";
 import { updateStudentPreferences } from "./mutations";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
+import { StudentPreferenceSchema } from "@/app/dragon/schema";
 
 //TODO: shifting this to a seperate schema file
-export const FormSchema = z.object({
-  interests: z
-    .string()
-    .min(1, "Interests is required")
-    .max(200, "Interests can't exceed 200 characters")
-    .optional(),
-  favoriteCartoons: z
-    .string()
-    .min(1, "Favorite Cartoons is required")
-    .max(200, "Favorite Cartoons can't exceed 200 characters")
-    .optional(),
-  favoriteFoods: z
-    .string()
-    .min(1, "Favorite Foods is required")
-    .max(200, "Favorite Foods can't exceed 200 characters")
-    .optional(),
-  aboutYourself: z
-    .string()
-    .min(1, "About Yourself is required")
-    .max(500, "About Yourself can't exceed 500 characters")
-    .optional(),
-});
+
 
 const defaultValues = {
   interests: "",
@@ -54,21 +34,21 @@ export function StudentPreferencesForm({
   initialPreferences,
   studentId,
 }: {
-  initialPreferences: z.infer<typeof FormSchema>;
+  initialPreferences: z.infer<typeof StudentPreferenceSchema>;
   studentId: string;
 }) {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
+  const form = useForm<z.infer<typeof StudentPreferenceSchema>>({
+    resolver: zodResolver(StudentPreferenceSchema),
     defaultValues: initialPreferences || defaultValues,
   });
 
   const { isDirty, setIsDirty } = useIsFormDirty(form);
 
-  const onSubmit = async (data: z.infer<typeof FormSchema>) => {
+  const onSubmit = async (data: z.infer<typeof StudentPreferenceSchema>) => {
     setIsLoading(true);
     setError("");
     try {

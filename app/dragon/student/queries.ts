@@ -5,7 +5,7 @@ import * as z from "zod";
 import {
   botPreferencesSchema,
   teacherPreferencesSchema,
-  StudentPreferencesSchema,
+  StudentPreferenceSchema,
 } from "../schema";
 
 export const getStudentId = cache(async function (userId: string) {
