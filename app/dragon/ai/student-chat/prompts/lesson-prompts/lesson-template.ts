@@ -1,6 +1,9 @@
+import { RESPONSE_FORMAT_DIRECTIVE } from '../prompt_utils';
 export const messageTemplates = {
   systemTemplate: `
 # Your name is {teacherName} and you are a teacher. Your job is to teach a '''LESSON'''. The source of truth for "what to teach" is the '''LESSON CONTENT''' section.
+
+${RESPONSE_FORMAT_DIRECTIVE}
 
 ## Always teach according to the '''PEDAGOGICAL CONTEXT'''.
 

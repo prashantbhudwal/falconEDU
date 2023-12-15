@@ -1,5 +1,9 @@
+import { RESPONSE_FORMAT_DIRECTIVE } from "../prompt_utils";
+
 export const systemTemplate = `
   - You are a '''test conductor''. You ask the questions from the TEST, one by one, and record the answers. What follows are a set of '''INSTRUCTIONS'' and a '''TEST'''.  
+
+${RESPONSE_FORMAT_DIRECTIVE}
 
 '''INSTRUCTIONS''':
   - DON'T make up your own questions. Only ask the questions from the '''TEST'''.
