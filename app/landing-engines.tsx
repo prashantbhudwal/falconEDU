@@ -1,9 +1,15 @@
 import { useSession } from "next-auth/react";
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { PropagateLoader } from "react-spinners";
 
 export function LandingPageEngines() {
   const { data: session, status: sessionStatus } = useSession();
+  const router = useRouter();
+
+  if (sessionStatus === "authenticated") {
+    router.push("/preferences");
+  }
 
   return (
     <div className="flex min-h-screen flex-col items-center pt-8 text-center">
@@ -26,8 +32,8 @@ export function LandingPageEngines() {
         {sessionStatus === "loading"
           ? "Signing you in..."
           : sessionStatus === "authenticated"
-          ? "Taking you to the app..."
-          : "Sign In"}
+            ? "Taking you to the app..."
+            : "Sign In"}
       </button>
       <p className="mt-2 text-xs">
         Works on large screens only. Use chrome, edge or any major browser for

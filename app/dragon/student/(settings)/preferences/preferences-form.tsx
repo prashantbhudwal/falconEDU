@@ -19,6 +19,7 @@ import { useState } from "react";
 import { updateStudentPreferences } from "./mutations";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 
+//TODO: shifting this to a seperate schema file
 export const FormSchema = z.object({
   interests: z
     .string()
