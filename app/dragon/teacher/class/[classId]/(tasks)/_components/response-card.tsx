@@ -44,7 +44,7 @@ function ResponseCard({
   const description = student.email;
   const avatarUrl = student.image;
   const isSubmitted = student.isSubmitted;
-  const disabled = isSubmitted && type == "test";
+  const disabled = !isSubmitted && type == "test";
   return (
     <Link
       href={disabled ? "" : link}
