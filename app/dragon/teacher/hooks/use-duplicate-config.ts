@@ -25,7 +25,13 @@ export function useDuplicateConfig() {
     if (!botConfig) {
       throw new Error("Failed to create bot config");
     }
-    router.push(getTaskUrl({ classId, taskId: configId, type: type }));
+    router.push(
+      getTaskUrl({
+        classId: botConfig.classId as string,
+        taskId: botConfig.id,
+        type: botConfig.type as TaskType,
+      })
+    );
   };
 
   return { duplicateConfig };
