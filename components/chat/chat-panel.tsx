@@ -32,7 +32,7 @@ export function ChatPanel({
     <div className=" fixed inset-x-0 bottom-0">
       <div className="mx-auto sm:max-w-2xl sm:px-4">
         <div className="flex h-10 items-center justify-center">
-          {isLoading ? (
+          {/* {isLoading ? (
             <Button
               variant="outline"
               onClick={() => stop()}
@@ -52,7 +52,7 @@ export function ChatPanel({
                 Regenerate
               </Button>
             )
-          )}
+          )} */}
         </div>
         <PromptForm
           onSubmit={async (value) => {
