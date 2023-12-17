@@ -167,12 +167,12 @@ export function PromptForm({
           value={input}
           disabled={isLoading || isSendingAudio}
           onChange={(e) => setInput(e.target.value)}
-          placeholder={isSendingAudio ? "Processing..." : "Type a message..."}
+          placeholder={isSendingAudio ? "processing..." : "Type a message..."}
           spellCheck={false}
           className={cn(
             "min-h-[60px] w-full resize-none bg-transparent px-4 py-[1.3rem] focus-within:outline-none sm:text-sm disabled:cursor-not-allowed",
             {
-              "border-2 border-accent placeholder:animate-pulse placeholder-shown:animate-pulse placeholder-shown:font-bold":
+              " placeholder:animate-pulse placeholder-shown:animate-pulse placeholder-shown:font-bold":
                 isSendingAudio,
             }
           )}
