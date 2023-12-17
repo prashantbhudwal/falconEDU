@@ -118,7 +118,7 @@ export function Chat({
         <Button
           variant="secondary"
           onClick={() => setAutoScrolling(true)}
-          className="absolute bottom-[180px] right-[46%] -translate-x-1/2 hover:bg-secondary rounded-full"
+          className="absolute bottom-[150px] right-[44%] hover:bg-secondary rounded-full"
         >
           <MdOutlineKeyboardDoubleArrowDown className="text-2xl animate-pulse" />
         </Button>
