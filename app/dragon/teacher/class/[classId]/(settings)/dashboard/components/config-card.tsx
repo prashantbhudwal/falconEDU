@@ -21,9 +21,15 @@ type propType = {
   classId: string;
   configType: TaskType;
   configs: AllConfigsInClass;
+  showActions: boolean;
 };
 
-export const ConfigCard = ({ classId, configType, configs }: propType) => {
+export const ConfigCard = ({
+  classId,
+  configType,
+  configs,
+  showActions,
+}: propType) => {
   const { data } = useSession();
   const userId = data?.user?.id ?? "";
   const createNewConfig = useCreateNewConfig();
@@ -65,14 +71,16 @@ export const ConfigCard = ({ classId, configType, configs }: propType) => {
         </div>
       </CardContent>
       <CardFooter>
-        <Button
-          variant={"outline"}
-          className="px-2 capitalize flex items-center justify-start gap-3 w-full group-hover:text-slate-950 group"
-          onClick={() => createNewConfig({ userId, classId, configType })}
-        >
-          <PlusIcon className="w-5 text-accent group-hover:text-inherit" />
-          <div>New {getTaskProperties(configType).formattedType}</div>
-        </Button>
+        {showActions && (
+          <Button
+            variant={"outline"}
+            className="px-2 capitalize flex items-center justify-start gap-3 w-full group-hover:text-slate-950 group"
+            onClick={() => createNewConfig({ userId, classId, configType })}
+          >
+            <PlusIcon className="w-5 text-accent group-hover:text-inherit" />
+            <div>New {getTaskProperties(configType).formattedType}</div>
+          </Button>
+        )}
       </CardFooter>
     </Card>
   );

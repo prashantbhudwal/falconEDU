@@ -28,6 +28,7 @@ export default async function ClassSettings({
   const userId = session?.user?.id;
   const totalStudents = await getTotalStudentsByClassId(classId);
   const configs = await db.botConfig.getAllConfigsInClass({ userId, classId });
+  const classDetails = await db.class.getClassByClassId({ classId });
   return (
     <div className="w-[80%] mx-auto flex flex-col space-y-10 pt-10 max-w-5xl">
       {/* ------------------------------------------------------------------------------- */}
@@ -45,8 +46,18 @@ export default async function ClassSettings({
         <ToggleClassStatusCard classId={classId} />
       </div>
       <div className="flex justify-start items-center space-x-10">
-        <ConfigCard classId={classId} configType="chat" configs={configs} />
-        <ConfigCard classId={classId} configType="test" configs={configs} />
+        <ConfigCard
+          classId={classId}
+          configType="chat"
+          configs={configs}
+          showActions={classDetails.isActive as boolean}
+        />
+        <ConfigCard
+          classId={classId}
+          configType="test"
+          configs={configs}
+          showActions={classDetails.isActive as boolean}
+        />
       </div>
       {/* ----------------------------------------------------------------------------------- */}
     </div>
