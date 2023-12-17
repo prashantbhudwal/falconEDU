@@ -2,7 +2,11 @@
 import { UseChatHelpers } from "ai/react";
 import * as React from "react";
 import Textarea from "react-textarea-autosize";
-import { PaperAirplaneIcon, MicrophoneIcon } from "@heroicons/react/24/solid";
+import {
+  PaperAirplaneIcon,
+  MicrophoneIcon,
+  StopIcon,
+} from "@heroicons/react/24/solid";
 import axios from "axios";
 
 import { Button } from "@ui/button";
@@ -112,7 +116,7 @@ export function PromptForm({
       }}
       ref={formRef}
     >
-      <div className="flex items-center space-x-2 bg-base-300 shadow-md shadow-base-300 relative w-full">
+      <div className="flex items-center space-x-2 bg-base-300 shadow-md shadow-base-300 relative w-full px-2">
         <Button
           variant="ghost"
           size="icon"
@@ -125,12 +129,21 @@ export function PromptForm({
               "animate-pulse rounded-full bg-accent scale-110": recording,
             })}
           >
-            <MicrophoneIcon
-              className={cn("w-8 h-8 text-secondary", {
-                "text-red-500": recording,
-                "text-base-200": isLoading || isSendingAudio,
-              })}
-            />
+            {recording ? (
+              <StopIcon
+                className={cn("w-8 h-8 text-secondary", {
+                  "text-red-500": recording,
+                  "text-base-200": isLoading || isSendingAudio,
+                })}
+              />
+            ) : (
+              <MicrophoneIcon
+                className={cn("w-8 h-8 text-secondary", {
+                  "text-red-500": recording,
+                  "text-base-200": isLoading || isSendingAudio,
+                })}
+              />
+            )}
           </div>
         </Button>
         <Textarea
