@@ -124,49 +124,49 @@ export default function TeacherPreferencesForm({
 
   return (
     <Paper variant="gray" className="my-8 bg-base-200">
-      <div className="flex justify-between p-5 rounded-lg ">
-        <div className=" flex flex-col gap-2">
-          <h2 className="md:text-3xl text-slate-200 font-bold tracking-wide">
-            My Avatar
-          </h2>
-
-          <p
-            className={` text-base max-w-lg hover:transition-all duration-300 ${
-              onHover ? "text-slate-400" : "text-slate-400"
-            } `}
-          >
-            Your avatar that will represent you in the classroom. The more
-            information you provide, the more your avatar will be able to
-            connect with your students.
-          </p>
-        </div>
-        <div className="w-36">
-          <Button
-            type="submit"
-            onMouseEnter={handleDescriptionHoverEnter}
-            onMouseLeave={handleDescriptionHoverLeave}
-            disabled={!isDirty}
-            className="w-full"
-          >
-            {loading ? "Saving" : isDirty ? "Save" : "Saved"}
-          </Button>
-          <div className="flex flex-col space-y-2">
-            {isDirty && (
-              <div className="text-sm font-semibold text-slate-500  mt-2 whitespace-nowrap ">
-                Unsaved changes
-              </div>
-            )}
-            {Object.keys(form.formState.errors).length > 0 && (
-              <div className="text-destructive font-semibold my-2 text-sm">
-                Check all fields
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-      <Separator className="my-4" />
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
+          <div className="flex justify-between p-5 rounded-lg ">
+            <div className=" flex flex-col gap-2">
+              <h2 className="md:text-3xl text-slate-200 font-bold tracking-wide">
+                My Avatar
+              </h2>
+
+              <p
+                className={` text-base max-w-lg hover:transition-all duration-300 ${
+                  onHover ? "text-slate-400" : "text-slate-400"
+                } `}
+              >
+                Your avatar that will represent you in the classroom. The more
+                information you provide, the more your avatar will be able to
+                connect with your students.
+              </p>
+            </div>
+            <div className="w-36">
+              <Button
+                type="submit"
+                onMouseEnter={handleDescriptionHoverEnter}
+                onMouseLeave={handleDescriptionHoverLeave}
+                disabled={!isDirty}
+                className="w-full"
+              >
+                {loading ? "Saving" : isDirty ? "Save" : "Saved"}
+              </Button>
+              <div className="flex flex-col space-y-2">
+                {isDirty && (
+                  <div className="text-sm font-semibold text-slate-500  mt-2 whitespace-nowrap ">
+                    Unsaved changes
+                  </div>
+                )}
+                {Object.keys(form.formState.errors).length > 0 && (
+                  <div className="text-destructive font-semibold my-2 text-sm">
+                    Check all fields
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+          <Separator className="my-4" />
           {personalInfo.map((item) => (
             <FormField
               key={item.name}
