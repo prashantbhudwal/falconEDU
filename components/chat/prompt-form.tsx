@@ -63,14 +63,27 @@ export function PromptForm({
 
     if (recording) {
       mediaRecorder?.stop();
+      mediaRecorder?.stream.getTracks().forEach((track) => track.stop()); // Stop each track of the stream
       setRecording(false);
+      setMediaRecorder(null); // Clear the recorder
     } else {
-      if (mediaRecorder) {
-        mediaRecorder.start();
-        setRecording(true);
-      }
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const newRecorder = new MediaRecorder(stream);
+      newRecorder.ondataavailable = (event) => {
+        setAudioChunks((currentChunks) => [...currentChunks, event.data]);
+      };
+      newRecorder.start();
+      setMediaRecorder(newRecorder);
+      setRecording(true);
     }
   };
+
+  React.useEffect(() => {
+    return () => {
+      // Clean up on unmount
+      mediaRecorder?.stream.getTracks().forEach((track) => track.stop());
+    };
+  }, [mediaRecorder]);
 
   const sendAudioToServer = async () => {
     setLoading(true);
