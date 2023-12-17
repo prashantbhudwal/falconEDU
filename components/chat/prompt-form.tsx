@@ -1,10 +1,13 @@
+"use client";
 import { UseChatHelpers } from "ai/react";
 import * as React from "react";
 import Textarea from "react-textarea-autosize";
-import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
+import { PaperAirplaneIcon, MicrophoneIcon } from "@heroicons/react/24/solid";
+import axios from "axios";
 
 import { Button } from "@ui/button";
 import { useEnterSubmit } from "../../hooks/use-enter-submit";
+import { cn } from "@/lib/utils";
 
 export interface PromptProps
   extends Pick<UseChatHelpers, "input" | "setInput"> {
@@ -21,11 +24,70 @@ export function PromptForm({
   const { formRef, onKeyDown } = useEnterSubmit();
   const inputRef = React.useRef<HTMLTextAreaElement>(null);
 
+  // State for recording
+  const [loading, setLoading] = React.useState(false);
+  const [recording, setRecording] = React.useState(false);
+  const [mediaRecorder, setMediaRecorder] =
+    React.useState<MediaRecorder | null>(null);
+  const [audioChunks, setAudioChunks] = React.useState<Blob[]>([]);
+  const [isSendingAudio, setIsSendingAudio] = React.useState(false);
+
   React.useEffect(() => {
     if (inputRef.current && !isLoading) {
       inputRef.current.focus();
     }
   }, [isLoading]);
+
+  const toggleRecording = async (event: any) => {
+    event.preventDefault(); // Prevents the default action of the event (form submission)
+    event.stopPropagation(); // Stops the event from propagating up to parent elements
+
+    if (recording) {
+      mediaRecorder?.stop();
+      setRecording(false);
+    } else {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const recorder = new MediaRecorder(stream);
+      recorder.ondataavailable = (event) => {
+        setAudioChunks((currentChunks) => [...currentChunks, event.data]);
+      };
+      recorder.start();
+      setMediaRecorder(recorder);
+      setRecording(true);
+    }
+  };
+
+  const sendAudioToServer = async () => {
+    setLoading(true);
+    setIsSendingAudio(true);
+    const audioBlob = new Blob(audioChunks, { type: "audio/mpeg" });
+    const audioFile = new File([audioBlob], "audio.mp3", {
+      type: "audio/mpeg",
+    });
+
+    if (audioFile) {
+      const formData = new FormData();
+      formData.append("file", audioFile);
+
+      try {
+        const response = await axios
+          .post("/dragon/ai/transcribe", formData)
+          .finally(() => setLoading(false));
+        console.log("Response:", response);
+        setInput(response.data.transcription);
+      } catch (error) {
+        console.error("Error sending audio to server:", error);
+      }
+      setIsSendingAudio(false);
+    }
+  };
+
+  React.useEffect(() => {
+    if (!recording && audioChunks.length > 0) {
+      sendAudioToServer();
+      setAudioChunks([]);
+    }
+  }, [recording]);
 
   return (
     <form
@@ -39,31 +101,57 @@ export function PromptForm({
       }}
       ref={formRef}
     >
-      <div className="bg-base-300 shadow-md shadow-base-300 relative flex max-h-60 w-full grow flex-col overflow-hidden px-8 sm:rounded-md sm:border sm:px-12">
+      <div className="flex items-center space-x-2 bg-base-300 shadow-md shadow-base-300 relative w-full">
+        <Button
+          variant="ghost"
+          size="icon"
+          disabled={isLoading || isSendingAudio}
+          onClick={toggleRecording}
+          className="flex-none"
+        >
+          <div
+            className={cn("", {
+              "animate-pulse rounded-full bg-accent scale-110": recording,
+            })}
+          >
+            <MicrophoneIcon
+              className={cn("w-8 h-8 text-secondary", {
+                "text-red-500": recording,
+                "text-base-200": isLoading || isSendingAudio,
+              })}
+            />
+          </div>
+        </Button>
         <Textarea
           ref={inputRef}
           tabIndex={0}
           onKeyDown={onKeyDown}
           rows={1}
           value={input}
-          disabled={isLoading}
+          disabled={isLoading || isSendingAudio}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Send a message"
+          placeholder={
+            isLoading || isSendingAudio ? "Processing..." : "Type a message..."
+          }
           spellCheck={false}
-          className="min-h-[60px] w-full resize-none bg-transparent px-4 py-[1.3rem] focus-within:outline-none sm:text-sm disabled:cursor-not-allowed"
+          className={cn(
+            "min-h-[60px] w-full resize-none bg-transparent px-4 py-[1.3rem] focus-within:outline-none sm:text-sm disabled:cursor-not-allowed",
+            {
+              "border-2 border-accent placeholder:animate-pulse placeholder-shown:animate-pulse placeholder-shown:font-bold":
+                isLoading || isSendingAudio,
+            }
+          )}
         />
-        <div className="absolute right-0 bottom-2 sm:right-4">
-          <Button
-            variant="ghost"
-            type="submit"
-            size="icon"
-            disabled={isLoading || input === ""}
-            className="mr-2"
-          >
-            <PaperAirplaneIcon className="text-secondary" />
-            <span className="sr-only">Send message</span>
-          </Button>
-        </div>
+        <Button
+          variant="ghost"
+          type="submit"
+          size="icon"
+          disabled={isLoading || input === ""}
+          className="mr-2"
+        >
+          <PaperAirplaneIcon className="text-secondary" />
+          <span className="sr-only">Send message</span>
+        </Button>
       </div>
     </form>
   );
