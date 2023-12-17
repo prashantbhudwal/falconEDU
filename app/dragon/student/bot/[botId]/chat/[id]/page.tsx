@@ -54,7 +54,6 @@ const setIsReadToTrue = async function (botChatId: string) {
 const getChatContext = async function (type: TaskType, chatId: string) {
   switch (type) {
     case "chat":
-      console.log("iran");
       const chatContext = await getChatContextByChatId(chatId);
       return JSON.stringify(chatContext);
     case "test":
@@ -85,8 +84,6 @@ export default async function ChatPage({ params }: ChatPageProps) {
   const type = bot?.BotConfig.type as TaskType;
   const emptyMessage = getTaskProperties(type).emptyChatMessage;
   const context = await getChatContext(type, id);
-
-  console.log("context", context);
 
   return (
     <>

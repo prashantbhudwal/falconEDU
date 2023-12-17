@@ -12,6 +12,9 @@ import axios from "axios";
 import { Button } from "@ui/button";
 import { useEnterSubmit } from "../../hooks/use-enter-submit";
 import { cn } from "@/lib/utils";
+import { useRef } from "react";
+import { useState } from "react";
+import { useEffect } from "react";
 
 export interface PromptProps
   extends Pick<UseChatHelpers, "input" | "setInput"> {
@@ -26,21 +29,22 @@ export function PromptForm({
   isLoading,
 }: PromptProps) {
   const { formRef, onKeyDown } = useEnterSubmit();
-  const inputRef = React.useRef<HTMLTextAreaElement>(null);
-  const [loading, setLoading] = React.useState(false);
-  const [recording, setRecording] = React.useState(false);
-  const [mediaRecorder, setMediaRecorder] =
-    React.useState<MediaRecorder | null>(null);
-  const [audioChunks, setAudioChunks] = React.useState<Blob[]>([]);
-  const [isSendingAudio, setIsSendingAudio] = React.useState(false);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
+  const [loading, setLoading] = useState(false);
+  const [recording, setRecording] = useState(false);
+  const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(
+    null
+  );
+  const [audioChunks, setAudioChunks] = useState<Blob[]>([]);
+  const [isSendingAudio, setIsSendingAudio] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (inputRef.current && !isLoading) {
       inputRef.current.focus();
     }
   }, [isLoading]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     // Initialize media stream and recorder
     const initRecorder = async () => {
       const stream = await navigator.mediaDevices.getUserMedia({
@@ -78,7 +82,7 @@ export function PromptForm({
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     return () => {
       if (mediaRecorder) {
         mediaRecorder?.stream.getTracks().forEach((track) => track.stop());
@@ -112,7 +116,7 @@ export function PromptForm({
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!recording && audioChunks.length > 0) {
       sendAudioToServer();
       setAudioChunks([]);
