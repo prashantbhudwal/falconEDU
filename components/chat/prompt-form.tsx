@@ -69,7 +69,7 @@ export function PromptForm({
     } else {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       const newRecorder = new MediaRecorder(stream);
-      newRecorder.ondataavailable = (event) => { 
+      newRecorder.ondataavailable = (event) => {
         setAudioChunks((currentChunks) => [...currentChunks, event.data]);
       };
       newRecorder.start();
@@ -135,7 +135,7 @@ export function PromptForm({
         <Button
           variant="ghost"
           size="icon"
-          disabled={isLoading || isSendingAudio}
+          disabled={isLoading || isSendingAudio || input.length > 0}
           onClick={toggleRecording}
           className="sm:hover:bg-base-300 sm:hover:text-secondary flex-none"
         >
@@ -169,7 +169,13 @@ export function PromptForm({
           value={input}
           disabled={isLoading || isSendingAudio}
           onChange={(e) => setInput(e.target.value)}
-          placeholder={isSendingAudio ? "processing..." : "Type a message..."}
+          placeholder={
+            recording
+              ? "listening..."
+              : isSendingAudio
+                ? "processing..."
+                : "Type a message..."
+          }
           spellCheck={false}
           className={cn(
             "min-h-[60px] w-full resize-none bg-transparent px-4 py-[1.3rem] focus-within:outline-none sm:text-sm disabled:cursor-not-allowed",
