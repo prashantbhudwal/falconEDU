@@ -4,6 +4,8 @@ import { Paper } from "@/components/ui/paper";
 import TaskList from "./components/task-list";
 import { db } from "../../../routers";
 import { BotConfig, Class } from "@prisma/client";
+import Link from "next/link";
+import { BsInfoCircleFill } from "react-icons/bs";
 
 type BotConfigWithClass = BotConfig & { Class: Class };
 
@@ -20,6 +22,7 @@ export default async function Classes({
   }
   // const classesWithConfigs = await db.class.getClassesByUserId({ userId });
   // const nameOfClass = await db.class.getClassNameByClassId(classId);
+  const classDetails = await db.class.getClassByClassId({ classId });
   const classConfigs = await db.botConfig.getAllConfigsInClass({
     userId,
     classId,
@@ -29,6 +32,18 @@ export default async function Classes({
 
   return (
     <Paper className="h-full flex flex-col items-center w-5/6 overflow-y-auto custom-scrollbar justify-between">
+      {!classDetails.isActive && (
+        <p className="flex items-center text-warning/80 pb-5">
+          <BsInfoCircleFill className="w-3 h-3 mr-2" /> Class is archived
+          <Link
+            className="underline cursor-pointer px-2 hover:text-warning"
+            href={`${classId}/dashboard`}
+          >
+            Activate
+          </Link>
+          it to enable the execution of operations.
+        </p>
+      )}
       <div className="w-8/12 max-w-6xl flex flex-col space-y-6">
         <TaskList
           tasks={[...activeConfigs, ...archivedConfigs] as BotConfigWithClass[]}

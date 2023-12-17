@@ -106,6 +106,21 @@ export type ClassesByUserId = UnwrapPromise<
   ReturnType<typeof getClassesByUserId>
 >;
 
+export const getClassByClassId = cache(
+  async ({ classId }: { classId: string }) => {
+    const classInfo = await prisma.class.findUnique({
+      where: {
+        id: classId,
+      },
+    });
+    if (!classInfo) {
+      throw new Error(`Class with classId ${classId} not found`);
+    }
+    
+    return classInfo;
+  }
+);
+
 export const archiveClassByClassId = async ({
   classId,
 }: {
