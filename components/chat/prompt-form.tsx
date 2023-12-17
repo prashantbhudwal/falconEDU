@@ -23,8 +23,6 @@ export function PromptForm({
 }: PromptProps) {
   const { formRef, onKeyDown } = useEnterSubmit();
   const inputRef = React.useRef<HTMLTextAreaElement>(null);
-
-  // State for recording
   const [loading, setLoading] = React.useState(false);
   const [recording, setRecording] = React.useState(false);
   const [mediaRecorder, setMediaRecorder] =
@@ -38,6 +36,21 @@ export function PromptForm({
     }
   }, [isLoading]);
 
+  React.useEffect(() => {
+    // Initialize media stream and recorder
+    const initRecorder = async () => {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: true,
+      });
+      const recorder = new MediaRecorder(stream);
+      recorder.ondataavailable = (event) => {
+        setAudioChunks((currentChunks) => [...currentChunks, event.data]);
+      };
+      setMediaRecorder(recorder);
+    };
+    initRecorder();
+  }, []);
+
   let recordTimeout: NodeJS.Timeout;
 
   const toggleRecording = async (event: any) => {
@@ -47,23 +60,11 @@ export function PromptForm({
     if (recording) {
       mediaRecorder?.stop();
       setRecording(false);
-      clearTimeout(recordTimeout); // Clear the timeout when recording stops manually
     } else {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      const recorder = new MediaRecorder(stream);
-      recorder.ondataavailable = (event) => {
-        setAudioChunks((currentChunks) => [...currentChunks, event.data]);
-      };
-      recorder.start();
-      setMediaRecorder(recorder);
-      setRecording(true);
-
-      recordTimeout = setTimeout(() => {
-        if (recording) {
-          recorder.stop(); // Stop recording after 30 seconds
-          setRecording(false);
-        }
-      }, 60000); // Set timeout for 60 seconds
+      if (mediaRecorder) {
+        mediaRecorder.start();
+        setRecording(true);
+      }
     }
   };
 
@@ -97,7 +98,7 @@ export function PromptForm({
       sendAudioToServer();
       setAudioChunks([]);
     }
-  }, [recording]);
+  }, [recording, audioChunks]);
 
   return (
     <form
@@ -117,7 +118,7 @@ export function PromptForm({
           size="icon"
           disabled={isLoading || isSendingAudio}
           onClick={toggleRecording}
-          className="flex-none"
+          className="sm:hover:bg-base-300 sm:hover:text-secondary flex-none"
         >
           <div
             className={cn("", {
@@ -140,15 +141,13 @@ export function PromptForm({
           value={input}
           disabled={isLoading || isSendingAudio}
           onChange={(e) => setInput(e.target.value)}
-          placeholder={
-            isLoading || isSendingAudio ? "Processing..." : "Type a message..."
-          }
+          placeholder={isSendingAudio ? "Processing..." : "Type a message..."}
           spellCheck={false}
           className={cn(
             "min-h-[60px] w-full resize-none bg-transparent px-4 py-[1.3rem] focus-within:outline-none sm:text-sm disabled:cursor-not-allowed",
             {
               "border-2 border-accent placeholder:animate-pulse placeholder-shown:animate-pulse placeholder-shown:font-bold":
-                isLoading || isSendingAudio,
+                isSendingAudio,
             }
           )}
         />
@@ -157,7 +156,7 @@ export function PromptForm({
           type="submit"
           size="icon"
           disabled={isLoading || input === ""}
-          className="mr-2"
+          className="mr-2 sm:hover:bg-base-300 sm:hover:text-secondary"
         >
           <PaperAirplaneIcon className="text-secondary" />
           <span className="sr-only">Send message</span>
