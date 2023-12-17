@@ -69,7 +69,7 @@ export function PromptForm({
     } else {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       const newRecorder = new MediaRecorder(stream);
-      newRecorder.ondataavailable = (event) => {
+      newRecorder.ondataavailable = (event) => { 
         setAudioChunks((currentChunks) => [...currentChunks, event.data]);
       };
       newRecorder.start();
@@ -80,8 +80,11 @@ export function PromptForm({
 
   React.useEffect(() => {
     return () => {
-      // Clean up on unmount
-      mediaRecorder?.stream.getTracks().forEach((track) => track.stop());
+      if (mediaRecorder) {
+        mediaRecorder?.stream.getTracks().forEach((track) => track.stop());
+        mediaRecorder?.stop();
+        setMediaRecorder(null);
+      }
     };
   }, [mediaRecorder]);
 
@@ -101,7 +104,6 @@ export function PromptForm({
         const response = await axios
           .post("/dragon/ai/transcribe", formData)
           .finally(() => setLoading(false));
-        console.log("Response:", response);
         setInput(response.data.transcription);
       } catch (error) {
         console.error("Error sending audio to server:", error);
