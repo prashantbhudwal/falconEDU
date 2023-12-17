@@ -38,13 +38,16 @@ export function PromptForm({
     }
   }, [isLoading]);
 
+  let recordTimeout: NodeJS.Timeout;
+
   const toggleRecording = async (event: any) => {
-    event.preventDefault(); // Prevents the default action of the event (form submission)
-    event.stopPropagation(); // Stops the event from propagating up to parent elements
+    event.preventDefault();
+    event.stopPropagation();
 
     if (recording) {
       mediaRecorder?.stop();
       setRecording(false);
+      clearTimeout(recordTimeout); // Clear the timeout when recording stops manually
     } else {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       const recorder = new MediaRecorder(stream);
@@ -54,6 +57,13 @@ export function PromptForm({
       recorder.start();
       setMediaRecorder(recorder);
       setRecording(true);
+
+      recordTimeout = setTimeout(() => {
+        if (recording) {
+          recorder.stop(); // Stop recording after 30 seconds
+          setRecording(false);
+        }
+      }, 60000); // Set timeout for 60 seconds
     }
   };
 
