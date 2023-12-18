@@ -107,31 +107,32 @@ const FileUploader = ({ setParsedDocs }: PropTypes) => {
   });
 
   return (
-    <>
-      <div {...getRootProps()} className="dropzone absolute bottom-3 right-3 ">
-        <input {...getInputProps()} />
-        <motion.div
-          onMouseEnter={() => setIsButtonHovered(true)}
-          onMouseLeave={() => setIsButtonHovered(false)}
-          variants={containerVariant}
-          initial="collapsed"
-          animate={isButtonHovered ? "expanded" : "collapsed"}
-          className="cursor-pointer w-11 h-11 flex items-center justify-center text-slate-200 border-[3px] border-text-slate-500 rounded-full overflow-hidden"
+    <div
+      {...getRootProps()}
+      className="dropzone absolute bottom-3 right-3 bg-base-300 "
+    >
+      <input {...getInputProps()} />
+      <motion.div
+        onMouseEnter={() => setIsButtonHovered(true)}
+        onMouseLeave={() => setIsButtonHovered(false)}
+        variants={containerVariant}
+        initial="collapsed"
+        animate={isButtonHovered ? "expanded" : "collapsed"}
+        className="cursor-pointer w-11 h-11 flex items-center justify-center text-slate-200 border-[3px] border-text-slate-500 rounded-full overflow-hidden"
+      >
+        <div className="w-11 h-11 rounded-[28px] flex absolute left-0 items-center">
+          <MdCloudUpload className="h-5 w-11" />
+        </div>
+        <motion.span
+          variants={textVariant}
+          initial="hide"
+          animate={isButtonHovered ? "show" : "hide"}
+          className="text-xs text-slate-400 mr-2 ml-9 whitespace-nowrap"
         >
-          <div className="w-11 h-11 rounded-[28px] flex absolute left-0 items-center">
-            <MdCloudUpload className="h-5 w-11" />
-          </div>
-          <motion.span
-            variants={textVariant}
-            initial="hide"
-            animate={isButtonHovered ? "show" : "hide"}
-            className="text-xs text-slate-400 mr-2 ml-9 whitespace-nowrap"
-          >
-            Upload
-          </motion.span>
-        </motion.div>
-      </div>
-    </>
+          Upload
+        </motion.span>
+      </motion.div>
+    </div>
   );
 };
 

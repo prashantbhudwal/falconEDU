@@ -1,29 +1,25 @@
 "use client";
 import { type BotConfig } from "@prisma/client";
 import { ChangeEvent, useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { saveParsedQuestions } from "../../../../../../../mutations";
 import { db } from "@/app/dragon/teacher/routers";
-
 import {
   Form,
   FormControl,
   FormDescription,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Separator } from "@/components/ui/separator";
 import {
   botNameSchema,
   testBotPreferencesSchema,
 } from "../../../../../../../../schema";
 import { Button } from "@/components/ui/button";
 import { TextareaWithCounter as Textarea } from "@/components/ui/textarea-counter";
-import { FiInfo } from "react-icons/fi";
 import { LIMITS_testBotPreferencesSchema } from "../../../../../../../../schema";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 import { Input } from "@/components/ui/input";
@@ -31,13 +27,13 @@ import { parseTestQuestions } from "@/app/dragon/ai/test-question-parser/get-tes
 import { typeGetParsedQuestionByBotConfigId } from "@/app/dragon/teacher/routers/parsedQuestionRouter";
 import { TestParsedQuestion } from "./test-parsed-questions";
 const MAX_CHARS = LIMITS_testBotPreferencesSchema.fullTest.maxLength;
-import FileUploader from "../file-uploader";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import TextAreaWithUpload from "../../../../_components/textAreaWithUpload";
 
 type BotPreferencesFormProps = {
   preferences?: z.infer<typeof testBotPreferencesSchema> | null;
@@ -185,14 +181,6 @@ export default function TestPreferencesForm({
     setError("");
   };
 
-  const parsedDocsHandler = async ({ docs }: { docs: string }) => {
-    if (docs) {
-      const test = form.getValues("fullTest");
-      const updatedTest = test ? test + "\n" + docs : docs;
-      form.setValue("fullTest", updatedTest);
-    }
-  };
-
   return (
     <div className="w-full max-w-5xl">
       <Form {...form}>
@@ -243,51 +231,51 @@ export default function TestPreferencesForm({
               name="fullTest"
               render={({ field }) => (
                 <FormItem className="pb-10">
-                  <FormControl>
-                    <div className="relative w-full rounded-md border border-input bg-transparent px-3 py-2 shadow-sm min-h-[200px] sm:min-h-[150px] text-sm">
-                      {config?.preferences &&
-                        typeof config.preferences === "object" &&
-                        "fullTest" in config.preferences && (
-                          <Accordion
-                            type="single"
-                            collapsible
-                            className="mt-5 bg-slate-900/70 text-slate-500 cursor-pointer"
-                          >
-                            <AccordionItem
-                              value="item-1"
-                              className="border-none"
+                  <FormProvider {...form}>
+                    <FormControl>
+                      <div className="relative w-full rounded-md border border-input bg-transparent px-3 py-2 shadow-sm min-h-[200px] sm:min-h-[150px] text-sm">
+                        {config?.preferences &&
+                          typeof config.preferences === "object" &&
+                          "fullTest" in config.preferences && (
+                            <Accordion
+                              type="single"
+                              collapsible
+                              className="mt-5 bg-slate-900/70 text-slate-500 cursor-pointer"
                             >
-                              <AccordionTrigger className="text-lg px-4 text-slate-400">
-                                Existing Test
-                              </AccordionTrigger>
-                              <AccordionContent>
-                                <Textarea
-                                  className="resize-none min-h-fit sm:min-h-fit focus-visible:ring-0 text-slate-500 outline-none border-none"
-                                  value={
-                                    typeof config.preferences.fullTest ===
-                                    "string"
-                                      ? config.preferences.fullTest
-                                      : ""
-                                  }
-                                  readOnly
-                                />
-                              </AccordionContent>
-                            </AccordionItem>
-                          </Accordion>
-                        )}
-                      <Textarea
-                        className="resize-none mt-5 placeholder:text-slate-400 text-slate-200 h-96 focus-visible:ring-0 outline-none border-none"
-                        {...field}
-                        onFocus={() => setInputFocus("instructions")}
-                        onBlur={() => setInputFocus("")}
-                        hasCounter
-                        maxChars={MAX_CHARS}
-                        required
-                        placeholder="Enter or paste the full test here. Please provide the answers too. The bot will conduct the test for you."
-                      />
-                      <FileUploader setParsedDocs={parsedDocsHandler} />
-                    </div>
-                  </FormControl>
+                              <AccordionItem
+                                value="item-1"
+                                className="border-none"
+                              >
+                                <AccordionTrigger className="text-lg px-4 text-slate-400">
+                                  Existing Test
+                                </AccordionTrigger>
+                                <AccordionContent>
+                                  <Textarea
+                                    className="resize-none min-h-fit sm:min-h-fit focus-visible:ring-0 text-slate-500 outline-none border-none"
+                                    value={
+                                      typeof config.preferences.fullTest ===
+                                      "string"
+                                        ? config.preferences.fullTest
+                                        : ""
+                                    }
+                                    readOnly
+                                  />
+                                </AccordionContent>
+                              </AccordionItem>
+                            </Accordion>
+                          )}
+                        <TextAreaWithUpload
+                          counter
+                          maxChars={MAX_CHARS}
+                          required
+                          placeholder="Enter or paste the full test here. Please provide the answers too. The bot will conduct the test for you."
+                          hasDocUploader
+                          {...field}
+                        />
+                      </div>
+                    </FormControl>
+                  </FormProvider>
+
                   <FormDescription>
                     {"Don't forget to provide answers."}
                   </FormDescription>

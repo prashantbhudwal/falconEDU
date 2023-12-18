@@ -1,7 +1,7 @@
 "use client";
 import { type BotConfig } from "@prisma/client";
 import { ChangeEvent, useState } from "react";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { db } from "@/app/dragon/teacher/routers";
@@ -42,6 +42,7 @@ import {
 import subjectsArray from "../../../../../../../data/subjects.json";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 import { Input } from "@/components/ui/input";
+import TextAreaWithUpload from "../../_components/textAreaWithUpload";
 
 const MAX_CHARS = LIMITS_lessonPreferencesSchema.content.maxLength;
 
@@ -225,18 +226,19 @@ export default function LessonForm({
                       <FiInfo />
                     </div>
                   </FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Add any additional reference material"
-                      className="resize-none"
-                      {...field}
-                      onFocus={() => setInputFocus("content")}
-                      onBlur={() => setInputFocus("")}
-                      hasCounter
-                      maxChars={MAX_CHARS}
-                    />
-                  </FormControl>
-                  <FormMessage />
+                  <FormProvider {...form}>
+                    <FormControl className="rounded-md border border-input">
+                      <TextAreaWithUpload
+                        placeholder="Add any additional reference material"
+                        counter
+                        maxChars={MAX_CHARS}
+                        required
+                        hasDocUploader
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormProvider>
                 </FormItem>
               )}
             />
