@@ -39,6 +39,22 @@ export const LIMITS_botPreferencesSchema = {
   },
 };
 
+export const LIMITS_lessonPreferencesSchema = {
+  content: {
+    maxLength: 2500,
+  },
+  topic: {
+    maxLength: 30,
+  },
+};
+
+export const LIMITS_lessonNameSchema = {
+  name: {
+    maxLength: 30,
+    minLength: 3,
+  },
+};
+
 export const LIMITS_botNameSchema = {
   name: {
     maxLength: 30,
@@ -64,6 +80,25 @@ export const botNameSchema = z.object({
     .string()
     .min(LIMITS_botNameSchema.name.minLength)
     .max(LIMITS_botNameSchema.name.maxLength),
+});
+
+export const lessonPreferencesSchema = z.object({
+  topic: z.string().max(LIMITS_lessonPreferencesSchema.topic.maxLength),
+  content: z.string().max(LIMITS_lessonPreferencesSchema.content.maxLength),
+  subjects: z.array(z.string()),
+  grades: z.array(z.enum(grades)),
+  board: z.enum(board),
+  tone: z.enum(tone),
+  language: z.enum(language),
+  humorLevel: z.enum(humorLevel),
+  languageProficiency: z.enum(languageProficiency),
+});
+
+export const lessonNameSchema = z.object({
+  name: z
+    .string()
+    .min(LIMITS_lessonNameSchema.name.minLength)
+    .max(LIMITS_lessonNameSchema.name.maxLength),
 });
 
 export const classNameSchema = z.object({
@@ -96,51 +131,135 @@ export const LIMITS_teacherPreferencesSchema = {
 export const teacherPreferencesSchema = z.object({
   professionalInformation: z
     .string()
-    .min(LIMITS_teacherPreferencesSchema.professionalInformation.minLength)
-    .max(LIMITS_teacherPreferencesSchema.professionalInformation.maxLength)
+    .min(LIMITS_teacherPreferencesSchema.professionalInformation.minLength, {
+      message:
+        "Professional information must adhere to a character limit of 50-500.",
+    })
+    .max(LIMITS_teacherPreferencesSchema.professionalInformation.maxLength, {
+      message:
+        "Professional information must adhere to a character limit of 50-500.",
+    })
     .optional(),
   personalInformation: z
     .string()
-    .min(LIMITS_teacherPreferencesSchema.personalInformation.minLength)
-    .max(LIMITS_teacherPreferencesSchema.personalInformation.maxLength)
+    .min(LIMITS_teacherPreferencesSchema.personalInformation.minLength, {
+      message:
+        "Personal information must adhere to a character limit of 50-500.",
+    })
+    .max(LIMITS_teacherPreferencesSchema.personalInformation.maxLength, {
+      message:
+        "Personal information must adhere to a character limit of 50-500.",
+    })
     .optional(),
   likes: z
     .string()
-    .min(LIMITS_teacherPreferencesSchema.likes.minLength)
-    .max(LIMITS_teacherPreferencesSchema.likes.maxLength)
+    .min(LIMITS_teacherPreferencesSchema.likes.minLength, {
+      message: "Likes must adhere to a character limit of 50-500.",
+    })
+    .max(LIMITS_teacherPreferencesSchema.likes.maxLength, {
+      message: "Likes must adhere to a character limit of 50-500.",
+    })
     .optional(),
   dislikes: z
     .string()
-    .min(LIMITS_teacherPreferencesSchema.dislikes.minLength)
-    .max(LIMITS_teacherPreferencesSchema.dislikes.maxLength)
+    .min(LIMITS_teacherPreferencesSchema.dislikes.minLength, {
+      message: "Dislikes must adhere to a character limit of 50-500.",
+    })
+    .max(LIMITS_teacherPreferencesSchema.dislikes.maxLength, {
+      message: "Dislikes must adhere to a character limit of 50-500.",
+    })
     .optional(),
 });
 
 // Schema: StudentPreferencesSchema
 
 export const LIMITS_StudentPreferencesSchema = {
-  likes: {
-    minLength: 20,
-    maxLength: 500,
+  interests: {
+    minLength: {
+      message: "Interests is required",
+      value: 1,
+    },
+    maxLength: {
+      message: "Interests can't exceed 200 characters",
+      value: 200,
+    },
   },
-  dislikes: {
-    minLength: 20,
-    maxLength: 500,
+  favoriteCartoons: {
+    minLength: {
+      message: "Favorite Cartoons is required",
+      value: 1,
+    },
+    maxLength: {
+      message: "Favorite Cartoons can't exceed 200 characters",
+      value: 200,
+    },
+  },
+  favoriteFoods: {
+    minLength: {
+      message: "Favorite Foods is required",
+      value: 1,
+    },
+    maxLength: {
+      message: "Favorite Foods can't exceed 200 characters",
+      value: 200,
+    },
+  },
+  aboutYourself: {
+    minLength: {
+      message: "About Yourself is required",
+      value: 1,
+    },
+    maxLength: {
+      message: "About Yourself can't exceed 500 characters",
+      value: 500,
+    },
   },
 };
 
-export const StudentPreferencesSchema = z.object({
-  grade: z.enum(grades),
-  board: z.enum(board),
-  likes: z
+export const StudentPreferenceSchema = z.object({
+  interests: z
     .string()
-    .min(LIMITS_StudentPreferencesSchema.likes.minLength)
-    .max(LIMITS_StudentPreferencesSchema.likes.maxLength)
+    .min(
+      LIMITS_StudentPreferencesSchema.interests.minLength.value,
+      LIMITS_StudentPreferencesSchema.interests.minLength.message
+    )
+    .max(
+      LIMITS_StudentPreferencesSchema.interests.maxLength.value,
+      LIMITS_StudentPreferencesSchema.interests.maxLength.message
+    )
     .optional(),
-  dislikes: z
+  favoriteCartoons: z
     .string()
-    .min(LIMITS_StudentPreferencesSchema.dislikes.minLength)
-    .max(LIMITS_StudentPreferencesSchema.dislikes.maxLength)
+    .min(
+      LIMITS_StudentPreferencesSchema.favoriteCartoons.minLength.value,
+      LIMITS_StudentPreferencesSchema.favoriteCartoons.minLength.message
+    )
+    .max(
+      LIMITS_StudentPreferencesSchema.favoriteCartoons.maxLength.value,
+      LIMITS_StudentPreferencesSchema.favoriteCartoons.maxLength.message
+    )
+    .optional(),
+  favoriteFoods: z
+    .string()
+    .min(
+      LIMITS_StudentPreferencesSchema.favoriteFoods.minLength.value,
+      LIMITS_StudentPreferencesSchema.favoriteFoods.minLength.message
+    )
+    .max(
+      LIMITS_StudentPreferencesSchema.favoriteFoods.maxLength.value,
+      LIMITS_StudentPreferencesSchema.favoriteFoods.maxLength.message
+    )
+    .optional(),
+  aboutYourself: z
+    .string()
+    .min(
+      LIMITS_StudentPreferencesSchema.aboutYourself.minLength.value,
+      LIMITS_StudentPreferencesSchema.aboutYourself.minLength.message
+    )
+    .max(
+      LIMITS_StudentPreferencesSchema.aboutYourself.maxLength.value,
+      LIMITS_StudentPreferencesSchema.aboutYourself.maxLength.message
+    )
     .optional(),
 });
 

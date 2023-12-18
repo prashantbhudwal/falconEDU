@@ -1,11 +1,7 @@
 "use server";
 import prisma from "@/prisma";
 import { revalidatePath } from "next/cache";
-import { getBotsURL, getClassURL, getTestEditBotURL } from "@/lib/urls";
-import { botPreferencesSchema, testBotPreferencesSchema } from "../schema";
-import { getEditBotURL } from "@/lib/urls";
 import * as z from "zod";
-import { getClassesURL, getStudentsURL } from "@/lib/urls";
 import { isAuthorized } from "@/lib/utils";
 import { teacherPreferencesSchema } from "../schema";
 import { redirect } from "next/navigation";
@@ -73,13 +69,15 @@ export const saveParsedQuestions = async ({
             ques.question_type || "OBJECTIVE_MULTIPLE_CHOICE_SINGLE_ANSWER",
           correct_answer: ques.correct_answer,
           options: ques.options,
+          isPossiblyWrong: ques.possiblyWrong.isPossiblyWrong,
+          isPossiblyWrongDesc: ques.possiblyWrong.reason,
         })),
       });
     });
     revalidatePath("/dragon/teacher/class");
     return { success: true, error: false };
   } catch (err) {
-    console.error(err);
+    console.log(err);
     return { success: false, error: err };
   }
 };

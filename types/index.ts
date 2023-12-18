@@ -5,3 +5,5 @@ export * from "./apiTypes";
 export * from "./questionTypes";
 export * from "./colorTypes";
 export * from "./chubbi-types";
+export * from "./dragon";
+export * from "./ai";

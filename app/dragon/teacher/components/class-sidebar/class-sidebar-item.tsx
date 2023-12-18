@@ -25,6 +25,7 @@ import {
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
 import { useDuplicateConfig } from "../../hooks/use-duplicate-config";
+import { TaskType } from "@/types/dragon";
 
 export const ClassSidebarItem = function ({
   isArchived,
@@ -35,6 +36,7 @@ export const ClassSidebarItem = function ({
   isPublished,
   classId,
   userId,
+  type,
 }: {
   name: string;
   configId: string;
@@ -44,6 +46,7 @@ export const ClassSidebarItem = function ({
   isPublished?: boolean;
   classId: string;
   userId: string;
+  type: TaskType;
 }) {
   const segment = useSelectedLayoutSegment();
   const segments = useSelectedLayoutSegments();
@@ -115,6 +118,7 @@ export const ClassSidebarItem = function ({
                 classId,
                 configId,
                 userId,
+                type,
               })
             }
           >

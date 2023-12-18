@@ -1,7 +1,8 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { db } from "../routers";
-import { getEditBotURL, getTestEditBotURL } from "@/lib/urls";
+import { getTaskUrl } from "@/lib/urls";
+import { TaskType } from "@/types/dragon";
 
 export function useDuplicateConfig() {
   const router = useRouter();
@@ -9,10 +10,12 @@ export function useDuplicateConfig() {
     userId,
     classId,
     configId,
+    type,
   }: {
     userId: string;
     classId: string;
     configId: string;
+    type: TaskType;
   }) => {
     const botConfig = await db.botConfig.duplicateConfig({
       classId,
@@ -23,9 +26,11 @@ export function useDuplicateConfig() {
       throw new Error("Failed to create bot config");
     }
     router.push(
-      botConfig.type === "chat"
-        ? getEditBotURL(classId, botConfig.id)
-        : getTestEditBotURL(classId, botConfig.id)
+      getTaskUrl({
+        classId: botConfig.classId as string,
+        taskId: botConfig.id,
+        type: botConfig.type as TaskType,
+      })
     );
   };
 

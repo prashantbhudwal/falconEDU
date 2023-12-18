@@ -1,6 +1,11 @@
 import { type Bot } from "./student/types";
 import { type User } from "@prisma/client";
-import { teacherPreferencesSchema, botPreferencesSchema } from "./schema";
+import { StudentPreferenceSchema } from "./schema";
+import {
+  teacherPreferencesSchema,
+  botPreferencesSchema,
+  lessonPreferencesSchema,
+} from "./schema";
 
 export const botData = {
   id: "111",
@@ -99,6 +104,43 @@ export const botPreferences: Array<z.infer<typeof botPreferencesSchema>> = [
   },
 ];
 
+export const lessonPreferences: Array<z.infer<typeof lessonPreferencesSchema>> =
+  [
+    {
+      content: "Be clear and concise.",
+      topic: "English",
+      subjects: ["English"],
+      grades: ["Grade 1", "Grade 2", "Grade 3"],
+      board: "ICSE",
+      tone: "Friendly",
+      language: "English",
+      humorLevel: "Low",
+      languageProficiency: "Advanced",
+    },
+    {
+      content: "Be clear and concise.",
+      topic: "English",
+      subjects: ["Math", "Science"],
+      grades: ["Grade 1", "Grade 2"],
+      board: "CIE",
+      tone: "Friendly",
+      language: "English",
+      humorLevel: "High",
+      languageProficiency: "Beginner",
+    },
+    {
+      content: "Be clear and concise.",
+      topic: "English",
+      subjects: ["Science"],
+      grades: ["Grade 3", "Grade 4"],
+      board: "CBSE",
+      tone: "Strict",
+      language: "English",
+      humorLevel: "Low",
+      languageProficiency: "Advanced",
+    },
+  ];
+
 export const teacherPreferences: Array<
   z.infer<typeof teacherPreferencesSchema>
 > = [
@@ -121,5 +163,16 @@ export const teacherPreferences: Array<
       "10 years in software industry, 3 years in teaching.",
     likes: "Real-world applications, problem-solving.",
     dislikes: "Lack of practicality, missing deadlines.",
+  },
+];
+
+export const studentPreferences: Array<
+  z.infer<typeof StudentPreferenceSchema>
+> = [
+  {
+    aboutYourself: "",
+    interests: "",
+    favoriteCartoons: "",
+    favoriteFoods: "",
   },
 ];

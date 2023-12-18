@@ -1,6 +1,6 @@
 "use client";
 import { FaRobot } from "react-icons/fa6";
-import { ImportModal } from "../class-navbar/import-modal";
+import { ImportModal } from "../../class/[classId]/(home)/components/import-modal";
 import {
   Tooltip,
   TooltipContent,
@@ -19,10 +19,10 @@ import {
   getTestsUrl,
   getStudentsURL,
   getSettingsUrl,
+  getTaskUrl,
 } from "@/lib/urls";
 import Link from "next/link";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { getEditBotURL, getTestEditBotURL } from "@/lib/urls";
 import { Button } from "@/components/ui/button";
 import { Avatar } from "@radix-ui/react-avatar";
 import { NewConfigButton } from "./new-config-btn";
@@ -32,6 +32,7 @@ import { MdDashboard } from "react-icons/md";
 import { cn } from "@/lib/utils";
 import { AllConfigsInClass } from "../../routers/botConfigRouter";
 import { ClassesByUserId } from "../../routers/classRouter";
+import { TaskType } from "@/types/dragon";
 
 export function ClassSidebar({
   userId,
@@ -125,13 +126,14 @@ const Body = function ({
               userId={userId}
               name={config.name}
               configId={config.id}
-              href={
-                item.layoutSegment === "bots"
-                  ? getEditBotURL(classId, config.id)
-                  : getTestEditBotURL(classId, config.id)
-              }
+              href={getTaskUrl({
+                classId,
+                taskId: config.id,
+                type: config.type as TaskType,
+              })}
               icon={item.icon}
               isPublished={config.published}
+              type={config.type as TaskType}
             />
           ))}
           {item.archivedBots.map((config) => (
@@ -141,12 +143,13 @@ const Body = function ({
               userId={userId}
               name={config.name}
               configId={config.id}
-              href={
-                item.layoutSegment === "bots"
-                  ? getEditBotURL(classId, config.id)
-                  : getTestEditBotURL(classId, config.id)
-              }
+              href={getTaskUrl({
+                classId,
+                taskId: config.id,
+                type: config.type as TaskType,
+              })}
               isArchived
+              type={config.type as TaskType}
             />
           ))}
         </TabsContent>

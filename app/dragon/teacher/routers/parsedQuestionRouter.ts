@@ -21,9 +21,12 @@ export const updateParsedQuestion = async ({
         question: data.question,
         options: data.options,
         question_type: data.question_type,
+        isPossiblyWrong: data.isPossiblyWrong,
+        isPossiblyWrongDesc: data.isPossiblyWrongDesc,
       },
     });
     if (response) {
+      revalidatePath("/dragon/teacher");
       return { success: true, response };
     }
     return { success: false, response: null };

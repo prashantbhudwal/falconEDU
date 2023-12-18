@@ -12,10 +12,10 @@ export default function MyStudentsBtn({ classId }: { classId: string }) {
         variant={"ghost"}
         className="flex items-center justify-start gap-3 hover:bg-slate-500 hover:text-slate-950"
       >
-        <div>All Students</div>
         <Avatar>
           <UsersIcon className="w-5 text-secondary" />
         </Avatar>
+        <div> Students</div>
       </Button>
     </Link>
   );

@@ -1,21 +1,26 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { db } from "../routers";
-import { getEditBotURL, getTestEditBotURL } from "@/lib/urls";
+import { type TaskType } from "@/types/dragon";
+import { getTaskProperties } from "../utils";
+import { getTaskUrl } from "@/lib/urls";
 
 export function useCreateNewConfig() {
   const router = useRouter();
   const createNewConfig = async ({
     userId,
     classId,
-
     configType,
+    name,
   }: {
     userId: string;
     classId: string;
-    configType: "chat" | "test";
+    configType: TaskType;
+    name?: string;
   }) => {
-    const configName = configType === "chat" ? "Untitled Bot" : "Untitled Test";
+    let configName =
+      name && name.length > 0 ? name : getTaskProperties(configType).newName;
+
     const botConfig = await db.botConfig.createBotConfig({
       userId,
       classId,
@@ -26,11 +31,7 @@ export function useCreateNewConfig() {
     if (!configId) {
       throw new Error("Failed to create bot config");
     }
-    router.push(
-      configType === "chat"
-        ? getEditBotURL(classId, configId)
-        : getTestEditBotURL(classId, configId)
-    );
+    router.push(getTaskUrl({ classId, taskId: configId, type: configType }));
   };
 
   return createNewConfig;

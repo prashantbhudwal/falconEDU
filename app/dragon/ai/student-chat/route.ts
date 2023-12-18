@@ -1,4 +1,5 @@
 import { NextRequest } from "next/server";
+import { getTaskProperties } from "../../teacher/utils";
 import OpenAI from "openai";
 const openai = new OpenAI();
 import { OpenAIStream, StreamingTextResponse } from "ai";
@@ -11,6 +12,8 @@ import { TokenTextSplitter } from "langchain/text_splitter";
 import { mp } from "@/lib/mixpanel";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { TaskType } from "@/types/dragon";
+import { getEngineeredLessonBotMessages } from "./prompts/lesson-prompts/lessonBotMessages";
 // export const runtime = "edge";
 export const dynamic = "force-dynamic";
 
@@ -31,6 +34,25 @@ function formatLangchainMessagesForOpenAI(messages: BaseMessage[]) {
   });
 }
 
+const getEngineeredMessagesByType = async ({
+  type,
+  context,
+}: {
+  type: TaskType;
+  context: any;
+}) => {
+  switch (type) {
+    case "chat":
+      return await getEngineeredChatBotMessages(context);
+    case "test":
+      return await getEngineeredTestBotMessages(context);
+    case "lesson":
+      return await getEngineeredLessonBotMessages(context);
+    default:
+      return await getEngineeredChatBotMessages(context);
+  }
+};
+
 export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);
   if (!session) {
@@ -44,18 +66,18 @@ export async function POST(req: NextRequest) {
     let { messages } = json;
     const botChatId = json.chatId;
     const context = json.context;
-    const botType = json.type as string;
+    const botType = json.type as TaskType;
     if (!botType) {
       throw new Error(`BotConfig with botChatId ${botChatId} not found`);
     }
     const parsedContext = JSON.parse(context);
 
-    const { engineeredMessages } =
-      botType === "chat"
-        ? await getEngineeredChatBotMessages(parsedContext)
-        : await getEngineeredTestBotMessages(parsedContext);
+    const { engineeredMessages } = await getEngineeredMessagesByType({
+      type: botType,
+      context: parsedContext,
+    });
 
-    const TEMPERATURE = botType === "chat" ? 1 : 0.2;
+    const TEMPERATURE = getTaskProperties(botType).aiTemperature;
 
     const history: BaseMessage[] = messages.map((m: any) =>
       m.role == "user" ? new HumanMessage(m.content) : new AIMessage(m.content)

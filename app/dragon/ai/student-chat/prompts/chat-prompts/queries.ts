@@ -5,7 +5,7 @@ import * as z from "zod";
 import {
   botPreferencesSchema,
   teacherPreferencesSchema,
-  StudentPreferencesSchema,
+  StudentPreferenceSchema,
   testBotPreferencesSchema,
 } from "@/app/dragon/schema";
 export const isEmptyObject = (obj: any) => Object.keys(obj).length === 0;
@@ -56,7 +56,7 @@ export const getChatContextByChatId = cache(async function (chatId: string) {
   });
   //console.log("test", test);
 
- // console.log("context", context);
+  // console.log("context", context);
   if (!context) {
     console.error("context not found for chatId:", chatId);
   }
@@ -75,7 +75,7 @@ export const getChatContextByChatId = cache(async function (chatId: string) {
     : teacherPreferencesSchema.safeParse(teacherPreferences);
   const parsedStudentPreferences = isEmptyObject(studentPreferences)
     ? { success: true, data: {} }
-    : StudentPreferencesSchema.safeParse(studentPreferences);
+    : StudentPreferenceSchema.safeParse(studentPreferences);
 
   if (
     parsedBotPreferences.success &&
@@ -98,7 +98,6 @@ export const getChatContextByChatId = cache(async function (chatId: string) {
 export type ChatContextByChatId = UnwrapPromise<
   ReturnType<typeof getChatContextByChatId>
 >;
-
 export async function getBotConfigTypeByBotChatId(botChatId: string) {
   const botChat = await prisma.botChat.findUnique({
     where: { id: botChatId },

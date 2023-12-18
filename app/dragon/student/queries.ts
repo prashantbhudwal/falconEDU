@@ -5,7 +5,7 @@ import * as z from "zod";
 import {
   botPreferencesSchema,
   teacherPreferencesSchema,
-  StudentPreferencesSchema,
+  StudentPreferenceSchema,
 } from "../schema";
 
 export const getStudentId = cache(async function (userId: string) {
@@ -155,6 +155,7 @@ export const getBotByBotId = cache(async function (botId: string) {
           id: true,
           name: true,
           type: true,
+          isActive: true,
           published: true,
           teacherId: true,
           teacher: {
