@@ -70,7 +70,6 @@ const FileUploader = ({ setParsedDocs }: PropTypes) => {
             const arrayBuffer = target.result as ArrayBuffer;
             try {
               const result = await mammoth.extractRawText({ arrayBuffer });
-              console.log(result.value);
               setParsedDocs({ docs: result.value });
             } catch (error) {
               console.error("Error loading DOCX:", error);
@@ -101,7 +100,9 @@ const FileUploader = ({ setParsedDocs }: PropTypes) => {
     noDrag: false,
     accept: {
       "application/pdf": [".pdf"],
-      "application/msword": [".doc", ".docx"],
+      // "application/msword": [".doc"],
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+        [".docx"],
       "text/plain": [".txt"],
     },
   });
