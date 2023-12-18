@@ -1,4 +1,5 @@
 import sendgrid from "@sendgrid/mail";
+import { NextResponse } from "next/server";
 sendgrid.setApiKey(process.env.SENDGRID_API_KEY ?? "");
 
 export async function GET() {
@@ -9,9 +10,9 @@ export async function GET() {
       subject: `Test Email`,
       html: `<div>You've got a mail</div>`,
     });
+    return new NextResponse("Email sent successfully", { status: 200 });
   } catch (e) {
     console.log(e);
+    return new NextResponse("Email not sent", { status: 500 });
   }
-
-  console.log("Email sent");
 }
