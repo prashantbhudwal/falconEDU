@@ -86,6 +86,9 @@ dependencies:
   '@radix-ui/react-tooltip':
     specifier: ^1.0.7
     version: 1.0.7(@types/react-dom@18.2.17)(@types/react@18.2.45)(react-dom@18.2.0)(react@18.2.0)
+  '@sendgrid/mail':
+    specifier: ^8.1.0
+    version: 8.1.0
   '@stripe/stripe-js':
     specifier: ^2.2.1
     version: 2.2.1
@@ -97,13 +100,13 @@ dependencies:
     version: 8.10.7(react-dom@18.2.0)(react@18.2.0)
   '@trpc/client':
     specifier: next
-    version: 11.0.0-alpha-next-2023-12-15-18-34-32.118(@trpc/server@11.0.0-alpha-next-2023-12-15-18-34-32.118)
+    version: 11.0.0-alpha-next-2023-12-18-04-17-50.120(@trpc/server@11.0.0-alpha-next-2023-12-18-04-17-50.120)
   '@trpc/react-query':
     specifier: next
-    version: 11.0.0-alpha-next-2023-12-15-18-34-32.118(@tanstack/react-query@5.13.4)(@trpc/client@11.0.0-alpha-next-2023-12-15-18-34-32.118)(@trpc/server@11.0.0-alpha-next-2023-12-15-18-34-32.118)(react-dom@18.2.0)(react@18.2.0)
+    version: 11.0.0-alpha-next-2023-12-18-04-17-50.120(@tanstack/react-query@5.13.4)(@trpc/client@11.0.0-alpha-next-2023-12-18-04-17-50.120)(@trpc/server@11.0.0-alpha-next-2023-12-18-04-17-50.120)(react-dom@18.2.0)(react@18.2.0)
   '@trpc/server':
     specifier: next
-    version: 11.0.0-alpha-next-2023-12-15-18-34-32.118
+    version: 11.0.0-alpha-next-2023-12-18-04-17-50.120
   '@vercel/analytics':
     specifier: ^1.1.1
     version: 1.1.1
@@ -3352,6 +3355,33 @@ packages:
     resolution: {integrity: sha512-2/U3GXA6YiPYQDLGwtGlnNgKYBSwCFIHf8Y9LUY5VATHdtbLlU0Y1R3QoBnT0aB4qv/BEiVVsj7LJXoQCgJ2vA==}
     dev: true
 
+  /@sendgrid/client@8.1.0:
+    resolution: {integrity: sha512-Kp2kKLr307v/HnR3uGuySt0AbCkeG7naDVOzfPOtWvKHVZIEHmKidQjJjzytVZNYWtoRdYgNfBw6GyUznGqa6w==}
+    engines: {node: '>=12.*'}
+    dependencies:
+      '@sendgrid/helpers': 8.0.0
+      axios: 1.6.2
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /@sendgrid/helpers@8.0.0:
+    resolution: {integrity: sha512-Ze7WuW2Xzy5GT5WRx+yEv89fsg/pgy3T1E3FS0QEx0/VvRmigMZ5qyVGhJz4SxomegDkzXv/i0aFPpHKN8qdAA==}
+    engines: {node: '>= 12.0.0'}
+    dependencies:
+      deepmerge: 4.3.1
+    dev: false
+
+  /@sendgrid/mail@8.1.0:
+    resolution: {integrity: sha512-WkE0qwOrJMX9oQ+Xvtl3CdmucD6/iKw6go0VPoPieVlfXc43rbIf91wvtO6m7sKPnzxw3G+8rekBgXibmP4S8Q==}
+    engines: {node: '>=12.*'}
+    dependencies:
+      '@sendgrid/client': 8.1.0
+      '@sendgrid/helpers': 8.0.0
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
   /@stripe/stripe-js@2.2.1:
     resolution: {integrity: sha512-Wd81A0u8EwT3cf+Xv1mpMI18RbXVhgh19MtPcF9ojNTlG3kl36B1+XFe1KQfnJxD3WRnVfDuI0rNCK53mcGm6g==}
     dev: false
@@ -3425,32 +3455,32 @@ packages:
     engines: {node: '>=12'}
     dev: false
 
-  /@trpc/client@11.0.0-alpha-next-2023-12-15-18-34-32.118(@trpc/server@11.0.0-alpha-next-2023-12-15-18-34-32.118):
-    resolution: {integrity: sha512-nYu8unwRr/KWpzh2EOls4ykT1vW1OfWrEDUzVUmsestTTsb86mxqcKJZ61KZfvGzx2nes8a2ItL/ff4NdvTVPg==}
+  /@trpc/client@11.0.0-alpha-next-2023-12-18-04-17-50.120(@trpc/server@11.0.0-alpha-next-2023-12-18-04-17-50.120):
+    resolution: {integrity: sha512-OXk75jtO8TNY8ckjElHXG+vD5u7SxEZ6Z7RuPnax3QYXxmNYwdXDb21+yvYIwwAXCS6eOoEYvXbhl364l3j/nw==}
     peerDependencies:
-      '@trpc/server': 11.0.0-alpha-next-2023-12-15-18-34-32.118+c4d0c3113
+      '@trpc/server': 11.0.0-alpha-next-2023-12-18-04-17-50.120+ab1c10607
     dependencies:
-      '@trpc/server': 11.0.0-alpha-next-2023-12-15-18-34-32.118
+      '@trpc/server': 11.0.0-alpha-next-2023-12-18-04-17-50.120
     dev: false
 
-  /@trpc/react-query@11.0.0-alpha-next-2023-12-15-18-34-32.118(@tanstack/react-query@5.13.4)(@trpc/client@11.0.0-alpha-next-2023-12-15-18-34-32.118)(@trpc/server@11.0.0-alpha-next-2023-12-15-18-34-32.118)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-Z30o5Nau7EBhiNuYX4ZRSJafc5RBh756NElWvp5aDlXGYvM7JRYGeHpb7gmesHIBH1sG/2luR5DvW8+ZhflgZQ==}
+  /@trpc/react-query@11.0.0-alpha-next-2023-12-18-04-17-50.120(@tanstack/react-query@5.13.4)(@trpc/client@11.0.0-alpha-next-2023-12-18-04-17-50.120)(@trpc/server@11.0.0-alpha-next-2023-12-18-04-17-50.120)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-eAy4/ZRtG0z4ScW2RHmXGnduW7CqL2aQu/EAyWndnYmweyuFatmKaAsh3boEgJyYEKnYRX5zbc2f3vKe5vYo7w==}
     peerDependencies:
       '@tanstack/react-query': ^5.0.0
-      '@trpc/client': 11.0.0-alpha-next-2023-12-15-18-34-32.118+c4d0c3113
-      '@trpc/server': 11.0.0-alpha-next-2023-12-15-18-34-32.118+c4d0c3113
+      '@trpc/client': 11.0.0-alpha-next-2023-12-18-04-17-50.120+ab1c10607
+      '@trpc/server': 11.0.0-alpha-next-2023-12-18-04-17-50.120+ab1c10607
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
     dependencies:
       '@tanstack/react-query': 5.13.4(react@18.2.0)
-      '@trpc/client': 11.0.0-alpha-next-2023-12-15-18-34-32.118(@trpc/server@11.0.0-alpha-next-2023-12-15-18-34-32.118)
-      '@trpc/server': 11.0.0-alpha-next-2023-12-15-18-34-32.118
+      '@trpc/client': 11.0.0-alpha-next-2023-12-18-04-17-50.120(@trpc/server@11.0.0-alpha-next-2023-12-18-04-17-50.120)
+      '@trpc/server': 11.0.0-alpha-next-2023-12-18-04-17-50.120
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
-  /@trpc/server@11.0.0-alpha-next-2023-12-15-18-34-32.118:
-    resolution: {integrity: sha512-LFyRQaTzYninZ8lfNEIfgRV6M8T4iDxp9NGNuCU8E7Ui6mvYaYAwv4RKwnkc+W2E+Ul2erhSw+GEqv01QJc+8g==}
+  /@trpc/server@11.0.0-alpha-next-2023-12-18-04-17-50.120:
+    resolution: {integrity: sha512-GsWbmvEU4I+2jEay1BEwq6ICKMBxvhxZB4JODQU3gyXZ65pRfpLw//ffoggESichQhjwan5wOwNTFZNTk9Howg==}
     dev: false
 
   /@tsconfig/node10@1.0.9:
