@@ -47,3 +47,4 @@ next-env.d.ts
 # all js map files in public folder
 /public/*.map
 
+.react-email
