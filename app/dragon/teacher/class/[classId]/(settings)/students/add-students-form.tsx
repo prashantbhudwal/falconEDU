@@ -12,6 +12,17 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { LuMail } from "react-icons/lu";
+import { useState } from "react";
+import axios from "axios";
+import useUserData from "@/hooks/useUserData";
 
 const addStudentFormSchema = z.object({
   email: z.string().email().nonempty(),
@@ -19,9 +30,18 @@ const addStudentFormSchema = z.object({
 
 type AddStudentFormProps = {
   classId: string;
+  nameOfClass: string;
 };
 
-export default function AddStudentForm({ classId }: AddStudentFormProps) {
+export default function AddStudentForm({
+  classId,
+  nameOfClass,
+}: AddStudentFormProps) {
+  const [openDialog, setOpenDialog] = useState(false);
+  const { user } = useUserData();
+  const [sendingEmail, setSendingEmail] = useState(false);
+  const [emailError, setEmailError] = useState("");
+
   const form = useForm<z.infer<typeof addStudentFormSchema>>({
     resolver: zodResolver(addStudentFormSchema),
     defaultValues: {
@@ -32,14 +52,15 @@ export default function AddStudentForm({ classId }: AddStudentFormProps) {
   const onSubmit = async function (
     values: z.infer<typeof addStudentFormSchema>
   ) {
-    let  { email } = values;
+    let { email } = values;
     email = email.replace(/^www\./, "");
     const result = await addStudentToClass(email, classId);
     if (result.notFound) {
-      form.setError("email", {
-        type: "manual",
-        message: "Student not on FalconAI. Ask them to sign up!",
-      });
+      setOpenDialog(true);
+      // form.setError("email", {
+      //   type: "manual",
+      //   message: "Student not on FalconAI. Ask them to sign up!",
+      // });
     } else if (result.error) {
       form.setError("email", {
         type: "manual",
@@ -50,31 +71,90 @@ export default function AddStudentForm({ classId }: AddStudentFormProps) {
     }
   };
 
+  const sendEmailHandler = async () => {
+    try {
+      setSendingEmail(true);
+      const data = {
+        studentEmail: form.getValues().email,
+        teacherEmail: user.email,
+        nameOfClass,
+        teacherImage: user.image,
+        inviteLink: `https://falconai.in/dragon/student`,
+      };
+      const emailResponse = await axios.post(
+        "/api/email",
+        JSON.stringify(data)
+      );
+      if (emailResponse.status === 200) {
+        setOpenDialog(false);
+        form.reset();
+      }
+    } catch (err) {
+      console.log(err);
+      setEmailError("Can't sent Email");
+    }
+    setSendingEmail(false);
+  };
+
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-row gap-6"
-      >
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <Input
-                  type="email"
-                  placeholder="Enter student email."
-                  className="w-72"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit">Add to class</Button>
-      </form>
-    </Form>
+    <>
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="flex flex-row gap-6"
+        >
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input
+                    type="email"
+                    placeholder="Enter student email."
+                    className="w-72"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button type="submit">Add to class</Button>
+        </form>
+      </Form>
+      <Dialog open={openDialog} onOpenChange={setOpenDialog}>
+        <DialogContent>
+          <DialogHeader className="flex flex-col items-center">
+            <p className="text-sm">
+              This email is not registered with FalconAi
+            </p>
+            <DialogTitle className="text-2xl pt-5 pb-2 text-slate-100">
+              Invite this student to FalconAi
+            </DialogTitle>
+            <div className="flex justify-center">
+              <Button onClick={sendEmailHandler} className="w-[150px]">
+                {sendingEmail ? (
+                  <span className="loading loading-infinity loading-md"></span>
+                ) : (
+                  <span className="flex gap-2 items-center tracking-wider">
+                    <LuMail />
+                    Invite
+                  </span>
+                )}
+              </Button>
+            </div>
+            {emailError && (
+              <p className="text-error text-xs pt-1">{emailError}</p>
+            )}
+            <DialogDescription className="text-xs text-center pt-5">
+              We&apos;ll send an email invitation to join your class, and your
+              email address will be included in the message so that the student
+              is aware of who extended the invitation.
+            </DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }

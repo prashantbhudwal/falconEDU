@@ -22,7 +22,10 @@ export default async function EditStudents({ params }: EditClassProps) {
       </div>
 
       <div className="flex space-y-5 flex-col w-full">
-        <AddStudentForm classId={classId} />
+        <AddStudentForm
+          classId={classId}
+          nameOfClass={nameOfClass || "Falcon"}
+        />
         <DataTable students={students || []} classId={classId} />
       </div>
     </Paper>
