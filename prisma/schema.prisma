@@ -119,14 +119,15 @@ enum OrgType {
 }
 
 model Class {
-  id        String           @id @default(cuid())
-  name      String
-  teacherId String
-  isActive  Boolean          @default(true)
-  Teacher   TeacherProfile   @relation(fields: [teacherId], references: [id])
-  students  StudentProfile[]
-  BotShare  BotShare[]
-  BotConfig BotConfig[]
+  id         String           @id @default(cuid())
+  name       String
+  teacherId  String
+  isActive   Boolean          @default(true)
+  Teacher    TeacherProfile   @relation(fields: [teacherId], references: [id])
+  students   StudentProfile[]
+  BotShare   BotShare[]
+  BotConfig  BotConfig[]
+  Invitation Invitation[]
 }
 
 enum UserType {
@@ -246,6 +247,25 @@ enum QuestionType {
   SUBJECTIVE_ESSAY // For longer, essay-type answers
   SUBJECTIVE_SHORT_ANSWER // For shorter, one or two sentence answers
   OTHER
+}
+
+//**************** App > Invitation Models ****************//
+
+model Invitation {
+  createdAt       DateTime         @default(now())
+  id              String           @id @default(cuid())
+  studentEmail    String           @unique
+  Class           Class?           @relation(fields: [classId], references: [id])
+  classId         String
+  status          InvitationStatus
+  daysUntilExpiry Int?             @default(365)
+}
+
+enum InvitationStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
+  EXPIRED
 }
 
 //**************** App > Sharing Models ****************//
