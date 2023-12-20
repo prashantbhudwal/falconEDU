@@ -1,7 +1,8 @@
 "use server";
-
 import prisma from "@/prisma";
+import { InvitationStatus } from "@prisma/client";
 import { revalidatePath } from "next/cache";
+import { cache } from "react";
 
 export const addToInviteList = async ({
   studentEmail,
@@ -75,6 +76,7 @@ export const updateInviteTimehandler = async ({
       where: { studentEmail, classId },
       data: {
         createdAt: new Date(),
+        status: "PENDING",
       },
     });
     revalidatePath("/dragon/teacher/class");
@@ -88,7 +90,7 @@ export const updateInviteTimehandler = async ({
   }
 };
 
-export const getInviteList = async () => {
+export const getInviteList = cache(async () => {
   try {
     const inviteList = await prisma.invitation.findMany({
       orderBy: {
@@ -98,5 +100,60 @@ export const getInviteList = async () => {
     return { inviteList };
   } catch (err: any) {
     return { inviteList: null };
+  }
+});
+
+export const getInviteDetailsByInviteId = async ({
+  inviteId,
+}: {
+  inviteId: string;
+}) => {
+  try {
+    const invitedStudent = await prisma.invitation.findUnique({
+      where: { id: inviteId },
+      select: {
+        id: true,
+        studentEmail: true,
+        status: true,
+        classId: true,
+        createdAt: true,
+        Class: {
+          select: {
+            name: true,
+            Teacher: {
+              select: {
+                User: true,
+              },
+            },
+          },
+        },
+      },
+    });
+    return { success: true, error: "", invitedStudent };
+  } catch (err) {
+    console.log(err);
+    return { success: true, error: "", invitedStudent: null };
+  }
+};
+
+export const updateInvitationStausByInviteId = async ({
+  inviteId,
+  status,
+}: {
+  inviteId: string;
+  status: InvitationStatus;
+}) => {
+  try {
+    const updatedInvitation = await prisma.invitation.update({
+      where: { id: inviteId },
+      data: {
+        status: status,
+      },
+    });
+    revalidatePath("/dragon/teacher/class");
+    return { success: true, error: "", updatedInvitation };
+  } catch (err) {
+    console.log(err);
+    return { success: false, error: "", updatedInvitation: null };
   }
 };

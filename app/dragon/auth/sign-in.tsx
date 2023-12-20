@@ -9,9 +9,10 @@ import { authConfig } from "./config";
 
 interface SignInProps {
   type: "student" | "teacher";
+  inviteId?: string | null;
 }
 
-export default function SignIn({ type }: SignInProps) {
+export default function SignIn({ type, inviteId }: SignInProps) {
   const router = useRouter();
   const { data: session, status: sessionStatus } = useSession();
 
@@ -19,14 +20,24 @@ export default function SignIn({ type }: SignInProps) {
     if (session && sessionStatus === "authenticated") {
       if (session.user.userType === "TEACHER")
         router.push(authConfig[1].callbackUrl);
-      else if (session.user.userType === "STUDENT")
-        router.push(authConfig[0].callbackUrl);
+      else if (session.user.userType === "STUDENT") {
+        if (!inviteId) {
+          router.push(authConfig[0].callbackUrl);
+        }
+        router.push(`/dragon/student/invite/${inviteId}`);
+      }
     }
-  }, [session, sessionStatus, router]);
+  }, [session, sessionStatus, router, inviteId]);
 
   const handleSignIn = async (provider: string, callbackUrl: string) => {
     try {
-      const data = await signIn(provider, { callbackUrl });
+      let updatedCallbackUrl = null;
+      if (type === "student" && inviteId) {
+        updatedCallbackUrl = `/dragon/student/invite/${inviteId}`;
+      }
+      const data = await signIn(provider, {
+        callbackUrl: updatedCallbackUrl || callbackUrl,
+      });
     } catch (error) {
       console.error("SignIn Error", error);
     }
@@ -61,8 +72,8 @@ export default function SignIn({ type }: SignInProps) {
             {sessionStatus === "loading"
               ? "Signing you in..."
               : sessionStatus === "authenticated"
-              ? "Taking you to the app..."
-              : config.buttonText}
+                ? "Taking you to the app..."
+                : config.buttonText}
           </Button>
           <p className="text-xs md:text-base text-gray-600">{config.subtext}</p>
         </div>

@@ -1,10 +1,17 @@
 "use server";
-import { isAuthorized } from "@/lib/utils";
+
+import { isAuthorized } from "@/lib/is-authorized";
+import { getStudentsURL } from "@/lib/urls";
 import prisma from "@/prisma";
 import { revalidatePath } from "next/cache";
-import { getStudentsURL } from "@/lib/urls";
 
-export const addStudentToClass = async (email: string, classId: string) => {
+export const addStudentToClass = async ({
+  email,
+  classId,
+}: {
+  email: string;
+  classId: string;
+}) => {
   await isAuthorized({ userType: "TEACHER" });
 
   try {
@@ -25,6 +32,8 @@ export const addStudentToClass = async (email: string, classId: string) => {
         where: { userId: user.id },
       });
 
+      console.log(studentProfile);
+
       if (!studentProfile) {
         studentProfile = await prisma.studentProfile.create({
           data: {
@@ -32,7 +41,7 @@ export const addStudentToClass = async (email: string, classId: string) => {
             grade: "",
           },
         });
-      }   
+      }
 
       // Add student to class
       await prisma.class.update({
@@ -104,10 +113,13 @@ export const addStudentToClass = async (email: string, classId: string) => {
   }
 };
 
-export const removeStudentFromClass = async (
-  studentId: string,
-  classId: string
-) => {
+export const removeStudentFromClass = async ({
+  studentId,
+  classId,
+}: {
+  studentId: string;
+  classId: string;
+}) => {
   await isAuthorized({
     userType: "TEACHER",
   });

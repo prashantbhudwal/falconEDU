@@ -16,3 +16,21 @@ export const teacherHasOrgMode = cache(
     return teacherProfile.orgMode;
   }
 );
+
+export const getTeacherByTeacherId = cache(
+  async ({ teacherId }: { teacherId: string }) => {
+    try {
+      const teacherProfile = await prisma.teacherProfile.findUnique({
+        where: {
+          id: teacherId,
+        },
+      });
+      return {
+        teacherProfile,
+      };
+    } catch (err) {
+      console.log(err);
+      return { teacherProfile: null };
+    }
+  }
+);

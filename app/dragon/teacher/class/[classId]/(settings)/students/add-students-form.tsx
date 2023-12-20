@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { addStudentToClass } from "./mutations";
 import {
   Form,
   FormItem,
@@ -56,7 +55,7 @@ export default function AddStudentForm({
   ) {
     let { email } = values;
     email = email.replace(/^www\./, "");
-    const result = await addStudentToClass(email, classId);
+    const result = await db.studentRouter.addStudentToClass({ email, classId });
     if (result.notFound) {
       setOpenDialog(true);
       // form.setError("email", {
@@ -92,7 +91,7 @@ export default function AddStudentForm({
         teacherEmail: user.email,
         nameOfClass,
         teacherImage: user.image,
-        inviteLink: `https://chubbi.falconai.in/dragon/student/${addedInvitation?.id}`,
+        inviteLink: `https://chubbi.falconai.in/dragon/auth/student?inviteId=${addedInvitation?.id}`,
       };
       const emailResponse = await axios.post(
         "/api/email",
@@ -130,7 +129,7 @@ export default function AddStudentForm({
         teacherEmail: user.email,
         nameOfClass,
         teacherImage: user.image,
-        inviteLink: `https://chubbi.falconai.in/dragon/student/${updatedInvitation?.id}`,
+        inviteLink: `https://chubbi.falconai.in/dragon/auth/student?inviteId=${updatedInvitation?.id}`,
       };
       const emailResponse = await axios.post(
         "/api/email",
@@ -197,7 +196,8 @@ export default function AddStudentForm({
                 <Button
                   variant={"secondary"}
                   onClick={cancelModalHandler}
-                  className="w-fit"
+                  disabled={sendingEmail}
+                  className="w-fit disabled:opacity-40 disabled:cursor-not-allowed"
                 >
                   Cancel
                 </Button>

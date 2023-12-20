@@ -69,3 +69,10 @@ export const removeOptionalFieldFormZodTypes = <T extends z.ZodObject<any>>(
 
   return updatedSchema as unknown as z.ZodObject<SchemaType<T>>;
 };
+
+export const formatName = (name: string) => {
+  const nameArray = name.split(" ");
+  return nameArray
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(" ");
+};
