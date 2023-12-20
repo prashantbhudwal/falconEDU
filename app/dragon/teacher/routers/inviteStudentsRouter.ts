@@ -19,38 +19,49 @@ export const addToInviteList = async ({
       },
     });
     revalidatePath("/dragon/teacher/class");
-    return { success: true, error: "" };
+    return { success: true, error: "", addedInvitation };
   } catch (err: any) {
-    return { success: false, error: "Can't add to invite list" };
+    if (err.code === "P2002") {
+      return {
+        success: false,
+        error: "Student is already invited",
+        addToInviteList: null,
+      };
+    }
+    return {
+      success: false,
+      error: "Can't add to invite list",
+      addToInviteList: null,
+    };
   }
 };
 
-export const checkInviteListwithEmail = async ({
-  studentEmail,
-  classId,
-}: {
-  studentEmail: string;
-  classId: string;
-}) => {
-  try {
-    const isAlreadyInvited = await prisma.invitation.findFirst({
-      where: {
-        AND: [
-          {
-            studentEmail,
-            classId,
-          },
-        ],
-      },
-    });
-    if (!isAlreadyInvited) {
-      return { success: true, error: "" };
-    }
-    return { success: false, error: "Student is already invited" };
-  } catch (err: any) {
-    return { success: false, error: "Can't add to invite list" };
-  }
-};
+// export const checkInviteListwithEmail = async ({
+//   studentEmail,
+//   classId,
+// }: {
+//   studentEmail: string;
+//   classId: string;
+// }) => {
+//   try {
+//     const isAlreadyInvited = await prisma.invitation.findFirst({
+//       where: {
+//         AND: [
+//           {
+//             studentEmail,
+//             classId,
+//           },
+//         ],
+//       },
+//     });
+//     if (!isAlreadyInvited) {
+//       return { success: true, error: "" };
+//     }
+//     return { success: false, error: "Student is already invited" };
+//   } catch (err: any) {
+//     return { success: false, error: "Can't add to invite list" };
+//   }
+// };
 
 export const updateInviteTimehandler = async ({
   studentEmail,
@@ -60,23 +71,20 @@ export const updateInviteTimehandler = async ({
   classId: string;
 }) => {
   try {
-    const addedInvitation = await prisma.invitation.updateMany({
-      where: {
-        AND: [
-          {
-            studentEmail,
-            classId,
-          },
-        ],
-      },
+    const updatedInvitation = await prisma.invitation.update({
+      where: { studentEmail, classId },
       data: {
         createdAt: new Date(),
       },
     });
     revalidatePath("/dragon/teacher/class");
-    return { success: true, error: "" };
+    return { success: true, error: "", updatedInvitation };
   } catch (err: any) {
-    return { success: false, error: "Can't update the invite list" };
+    return {
+      success: false,
+      error: "Can't update the invite list",
+      updatedInvitation: null,
+    };
   }
 };
 

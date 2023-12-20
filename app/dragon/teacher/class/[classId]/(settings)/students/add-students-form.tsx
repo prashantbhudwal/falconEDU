@@ -76,8 +76,8 @@ export default function AddStudentForm({
   const sendEmailHandler = async () => {
     try {
       setSendingEmail(true);
-      const { success, error } =
-        await db.inviteStudentsRouter.checkInviteListwithEmail({
+      const { success, error, addedInvitation } =
+        await db.inviteStudentsRouter.addToInviteList({
           classId,
           studentEmail: form.getValues().email,
         });
@@ -92,18 +92,13 @@ export default function AddStudentForm({
         teacherEmail: user.email,
         nameOfClass,
         teacherImage: user.image,
-        inviteLink: `https://falconai.in/dragon/student`,
+        inviteLink: `https://chubbi.falconai.in/dragon/student/${addedInvitation?.id}`,
       };
       const emailResponse = await axios.post(
         "/api/email",
         JSON.stringify(data)
       );
       if (emailResponse.status === 200) {
-        const { success, error } =
-          await db.inviteStudentsRouter.addToInviteList({
-            classId,
-            studentEmail: form.getValues().email,
-          });
         setOpenDialog(false);
         setEmailError("");
         setIsAlreadyInvited(false);
@@ -119,23 +114,29 @@ export default function AddStudentForm({
   const resendEmailHandler = async () => {
     try {
       setSendingEmail(true);
+      const { success, updatedInvitation, error } =
+        await db.inviteStudentsRouter.updateInviteTimehandler({
+          classId,
+          studentEmail: form.getValues().email,
+        });
+      if (!success && error) {
+        setSendingEmail(false);
+        setIsAlreadyInvited(true);
+        setEmailError(error);
+        return;
+      }
       const data = {
         studentEmail: form.getValues().email,
         teacherEmail: user.email,
         nameOfClass,
         teacherImage: user.image,
-        inviteLink: `https://falconai.in/dragon/student`,
+        inviteLink: `https://chubbi.falconai.in/dragon/student/${updatedInvitation?.id}`,
       };
       const emailResponse = await axios.post(
         "/api/email",
         JSON.stringify(data)
       );
       if (emailResponse.status === 200) {
-        const { success, error } =
-          await db.inviteStudentsRouter.updateInviteTimehandler({
-            classId,
-            studentEmail: form.getValues().email,
-          });
         setOpenDialog(false);
         setEmailError("");
         setIsAlreadyInvited(false);
