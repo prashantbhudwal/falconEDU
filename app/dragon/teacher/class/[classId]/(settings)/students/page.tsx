@@ -3,6 +3,7 @@ import { getStudentsByClassId } from "../../../../queries";
 import { DataTable } from "./dataTable";
 import { _TestOverflow } from "@/components/_test-overflow";
 import { Paper } from "@/components/ui/paper";
+import { InvitedSudents } from "./invitedStudents";
 
 export const revalidate = 3600; // revalidate the data at most every hour
 
@@ -27,6 +28,10 @@ export default async function EditStudents({ params }: EditClassProps) {
           nameOfClass={nameOfClass || "Falcon"}
         />
         <DataTable students={students || []} classId={classId} />
+        <div className="pt-5">
+          <h4 className="text-2xl">Invited Students</h4>
+          <InvitedSudents />
+        </div>
       </div>
     </Paper>
   );

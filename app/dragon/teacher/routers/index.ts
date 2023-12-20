@@ -4,6 +4,7 @@ import * as classRouter from "./classRouter";
 import * as bot from "./botRouter";
 import * as teacher from "./teacherRouter";
 import * as parseQuestionRouter from "./parsedQuestionRouter";
+import * as inviteStudentsRouter from "./inviteStudentsRouter";
 
 export const db = {
   botConfig,
@@ -11,4 +12,5 @@ export const db = {
   bot,
   teacher,
   parseQuestionRouter,
+  inviteStudentsRouter,
 };
