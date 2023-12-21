@@ -1,4 +1,5 @@
 import { db } from "@/app/dragon/teacher/routers";
+import { typeGetInviteList } from "@/app/dragon/teacher/routers/inviteStudentsRouter";
 import {
   Table,
   TableBody,
@@ -10,18 +11,21 @@ import {
 } from "@/components/ui/table";
 import Avvvatars from "avvvatars-react";
 
-export const InvitedSudents = async () => {
-  const { inviteList } = await db.inviteStudentsRouter.getInviteList();
+export const InvitedSudents = async ({
+  inviteList,
+}: {
+  inviteList: typeGetInviteList["inviteList"];
+}) => {
   return (
-    <>
+    <div className="max-h-[300px] overflow-y-scroll custom-scrollbar">
       <Table className="w-full">
         <TableHeader>
           <TableRow className="hover:bg-transparent">
-            <TableHead className="w-[100px]">S.No.</TableHead>
+            <TableHead className="w-[100px] text-slate-300">S.No.</TableHead>
             <TableHead></TableHead>
-            <TableHead>Email</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>
+            <TableHead className="text-slate-300">Email</TableHead>
+            <TableHead className="text-slate-300">Status</TableHead>
+            <TableHead className="text-slate-300">
               Expires In <span className="text-[9px]">(Days)</span>
             </TableHead>
           </TableRow>
@@ -73,6 +77,6 @@ export const InvitedSudents = async () => {
           <p className="text-slate-200">No Students have been invited.</p>
         </div>
       )}
-    </>
+    </div>
   );
 };

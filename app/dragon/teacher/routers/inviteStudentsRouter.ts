@@ -3,6 +3,7 @@ import prisma from "@/prisma";
 import { InvitationStatus } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { cache } from "react";
+import { UnwrapPromise } from "../../student/queries";
 
 export const addToInviteList = async ({
   studentEmail,
@@ -102,6 +103,8 @@ export const getInviteList = cache(async () => {
     return { inviteList: null };
   }
 });
+
+export type typeGetInviteList = UnwrapPromise<ReturnType<typeof getInviteList>>;
 
 export const getInviteDetailsByInviteId = async ({
   inviteId,
