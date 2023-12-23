@@ -159,6 +159,8 @@ model BotConfig {
   isActive        Boolean           @default(true)
   parsedQuestions parsedQuestions[]
   isHidden        Boolean           @default(false)
+  hasTimeLimit    Boolean           @default(false)
+  timeLimit       Int?              @default(0)
 }
 
 model parsedQuestions {
