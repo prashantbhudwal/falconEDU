@@ -271,6 +271,11 @@ export const LIMITS_testBotPreferencesSchema = {
 };
 export const testBotPreferencesSchema = z.object({
   fullTest: z.string().max(LIMITS_testBotPreferencesSchema.fullTest.maxLength),
+  timeLimit: z
+    .number()
+    .min(0, { message: "Time limit must be at least 0" })
+    .max(180, { message: "Time limit must not exceed 180" })
+    .optional(),
 });
 
 export const parsedQuestionsSchema = z.object({

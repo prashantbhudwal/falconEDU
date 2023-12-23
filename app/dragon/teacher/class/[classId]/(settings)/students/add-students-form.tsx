@@ -212,8 +212,9 @@ export default function AddStudentForm({
                     Add to class
                   </Button>
                   <p className="text-xs">
-                    <span className="text-slate-200">Note:</span> The added
-                    student will get access to all the Tasks in the Class.
+                    e<span className="text-slate-200 font-semibold">Note:</span>{" "}
+                    The added student will get access to all the Tasks in the
+                    Class.
                   </p>
                 </form>
               </Form>
