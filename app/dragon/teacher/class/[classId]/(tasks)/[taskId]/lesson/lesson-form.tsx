@@ -234,6 +234,7 @@ export default function LessonForm({
                         maxChars={MAX_CHARS}
                         required
                         hasDocUploader
+                        setIsDirty={setIsDirty}
                         {...field}
                       />
                     </FormControl>

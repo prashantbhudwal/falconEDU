@@ -367,6 +367,7 @@ export default function TestPreferencesForm({
                           required
                           placeholder="Enter or paste the full test here. Please provide the answers too. The bot will conduct the test for you."
                           hasDocUploader
+                          setIsDirty={setIsDirty}
                           {...field}
                         />
                       </div>

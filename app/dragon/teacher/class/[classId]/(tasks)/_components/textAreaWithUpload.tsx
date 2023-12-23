@@ -11,6 +11,7 @@ type PropType = {
   placeholder?: string;
   hasDocUploader?: boolean;
   className?: string;
+  setIsDirty?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 /**
@@ -32,6 +33,7 @@ const TextAreaWithUpload = ({
   placeholder,
   hasDocUploader,
   className,
+  setIsDirty,
   ...field
 }: PropType) => {
   const { getValues, setValue } = useFormContext();
@@ -42,6 +44,7 @@ const TextAreaWithUpload = ({
       const test = getValues(name);
       const updatedTest = test ? test + "\n" + docs : docs;
       setValue(name, updatedTest);
+      setIsDirty && setIsDirty(true);
     }
   };
   return (
