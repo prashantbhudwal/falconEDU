@@ -66,7 +66,9 @@ export default function TestPreferencesForm({
   const [error, setError] = useState<string | null>(null);
   const [testName, setTestName] = useState<string | undefined>(config?.name);
   const [botConfig, setBotConfig] = useState<BotConfig | null>(config);
-  // const [openTimeLimitDialog, setOpenTimeLimitDialog] = useState(false);
+  const [openTimeLimitDialog, setOpenTimeLimitDialog] = useState(false);
+
+  const timeLimit = config?.timeLimit || 0;
 
   if (!testBotPreferencesSchema.safeParse(config?.preferences)) {
     setError("Failed to parse bot preferences. Please try again.");
@@ -74,8 +76,8 @@ export default function TestPreferencesForm({
 
   const form = useForm<z.infer<typeof testBotPreferencesSchema>>({
     resolver: zodResolver(testBotPreferencesSchema),
-    // defaultValues: { fullTest: "", timeLimit: 0 }, // later change with value from db of timelimit
-    // mode: "onChange",
+    defaultValues: { fullTest: "", timeLimit }, // later change with value from db of timelimit
+    mode: "onChange",
   });
 
   const { isDirty, setIsDirty } = useIsFormDirty(form);
@@ -192,26 +194,26 @@ export default function TestPreferencesForm({
     setError("");
   };
 
-  // const updateTestTimeHandler = async (timeLimit: number) => {
-  //   const result = await db.botConfig.updateBotConfigTimeLimit({
-  //     classId,
-  //     botId,
-  //     timeLimit: timeLimit || 0,
-  //   });
-  //   if (result.success) {
-  //     closeDialog();
-  //   } else {
-  //     form.setError("timeLimit", {
-  //       type: "manual",
-  //       message: "Failed to update time limit. Please try again.",
-  //     });
-  //   }
-  // };
+  const updateTestTimeHandler = async (timeLimit: number) => {
+    const result = await db.botConfig.updateBotConfigTimeLimit({
+      classId,
+      botId,
+      timeLimit: timeLimit || 0,
+    });
+    if (result.success) {
+      closeDialog();
+    } else {
+      form.setError("timeLimit", {
+        type: "manual",
+        message: "Failed to update time limit. Please try again.",
+      });
+    }
+  };
 
-  // const closeDialog = () => {
-  //   form.setValue("timeLimit", 0); // value from database
-  //   setOpenTimeLimitDialog(false);
-  // };
+  const closeDialog = () => {
+    form.setValue("timeLimit", form.getValues("timeLimit")); // value from database
+    setOpenTimeLimitDialog(false);
+  };
 
   return (
     <div className="w-full max-w-5xl">
@@ -219,32 +221,30 @@ export default function TestPreferencesForm({
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div>
             {/* -------------------------------------- Form Header-------------------------------- */}
-            <div className="flex justify-between flex-wrap gap-10 py-5">
-              <div className="w-1/2">
-                <div className="flex w-full items-center">
-                  <Input
-                    type="text"
-                    value={testName}
-                    onChange={onTestNameChange}
-                    onBlur={updateTestNameHandler}
-                    required
-                    className="outline-none w-full border-none pl-0 md:text-2xl font-bold tracking-wide focus-visible:ring-0 "
-                  />
-                  {/* <button
-                    type="button"
-                    className="w-3/12"
-                    onClick={() => setOpenTimeLimitDialog(true)}
-                  >
-                    <span className="text-xs px-4 py-2 text-slate-300 font-semibold rounded-2xl bg-base-200 whitespace-nowrap flex items-center gap-2">
-                      <FaClockRotateLeft />
-                      replace this checks with value from database
-                      {form.getValues("timeLimit")
-                        ? form.getValues("timeLimit") + "min"
-                        : "Time Limit"}
-                    </span>
-                  </button> */}
-                </div>
-                {/* <Dialog open={openTimeLimitDialog} onOpenChange={closeDialog}>
+            <div className="flex justify-between flex-wrap gap-10 p-5">
+              <div className="w-7/12">
+                <Input
+                  type="text"
+                  value={testName}
+                  onChange={onTestNameChange}
+                  onBlur={updateTestNameHandler}
+                  required
+                  className="outline-none w-full border-none pl-0 md:text-2xl font-bold tracking-wide focus-visible:ring-0 "
+                />
+                {error && (
+                  <div className="text-red-500 text-sm mt-3">{error}</div>
+                )}
+                <button
+                  type="button"
+                  className="w-fit"
+                  onClick={() => setOpenTimeLimitDialog(true)}
+                >
+                  <span className="text-xs px-4 py-2 text-slate-300 mt-2 font-semibold rounded-md bg-base-200 whitespace-nowrap flex items-center gap-2">
+                    <FaClockRotateLeft />
+                    {timeLimit ? timeLimit + "min" : "Time Limit"}
+                  </span>
+                </button>
+                <Dialog open={openTimeLimitDialog} onOpenChange={closeDialog}>
                   <DialogContent>
                     <DialogHeader>
                       <DialogTitle className="text-xl">
@@ -255,7 +255,7 @@ export default function TestPreferencesForm({
                         control={form.control}
                         name="timeLimit"
                         render={({ field }) => (
-                          <FormItem className="pb-5">
+                          <FormItem>
                             <FormControl>
                               <div className="flex gap-5 items-center pt-5">
                                 <Input
@@ -274,7 +274,7 @@ export default function TestPreferencesForm({
                                   type="button"
                                   className="w-5/12"
                                   onClick={() =>
-                                    updateTestTimeHandler(field.value)
+                                    updateTestTimeHandler(Number(field.value))
                                   }
                                 >
                                   Save
@@ -285,7 +285,10 @@ export default function TestPreferencesForm({
                           </FormItem>
                         )}
                       />
-                      <DialogDescription className="text-xs">
+                      <p className="text-xs pt-1">
+                        <sup>* </sup>Time in minutes, 0 means no time limit
+                      </p>
+                      <DialogDescription className="text-xs pt-5">
                         <span className="text-slate-200">Note:</span> The time
                         will start once the students opens the test. Exiting the
                         test or exhaustion of time limit will result in
@@ -293,10 +296,7 @@ export default function TestPreferencesForm({
                       </DialogDescription>
                     </DialogHeader>
                   </DialogContent>
-                </Dialog> */}
-                {error && (
-                  <div className="text-red-500 text-sm mt-3">{error}</div>
-                )}
+                </Dialog>
               </div>
               <div className="flex w-fit flex-col gap-2 items-end">
                 <div className="flex gap-3">

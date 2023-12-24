@@ -580,3 +580,38 @@ export const fetchConfigAndPreferences = cache(
     }
   }
 );
+
+export const updateBotConfigTimeLimit = async ({
+  classId,
+  botId,
+  timeLimit,
+}: {
+  classId: string;
+  botId: string;
+  timeLimit: number;
+}) => {
+  await isAuthorized({
+    userType: "TEACHER",
+  });
+  try {
+    const hasTimeLimit = timeLimit !== 0;
+    const result = await prisma.botConfig.update({
+      where: { id: botId },
+      data: {
+        timeLimit: timeLimit,
+        hasTimeLimit: hasTimeLimit,
+      },
+    });
+
+    if (!result) {
+      return { success: false };
+    }
+    revalidatePath(
+      getTaskUrl({ classId, taskId: botId, type: result.type as TaskType })
+    );
+    return { success: true };
+  } catch (err) {
+    console.log(err);
+    return { success: false };
+  }
+};

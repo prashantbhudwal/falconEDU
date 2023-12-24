@@ -18,7 +18,6 @@
 
 .custom-scrollbar::-webkit-scrollbar-corner {
   background-color: #334155;
-  ;
 }
 
 @layer base {
@@ -102,5 +101,11 @@
 
   body {
     @apply bg-background text-foreground;
+  }
+
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
 }
