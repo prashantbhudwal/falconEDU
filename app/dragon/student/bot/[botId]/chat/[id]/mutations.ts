@@ -23,9 +23,10 @@ export const submitTestBot = async function (botId: string) {
         isSubmitted: true,
       },
     });
-    revalidatePath("/dragon/student/");
+    revalidatePath("/dragon/student");
+    return { success: true };
   } catch (error) {
-    console.error("Error updating Bot:", error);
+    console.log("Error updating Bot:", error);
     throw new Error("Failed to update Bot");
   }
 };
@@ -53,7 +54,7 @@ export const saveTestResultsByBotId = async function (
       });
     });
   } catch (err) {
-    console.error(err);
+    console.log(err);
     throw new Error("Failed to save results");
   }
 };

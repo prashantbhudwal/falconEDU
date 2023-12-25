@@ -1,7 +1,8 @@
+"use client";
 import { Cog8ToothIcon } from "@heroicons/react/24/solid";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Avvvatars from "avvvatars-react";
-import { ReactNode } from "react";
+import { ReactNode, RefObject, useEffect, useRef, useState } from "react";
 import SignOutButton from "@/components/auth/sign-out-btn";
 import Image from "next/image";
 import Link from "next/link";
@@ -11,6 +12,24 @@ import {
   studentProfileURL,
 } from "@/lib/urls";
 import { Button } from "@/components/ui/button";
+import loadingBall from "@/public/animations/loading-ball.json";
+import Lottie from "lottie-react";
+import { FaClockRotateLeft } from "react-icons/fa6";
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { checkTest } from "../../ai/test-checker";
+import {
+  saveTestResultsByBotId,
+  submitTestBot,
+} from "../bot/[botId]/chat/[id]/mutations";
+import { useRouter } from "next/navigation";
 
 const SettingsIcon: React.FC = () => (
   <div className="dropdown-end dropdown">
@@ -59,6 +78,26 @@ type AvatarNavbarProps = {
   subtitle?: string;
   avatarUrl?: string;
   button?: ReactNode;
+  timeLimit?: number;
+  testBotId?: string;
+  redirectUrl?: string;
+  isSubmitted?: boolean;
+};
+
+const formatTime = (time: number): string => {
+  const hours = Math.floor(time / 3600);
+  const minutes = Math.floor((time % 3600) / 60);
+  const seconds = time % 60;
+
+  const fixedDigits = (digit: number) => {
+    return digit < 10 ? `0${digit}` : digit;
+  };
+
+  if (hours > 0) {
+    return `${hours}h:${fixedDigits(minutes)}m:${fixedDigits(seconds)}s`;
+  } else {
+    return `${fixedDigits(minutes)}m:${fixedDigits(seconds)}s`;
+  }
 };
 
 export const AvatarNavbar: React.FC<AvatarNavbarProps> = ({
@@ -66,23 +105,107 @@ export const AvatarNavbar: React.FC<AvatarNavbarProps> = ({
   subtitle,
   avatarUrl,
   button,
-}) => (
-  <StudentNavbar>
-    <Link href={studentHomeURL} className="flex gap-3 navbar-start">
-      <Avatar>
-        <AvatarImage src={avatarUrl} />
-        <AvatarFallback className="bg-base-300">
-          <Avvvatars value={title} style="shape" />
-        </AvatarFallback>
-      </Avatar>
-      <div>
-        <p className="truncate">{title}</p>
-        <p className="text-sm text-slate-500 truncate">{subtitle}</p>
+  timeLimit,
+  testBotId,
+  redirectUrl,
+  isSubmitted,
+}) => {
+  const timeInSeconds = timeLimit && !isSubmitted ? timeLimit * 60 : undefined;
+  const [time, setTime] = useState<undefined | number>(timeInSeconds);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const [openAlertDialog, setOpenAlertDialog] = useState(false);
+  const [error, setError] = useState("");
+  const router = useRouter();
+  const submitTriggerRef = useRef(false);
+
+  useEffect(() => {
+    intervalRef.current = setInterval(() => {
+      setTime((prevTime) => {
+        if (prevTime === 0) {
+          clearInterval(intervalRef.current!);
+          return prevTime;
+        }
+        return prevTime ? prevTime - 1 : prevTime;
+      });
+    }, 1000);
+
+    return () => clearInterval(intervalRef.current!);
+  }, []);
+
+  const submitTestHandler = async () => {
+    setOpenAlertDialog(true);
+    try {
+      const testResults = await checkTest(testBotId as string);
+      if (testResults) {
+        await saveTestResultsByBotId(testBotId as string, testResults as any); //TODO: remove any
+        await submitTestBot(testBotId as string);
+        router.push(redirectUrl as string);
+        setOpenAlertDialog(false);
+        return;
+      }
+      setError("Can't check the test. Please try again later.");
+      setOpenAlertDialog(false);
+    } catch (err) {
+      console.log(err);
+      setOpenAlertDialog(false);
+      setError("Can't submit test. Please try again later.");
+    }
+  };
+
+  useEffect(() => {
+    if (submitTriggerRef.current) {
+      submitTestHandler();
+    }
+  }, [submitTriggerRef.current]);
+
+  if (typeof time === "number" && time === 0) {
+    submitTriggerRef.current = true;
+  }
+
+  return (
+    <StudentNavbar>
+      <Link href={studentHomeURL} className="flex gap-3 navbar-start">
+        <Avatar>
+          <AvatarImage src={avatarUrl} />
+          <AvatarFallback className="bg-base-300">
+            <Avvvatars value={title} style="shape" />
+          </AvatarFallback>
+        </Avatar>
+        <div>
+          <p className="truncate">{title}</p>
+          <p className="text-sm text-slate-500 truncate">{subtitle}</p>
+        </div>
+      </Link>
+      {!isSubmitted && (
+        <div className="flex flex-col items-center gap-1">
+          {typeof time === "number" && (
+            <p className="text-sm text-slate-300 whitespace-nowrap flex tracking-widest items-center gap-1">
+              <FaClockRotateLeft className="text-xs" />{" "}
+              {time === 0 ? "00:00" : formatTime(time)}
+            </p>
+          )}
+          {error && (
+            <p className="text-sm text-error whitespace-nowrap">{error}</p>
+          )}
+        </div>
+      )}
+      <div className="navbar-end flex gap-4">
+        {button}
+        <SettingsIcon />
       </div>
-    </Link>
-    <div className="navbar-end flex gap-4">
-      {button}
-      <SettingsIcon />
-    </div>
-  </StudentNavbar>
-);
+      <AlertDialog open={openAlertDialog}>
+        <AlertDialogContent className="w-11/12 mx-auto flex-col p-0 justify-center h-[520px] items-center">
+          <AlertDialogHeader className="rounded-t-lg">
+            <AlertDialogTitle className="text-2xl text-center w-full translate-y-16">
+              Time is up for the test.
+            </AlertDialogTitle>
+            <Lottie className="h-[450px]" animationData={loadingBall} />
+            <AlertDialogDescription className="text-center text-lg -translate-y-20 font-semibold text-slate-300">
+              Submitting the Test <br /> and taking you to Home screen
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+        </AlertDialogContent>
+      </AlertDialog>
+    </StudentNavbar>
+  );
+};

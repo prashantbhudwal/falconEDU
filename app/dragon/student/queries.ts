@@ -158,6 +158,7 @@ export const getBotByBotId = cache(async function (botId: string) {
           isActive: true,
           published: true,
           teacherId: true,
+          timeLimit: true,
           teacher: {
             select: {
               User: {

@@ -198,7 +198,7 @@ export default function TestPreferencesForm({
     const result = await db.botConfig.updateBotConfigTimeLimit({
       classId,
       botId,
-      timeLimit: timeLimit || 0,
+      timeLimit: Math.ceil(timeLimit) || 0,
     });
     if (result.success) {
       closeDialog();
@@ -211,7 +211,7 @@ export default function TestPreferencesForm({
   };
 
   const closeDialog = () => {
-    form.setValue("timeLimit", form.getValues("timeLimit")); // value from database
+    form.setValue("timeLimit", form.getValues("timeLimit"));
     setOpenTimeLimitDialog(false);
   };
 

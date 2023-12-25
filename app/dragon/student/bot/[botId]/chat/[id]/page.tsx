@@ -90,6 +90,10 @@ export default async function ChatPage({ params }: ChatPageProps) {
       <AvatarNavbar
         title={bot?.BotConfig.name!}
         subtitle={bot?.BotConfig.type}
+        timeLimit={bot?.BotConfig.timeLimit || undefined}
+        testBotId={botId}
+        redirectUrl={redirectUrl}
+        isSubmitted={bot?.isSubmitted}
         button={
           bot?.BotConfig.type === "test" && !bot?.isSubmitted ? (
             <SubmitTestButton testBotId={botId} redirectUrl={redirectUrl} />
