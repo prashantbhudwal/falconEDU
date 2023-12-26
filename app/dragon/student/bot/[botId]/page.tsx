@@ -7,6 +7,8 @@ import { redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { db } from "@/app/dragon/teacher/routers";
 import { NewChatButton } from "./new-chat-btn";
+import getDate from "date-fns/getDate";
+import { format } from "date-fns";
 
 type BotPageProps = {
   params: {
@@ -37,12 +39,11 @@ export default async function BotPageProps({ params }: BotPageProps) {
       {chats.map((chat) => (
         <Link href={getStudentBotChatURL(chat.bot.id, chat.id)} key={chat.id}>
           <ItemCard
-            title={chat.bot.BotConfig.name}
-            description={chat.bot.name!}
+            description={format(new Date(chat.createdAt), "PPpp")}
+            title={"Attempt " + chat.attemptNumber.toString()}
           />
         </Link>
       ))}
     </>
   );
 }
-

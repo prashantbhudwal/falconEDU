@@ -6,14 +6,27 @@ import { cache } from "react";
 import { UnwrapPromise } from "../../student/queries";
 import { TaskType } from "@/types/dragon";
 import { getTaskProperties } from "../utils";
-
 export const createBotChat = async ({ botId }: { botId: string }) => {
-  const botChat = await prisma.botChat.create({
-    data: {
-      botId,
-      messages: [],
-    },
-  });
-  revalidatePath(`/dragon/student/`);
-  return botChat;
+  try {
+    await prisma.$transaction(async (prisma) => {
+      const botChatsCount = await prisma.botChat.count({
+        where: { botId },
+      });
+
+      const newAttemptNumber = botChatsCount + 1;
+
+      return await prisma.botChat.create({
+        data: {
+          botId,
+          messages: [],
+          attemptNumber: newAttemptNumber,
+        },
+      });
+    });
+    revalidatePath("/dragon/student");
+    return true;
+  } catch (error) {
+    console.error("Error creating BotChat:", error);
+    throw error;
+  }
 };
