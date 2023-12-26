@@ -54,6 +54,8 @@ const getBotsByTeacherAndStudentID = cache(async function (
           name: true,
           type: true,
           isActive: true,
+          canReAttempt: true,
+          maxAttempts: true,
           teacher: {
             select: {
               User: {
@@ -147,6 +149,9 @@ export default async function TeacherDashboard({
         {unSubmittedBots.map(async (bot) => {
           const defaultChatUrl = await getDefaultStudentChatUrl(bot.id);
           const multipleChatUrl = getStudentBotURL(bot.id);
+          const url = bot.BotConfig.canReAttempt
+            ? multipleChatUrl
+            : defaultChatUrl ?? "";
           const readStatus = await getDefaultChatReadStatus(bot.id);
           const type = bot.BotConfig.type as TaskType;
 
@@ -155,7 +160,7 @@ export default async function TeacherDashboard({
           const formattedType = taskProperties.formattedType;
 
           return (
-            <Link href={defaultChatUrl || multipleChatUrl} key={bot.id}>
+            <Link href={url} key={bot.id}>
               <ChatCard
                 title={bot.BotConfig.name!}
                 type={type}

@@ -55,12 +55,12 @@ export type ArrayElement<ArrayType extends readonly unknown[]> =
 export const getChatsByBotId = cache(async function (botId: string) {
   const chats = await prisma.botChat.findMany({
     where: { botId },
-    select: {
-      bot: true,
-      id: true,
-      messages: true,
-      createdAt: true,
-      isDefault: true,
+    include: {
+      bot: {
+        include: {
+          BotConfig: true,
+        },
+      },
     },
   });
   return chats;

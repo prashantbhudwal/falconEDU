@@ -4,6 +4,9 @@ import { ItemCard } from "../../components/item-card";
 import Link from "next/link";
 import { getStudentBotChatURL } from "@/lib/urls";
 import { redirect } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { db } from "@/app/dragon/teacher/routers";
+import { NewChatButton } from "./new-chat-btn";
 
 type BotPageProps = {
   params: {
@@ -29,11 +32,17 @@ export default async function BotPageProps({ params }: BotPageProps) {
         title={bot?.BotConfig.name!}
         subtitle={bot?.BotConfig.teacher.User.name!}
       />
+      <NewChatButton botId={botId} />
+
       {chats.map((chat) => (
         <Link href={getStudentBotChatURL(chat.bot.id, chat.id)} key={chat.id}>
-          <ItemCard title={chat.bot.name!} description={chat.bot.name!} />
+          <ItemCard
+            title={chat.bot.BotConfig.name}
+            description={chat.bot.name!}
+          />
         </Link>
       ))}
     </>
   );
 }
+
