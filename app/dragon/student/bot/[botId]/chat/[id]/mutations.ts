@@ -58,3 +58,30 @@ export const saveTestResultsByBotId = async function (
     throw new Error("Failed to save results");
   }
 };
+
+export const setIsReadToTrue = async function (botChatId: string) {
+  const botChat = await prisma.botChat.findFirst({
+    where: {
+      id: botChatId,
+    },
+  });
+
+  if (botChat?.isRead) {
+    return;
+  }
+
+  try {
+    await prisma.botChat.update({
+      where: {
+        id: botChatId,
+      },
+      data: {
+        isRead: true,
+      },
+    });
+    revalidatePath("/");
+  } catch (error) {
+    console.error("Error updating Chat Status.", error);
+    throw new Error("Failed to update Chat Status");
+  }
+};

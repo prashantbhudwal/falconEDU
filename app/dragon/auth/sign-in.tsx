@@ -23,6 +23,7 @@ export default function SignIn({ type, inviteId }: SignInProps) {
       else if (session.user.userType === "STUDENT") {
         if (!inviteId) {
           router.push(authConfig[0].callbackUrl);
+          return;
         }
         router.push(`/dragon/student/invite/${inviteId}`);
       }

@@ -176,7 +176,7 @@ export const getBotByBotId = cache(async function (botId: string) {
   return bot;
 });
 
-export type getBotByBotId = UnwrapPromise<ReturnType<typeof getBotByBotId>>;
+export type GetBotByBotId = UnwrapPromise<ReturnType<typeof getBotByBotId>>;
 
 export const getTeachersByUserId = cache(async function (userId: string) {
   const userData = await prisma.user.findUnique({

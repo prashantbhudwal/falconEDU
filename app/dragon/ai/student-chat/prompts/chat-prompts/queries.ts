@@ -1,3 +1,4 @@
+"use server";
 import prisma from "@/prisma";
 import { cache } from "react";
 import { type UnwrapPromise } from "../../../../student/queries";
@@ -9,6 +10,7 @@ import {
   testBotPreferencesSchema,
 } from "@/app/dragon/schema";
 export const isEmptyObject = (obj: any) => Object.keys(obj).length === 0;
+
 export const getChatContextByChatId = cache(async function (chatId: string) {
   const context = await prisma.botChat.findUnique({
     where: { id: chatId },
