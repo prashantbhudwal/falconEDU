@@ -161,6 +161,8 @@ model BotConfig {
   isHidden        Boolean           @default(false)
   hasTimeLimit    Boolean           @default(false)
   timeLimit       Int?              @default(0)
+  canReAttempt    Boolean           @default(false)
+  maxAttempts     Int?              @default(0)
 }
 
 model parsedQuestions {
