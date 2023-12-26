@@ -227,6 +227,7 @@ model BotChat {
   isDefault        Boolean            @default(false)
   isRead           Boolean            @default(false)
   BotChatQuestions BotChatQuestions[]
+  attemptNumber    Int                @default(1)
 }
 
 model BotChatQuestions {
