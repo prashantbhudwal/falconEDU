@@ -615,3 +615,73 @@ export const updateBotConfigTimeLimit = async ({
     return { success: false };
   }
 };
+
+export const enableReAttempt = async ({
+  classId,
+  taskId,
+}: {
+  classId: string;
+  taskId: string;
+}) => {
+  await isAuthorized({
+    userType: "TEACHER",
+  });
+  try {
+    const result = await prisma.botConfig.update({
+      where: { id: taskId },
+      data: {
+        canReAttempt: true,
+      },
+    });
+
+    if (!result) {
+      return { success: false };
+    }
+    revalidatePath(
+      getTaskUrl({
+        classId,
+        taskId: taskId,
+        type: result.type as TaskType,
+      })
+    );
+    return { success: true };
+  } catch (err) {
+    console.log(err);
+    return { success: false };
+  }
+};
+
+export const disableReAttempt = async ({
+  classId,
+  taskId,
+}: {
+  classId: string;
+  taskId: string;
+}) => {
+  await isAuthorized({
+    userType: "TEACHER",
+  });
+  try {
+    const result = await prisma.botConfig.update({
+      where: { id: taskId },
+      data: {
+        canReAttempt: false,
+      },
+    });
+
+    if (!result) {
+      return { success: false };
+    }
+    revalidatePath(
+      getTaskUrl({
+        classId,
+        taskId: taskId,
+        type: result.type as TaskType,
+      })
+    );
+    return { success: true };
+  } catch (err) {
+    console.log(err);
+    return { success: false };
+  }
+};

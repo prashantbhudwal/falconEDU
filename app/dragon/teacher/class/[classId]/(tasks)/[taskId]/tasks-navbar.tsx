@@ -1,4 +1,15 @@
 "use client";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from "@/components/ui/form";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -28,6 +39,8 @@ import { useConfigPublishing } from "@/app/dragon/teacher/hooks/use-config-publi
 import { useEffect, useState } from "react";
 import { TaskType } from "@/types/dragon";
 import { typeGetBotConfigByConfigId } from "@/app/dragon/teacher/routers/botConfigRouter";
+import { Switch } from "@/components/ui/switch";
+import { toast } from "sonner";
 
 export function TasksNavbar({
   classId,
@@ -83,7 +96,14 @@ export function TasksNavbar({
           </TabsList>
         </Tabs>
       </div>
-      <div className="navbar-end pr-1 flex gap-4">
+
+      <div className="navbar-end pr-1 flex space-x-6 items-center">
+        <ReAttemptSwitch
+          classId={classId}
+          taskId={task.id}
+          canReattempt={task.canReAttempt}
+          className="justify-end"
+        />
         {task.Class?.isActive && (
           <>
             {!task.published && (
@@ -310,3 +330,63 @@ const PublishButton = function ({
     </>
   );
 };
+
+export function ReAttemptSwitch({
+  classId,
+  taskId,
+  canReattempt,
+  className,
+}: {
+  classId: string;
+  taskId: string;
+  canReattempt: boolean;
+  className?: string;
+}) {
+  const formSchema = z.object({
+    isReAttemptEnabled: z.boolean(),
+  });
+
+  const form = useForm({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      isReAttemptEnabled: canReattempt,
+    },
+  });
+  const [switchValue, setSwitchValue] = useState(canReattempt);
+
+  const autoSubmit = async (value: boolean) => {
+    try {
+      if (value) {
+        await db.botConfig.enableReAttempt({ classId, taskId });
+      } else {
+        await db.botConfig.disableReAttempt({ classId, taskId });
+      }
+      setSwitchValue(value); // Update the switch value on successful operation
+      toast.success("Re-attempt status updated");
+    } catch (err) {
+      form.setValue("isReAttemptEnabled", switchValue); // Revert the switch to previous state on failure
+      toast("Error");
+    }
+  };
+
+  return (
+    <Form {...form}>
+      <form className={cn("flex items-center gap-1", className)}>
+        <FormItem className="flex flex-row items-center gap-2">
+          <FormLabel className="pt-2 text-xs">Allow Re-attempts</FormLabel>
+          <FormControl>
+            <Switch
+              checked={form.watch("isReAttemptEnabled")}
+              onCheckedChange={(newValue) => {
+                form.setValue("isReAttemptEnabled", newValue, {
+                  shouldValidate: true,
+                });
+                autoSubmit(newValue);
+              }}
+            />
+          </FormControl>
+        </FormItem>
+      </form>
+    </Form>
+  );
+}
