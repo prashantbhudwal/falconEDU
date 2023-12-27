@@ -29,21 +29,22 @@ export default async function BotPageProps({ params }: BotPageProps) {
   }
 
   return (
-    <>
+    <div className="h-screen overflow-y-auto custom-scrollbar">
       <AvatarNavbar
         title={bot?.BotConfig.name!}
         subtitle={bot?.BotConfig.teacher.User.name!}
         button={<NewChatButton botId={botId} />}
       />
-
-      {chats.map((chat) => (
-        <Link href={getStudentBotChatURL(chat.bot.id, chat.id)} key={chat.id}>
-          <ItemCard
-            description={format(new Date(chat.createdAt), "PPpp")}
-            title={"Attempt " + chat.attemptNumber.toString()}
-          />
-        </Link>
-      ))}
-    </>
+      <div className="h-full pb-96">
+        {chats.map((chat) => (
+          <Link href={getStudentBotChatURL(chat.bot.id, chat.id)} key={chat.id}>
+            <ItemCard
+              description={format(new Date(chat.createdAt), "PPpp")}
+              title={"Attempt " + chat.attemptNumber.toString()}
+            />
+          </Link>
+        ))}
+      </div>
+    </div>
   );
 }
