@@ -70,11 +70,24 @@ model User {
   payments          Payment[]
   StudentProfile    StudentProfile?
   orgAdminProfile   OrgAdminProfile?
+  ParentProfile     ParentProfile?
 }
 
 //*********************** App Models *****************************//
 
 //**************** App > Teacher Models ****************//
+
+model ParentProfile {
+  id          String           @id @default(cuid())
+  User        User             @relation(fields: [userId], references: [id])
+  userId      String           @unique
+  preferences Json             @default("{}")
+  createdAt   DateTime         @default(now())
+  bio         String?          @default("")
+  Org         Org?             @relation(fields: [orgId], references: [id])
+  orgId       String?
+  students    StudentProfile[]
+}
 
 model TeacherProfile {
   id                 String             @id @default(cuid())
@@ -93,21 +106,22 @@ model TeacherProfile {
 }
 
 model OrgAdminProfile {
-  id          String @id @default(cuid())
-  designation String
-  org         Org    @relation(fields: [orgId], references: [id])
-  orgId       String
-  User        User   @relation(fields: [userId], references: [id])
-  userId      String @unique
+  id          String  @id @default(cuid())
+  designation String  @default("")
+  org         Org?    @relation(fields: [orgId], references: [id])
+  orgId       String?
+  User        User    @relation(fields: [userId], references: [id])
+  userId      String  @unique
 }
 
 model Org {
-  id       String            @id @default(cuid())
-  type     OrgType
-  name     String
-  teacher  TeacherProfile[]
-  admin    OrgAdminProfile[]
-  students StudentProfile[]
+  id            String            @id @default(cuid())
+  type          OrgType
+  name          String
+  teacher       TeacherProfile[]
+  admin         OrgAdminProfile[]
+  students      StudentProfile[]
+  ParentProfile ParentProfile[]
 }
 
 enum OrgType {
@@ -187,18 +201,20 @@ model parsedQuestions {
 // Chat: https://chat.openai.com/share/ffbb895f-a632-4410-9178-134f29916aaf
 
 model StudentProfile {
-  id          String     @id @default(cuid())
-  User        User       @relation(fields: [userId], references: [id])
-  userId      String     @unique
-  grade       String?
-  preferences Json       @default("{}")
-  createdAt   DateTime   @default(now())
-  bot         Bot[]
-  BotShare    BotShare[]
-  Class       Class[]
-  bio         String?    @default("")
-  Org         Org?       @relation(fields: [orgId], references: [id])
-  orgId       String?
+  id              String         @id @default(cuid())
+  User            User           @relation(fields: [userId], references: [id])
+  userId          String         @unique
+  grade           String?
+  preferences     Json           @default("{}")
+  createdAt       DateTime       @default(now())
+  bot             Bot[]
+  BotShare        BotShare[]
+  Class           Class[]
+  bio             String?        @default("")
+  Org             Org?           @relation(fields: [orgId], references: [id])
+  orgId           String?
+  ParentProfile   ParentProfile? @relation(fields: [parentProfileId], references: [id])
+  parentProfileId String?
 }
 
 model Bot {

@@ -8,7 +8,7 @@ import { ButtonProps } from "@/components/ui/button";
 import { authConfig } from "./config";
 
 interface SignInProps {
-  type: "student" | "teacher";
+  type: "student" | "teacher" | "parent" | "org-admin";
   inviteId?: string | null;
 }
 

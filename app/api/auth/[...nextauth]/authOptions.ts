@@ -61,6 +61,13 @@ const googleProfileHandlerTeacher = async (profile: any, tokens: any) => {
   return handleProfile(profile, tokens, "TEACHER");
 };
 
+const googleProfileHandlerParent = async (profile: any, tokens: any) => {
+  return handleProfile(profile, tokens, "PARENT");
+};
+const googleProfileHandlerOrgAdmin = async (profile: any, tokens: any) => {
+  return handleProfile(profile, tokens, "ORG_ADMIN");
+};
+
 // Provider for Google authentication
 const GoogleTeacherProvider = () => {
   return Google({
@@ -84,6 +91,40 @@ const GoogleStudentProvider = () => {
     profile: googleProfileHandlerStudent,
     id: "google-student",
     name: "google-student",
+    authorization: {
+      params: {
+        prompt: "select_account",
+        access_type: "offline",
+        response_type: "code",
+      },
+    },
+  });
+};
+
+const GoogleParentProvider = () => {
+  return Google({
+    clientId: process.env.GOOGLE_CLIENT_ID ?? "",
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
+    profile: googleProfileHandlerParent,
+    id: "google-parent",
+    name: "google-parent",
+    authorization: {
+      params: {
+        prompt: "select_account",
+        access_type: "offline",
+        response_type: "code",
+      },
+    },
+  });
+};
+
+const GoogleOrgAdminProvider = () => {
+  return Google({
+    clientId: process.env.GOOGLE_CLIENT_ID ?? "",
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
+    profile: googleProfileHandlerOrgAdmin,
+    id: "google-org-admin",
+    name: "google-org-admin",
     authorization: {
       params: {
         prompt: "select_account",
@@ -163,7 +204,12 @@ const sessionCallback = async ({
 // The main handler
 export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma) as Adapter,
-  providers: [GoogleTeacherProvider(), GoogleStudentProvider()],
+  providers: [
+    GoogleTeacherProvider(),
+    GoogleStudentProvider(),
+    GoogleParentProvider(),
+    GoogleOrgAdminProvider(),
+  ],
   callbacks: {
     signIn: async ({ account, user, credentials, email, profile }) => {
       return true;
@@ -173,10 +219,10 @@ export const authOptions: AuthOptions = {
   },
   session: {
     strategy: "jwt",
-    maxAge: 3 * 24 * 60 * 60, // 3 days
+    maxAge: 30 * 24 * 60 * 60, // 30 days
   },
   jwt: {
-    maxAge: 3 * 24 * 60 * 60, // 3 days
+    maxAge: 30 * 24 * 60 * 60, // 30 days
   },
   pages: {
     signIn: "/",
