@@ -12,8 +12,12 @@ export const NewChatButton = ({ botId }: { botId: string }) => {
   };
 
   return (
-    <Button variant="ghost" size="icon" onClick={createHandler}>
-      <PlusIcon className="w-4" />
+    <Button
+      variant="ghost"
+      onClick={createHandler}
+      className="flex items-center border border-base-100 gap-2 text-xs"
+    >
+      <PlusIcon className="w-4" /> New Attempt
     </Button>
   );
 };

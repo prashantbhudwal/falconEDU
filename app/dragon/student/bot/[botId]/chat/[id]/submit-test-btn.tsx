@@ -17,9 +17,11 @@ import { checkTest } from "@/app/dragon/ai/test-checker";
 type PropTypes = React.HTMLAttributes<HTMLDivElement> & {
   testBotId: string;
   redirectUrl: string;
+  botChatId: string;
+  isMultipleChats?: boolean;
 };
 const SubmitTestButton = React.forwardRef<HTMLButtonElement, PropTypes>(
-  ({ testBotId, redirectUrl }, ref) => {
+  ({ testBotId, redirectUrl, botChatId, isMultipleChats }, ref) => {
     const [loading, setLoading] = useState(false);
     const [showDialog, setShowDialog] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
@@ -29,9 +31,10 @@ const SubmitTestButton = React.forwardRef<HTMLButtonElement, PropTypes>(
       try {
         setLoading(true);
         const testResults = await checkTest(testBotId);
+
         if (testResults) {
           await saveTestResultsByBotId(testBotId, testResults);
-          await submitTestBot(testBotId);
+          await submitTestBot(testBotId, botChatId, isMultipleChats);
           setLoading(false);
           return { success: true };
         }

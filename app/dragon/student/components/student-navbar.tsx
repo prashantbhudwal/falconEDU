@@ -80,6 +80,8 @@ type AvatarNavbarProps = {
   testBotId?: string;
   redirectUrl?: string;
   isSubmitted?: boolean;
+  botChatId?: string;
+  isMultipleChats?: boolean;
 };
 
 const formatTime = (time: number): string => {
@@ -107,6 +109,8 @@ export const AvatarNavbar: React.FC<AvatarNavbarProps> = ({
   testBotId,
   redirectUrl,
   isSubmitted,
+  isMultipleChats,
+  botChatId,
 }) => {
   const timeInSeconds = timeLimit && !isSubmitted ? timeLimit * 60 : undefined;
   const [time, setTime] = useState<undefined | number>(timeInSeconds);
@@ -136,7 +140,11 @@ export const AvatarNavbar: React.FC<AvatarNavbarProps> = ({
       const testResults = await checkTest(testBotId as string);
       if (testResults) {
         await saveTestResultsByBotId(testBotId as string, testResults as any); //TODO: remove any
-        await submitTestBot(testBotId as string);
+        await submitTestBot(
+          testBotId as string,
+          botChatId as string,
+          isMultipleChats
+        );
         router.push(redirectUrl as string);
         setOpenAlertDialog(false);
         return;

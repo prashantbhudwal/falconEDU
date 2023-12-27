@@ -54,7 +54,9 @@ export type ArrayElement<ArrayType extends readonly unknown[]> =
 
 export const getChatsByBotId = cache(async function (botId: string) {
   const chats = await prisma.botChat.findMany({
-    where: { botId },
+    where: {
+      botId,
+    },
     include: {
       bot: {
         include: {
@@ -98,6 +100,7 @@ export const getBotChatByChatId = cache(async function (chatId: string) {
       messages: true,
       isRead: true,
       id: true,
+      isSubmitted: true,
       bot: {
         select: {
           BotConfig: {
@@ -135,6 +138,7 @@ export const getBotChatByChatId = cache(async function (chatId: string) {
     messages: messagesArray,
     isRead: botChat.isRead,
     botChatId: botChat.id,
+    isSubmitted: botChat.isSubmitted,
   };
 });
 
@@ -150,6 +154,7 @@ export const getBotByBotId = cache(async function (botId: string) {
       name: true,
       isActive: true,
       isSubmitted: true,
+      BotChat: true,
       BotConfig: {
         select: {
           id: true,
@@ -159,6 +164,7 @@ export const getBotByBotId = cache(async function (botId: string) {
           published: true,
           teacherId: true,
           timeLimit: true,
+          canReAttempt: true,
           teacher: {
             select: {
               User: {

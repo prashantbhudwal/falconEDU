@@ -33,8 +33,8 @@ export default async function BotPageProps({ params }: BotPageProps) {
       <AvatarNavbar
         title={bot?.BotConfig.name!}
         subtitle={bot?.BotConfig.teacher.User.name!}
+        button={<NewChatButton botId={botId} />}
       />
-      <NewChatButton botId={botId} />
 
       {chats.map((chat) => (
         <Link href={getStudentBotChatURL(chat.bot.id, chat.id)} key={chat.id}>

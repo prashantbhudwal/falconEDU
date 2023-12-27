@@ -15,10 +15,23 @@ const testResultObjectSchemaWithId = z.array(
 );
 type FinalTestResults = z.infer<typeof testResultObjectSchemaWithId>;
 
-export const submitTestBot = async function (botId: string) {
+export const submitTestBot = async function (
+  botId: string,
+  botChatId: string,
+  isMultipleChats?: boolean
+) {
   try {
-    await prisma.bot.update({
-      where: { id: botId },
+    if (!isMultipleChats) {
+      await prisma.bot.update({
+        where: { id: botId },
+        data: {
+          isSubmitted: true,
+        },
+      });
+    }
+    // later remove the isSubmitted from bot
+    await prisma.botChat.update({
+      where: { id: botChatId },
       data: {
         isSubmitted: true,
       },
