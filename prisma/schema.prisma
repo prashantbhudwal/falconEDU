@@ -79,7 +79,7 @@ model User {
 
 model ParentProfile {
   id          String           @id @default(cuid())
-  User        User             @relation(fields: [userId], references: [id])
+  User        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      String           @unique
   preferences Json             @default("{}")
   createdAt   DateTime         @default(now())
@@ -95,7 +95,7 @@ model TeacherProfile {
   teachingResources  TeachingResource[]
   bio                String             @default("")
   teachingExperience Int                @default(0)
-  User               User               @relation(fields: [userId], references: [id])
+  User               User               @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId             String             @unique
   preferences        Json               @default("{}")
   BotConfig          BotConfig[]
@@ -108,9 +108,9 @@ model TeacherProfile {
 model OrgAdminProfile {
   id          String  @id @default(cuid())
   designation String  @default("")
-  org         Org?    @relation(fields: [orgId], references: [id])
+  org         Org?    @relation(fields: [orgId], references: [id], onDelete: Cascade)
   orgId       String?
-  User        User    @relation(fields: [userId], references: [id])
+  User        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      String  @unique
 }
 
@@ -137,7 +137,7 @@ model Class {
   name       String
   teacherId  String
   isActive   Boolean          @default(true)
-  Teacher    TeacherProfile   @relation(fields: [teacherId], references: [id])
+  Teacher    TeacherProfile   @relation(fields: [teacherId], references: [id], onDelete: Cascade)
   students   StudentProfile[]
   BotShare   BotShare[]
   BotConfig  BotConfig[]
@@ -157,8 +157,8 @@ enum Role {
 
 model BotConfig {
   id              String            @id @default(cuid())
-  teacher         TeacherProfile    @relation(fields: [teacherId], references: [id])
-  Class           Class?            @relation(fields: [classId], references: [id])
+  teacher         TeacherProfile    @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  Class           Class?            @relation(fields: [classId], references: [id], onDelete: Cascade)
   classId         String?
   teacherId       String
   name            String
@@ -182,7 +182,7 @@ model BotConfig {
 model parsedQuestions {
   id                  String             @id @default(cuid())
   botConfigId         String
-  BotConfig           BotConfig          @relation(fields: [botConfigId], references: [id])
+  BotConfig           BotConfig          @relation(fields: [botConfigId], references: [id], onDelete: Cascade)
   question_type       QuestionType
   question            String
   hint                String?
@@ -202,7 +202,7 @@ model parsedQuestions {
 
 model StudentProfile {
   id              String         @id @default(cuid())
-  User            User           @relation(fields: [userId], references: [id])
+  User            User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId          String         @unique
   grade           String?
   preferences     Json           @default("{}")
@@ -219,9 +219,9 @@ model StudentProfile {
 
 model Bot {
   id          String         @id @default(cuid())
-  student     StudentProfile @relation(fields: [studentId], references: [id])
+  student     StudentProfile @relation(fields: [studentId], references: [id], onDelete: Cascade)
   studentId   String
-  BotConfig   BotConfig      @relation(fields: [botConfigId], references: [id])
+  BotConfig   BotConfig      @relation(fields: [botConfigId], references: [id], onDelete: Cascade)
   botConfigId String
   BotShare    BotShare?      @relation(fields: [botShareId], references: [id])
   botShareId  String?
@@ -236,7 +236,7 @@ model Bot {
 
 model BotChat {
   id               String             @id @default(uuid())
-  bot              Bot                @relation(fields: [botId], references: [id])
+  bot              Bot                @relation(fields: [botId], references: [id], onDelete: Cascade)
   botId            String
   messages         Json
   createdAt        DateTime           @default(now())
@@ -252,13 +252,13 @@ model BotChat {
 model BotChatQuestions {
   createdAt         DateTime         @default(now())
   id                Int              @id @default(autoincrement())
-  botChat           BotChat          @relation(fields: [botChatId], references: [id])
+  botChat           BotChat          @relation(fields: [botChatId], references: [id], onDelete: Cascade)
   botChatId         String
   student_answer    String[]         @default([])
   isCorrect         Boolean // Whether the student's answer is correct
   score             Float? // A score representing the quality of the student's answer
   feedback          String? // Qualitative feedback on the student's answer
-  parsedQuestions   parsedQuestions? @relation(fields: [parsedQuestionsId], references: [id])
+  parsedQuestions   parsedQuestions? @relation(fields: [parsedQuestionsId], references: [id], onDelete: Cascade)
   parsedQuestionsId String?
 }
 
