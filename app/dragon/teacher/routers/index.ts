@@ -7,6 +7,7 @@ import * as parseQuestionRouter from "./parsedQuestionRouter";
 import * as inviteStudentsRouter from "./inviteStudentsRouter";
 import * as studentRouter from "./studentRouter";
 import * as botChatRouter from "./botChatRouter";
+import * as profileRouter from "./profileRouter";
 
 export const db = {
   botConfig,
@@ -17,4 +18,5 @@ export const db = {
   inviteStudentsRouter,
   studentRouter,
   botChatRouter,
+  profile: profileRouter,
 };

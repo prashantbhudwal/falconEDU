@@ -2,6 +2,8 @@
 import { isAuthorized } from "@/lib/is-authorized";
 import prisma from "@/prisma";
 import { revalidatePath } from "next/cache";
+import { cache } from "react";
+import { UnwrapPromise } from "../../student/queries";
 
 export const archiveAllBotsOfBotConfig = async (botConfigId: string) => {
   await isAuthorized({
@@ -107,3 +109,63 @@ export const deleteBotConfigAndDeactivateBots = async (botConfigId: string) => {
     return { error: true };
   }
 };
+
+export const getBotsByTeacherAndStudentID = cache(async function (
+  teacherId: string,
+  userId: string
+) {
+  // Fetch studentId from StudentProfile using userId
+  const studentProfile = await prisma.studentProfile.findFirst({
+    where: {
+      userId: userId,
+    },
+    select: {
+      id: true,
+    },
+  });
+
+  // If no matching student profile, return an empty array or handle as needed
+  if (!studentProfile) return [];
+
+  const studentId = studentProfile.id;
+
+  // Fetch bots filtered by teacherId and studentId
+  const bots = await prisma.bot.findMany({
+    where: {
+      BotConfig: {
+        teacherId: teacherId,
+        published: true,
+      },
+      studentId: studentId,
+    },
+    select: {
+      id: true,
+      isSubmitted: true,
+      createdAt: true,
+      isActive: true,
+      BotConfig: {
+        select: {
+          name: true,
+          type: true,
+          isActive: true,
+          canReAttempt: true,
+          maxAttempts: true,
+          teacher: {
+            select: {
+              User: {
+                select: {
+                  name: true,
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  });
+  return bots;
+});
+
+export type getBotsByTeacherAndStudentID = UnwrapPromise<
+  ReturnType<typeof getBotsByTeacherAndStudentID>
+>;
