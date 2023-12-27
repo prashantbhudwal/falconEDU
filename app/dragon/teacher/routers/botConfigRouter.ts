@@ -285,91 +285,90 @@ export const updateBotConfigName = async function ({
   }
 };
 
-const organizeConfigs = (botConfigs: BotConfig[]) => {
-  const testConfigs = botConfigs.filter(
-    (botConfig) => botConfig.type === "test"
-  );
-  const chatConfigs = botConfigs.filter(
-    (botConfig) => botConfig.type === "chat"
-  );
-
-  const lessonConfigs = botConfigs.filter(
-    (botConfig) => botConfig.type === "lesson"
-  );
-
-  const activeLessonConfigs = lessonConfigs
-    .filter((botConfig) => botConfig.isActive)
-    .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
-  const archivedLessonConfigs = lessonConfigs
-    .filter((botConfig) => !botConfig.isActive)
-    .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
-
-  const activeChatsConfigs = chatConfigs
-    .filter((botConfig) => botConfig.isActive)
-    .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
-  const archivedChatsConfigs = chatConfigs
-    .filter((botConfig) => !botConfig.isActive)
-    .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
-
-  const activeTestConfigs = testConfigs
-    .filter((botConfig) => botConfig.isActive)
-    .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
-
-  const archivedTestConfigs = testConfigs
-    .filter((botConfig) => !botConfig.isActive)
-    .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
-
-  const publishedLessonConfigs = lessonConfigs.filter(
-    (botConfig) => botConfig.published
-  );
-  const unPublishedLessonConfigs = lessonConfigs.filter(
-    (botConfig) => !botConfig.published
-  );
-
-  const publishedChatConfigs = chatConfigs.filter(
-    (botConfig) => botConfig.published
-  );
-  const unPublishedChatConfigs = chatConfigs.filter(
-    (botConfig) => !botConfig.published
-  );
-  const publishedTestConfigs = testConfigs.filter(
-    (botConfig) => botConfig.published
-  );
-  const unPublishedTestConfigs = testConfigs.filter(
-    (botConfig) => !botConfig.published
-  );
-
-  const configs = {
-    all: botConfigs,
-    active: botConfigs.filter((botConfig) => botConfig.isActive),
-    archived: botConfigs.filter((botConfig) => !botConfig.isActive),
-    chat: {
-      all: chatConfigs,
-      active: activeChatsConfigs,
-      archived: archivedChatsConfigs,
-      published: publishedChatConfigs,
-      unpublished: unPublishedChatConfigs,
-    },
-    test: {
-      all: testConfigs,
-      active: activeTestConfigs,
-      archived: archivedTestConfigs,
-      published: publishedTestConfigs,
-      unpublished: unPublishedTestConfigs,
-    },
-    lesson: {
-      all: lessonConfigs,
-      active: activeLessonConfigs,
-      archived: archivedLessonConfigs,
-      published: publishedLessonConfigs,
-      unpublished: unPublishedLessonConfigs,
-    },
-  };
-  return configs;
-};
-
 export const getAllConfigsInClass = cache(
   async ({ userId, classId }: { userId: string; classId: string }) => {
+    const organizeConfigs = (botConfigs: BOT_CONFIG_TYPE[]) => {
+      const testConfigs = botConfigs.filter(
+        (botConfig) => botConfig.type === "test"
+      );
+      const chatConfigs = botConfigs.filter(
+        (botConfig) => botConfig.type === "chat"
+      );
+
+      const lessonConfigs = botConfigs.filter(
+        (botConfig) => botConfig.type === "lesson"
+      );
+
+      const activeLessonConfigs = lessonConfigs
+        .filter((botConfig) => botConfig.isActive)
+        .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+      const archivedLessonConfigs = lessonConfigs
+        .filter((botConfig) => !botConfig.isActive)
+        .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+
+      const activeChatsConfigs = chatConfigs
+        .filter((botConfig) => botConfig.isActive)
+        .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+      const archivedChatsConfigs = chatConfigs
+        .filter((botConfig) => !botConfig.isActive)
+        .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+
+      const activeTestConfigs = testConfigs
+        .filter((botConfig) => botConfig.isActive)
+        .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+
+      const archivedTestConfigs = testConfigs
+        .filter((botConfig) => !botConfig.isActive)
+        .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+
+      const publishedLessonConfigs = lessonConfigs.filter(
+        (botConfig) => botConfig.published
+      );
+      const unPublishedLessonConfigs = lessonConfigs.filter(
+        (botConfig) => !botConfig.published
+      );
+
+      const publishedChatConfigs = chatConfigs.filter(
+        (botConfig) => botConfig.published
+      );
+      const unPublishedChatConfigs = chatConfigs.filter(
+        (botConfig) => !botConfig.published
+      );
+      const publishedTestConfigs = testConfigs.filter(
+        (botConfig) => botConfig.published
+      );
+      const unPublishedTestConfigs = testConfigs.filter(
+        (botConfig) => !botConfig.published
+      );
+
+      const configs = {
+        all: botConfigs,
+        active: botConfigs.filter((botConfig) => botConfig.isActive),
+        archived: botConfigs.filter((botConfig) => !botConfig.isActive),
+        chat: {
+          all: chatConfigs,
+          active: activeChatsConfigs,
+          archived: archivedChatsConfigs,
+          published: publishedChatConfigs,
+          unpublished: unPublishedChatConfigs,
+        },
+        test: {
+          all: testConfigs,
+          active: activeTestConfigs,
+          archived: archivedTestConfigs,
+          published: publishedTestConfigs,
+          unpublished: unPublishedTestConfigs,
+        },
+        lesson: {
+          all: lessonConfigs,
+          active: activeLessonConfigs,
+          archived: archivedLessonConfigs,
+          published: publishedLessonConfigs,
+          unpublished: unPublishedLessonConfigs,
+        },
+      };
+      return configs;
+    };
     const teacherProfile = await prisma.teacherProfile.findUnique({
       where: { userId },
     });
@@ -386,6 +385,7 @@ export const getAllConfigsInClass = cache(
         Class: true,
       },
     });
+    type BOT_CONFIG_TYPE = (typeof botConfigs)[0];
     const configs = organizeConfigs(botConfigs);
     return configs;
   }
@@ -404,8 +404,7 @@ export const getAllConfigs = cache(async ({ userId }: { userId: string }) => {
       teacherId: teacherProfile.id,
     },
   });
-  const configs = organizeConfigs(botConfigs);
-  return configs;
+  return botConfigs;
 });
 
 export const getIsBotConfigArchivedByBotConfigId = cache(

@@ -3,10 +3,11 @@ import { cn } from "@/lib/utils";
 import { TaskActions } from "./task-actions";
 import { getFormattedDate, getTaskProperties } from "../../../../utils";
 import { TaskType } from "@/types/dragon";
+import { AllConfigsInClass } from "@/app/dragon/teacher/routers/botConfigRouter";
 
 type TaskCardProps = {
   className?: string;
-  config: BotConfig & { Class: Class };
+  config: AllConfigsInClass["all"][0];
   classId: string;
   userId: string;
 };
@@ -68,7 +69,7 @@ export function TaskCard({
       </section>
       <section className="flex-none w-2/12 flex">
         <div className="hidden group-hover:block w-full">
-          {config.Class.isActive && (
+          {config.Class?.isActive && (
             <TaskActions
               configId={config.id}
               classId={classId}
