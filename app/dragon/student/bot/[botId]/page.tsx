@@ -35,15 +35,23 @@ export default async function BotPageProps({ params }: BotPageProps) {
         subtitle={bot?.BotConfig.teacher.User.name!}
         button={<NewChatButton botId={botId} />}
       />
-      <div className="h-full pb-96">
-        {chats.map((chat) => (
-          <Link href={getStudentBotChatURL(chat.bot.id, chat.id)} key={chat.id}>
-            <ItemCard
-              description={format(new Date(chat.createdAt), "PPpp")}
-              title={"Attempt " + chat.attemptNumber.toString()}
-            />
-          </Link>
-        ))}
+      <div className="h-full">
+        {chats
+          .sort(
+            (a, b) =>
+              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          )
+          .map((chat) => (
+            <Link
+              href={getStudentBotChatURL(chat.bot.id, chat.id)}
+              key={chat.id}
+            >
+              <ItemCard
+                description={format(new Date(chat.createdAt), "PPpp")}
+                title={"Attempt " + chat.attemptNumber.toString()}
+              />
+            </Link>
+          ))}
       </div>
     </div>
   );
