@@ -148,6 +148,8 @@ model Class {
 enum UserType {
   TEACHER
   STUDENT
+  PARENT
+  ORG_ADMIN
 }
 
 enum Role {
