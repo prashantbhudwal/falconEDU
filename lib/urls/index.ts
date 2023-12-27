@@ -110,3 +110,10 @@ export const getStudentBotChatURL = (botId: string, chatId: string) =>
 
 //API urls
 export const getStudentChatApiURL = () => `${baseUrl}/ai/student-chat`;
+export const getParentChatApiURL = () => `${baseUrl}/ai/parent-chat`;
+
+//Parent urls
+export const parentHomeURL = `${baseUrl}/parent/`;
+export const getParentReportUrlByTaskId = ({ taskId }: { taskId: string }) => {
+  return `${baseUrl}/parent/report/${taskId}`;
+};
