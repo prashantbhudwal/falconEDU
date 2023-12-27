@@ -26,7 +26,10 @@ export default function SignIn({ type, inviteId }: SignInProps) {
           return;
         }
         router.push(`/dragon/student/invite/${inviteId}`);
-      }
+      } else if (session.user.userType === "PARENT")
+        router.push(authConfig[2].callbackUrl);
+      else if (session.user.userType === "ORG_ADMIN")
+        router.push(authConfig[3].callbackUrl);
     }
   }, [session, sessionStatus, router, inviteId]);
 
