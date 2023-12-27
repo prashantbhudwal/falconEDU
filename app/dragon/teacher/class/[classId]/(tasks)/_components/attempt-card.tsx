@@ -23,34 +23,33 @@ type action = {
   actionParams: any[];
 };
 
-type ResponseProps = {
+type AttemptCardProps = {
   className?: string;
   student: StudentsByBotConfigId["students"][0];
   type: TaskType;
-  canReattempt: boolean | undefined;
   taskId: string;
   classId: string;
+  attemptNumber: number;
+  attemptSubmitted: boolean;
 };
 
-const ResponseCard = ({
+const AttemptCard = ({
   className,
   student,
   type,
-  canReattempt,
   taskId,
   classId,
-}: ResponseProps) => {
+  attemptNumber,
+  attemptSubmitted,
+}: AttemptCardProps) => {
   const link = getReportUrl({
     classId,
     testId: taskId,
     studentBotId: student.studentBotId,
     type,
   });
-  const email = student.email;
-  const title = student.name;
-  const description = student.email;
-  const avatarUrl = student.image;
-  const isSubmitted = student.isSubmitted;
+  const title = `Attempt ${attemptNumber}`;
+  const isSubmitted = attemptSubmitted;
   const disabled = !isSubmitted && type == "test";
   return (
     <Link
@@ -63,31 +62,17 @@ const ResponseCard = ({
         className
       )}
     >
-      <div className="py-1">
-        <Avatar className={cn("h-12 w-12 ring ring-base-300/80", {})}>
-          <AvatarImage src={avatarUrl ?? ""} />
-          <AvatarFallback className="bg-base-300">
-            <Avvvatars value={title ?? ""} style="shape" />
-          </AvatarFallback>
-        </Avatar>
-      </div>
       <div className="flex-grow border-none bg-inherit shadow-none flex flex-col space-y-3">
         <div className="flex flex-col space-y-1">
           <h1 className="font-bold ">{title}</h1>
-          {description && (
-            <div className="text-slate-600 text-sm">{description}</div>
-          )}
-        </div>
-        <div>
           {type === "test" && (
-            <div className="flex gap-2">
-              <CardChip
-                value={student.isSubmitted ? "Attempted" : "Pending"}
-                valueColor={
-                  student.isSubmitted ? "text-primary" : "text-accent"
-                }
-              />
-            </div>
+            <>
+              {isSubmitted ? (
+                <p className="text-sm text-slate-400">Submitted</p>
+              ) : (
+                <p className="text-sm text-slate-400">Pending</p>
+              )}
+            </>
           )}
         </div>
       </div>
@@ -95,32 +80,4 @@ const ResponseCard = ({
   );
 };
 
-type CardChipProps = {
-  label?: string;
-  value: string | React.ReactNode;
-  valueColor?: string;
-  className?: string;
-};
-
-const CardChip: React.FC<CardChipProps> = ({
-  label,
-  value,
-  valueColor,
-  className,
-}) => {
-  return (
-    <div
-      className={cn(
-        "rounded-md px-4 pl-0 flex items-center justify-start text-sm ",
-        className
-      )}
-    >
-      {label && (
-        <span className="text-base-content font-semibold">{label}:</span>
-      )}
-      <span className={`${valueColor || "text-base-content"}`}>{value}</span>
-    </div>
-  );
-};
-
-export { ResponseCard, CardChip };
+export { AttemptCard };

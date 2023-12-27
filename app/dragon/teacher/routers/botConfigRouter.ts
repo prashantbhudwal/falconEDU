@@ -684,3 +684,41 @@ export const disableReAttempt = async ({
     return { success: false };
   }
 };
+
+export const getReattemptStatus = async ({ taskId }: { taskId: string }) => {
+  try {
+    const result = await prisma.botConfig.findUnique({
+      where: { id: taskId },
+      select: {
+        canReAttempt: true,
+      },
+    });
+
+    if (!result) {
+      return { success: false };
+    }
+    return { success: true, canReAttempt: result.canReAttempt };
+  } catch (err) {
+    console.log(err);
+    return { success: false };
+  }
+};
+
+export const getAllBotChats = async ({
+  studentBotId,
+}: {
+  studentBotId: string;
+}) => {
+  try {
+    const botChats = await prisma.botChat.findMany({
+      where: {
+        botId: studentBotId,
+      },
+    });
+    return botChats;
+  } catch (err) {
+    console.log(err);
+    return [];
+  }
+};
+export type AllBotChats = UnwrapPromise<ReturnType<typeof getAllBotChats>>;
