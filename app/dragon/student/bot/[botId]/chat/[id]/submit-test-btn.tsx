@@ -77,13 +77,8 @@ const SubmitTestButton = React.forwardRef<HTMLButtonElement, PropTypes>(
             </DialogHeader>
           </DialogContent>
         </Dialog>
-        <Button
-          ref={ref}
-          variant={"outline"}
-          onClick={handleSubmit}
-          disabled={loading}
-        >
-          {loading ? "Submitting" : "Submit Test"}
+        <Button ref={ref} size={"sm"} onClick={handleSubmit} disabled={loading}>
+          {loading ? "Submitting" : "Submit"}
         </Button>
       </div>
     );

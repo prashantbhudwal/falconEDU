@@ -58,7 +58,7 @@ export const StudentHomeNavbar: React.FC = () => (
     <div className="navbar-end flex items-center gap-2">
       <Link href={getStudentPreferencesURL()}>
         <Button variant="ghost" size={"sm"}>
-          My Profile
+          About Me
         </Button>
       </Link>
       <SettingsIcon />
@@ -105,10 +105,7 @@ export const AvatarNavbar: React.FC<AvatarNavbarProps> = ({
           <p className="text-sm text-slate-500 truncate">{subtitle}</p>
         </div>
       </Link>
-      <div className="navbar-end flex gap-4">
-        {button}
-        <SettingsIcon />
-      </div>
+      <div className="navbar-end flex gap-4">{button}</div>
     </StudentNavbar>
   );
 };

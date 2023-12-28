@@ -11,22 +11,24 @@ import { TaskType } from "@/types/dragon";
 import { getStudentBotChatURL, getStudentBotURL } from "@/lib/urls";
 import Link from "next/link";
 import format from "date-fns/format";
+import prisma from "@/prisma";
+import { PuzzlePieceIcon } from "@heroicons/react/24/solid";
 const priorityColor: Record<(typeof testPriorities)[number], string> = {
   HIGH: "bg-destructive",
   MEDIUM: "bg-info",
   LOW: "",
 };
 
-type ChatCardProps = {
+type TaskCardProps = {
   bot: BotsByTeacherAndStudentID[0];
   imageUrl?: string;
   priority?: (typeof testPriorities)[number];
 };
-export async function ChatCard({
+export async function TaskCard({
   imageUrl,
   priority = "LOW",
   bot,
-}: ChatCardProps) {
+}: TaskCardProps) {
   const getDefaultStudentChatUrl = async (botId: string) => {
     const chats = await getChatsByBotId(botId);
     if (!chats) {
@@ -49,11 +51,18 @@ export async function ChatCard({
   const taskProperties = getTaskProperties(type);
   const Icon = taskProperties.Icon;
   const icon = <Icon className="w-6" />;
+  const canReattempt = bot.BotConfig.canReAttempt;
 
-  const url = bot.BotConfig.canReAttempt
-    ? multipleChatUrl
-    : defaultChatUrl ?? "";
+  const url = canReattempt ? multipleChatUrl : defaultChatUrl ?? "";
 
+  let attemptCount = 1;
+  if (canReattempt) {
+    attemptCount = await prisma.botChat.count({
+      where: {
+        botId,
+      },
+    });
+  }
   return (
     <Link href={url} key={bot.id}>
       <Card
@@ -97,19 +106,26 @@ export async function ChatCard({
             <div className="flex flex-row justify-between w-full">
               <h1 className="capitalize text-sm">
                 {title.toLocaleLowerCase()}
-              </h1>{" "}
+              </h1>
+              {canReattempt && (
+                <div className="flex space-x-1 text-xs text-slate-300 items-center">
+                  <PuzzlePieceIcon className="w-[14px]" />
+                  <div className="">{attemptCount}</div>
+                </div>
+              )}
             </div>
             <div className="flex flex-row justify-between w-full">
-              <div className=" text-slate-500 text-xs flex space-x-5">
-                {format(new Date(createdAt), "dd MMM yyyy, h:mm a")}{" "}
-              </div>
-              <div className="flex space-x-2 text-xs">
-                {isSubmitted && (
-                  <div className="text-primary">
-                    {isSubmitted ? "Submitted" : ""}
-                  </div>
-                )}
-                {!isActive && <span className="">Inactive</span>}
+              <div className=" text-slate-500 text-xs flex space-x-2">
+                <div>
+                  {isSubmitted ? (
+                    <div className="text-primary">
+                      {isSubmitted ? "Submitted" : ""}
+                    </div>
+                  ) : (
+                    format(new Date(createdAt), "dd MMM, h:mm a")
+                  )}
+                </div>
+                <div>{!isActive && <span className="">Inactive</span>}</div>
               </div>
             </div>
           </div>

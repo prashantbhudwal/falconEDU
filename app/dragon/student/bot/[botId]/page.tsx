@@ -7,6 +7,7 @@ import { NewAttemptButton } from "./new-attempt-btn";
 import { format } from "date-fns";
 import { AvatarImage, Avatar, AvatarFallback } from "@/components/ui/avatar";
 import Avvvatars from "avvvatars-react";
+import { PuzzlePieceIcon } from "@heroicons/react/24/solid";
 
 type BotPageProps = {
   params: {
@@ -17,6 +18,7 @@ export default async function BotPageProps({ params }: BotPageProps) {
   const botId = params.botId;
   const chats = await getChatsByBotId(botId);
   const bot = await getBotByBotId(botId);
+  const attemptCount = chats?.length ?? 0;
 
   if (!chats) {
     return (
@@ -32,6 +34,7 @@ export default async function BotPageProps({ params }: BotPageProps) {
         title={bot?.BotConfig.name!}
         subtitle={bot?.BotConfig.teacher.User.name!}
         botId={botId}
+        attemptCount={attemptCount}
       />
       <div className="h-full">
         {chats
@@ -45,8 +48,9 @@ export default async function BotPageProps({ params }: BotPageProps) {
               key={chat.id}
             >
               <ItemCard
-                description={format(new Date(chat.createdAt), "PPpp")}
+                description={format(new Date(chat.createdAt), "dd MMM, h:mm a")}
                 title={"Attempt " + chat.attemptNumber.toString()}
+                isSubmitted={chat.isSubmitted}
               />
             </Link>
           ))}
@@ -60,24 +64,26 @@ const AttemptsNavbar = ({
   subtitle,
   avatarUrl,
   botId,
+  attemptCount,
 }: {
   title: string;
   subtitle?: string;
   avatarUrl?: string;
   botId: string;
+  attemptCount: number;
 }) => {
   return (
     <StudentNavbar>
-      <Link href={studentHomeURL} className="flex gap-3 navbar-start">
-        <Avatar>
-          <AvatarImage src={avatarUrl} />
-          <AvatarFallback className="bg-base-300">
-            <Avvvatars value={title} style="shape" />
-          </AvatarFallback>
-        </Avatar>
-        <div>
-          <p className="truncate">{title}</p>
-          <p className="text-sm text-slate-500 truncate">{subtitle}</p>
+      <Link href={studentHomeURL} className="flex gap-3 navbar-start pl-6">
+        <div className="flex flex-col gap-2">
+          <p className="truncate ">{title}</p>
+          <div className="flex space-x-1 text-xs text-secondary items-center">
+            <PuzzlePieceIcon className="w-[14px]" />
+            <div className="">
+              {attemptCount}
+              {attemptCount > 1 ? " Attempts" : " Attempt"}
+            </div>
+          </div>
         </div>
       </Link>
       <div className="navbar-end flex gap-4 relative">

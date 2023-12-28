@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { AvatarNavbar } from "../../components/student-navbar";
-import { ChatCard } from "../../components/chat-card";
+import { TaskCard } from "../../components/chat-card";
 import { db } from "@/app/dragon/teacher/routers";
 
 export default async function TeacherDashboard({
@@ -37,7 +37,7 @@ export default async function TeacherDashboard({
       />
       <div className="pt-1 pb-20 w-full overflow-y-auto h-screen custom-scrollbar flex flex-col">
         {sortedBots.map(async (bot) => (
-          <ChatCard key={bot.id} bot={bot} />
+          <TaskCard key={bot.id} bot={bot} />
         ))}
       </div>
     </div>

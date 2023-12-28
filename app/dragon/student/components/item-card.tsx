@@ -18,6 +18,7 @@ type ItemCardProps = {
   description?: string;
   icon?: React.ReactNode;
   isRead?: boolean;
+  isSubmitted?: boolean;
 };
 export function ItemCard({
   imageUrl,
@@ -26,6 +27,7 @@ export function ItemCard({
   description,
   icon,
   isRead = true,
+  isSubmitted,
 }: ItemCardProps) {
   return (
     <Card className="relative flex flex-row max-w-sm border-none bg-base-300">
@@ -52,7 +54,15 @@ export function ItemCard({
         </div>
         <div className="flex flex-col space-y-1">
           <h1 className="">{title}</h1>
-          <p className="text-xs text-muted-foreground">{description}</p>
+          <div className="text-xs text-muted-foreground">
+            {isSubmitted ? (
+              <div className="text-primary">
+                {isSubmitted ? "Submitted" : ""}
+              </div>
+            ) : (
+              <p>{description}</p>
+            )}
+          </div>
         </div>
       </div>
     </Card>
