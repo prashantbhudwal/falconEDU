@@ -34,7 +34,7 @@ type StudentNavbarProps = {
   children: ReactNode;
 };
 
-const StudentNavbar: React.FC<StudentNavbarProps> = ({ children }) => (
+export const StudentNavbar: React.FC<StudentNavbarProps> = ({ children }) => (
   <div className="bg-base-200 shadow-sm shadow-base-100 navbar">{children}</div>
 );
 
