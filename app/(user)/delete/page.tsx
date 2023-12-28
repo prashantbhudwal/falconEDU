@@ -35,7 +35,7 @@ export default function Page() {
 
   return (
     <div>
-      <h1>Delete user: {EMAIL}</h1>
+      {/* <h1>Delete user: {EMAIL}</h1>
       {loading && <p>Loading...</p>}
       {error && <p>Error</p>}
       <Button
@@ -61,7 +61,7 @@ export default function Page() {
         disabled={loading}
       >
         Make all bot chats submitted
-      </Button>
+      </Button> */}
     </div>
   );
 }
