@@ -1,14 +1,7 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-import Link from "next/link";
-import { getStudentBotChatURL, getStudentBotURL } from "@/lib/urls";
 import { AvatarNavbar } from "../../components/student-navbar";
-import { Separator } from "@/components/ui/separator";
-import { getChatsByBotId } from "../../queries";
-import { getTaskProperties } from "@/app/dragon/teacher/utils";
 import { ChatCard } from "../../components/chat-card";
-import { getDefaultChatReadStatus } from "../../queries";
-import { TaskType } from "@/types/dragon";
 import { db } from "@/app/dragon/teacher/routers";
 
 export default async function TeacherDashboard({
@@ -31,30 +24,9 @@ export default async function TeacherDashboard({
       </>
     );
   }
-  //sort in descending order of createdAt
-  const unSubmittedBots = bots
-    .filter((bot) => !bot.isSubmitted)
-    .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
-
-  const submittedBots = bots
-    .filter((bot) => bot.isSubmitted)
-    .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
-
-  // ------------------------url to take the user to directly chat------------------------------------//
-  const getDefaultStudentChatUrl = async (botId: string) => {
-    const chats = await getChatsByBotId(botId);
-
-    if (!chats) {
-      return null;
-    }
-
-    const defaultChat = chats.find((chat) => chat.isDefault);
-
-    if (defaultChat) {
-      return getStudentBotChatURL(defaultChat.bot.id, defaultChat.id);
-    }
-    return null;
-  };
+  const sortedBots = bots.sort(
+    (a, b) => b.createdAt.getTime() - a.createdAt.getTime()
+  );
 
   return (
     <div>
@@ -63,64 +35,10 @@ export default async function TeacherDashboard({
         subtitle={teacher?.User.email!}
         avatarUrl={teacher?.User.image!}
       />
-      <div className="pt-1 pb-20 w-full overflow-y-auto h-screen custom-scrollbar">
-        {unSubmittedBots.map(async (bot) => {
-          const defaultChatUrl = await getDefaultStudentChatUrl(bot.id);
-          const multipleChatUrl = getStudentBotURL(bot.id);
-          const url = bot.BotConfig.canReAttempt
-            ? multipleChatUrl
-            : defaultChatUrl ?? "";
-          const readStatus = await getDefaultChatReadStatus(bot.id);
-          const type = bot.BotConfig.type as TaskType;
-
-          const taskProperties = getTaskProperties(type);
-          const Icon = taskProperties.Icon;
-          const formattedType = taskProperties.formattedType;
-
-          return (
-            <Link href={url} key={bot.id}>
-              <ChatCard
-                title={bot.BotConfig.name!}
-                type={type}
-                icon={<Icon className="w-6" />}
-                botId={bot.id}
-                readStatus={readStatus.isRead}
-                createdAt={bot.createdAt}
-                isActive={bot.BotConfig.isActive}
-              />
-            </Link>
-          );
-        })}
-        {submittedBots.length > 0 && (
-          <>
-            <h1 className="px-4 my-2 font-semibold">Submitted</h1>
-            <Separator className="my-2" />
-            {submittedBots.map(async (bot) => {
-              const defaultChatUrl = await getDefaultStudentChatUrl(bot.id);
-              const multipleChatUrl = getStudentBotURL(bot.id);
-              const readStatus = await getDefaultChatReadStatus(bot.id);
-              const type = bot.BotConfig.type as TaskType;
-
-              const taskProperties = getTaskProperties(type);
-              const Icon = taskProperties.Icon;
-              const formattedType = taskProperties.formattedType;
-
-              return (
-                <Link href={defaultChatUrl || multipleChatUrl} key={bot.id}>
-                  <ChatCard
-                    title={bot.BotConfig.name!}
-                    type={type}
-                    icon={<Icon className="w-6" />}
-                    botId={bot.id}
-                    readStatus={readStatus.isRead}
-                    createdAt={bot.createdAt}
-                    isActive={bot.BotConfig.isActive}
-                  />
-                </Link>
-              );
-            })}
-          </>
-        )}
+      <div className="pt-1 pb-20 w-full overflow-y-auto h-screen custom-scrollbar flex flex-col">
+        {sortedBots.map(async (bot) => (
+          <ChatCard key={bot.id} bot={bot} />
+        ))}
       </div>
     </div>
   );

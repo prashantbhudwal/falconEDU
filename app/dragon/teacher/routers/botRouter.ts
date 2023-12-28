@@ -166,6 +166,6 @@ export const getBotsByTeacherAndStudentID = cache(async function (
   return bots;
 });
 
-export type getBotsByTeacherAndStudentID = UnwrapPromise<
+export type BotsByTeacherAndStudentID = UnwrapPromise<
   ReturnType<typeof getBotsByTeacherAndStudentID>
 >;
