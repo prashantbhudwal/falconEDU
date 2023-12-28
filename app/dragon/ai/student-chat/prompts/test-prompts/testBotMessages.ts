@@ -4,6 +4,7 @@ import { cache } from "react";
 import { ChatPromptTemplate } from "langchain/prompts";
 import { UnwrapPromise } from "../../../../student/queries";
 import { systemTemplate } from "./test-template";
+import { getQuestionTypeName } from "@/app/dragon/teacher/utils";
 export type TestQuestionsByBotChatId = UnwrapPromise<
   ReturnType<typeof getTestQuestionsByBotChatId>
 >;
@@ -15,6 +16,7 @@ function formatToMarkdown(questions: any[]): string {
   return questions
     .map((question, index) => {
       let markdown = `### ${index + 1}. ${question.question}\n`;
+
       if (question.hint) {
         markdown += `**Hint:** ${question.hint}\n`;
       }
@@ -23,6 +25,15 @@ function formatToMarkdown(questions: any[]): string {
         question.options.forEach((option: string) => {
           markdown += `- ${option}\n`;
         });
+      }
+      if (question.question_type) {
+        const questionTypeName = getQuestionTypeName(question.question_type);
+        markdown += `
+        ---\n
+        Metadata:\n
+        Note: Use it to describe the test. Never directly in th Test.
+        **Question Type:${questionTypeName}\n
+        `;
       }
       return markdown;
     })
@@ -75,9 +86,12 @@ export async function getEngineeredTestBotMessages(
     return result;
   });
 
+  console.log("questionsWitRelevantFields", questionsWitRelevantFields);
+
   const markdownQuestions = formatToMarkdown(
     questionsWitRelevantFields as any[]
   );
+  console.log("markdownQuestions", markdownQuestions);
 
   const stringifiedQuestions = JSON.stringify(markdownQuestions ?? "");
 
