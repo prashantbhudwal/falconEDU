@@ -11,14 +11,17 @@ import axios from "axios";
 import { useState } from "react";
 import { PlayIcon, PlayPauseIcon } from "@heroicons/react/24/solid";
 import { BounceLoader, ScaleLoader } from "react-spinners";
+import { HiSpeakerWave } from "react-icons/hi2";
 
 interface ChatMessageActionsProps extends React.ComponentProps<"div"> {
   message: Message;
+  isLastMessage?: boolean;
 }
 
 export function ChatMessageActions({
   message,
   className,
+  isLastMessage,
   ...props
 }: ChatMessageActionsProps) {
   const { isCopied, copyToClipboard } = useCopyToClipboard({ timeout: 2000 });
@@ -54,8 +57,11 @@ export function ChatMessageActions({
   return (
     <div
       className={cn(
-        "flex items-center justify-end transition-opacity group-hover:opacity-100 md:absolute md:-right-10 md:-top-2 md:opacity-0",
-        className
+        "flex items-center justify-end transition-opacity group-hover:opacity-100 md:absolute md:-right-20 md:-top-5 ",
+        className,
+        {
+          "md:opacity-0": !isLastMessage && !isLoading && !isPlaying,
+        }
       )}
       {...props}
     >
@@ -64,12 +70,16 @@ export function ChatMessageActions({
         <span className="sr-only">Copy message</span>
       </Button>
       {isLoading ? (
-        <BounceLoader className="bg-secondary h-10 " />
+        <div className="p-2 bg-secondary w-9 h-9 rounded-md">
+          <BounceLoader size={20} />
+        </div>
       ) : isPlaying ? (
-        <ScaleLoader className="bg-secondary h-10" />
+        <div className="p-2 bg-secondary w-9 h-9 rounded-md flex justify-center items-center">
+          <ScaleLoader className="px-2" height={15} width={2} />
+        </div>
       ) : (
         <Button variant="ghost" size="icon" onClick={generateSpeech}>
-          {isCopied ? <PlayPauseIcon /> : <PlayIcon className="h-4 w-4" />}
+          {isCopied ? <PlayPauseIcon /> : <HiSpeakerWave className="h-4 w-4" />}
           <span className="sr-only">Listen</span>
         </Button>
       )}

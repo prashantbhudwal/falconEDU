@@ -56,7 +56,9 @@ export function ChatMessage({
           isLoading={isLoading}
           messageRole={message.role}
         />
-        {!hideActions && <ChatMessageActions message={message} />}
+        {!hideActions && (
+          <ChatMessageActions isLastMessage={isLastMessage} message={message} />
+        )}
       </div>
     </div>
   );
