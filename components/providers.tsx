@@ -8,7 +8,11 @@ import { NextIntlClientProvider } from "next-intl";
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="dark"
+      disableTransitionOnChange
+    >
       <SessionProvider>
         <Provider>
           <NextIntlClientProvider locale="en">
