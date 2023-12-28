@@ -234,7 +234,7 @@ export default function TestPreferencesForm({
                 {error && (
                   <div className="text-red-500 text-sm mt-3">{error}</div>
                 )}
-                <button
+                {/* <button
                   type="button"
                   className="w-fit"
                   onClick={() => setOpenTimeLimitDialog(true)}
@@ -296,7 +296,7 @@ export default function TestPreferencesForm({
                       </DialogDescription>
                     </DialogHeader>
                   </DialogContent>
-                </Dialog>
+                </Dialog> */}
               </div>
               <div className="flex w-fit flex-col gap-2 items-end">
                 <div className="flex gap-3">

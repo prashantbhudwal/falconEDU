@@ -91,9 +91,10 @@ export const updateInviteTimehandler = async ({
   }
 };
 
-export const getInviteList = cache(async () => {
+export const getInviteList = cache(async ({ classId }: { classId: string }) => {
   try {
     const inviteList = await prisma.invitation.findMany({
+      where: { classId },
       orderBy: {
         createdAt: "desc",
       },

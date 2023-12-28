@@ -189,7 +189,7 @@ export default function AddStudentForm({
                   className="flex flex-col gap-5"
                 >
                   <h3 className="text-center font-bold text-2xl">
-                    Invite the Student to your Class
+                    Add or Invite students
                   </h3>
                   <FormField
                     control={form.control}
@@ -212,9 +212,8 @@ export default function AddStudentForm({
                     Add to class
                   </Button>
                   <p className="text-xs">
-                    e<span className="text-slate-200 font-semibold">Note:</span>{" "}
-                    The added student will get access to all the Tasks in the
-                    Class.
+                    <span className="text-slate-200 font-semibold">Note:</span>{" "}
+                    Once published, students can see all tasks in the class.
                   </p>
                 </form>
               </Form>

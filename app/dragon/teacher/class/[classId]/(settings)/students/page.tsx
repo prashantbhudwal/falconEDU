@@ -23,7 +23,10 @@ type EditClassProps = {
 export default async function EditStudents({ params }: EditClassProps) {
   const { classId } = params;
   const { students, nameOfClass } = await getStudentsByClassId(classId);
-  const { inviteList } = await db.inviteStudentsRouter.getInviteList();
+  const { inviteList } = await db.inviteStudentsRouter.getInviteList({
+    classId,
+  });
+
   return (
     <Paper className="flex flex-col gap-10 w-full max-w-5xl min-h-screen">
       <div className="flex w-full justify-between items-center">

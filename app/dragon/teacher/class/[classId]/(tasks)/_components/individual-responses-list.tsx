@@ -1,4 +1,3 @@
-
 import {
   StudentsByBotConfigId,
   getStudentsByBotConfigId,
@@ -23,8 +22,8 @@ export const IndividualResponsesList = async function ({
   const status = await db.botConfig.getReattemptStatus({ taskId });
   if (!status.success) return null;
   const canReattempt = status.canReAttempt;
-  if (students.length === 0) return <NoStudents classId={classId} />;
   if (!isPublished) return <NotPublished />;
+  if (students.length === 0) return <NoStudents classId={classId} />;
   return (
     <div className="flex flex-col items-center space-y-4">
       <h1 className="text-center font-semibold text-xl mt-10 ">
@@ -36,7 +35,7 @@ export const IndividualResponsesList = async function ({
             taskId={taskId}
             student={student}
             key={student.email}
-            className="w-[600px]"
+            className="w-full"
             classId={classId}
             type={type}
             canReattempt={canReattempt}
