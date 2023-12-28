@@ -83,7 +83,7 @@ const AttemptsNavbar = ({
       <div className="navbar-end flex gap-4 relative">
         <NewAttemptButton
           botId={botId}
-          className="fixed bottom-5 right-5 z-50"
+          className="fixed bottom-10 right-10 z-50"
         />
       </div>
     </StudentNavbar>

@@ -21,7 +21,7 @@ export const NewAttemptButton = ({
   return (
     <Button
       variant="secondary"
-      size={"sm"}
+      size={"lg"}
       onClick={createHandler}
       className={cn(
         "font-semibold flex items-center border border-base-100 gap-2 text-xs rounded-full",
