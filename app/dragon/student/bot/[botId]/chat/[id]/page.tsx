@@ -2,21 +2,23 @@ import { Message } from "ai/react";
 import { getStudentChatApiURL } from "@/lib/urls";
 import { getStudentTeacherURL } from "@/lib/urls";
 import {
-  getBotByBotId,
+  BotChatByChatId,
+  GetClassByBotId,
+  GetBotByBotId,
   getBotChatByChatId,
   getClassByBotId,
+  getBotByBotId,
 } from "@/app/dragon/student/queries";
 import { Chat } from "@/components/chat/chat-dragon";
 import { AvatarNavbar } from "@/app/dragon/student/components/student-navbar";
 import SubmitTestButton from "./submit-test-btn";
-import prisma from "@/prisma";
 import { revalidatePath } from "next/cache";
 import { getTestQuestionsByBotChatId } from "@/app/dragon/ai/student-chat/prompts/test-prompts/testBotMessages";
 import { getChatContextByChatId } from "@/app/dragon/ai/student-chat/prompts/chat-prompts/queries";
 import { getLessonContextByChatId } from "@/app/dragon/ai/student-chat/prompts/lesson-prompts/queries";
-import { json } from "stream/consumers";
 import { getTaskProperties } from "@/app/dragon/teacher/utils";
 import { TaskType } from "@/types/dragon";
+import { setIsReadToTrue } from "./mutations";
 
 export interface ChatPageProps {
   params: {
@@ -24,32 +26,6 @@ export interface ChatPageProps {
     botId: string;
   };
 }
-
-const setIsReadToTrue = async function (botChatId: string) {
-  const botChat = await prisma.botChat.findFirst({
-    where: {
-      id: botChatId,
-    },
-  });
-
-  if (botChat?.isRead) {
-    return;
-  }
-
-  try {
-    await prisma.botChat.update({
-      where: {
-        id: botChatId,
-      },
-      data: {
-        isRead: true,
-      },
-    });
-  } catch (error) {
-    console.error("Error updating Chat Status.", error);
-    throw new Error("Failed to update Chat Status");
-  }
-};
 
 const getChatContext = async function (type: TaskType, chatId: string) {
   switch (type) {
@@ -90,9 +66,20 @@ export default async function ChatPage({ params }: ChatPageProps) {
       <AvatarNavbar
         title={bot?.BotConfig.name!}
         subtitle={bot?.BotConfig.type}
+        timeLimit={bot?.BotConfig.timeLimit || undefined}
+        testBotId={botId}
+        redirectUrl={redirectUrl}
+        isSubmitted={chat?.isSubmitted}
+        isMultipleChats={bot?.BotConfig.canReAttempt}
+        botChatId={id}
         button={
-          bot?.BotConfig.type === "test" && !bot?.isSubmitted ? (
-            <SubmitTestButton testBotId={botId} redirectUrl={redirectUrl} />
+          bot?.BotConfig.type === "test" && !chat?.isSubmitted ? (
+            <SubmitTestButton
+              testBotId={botId}
+              botChatId={id}
+              redirectUrl={redirectUrl}
+              isMultipleChats={bot?.BotConfig.canReAttempt}
+            />
           ) : (
             <></>
           )
@@ -106,12 +93,12 @@ export default async function ChatPage({ params }: ChatPageProps) {
         chatBody={{
           chatId: id,
           context,
-          type,
+          type: bot?.BotConfig.type,
         }}
         botImage={botImage}
         isDisabled={!classDetails?.isActive || !bot?.BotConfig.isActive}
-        isSubmitted={bot?.isSubmitted}
-        type={type ?? "chat"}
+        isSubmitted={chat?.isSubmitted}
+        type={bot?.BotConfig.type ?? "chat"}
       />
     </>
   );

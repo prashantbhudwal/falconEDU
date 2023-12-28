@@ -15,17 +15,31 @@ const testResultObjectSchemaWithId = z.array(
 );
 type FinalTestResults = z.infer<typeof testResultObjectSchemaWithId>;
 
-export const submitTestBot = async function (botId: string) {
+export const submitTestBot = async function (
+  botId: string,
+  botChatId: string,
+  isMultipleChats?: boolean
+) {
   try {
-    await prisma.bot.update({
-      where: { id: botId },
+    if (!isMultipleChats) {
+      await prisma.bot.update({
+        where: { id: botId },
+        data: {
+          isSubmitted: true,
+        },
+      });
+    }
+    // later remove the isSubmitted from bot
+    await prisma.botChat.update({
+      where: { id: botChatId },
       data: {
         isSubmitted: true,
       },
     });
-    revalidatePath("/dragon/student/");
+    revalidatePath("/dragon/student");
+    return { success: true };
   } catch (error) {
-    console.error("Error updating Bot:", error);
+    console.log("Error updating Bot:", error);
     throw new Error("Failed to update Bot");
   }
 };
@@ -53,7 +67,34 @@ export const saveTestResultsByBotId = async function (
       });
     });
   } catch (err) {
-    console.error(err);
+    console.log(err);
     throw new Error("Failed to save results");
+  }
+};
+
+export const setIsReadToTrue = async function (botChatId: string) {
+  const botChat = await prisma.botChat.findFirst({
+    where: {
+      id: botChatId,
+    },
+  });
+
+  if (botChat?.isRead) {
+    return;
+  }
+
+  try {
+    await prisma.botChat.update({
+      where: {
+        id: botChatId,
+      },
+      data: {
+        isRead: true,
+      },
+    });
+    revalidatePath("/");
+  } catch (error) {
+    console.error("Error updating Chat Status.", error);
+    throw new Error("Failed to update Chat Status");
   }
 };

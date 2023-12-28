@@ -70,11 +70,24 @@ model User {
   payments          Payment[]
   StudentProfile    StudentProfile?
   orgAdminProfile   OrgAdminProfile?
+  ParentProfile     ParentProfile?
 }
 
 //*********************** App Models *****************************//
 
 //**************** App > Teacher Models ****************//
+
+model ParentProfile {
+  id          String           @id @default(cuid())
+  User        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String           @unique
+  preferences Json             @default("{}")
+  createdAt   DateTime         @default(now())
+  bio         String?          @default("")
+  Org         Org?             @relation(fields: [orgId], references: [id])
+  orgId       String?
+  students    StudentProfile[]
+}
 
 model TeacherProfile {
   id                 String             @id @default(cuid())
@@ -82,7 +95,7 @@ model TeacherProfile {
   teachingResources  TeachingResource[]
   bio                String             @default("")
   teachingExperience Int                @default(0)
-  User               User               @relation(fields: [userId], references: [id])
+  User               User               @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId             String             @unique
   preferences        Json               @default("{}")
   BotConfig          BotConfig[]
@@ -93,21 +106,22 @@ model TeacherProfile {
 }
 
 model OrgAdminProfile {
-  id          String @id @default(cuid())
-  designation String
-  org         Org    @relation(fields: [orgId], references: [id])
-  orgId       String
-  User        User   @relation(fields: [userId], references: [id])
-  userId      String @unique
+  id          String  @id @default(cuid())
+  designation String  @default("")
+  org         Org?    @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  orgId       String?
+  User        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String  @unique
 }
 
 model Org {
-  id       String            @id @default(cuid())
-  type     OrgType
-  name     String
-  teacher  TeacherProfile[]
-  admin    OrgAdminProfile[]
-  students StudentProfile[]
+  id            String            @id @default(cuid())
+  type          OrgType
+  name          String
+  teacher       TeacherProfile[]
+  admin         OrgAdminProfile[]
+  students      StudentProfile[]
+  ParentProfile ParentProfile[]
 }
 
 enum OrgType {
@@ -119,19 +133,23 @@ enum OrgType {
 }
 
 model Class {
-  id        String           @id @default(cuid())
-  name      String
-  teacherId String
-  isActive  Boolean          @default(true)
-  Teacher   TeacherProfile   @relation(fields: [teacherId], references: [id])
-  students  StudentProfile[]
-  BotShare  BotShare[]
-  BotConfig BotConfig[]
+  id         String           @id @default(cuid())
+  name       String
+  teacherId  String
+  isActive   Boolean          @default(true)
+  Teacher    TeacherProfile   @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  students   StudentProfile[]
+  BotShare   BotShare[]
+  BotConfig  BotConfig[]
+  Invitation Invitation[]
+  createdAt  DateTime         @default(now())
 }
 
 enum UserType {
   TEACHER
   STUDENT
+  PARENT
+  ORG_ADMIN
 }
 
 enum Role {
@@ -141,8 +159,8 @@ enum Role {
 
 model BotConfig {
   id              String            @id @default(cuid())
-  teacher         TeacherProfile    @relation(fields: [teacherId], references: [id])
-  Class           Class?            @relation(fields: [classId], references: [id])
+  teacher         TeacherProfile    @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  Class           Class?            @relation(fields: [classId], references: [id], onDelete: Cascade)
   classId         String?
   teacherId       String
   name            String
@@ -157,12 +175,16 @@ model BotConfig {
   isActive        Boolean           @default(true)
   parsedQuestions parsedQuestions[]
   isHidden        Boolean           @default(false)
+  hasTimeLimit    Boolean           @default(false)
+  timeLimit       Int?              @default(0)
+  canReAttempt    Boolean           @default(false)
+  maxAttempts     Int?              @default(0)
 }
 
 model parsedQuestions {
   id                  String             @id @default(cuid())
   botConfigId         String
-  BotConfig           BotConfig          @relation(fields: [botConfigId], references: [id])
+  BotConfig           BotConfig          @relation(fields: [botConfigId], references: [id], onDelete: Cascade)
   question_type       QuestionType
   question            String
   hint                String?
@@ -181,25 +203,27 @@ model parsedQuestions {
 // Chat: https://chat.openai.com/share/ffbb895f-a632-4410-9178-134f29916aaf
 
 model StudentProfile {
-  id          String     @id @default(cuid())
-  User        User       @relation(fields: [userId], references: [id])
-  userId      String     @unique
-  grade       String?
-  preferences Json       @default("{}")
-  createdAt   DateTime   @default(now())
-  bot         Bot[]
-  BotShare    BotShare[]
-  Class       Class[]
-  bio         String?    @default("")
-  Org         Org?       @relation(fields: [orgId], references: [id])
-  orgId       String?
+  id              String         @id @default(cuid())
+  User            User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId          String         @unique
+  grade           String?
+  preferences     Json           @default("{}")
+  createdAt       DateTime       @default(now())
+  bot             Bot[]
+  BotShare        BotShare[]
+  Class           Class[]
+  bio             String?        @default("")
+  Org             Org?           @relation(fields: [orgId], references: [id])
+  orgId           String?
+  ParentProfile   ParentProfile? @relation(fields: [parentProfileId], references: [id])
+  parentProfileId String?
 }
 
 model Bot {
   id          String         @id @default(cuid())
-  student     StudentProfile @relation(fields: [studentId], references: [id])
+  student     StudentProfile @relation(fields: [studentId], references: [id], onDelete: Cascade)
   studentId   String
-  BotConfig   BotConfig      @relation(fields: [botConfigId], references: [id])
+  BotConfig   BotConfig      @relation(fields: [botConfigId], references: [id], onDelete: Cascade)
   botConfigId String
   BotShare    BotShare?      @relation(fields: [botShareId], references: [id])
   botShareId  String?
@@ -214,25 +238,29 @@ model Bot {
 
 model BotChat {
   id               String             @id @default(uuid())
-  bot              Bot                @relation(fields: [botId], references: [id])
+  bot              Bot                @relation(fields: [botId], references: [id], onDelete: Cascade)
   botId            String
   messages         Json
   createdAt        DateTime           @default(now())
   isDefault        Boolean            @default(false)
   isRead           Boolean            @default(false)
   BotChatQuestions BotChatQuestions[]
+  attemptNumber    Int                @default(1)
+  isSubmitted      Boolean            @default(false)
+  isChecked        Boolean            @default(false)
+  name             String?
 }
 
 model BotChatQuestions {
   createdAt         DateTime         @default(now())
   id                Int              @id @default(autoincrement())
-  botChat           BotChat          @relation(fields: [botChatId], references: [id])
+  botChat           BotChat          @relation(fields: [botChatId], references: [id], onDelete: Cascade)
   botChatId         String
   student_answer    String[]         @default([])
   isCorrect         Boolean // Whether the student's answer is correct
   score             Float? // A score representing the quality of the student's answer
   feedback          String? // Qualitative feedback on the student's answer
-  parsedQuestions   parsedQuestions? @relation(fields: [parsedQuestionsId], references: [id])
+  parsedQuestions   parsedQuestions? @relation(fields: [parsedQuestionsId], references: [id], onDelete: Cascade)
   parsedQuestionsId String?
 }
 
@@ -246,6 +274,25 @@ enum QuestionType {
   SUBJECTIVE_ESSAY // For longer, essay-type answers
   SUBJECTIVE_SHORT_ANSWER // For shorter, one or two sentence answers
   OTHER
+}
+
+//**************** App > Invitation Models ****************//
+
+model Invitation {
+  createdAt       DateTime         @default(now())
+  id              String           @id @default(cuid())
+  studentEmail    String           @unique
+  Class           Class?           @relation(fields: [classId], references: [id])
+  classId         String
+  status          InvitationStatus
+  daysUntilExpiry Int?             @default(365)
+}
+
+enum InvitationStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
+  EXPIRED
 }
 
 //**************** App > Sharing Models ****************//

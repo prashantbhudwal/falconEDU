@@ -1,17 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
-
+const openai = new OpenAI();
 export async function POST(request: NextRequest) {
-  console.log("I ran");
   const formData = await request.formData();
-  console.log(formData);
 
   const file = formData.get("file") as any;
 
   try {
-    // Initialize OpenAI client
-    const openai = new OpenAI();
-
     // Transcription using OpenAI Whisper
     const transcription = await openai.audio.transcriptions.create({
       file: file,

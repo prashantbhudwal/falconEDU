@@ -26,6 +26,7 @@ import { Input } from "@/components/ui/input";
 import { parseTestQuestions } from "@/app/dragon/ai/test-question-parser/get-test-questions";
 import { typeGetParsedQuestionByBotConfigId } from "@/app/dragon/teacher/routers/parsedQuestionRouter";
 import { TestParsedQuestion } from "./test-parsed-questions";
+import { FaClockRotateLeft } from "react-icons/fa6";
 const MAX_CHARS = LIMITS_testBotPreferencesSchema.fullTest.maxLength;
 import {
   Accordion,
@@ -34,6 +35,15 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import TextAreaWithUpload from "../../../../_components/textAreaWithUpload";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { formatName } from "@/lib/utils";
 
 type BotPreferencesFormProps = {
   preferences?: z.infer<typeof testBotPreferencesSchema> | null;
@@ -54,10 +64,11 @@ export default function TestPreferencesForm({
 }: BotPreferencesFormProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [inputFocus, setInputFocus] = useState("");
   const [testName, setTestName] = useState<string | undefined>(config?.name);
   const [botConfig, setBotConfig] = useState<BotConfig | null>(config);
-  const [isArchived, setIsArchived] = useState(!isActive);
+  const [openTimeLimitDialog, setOpenTimeLimitDialog] = useState(false);
+
+  const timeLimit = config?.timeLimit || 0;
 
   if (!testBotPreferencesSchema.safeParse(config?.preferences)) {
     setError("Failed to parse bot preferences. Please try again.");
@@ -65,6 +76,8 @@ export default function TestPreferencesForm({
 
   const form = useForm<z.infer<typeof testBotPreferencesSchema>>({
     resolver: zodResolver(testBotPreferencesSchema),
+    defaultValues: { fullTest: "", timeLimit }, // later change with value from db of timelimit
+    mode: "onChange",
   });
 
   const { isDirty, setIsDirty } = useIsFormDirty(form);
@@ -181,27 +194,111 @@ export default function TestPreferencesForm({
     setError("");
   };
 
+  const updateTestTimeHandler = async (timeLimit: number) => {
+    const result = await db.botConfig.updateBotConfigTimeLimit({
+      classId,
+      botId,
+      timeLimit: Math.ceil(timeLimit) || 0,
+    });
+    if (result.success) {
+      closeDialog();
+    } else {
+      form.setError("timeLimit", {
+        type: "manual",
+        message: "Failed to update time limit. Please try again.",
+      });
+    }
+  };
+
+  const closeDialog = () => {
+    form.setValue("timeLimit", form.getValues("timeLimit"));
+    setOpenTimeLimitDialog(false);
+  };
+
   return (
     <div className="w-full max-w-5xl">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div>
             {/* -------------------------------------- Form Header-------------------------------- */}
-            <div className="flex justify-between flex-wrap p-5">
-              <div>
+            <div className="flex justify-between flex-wrap gap-10 p-5">
+              <div className="w-7/12">
                 <Input
                   type="text"
                   value={testName}
                   onChange={onTestNameChange}
                   onBlur={updateTestNameHandler}
                   required
-                  className="outline-none border-none pl-0 md:text-2xl font-bold tracking-wide focus-visible:ring-0 "
+                  className="outline-none w-full border-none pl-0 md:text-2xl font-bold tracking-wide focus-visible:ring-0 "
                 />
                 {error && (
                   <div className="text-red-500 text-sm mt-3">{error}</div>
                 )}
+                {/* <button
+                  type="button"
+                  className="w-fit"
+                  onClick={() => setOpenTimeLimitDialog(true)}
+                >
+                  <span className="text-xs px-4 py-2 text-slate-300 mt-2 font-semibold rounded-md bg-base-200 whitespace-nowrap flex items-center gap-2">
+                    <FaClockRotateLeft />
+                    {timeLimit ? timeLimit + "min" : "Time Limit"}
+                  </span>
+                </button>
+                <Dialog open={openTimeLimitDialog} onOpenChange={closeDialog}>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle className="text-xl">
+                        Set Time Limit to your{" "}
+                        {formatName((config?.type as string) && "test")}
+                      </DialogTitle>
+                      <FormField
+                        control={form.control}
+                        name="timeLimit"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormControl>
+                              <div className="flex gap-5 items-center pt-5">
+                                <Input
+                                  type="number"
+                                  {...field}
+                                  onChange={(e) => {
+                                    const value =
+                                      e.target.value === ""
+                                        ? null
+                                        : +e.target.value;
+                                    field.onChange(value);
+                                  }}
+                                  placeholder="Time in minutes"
+                                />
+                                <Button
+                                  type="button"
+                                  className="w-5/12"
+                                  onClick={() =>
+                                    updateTestTimeHandler(Number(field.value))
+                                  }
+                                >
+                                  Save
+                                </Button>
+                              </div>
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <p className="text-xs pt-1">
+                        <sup>* </sup>Time in minutes, 0 means no time limit
+                      </p>
+                      <DialogDescription className="text-xs pt-5">
+                        <span className="text-slate-200">Note:</span> The time
+                        will start once the students opens the test. Exiting the
+                        test or exhaustion of time limit will result in
+                        auto-submission of the Test
+                      </DialogDescription>
+                    </DialogHeader>
+                  </DialogContent>
+                </Dialog> */}
               </div>
-              <div className="flex flex-col gap-2 items-end">
+              <div className="flex w-fit flex-col gap-2 items-end">
                 <div className="flex gap-3">
                   <Button
                     type="submit"
@@ -270,6 +367,7 @@ export default function TestPreferencesForm({
                           required
                           placeholder="Enter or paste the full test here. Please provide the answers too. The bot will conduct the test for you."
                           hasDocUploader
+                          setIsDirty={setIsDirty}
                           {...field}
                         />
                       </div>

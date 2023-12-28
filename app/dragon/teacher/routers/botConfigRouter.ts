@@ -285,91 +285,90 @@ export const updateBotConfigName = async function ({
   }
 };
 
-const organizeConfigs = (botConfigs: BotConfig[]) => {
-  const testConfigs = botConfigs.filter(
-    (botConfig) => botConfig.type === "test"
-  );
-  const chatConfigs = botConfigs.filter(
-    (botConfig) => botConfig.type === "chat"
-  );
-
-  const lessonConfigs = botConfigs.filter(
-    (botConfig) => botConfig.type === "lesson"
-  );
-
-  const activeLessonConfigs = lessonConfigs
-    .filter((botConfig) => botConfig.isActive)
-    .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
-  const archivedLessonConfigs = lessonConfigs
-    .filter((botConfig) => !botConfig.isActive)
-    .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
-
-  const activeChatsConfigs = chatConfigs
-    .filter((botConfig) => botConfig.isActive)
-    .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
-  const archivedChatsConfigs = chatConfigs
-    .filter((botConfig) => !botConfig.isActive)
-    .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
-
-  const activeTestConfigs = testConfigs
-    .filter((botConfig) => botConfig.isActive)
-    .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
-
-  const archivedTestConfigs = testConfigs
-    .filter((botConfig) => !botConfig.isActive)
-    .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
-
-  const publishedLessonConfigs = lessonConfigs.filter(
-    (botConfig) => botConfig.published
-  );
-  const unPublishedLessonConfigs = lessonConfigs.filter(
-    (botConfig) => !botConfig.published
-  );
-
-  const publishedChatConfigs = chatConfigs.filter(
-    (botConfig) => botConfig.published
-  );
-  const unPublishedChatConfigs = chatConfigs.filter(
-    (botConfig) => !botConfig.published
-  );
-  const publishedTestConfigs = testConfigs.filter(
-    (botConfig) => botConfig.published
-  );
-  const unPublishedTestConfigs = testConfigs.filter(
-    (botConfig) => !botConfig.published
-  );
-
-  const configs = {
-    all: botConfigs,
-    active: botConfigs.filter((botConfig) => botConfig.isActive),
-    archived: botConfigs.filter((botConfig) => !botConfig.isActive),
-    chat: {
-      all: chatConfigs,
-      active: activeChatsConfigs,
-      archived: archivedChatsConfigs,
-      published: publishedChatConfigs,
-      unpublished: unPublishedChatConfigs,
-    },
-    test: {
-      all: testConfigs,
-      active: activeTestConfigs,
-      archived: archivedTestConfigs,
-      published: publishedTestConfigs,
-      unpublished: unPublishedTestConfigs,
-    },
-    lesson: {
-      all: lessonConfigs,
-      active: activeLessonConfigs,
-      archived: archivedLessonConfigs,
-      published: publishedLessonConfigs,
-      unpublished: unPublishedLessonConfigs,
-    },
-  };
-  return configs;
-};
-
 export const getAllConfigsInClass = cache(
   async ({ userId, classId }: { userId: string; classId: string }) => {
+    const organizeConfigs = (botConfigs: BOT_CONFIG_TYPE[]) => {
+      const testConfigs = botConfigs.filter(
+        (botConfig) => botConfig.type === "test"
+      );
+      const chatConfigs = botConfigs.filter(
+        (botConfig) => botConfig.type === "chat"
+      );
+
+      const lessonConfigs = botConfigs.filter(
+        (botConfig) => botConfig.type === "lesson"
+      );
+
+      const activeLessonConfigs = lessonConfigs
+        .filter((botConfig) => botConfig.isActive)
+        .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+      const archivedLessonConfigs = lessonConfigs
+        .filter((botConfig) => !botConfig.isActive)
+        .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+
+      const activeChatsConfigs = chatConfigs
+        .filter((botConfig) => botConfig.isActive)
+        .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+      const archivedChatsConfigs = chatConfigs
+        .filter((botConfig) => !botConfig.isActive)
+        .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+
+      const activeTestConfigs = testConfigs
+        .filter((botConfig) => botConfig.isActive)
+        .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+
+      const archivedTestConfigs = testConfigs
+        .filter((botConfig) => !botConfig.isActive)
+        .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+
+      const publishedLessonConfigs = lessonConfigs.filter(
+        (botConfig) => botConfig.published
+      );
+      const unPublishedLessonConfigs = lessonConfigs.filter(
+        (botConfig) => !botConfig.published
+      );
+
+      const publishedChatConfigs = chatConfigs.filter(
+        (botConfig) => botConfig.published
+      );
+      const unPublishedChatConfigs = chatConfigs.filter(
+        (botConfig) => !botConfig.published
+      );
+      const publishedTestConfigs = testConfigs.filter(
+        (botConfig) => botConfig.published
+      );
+      const unPublishedTestConfigs = testConfigs.filter(
+        (botConfig) => !botConfig.published
+      );
+
+      const configs = {
+        all: botConfigs,
+        active: botConfigs.filter((botConfig) => botConfig.isActive),
+        archived: botConfigs.filter((botConfig) => !botConfig.isActive),
+        chat: {
+          all: chatConfigs,
+          active: activeChatsConfigs,
+          archived: archivedChatsConfigs,
+          published: publishedChatConfigs,
+          unpublished: unPublishedChatConfigs,
+        },
+        test: {
+          all: testConfigs,
+          active: activeTestConfigs,
+          archived: archivedTestConfigs,
+          published: publishedTestConfigs,
+          unpublished: unPublishedTestConfigs,
+        },
+        lesson: {
+          all: lessonConfigs,
+          active: activeLessonConfigs,
+          archived: archivedLessonConfigs,
+          published: publishedLessonConfigs,
+          unpublished: unPublishedLessonConfigs,
+        },
+      };
+      return configs;
+    };
     const teacherProfile = await prisma.teacherProfile.findUnique({
       where: { userId },
     });
@@ -386,6 +385,7 @@ export const getAllConfigsInClass = cache(
         Class: true,
       },
     });
+    type BOT_CONFIG_TYPE = (typeof botConfigs)[0];
     const configs = organizeConfigs(botConfigs);
     return configs;
   }
@@ -404,8 +404,7 @@ export const getAllConfigs = cache(async ({ userId }: { userId: string }) => {
       teacherId: teacherProfile.id,
     },
   });
-  const configs = organizeConfigs(botConfigs);
-  return configs;
+  return botConfigs;
 });
 
 export const getIsBotConfigArchivedByBotConfigId = cache(
@@ -580,3 +579,146 @@ export const fetchConfigAndPreferences = cache(
     }
   }
 );
+
+export const updateBotConfigTimeLimit = async ({
+  classId,
+  botId,
+  timeLimit,
+}: {
+  classId: string;
+  botId: string;
+  timeLimit: number;
+}) => {
+  await isAuthorized({
+    userType: "TEACHER",
+  });
+  try {
+    const hasTimeLimit = timeLimit !== 0;
+    const result = await prisma.botConfig.update({
+      where: { id: botId },
+      data: {
+        timeLimit: timeLimit,
+        hasTimeLimit: hasTimeLimit,
+      },
+    });
+
+    if (!result) {
+      return { success: false };
+    }
+    revalidatePath(
+      getTaskUrl({ classId, taskId: botId, type: result.type as TaskType })
+    );
+    return { success: true };
+  } catch (err) {
+    console.log(err);
+    return { success: false };
+  }
+};
+
+export const enableReAttempt = async ({
+  classId,
+  taskId,
+}: {
+  classId: string;
+  taskId: string;
+}) => {
+  await isAuthorized({
+    userType: "TEACHER",
+  });
+  try {
+    const result = await prisma.botConfig.update({
+      where: { id: taskId },
+      data: {
+        canReAttempt: true,
+      },
+    });
+
+    if (!result) {
+      return { success: false };
+    }
+    revalidatePath(
+      getTaskUrl({
+        classId,
+        taskId: taskId,
+        type: result.type as TaskType,
+      })
+    );
+    return { success: true };
+  } catch (err) {
+    console.log(err);
+    return { success: false };
+  }
+};
+
+export const disableReAttempt = async ({
+  classId,
+  taskId,
+}: {
+  classId: string;
+  taskId: string;
+}) => {
+  await isAuthorized({
+    userType: "TEACHER",
+  });
+  try {
+    const result = await prisma.botConfig.update({
+      where: { id: taskId },
+      data: {
+        canReAttempt: false,
+      },
+    });
+
+    if (!result) {
+      return { success: false };
+    }
+    revalidatePath(
+      getTaskUrl({
+        classId,
+        taskId: taskId,
+        type: result.type as TaskType,
+      })
+    );
+    return { success: true };
+  } catch (err) {
+    console.log(err);
+    return { success: false };
+  }
+};
+
+export const getReattemptStatus = async ({ taskId }: { taskId: string }) => {
+  try {
+    const result = await prisma.botConfig.findUnique({
+      where: { id: taskId },
+      select: {
+        canReAttempt: true,
+      },
+    });
+
+    if (!result) {
+      return { success: false };
+    }
+    return { success: true, canReAttempt: result.canReAttempt };
+  } catch (err) {
+    console.log(err);
+    return { success: false };
+  }
+};
+
+export const getAllBotChats = async ({
+  studentBotId,
+}: {
+  studentBotId: string;
+}) => {
+  try {
+    const botChats = await prisma.botChat.findMany({
+      where: {
+        botId: studentBotId,
+      },
+    });
+    return botChats;
+  } catch (err) {
+    console.log(err);
+    return [];
+  }
+};
+export type AllBotChats = UnwrapPromise<ReturnType<typeof getAllBotChats>>;

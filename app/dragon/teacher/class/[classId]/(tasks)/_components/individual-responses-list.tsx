@@ -1,8 +1,4 @@
 import {
-  ResponseCard,
-  CardChip,
-} from "@/app/dragon/teacher/class/[classId]/(tasks)/_components/response-card";
-import {
   StudentsByBotConfigId,
   getStudentsByBotConfigId,
 } from "../[taskId]/test/queries";
@@ -10,6 +6,8 @@ import { getReportUrl } from "@/lib/urls";
 import { NoStudents } from "./no-students";
 import { NotPublished } from "./not-published";
 import { TaskType } from "@/types/dragon";
+import { db } from "@/app/dragon/teacher/routers";
+import { Response } from "./response-accordion";
 
 export const IndividualResponsesList = async function ({
   classId,
@@ -21,10 +19,11 @@ export const IndividualResponsesList = async function ({
   type: TaskType;
 }) {
   const { isPublished, students } = await getStudentsByBotConfigId(taskId);
-
-  if (students.length === 0) return <NoStudents classId={classId} />;
+  const status = await db.botConfig.getReattemptStatus({ taskId });
+  if (!status.success) return null;
+  const canReattempt = status.canReAttempt;
   if (!isPublished) return <NotPublished />;
-
+  if (students.length === 0) return <NoStudents classId={classId} />;
   return (
     <div className="flex flex-col items-center space-y-4">
       <h1 className="text-center font-semibold text-xl mt-10 ">
@@ -32,29 +31,15 @@ export const IndividualResponsesList = async function ({
       </h1>
       <div className="flex flex-col gap-2">
         {students.map((student) => (
-          <ResponseCard
+          <Response
+            taskId={taskId}
             student={student}
             key={student.email}
-            className="w-[600px]"
-            link={getReportUrl({
-              classId,
-              testId: taskId,
-              studentBotId: student.studentBotId,
-              type,
-            })}
+            className="w-full"
+            classId={classId}
             type={type}
-          >
-            {type === "test" && (
-              <div className="flex gap-2">
-                <CardChip
-                  value={student.isSubmitted ? "Attempted" : "Pending"}
-                  valueColor={
-                    student.isSubmitted ? "text-primary" : "text-accent"
-                  }
-                />
-              </div>
-            )}
-          </ResponseCard>
+            canReattempt={canReattempt}
+          />
         ))}
       </div>
     </div>

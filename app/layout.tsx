@@ -5,6 +5,7 @@ import { Inter } from "next/font/google";
 import Chubbi from "../components/chubbi";
 import TRPCProvider from "./_trpc/provider";
 import { headers } from "next/headers";
+import { Toaster } from "@/components/ui/sonner";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -41,6 +42,7 @@ export default function RootLayout({
             <TRPCProvider headers={headers()}>{children}</TRPCProvider>
             <Chubbi />
           </main>
+          <Toaster />
         </Providers>
         <Analytics />
       </body>

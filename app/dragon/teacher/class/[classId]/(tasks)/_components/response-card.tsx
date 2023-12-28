@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/tooltip";
 import Link from "next/link";
 import { TaskType } from "@/types/dragon";
+import { getReportUrl } from "@/lib/urls";
 type action = {
   name: string;
   title: string;
@@ -22,23 +23,29 @@ type action = {
   actionParams: any[];
 };
 
-type ResponseCardProps = {
-  children: React.ReactNode;
+type ResponseProps = {
   className?: string;
-  actions?: action[];
-  link: string;
   student: StudentsByBotConfigId["students"][0];
   type: TaskType;
+  canReattempt: boolean | undefined;
+  taskId: string;
+  classId: string;
 };
 
-function ResponseCard({
-  children,
+const ResponseCard = ({
   className,
-  actions,
-  link,
   student,
   type,
-}: ResponseCardProps) {
+  canReattempt,
+  taskId,
+  classId,
+}: ResponseProps) => {
+  const link = getReportUrl({
+    classId,
+    testId: taskId,
+    studentBotId: student.studentBotId,
+    type,
+  });
   const email = student.email;
   const title = student.name;
   const description = student.email;
@@ -71,38 +78,22 @@ function ResponseCard({
             <div className="text-slate-600 text-sm">{description}</div>
           )}
         </div>
-        <div>{children}</div>
-      </div>
-      <div className="absolute flex top-2 right-5">
-        <TooltipProvider>
-          {actions?.map((action) => (
-            <Tooltip key={action.name}>
-              <TooltipTrigger>
-                <ClassDialog
-                  title={action.title}
-                  description={action.description}
-                  action={() => action.action(...action.actionParams)}
-                  trigger={
-                    <Button
-                      variant={"ghost"}
-                      size={"icon"}
-                      className="hover:bg-slate-600"
-                    >
-                      {action.icon}
-                    </Button>
-                  }
-                />
-              </TooltipTrigger>
-              <TooltipContent className="bg-slate-600 text-black">
-                {action.name}
-              </TooltipContent>
-            </Tooltip>
-          ))}
-        </TooltipProvider>
+        <div>
+          {type === "test" && (
+            <div className="flex gap-2">
+              <CardChip
+                value={student.isSubmitted ? "Attempted" : "Pending"}
+                valueColor={
+                  student.isSubmitted ? "text-primary" : "text-accent"
+                }
+              />
+            </div>
+          )}
+        </div>
       </div>
     </Link>
   );
-}
+};
 
 type CardChipProps = {
   label?: string;

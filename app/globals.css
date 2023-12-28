@@ -18,19 +18,18 @@
 
 .custom-scrollbar::-webkit-scrollbar-corner {
   background-color: #334155;
-  ;
 }
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 222 47% 95%;
+    --foreground: 34 32% 19%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 222 47% 95%;
+    --card-foreground: 34 32% 19%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 37 33% 83%;
+    --popover-foreground: 34 32% 19%;
 
     --primary: 158 64% 52%;
     --primary-foreground: 222 47% 11%;
@@ -38,25 +37,23 @@
     --secondary: 291 93% 83%;
     --secondary-foreground: 222 47% 11%;
 
-    --muted: 216 12% 84%;
-    --muted-foreground: 222 47% 11%;
+    --muted: 210 20% 80%;
+    --muted-foreground: 210 30% 30%;
 
     --accent: 50 98% 64%;
     --accent-foreground: 222.2 47.4% 11.2%;
 
     --destructive: 0 91% 71%;
-    --destructive-foreground: 222, 47%, 11%;
+    --destructive-foreground: 222 47% 11%;
 
-    --border: 217 33% 17%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 37 33% 83%;
+    --input: 37.2 32.6% 82.5%;
+    --ring: 32.7 26.8% 16.1%;
 
-    --radius: 0.3rem;
-
-    --base: 217 33% 17%;
-    --base-100: 217 33% 17%;
-    --base-200: 222 47% 11%;
-    --base-300: 229 84% 5%;
+    --base: 214, 32%, 91%;
+    --base-100: 214, 32%, 91%;
+    --base-200: 210, 40%, 96%;
+    --base-300: 210, 40%, 98%;
   }
 
   .dark {
@@ -102,5 +99,11 @@
 
   body {
     @apply bg-background text-foreground;
+  }
+
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
 }

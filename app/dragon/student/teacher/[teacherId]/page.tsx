@@ -1,95 +1,8 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-import Link from "next/link";
-import { getStudentBotChatURL, getStudentBotURL } from "@/lib/urls";
 import { AvatarNavbar } from "../../components/student-navbar";
-import { Separator } from "@/components/ui/separator";
-import prisma from "@/prisma";
-import { cache } from "react";
-import { UnwrapPromise, getChatsByBotId } from "../../queries";
-import { getTaskProperties } from "@/app/dragon/teacher/utils";
-import {
-  ChatBubbleLeftRightIcon,
-  ClipboardDocumentCheckIcon,
-} from "@heroicons/react/24/outline";
-import { ChatCard } from "../../components/chat-card";
-import { getDefaultChatReadStatus } from "../../queries";
-import { TaskType } from "@/types/dragon";
-
-const getBotsByTeacherAndStudentID = cache(async function (
-  teacherId: string,
-  userId: string
-) {
-  // Fetch studentId from StudentProfile using userId
-  const studentProfile = await prisma.studentProfile.findFirst({
-    where: {
-      userId: userId,
-    },
-    select: {
-      id: true,
-    },
-  });
-
-  // If no matching student profile, return an empty array or handle as needed
-  if (!studentProfile) return [];
-
-  const studentId = studentProfile.id;
-
-  // Fetch bots filtered by teacherId and studentId
-  const bots = await prisma.bot.findMany({
-    where: {
-      BotConfig: {
-        teacherId: teacherId,
-        published: true,
-      },
-      studentId: studentId,
-    },
-    select: {
-      id: true,
-      isSubmitted: true,
-      createdAt: true,
-      isActive: true,
-      BotConfig: {
-        select: {
-          name: true,
-          type: true,
-          isActive: true,
-          teacher: {
-            select: {
-              User: {
-                select: {
-                  name: true,
-                },
-              },
-            },
-          },
-        },
-      },
-    },
-  });
-  return bots;
-});
-
-export type getBotsByTeacherAndStudentID = UnwrapPromise<
-  ReturnType<typeof getBotsByTeacherAndStudentID>
->;
-
-const getTeacherDetailsByTeacherId = cache(async function (teacherId: string) {
-  const teacher = await prisma.teacherProfile.findUnique({
-    where: { id: teacherId },
-    select: {
-      User: {
-        select: {
-          name: true,
-          email: true,
-          image: true,
-        },
-      },
-    },
-  });
-
-  return teacher;
-});
+import { TaskCard } from "../../components/chat-card";
+import { db } from "@/app/dragon/teacher/routers";
 
 export default async function TeacherDashboard({
   params,
@@ -102,8 +15,8 @@ export default async function TeacherDashboard({
   if (!id) {
     return null;
   }
-  const bots = await getBotsByTeacherAndStudentID(teacherId, id);
-  const teacher = await getTeacherDetailsByTeacherId(teacherId);
+  const bots = await db.bot.getBotsByTeacherAndStudentID(teacherId, id);
+  const teacher = await db.profile.getTeacherDetailsByTeacherId(teacherId);
   if (!bots) {
     return (
       <>
@@ -111,30 +24,9 @@ export default async function TeacherDashboard({
       </>
     );
   }
-  //sort in descending order of createdAt
-  const unSubmittedBots = bots
-    .filter((bot) => !bot.isSubmitted)
-    .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
-
-  const submittedBots = bots
-    .filter((bot) => bot.isSubmitted)
-    .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
-
-  // ------------------------url to take the user to directly chat------------------------------------//
-  const getDefaultStudentChatUrl = async (botId: string) => {
-    const chats = await getChatsByBotId(botId);
-
-    if (!chats) {
-      return null;
-    }
-
-    const defaultChat = chats.find((chat) => chat.isDefault);
-
-    if (defaultChat) {
-      return getStudentBotChatURL(defaultChat.bot.id, defaultChat.id);
-    }
-    return null;
-  };
+  const sortedBots = bots.sort(
+    (a, b) => b.createdAt.getTime() - a.createdAt.getTime()
+  );
 
   return (
     <div>
@@ -143,61 +35,10 @@ export default async function TeacherDashboard({
         subtitle={teacher?.User.email!}
         avatarUrl={teacher?.User.image!}
       />
-      <div className="pt-1 pb-20 w-full overflow-y-auto h-screen custom-scrollbar">
-        {unSubmittedBots.map(async (bot) => {
-          const defaultChatUrl = await getDefaultStudentChatUrl(bot.id);
-          const multipleChatUrl = getStudentBotURL(bot.id);
-          const readStatus = await getDefaultChatReadStatus(bot.id);
-          const type = bot.BotConfig.type as TaskType;
-
-          const taskProperties = getTaskProperties(type);
-          const Icon = taskProperties.Icon;
-          const formattedType = taskProperties.formattedType;
-
-          return (
-            <Link href={defaultChatUrl || multipleChatUrl} key={bot.id}>
-              <ChatCard
-                title={bot.BotConfig.name!}
-                type={type}
-                icon={<Icon className="w-6" />}
-                botId={bot.id}
-                readStatus={readStatus.isRead}
-                createdAt={bot.createdAt}
-                isActive={bot.BotConfig.isActive}
-              />
-            </Link>
-          );
-        })}
-        {submittedBots.length > 0 && (
-          <>
-            <h1 className="px-4 my-2 font-semibold">Submitted</h1>
-            <Separator className="my-2" />
-            {submittedBots.map(async (bot) => {
-              const defaultChatUrl = await getDefaultStudentChatUrl(bot.id);
-              const multipleChatUrl = getStudentBotURL(bot.id);
-              const readStatus = await getDefaultChatReadStatus(bot.id);
-              const type = bot.BotConfig.type as TaskType;
-
-              const taskProperties = getTaskProperties(type);
-              const Icon = taskProperties.Icon;
-              const formattedType = taskProperties.formattedType;
-
-              return (
-                <Link href={defaultChatUrl || multipleChatUrl} key={bot.id}>
-                  <ChatCard
-                    title={bot.BotConfig.name!}
-                    type={type}
-                    icon={<Icon className="w-6" />}
-                    botId={bot.id}
-                    readStatus={readStatus.isRead}
-                    createdAt={bot.createdAt}
-                    isActive={bot.BotConfig.isActive}
-                  />
-                </Link>
-              );
-            })}
-          </>
-        )}
+      <div className="pt-1 pb-20 w-full overflow-y-auto h-screen custom-scrollbar flex flex-col">
+        {sortedBots.map(async (bot) => (
+          <TaskCard key={bot.id} bot={bot} />
+        ))}
       </div>
     </div>
   );

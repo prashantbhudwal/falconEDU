@@ -10,6 +10,7 @@ export const getTeacherId = cache(async function (userId: string) {
   return teacherProfile?.id;
 });
 
+//TODO: remove this
 export const getClassesByUserId = cache(async function (userId: string) {
   const teacherProfile = await prisma.teacherProfile.findUnique({
     where: { userId },

@@ -2,10 +2,8 @@ import { cache } from "react";
 import prisma from "@/prisma";
 import { testBotPreferencesSchema } from "@/app/dragon/schema";
 import { UnwrapPromise } from "@/app/dragon/student/queries";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Paper } from "@/components/ui/paper";
 import TestPreferencesForm from "./components/test-preferences-form/test-preferences-form";
-import { TestAnalysis } from "./components/test-analysis/test-analysis";
 import { db } from "@/app/dragon/teacher/routers";
 import { TestParsedQuestion } from "./components/test-preferences-form/test-parsed-questions";
 import {

@@ -97,7 +97,11 @@ export const getClassesByUserId = cache(
       include: {
         BotConfig: true,
       },
+      orderBy: {
+        createdAt: "desc",
+      },
     });
+
     return classes;
   }
 );
@@ -116,7 +120,7 @@ export const getClassByClassId = cache(
     if (!classInfo) {
       throw new Error(`Class with classId ${classId} not found`);
     }
-    
+
     return classInfo;
   }
 );

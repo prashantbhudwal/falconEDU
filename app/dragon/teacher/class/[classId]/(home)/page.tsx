@@ -7,8 +7,6 @@ import { BotConfig, Class } from "@prisma/client";
 import Link from "next/link";
 import { BsInfoCircleFill } from "react-icons/bs";
 
-type BotConfigWithClass = BotConfig & { Class: Class };
-
 export default async function Classes({
   params,
 }: {
@@ -27,8 +25,7 @@ export default async function Classes({
     userId,
     classId,
   });
-  const activeConfigs = classConfigs.active;
-  const archivedConfigs = classConfigs.archived;
+  const allConfigs = classConfigs.all;
 
   return (
     <Paper className="h-full flex flex-col items-center w-5/6 overflow-y-auto custom-scrollbar justify-between">
@@ -45,33 +42,7 @@ export default async function Classes({
         </p>
       )}
       <div className="w-8/12 max-w-6xl flex flex-col space-y-6">
-        <TaskList
-          tasks={[...activeConfigs, ...archivedConfigs] as BotConfigWithClass[]}
-          classId={classId}
-          userId={userId}
-        />
-        {/* {archivedConfigs.length > 0 && (
-          <div className=" flex flex-col gap-4">
-            <Accordion
-              type="single"
-              collapsible
-              className="rounded-lg ring-base-200 ring-1"
-            >
-              <AccordionItem value="item-1" className="border-none">
-                <AccordionTrigger className="text-slate-500 text-xl font-bold hover:no-underline bg-base-200 px-2 ">
-                  Archived
-                </AccordionTrigger>
-                <AccordionContent className="border-none px-2 py-4">
-                  <TaskList
-                    tasks={archivedConfigs}
-                    classId={classId}
-                    userId={userId}
-                  />
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
-          </div>
-        )} */}
+        <TaskList tasks={allConfigs} classId={classId} userId={userId} />
       </div>
     </Paper>
   );

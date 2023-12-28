@@ -45,4 +45,28 @@ Unpublished - Check isPublished in the config attached to the bot. - If false, t
 Active - Check isActive in the config attached to the bot. - If true, the student can respond to the task.
 
 InActive: We may call the as expired on the student side. - Check isActive in the config attached to the bot. - If false, - the student cannot respond to the task. - the task is greyed out in the task list.
+---
 
+# Submission Logic
+
+## Old State
+
+- Multiple Attempts
+  - When the submit button is pressed,
+    - then the botChat isSubmitted is set to true
+    - bot is not updated
+- Single Attempt
+  - When the submit button is pressed,
+    - the botChat isSubmitted is set to true
+    - bot is updated, isSubmitted is set to true
+
+## New State
+
+- No database changes required
+- Run the script on production
+- Make UI changes
+  - Multiple Attempts
+    - Show submitted status on the attempts as well
+    - Show number of attempts on the the chatCard
+  - Single Attempt
+    - Show submitted status on on the chatCard

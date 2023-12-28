@@ -34,8 +34,8 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { ClassDialog } from "../../../../components/class-dialog";
-import { removeStudentFromClass } from "./mutations";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { db } from "@/app/dragon/teacher/routers";
 
 type StudentData = NonNullable<StudentsByClassId["students"]>[number];
 
@@ -115,7 +115,12 @@ export function DataTable({
                 <ClassDialog
                   title="Delete Student"
                   description="are you sure you want to delete this student?"
-                  action={() => removeStudentFromClass(id, classId!)}
+                  action={() =>
+                    db.studentRouter.removeStudentFromClass({
+                      studentId: id,
+                      classId,
+                    })
+                  }
                   trigger={
                     <Button
                       variant={"ghost"}

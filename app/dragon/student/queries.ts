@@ -54,13 +54,15 @@ export type ArrayElement<ArrayType extends readonly unknown[]> =
 
 export const getChatsByBotId = cache(async function (botId: string) {
   const chats = await prisma.botChat.findMany({
-    where: { botId },
-    select: {
-      bot: true,
-      id: true,
-      messages: true,
-      createdAt: true,
-      isDefault: true,
+    where: {
+      botId,
+    },
+    include: {
+      bot: {
+        include: {
+          BotConfig: true,
+        },
+      },
     },
   });
   return chats;
@@ -98,6 +100,7 @@ export const getBotChatByChatId = cache(async function (chatId: string) {
       messages: true,
       isRead: true,
       id: true,
+      isSubmitted: true,
       bot: {
         select: {
           BotConfig: {
@@ -135,6 +138,7 @@ export const getBotChatByChatId = cache(async function (chatId: string) {
     messages: messagesArray,
     isRead: botChat.isRead,
     botChatId: botChat.id,
+    isSubmitted: botChat.isSubmitted,
   };
 });
 
@@ -150,6 +154,7 @@ export const getBotByBotId = cache(async function (botId: string) {
       name: true,
       isActive: true,
       isSubmitted: true,
+      BotChat: true,
       BotConfig: {
         select: {
           id: true,
@@ -158,6 +163,8 @@ export const getBotByBotId = cache(async function (botId: string) {
           isActive: true,
           published: true,
           teacherId: true,
+          timeLimit: true,
+          canReAttempt: true,
           teacher: {
             select: {
               User: {
@@ -175,7 +182,7 @@ export const getBotByBotId = cache(async function (botId: string) {
   return bot;
 });
 
-export type getBotByBotId = UnwrapPromise<ReturnType<typeof getBotByBotId>>;
+export type GetBotByBotId = UnwrapPromise<ReturnType<typeof getBotByBotId>>;
 
 export const getTeachersByUserId = cache(async function (userId: string) {
   const userData = await prisma.user.findUnique({

@@ -103,7 +103,7 @@ export function ImportModal({
                 <FormItem>
                   <Select onValueChange={field.onChange} value={field.value}>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select a class to import from" />
+                      <SelectValue placeholder="Select a class" />
                     </SelectTrigger>
                     <SelectContent className="max-h-80">
                       {classesWithConfigs.map((cls) => (
@@ -126,7 +126,7 @@ export function ImportModal({
                 <FormItem>
                   <Select onValueChange={field.onChange} value={field.value}>
                     <SelectTrigger>
-                      <SelectValue placeholder="What you want to import" />
+                      <SelectValue placeholder="Select a task" />
                     </SelectTrigger>
                     <SelectContent>
                       {types.map((type) => (

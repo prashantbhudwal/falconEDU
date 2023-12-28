@@ -5,7 +5,6 @@ import Link from "next/link";
 import { getClassURL } from "@/lib/urls";
 import Avvvatars from "avvvatars-react";
 import ClassCard from "./components/class-card";
-import { getClassesByUserId } from "./queries";
 import { Paper } from "@/components/ui/paper";
 import { notFound, redirect } from "next/navigation";
 import { db } from "./routers";
@@ -26,7 +25,7 @@ export default async function Classes() {
   }
   const orgMode = await db.teacher.teacherHasOrgMode({ userId });
   if (!orgMode) redirect("/dragon/auth/request-access");
-  const classes = await getClassesByUserId(userId);
+  const classes = await db.class.getClassesByUserId({ userId });
 
   const activeClasses = classes.filter((classData) => classData.isActive);
   const archivedClasses = classes.filter((classData) => !classData.isActive);
