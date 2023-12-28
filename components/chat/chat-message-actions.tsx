@@ -70,16 +70,16 @@ export function ChatMessageActions({
         <span className="sr-only">Copy message</span>
       </Button>
       {isLoading ? (
-        <div className="p-2 bg-secondary w-9 h-9 rounded-md">
-          <BounceLoader size={20} />
+        <div className="p-2  w-9 h-9 rounded-md">
+          <BounceLoader size={20} color="#94a3b8" />
         </div>
       ) : isPlaying ? (
-        <div className="p-2 bg-secondary w-9 h-9 rounded-md flex justify-center items-center">
-          <ScaleLoader className="px-2" height={15} width={2} />
+        <div className="p-2  w-9 h-9 rounded-md flex justify-center items-center">
+          <ScaleLoader className="px-2" height={15} width={2} color="#94a3b8" />
         </div>
       ) : (
         <Button variant="ghost" size="icon" onClick={generateSpeech}>
-          {isCopied ? <PlayPauseIcon /> : <HiSpeakerWave className="h-4 w-4" />}
+          {<HiSpeakerWave className="h-4 w-4" />}
           <span className="sr-only">Listen</span>
         </Button>
       )}
