@@ -189,7 +189,7 @@ export default function AddStudentForm({
                   className="flex flex-col gap-5"
                 >
                   <h3 className="text-center font-bold text-2xl">
-                    Add or Invite students
+                    Add or Invite Students
                   </h3>
                   <FormField
                     control={form.control}
