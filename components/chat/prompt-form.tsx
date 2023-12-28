@@ -45,52 +45,39 @@ export function PromptForm({
   }, [isLoading]);
 
   useEffect(() => {
-    // Initialize media stream and recorder
-    const initRecorder = async () => {
-      const stream = await navigator.mediaDevices.getUserMedia({
-        audio: true,
-      });
-      const recorder = new MediaRecorder(stream);
-      recorder.ondataavailable = (event) => {
-        setAudioChunks((currentChunks) => [...currentChunks, event.data]);
-      };
-      setMediaRecorder(recorder);
-    };
-    initRecorder();
-  }, []);
+    if (inputRef.current && !isLoading) {
+      inputRef.current.focus();
+    }
+  }, [isLoading]);
 
-  let recordTimeout: NodeJS.Timeout;
-
-  const toggleRecording = async (event: any) => {
+  const toggleRecording = async (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
     event.preventDefault();
     event.stopPropagation();
 
     if (recording) {
       mediaRecorder?.stop();
-      mediaRecorder?.stream.getTracks().forEach((track) => track.stop()); // Stop each track of the stream
+      mediaRecorder?.stream.getTracks().forEach((track) => track.stop());
       setRecording(false);
-      setMediaRecorder(null); // Clear the recorder
+      setMediaRecorder(null);
     } else {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      const newRecorder = new MediaRecorder(stream);
-      newRecorder.ondataavailable = (event) => {
-        setAudioChunks((currentChunks) => [...currentChunks, event.data]);
-      };
-      newRecorder.start();
-      setMediaRecorder(newRecorder);
-      setRecording(true);
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          audio: true,
+        });
+        const newRecorder = new MediaRecorder(stream);
+        newRecorder.ondataavailable = (event: BlobEvent) => {
+          setAudioChunks((currentChunks) => [...currentChunks, event.data]);
+        };
+        newRecorder.start();
+        setMediaRecorder(newRecorder);
+        setRecording(true);
+      } catch (error) {
+        console.error("Error accessing microphone: ", error);
+      }
     }
   };
-
-  useEffect(() => {
-    return () => {
-      if (mediaRecorder) {
-        mediaRecorder?.stream.getTracks().forEach((track) => track.stop());
-        mediaRecorder?.stop();
-        setMediaRecorder(null);
-      }
-    };
-  }, [mediaRecorder]);
 
   const sendAudioToServer = async () => {
     setLoading(true);
