@@ -75,7 +75,7 @@ const ResponseCard = ({
         <div className="flex flex-col space-y-1">
           <h1 className="font-bold ">{title}</h1>
           {description && (
-            <div className="text-slate-600 text-sm">{description}</div>
+            <div className="text-text-600 text-sm">{description}</div>
           )}
         </div>
         <div>

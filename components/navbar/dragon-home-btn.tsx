@@ -37,7 +37,7 @@ export default function DragonHomeBtn({ className }: { className?: string }) {
               </Button>
             </Link>
           </TooltipTrigger>
-          <TooltipContent className="bg-base-200 text-slate-300">
+          <TooltipContent className="bg-base-200 text-text-300">
             All Classes
           </TooltipContent>
         </Tooltip>

@@ -139,14 +139,14 @@ export function PromptForm({
               <StopIcon
                 className={cn("w-7 h-7 text-secondary", {
                   "text-red-500": recording,
-                  "text-base-200": isLoading || isSendingAudio,
+                  "text-text-900": isLoading || isSendingAudio,
                 })}
               />
             ) : (
               <MicrophoneIcon
                 className={cn("h-7 text-secondary", {
                   "text-red-500": recording,
-                  "text-base-200": isLoading || isSendingAudio,
+                  "text-text-900": isLoading || isSendingAudio,
                 })}
               />
             )}

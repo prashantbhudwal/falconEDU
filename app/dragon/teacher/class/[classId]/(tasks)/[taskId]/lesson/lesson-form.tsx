@@ -175,7 +175,7 @@ export default function LessonForm({
                   </Button>
                 </div>
                 {isDirty && (
-                  <div className="text-sm text-slate-500">
+                  <div className="text-sm text-text-500">
                     You have unsaved changes.
                   </div>
                 )}

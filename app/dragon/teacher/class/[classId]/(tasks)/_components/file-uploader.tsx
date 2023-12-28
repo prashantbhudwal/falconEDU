@@ -119,7 +119,7 @@ const FileUploader = ({ setParsedDocs }: PropTypes) => {
         variants={containerVariant}
         initial="collapsed"
         animate={isButtonHovered ? "expanded" : "collapsed"}
-        className="cursor-pointer w-11 h-11 flex items-center justify-center text-slate-200 border-[3px] border-text-slate-500 rounded-full overflow-hidden"
+        className="cursor-pointer w-11 h-11 flex items-center justify-center text-text-200 border-[3px] border-text-text-500 rounded-full overflow-hidden"
       >
         <div className="w-11 h-11 rounded-[28px] flex absolute left-0 items-center">
           <MdCloudUpload className="h-5 w-11" />
@@ -128,7 +128,7 @@ const FileUploader = ({ setParsedDocs }: PropTypes) => {
           variants={textVariant}
           initial="hide"
           animate={isButtonHovered ? "show" : "hide"}
-          className="text-xs text-slate-400 mr-2 ml-9 whitespace-nowrap"
+          className="text-xs text-text-400 mr-2 ml-9 whitespace-nowrap"
         >
           Upload
         </motion.span>

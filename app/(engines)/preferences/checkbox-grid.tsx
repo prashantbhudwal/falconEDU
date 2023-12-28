@@ -11,10 +11,9 @@ export default function CheckboxGrid({
   handleChange,
   userFlow,
 }: PredictionGridProps) {
-
   return (
     <div className="flex flex-col items-center gap-4">
-      <div className="mb-2 text-sm text-slate-500">
+      <div className="mb-2 text-sm text-text-500">
         Or choose as many from the list...
       </div>
       <div className="flex w-4/5 flex-row flex-wrap justify-center gap-3">
@@ -26,8 +25,8 @@ export default function CheckboxGrid({
               selectedOptions.includes(topic)
                 ? `${
                     userFlow === "worksheet" ? "bg-secondary" : "bg-primary"
-                  } text-slate-800`
-                : "bg-slate-800 text-slate-300"
+                  } text-text-800`
+                : "bg-slate-800 text-text-300"
             }`}
           >
             <input

@@ -40,12 +40,12 @@ export default async function Expired({
         children
       ) : (
         <div className="flex min-h-screen h-screen flex-col items-center pt-2 text-center bg-base-300 w-full overflow-y-auto custom-scrollbar">
-          <h1 className="my-2 max-w-xl text-2xl leading-10 text-slate-300">
+          <h1 className="my-2 max-w-xl text-2xl leading-10 text-text-300">
             Subscription expired. Please subscribe.
           </h1>
           <Plans products={products.data} />
           <p className="text-sm"></p>
-          <SignOutButton className="btn btn-base-100 text-slate-500 my-4" />
+          <SignOutButton className="btn btn-base-100 text-text-500 my-4" />
         </div>
       )}
     </>

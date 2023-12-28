@@ -49,7 +49,7 @@ export const ToggleClassStatusCard = ({ classId }: { classId: string }) => {
     <Card
       onClick={onCardClick}
       className={cn(
-        "flex items-center gap-5 w-[400px] justify-start pl-10 hover:cursor-pointer hover:text-base-100",
+        "flex items-center gap-5 w-[400px] justify-start pl-10 hover:cursor-pointer hover:text-text-800",
         {
           "hover:bg-primary bg-primary": !isActive,
           "hover:bg-destructive": isActive,
@@ -79,7 +79,7 @@ export const ToggleClassStatusCard = ({ classId }: { classId: string }) => {
             <div ref={buttonRef}>
               <div
                 className={cn("flex items-center gap-4 text-lg", {
-                  "text-base-100": !isActive,
+                  "text-text-800": !isActive,
                 })}
               >
                 <BoltIcon className="w-6" />

@@ -76,7 +76,7 @@ const Questions: React.FC<Props> = ({
       >
         {questions.length === 0 && !isAdvancedMode && (
           <div
-            className={`flex flex-col gap-1 px-4 pt-2 text-center text-slate-500 ${className} ${
+            className={`flex flex-col gap-1 px-4 pt-2 text-center text-text-500 ${className} ${
               isOver ? "rounded-lg bg-fuchsia-500" : ""
             }`}
           >

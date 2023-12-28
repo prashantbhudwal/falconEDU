@@ -37,13 +37,13 @@ export const Response = async function ({
         <Accordion
           type="single"
           collapsible
-          className="my-3 p-3 text-slate-500 cursor-pointer border border-base-200 w-full"
+          className="my-3 p-3 text-text-500 cursor-pointer border border-base-200 w-full"
         >
           <AccordionItem value="item-1" className="border-none">
-            <AccordionTrigger className="text-lg px-4 text-slate-400">
+            <AccordionTrigger className="text-lg px-4 text-text-400">
               {student.name}
             </AccordionTrigger>
-            <AccordionContent className="pl-2 text-slate-400 text-base">
+            <AccordionContent className="pl-2 text-text-400 text-base">
               {allAttempts
                 .sort(
                   (a, b) =>

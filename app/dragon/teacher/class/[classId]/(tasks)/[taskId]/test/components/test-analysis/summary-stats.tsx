@@ -62,7 +62,7 @@ const StatCard = ({
     <div className="flex items-center space-x-4">
       <div className={`p-4 rounded-full bg-base-300 ${color}`}>{icon}</div>
       <div>
-        <p className="text-2xl font-bold text-slate-200">{value}</p>
+        <p className="text-2xl font-bold text-text-200">{value}</p>
         <p className={`text-sm capitalize `}>{title}</p>
       </div>
     </div>

@@ -56,7 +56,7 @@ export default async function Classes() {
               className="rounded-lg ring-base-200 ring-1"
             >
               <AccordionItem value="item-1" className="border-none">
-                <AccordionTrigger className="text-slate-500 text-xl font-bold hover:no-underline bg-base-200 px-2 ">
+                <AccordionTrigger className="text-text-500 text-xl font-bold hover:no-underline bg-base-200 px-2 ">
                   Archived
                 </AccordionTrigger>
                 <AccordionContent className="border-none px-2 py-4">
@@ -66,7 +66,7 @@ export default async function Classes() {
                         <ClassCard
                           className="rounded-lg"
                           icon={
-                            <div className="text-base-100">
+                            <div className="text-text-800">
                               <Avvvatars
                                 value={classData.id}
                                 style="shape"

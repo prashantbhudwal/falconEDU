@@ -44,7 +44,7 @@ export const Actions = ({
       <TooltipProvider delayDuration={100}>
         <Tooltip>
           <TooltipTrigger>
-            <button className="text-slate-100" onClick={() => addQuestions()}>
+            <button className="text-text-100" onClick={() => addQuestions()}>
               <LuPlusCircle />
             </button>
           </TooltipTrigger>
@@ -57,7 +57,7 @@ export const Actions = ({
       <TooltipProvider delayDuration={100}>
         <Tooltip>
           <TooltipTrigger>
-            <button className="text-slate-100" onClick={() => createMcq()}>
+            <button className="text-text-100" onClick={() => createMcq()}>
               <RiListCheck3 />
             </button>
           </TooltipTrigger>
@@ -71,7 +71,7 @@ export const Actions = ({
         <Tooltip>
           <TooltipTrigger>
             <button
-              className="text-slate-100"
+              className="text-text-100"
               onClick={() => createFillInBlanks()}
             >
               <LuFileText />

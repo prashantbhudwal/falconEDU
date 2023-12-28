@@ -13,7 +13,7 @@ export function LandingPageEngines() {
 
   return (
     <div className="flex min-h-screen flex-col items-center pt-8 text-center">
-      <h1 className="my-6 max-w-xl text-2xl leading-10 text-slate-300 md:text-5xl lg:text-5xl">
+      <h1 className="my-6 max-w-xl text-2xl leading-10 text-text-300 md:text-5xl lg:text-5xl">
         <div className="inline-flex items-start">
           <p className="">Welcome to FalconAI</p>
           <span className="-mt-1 ml-2 rounded bg-yellow-300 px-2 py-1 text-sm font-semibold text-yellow-800">
@@ -21,13 +21,13 @@ export function LandingPageEngines() {
           </span>
         </div>
       </h1>
-      <p className={"mb-12 mt-6 max-w-xl text-lg text-gray-500 md:text-xl"}>
+      <p className={"mb-12 mt-6 max-w-xl text-lg text-text-500 md:text-xl"}>
         Create Lesson Plans, Worksheets, Activities and Assessments with AI that
         is easy to use and strictly follows your syllabus.
       </p>
       <button
         onClick={() => signIn("google", { callbackUrl: "/preferences" })}
-        className={`rounded-lg bg-emerald-500 px-28 py-4 text-lg font-semibold text-slate-800 transition duration-200 ease-in-out hover:bg-emerald-600`}
+        className={`rounded-lg bg-emerald-500 px-28 py-4 text-lg font-semibold text-text-800 transition duration-200 ease-in-out hover:bg-emerald-600`}
       >
         {sessionStatus === "loading"
           ? "Signing you in..."

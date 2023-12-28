@@ -20,7 +20,7 @@ export default function Page({
       {filteredHandouts.map((aid) => (
         <div
           key={aid.id}
-          className={`w-full max-w-4xl rounded-lg bg-slate-100 px-8 py-5 text-slate-900 shadow-sm shadow-slate-200`}
+          className={`w-full max-w-4xl rounded-lg bg-slate-100 px-8 py-5 text-text-900 shadow-sm shadow-slate-200`}
         >
           <h1 className="text-center text-sm capitalize">{params.handout}</h1>
           <p className="whitespace-pre-wrap py-5 pt-8 text-xs leading-5">

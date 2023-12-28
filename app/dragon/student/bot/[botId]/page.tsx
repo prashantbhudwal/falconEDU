@@ -77,7 +77,7 @@ const AttemptsNavbar = ({
         </Avatar>
         <div>
           <p className="truncate">{title}</p>
-          <p className="text-sm text-slate-500 truncate">{subtitle}</p>
+          <p className="text-sm text-text-500 truncate">{subtitle}</p>
         </div>
       </Link>
       <div className="navbar-end flex gap-4 relative">

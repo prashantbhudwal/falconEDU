@@ -151,7 +151,7 @@ export const QuestionForm = ({
           <Question>
             {/* ---------------------------------- Questions -------------------------------------- */}
             <div className="">
-              <div className="pb-2 w-full flex items-center justify-between text-slate-500">
+              <div className="pb-2 w-full flex items-center justify-between text-text-500">
                 <FormField
                   control={form.control}
                   name="question_type"
@@ -184,12 +184,12 @@ export const QuestionForm = ({
                         <button
                           type="button"
                           onClick={archiveQuestionHandler}
-                          className="cursor-pointer rounded-full hover:bg-base-100 hover:shadow-slate-700 hover:shadow-sm h-fit p-2 hover:text-base-content text-slate-500"
+                          className="cursor-pointer rounded-full hover:bg-base-100 hover:shadow-slate-700 hover:shadow-sm h-fit p-2 hover:text-base-content text-text-500"
                         >
                           <LuTrash />
                         </button>
                       </TooltipTrigger>
-                      <TooltipContent className="bg-slate-600 text-slate-100">
+                      <TooltipContent className="bg-slate-600 text-text-100">
                         Delete Question
                       </TooltipContent>
                     </Tooltip>
@@ -200,12 +200,12 @@ export const QuestionForm = ({
                         <button
                           type="button"
                           onClick={createDuplicateHandler}
-                          className="cursor-pointer rounded-full hover:bg-base-100 hover:shadow-slate-700 hover:shadow-sm h-fit p-2 hover:text-base-content text-slate-500"
+                          className="cursor-pointer rounded-full hover:bg-base-100 hover:shadow-slate-700 hover:shadow-sm h-fit p-2 hover:text-base-content text-text-500"
                         >
                           <LuCopy />
                         </button>
                       </TooltipTrigger>
-                      <TooltipContent className="bg-slate-600 text-slate-100">
+                      <TooltipContent className="bg-slate-600 text-text-100">
                         Duplicate Question
                       </TooltipContent>
                     </Tooltip>

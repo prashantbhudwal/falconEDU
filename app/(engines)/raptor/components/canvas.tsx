@@ -15,7 +15,7 @@ export default function Canvas({
 >) {
   return (
     <Box
-      className={`${className} mt-2 flex flex-col text-slate-300`}
+      className={`${className} mt-2 flex flex-col text-text-300`}
       color={color}
     >
       <Header color={color} {...headerProps} />

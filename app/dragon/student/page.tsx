@@ -25,10 +25,10 @@ export default async function AllChats() {
       <div className="pt-1 pb-5 w-full">
         {teachers.length === 0 && (
           <div className="flex flex-col justify-center items-center h-60 rounded-md shadow-md">
-            <h1 className="text-gray-200 text-2xl font-semibold mb-2">
+            <h1 className="text-text-200 text-2xl font-semibold mb-2">
               🤖 Oops... Nothing here.
             </h1>
-            <p className="text-gray-400 text-lg">
+            <p className="text-text-400 text-lg">
               Ask a teacher to add you to their class.
             </p>
           </div>

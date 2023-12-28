@@ -17,7 +17,7 @@ const levels = [
 
 const BloomBoxes: React.FC<Props> = ({ questionTypeKey }) => {
   return (
-    <div className="grid grid-cols-6 divide-x divide-slate-800 text-slate-400">
+    <div className="grid grid-cols-6 divide-x divide-slate-800 text-text-400">
       {levels.map((level, index) => (
         <BloomBox key={index} type={questionTypeKey} bloomLevel={level}>
           {level}

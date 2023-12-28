@@ -1,12 +1,12 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import * as CheckboxPrimitive from "@radix-ui/react-checkbox"
-import { cn } from "@/lib/utils"
+import * as React from "react";
+import * as CheckboxPrimitive from "@radix-ui/react-checkbox";
+import { cn } from "@/lib/utils";
 
 interface CheckBoxItemProps
   extends React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root> {
-  toggleName?: String
+  toggleName?: String;
 }
 const Chip = React.forwardRef<
   React.ElementRef<typeof CheckboxPrimitive.Root>,
@@ -15,7 +15,7 @@ const Chip = React.forwardRef<
   <CheckboxPrimitive.Root
     ref={ref}
     className={cn(
-      "font-medium min-w-[50px] border w-full active:scale-90 mx-2 h-8 transition-all duration-200 hover:scale-[1.2] rounded-lg  data-[state=checked]:shadow-inherit   data-[state=checked]:bg-primary data-[state=checked]:text-slate-800 text-sm",
+      "font-medium min-w-[50px] border w-full active:scale-90 mx-2 h-8 transition-all duration-200 hover:scale-[1.2] rounded-lg  data-[state=checked]:shadow-inherit   data-[state=checked]:bg-primary data-[state=checked]:text-text-800 text-sm",
       className
     )}
     {...props}
@@ -24,7 +24,7 @@ const Chip = React.forwardRef<
       <div>{toggleName}</div>
     </div>
   </CheckboxPrimitive.Root>
-))
-Chip.displayName = CheckboxPrimitive.Root.displayName
+));
+Chip.displayName = CheckboxPrimitive.Root.displayName;
 
-export { Chip }
+export { Chip };

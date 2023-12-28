@@ -239,7 +239,7 @@ export default function TestPreferencesForm({
                   className="w-fit"
                   onClick={() => setOpenTimeLimitDialog(true)}
                 >
-                  <span className="text-xs px-4 py-2 text-slate-300 mt-2 font-semibold rounded-md bg-base-200 whitespace-nowrap flex items-center gap-2">
+                  <span className="text-xs px-4 py-2 text-text-300 mt-2 font-semibold rounded-md bg-base-200 whitespace-nowrap flex items-center gap-2">
                     <FaClockRotateLeft />
                     {timeLimit ? timeLimit + "min" : "Time Limit"}
                   </span>
@@ -289,7 +289,7 @@ export default function TestPreferencesForm({
                         <sup>* </sup>Time in minutes, 0 means no time limit
                       </p>
                       <DialogDescription className="text-xs pt-5">
-                        <span className="text-slate-200">Note:</span> The time
+                        <span className="text-text-200">Note:</span> The time
                         will start once the students opens the test. Exiting the
                         test or exhaustion of time limit will result in
                         auto-submission of the Test
@@ -315,7 +315,7 @@ export default function TestPreferencesForm({
                   </Button>
                 </div>
                 {isDirty && (
-                  <div className="text-sm text-slate-500">
+                  <div className="text-sm text-text-500">
                     You have unsaved changes.
                   </div>
                 )}
@@ -337,18 +337,18 @@ export default function TestPreferencesForm({
                             <Accordion
                               type="single"
                               collapsible
-                              className="mt-5 bg-slate-900/70 text-slate-500 cursor-pointer"
+                              className="mt-5 bg-slate-900/70 text-text-500 cursor-pointer"
                             >
                               <AccordionItem
                                 value="item-1"
                                 className="border-none"
                               >
-                                <AccordionTrigger className="text-lg px-4 text-slate-400">
+                                <AccordionTrigger className="text-lg px-4 text-text-400">
                                   Existing Test
                                 </AccordionTrigger>
                                 <AccordionContent>
                                   <Textarea
-                                    className="resize-none min-h-fit sm:min-h-fit focus-visible:ring-0 text-slate-500 outline-none border-none"
+                                    className="resize-none min-h-fit sm:min-h-fit focus-visible:ring-0 text-text-500 outline-none border-none"
                                     value={
                                       typeof config.preferences.fullTest ===
                                       "string"

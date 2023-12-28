@@ -52,8 +52,8 @@ type QuestionTextProps = CommonProps & {
   questionNumber?: number;
 };
 
-const AccordionHeaderStyle = `text-sm text-base leading-none tracking-tight rounded-sm text-slate-400 pb-2 font-normal`;
-const AccordionContentStyle = `pl-2 text-slate-400 text-base text-sm`;
+const AccordionHeaderStyle = `text-sm text-base leading-none tracking-tight rounded-sm text-text-400 pb-2 font-normal`;
+const AccordionContentStyle = `pl-2 text-text-400 text-base text-sm`;
 
 const Question = React.forwardRef<HTMLDivElement, QuestionProps>(
   ({ children, className, isCorrect, ...props }, ref) => {
@@ -62,7 +62,7 @@ const Question = React.forwardRef<HTMLDivElement, QuestionProps>(
         ref={ref}
         className={cn(
           className,
-          "py-2 px-4 text-slate-300",
+          "py-2 px-4 text-text-300",
 
           {
             "ring-1 ring-primary": isCorrect,
@@ -173,16 +173,16 @@ const Answer = React.forwardRef<HTMLDivElement, AccordionProps>(
                         </div>
                         <button
                           onClick={removeWarningHandler}
-                          className="w-fit group-hover:block rounded-full hover:text-slate-100 text-sm hidden text-slate-500"
+                          className="w-fit group-hover:block rounded-full hover:text-text-100 text-sm hidden text-text-500"
                         >
                           <IoClose />
                         </button>
                       </div>
                     </TooltipTrigger>
                     {error && <p className="text-xs text-error">{error}</p>}
-                    <TooltipContent className="bg-slate-700 text-slate-100 text-start max-w-[400px] cursor-default">
+                    <TooltipContent className="bg-slate-700 text-text-100 text-start max-w-[400px] cursor-default">
                       <div className="">
-                        <h3 className="text-lg font-medium text-slate-300">
+                        <h3 className="text-lg font-medium text-text-300">
                           Answer Verification
                         </h3>
                         <p className="text-xs pt-3 pb-1">Provided Answer:</p>
@@ -191,7 +191,7 @@ const Answer = React.forwardRef<HTMLDivElement, AccordionProps>(
                             return <p key={index}>{answer}</p>;
                           })}
                         </div>
-                        <p className="text-slate-100 text-sm py-3">
+                        <p className="text-text-100 text-sm py-3">
                           {question.isPossiblyWrongDesc}
                         </p>
                       </div>

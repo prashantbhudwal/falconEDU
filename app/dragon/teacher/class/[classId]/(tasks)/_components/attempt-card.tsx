@@ -68,9 +68,9 @@ const AttemptCard = ({
           {type === "test" && (
             <>
               {isSubmitted ? (
-                <p className="text-sm text-slate-400">Submitted</p>
+                <p className="text-sm text-text-400">Submitted</p>
               ) : (
-                <p className="text-sm text-slate-400">Pending</p>
+                <p className="text-sm text-text-400">Pending</p>
               )}
             </>
           )}

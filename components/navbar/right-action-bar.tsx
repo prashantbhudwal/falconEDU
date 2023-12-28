@@ -72,7 +72,7 @@ export default function RightActionBar() {
         disabled={!isEnabled}
       >
         <Icon
-          className={clsx(`text-slate-600 text-sm font-bold`, additionalClass)}
+          className={clsx(`text-text-600 text-sm font-bold`, additionalClass)}
         />
         {name}
         {/* ---------------------------------------------- */}
@@ -84,7 +84,7 @@ export default function RightActionBar() {
                   <SparklesIcon />
                 </span>
               </TooltipTrigger>
-              <TooltipContent className="bg-base-200 text-slate-300">
+              <TooltipContent className="bg-base-200 text-text-300">
                 Your Avatar is Incomplete
               </TooltipContent>
             </Tooltip>

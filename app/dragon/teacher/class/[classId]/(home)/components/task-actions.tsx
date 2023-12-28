@@ -17,10 +17,7 @@ import {
 import Lottie from "lottie-react";
 import { useState } from "react";
 import copyingAnimation from "@/public/animations/copying.json";
-import {
-  AlertDialog,
-  AlertDialogContent,
-} from "@/components/ui/alert-dialog";
+import { AlertDialog, AlertDialogContent } from "@/components/ui/alert-dialog";
 import { PropagationStopper } from "@/components/propagation-stopper";
 
 export function TaskActions({
@@ -85,7 +82,7 @@ export function TaskActions({
                 </Button>
               </PropagationStopper>
             </TooltipTrigger>
-            <TooltipContent className="bg-slate-500 text-slate-100">
+            <TooltipContent className="bg-slate-500 text-text-100">
               <p>Create Copy</p>
             </TooltipContent>
           </Tooltip>
@@ -106,7 +103,7 @@ export function TaskActions({
                 </Button>
               </PropagationStopper>
             </TooltipTrigger>
-            <TooltipContent className="bg-slate-500 text-slate-100">
+            <TooltipContent className="bg-slate-500 text-text-100">
               <p>{isArchived ? "Unarchive" : "Archive"}</p>
             </TooltipContent>
           </Tooltip>

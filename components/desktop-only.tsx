@@ -8,7 +8,7 @@ export default function DesktopOnly() {
       <p className="text-xl font-semibold text-fuchsia-700">
         Laptops & larger screens only.
       </p>
-      <p className="text-justify text-lg text-gray-600">
+      <p className="text-justify text-lg text-text-600">
         FalconAI works on large screens only. Do not worry, we are working on
         giving it the power to miniaturize itself and join you on the go!
       </p>

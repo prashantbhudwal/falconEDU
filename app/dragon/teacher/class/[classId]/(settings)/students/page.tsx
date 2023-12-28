@@ -31,7 +31,7 @@ export default async function EditStudents({ params }: EditClassProps) {
     <Paper className="flex flex-col gap-10 w-full max-w-5xl min-h-screen">
       <div className="flex w-full justify-between items-center">
         <div className="flex flex-col space-y-2 items-baseline text-3xl justify-between">
-          <h1 className="font-semibold text-slate-200 flex gap-5 items-center">
+          <h1 className="font-semibold text-text-200 flex gap-5 items-center">
             Students{" "}
             <div className="-translate-y-[2px]">
               <AddStudentForm
@@ -40,7 +40,7 @@ export default async function EditStudents({ params }: EditClassProps) {
               />
             </div>
           </h1>
-          <span className="text-xl text-slate-500"> Class: {nameOfClass}</span>
+          <span className="text-xl text-text-500"> Class: {nameOfClass}</span>
         </div>
         {Array.isArray(inviteList) && inviteList.length > 0 && (
           <Dialog>

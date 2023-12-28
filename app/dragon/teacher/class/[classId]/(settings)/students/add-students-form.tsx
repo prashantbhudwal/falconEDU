@@ -174,7 +174,7 @@ export default function AddStudentForm({
               <IoMdAdd className="text-lg" />
             </div>
           </TooltipTrigger>
-          <TooltipContent className="bg-slate-600 text-slate-200">
+          <TooltipContent className="bg-slate-600 text-text-200">
             <p>Add to Class</p>
           </TooltipContent>
         </Tooltip>
@@ -212,7 +212,7 @@ export default function AddStudentForm({
                     Add to class
                   </Button>
                   <p className="text-xs">
-                    <span className="text-slate-200 font-semibold">Note:</span>{" "}
+                    <span className="text-text-200 font-semibold">Note:</span>{" "}
                     Once published, students can see all tasks in the class.
                   </p>
                 </form>
@@ -222,7 +222,7 @@ export default function AddStudentForm({
                 <p className="text-sm">
                   This email is not registered with FalconAI
                 </p>
-                <DialogTitle className="text-2xl pt-5 pb-2 text-slate-100">
+                <DialogTitle className="text-2xl pt-5 pb-2 text-text-100">
                   Invite this student to FalconAI
                 </DialogTitle>
                 <div className="flex gap-5 justify-center">

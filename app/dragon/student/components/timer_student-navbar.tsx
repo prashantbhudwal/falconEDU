@@ -32,7 +32,7 @@ import { useRouter } from "next/navigation";
 const SettingsIcon: React.FC = () => (
   <div className="dropdown-end dropdown">
     <label tabIndex={0}>
-      <Cog8ToothIcon className="h-6 w-6 text-slate-500" />
+      <Cog8ToothIcon className="h-6 w-6 text-text-500" />
     </label>
     <ul
       tabIndex={0}
@@ -179,7 +179,7 @@ export const AvatarNavbar: React.FC<AvatarNavbarProps> = ({
         </Avatar>
         <div>
           <p className="truncate">{title}</p>
-          <p className="text-sm text-slate-500 truncate">{subtitle}</p>
+          <p className="text-sm text-text-500 truncate">{subtitle}</p>
         </div>
       </Link>
       <div className="navbar-end flex gap-4">
@@ -189,7 +189,7 @@ export const AvatarNavbar: React.FC<AvatarNavbarProps> = ({
       {/* {!isSubmitted && (
         <div className="flex flex-col items-center gap-1">
           {typeof time === "number" && (
-            <p className="text-sm text-slate-300 whitespace-nowrap flex tracking-widest items-center gap-1">
+            <p className="text-sm text-text-300 whitespace-nowrap flex tracking-widest items-center gap-1">
               <FaClockRotateLeft className="text-xs" />{" "}
               {time === 0 ? "00:00" : formatTime(time)}
             </p>
@@ -207,7 +207,7 @@ export const AvatarNavbar: React.FC<AvatarNavbarProps> = ({
               Time is up for the test.
             </AlertDialogTitle>
             <Lottie className="h-[450px]" animationData={loadingBall} />
-            <AlertDialogDescription className="text-center text-lg -translate-y-20 font-semibold text-slate-300">
+            <AlertDialogDescription className="text-center text-lg -translate-y-20 font-semibold text-text-300">
               Submitting the Test <br /> and taking you to Home screen
             </AlertDialogDescription>
           </AlertDialogHeader>

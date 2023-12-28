@@ -40,7 +40,7 @@ export async function generateAnswerKeyDocx(data: DocData): Promise<void> {
       new TextRun({
         text: `${data.topic}`,
         size: 24, // equivalent to text-lg in Tailwind CSS
-        color: "6B7280", // equivalent to text-slate-600 in Tailwind CSS
+        color: "6B7280", // equivalent to text-text-600 in Tailwind CSS
         font: "Helvetica",
       }),
     ],

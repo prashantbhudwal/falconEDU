@@ -74,7 +74,7 @@ const FalconAiInviteUserEmail = ({
                   />
                 </Column>
                 <Column align="center">
-                  <Text className="text-slate-500 text-xl">&gt;</Text>
+                  <Text className="text-text-500 text-xl">&gt;</Text>
                 </Column>
                 <Column align="left">
                   <Img

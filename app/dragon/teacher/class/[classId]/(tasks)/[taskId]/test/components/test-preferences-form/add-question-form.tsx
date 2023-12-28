@@ -220,12 +220,12 @@ export const AddQuestionForm = forwardRef<HTMLDivElement, PropType>(
                         <button
                           type="button"
                           onClick={() => deleteQuestions({ id: question.id })}
-                          className="cursor-pointer rounded-full hover:bg-base-100 hover:shadow-slate-700 hover:shadow-sm h-fit p-2 hover:text-base-content text-slate-500"
+                          className="cursor-pointer rounded-full hover:bg-base-100 hover:shadow-slate-700 hover:shadow-sm h-fit p-2 hover:text-base-content text-text-500"
                         >
                           <LuTrash />
                         </button>
                       </TooltipTrigger>
-                      <TooltipContent className="bg-slate-600 text-slate-100">
+                      <TooltipContent className="bg-slate-600 text-text-100">
                         Delete Question
                       </TooltipContent>
                     </Tooltip>
@@ -243,12 +243,12 @@ export const AddQuestionForm = forwardRef<HTMLDivElement, PropType>(
                               },
                             })
                           }
-                          className="cursor-pointer rounded-full hover:bg-base-100 hover:shadow-slate-700 hover:shadow-sm h-fit p-2 hover:text-base-content text-slate-500"
+                          className="cursor-pointer rounded-full hover:bg-base-100 hover:shadow-slate-700 hover:shadow-sm h-fit p-2 hover:text-base-content text-text-500"
                         >
                           <LuCopy />
                         </button>
                       </TooltipTrigger>
-                      <TooltipContent className="bg-slate-600 text-slate-100">
+                      <TooltipContent className="bg-slate-600 text-text-100">
                         Duplicate Question
                       </TooltipContent>
                     </Tooltip>

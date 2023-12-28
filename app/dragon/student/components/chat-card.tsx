@@ -89,7 +89,7 @@ export async function ChatCard({
                 )}
               </AvatarFallback>
             </Avatar>
-            <div className="text-xs text-slate-500 lowercase">
+            <div className="text-xs text-text-500 lowercase">
               {taskProperties.formattedType}
             </div>
           </div>
@@ -100,7 +100,7 @@ export async function ChatCard({
               </h1>{" "}
             </div>
             <div className="flex flex-row justify-between w-full">
-              <div className=" text-slate-500 text-xs flex space-x-5">
+              <div className=" text-text-500 text-xs flex space-x-5">
                 {format(new Date(createdAt), "dd MMM yyyy, h:mm a")}{" "}
               </div>
               <div className="flex space-x-2 text-xs">

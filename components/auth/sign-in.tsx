@@ -64,7 +64,7 @@ export default function SignIn() {
         Welcome to FalconAI
       </h1>
 
-      <p className="mt-4 text-lg md:text-lg text-gray-300 max-w-xs md:max-w-lg text-center">
+      <p className="mt-4 text-lg md:text-lg text-text-300 max-w-xs md:max-w-lg text-center">
         {`Access your teacher's lesson plans, worksheets, activities and
         assessments with AI that is easy to use and strictly follows your
         syllabus.`}
@@ -76,7 +76,7 @@ export default function SignIn() {
             key={config.auth}
             className="flex flex-col items-center space-y-5 bg-slate-200 p-8 rounded-md shadow-lg md:min-w-[500px]"
           >
-            <h2 className="text-xl md:text-4xl font-semibold text-gray-700">
+            <h2 className="text-xl md:text-4xl font-semibold text-text-700">
               {config.headline}
             </h2>
 
@@ -88,10 +88,10 @@ export default function SignIn() {
               {sessionStatus === "loading"
                 ? "Signing you in..."
                 : sessionStatus === "authenticated"
-                ? "Taking you to the app..."
-                : config.buttonText}
+                  ? "Taking you to the app..."
+                  : config.buttonText}
             </Button>
-            <p className="text-xs md:text-base text-gray-600">
+            <p className="text-xs md:text-base text-text-600">
               {config.subtext}
             </p>
           </div>

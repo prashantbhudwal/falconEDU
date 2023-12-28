@@ -26,8 +26,7 @@ export default function Merlin() {
   const [teachingAids, setTeachingAids] = useAtom(teachingAidsAtom);
   const router = useRouter();
   const [lessonIdeas] = useAtom(lessonIdeasAtom);
-  if (subtopic === "" && subtopics.length > 0)
-    setSubtopic(subtopics[0]);
+  if (subtopic === "" && subtopics.length > 0) setSubtopic(subtopics[0]);
   return (
     <DndProvider backend={HTML5Backend}>
       <MerlinGrid>
@@ -77,7 +76,7 @@ export default function Merlin() {
                 .reverse()
                 .map((block, index) => (
                   <div
-                    className="text-base text-slate-400 leading-7 capitalize pl-4"
+                    className="text-base text-text-400 leading-7 capitalize pl-4"
                     key={block.id}
                   >{`${getEmoji(block.type)} ${" "}   ${block.type}`}</div>
                 ))} */

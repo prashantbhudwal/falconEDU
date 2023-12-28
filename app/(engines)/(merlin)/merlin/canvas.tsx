@@ -137,7 +137,7 @@ export default function Canvas({ className }: { className?: string }) {
     <div
       ref={!isBlockLoading ? drop : null}
       role={"Board"}
-      className={`${className} custom-scrollbar flex flex-col items-center gap-4 overflow-y-scroll scroll-smooth px-5 py-3 pb-96 text-slate-300 marker:h-full ${
+      className={`${className} custom-scrollbar flex flex-col items-center gap-4 overflow-y-scroll scroll-smooth px-5 py-3 pb-96 text-text-300 marker:h-full ${
         isOver ? "bg-emerald-900 shadow-inner" : "bg-slate-950 shadow-md"
       }`}
     >

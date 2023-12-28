@@ -24,7 +24,7 @@ export default function Chat({
         value={input}
         onChange={handleInputChange}
         onKeyDown={(e) => handleKeyDown(e)}
-        className="textarea join-item textarea-bordered textarea-md h-10 max-h-48 w-full resize-none overflow-y-hidden bg-slate-900 text-base text-slate-400 shadow-accent placeholder:text-sm placeholder:text-slate-500"
+        className="textarea join-item textarea-bordered textarea-md h-10 max-h-48 w-full resize-none overflow-y-hidden bg-slate-900 text-base text-text-400 shadow-accent placeholder:text-sm placeholder:text-text-500"
         placeholder={
           !!selectedBlock
             ? `Make it shorter, longer, more specific, or more creative...`

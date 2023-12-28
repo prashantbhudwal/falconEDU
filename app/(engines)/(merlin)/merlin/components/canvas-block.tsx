@@ -32,8 +32,8 @@ export default function CanvasBlock({
       } ${isSelected ? "bg-slate-700" : ""}
       relative w-full max-w-4xl select-text`}
     >
-      <div className="flex items-center justify-between pb-1 text-slate-500">
-        <header className="flex items-end justify-end gap-2 text-right text-base text-slate-500">
+      <div className="flex items-center justify-between pb-1 text-text-500">
+        <header className="flex items-end justify-end gap-2 text-right text-base text-text-500">
           {/* <p className="">{blockEmoji}</p> */}
           <p className="capitalize">{blockType}</p>
         </header>
@@ -42,13 +42,13 @@ export default function CanvasBlock({
             className="btn btn-square btn-ghost btn-sm"
             onClick={() => onRemove(id)}
           >
-            <FiTrash className="text-base font-medium text-slate-400" />
+            <FiTrash className="text-base font-medium text-text-400" />
           </button>
           <button
             className="btn btn-square btn-ghost btn-sm"
             onClick={() => onDownload()}
           >
-            <FiDownload className="text-base font-medium text-slate-400" />
+            <FiDownload className="text-base font-medium text-text-400" />
           </button>
 
           <input

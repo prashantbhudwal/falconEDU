@@ -11,7 +11,7 @@ const BackBar: React.FC<BackBarProps> = ({ link, noText }) => (
   <div className="h-20 flex items-center justify-start bg-base-300">
     <Link href={link}>
       <Button
-        className="flex items-center gap-1 hover:bg-base-300 hover:text-slate-100 hover:font-semibold"
+        className="flex items-center gap-1 hover:bg-base-300 hover:text-text-100 hover:font-semibold"
         variant="ghost"
         size="sm"
       >

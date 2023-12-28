@@ -74,7 +74,7 @@ export const ConfigCard = ({
         {showActions && (
           <Button
             variant={"outline"}
-            className="px-2 capitalize flex items-center justify-start gap-3 w-full group-hover:text-slate-950 group"
+            className="px-2 capitalize flex items-center justify-start gap-3 w-full group-hover:text-text-950 group"
             onClick={() => createNewConfig({ userId, classId, configType })}
           >
             <PlusIcon className="w-5 text-accent group-hover:text-inherit" />

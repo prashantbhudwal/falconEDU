@@ -178,7 +178,7 @@ const Header = function ({
           <TooltipTrigger asChild>
             <div
               className={cn(
-                "w-full text-sm text-slate-400 ring-1 ring-slate-700  truncate text-left flex items-center justify-between hover:bg-base-100 hover:text-slate-300 rounded-lg mr-2",
+                "w-full text-sm text-text-400 ring-1 ring-slate-700  truncate text-left flex items-center justify-between hover:bg-base-100 hover:text-text-300 rounded-lg mr-2",
                 {
                   "shadow-sm shadow-accent": isActive,
                 }
@@ -189,17 +189,17 @@ const Header = function ({
               <Button
                 variant={"ghost"}
                 size={"icon"}
-                className="rounded-full hover:bg-base-100 hover:text-slate-400 text-slate-600"
+                className="rounded-full hover:bg-base-100 hover:text-text-400 text-text-600"
               >
                 <MdDashboard
-                  className={cn("text-slate-300", {
+                  className={cn("text-text-300", {
                     "text-accent": isActive,
                   })}
                 />
               </Button>
             </div>
           </TooltipTrigger>
-          <TooltipContent className="bg-base-200 text-slate-300">
+          <TooltipContent className="bg-base-200 text-text-300">
             Class Dashboard
           </TooltipContent>
         </Tooltip>

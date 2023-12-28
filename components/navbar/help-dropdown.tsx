@@ -8,7 +8,7 @@ export default function HelpDropdown() {
         tabIndex={0}
         className="btn btn-circle btn-sm flex flex-row gap-1 bg-base-100 shadow-sm shadow-slate-950"
       >
-        <FaQuestion className="text-sm font-bold text-slate-500" />
+        <FaQuestion className="text-sm font-bold text-text-500" />
       </label>
       <ul
         tabIndex={0}

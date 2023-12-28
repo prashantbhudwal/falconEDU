@@ -20,7 +20,7 @@ export default function BasicInfo() {
     return <div>Error loading user data: {error.message}</div>;
   }
   return (
-    <div className=" w-full bg-slate-900 pb-4 text-slate-200 shadow-sm">
+    <div className=" w-full bg-slate-900 pb-4 text-text-200 shadow-sm">
       <div className="relative mb-6 flex w-full items-center space-x-6 rounded-sm bg-base-100 px-6 py-10">
         <div className="shrink-0">
           {user?.image ? (
@@ -48,7 +48,7 @@ export default function BasicInfo() {
               {user?.role === "PRO" ? "PRO" : "TRIAL"}
             </span>
           </div>
-          <p className="text-lg text-slate-300">
+          <p className="text-lg text-text-300">
             {!user?.teacherProfile?.bio
               ? "Your Headline"
               : user?.teacherProfile?.bio}
@@ -58,22 +58,22 @@ export default function BasicInfo() {
           <EditProfileModal />
         </div>
       </div>
-      <Section title="Contact" className="rounded-md p-6 text-slate-400">
+      <Section title="Contact" className="rounded-md p-6 text-text-400">
         <div className="grid grid-cols-2 gap-4 ">
           <div>
-            <p className="font-bold text-slate-200">Email</p>
+            <p className="font-bold text-text-200">Email</p>
             <p>{user?.email}</p>
           </div>
         </div>
       </Section>
-      <Section title="Subscription" className="rounded-md p-6 text-slate-400">
+      <Section title="Subscription" className="rounded-md p-6 text-text-400">
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <p className="font-bold capitalize text-slate-200">Plan</p>
+            <p className="font-bold capitalize text-text-200">Plan</p>
             <p>{user?.role ? user?.role : "Plan"}</p>
           </div>
           <div>
-            <p className="font-bold text-slate-200">Start Date</p>
+            <p className="font-bold text-text-200">Start Date</p>
             <p>
               {user?.subscriptionStart
                 ? getFormattedDate(user?.subscriptionStart)
@@ -81,7 +81,7 @@ export default function BasicInfo() {
             </p>
           </div>
           <div>
-            <p className="font-bold text-slate-200">End Date</p>
+            <p className="font-bold text-text-200">End Date</p>
             <p>
               {user?.subscriptionEnd
                 ? getFormattedDate(user?.subscriptionEnd)

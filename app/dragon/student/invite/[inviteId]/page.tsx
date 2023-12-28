@@ -41,7 +41,7 @@ export default async function InvitePage({
         <div className="flex flex-col items-center gap-5 p-10 rounded-xl bg-base-200">
           <h3 className="text-2xl flex items-center">
             Welcome to{" "}
-            <span className="font-bold flex items-center gap-2 px-2 text-slate-300">
+            <span className="font-bold flex items-center gap-2 px-2 text-text-300">
               FalconAi
               <Image src={"/chubbi.png"} alt="logo" width={40} height={40} />
             </span>
@@ -67,7 +67,7 @@ export default async function InvitePage({
           </div>
           <div className="text-lg">
             Invited you to join{" "}
-            <span className="font-bold text-slate-300">
+            <span className="font-bold text-text-300">
               &quot;{modelInfo.className}&quot;
             </span>{" "}
             class

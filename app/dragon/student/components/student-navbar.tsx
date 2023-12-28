@@ -23,7 +23,7 @@ const SettingsIcon: React.FC = () => {
   return (
     <div className="dropdown-end dropdown">
       <label tabIndex={0}>
-        <Cog8ToothIcon className="h-6 w-6 text-slate-500" />
+        <Cog8ToothIcon className="h-6 w-6 text-text-500" />
       </label>
       <ul
         tabIndex={0}
@@ -102,7 +102,7 @@ export const AvatarNavbar: React.FC<AvatarNavbarProps> = ({
         </Avatar>
         <div>
           <p className="truncate">{title}</p>
-          <p className="text-sm text-slate-500 truncate">{subtitle}</p>
+          <p className="text-sm text-text-500 truncate">{subtitle}</p>
         </div>
       </Link>
       <div className="navbar-end flex gap-4">

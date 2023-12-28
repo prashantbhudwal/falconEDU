@@ -6,6 +6,7 @@ import "katex/dist/katex.min.css";
 import { CodeBlock } from "@/app/(engines)/(merlin)/merlin/components/code-block";
 import Image from "next/image";
 import rehypeKatex from "rehype-katex";
+import { cn } from "@/lib/utils";
 
 type TextElementContent = ElementContent & {
   value: string;
@@ -24,7 +25,22 @@ export function ChatMessageMarkdown({
 }) {
   return (
     <MemoizedReactMarkdown
-      className="prose break-words dark:prose-invert prose-p:leading-relaxed prose-pre:p-0"
+      className={cn(
+        `prose break-words dark:prose-invert prose-p:leading-relaxed prose-pre:p-0 
+        text-text-700 
+        prose-headings:text-text-700
+        prose-ol:text-text-800
+        prose-ul:text-text-800
+        prose-li:text-text-800
+        prose-p:text-text-800 
+        prose-a:text-text-800
+        prose-strong:text-text-800
+        prose-pre:prose-ol:text-text-800
+        prose-pre:prose-ul:text-text-800
+        prose-pre:prose-li:text-text-800
+        prose-thead:text-text-800
+        `
+      )}
       remarkPlugins={[remarkGfm, remarkMath]}
       rehypePlugins={[rehypeKatex]}
       components={{
@@ -38,7 +54,7 @@ export function ChatMessageMarkdown({
             isLastParagraph;
 
           return (
-            <p className={`mb-2 last:mb-0`} {...props}>
+            <p className={`mb-2 last:mb-0 text-text-700`} {...props}>
               {children}
               {showChubbi && (
                 <Image

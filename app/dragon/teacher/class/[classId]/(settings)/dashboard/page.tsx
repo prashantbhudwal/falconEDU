@@ -32,7 +32,7 @@ export default async function ClassSettings({
   return (
     <div className="w-[80%] mx-auto flex flex-col space-y-10 pt-10 max-w-5xl">
       {/* ------------------------------------------------------------------------------- */}
-      <h1 className="text-3xl font-bold  text-slate-400">Class Dashboard</h1>
+      <h1 className="text-3xl font-bold  text-text-400">Class Dashboard</h1>
       <Separator decorative orientation="horizontal" className="w-full" />
       <EditableClassName classId={classId} />
 
@@ -77,7 +77,7 @@ const StudentsCard = function ({
         <TooltipTrigger asChild>
           <Link
             href={getStudentsURL(classId)}
-            className="rounded-md border-border border-[1px] bg-base-200 w-[200px] hover:bg-primary hover:text-base-300"
+            className="rounded-md border-border border-[1px] bg-base-200 w-[200px] hover:bg-primary hover:text-text-950"
           >
             <div className="flex items-center justify-center gap-5 p-4 ">
               <div className="flex flex-col items-center text-xs">
@@ -95,7 +95,7 @@ const StudentsCard = function ({
           </Link>
         </TooltipTrigger>
         <TooltipContent
-          className="bg-base-200 text-slate-300 text-base "
+          className="bg-base-200 text-text-300 text-base "
           sideOffset={10}
         >
           Add students to your class

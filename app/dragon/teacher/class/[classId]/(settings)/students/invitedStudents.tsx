@@ -21,11 +21,11 @@ export const InvitedSudents = async ({
       <Table className="w-full">
         <TableHeader>
           <TableRow className="hover:bg-transparent">
-            <TableHead className="w-[100px] text-slate-300">S.No.</TableHead>
+            <TableHead className="w-[100px] text-text-300">S.No.</TableHead>
             <TableHead></TableHead>
-            <TableHead className="text-slate-300">Email</TableHead>
-            <TableHead className="text-slate-300">Status</TableHead>
-            <TableHead className="text-slate-300">
+            <TableHead className="text-text-300">Email</TableHead>
+            <TableHead className="text-text-300">Status</TableHead>
+            <TableHead className="text-text-300">
               Expires In <span className="text-[9px]">(Days)</span>
             </TableHead>
           </TableRow>
@@ -67,14 +67,14 @@ export const InvitedSudents = async ({
       </Table>
       {!inviteList && (
         <div className="flex justify-center items-center w-full h-[100px]">
-          <p className="text-slate-200">
+          <p className="text-text-200">
             Can&apos;t load invited students right now. Try again later...
           </p>
         </div>
       )}
       {inviteList?.length === 0 && (
         <div className="flex justify-center items-center w-full h-[100px]">
-          <p className="text-slate-200">No Students have been invited.</p>
+          <p className="text-text-200">No Students have been invited.</p>
         </div>
       )}
     </div>

@@ -101,7 +101,7 @@ export function TestParsedQuestion({
         question_number: prev.length + 1,
         question_type:
           data.question_type || "OBJECTIVE_MULTIPLE_CHOICE_SINGLE_ANSWER",
-        isPossiblyWrong: false,  // TODO: Fix dummy values if needed
+        isPossiblyWrong: false, // TODO: Fix dummy values if needed
         isPossiblyWrongDesc: "",
       },
     ]);
@@ -212,11 +212,11 @@ export function TestParsedQuestion({
       <Accordion
         type="single"
         collapsible
-        className="w-11/12 mx-auto my-10 bg-slate-900/70 text-slate-500"
+        className="w-11/12 mx-auto my-10 bg-slate-900/70 text-text-500"
       >
         <div className="w-11/12 mx-auto">
           <AccordionItem value="item-1" className="border-none">
-            <AccordionTrigger className="text-lg text-slate-400">
+            <AccordionTrigger className="text-lg text-text-400">
               Deleted Questions
             </AccordionTrigger>
             <AccordionContent>

@@ -33,7 +33,7 @@ export default function ClassCard({
           >
             <div className="bg-base-300 p-4 rounded-full">{icon}</div>
             <div className="flex font-medium tracking-wide capitalize truncate w-5/6 px-2 text-center">
-              <div className="truncate text-base text-slate-400">{name}</div>
+              <div className="truncate text-base text-text-400">{name}</div>
             </div>
           </Card>
         </TooltipTrigger>

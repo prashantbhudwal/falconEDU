@@ -15,7 +15,7 @@ export default function PredictionGrid({
 }: PredictionGridProps) {
   return (
     <div className="flex flex-col items-center gap-4">
-      <div className="text-md text-slate-500">Or just select one...</div>
+      <div className="text-md text-text-500">Or just select one...</div>
       <div className="flex w-4/5 flex-row flex-wrap justify-center gap-3">
         {content.map((topic, index) => (
           <label
@@ -23,8 +23,8 @@ export default function PredictionGrid({
             htmlFor={`topic-${index}`}
             className={`w-96 cursor-pointer rounded-md px-5 py-2 text-sm hover:scale-105 ${
               selectedOption === topic
-                ? `${className} text-slate-900`
-                : "bg-slate-800 text-slate-300"
+                ? `${className} text-text-900`
+                : "bg-slate-800 text-text-300"
             }`}
           >
             <input

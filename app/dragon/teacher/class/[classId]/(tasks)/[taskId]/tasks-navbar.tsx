@@ -131,7 +131,7 @@ const ClassLink = function ({
   return (
     <Link href={getClassURL(classId)}>
       <Button
-        className="flex items-center gap-1 hover:bg-base-300 hover:text-slate-100 hover:font-semibold"
+        className="flex items-center gap-1 hover:bg-base-300 hover:text-text-100 hover:font-semibold"
         variant="ghost"
         size="sm"
       >
@@ -209,7 +209,7 @@ export const TaskOptionsDropdown = function ({
         asChild
         className="flex items-center cursor-pointer gap-1"
       >
-        <EllipsisHorizontalIcon className="w-6 text-slate-500" />
+        <EllipsisHorizontalIcon className="w-6 text-text-500" />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-48 cursor-pointer">
         <DropdownMenuItem

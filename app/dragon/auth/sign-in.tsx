@@ -58,13 +58,13 @@ export default function SignIn({ type, inviteId }: SignInProps) {
         Welcome to FalconAI
       </h1>
 
-      <p className="mt-4 text-lg md:text-lg text-gray-300 max-w-xs md:max-w-lg text-center">
+      <p className="mt-4 text-lg md:text-lg text-text-300 max-w-xs md:max-w-lg text-center">
         {config.description}
       </p>
 
       <div className="flex flex-col items-center mt-12 space-y-4">
         <div className="flex flex-col items-center space-y-5 bg-slate-200 p-8 rounded-md shadow-lg md:min-w-[500px]">
-          <h2 className="text-xl md:text-4xl font-semibold text-gray-700">
+          <h2 className="text-xl md:text-4xl font-semibold text-text-700">
             {config.headline}
           </h2>
 
@@ -79,7 +79,7 @@ export default function SignIn({ type, inviteId }: SignInProps) {
                 ? "Taking you to the app..."
                 : config.buttonText}
           </Button>
-          <p className="text-xs md:text-base text-gray-600">{config.subtext}</p>
+          <p className="text-xs md:text-base text-text-600">{config.subtext}</p>
         </div>
       </div>
     </div>

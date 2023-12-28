@@ -9,13 +9,13 @@ export default function ShadThemePreview() {
     { css: "bg-muted", text: "text-muted-foreground" },
     { css: "bg-accent", text: "text-accent-foreground" },
     { css: "bg-destructive", text: "text-destructive-foreground" },
-    { css: "bg-border", text: "text-base-200" },
-    { css: "bg-input", text: "text-base-200t" },
-    { css: "bg-ring", text: "text-base-200" },
-    { css: "bg-base", text: "text-base-200" },
-    { css: "bg-base-100", text: "text-base-200" },
-    { css: "bg-base-200", text: "text-base-300" },
-    { css: "bg-base-300", text: "text-base-100" },
+    { css: "bg-border", text: "text-text-900" },
+    { css: "bg-input", text: "text-text-900t" },
+    { css: "bg-ring", text: "text-text-900" },
+    { css: "bg-base", text: "text-text-900" },
+    { css: "bg-base-100", text: "text-text-900" },
+    { css: "bg-base-200", text: "text-text-950" },
+    { css: "bg-base-300", text: "text-text-800" },
   ];
 
   return (

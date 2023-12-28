@@ -4,7 +4,7 @@ export default function Issue() {
       {/* <h1 className="font-semibold text-emerald-600 block pb-1 text-xl">
         Common Issues
       </h1> */}
-      <ul className="flex flex-col gap-2 text-base text-slate-300">
+      <ul className="flex flex-col gap-2 text-base text-text-300">
         {/* <li>
           <span className="font-semibold text-emerald-600 block pb-1">
             Incomplete lesson:

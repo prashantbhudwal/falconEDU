@@ -31,7 +31,7 @@ export const BatchSize: React.FC = () => {
         </div>
       </button>
       <div className="flex items-center gap-1">
-        <div className="px-2 text-gray-500">{batchSize}</div>
+        <div className="px-2 text-text-500">{batchSize}</div>
       </div>
       <button onClick={incrementBatchSize} disabled={isButtonDisabled}>
         <div

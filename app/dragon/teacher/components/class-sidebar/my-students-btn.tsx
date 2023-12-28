@@ -10,7 +10,7 @@ export default function MyStudentsBtn({ classId }: { classId: string }) {
     <Link href={getStudentsURL(classId)}>
       <Button
         variant={"ghost"}
-        className="flex items-center justify-start gap-3 hover:bg-slate-500 hover:text-slate-950"
+        className="flex items-center justify-start gap-3 hover:bg-slate-500 hover:text-text-950"
       >
         <Avatar>
           <UsersIcon className="w-5 text-secondary" />

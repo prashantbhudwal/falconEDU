@@ -98,14 +98,14 @@ export default async function BotPage({ params }: BotPageProps) {
           <Accordion
             type="single"
             collapsible
-            className="my-5 p-5 text-slate-500 cursor-pointer border border-base-200 "
+            className="my-5 p-5 text-text-500 cursor-pointer border border-base-200 "
             defaultValue={!activeParsedQuestions ? "item-1" : undefined}
           >
             <AccordionItem value="item-1" className="border-none">
-              <AccordionTrigger className="text-lg px-4 text-slate-400">
+              <AccordionTrigger className="text-lg px-4 text-text-400">
                 Question Text
               </AccordionTrigger>
-              <AccordionContent className="pl-2 text-slate-400 text-base">
+              <AccordionContent className="pl-2 text-text-400 text-base">
                 <TestPreferencesForm
                   preferences={preferences}
                   botConfig={testConfig}
@@ -121,7 +121,7 @@ export default async function BotPage({ params }: BotPageProps) {
         {activeParsedQuestions && (
           <div className="flex flex-col space-y-4 items-center">
             <div className="text-center">
-              <h1 className="text-2xl font-semibold text-slate-500">Review</h1>
+              <h1 className="text-2xl font-semibold text-text-500">Review</h1>
               {isAnswersPossiblyIncorrect(activeParsedQuestions) && (
                 <p className="text-xs text-warning">
                   ( Some of the responses may be potentially incorrect )

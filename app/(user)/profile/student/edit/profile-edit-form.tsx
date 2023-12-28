@@ -51,30 +51,30 @@ function ProfileEditForm({ closeModal }: { closeModal: () => void }) {
         ✕
       </button>
       <div className="flex max-w-xl flex-col items-center gap-3">
-        <h1 className="mb-6 text-3xl font-bold text-slate-200">Edit Profile</h1>
+        <h1 className="mb-6 text-3xl font-bold text-text-200">Edit Profile</h1>
         <input
-          className="input input-bordered w-full max-w-md bg-slate-400 text-slate-900 placeholder:text-slate-700 focus:bg-slate-200 disabled:bg-slate-400 disabled:text-slate-700"
+          className="input input-bordered w-full max-w-md bg-slate-400 text-text-900 placeholder:text-text-700 focus:bg-slate-200 disabled:bg-slate-400 disabled:text-text-700"
           type="text"
           placeholder="Full Name"
           {...register("name", { required: true, maxLength: 50 })}
           disabled
         />
         <input
-          className="input input-bordered w-full max-w-md bg-slate-400 text-slate-900 placeholder:text-slate-700 focus:bg-slate-200 disabled:bg-slate-400 disabled:text-slate-700"
+          className="input input-bordered w-full max-w-md bg-slate-400 text-text-900 placeholder:text-text-700 focus:bg-slate-200 disabled:bg-slate-400 disabled:text-text-700"
           type="email"
           placeholder="Email"
           {...register("email", { required: true })}
           disabled
         />
         <input
-          className="input input-bordered w-full max-w-md bg-slate-400 text-slate-900 placeholder:text-slate-700 focus:bg-slate-200"
+          className="input input-bordered w-full max-w-md bg-slate-400 text-text-900 placeholder:text-text-700 focus:bg-slate-200"
           type="text"
           placeholder="Headline"
           {...register("headline", { required: true, maxLength: 100 })}
         />
 
         <input
-          className="btn btn-primary w-full max-w-md  text-slate-900 placeholder:text-slate-700"
+          className="btn btn-primary w-full max-w-md  text-text-900 placeholder:text-text-700"
           type="submit"
         />
       </div>

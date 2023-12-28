@@ -128,13 +128,13 @@ export default function TeacherPreferencesForm({
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="flex justify-between p-5 rounded-lg ">
             <div className=" flex flex-col gap-2">
-              <h2 className="md:text-3xl text-slate-200 font-bold tracking-wide">
+              <h2 className="md:text-3xl text-text-200 font-bold tracking-wide">
                 My Avatar
               </h2>
 
               <p
                 className={` text-base max-w-lg hover:transition-all duration-300 ${
-                  onHover ? "text-slate-400" : "text-slate-400"
+                  onHover ? "text-text-400" : "text-text-400"
                 } `}
               >
                 Your avatar that will represent you in the classroom. The more
@@ -154,7 +154,7 @@ export default function TeacherPreferencesForm({
               </Button>
               <div className="flex flex-col space-y-2">
                 {isDirty && (
-                  <div className="text-sm font-semibold text-slate-500  mt-2 whitespace-nowrap ">
+                  <div className="text-sm font-semibold text-text-500  mt-2 whitespace-nowrap ">
                     Unsaved changes
                   </div>
                 )}

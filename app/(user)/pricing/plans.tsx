@@ -115,7 +115,7 @@ const Plans: React.FC<PlansProps> = ({ products }) => {
                   price.unit_amount / 100 / getNumberOfMonths(price.lookup_key)
                 )}
             </span>
-            <span className="text-gray-500">per month</span>
+            <span className="text-text-500">per month</span>
           </div>
           <ul role="list" className="mb-8 space-y-4 text-left">
             {features.map((feature, index) => (

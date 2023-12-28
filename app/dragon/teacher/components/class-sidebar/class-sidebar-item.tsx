@@ -62,9 +62,9 @@ export const ClassSidebarItem = function ({
           className={cn(
             "block rounded-md px-3 py-2 text-sm font-medium hover:text-neutral",
             {
-              "text-gray-400 hover:bg-gray-800": !segmentActive,
+              "text-text-400 hover:bg-gray-800": !segmentActive,
               "text-white bg-base-100": segmentActive,
-              "text-gray-600": isArchived,
+              "text-text-600": isArchived,
             }
           )}
         >

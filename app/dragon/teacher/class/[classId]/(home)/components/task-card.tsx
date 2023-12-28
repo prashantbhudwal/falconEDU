@@ -52,14 +52,14 @@ export function TaskCard({
       <section className="flex-grow h-full py-1 flex items-center">
         <div className="flex flex-col space-y-2 flex-grow">
           <div className="font-medium tracking-wide capitalize truncate ">
-            <div className="truncate text-lg font-semibold text-slate-400 ">
+            <div className="truncate text-lg font-semibold text-text-400 ">
               {name}
             </div>
           </div>
-          <div className="text-sm text-slate-500">{formattedDate}</div>
+          <div className="text-sm text-text-500">{formattedDate}</div>
         </div>
         <div
-          className={cn("text-slate-600 text-sm w-16", {
+          className={cn("text-text-600 text-sm w-16", {
             "text-primary": isPublished,
             "": !isPublished,
           })}
