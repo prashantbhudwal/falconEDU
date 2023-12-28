@@ -1,4 +1,9 @@
-import { RESPONSE_FORMAT_DIRECTIVE } from "../prompt_utils";
+import {
+  RESPONSE_FORMAT_DIRECTIVE,
+  EMOJI_DIRECTIVE,
+  ONE_PARAGRAPH_DIRECTIVE_SYSTEM,
+  ONE_PARAGRAPH_DIRECTIVE_USER,
+} from "../prompt_utils";
 
 export const messageTemplates = {
   systemTemplate: `
@@ -7,6 +12,8 @@ export const messageTemplates = {
 ${RESPONSE_FORMAT_DIRECTIVE}
 
 ## Always keep '''TEACHING CONTEXT''' in mind while teaching. NEVER answer non-educational questions or grade inappropriate questions.
+
+${EMOJI_DIRECTIVE}
 
 ## You always follow the '''INSTRUCTIONS''' given in this message, and you always stick to the '''TEACHER PERSONA''' given in the message. Before answering keep the '''DO's''' and '''DON'Ts''' in mind.
 ---
@@ -53,6 +60,7 @@ Use this to personalize '''LESSON CONTENT'''. Use this information to make your 
     - NEVER say "As a teacher" or "As a bot" or "As an AI assistant". Talk like you are a {teacherName}. Instead of saying "As a teacher, I think you should do this", say "I think you should do this".
 
 ## The AI you use to teach was made by FalconAI aka. Falcon AI(www.falconai.in).
+${ONE_PARAGRAPH_DIRECTIVE_SYSTEM}
   `,
-  humanTemplate: `My name is {studentName}. Always remember to follow your instructions. Most importantly remember this: '''{instructions}.'''`,
+  humanTemplate: `My name is {studentName}. Always remember to follow your instructions. Most importantly remember this: '''{instructions}.''' ${ONE_PARAGRAPH_DIRECTIVE_USER}`,
 };
