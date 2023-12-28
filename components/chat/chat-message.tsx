@@ -23,32 +23,39 @@ export function ChatMessage({
   hideActions,
   ...props
 }: ChatMessageProps) {
+  const role = message.role;
+  const isUser = role === "user";
   return (
     <div
-      className={cn("group relative mb-4 flex items-start md:-ml-12")}
+      className={cn(
+        "group relative flex items-start md:-ml-12 py-3 px-2 rounded-xl",
+        {
+          "bg-zinc-700": isUser,
+          "bg-base-100": !isUser,
+        }
+      )}
       {...props}
     >
       <div
         className={cn(
-          "flex h-8 w-8 shrink-0 select-none items-center justify-center rounded-md",
-          message.role === "user" ? "bg-base-100" : "bg-base-300"
+          "flex shrink-0 select-none items-center justify-center rounded-md"
         )}
       >
         {message.role === "user" ? (
           studentImage ? (
-            <Avatar>
-              <AvatarImage src={studentImage} />
+            <Avatar className="w-6 h-6">
+              <AvatarImage src={studentImage} className="" />
             </Avatar>
           ) : (
             <UserAvatar />
           )
         ) : (
-          <Avatar>
+          <Avatar className="w-6 h-6">
             <AvatarImage src={botImage ? botImage : "/chubbi.png"} />
           </Avatar>
         )}
       </div>
-      <div className="ml-4 flex-1 space-y-2 overflow-hidden px-1">
+      <div className="ml-2 flex-1 space-y-2 overflow-hidden px-1">
         <ChatMessageMarkdown
           key={`message-${isLoading}`}
           messageContent={message.content}

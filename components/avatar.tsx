@@ -32,8 +32,8 @@ export default function UserAvatar() {
   return (
     <>
       {user?.image ? (
-        <Avatar>
-          <AvatarImage src={user.image} />
+        <Avatar className="w-6 h-6">
+          <AvatarImage src={user.image}  />
         </Avatar>
       ) : (
         <span className=" flex h-[35px] w-[35px] items-center justify-center rounded-full bg-slate-800 text-sm font-medium tracking-wide text-secondary shadow-md shadow-slate-950">
