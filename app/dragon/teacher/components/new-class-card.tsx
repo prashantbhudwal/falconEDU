@@ -60,7 +60,7 @@ export function NewClassCard() {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild className="rounded-lg">
         <ClassCard
-          icon={<FolderPlusIcon className="h-12 w-12 text-secondary" />}
+          icon={<FolderPlusIcon className="h-9 w-9 text-secondary" />}
           name="New Class"
         />
       </DialogTrigger>

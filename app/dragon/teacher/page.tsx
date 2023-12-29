@@ -41,7 +41,7 @@ export default async function Classes() {
               <ClassCard
                 className="rounded-lg"
                 icon={
-                  <Avvvatars value={classData.id} style="shape" size={80} />
+                  <Avvvatars value={classData.id} style="shape" size={60} />
                 }
                 name={classData.name}
               />
