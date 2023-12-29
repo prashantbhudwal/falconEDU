@@ -270,3 +270,48 @@ export const getClassByBotId = async function ({ botId }: { botId: string }) {
 };
 
 export type GetClassByBotId = UnwrapPromise<ReturnType<typeof getClassByBotId>>;
+
+export const getConfigByBotChatId = cache(async function ({
+  botChatId,
+}: {
+  botChatId: string;
+}) {
+  const botChat = await prisma.botChat.findUnique({
+    where: { id: botChatId },
+    select: {
+      bot: {
+        select: {
+          BotConfig: {
+            select: {
+              id: true,
+              name: true,
+              type: true,
+              isActive: true,
+              published: true,
+              teacherId: true,
+              timeLimit: true,
+              canReAttempt: true,
+              parsedQuestions: true,
+              teacher: {
+                select: {
+                  User: {
+                    select: {
+                      image: true,
+                      name: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  });
+  const botConfig = botChat?.bot?.BotConfig;
+
+  if (!botConfig) {
+    console.error("BotConfig not found for chatId:", botChatId);
+  }
+  return botConfig;
+});

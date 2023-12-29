@@ -11,18 +11,9 @@ import {
 } from "../question/question";
 import prisma from "@/prisma";
 
-export async function QuestionList({ botId }: { botId: string }) {
-  const defaultChatId = await prisma.botChat.findFirst({
-    where: {
-      botId: botId,
-      isDefault: true,
-    },
-    select: { id: true },
-  });
-  if (!defaultChatId) return null;
-
+export async function QuestionList({ attemptId }: { attemptId: string }) {
   const questions = await db.parseQuestionRouter.getParsedQuestionsByBotChatId({
-    botChatId: defaultChatId.id,
+    botChatId: attemptId,
   });
   if (!questions) return null;
 

@@ -30,6 +30,7 @@ type ResponseProps = {
   canReattempt: boolean | undefined;
   taskId: string;
   classId: string;
+  defaultAttemptId: string;
 };
 
 const ResponseCard = ({
@@ -39,11 +40,12 @@ const ResponseCard = ({
   canReattempt,
   taskId,
   classId,
+  defaultAttemptId,
 }: ResponseProps) => {
   const link = getReportUrl({
     classId,
     testId: taskId,
-    studentBotId: student.studentBotId,
+    attemptId: defaultAttemptId,
     type,
   });
   const email = student.email;

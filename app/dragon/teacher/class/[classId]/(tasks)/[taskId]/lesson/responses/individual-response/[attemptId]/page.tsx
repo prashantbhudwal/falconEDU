@@ -5,18 +5,18 @@ type ReportProps = {
   params: {
     classId: string;
     taskId: string;
-    studentBotId: string;
+    attemptId: string;
   };
 };
 
 export default async function IndividualResponsePage({ params }: ReportProps) {
-  const { classId, taskId, studentBotId } = params;
+  const { classId, taskId, attemptId } = params;
 
   return (
     <div className="flex flex-col items-center">
       <IndividualResponse
-        fullChatComponent={<FullChat studentBotId={studentBotId} />}
-        studentBotId={studentBotId}
+        fullChatComponent={<FullChat attemptId={attemptId} />}
+        attemptId={attemptId}
       />
     </div>
   );

@@ -1,19 +1,9 @@
 "use client";
 import { StudentsByBotConfigId } from "../[taskId]/test/queries";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
-import Avvvatars from "avvvatars-react";
-import { ClassDialog } from "../../../../components/class-dialog";
-import { Button } from "@/components/ui/button";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import Link from "next/link";
 import { TaskType } from "@/types/dragon";
-import { getReportUrl } from "@/lib/urls";
+import { getReportUrl, getReportUrlWithAttempts } from "@/lib/urls";
 type action = {
   name: string;
   title: string;
@@ -31,6 +21,7 @@ type AttemptCardProps = {
   classId: string;
   attemptNumber: number;
   attemptSubmitted: boolean;
+  attemptId: string;
 };
 
 const AttemptCard = ({
@@ -41,11 +32,12 @@ const AttemptCard = ({
   classId,
   attemptNumber,
   attemptSubmitted,
+  attemptId,
 }: AttemptCardProps) => {
   const link = getReportUrl({
     classId,
     testId: taskId,
-    studentBotId: student.studentBotId,
+    attemptId,
     type,
   });
   const title = `Attempt ${attemptNumber}`;

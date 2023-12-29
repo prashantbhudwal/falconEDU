@@ -6,20 +6,18 @@ type ReportProps = {
   params: {
     classId: string;
     taskId: string;
-    studentBotId: string;
+    attemptId: string;
   };
 };
 
 export default async function IndividualResponsePage({ params }: ReportProps) {
-  const { classId, taskId, studentBotId } = params;
+  const { classId, taskId, attemptId } = params;
 
   return (
     <IndividualResponse
-      fullChatComponent={<FullChat studentBotId={studentBotId} />}
-      reportComponent={
-        <StudentReport studentBotId={studentBotId} taskId={taskId} />
-      }
-      studentBotId={studentBotId}
+      fullChatComponent={<FullChat attemptId={attemptId} />}
+      reportComponent={<StudentReport taskId={taskId} attemptId={attemptId} />}
+      attemptId={attemptId}
     />
   );
 }

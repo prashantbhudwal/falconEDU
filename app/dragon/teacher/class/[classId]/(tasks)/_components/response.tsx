@@ -1,27 +1,28 @@
 import { Paper } from "@/components/ui/paper";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { getSingleStudentByStudentBotId } from "../[taskId]/test/queries";
+import { getBotChatWithStudentByBotChatId } from "../[taskId]/test/queries";
 import { Separator } from "@/components/ui/separator";
 import { ReportModal } from "./report-modal";
 
 export async function IndividualResponse({
-  studentBotId,
+  attemptId,
   reportComponent,
   fullChatComponent,
 }: {
-  studentBotId: string;
+  attemptId: string;
   reportComponent?: React.ReactNode;
   fullChatComponent: React.ReactNode;
 }) {
-  const student = await getSingleStudentByStudentBotId(studentBotId);
+  const botChat = await getBotChatWithStudentByBotChatId({
+    botChatId: attemptId,
+  });
+  const name = botChat?.bot.student?.User.name;
 
   return (
     <ReportModal>
       <div className="w-full py-5 overflow-y-scroll custom-scrollbar h-screen bg-base-300 rounded-xl ring-1 ring-slate-700 ">
         <div className="flex flex-col gap-4">
-          <h1 className="text-3xl text-center font-semibold ">
-            {student?.student.User.name}
-          </h1>
+          <h1 className="text-3xl text-center font-semibold ">{name}</h1>
           <Separator />
 
           {reportComponent ? (

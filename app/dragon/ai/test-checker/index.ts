@@ -3,25 +3,21 @@ import { getTestResultsFromOpenAI } from "./get-test-results";
 import { getCheckingContext } from "./lib";
 import { mapQuestionsWithResults } from "./lib";
 
-export async function checkTest(testBotId: string) {
+export async function checkTest({ botChatId }: { botChatId: string }) {
   try {
-    const context = await getCheckingContext(testBotId);
+    const context = await getCheckingContext({
+      botChatId,
+    });
     if (!context) {
       throw new Error("Test not found");
     }
     const { testQuestions, messages } = context;
-
-    //console.log("testQuestions", testQuestions);
-    //console.log("messages", messages);
 
     const results = await getTestResultsFromOpenAI({
       testQuestions,
       messages,
     });
 
-    //console.log("testResults", results);
-
-    // Error
     const finalTestResults = mapQuestionsWithResults({
       testQuestions,
       results,

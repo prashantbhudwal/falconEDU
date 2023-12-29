@@ -15,21 +15,12 @@ const testResultObjectSchemaWithId = z.array(
 );
 type FinalTestResults = z.infer<typeof testResultObjectSchemaWithId>;
 
-export const submitTestBot = async function (
-  botId: string,
-  botChatId: string,
-  isMultipleChats?: boolean
-) {
+export const submitTestBotChat = async function ({
+  botChatId,
+}: {
+  botChatId: string;
+}) {
   try {
-    if (!isMultipleChats) {
-      await prisma.bot.update({
-        where: { id: botId },
-        data: {
-          isSubmitted: true,
-        },
-      });
-    }
-    // later remove the isSubmitted from bot
     await prisma.botChat.update({
       where: { id: botChatId },
       data: {
@@ -44,14 +35,19 @@ export const submitTestBot = async function (
   }
 };
 
-export const saveTestResultsByBotId = async function (
-  studentBotId: string,
-  testResults: FinalTestResults
-) {
+export const saveTestResultsByBotChatId = async function ({
+  testResults,
+  botChatId,
+}: {
+  testResults: FinalTestResults;
+  botChatId: string;
+}) {
   try {
     const transaction = await prisma.$transaction(async (prisma) => {
-      const existingBotChat = await prisma.botChat.findFirst({
-        where: { botId: studentBotId },
+      const existingBotChat = await prisma.botChat.findUnique({
+        where: {
+          id: botChatId,
+        },
       });
       if (!existingBotChat) {
         console.error("Bot not found");

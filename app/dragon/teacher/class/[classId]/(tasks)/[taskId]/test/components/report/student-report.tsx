@@ -1,34 +1,31 @@
 import { Separator } from "@/components/ui/separator";
 import PieChartComponent from "./pieChart";
 import { QuestionList } from "./question-list";
-import {
-  AllStudentResponsesByBotConfigId,
-  getAllQuestionResponsesByBotConfigId,
-  getSingleStudentByStudentBotId,
-} from "../../queries";
+import { getBotChatWithStudentByBotChatId } from "../../queries";
 import {
   TestResultsByBotId,
-  getTestResultsByBotId,
+  getTestResultsByBotChatId,
 } from "@/app/dragon/teacher/queries";
 
 export async function StudentReport({
-  studentBotId,
   taskId,
+  attemptId,
 }: {
-  studentBotId: string;
   taskId: string;
+  attemptId: string;
 }) {
   let testResults: TestResultsByBotId = null;
-  let allStudentResponses: AllStudentResponsesByBotConfigId = null;
-  const student = await getSingleStudentByStudentBotId(studentBotId);
-  if (student?.isSubmitted) {
-    testResults = await getTestResultsByBotId(studentBotId);
-    allStudentResponses = await getAllQuestionResponsesByBotConfigId(taskId);
+  const botChat = await getBotChatWithStudentByBotChatId({
+    botChatId: attemptId,
+  });
+
+  if (botChat?.isSubmitted) {
+    testResults = await getTestResultsByBotChatId({ botChatId: attemptId });
   }
 
   return (
     <div>
-      {!student?.isSubmitted ? (
+      {!botChat?.isSubmitted ? (
         <div className="text-center text-lg ">
           The student has not attempted the test yet!
         </div>
@@ -38,13 +35,7 @@ export async function StudentReport({
             <div className="flex flex-col items-center space-y-5">
               <PieChartComponent testResults={testResults} />
               <Separator />
-              <QuestionList botId={studentBotId} />
-
-              {/* <ReportTable testResults={testResults} /> */}
-              {/* <ReportHistogram
-                      testResults={testResults}
-                      allStudentResponses={allStudentResponses}
-                    /> */}
+              <QuestionList attemptId={attemptId} />
             </div>
           ) : (
             <div className="text-center text-lg ">

@@ -39,16 +39,33 @@ export const getTaskUrl = ({
 export const getReportUrl = ({
   classId,
   testId,
+  attemptId,
+  type,
+}: {
+  classId: string;
+  testId: string;
+  attemptId: string;
+  type: TaskType;
+}) => {
+  const route = type === "test" ? "test" : type === "lesson" ? "lesson" : "bot";
+  return `${baseUrl}/teacher/class/${classId}/${testId}/${route}/responses/individual-response/${attemptId}`;
+};
+
+export const getReportUrlWithAttempts = ({
+  classId,
+  testId,
   studentBotId,
   type,
+  attemptId,
 }: {
   classId: string;
   testId: string;
   studentBotId: string;
   type: TaskType;
+  attemptId: string;
 }) => {
   const route = type === "test" ? "test" : type === "lesson" ? "lesson" : "bot";
-  return `${baseUrl}/teacher/class/${classId}/${testId}/${route}/responses/individual-response/${studentBotId}`;
+  return `${baseUrl}/teacher/class/${classId}/${testId}/${route}/responses/individual-response/${studentBotId}/${attemptId}`;
 };
 
 export const getTaskUrlByType = ({
