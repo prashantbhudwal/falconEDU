@@ -200,6 +200,11 @@ export const AddQuestionForm = forwardRef<HTMLDivElement, PropType>(
                           </SelectTrigger>
                           <SelectContent>
                             {questionTypes.map((question, index) => {
+                              if (
+                                question === "OBJECTIVE_MATCH_THE_FOLLOWING" ||
+                                question === "SUBJECTIVE_ESSAY"
+                              )
+                                return null;
                               return (
                                 <SelectItem key={index} value={question}>
                                   {getQuestionTypeName(question)}
