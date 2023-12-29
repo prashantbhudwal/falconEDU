@@ -27,6 +27,7 @@ const nextConfig = {
   },
   experimental: {},
   images: {
+    domains: ["lh3.googleusercontent.com", "i.ytimg.com"],
     remotePatterns: [
       {
         protocol: "https",
