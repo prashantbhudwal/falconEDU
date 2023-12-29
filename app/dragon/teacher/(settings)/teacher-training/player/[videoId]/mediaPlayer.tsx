@@ -25,6 +25,7 @@ export const MediaPlayer = ({
       controls
       width={"100%"}
       height={350}
+      playing
     />
   );
 };

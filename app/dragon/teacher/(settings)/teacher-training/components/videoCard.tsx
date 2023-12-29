@@ -4,8 +4,21 @@ import React from "react";
 import { getYouTubeVideoMetadata } from "../utils";
 import { FaPlay } from "react-icons/fa";
 import { cn } from "@/lib/utils";
+import { GiRabbit } from "react-icons/gi";
 
-type PropType = React.HTMLProps<HTMLDivElement> & {
+const calculateDurationInSeconds = (durationStr: string) => {
+  if (!durationStr) return 0;
+
+  const parts = durationStr.split(":").map(Number);
+  if (parts.length === 3) {
+    return parts[0] * 3600 + parts[1] * 60 + parts[2];
+  } else if (parts.length === 2) {
+    return parts[0] * 60 + parts[1];
+  }
+  return 0;
+};
+
+type VideoCardProps = React.HTMLProps<HTMLDivElement> & {
   videoId: string;
   className?: string;
   addToExistingLink?: boolean;
@@ -15,10 +28,15 @@ export const VideoCard = async ({
   videoId,
   className,
   addToExistingLink = false,
-}: PropType) => {
+}: VideoCardProps) => {
   const metaData = await getYouTubeVideoMetadata({
     videoId,
   });
+
+  const totalSeconds = calculateDurationInSeconds(metaData?.duration ?? "");
+  const showRabbitIcon = totalSeconds <= 60;
+  const formattedDuration =
+    totalSeconds < 45 ? "30 secs" : `${Math.ceil(totalSeconds / 60)} min`;
 
   return (
     <Link
@@ -40,12 +58,19 @@ export const VideoCard = async ({
         <FaPlay className="opacity-0 group-hover:opacity-100 transition-all text-slate-100 text-3xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
       </div>
       <div className="w-9/12 text-start">
-        <h3 className="text-lg whitespace-nowrap truncate font-semibold mb-3 w-full text-slate-300">
-          {metaData?.title || "Random Video"}
+        <h3 className="whitespace-nowrap truncate font-semibold mb-3 w-full text-slate-300">
+          {metaData?.title || "Video"}
         </h3>
         <div className="flex gap-5 text-sm">
-          <p>{metaData?.duration || "00:00"}</p>
-          <p>{metaData?.publishedAt.toLocaleDateString() || "N/A"}</p>
+          <div className="flex justify-between items-center w-full">
+            <div>{formattedDuration}</div>
+            {showRabbitIcon && (
+              <div className="flex space items-center space-x-3 text-info">
+                <GiRabbit className="scale-x-[-1]" />
+                <div> very short </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </Link>

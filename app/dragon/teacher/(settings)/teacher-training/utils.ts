@@ -1,6 +1,7 @@
+
 import axios from "axios";
 
-export const getVideoIdfromYoutubeUrl = (url: string) => {
+export const getVideoIdFromYoutubeUrl = (url: string) => {
   if (url.includes("?v=")) {
     const videoId = url.split("?v=")[1];
     return videoId;
@@ -12,6 +13,7 @@ export const getVideoIdfromYoutubeUrl = (url: string) => {
   }
   return url;
 };
+
 
 const photo = `https://img.youtube.com/vi/h02ti0Bl6zk/0.jpg`;
 

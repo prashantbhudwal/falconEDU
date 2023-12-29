@@ -1,7 +1,7 @@
 import React from "react";
 import { videosData } from "../../data";
 import { VideoCard } from "../../components/videoCard";
-import { getVideoIdfromYoutubeUrl, getYouTubeVideoMetadata } from "../../utils";
+import { getVideoIdFromYoutubeUrl, getYouTubeVideoMetadata } from "../../utils";
 import { MediaPlayer } from "./mediaPlayer";
 
 const VideoPlayer = async ({ params }: { params: { videoId: string } }) => {
@@ -21,7 +21,7 @@ const VideoPlayer = async ({ params }: { params: { videoId: string } }) => {
             key={video.id}
             addToExistingLink
             className="w-11/12"
-            videoId={getVideoIdfromYoutubeUrl(video.url)}
+            videoId={getVideoIdFromYoutubeUrl(video.url)}
           />
         ))}
       </div>
