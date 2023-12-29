@@ -6,6 +6,7 @@ import {
   FiSkipBack,
   FiSliders,
   FiTool,
+  FiAirplay,
 } from "react-icons/fi"; // import necessary icons
 import { worksheetAnswerKeyAtom } from "@/lib/atoms/worksheet";
 import { FaWandMagicSparkles } from "react-icons/fa6";
@@ -169,6 +170,18 @@ export default function useNavbarButtons() {
           onClick: () => {},
           isEnabled: true,
         },
+        {
+          name: "Teacher Training",
+          href: "/dragon/teacher/teacher-training/gallery",
+          linkClass: "btn-secondary rounded-xl",
+          icon: {
+            Icon: FiAirplay,
+            additionalClass: "",
+          },
+          onClick: () => {},
+          isEnabled: true,
+        },
+
         {
           name: "AI Tools",
           href: "/preferences",
