@@ -1,3 +1,4 @@
+"use server";
 import prisma from "@/prisma";
 
 export const makeAllBotChatIsSubmitted = async () => {
@@ -9,15 +10,12 @@ export const makeAllBotChatIsSubmitted = async () => {
   });
 
   x.map(async (item) => {
-    const defaultChat = item.BotChat.filter((chat) => chat.isDefault);
-
+    const defaultChat = item.BotChat.find((chat) => chat.isDefault);
     const y = await prisma.botChat.update({
-      where: { id: defaultChat[0].id },
+      where: { id: defaultChat?.id },
       data: {
         isSubmitted: true,
       },
     });
-
-    console.log(y.isSubmitted);
   });
 };

@@ -78,33 +78,35 @@ export type StudentsByClassId = UnwrapPromise<
   ReturnType<typeof getStudentsByClassId>
 >;
 
-export const getTestResultsByBotId = cache(async (studentBotId: string) => {
-  try {
-    const response = await prisma.botChat.findFirst({
-      where: {
-        botId: studentBotId,
-      },
-      select: {
-        BotChatQuestions: {
-          select: {
-            student_answer: true,
-            isCorrect: true,
-            parsedQuestionsId: true,
+export const getTestResultsByBotChatId = cache(
+  async ({ botChatId }: { botChatId: string }) => {
+    try {
+      const response = await prisma.botChat.findUnique({
+        where: {
+          id: botChatId,
+        },
+        select: {
+          BotChatQuestions: {
+            select: {
+              student_answer: true,
+              isCorrect: true,
+              parsedQuestionsId: true,
+            },
           },
         },
-      },
-    });
-    if (response?.BotChatQuestions.length) {
-      return response.BotChatQuestions;
+      });
+      if (response?.BotChatQuestions.length) {
+        return response.BotChatQuestions;
+      }
+      return null;
+    } catch (err) {
+      console.error(err);
+      return null;
     }
-    return null;
-  } catch (err) {
-    console.error(err);
-    return null;
   }
-});
+);
 export type TestResultsByBotId = UnwrapPromise<
-  ReturnType<typeof getTestResultsByBotId>
+  ReturnType<typeof getTestResultsByBotChatId>
 >;
 
 export const getTotalQuestionByParsedQuestionId = cache(

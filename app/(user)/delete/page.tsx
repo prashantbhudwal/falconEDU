@@ -4,6 +4,8 @@ import prisma from "@/prisma";
 import { useState } from "react";
 const EMAIL = "trial.prashant@gmail.com";
 import { deleteUserByEmail } from "./actions";
+import { makeAllBotChatIsSubmitted } from "@/app/dragon/scripts";
+import { set } from "date-fns";
 
 export default function Page() {
   const [loading, setLoading] = useState(false);
@@ -20,9 +22,20 @@ export default function Page() {
     }
   };
 
+  const setSubmitted = async () => {
+    setLoading(true);
+    try {
+      await makeAllBotChatIsSubmitted();
+    } catch (err) {
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div>
-      <h1>Delete user: {EMAIL}</h1>
+      {/* <h1>Delete user: {EMAIL}</h1>
       {loading && <p>Loading...</p>}
       {error && <p>Error</p>}
       <Button
@@ -35,6 +48,20 @@ export default function Page() {
       >
         Delete User
       </Button>
+
+      <h1>Make all bot chats submitted</h1>
+      {loading && <p>Loading...</p>}
+      {error && <p>Error</p>}
+      <Button
+        variant={"destructive"}
+        size={"lg"}
+        onClick={() => {
+          setSubmitted();
+        }}
+        disabled={loading}
+      >
+        Make all bot chats submitted
+      </Button> */}
     </div>
   );
 }

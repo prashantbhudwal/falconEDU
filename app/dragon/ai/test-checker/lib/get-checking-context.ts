@@ -1,24 +1,16 @@
 "use server ";
 
 import { cache } from "react";
-import prisma from "@/prisma";
-import { getBotByBotId } from "@/app/dragon/student/queries";
-import { getDefaultChatMessagesByStudentBotId } from "@/app/dragon/teacher/class/[classId]/(tasks)/[taskId]/test/queries";
+import { getConfigByBotChatId } from "@/app/dragon/student/queries";
+import { getChatMessagesByBotChatId } from "@/app/dragon/teacher/class/[classId]/(tasks)/[taskId]/test/queries";
+const getTest = cache(async function ({ botChatId }: { botChatId: string }) {
+  const config = await getConfigByBotChatId({ botChatId });
 
-const getTest = cache(async function (testBotId: string) {
-  const bot = await getBotByBotId(testBotId);
+  if (config) {
+    const questions = config?.parsedQuestions;
 
-  if (bot) {
-    //TODO: same logic is repated in teacher/queries
-    const questions = await prisma.botConfig.findUnique({
-      where: { id: bot?.BotConfig.id },
-      select: {
-        parsedQuestions: true,
-      },
-    });
-
-    if (questions && questions.parsedQuestions.length > 0) {
-      return { testQuestions: questions?.parsedQuestions };
+    if (questions && questions.length > 0) {
+      return { testQuestions: questions };
     }
 
     return { testQuestions: null };
@@ -27,11 +19,16 @@ const getTest = cache(async function (testBotId: string) {
   return { testQuestions: null };
 });
 
-export const getCheckingContext = async function (testBotId: string) {
-  const { messages, id: botChatId } =
-    await getDefaultChatMessagesByStudentBotId(testBotId);
+export const getCheckingContext = async function ({
+  botChatId,
+}: {
+  botChatId: string;
+}) {
+  const { messages } = await getChatMessagesByBotChatId({
+    botChatId,
+  });
 
-  const { testQuestions } = (await getTest(testBotId)) ?? {
+  const { testQuestions } = (await getTest({ botChatId })) ?? {
     testQuestions: null,
   };
 

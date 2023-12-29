@@ -29,21 +29,33 @@ export async function TaskCard({
   priority = "LOW",
   bot,
 }: TaskCardProps) {
-  const getDefaultStudentChatUrl = async (botId: string) => {
+  const getDefaultStudentChat = async (botId: string) => {
     const chats = await getChatsByBotId(botId);
     if (!chats) {
       return null;
     }
     const defaultChat = chats.find((chat) => chat.isDefault);
+
     if (defaultChat) {
-      return getStudentBotChatURL(defaultChat.bot.id, defaultChat.id);
+      return defaultChat;
     }
     return null;
   };
 
   const title = bot.BotConfig.name;
   const { createdAt, isActive, isSubmitted, id: botId } = bot;
-  const defaultChatUrl = await getDefaultStudentChatUrl(botId);
+
+  const defaultChat = await getDefaultStudentChat(botId);
+  // TODO: Fix this, this will give error when there is no default chat
+  if (!defaultChat) {
+    return null;
+  }
+  const defaultChatUrl = getStudentBotChatURL(
+    defaultChat.bot.id,
+    defaultChat.id
+  );
+  const defaultChatSubmitted = defaultChat.isSubmitted;
+
   const multipleChatUrl = getStudentBotURL(botId);
   const { isRead } = await getDefaultChatReadStatus(botId);
   const readStatus = await getDefaultChatReadStatus(botId);
@@ -117,9 +129,9 @@ export async function TaskCard({
             <div className="flex flex-row justify-between w-full">
               <div className=" text-slate-500 text-xs flex space-x-2">
                 <div>
-                  {isSubmitted ? (
+                  {defaultChatSubmitted && !canReattempt ? (
                     <div className="text-primary">
-                      {isSubmitted ? "Submitted" : ""}
+                      {defaultChatSubmitted ? "Submitted" : ""}
                     </div>
                   ) : (
                     format(new Date(createdAt), "dd MMM, h:mm a")

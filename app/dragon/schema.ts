@@ -41,16 +41,16 @@ export const LIMITS_botPreferencesSchema = {
 
 export const LIMITS_lessonPreferencesSchema = {
   content: {
-    maxLength: 2500,
+    maxLength: 3000,
   },
   topic: {
-    maxLength: 30,
+    maxLength: 140,
   },
 };
 
 export const LIMITS_lessonNameSchema = {
   name: {
-    maxLength: 30,
+    maxLength: 50,
     minLength: 3,
   },
 };

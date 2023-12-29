@@ -3,7 +3,7 @@ import testCheckAnimation from "@/public/animations/test-check.json";
 import loadingBall from "@/public/animations/loading-ball.json";
 import Lottie from "lottie-react";
 import React, { useEffect, useRef, useState } from "react";
-import { saveTestResultsByBotId, submitTestBot } from "./mutations";
+import { saveTestResultsByBotChatId, submitTestBotChat } from "./mutations";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import {
@@ -21,7 +21,7 @@ type PropTypes = React.HTMLAttributes<HTMLDivElement> & {
   isMultipleChats?: boolean;
 };
 const SubmitTestButton = React.forwardRef<HTMLButtonElement, PropTypes>(
-  ({ testBotId, redirectUrl, botChatId, isMultipleChats }, ref) => {
+  ({ testBotId, redirectUrl, botChatId }, ref) => {
     const [loading, setLoading] = useState(false);
     const [showDialog, setShowDialog] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
@@ -30,11 +30,13 @@ const SubmitTestButton = React.forwardRef<HTMLButtonElement, PropTypes>(
     const saveTestHandler = async () => {
       try {
         setLoading(true);
-        const testResults = await checkTest(testBotId);
-
+        const testResults = await checkTest({ botChatId: botChatId });
         if (testResults) {
-          await saveTestResultsByBotId(testBotId, testResults);
-          await submitTestBot(testBotId, botChatId, isMultipleChats);
+          await saveTestResultsByBotChatId({
+            botChatId,
+            testResults,
+          });
+          await submitTestBotChat({ botChatId });
           setLoading(false);
           return { success: true };
         }

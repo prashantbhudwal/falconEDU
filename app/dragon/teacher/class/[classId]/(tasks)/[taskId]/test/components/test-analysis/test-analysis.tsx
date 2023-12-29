@@ -45,15 +45,6 @@ export async function TestAnalysis({
     (student) => student.isSubmitted
   ).length;
   const totalPendingTest = students.length - totalSubmittedTest;
-  // const resultObject = await getTestResults({ botConfigId: testBotId });
-  // if (!resultObject) return null;
-
-  // const {
-  //   allQuestions,
-  //   botChatScores,
-  //   botChatWiseResults,
-  //   studentWiseResults,
-  // } = resultObject;
 
   return (
     <div className="w-full max-w-5xl min-h-screen flex flex-col gap-2 ">
