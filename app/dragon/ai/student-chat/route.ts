@@ -21,6 +21,7 @@ export const dynamic = "force-dynamic";
 
 async function searchYouTubeVideo(
   query: string,
+  channelId = "UC4a-Gbdw7vOaccHmFo40b9g", // Default set to Khan Academy's Channel ID
   maxResults = 5,
   order = "relevance"
 ) {
@@ -30,6 +31,7 @@ async function searchYouTubeVideo(
       {
         params: {
           part: "snippet",
+          channelId: channelId, // Added channelId to the request parameters
           q: query,
           maxResults: maxResults,
           order: order,
@@ -57,28 +59,6 @@ const functions: ChatCompletionCreateParams.Function[] = [
           description:
             "The search query for finding a video on YouTube. Video will be from Khan Academy.",
         },
-        // maxResults: {
-        //   type: "integer",
-        //   description: "The maximum number of search results to return",
-        //   default: 5,
-        // },
-        // order: {
-        //   type: "string",
-        //   enum: [
-        //     "date",
-        //     "rating",
-        //     "relevance",
-        //     "title",
-        //     "videoCount",
-        //     "viewCount",
-        //   ],
-        //   description: "The order to display search results",
-        //   default: "relevance",
-        // },
-        // apiKey: {
-        //   type: "string",
-        //   description: "API key for accessing YouTube Data API",
-        // },
       },
       required: ["query", "apiKey"],
     },
