@@ -85,15 +85,25 @@ export function ChatMessageActions({
       );
     } else if (isPlaying) {
       return (
-        <Button
-          variant="ghost"
-          size="icon"
-          className="rounded-[5px]"
-          onClick={pauseSpeech}
-        >
-          <FaPause className="h-4 w-4" />
-          <span className="sr-only">Pause</span>
-        </Button>
+        <div className="flex items-center">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="rounded-[5px]"
+            onClick={pauseSpeech}
+          >
+            <FaPause className="h-4 w-4" />
+            <span className="sr-only">Pause</span>
+          </Button>
+          <div className="p-2  w-9 h-9 rounded-md flex justify-center items-center">
+            <ScaleLoader
+              className="px-2"
+              height={10}
+              width={2}
+              color="#94a3b8"
+            />
+          </div>
+        </div>
       );
     } else {
       return (
@@ -113,12 +123,10 @@ export function ChatMessageActions({
   return (
     <div
       className={cn(
-        "flex items-center justify-end transition-opacity group-hover:opacity-100 md:absolute md:-right-20 md:-top-3 ",
+        "flex items-center justify-start transition-opacity group-hover:opacity-100 md:absolute md:right-0 md:translate-x-full md:-top-3 ",
         className,
         {
           "opacity-0": !isLastMessage && !isLoading && !isPlaying,
-
-          "md:-right-11": message.role === "user",
         }
       )}
       {...props}
