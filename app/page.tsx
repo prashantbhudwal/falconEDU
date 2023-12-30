@@ -40,11 +40,7 @@ const LandingPage = () => {
   useEffect(() => {
     const hostName = getHostNameOfCurrentURL() as HostName;
     setHostName(hostName);
-    if (hostName === "localhost") {
-      router.push("/dragon/auth");
-    } else if (hostName === "app.falconai.in") {
-      enginesFlow();
-    } else if (
+    if (
       hostName === "student.falconai.in" ||
       hostName === "teacher.falconai.in"
     ) {
@@ -53,31 +49,26 @@ const LandingPage = () => {
   }, []);
 
   return (
-    <div className="flex min-h-screen flex-col place-content-center">
-      {hostName === "app.falconai.in" ? (
-        <LandingPageEngines />
-      ) : (
-        <div>
-          <Image
-            src="/chubbi.png"
-            alt="Falcon AI Logo"
-            width={200}
-            height={200}
-          />
-          <div className="flex flex-col items-center justify-center gap-2">
-            <Link href={"/dragon/auth/teacher"}>
-              <Button variant="default" rel="noopener noreferrer" size={"lg"}>
-                Teacher
-              </Button>
-            </Link>
-            <Link href={"/dragon/auth/student"}>
-              <Button variant="default" rel="noopener noreferrer" size={"lg"}>
-                Student
-              </Button>
-            </Link>
-          </div>
-        </div>
-      )}
+    <div className="flex min-h-screen flex-col place-content-center gap-4">
+      <Image
+        src="/chubbi.png"
+        alt="Falcon AI Logo"
+        width={200}
+        height={200}
+        className="mx-auto"
+      />
+      <div className="flex items-center justify-center gap-6 bg-base-300 p-4">
+        <Link href={"/dragon/auth/teacher"}>
+          <Button variant="default" rel="noopener noreferrer">
+            Teacher
+          </Button>
+        </Link>
+        <Link href={"/dragon/auth/student"}>
+          <Button variant="default" rel="noopener noreferrer">
+            Student
+          </Button>
+        </Link>
+      </div>
     </div>
   );
 };
