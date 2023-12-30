@@ -19,9 +19,9 @@ const VideoPlayer = async ({ params }: { params: { videoId: string } }) => {
         {remainingVideos.map((video) => (
           <VideoCard
             key={video.id}
+            video={video}
             addToExistingLink
             className="w-11/12"
-            videoId={getVideoIdFromYoutubeUrl(video.url)}
           />
         ))}
       </div>

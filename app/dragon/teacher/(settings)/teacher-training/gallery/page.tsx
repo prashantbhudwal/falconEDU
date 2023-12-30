@@ -15,8 +15,7 @@ const TeacherTrainingPage: React.FC = async () => {
 
       <main className="py-10">
         {videosData.videos.map((video) => {
-          const videoId = getVideoIdFromYoutubeUrl(video.url);
-          return <VideoCard key={video.id} videoId={videoId} />;
+          return <VideoCard key={video.id} video={video} />;
         })}
       </main>
     </div>
