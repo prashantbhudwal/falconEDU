@@ -14,8 +14,76 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { TaskType } from "@/types/dragon";
 import { getEngineeredLessonBotMessages } from "./prompts/lesson-prompts/lessonBotMessages";
+import axios from "axios";
+import { ChatCompletionCreateParams } from "openai/resources";
 // export const runtime = "edge";
 export const dynamic = "force-dynamic";
+
+async function searchYouTubeVideo(
+  query: string,
+  maxResults = 5,
+  order = "relevance"
+) {
+  try {
+    const response = await axios.get(
+      "https://www.googleapis.com/youtube/v3/search",
+      {
+        params: {
+          part: "snippet",
+          q: query,
+          maxResults: maxResults,
+          order: order,
+          key: process.env.GOOGLE_API_KEY,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error during YouTube API call:", error);
+    throw error;
+  }
+}
+
+const functions: ChatCompletionCreateParams.Function[] = [
+  {
+    name: "search_youtube_video",
+    description:
+      "Search for a Khan Academy YouTube video based on a user's query",
+    parameters: {
+      type: "object",
+      properties: {
+        query: {
+          type: "string",
+          description:
+            "The search query for finding a video on YouTube. Video will be from Khan Academy.",
+        },
+        // maxResults: {
+        //   type: "integer",
+        //   description: "The maximum number of search results to return",
+        //   default: 5,
+        // },
+        // order: {
+        //   type: "string",
+        //   enum: [
+        //     "date",
+        //     "rating",
+        //     "relevance",
+        //     "title",
+        //     "videoCount",
+        //     "viewCount",
+        //   ],
+        //   description: "The order to display search results",
+        //   default: "relevance",
+        // },
+        // apiKey: {
+        //   type: "string",
+        //   description: "API key for accessing YouTube Data API",
+        // },
+      },
+      required: ["query", "apiKey"],
+    },
+  },
+];
 
 //TODO - this is a big jugaad, need to fix this, either use LangChain or OpenAI Format, don't mix both
 function formatLangchainMessagesForOpenAI(messages: BaseMessage[]) {
@@ -97,9 +165,25 @@ export async function POST(req: NextRequest) {
       temperature: TEMPERATURE,
       messages: openAiFormatMessages,
       model: "gpt-3.5-turbo-1106",
+      functions,
     });
 
     const newStream = OpenAIStream(completion, {
+      experimental_onFunctionCall: async (
+        { name, arguments: args },
+        createFunctionCallMessages
+      ) => {
+        if (name === "search_youtube_video") {
+          const video = await searchYouTubeVideo(args.query as string);
+          const newMessages = createFunctionCallMessages(video);
+          return openai.chat.completions.create({
+            messages: [...messages, ...newMessages],
+            stream: true,
+            model: "gpt-3.5-turbo-1106",
+            // functions,
+          });
+        }
+      },
       async onCompletion(completion) {
         await saveBotChatToDatabase(botChatId, completion, messages);
         mp.track(
