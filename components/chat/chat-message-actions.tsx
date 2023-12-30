@@ -85,14 +85,24 @@ export function ChatMessageActions({
       );
     } else if (isPlaying) {
       return (
-        <Button variant="ghost" size="icon" onClick={pauseSpeech}>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="rounded-[5px]"
+          onClick={pauseSpeech}
+        >
           <FaPause className="h-4 w-4" />
           <span className="sr-only">Pause</span>
         </Button>
       );
     } else {
       return (
-        <Button variant="ghost" size="icon" onClick={generateSpeech}>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="rounded-[5px]"
+          onClick={generateSpeech}
+        >
           {<HiSpeakerWave className="h-4 w-4" />}
           <span className="sr-only">Listen</span>
         </Button>
@@ -103,19 +113,26 @@ export function ChatMessageActions({
   return (
     <div
       className={cn(
-        "flex items-center justify-end transition-opacity group-hover:opacity-100 md:absolute md:-right-20 md:-top-5 ",
+        "flex items-center justify-end transition-opacity group-hover:opacity-100 md:absolute md:-right-20 md:-top-3 ",
         className,
         {
-          "md:opacity-0": !isLastMessage && !isLoading && !isPlaying,
+          "opacity-0": !isLastMessage && !isLoading && !isPlaying,
+
+          "md:-right-11": message.role === "user",
         }
       )}
       {...props}
     >
-      <Button variant="ghost" size="icon" onClick={onCopy}>
+      <Button
+        variant="ghost"
+        size="icon"
+        className="rounded-[5px]"
+        onClick={onCopy}
+      >
         {isCopied ? <IconCheck /> : <ClipboardIcon className="h-4 w-4" />}
         <span className="sr-only">Copy message</span>
       </Button>
-      {renderButton}
+      {message.role !== "user" && renderButton}
     </div>
   );
 }
