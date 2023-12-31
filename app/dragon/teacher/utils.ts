@@ -69,6 +69,12 @@ export const getQuestionTypeName = (questionType: string) => {
     .toLocaleLowerCase()
     .split(" ");
 
+  if (words.length === 1) {
+    return words
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+  }
+
   const name = words
     .slice(1)
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
