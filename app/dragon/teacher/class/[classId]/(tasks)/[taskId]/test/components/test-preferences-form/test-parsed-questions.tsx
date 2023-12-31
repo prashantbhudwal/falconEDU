@@ -1,5 +1,8 @@
 "use client";
-import { typeGetParsedQuestionByBotConfigId } from "@/app/dragon/teacher/routers/parsedQuestionRouter";
+import {
+  typeActiveParsedQuestionByBotConfigId,
+  typeArchivedParsedQuestionByBotConfigId,
+} from "@/app/dragon/teacher/routers/parsedQuestionRouter";
 import { QuestionForm } from "./question-form";
 import { Button } from "@/components/ui/button";
 import React, { useEffect, useRef, useState } from "react";
@@ -22,14 +25,13 @@ export function TestParsedQuestion({
   botId,
   classId,
 }: {
-  activeParsedQuestions: typeGetParsedQuestionByBotConfigId["activeParsedQuestions"];
-  archivedParsedQuestions: typeGetParsedQuestionByBotConfigId["archivedParsedQuestions"];
+  activeParsedQuestions: typeActiveParsedQuestionByBotConfigId[];
+  archivedParsedQuestions: typeArchivedParsedQuestionByBotConfigId[];
   botId: string;
   classId: string;
 }) {
   const [addedQuestions, setAddedQuestions] = useState<
-    | NonNullable<typeGetParsedQuestionByBotConfigId["activeParsedQuestions"]>
-    | []
+    typeActiveParsedQuestionByBotConfigId[] | []
   >([]);
   const [questionCardHeight, setQuestionCardHeight] = useState(218);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -101,7 +103,7 @@ export function TestParsedQuestion({
         question_number: prev.length + 1,
         question_type:
           data.question_type || "OBJECTIVE_MULTIPLE_CHOICE_SINGLE_ANSWER",
-        isPossiblyWrong: false,  // TODO: Fix dummy values if needed
+        isPossiblyWrong: false, // TODO: Fix dummy values if needed
         isPossiblyWrongDesc: "",
       },
     ]);
@@ -110,9 +112,7 @@ export function TestParsedQuestion({
   const duplicateSavedQuestionHandler = ({
     data,
   }: {
-    data: NonNullable<
-      typeGetParsedQuestionByBotConfigId["activeParsedQuestions"]
-    >[number];
+    data: typeActiveParsedQuestionByBotConfigId;
   }): void => {
     setAddedQuestions((prev) => [
       ...prev,

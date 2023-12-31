@@ -9,9 +9,7 @@ export const updateParsedQuestion = async ({
   data,
 }: {
   parseQuestionId: string;
-  data: NonNullable<
-    typeGetParsedQuestionByBotConfigId["activeParsedQuestions"]
-  >[number];
+  data: typeActiveParsedQuestionByBotConfigId;
 }) => {
   try {
     const response = await prisma.parsedQuestions.update({
@@ -77,9 +75,21 @@ export const getParsedQuestionByBotConfigId = cache(
   }
 );
 
-export type typeGetParsedQuestionByBotConfigId = UnwrapPromise<
-  ReturnType<typeof getParsedQuestionByBotConfigId>
->;
+// export type typeGetParsedQuestionByBotConfigId = UnwrapPromise<
+//   ReturnType<typeof getParsedQuestionByBotConfigId>
+// >;
+
+export type typeActiveParsedQuestionByBotConfigId = NonNullable<
+  UnwrapPromise<
+    ReturnType<typeof getParsedQuestionByBotConfigId>
+  >["activeParsedQuestions"]
+>[number];
+
+export type typeArchivedParsedQuestionByBotConfigId = NonNullable<
+  UnwrapPromise<
+    ReturnType<typeof getParsedQuestionByBotConfigId>
+  >["archivedParsedQuestions"]
+>[number];
 
 export const getParsedQuestionsByBotChatId = cache(
   async ({ botChatId }: { botChatId: string }) => {

@@ -24,7 +24,7 @@ import { LIMITS_testBotPreferencesSchema } from "../../../../../../../../schema"
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 import { Input } from "@/components/ui/input";
 import { parseTestQuestions } from "@/app/dragon/ai/test-question-parser/get-test-questions";
-import { typeGetParsedQuestionByBotConfigId } from "@/app/dragon/teacher/routers/parsedQuestionRouter";
+import { typeActiveParsedQuestionByBotConfigId } from "@/app/dragon/teacher/routers/parsedQuestionRouter";
 import { TestParsedQuestion } from "./test-parsed-questions";
 import { FaClockRotateLeft } from "react-icons/fa6";
 const MAX_CHARS = LIMITS_testBotPreferencesSchema.fullTest.maxLength;
@@ -50,7 +50,7 @@ type BotPreferencesFormProps = {
   classId: string;
   botId: string;
   botConfig: BotConfig | null;
-  activeParsedQuestions: typeGetParsedQuestionByBotConfigId["activeParsedQuestions"];
+  activeParsedQuestions: typeActiveParsedQuestionByBotConfigId[] | null;
   isActive: boolean;
 };
 

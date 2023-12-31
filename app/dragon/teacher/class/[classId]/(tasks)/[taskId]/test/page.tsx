@@ -12,7 +12,7 @@ import {
   AccordionTrigger,
   AccordionItem,
 } from "@/components/ui/accordion";
-import { typeGetParsedQuestionByBotConfigId } from "@/app/dragon/teacher/routers/parsedQuestionRouter";
+import { typeActiveParsedQuestionByBotConfigId } from "@/app/dragon/teacher/routers/parsedQuestionRouter";
 export interface BotPageProps {
   params: {
     classId: string;
@@ -71,7 +71,7 @@ export default async function BotPage({ params }: BotPageProps) {
     });
 
   const isAnswersPossiblyIncorrect = (
-    activeParsedQuestions: typeGetParsedQuestionByBotConfigId["activeParsedQuestions"]
+    activeParsedQuestions: typeActiveParsedQuestionByBotConfigId[]
   ): boolean => {
     if (!activeParsedQuestions) return false;
     const incorrectQuestions = activeParsedQuestions.filter((question) => {
