@@ -25,7 +25,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 
 import { db } from "@/app/dragon/teacher/routers";
-import { typeGetParsedQuestionByBotConfigId } from "@/app/dragon/teacher/routers/parsedQuestionRouter";
+import { typeActiveParsedQuestionByBotConfigId } from "@/app/dragon/teacher/routers/parsedQuestionRouter";
 import { LuCopy, LuTrash } from "react-icons/lu";
 import {
   Tooltip,
@@ -42,10 +42,9 @@ import {
 } from "@/components/ui/select";
 import { questionTypes } from "@/app/dragon/ai/test-checker/tool";
 import { getQuestionTypeName } from "../../../../../../../utils";
+import { UpdatedQuestionType } from "@/app/dragon/types";
 
-type QuestionProps = NonNullable<
-  typeGetParsedQuestionByBotConfigId["activeParsedQuestions"]
->[number];
+type QuestionProps = typeActiveParsedQuestionByBotConfigId
 
 type PropType = React.HTMLProps<HTMLDivElement> & {
   question: QuestionProps;
@@ -69,7 +68,7 @@ export const QuestionForm = ({
     })),
     question: question?.question,
     options: question?.options.map((answer) => ({ value: answer })),
-    question_type: question?.question_type,
+    question_type: question?.question_type as UpdatedQuestionType,
   };
 
   const form = useForm<z.infer<typeof parsedQuestionsSchema>>({

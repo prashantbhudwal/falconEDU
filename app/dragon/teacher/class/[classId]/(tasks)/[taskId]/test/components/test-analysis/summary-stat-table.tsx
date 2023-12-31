@@ -17,13 +17,13 @@ import {
 } from "@/components/ui/tooltip";
 import { InformationCircleIcon } from "@heroicons/react/24/solid";
 import { getProgressBarColor } from "../../../../../../../utils";
-import { typeGetParsedQuestionByBotConfigId } from "@/app/dragon/teacher/routers/parsedQuestionRouter";
+import { typeActiveParsedQuestionByBotConfigId } from "@/app/dragon/teacher/routers/parsedQuestionRouter";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 export const SummaryStatTable = ({
   testQuestions,
 }: {
-  testQuestions: typeGetParsedQuestionByBotConfigId["activeParsedQuestions"];
+  testQuestions: typeActiveParsedQuestionByBotConfigId[] | null;
 }) => {
   if (!testQuestions) return null;
 
