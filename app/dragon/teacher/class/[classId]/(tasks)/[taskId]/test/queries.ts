@@ -274,6 +274,7 @@ export const getAllQuestionResponsesByBotConfigId = cache(
           isSubmitted: true,
           BotChat: {
             select: {
+              isSubmitted: true,
               BotChatQuestions: {
                 select: {
                   isCorrect: true,
@@ -297,9 +298,7 @@ export const getAllQuestionResponsesByBotConfigId = cache(
         };
       }
 
-      const submittedBots = bots.filter((bot) => bot.isSubmitted);
-
-      const studentResponses = submittedBots.map((response) => {
+      const studentResponses = bots.map((response) => {
         return {
           id: response.id,
           BotChatQuestions: response.BotChat[0].BotChatQuestions,
