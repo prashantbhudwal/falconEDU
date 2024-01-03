@@ -99,7 +99,7 @@ export default async function BotPage({ params }: BotPageProps) {
               <h1 className="text-2xl font-semibold text-slate-500">Review</h1>
               {isAnswersPossiblyIncorrect(activeParsedQuestions) && (
                 <p className="text-xs text-warning">
-                  ( Some of the responses may be potentially incorrect )
+                  (Some of the responses may be potentially incorrect.)
                 </p>
               )}
             </div>

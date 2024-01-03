@@ -210,7 +210,7 @@ export const AddQuestionForm = forwardRef<HTMLDivElement, PropType>(
                     </FormItem>
                   )}
                 ></FormField>
-                <div>
+                <div className="flex items-center">
                   <TooltipProvider delayDuration={100}>
                     <Tooltip>
                       <TooltipTrigger type="button">
@@ -253,7 +253,7 @@ export const AddQuestionForm = forwardRef<HTMLDivElement, PropType>(
                   <Button
                     disabled={!isDirty || loading}
                     type="submit"
-                    className="cursor-pointer min-w-[90px] disabled:brightness-75 ml-2 disabled:cursor-not-allowed"
+                    className="cursor-pointer h-7 min-w-[70px] text-xs disabled:brightness-75 ml-2 disabled:cursor-not-allowed"
                   >
                     {loading ? "Saving..." : "Save"}
                   </Button>

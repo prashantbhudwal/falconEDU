@@ -184,7 +184,7 @@ export default function TestPreferencesForm({
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div>
             {/* -------------------------------------- Form Header-------------------------------- */}
-            <div className="flex justify-between flex-wrap gap-10 p-5">
+            <div className="w-11/12 mx-auto flex justify-between flex-wrap gap-10 py-5">
               <div className="w-7/12">
                 <Input
                   type="text"

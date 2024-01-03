@@ -78,9 +78,9 @@ export const AddQuestionsDialog = ({
           <TooltipTrigger
             type="button"
             onClick={() => setOpen(true)}
-            className="flex text-xl gap-1 items-center justify-center w-9 h-9 hover:border-4 transition-all box-border rounded-full border border-base-100 text-slate-200"
+            className="text-xs flex items-center px-4 gap-1 border bg-accent/80 font-semibold border-base-100 text-accent-content hover:bg-accent"
           >
-            <IoMdAdd />
+            Add <IoMdAdd className="text-base" />
           </TooltipTrigger>
           <TooltipContent className="text-xs bg-base-100 text-slate-200">
             <p>Add more questions</p>
@@ -90,7 +90,7 @@ export const AddQuestionsDialog = ({
       <DialogContent className="min-w-[800px] overflow-y-scroll custom-scrollbar">
         <DialogHeader>
           <DialogTitle className="flex w-full items-center justify-between mt-5 text-xl">
-            Add questions for the Test.{" "}
+            Add More Questions{" "}
             <div className="flex w-fit flex-col gap-2 items-end">
               <Button
                 onClick={submittingModalHandler}
@@ -99,10 +99,8 @@ export const AddQuestionsDialog = ({
               >
                 {loading ? (
                   <span className="loading loading-infinity loading-sm"></span>
-                ) : isDirty ? (
-                  "Save"
                 ) : (
-                  "Saved"
+                  "Save"
                 )}
               </Button>
               {isDirty && (
