@@ -89,7 +89,7 @@ export function ChatMessageActions({
           <Button
             variant="ghost"
             size="icon"
-            className="rounded-[5px]"
+            className="rounded-[5px] hover:bg-transparent hover:text-slate-100"
             onClick={pauseSpeech}
           >
             <FaPause className="h-4 w-4" />
@@ -110,7 +110,7 @@ export function ChatMessageActions({
         <Button
           variant="ghost"
           size="icon"
-          className="rounded-[5px]"
+          className="rounded-[5px] hover:bg-transparent hover:text-slate-100"
           onClick={generateSpeech}
         >
           {<HiSpeakerWave className="h-4 w-4" />}
@@ -127,6 +127,9 @@ export function ChatMessageActions({
         className,
         {
           "opacity-0": !isLastMessage && !isLoading && !isPlaying,
+        },
+        {
+          "opacity-1": message.role !== "user",
         }
       )}
       {...props}
@@ -134,7 +137,7 @@ export function ChatMessageActions({
       <Button
         variant="ghost"
         size="icon"
-        className="rounded-[5px]"
+        className="rounded-[5px] hover:bg-transparent hover:text-slate-100"
         onClick={onCopy}
       >
         {isCopied ? <IconCheck /> : <ClipboardIcon className="h-4 w-4" />}

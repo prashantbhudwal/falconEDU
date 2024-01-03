@@ -310,7 +310,7 @@ const PublishButton = function ({
     return (
       <AlertDialogComponent
         title="Alert"
-        description="Keep the test questions to a maximum of 10. Delete any extras before publishing."
+        description="The test cannot exceed 10 questions. Please delete some questions before publishing."
       >
         <Button
           type="button"

@@ -27,7 +27,9 @@ export const AlertDialogComponent = ({
       <AlertDialogTrigger>{children}</AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle className="text-xl">{title}</AlertDialogTitle>
+          <AlertDialogTitle className="text-xl text-error">
+            {title}
+          </AlertDialogTitle>
           <AlertDialogDescription className="text-lg">
             {description}
           </AlertDialogDescription>
