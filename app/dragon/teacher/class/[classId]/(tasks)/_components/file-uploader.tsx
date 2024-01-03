@@ -5,9 +5,11 @@ import { WebPDFLoader } from "langchain/document_loaders/web/pdf";
 import mammoth from "mammoth";
 import { Variants, cubicBezier, motion } from "framer-motion";
 import { MdCloudUpload } from "react-icons/md";
+import { cn } from "@/lib/utils";
 
 type PropTypes = {
   setParsedDocs: ({ docs }: { docs: string }) => void;
+  className?: string;
 };
 
 const containerVariant: Variants = {
@@ -41,7 +43,7 @@ const textVariant: Variants = {
   },
 };
 
-const FileUploader = ({ setParsedDocs }: PropTypes) => {
+const FileUploader = ({ setParsedDocs, className }: PropTypes) => {
   const [isButtonHovered, setIsButtonHovered] = useState(false);
 
   const onDrop = useCallback(async (acceptedFiles: any) => {
@@ -110,7 +112,10 @@ const FileUploader = ({ setParsedDocs }: PropTypes) => {
   return (
     <div
       {...getRootProps()}
-      className="dropzone absolute bottom-3 right-3 bg-base-300 "
+      className={cn(
+        "dropzone absolute bottom-3 right-3 bg-base-300",
+        className
+      )}
     >
       <input {...getInputProps()} />
       <motion.div

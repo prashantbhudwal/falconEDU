@@ -23,6 +23,10 @@ export default async function ClassLayout({
   const session = await getServerSession(authOptions);
   if (!session) return null;
   const userId = session?.user?.id;
+  const { archivedParsedQuestions, activeParsedQuestions } =
+    await db.parseQuestionRouter.getParsedQuestionByBotConfigId({
+      botConfigId: taskId,
+    });
 
   return (
     <div className="flex flex-col w-full h-screen">
@@ -33,6 +37,7 @@ export default async function ClassLayout({
             userId={userId}
             nameOfClass={nameOfClass}
             task={task}
+            totalParsedQuestions={activeParsedQuestions?.length}
           />
         </div>
         <div className="w-full overflow-y-auto custom-scrollbar bg-base-200">

@@ -85,39 +85,14 @@ export default async function BotPage({ params }: BotPageProps) {
   return (
     <div className="w-full">
       <Paper className="w-full max-w-5xl py-3 px-2 min-h-screen">
-        {!activeParsedQuestions ? (
-          <TestPreferencesForm
-            preferences={preferences}
-            botConfig={testConfig}
-            classId={classId}
-            botId={testBotId}
-            activeParsedQuestions={activeParsedQuestions}
-            isActive={isActive}
-          />
-        ) : (
-          <Accordion
-            type="single"
-            collapsible
-            className="my-5 p-5 text-slate-500 cursor-pointer border border-base-200 "
-            defaultValue={!activeParsedQuestions ? "item-1" : undefined}
-          >
-            <AccordionItem value="item-1" className="border-none">
-              <AccordionTrigger className="text-lg px-4 text-slate-400">
-                Question Text
-              </AccordionTrigger>
-              <AccordionContent className="pl-2 text-slate-400 text-base">
-                <TestPreferencesForm
-                  preferences={preferences}
-                  botConfig={testConfig}
-                  classId={classId}
-                  botId={testBotId}
-                  activeParsedQuestions={activeParsedQuestions}
-                  isActive={isActive}
-                />
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
-        )}
+        <TestPreferencesForm
+          preferences={preferences}
+          botConfig={testConfig}
+          classId={classId}
+          botId={testBotId}
+          activeParsedQuestions={activeParsedQuestions}
+          isActive={isActive}
+        />
         {activeParsedQuestions && (
           <div className="flex flex-col space-y-4 items-center">
             <div className="text-center">

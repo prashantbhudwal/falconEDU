@@ -48,7 +48,7 @@ const TextAreaWithUpload = ({
     }
   };
   return (
-    <div className={cn("relative", className)}>
+    <div className={cn("relative")}>
       <Textarea
         className="resize-none mt-5 placeholder:text-slate-400 text-slate-200 h-96 focus-visible:ring-0 outline-none border-none"
         {...field}
@@ -57,7 +57,9 @@ const TextAreaWithUpload = ({
         required={required}
         placeholder={placeholder}
       />
-      {hasDocUploader && <FileUploader setParsedDocs={parsedDocsHandler} />}
+      {hasDocUploader && (
+        <FileUploader setParsedDocs={parsedDocsHandler} className={className} />
+      )}
     </div>
   );
 };
