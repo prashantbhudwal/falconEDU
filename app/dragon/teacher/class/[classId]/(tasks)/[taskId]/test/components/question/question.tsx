@@ -19,7 +19,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { IoClose } from "react-icons/io5";
-import { typeGetParsedQuestionByBotConfigId } from "@/app/dragon/teacher/routers/parsedQuestionRouter";
+import { typeActiveParsedQuestionByBotConfigId } from "@/app/dragon/teacher/routers/parsedQuestionRouter";
 import { Button } from "@/components/ui/button";
 import { db } from "@/app/dragon/teacher/routers";
 import { useState } from "react";
@@ -30,9 +30,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-type ParsedQuestionType = NonNullable<
-  typeGetParsedQuestionByBotConfigId["activeParsedQuestions"]
->[number];
+type ParsedQuestionType = typeActiveParsedQuestionByBotConfigId;
 
 type CommonProps = {
   children: React.ReactNode;

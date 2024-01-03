@@ -41,17 +41,20 @@ import { TaskType } from "@/types/dragon";
 import { typeGetBotConfigByConfigId } from "@/app/dragon/teacher/routers/botConfigRouter";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
+import { AlertDialogComponent } from "./test/components/alertDialog";
 
 export function TasksNavbar({
   classId,
   userId,
   nameOfClass,
   task,
+  totalParsedQuestions,
 }: {
   classId: string;
   userId: string;
   nameOfClass: string;
   task: NonNullable<typeGetBotConfigByConfigId>;
+  totalParsedQuestions: number | undefined;
 }) {
   const { currentPage } = usePageTracking();
   const isResponse = currentPage.endsWith("responses");
@@ -115,7 +118,11 @@ export function TasksNavbar({
             )}
           </>
         )}
-        <PublishButton task={task} classId={classId} />
+        <PublishButton
+          task={task}
+          classId={classId}
+          cancelPublish={Number(totalParsedQuestions) > 10}
+        />
       </div>
     </div>
   );
@@ -264,9 +271,11 @@ const ArchiveButton = function ({ task }: { task: BotConfig }) {
 const PublishButton = function ({
   task: initialTask,
   classId,
+  cancelPublish,
 }: {
   task: BotConfig;
   classId: string;
+  cancelPublish: boolean;
 }) {
   const [task, SetTask] = useState<BotConfig>(initialTask);
   const [hover, setHover] = useState(false);
@@ -296,6 +305,27 @@ const PublishButton = function ({
     ? `Unpublishing will make the ${type} unavailable for all students.`
     : `Publishing will make the ${type} available for all students.`;
   const action = isPublished ? onUnPublish : onPublish;
+
+  if (cancelPublish && !isPublished) {
+    return (
+      <AlertDialogComponent
+        title="Alert"
+        description="Keep the test questions to a maximum of 10. Delete any extras before publishing."
+      >
+        <Button
+          type="button"
+          variant={"default"}
+          size="sm"
+          className={cn({
+            "text-primary hover:bg-destructive ": isPublished,
+          })}
+          disabled={loading}
+        >
+          Publish
+        </Button>
+      </AlertDialogComponent>
+    );
+  }
 
   return (
     <>

@@ -1,42 +1,45 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { getYouTubeVideoMetadata } from "../utils";
+import { getVideoIdFromYoutubeUrl, getYouTubeVideoMetadata } from "../utils";
 import { FaPlay } from "react-icons/fa";
 import { cn } from "@/lib/utils";
 import { GiRabbit } from "react-icons/gi";
 
-const calculateDurationInSeconds = (durationStr: string) => {
-  if (!durationStr) return 0;
+// const calculateDurationInSeconds = (durationStr: string) => {
+//   if (!durationStr) return 0;
 
-  const parts = durationStr.split(":").map(Number);
-  if (parts.length === 3) {
-    return parts[0] * 3600 + parts[1] * 60 + parts[2];
-  } else if (parts.length === 2) {
-    return parts[0] * 60 + parts[1];
-  }
-  return 0;
-};
+//   const parts = durationStr.split(":").map(Number);
+//   if (parts.length === 3) {
+//     return parts[0] * 3600 + parts[1] * 60 + parts[2];
+//   } else if (parts.length === 2) {
+//     return parts[0] * 60 + parts[1];
+//   }
+//   return 0;
+// };
 
 type VideoCardProps = React.HTMLProps<HTMLDivElement> & {
-  videoId: string;
   className?: string;
   addToExistingLink?: boolean;
+  video: any;
 };
 
 export const VideoCard = async ({
-  videoId,
   className,
   addToExistingLink = false,
+  video,
 }: VideoCardProps) => {
-  const metaData = await getYouTubeVideoMetadata({
-    videoId,
-  });
+  // const metaData = await getYouTubeVideoMetadata({
+  //   videoId,
+  // });
 
-  const totalSeconds = calculateDurationInSeconds(metaData?.duration ?? "");
+  const videoId = getVideoIdFromYoutubeUrl(video.url);
+  const totalSeconds = video.duration;
   const showRabbitIcon = totalSeconds <= 60;
   const formattedDuration =
     totalSeconds < 45 ? "30 secs" : `${Math.ceil(totalSeconds / 60)} min`;
+
+  const thumbnail = `https://img.youtube.com/vi/${videoId}/0.jpg`;
 
   return (
     <Link
@@ -48,7 +51,7 @@ export const VideoCard = async ({
     >
       <div className="relative">
         <Image
-          src={metaData?.thumbnail || "/chubbi.png"}
+          src={thumbnail || "/chubbi.png"}
           alt="thumbnail"
           width={120}
           height={80}
@@ -59,7 +62,7 @@ export const VideoCard = async ({
       </div>
       <div className="w-9/12 text-start">
         <h3 className="whitespace-nowrap truncate font-semibold mb-3 w-full text-slate-300">
-          {metaData?.title || "Video"}
+          {video.title || "Video"}
         </h3>
         <div className="flex gap-5 text-sm">
           <div className="flex justify-between items-center w-full">

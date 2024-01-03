@@ -25,7 +25,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 import { LuCopy, LuX } from "react-icons/lu";
 import { LuTrash } from "react-icons/lu";
-import { typeGetParsedQuestionByBotConfigId } from "@/app/dragon/teacher/routers/parsedQuestionRouter";
+import { typeActiveParsedQuestionByBotConfigId } from "@/app/dragon/teacher/routers/parsedQuestionRouter";
 import { saveParsedQuestions } from "@/app/dragon/teacher/mutations";
 import {
   Tooltip,
@@ -42,13 +42,10 @@ import {
 } from "@/components/ui/select";
 import { questionTypes } from "@/app/dragon/ai/test-checker/tool";
 import { getQuestionTypeName } from "../../../../../../../utils";
-
-type QuestionProps = NonNullable<
-  typeGetParsedQuestionByBotConfigId["activeParsedQuestions"]
->[number];
+import { UpdatedQuestionType } from "@/app/dragon/types";
 
 type PropType = React.HTMLProps<HTMLDivElement> & {
-  question: QuestionProps;
+  question: typeActiveParsedQuestionByBotConfigId;
   questionNumber: number;
   deleteQuestions: ({ id }: { id: string }) => void;
   createDuplicate: ({
@@ -82,7 +79,7 @@ export const AddQuestionForm = forwardRef<HTMLDivElement, PropType>(
       })),
       question: question?.question,
       options: question?.options.map((answer) => ({ value: answer })),
-      question_type: question?.question_type,
+      question_type: question?.question_type as UpdatedQuestionType, // TODO: infering this as a cutom type cause the type from the prisma is not what we want in the current app state
     };
 
     const form = useForm<z.infer<typeof parsedQuestionsSchema>>({

@@ -1,5 +1,5 @@
 "use client";
-import { typeGetParsedQuestionByBotConfigId } from "@/app/dragon/teacher/routers/parsedQuestionRouter";
+import { typeActiveParsedQuestionByBotConfigId } from "@/app/dragon/teacher/routers/parsedQuestionRouter";
 import {
   Answer,
   Option,
@@ -18,7 +18,7 @@ import { useState } from "react";
 import { db } from "@/app/dragon/teacher/routers";
 
 type PropTypes = {
-  archivedQuestions: typeGetParsedQuestionByBotConfigId["archivedParsedQuestions"];
+  archivedQuestions: typeActiveParsedQuestionByBotConfigId[] | null;
 };
 export const ArchivedQuestions = ({ archivedQuestions }: PropTypes) => {
   const [error, setError] = useState("");

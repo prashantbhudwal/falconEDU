@@ -14,6 +14,7 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
+import { IoMdAdd } from "react-icons/io";
 import {
   botNameSchema,
   testBotPreferencesSchema,
@@ -24,33 +25,17 @@ import { LIMITS_testBotPreferencesSchema } from "../../../../../../../../schema"
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 import { Input } from "@/components/ui/input";
 import { parseTestQuestions } from "@/app/dragon/ai/test-question-parser/get-test-questions";
-import { typeGetParsedQuestionByBotConfigId } from "@/app/dragon/teacher/routers/parsedQuestionRouter";
-import { TestParsedQuestion } from "./test-parsed-questions";
-import { FaClockRotateLeft } from "react-icons/fa6";
+import { typeActiveParsedQuestionByBotConfigId } from "@/app/dragon/teacher/routers/parsedQuestionRouter";
 const MAX_CHARS = LIMITS_testBotPreferencesSchema.fullTest.maxLength;
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import TextAreaWithUpload from "../../../../_components/textAreaWithUpload";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { formatName } from "@/lib/utils";
+import { AddQuestionsDialog } from "./add-questions-dialog";
 
 type BotPreferencesFormProps = {
   preferences?: z.infer<typeof testBotPreferencesSchema> | null;
   classId: string;
   botId: string;
   botConfig: BotConfig | null;
-  activeParsedQuestions: typeGetParsedQuestionByBotConfigId["activeParsedQuestions"];
+  activeParsedQuestions: typeActiveParsedQuestionByBotConfigId[] | null;
   isActive: boolean;
 };
 
@@ -66,7 +51,6 @@ export default function TestPreferencesForm({
   const [error, setError] = useState<string | null>(null);
   const [testName, setTestName] = useState<string | undefined>(config?.name);
   const [botConfig, setBotConfig] = useState<BotConfig | null>(config);
-  const [openTimeLimitDialog, setOpenTimeLimitDialog] = useState(false);
 
   const timeLimit = config?.timeLimit || 0;
 
@@ -75,7 +59,7 @@ export default function TestPreferencesForm({
   }
 
   const form = useForm<z.infer<typeof testBotPreferencesSchema>>({
-    resolver: zodResolver(testBotPreferencesSchema),
+    // resolver: zodResolver(testBotPreferencesSchema),
     defaultValues: { fullTest: "", timeLimit }, // later change with value from db of timelimit
     mode: "onChange",
   });
@@ -194,30 +178,9 @@ export default function TestPreferencesForm({
     setError("");
   };
 
-  const updateTestTimeHandler = async (timeLimit: number) => {
-    const result = await db.botConfig.updateBotConfigTimeLimit({
-      classId,
-      botId,
-      timeLimit: Math.ceil(timeLimit) || 0,
-    });
-    if (result.success) {
-      closeDialog();
-    } else {
-      form.setError("timeLimit", {
-        type: "manual",
-        message: "Failed to update time limit. Please try again.",
-      });
-    }
-  };
-
-  const closeDialog = () => {
-    form.setValue("timeLimit", form.getValues("timeLimit"));
-    setOpenTimeLimitDialog(false);
-  };
-
   return (
     <div className="w-full max-w-5xl">
-      <Form {...form}>
+      <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div>
             {/* -------------------------------------- Form Header-------------------------------- */}
@@ -231,75 +194,12 @@ export default function TestPreferencesForm({
                   required
                   className="outline-none w-full border-none pl-0 md:text-2xl font-bold tracking-wide focus-visible:ring-0 "
                 />
-                {error && (
-                  <div className="text-red-500 text-sm mt-3">{error}</div>
+                {error && !parsedQuestionFromDb && (
+                  <div className="text-error text-sm mt-3">{error}</div>
                 )}
-                {/* <button
-                  type="button"
-                  className="w-fit"
-                  onClick={() => setOpenTimeLimitDialog(true)}
-                >
-                  <span className="text-xs px-4 py-2 text-slate-300 mt-2 font-semibold rounded-md bg-base-200 whitespace-nowrap flex items-center gap-2">
-                    <FaClockRotateLeft />
-                    {timeLimit ? timeLimit + "min" : "Time Limit"}
-                  </span>
-                </button>
-                <Dialog open={openTimeLimitDialog} onOpenChange={closeDialog}>
-                  <DialogContent>
-                    <DialogHeader>
-                      <DialogTitle className="text-xl">
-                        Set Time Limit to your{" "}
-                        {formatName((config?.type as string) && "test")}
-                      </DialogTitle>
-                      <FormField
-                        control={form.control}
-                        name="timeLimit"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormControl>
-                              <div className="flex gap-5 items-center pt-5">
-                                <Input
-                                  type="number"
-                                  {...field}
-                                  onChange={(e) => {
-                                    const value =
-                                      e.target.value === ""
-                                        ? null
-                                        : +e.target.value;
-                                    field.onChange(value);
-                                  }}
-                                  placeholder="Time in minutes"
-                                />
-                                <Button
-                                  type="button"
-                                  className="w-5/12"
-                                  onClick={() =>
-                                    updateTestTimeHandler(Number(field.value))
-                                  }
-                                >
-                                  Save
-                                </Button>
-                              </div>
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <p className="text-xs pt-1">
-                        <sup>* </sup>Time in minutes, 0 means no time limit
-                      </p>
-                      <DialogDescription className="text-xs pt-5">
-                        <span className="text-slate-200">Note:</span> The time
-                        will start once the students opens the test. Exiting the
-                        test or exhaustion of time limit will result in
-                        auto-submission of the Test
-                      </DialogDescription>
-                    </DialogHeader>
-                  </DialogContent>
-                </Dialog> */}
               </div>
-              <div className="flex w-fit flex-col gap-2 items-end">
-                <div className="flex gap-3">
+              {!parsedQuestionFromDb ? (
+                <div className="flex w-fit flex-col gap-2 items-end">
                   <Button
                     type="submit"
                     disabled={loading || !isDirty}
@@ -313,77 +213,57 @@ export default function TestPreferencesForm({
                       "Saved"
                     )}
                   </Button>
+                  {isDirty && (
+                    <div className="text-sm text-slate-500">
+                      You have unsaved changes.
+                    </div>
+                  )}
                 </div>
-                {isDirty && (
-                  <div className="text-sm text-slate-500">
-                    You have unsaved changes.
-                  </div>
-                )}
-              </div>
+              ) : (
+                <AddQuestionsDialog
+                  loading={loading}
+                  onModalSubmit={onSubmit}
+                  isDirty={isDirty}
+                  setIsDirty={setIsDirty}
+                  error={error}
+                  setError={setError}
+                />
+              )}
             </div>
             <div className="mb-6" />
             {/* -------------------------------------- Form Fields -------------------------------- */}
-            <FormField
-              control={form.control}
-              name="fullTest"
-              render={({ field }) => (
-                <FormItem className="pb-10">
-                  <FormProvider {...form}>
-                    <FormControl>
-                      <div className="relative w-full rounded-md border border-input bg-transparent px-3 py-2 shadow-sm min-h-[200px] sm:min-h-[150px] text-sm">
-                        {config?.preferences &&
-                          typeof config.preferences === "object" &&
-                          "fullTest" in config.preferences && (
-                            <Accordion
-                              type="single"
-                              collapsible
-                              className="mt-5 bg-slate-900/70 text-slate-500 cursor-pointer"
-                            >
-                              <AccordionItem
-                                value="item-1"
-                                className="border-none"
-                              >
-                                <AccordionTrigger className="text-lg px-4 text-slate-400">
-                                  Existing Test
-                                </AccordionTrigger>
-                                <AccordionContent>
-                                  <Textarea
-                                    className="resize-none min-h-fit sm:min-h-fit focus-visible:ring-0 text-slate-500 outline-none border-none"
-                                    value={
-                                      typeof config.preferences.fullTest ===
-                                      "string"
-                                        ? config.preferences.fullTest
-                                        : ""
-                                    }
-                                    readOnly
-                                  />
-                                </AccordionContent>
-                              </AccordionItem>
-                            </Accordion>
-                          )}
-                        <TextAreaWithUpload
-                          counter
-                          maxChars={MAX_CHARS}
-                          required
-                          placeholder="Enter or paste the full test here. Please provide the answers too. The bot will conduct the test for you."
-                          hasDocUploader
-                          setIsDirty={setIsDirty}
-                          {...field}
-                        />
-                      </div>
-                    </FormControl>
-                  </FormProvider>
-
-                  <FormDescription>
-                    {"Don't forget to provide answers."}
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            {!parsedQuestionFromDb && (
+              <FormField
+                control={form.control}
+                name="fullTest"
+                render={({ field }) => (
+                  <FormItem className="pb-10">
+                    <FormProvider {...form}>
+                      <FormControl>
+                        <div className="relative w-full rounded-md border border-input bg-transparent px-3 py-2 shadow-sm min-h-[200px] sm:min-h-[150px] text-sm">
+                          <TextAreaWithUpload
+                            counter
+                            maxChars={MAX_CHARS}
+                            required
+                            placeholder="Enter or paste the full test here. Please provide the answers too. The bot will conduct the test for you."
+                            hasDocUploader
+                            setIsDirty={setIsDirty}
+                            {...field}
+                          />
+                        </div>
+                      </FormControl>
+                    </FormProvider>
+                    <FormDescription>
+                      {"Don't forget to provide answers."}
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
           </div>
         </form>
-      </Form>
+      </FormProvider>
     </div>
   );
 }

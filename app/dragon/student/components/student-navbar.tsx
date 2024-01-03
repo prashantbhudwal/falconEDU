@@ -2,7 +2,7 @@
 import { Cog8ToothIcon } from "@heroicons/react/24/solid";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Avvvatars from "avvvatars-react";
-import { ReactNode } from "react";
+import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import SignOutButton from "@/components/auth/sign-out-btn";
 import Image from "next/image";
 import Link from "next/link";
@@ -14,10 +14,9 @@ import {
 } from "@/lib/urls";
 import { Button } from "@/components/ui/button";
 import { useAtom } from "jotai";
-import router from "next/navigation";
-import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
 import { ModeToggle } from "@/components/theme-toggle";
+import { MdInstallDesktop, MdInstallMobile } from "react-icons/md";
 
 const SettingsIcon: React.FC = () => {
   return (
@@ -49,22 +48,82 @@ export const StudentNavbar: React.FC<StudentNavbarProps> = ({ children }) => (
   <div className="bg-base-200 shadow-sm shadow-base-100 navbar">{children}</div>
 );
 
-export const StudentHomeNavbar: React.FC = () => (
-  <StudentNavbar>
-    <div className="flex gap-3 navbar-start">
-      <Image src={"/chubbi.png"} height={30} width={30} alt="Falcon Logo" />
-      <p className="text-xl">FalconAI</p>
-    </div>
-    <div className="navbar-end flex items-center gap-2">
-      <Link href={getStudentPreferencesURL()}>
-        <Button variant="ghost" size={"sm"}>
-          About Me
+export const StudentHomeNavbar: React.FC = () => {
+  const installButtonRef = useRef<HTMLButtonElement | null>(null);
+  const [installPrompt, setInstallPrompt] = useState<any | null>(null); //TODO: remove any
+
+  const disableInAppInstallPrompt = useCallback(() => {
+    setInstallPrompt(null);
+    installButtonRef.current?.classList.add("hidden");
+  }, []);
+
+  useEffect(() => {
+    const handleBeforeInstallPrompt = (event: Event) => {
+      event.preventDefault();
+      setInstallPrompt(event);
+      installButtonRef.current?.classList.remove("hidden");
+    };
+
+    const handleAppInstalled = () => {
+      disableInAppInstallPrompt();
+    };
+
+    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+    window.addEventListener("appinstalled", handleAppInstalled);
+
+    return () => {
+      window.removeEventListener(
+        "beforeinstallprompt",
+        handleBeforeInstallPrompt
+      );
+      window.removeEventListener("appinstalled", handleAppInstalled);
+    };
+  }, [disableInAppInstallPrompt]);
+
+  const handleInstallButtonClick = () => {
+    if (!installPrompt) {
+      return;
+    }
+    installPrompt.prompt();
+    installPrompt.userChoice.then((choiceResult: any) => {
+      if (choiceResult.outcome === "accepted") {
+        console.log("User accepted the Install prompt");
+        disableInAppInstallPrompt();
+      } else {
+        console.log("User dismissed the Install prompt");
+      }
+      setInstallPrompt(null);
+    });
+  };
+
+  return (
+    <StudentNavbar>
+      <div className="flex gap-3 navbar-start">
+        <Image src={"/chubbi.png"} height={30} width={30} alt="Falcon Logo" />
+        <p className="text-xl">FalconAI</p>
+      </div>
+      <div className="navbar-end flex items-center gap-2">
+        <Button
+          onClick={handleInstallButtonClick}
+          ref={installButtonRef}
+          className="hidden rounded-2xl border-primary text-xs text-slate-300 bg-transparent hover:text-base-300 border gap-2 items-center"
+        >
+          <div className="flex h-full w-full items-center gap-2 justify-center">
+            <MdInstallDesktop className="hidden sm:block" />
+            <MdInstallMobile className="block sm:hidden" />
+            Install
+          </div>
         </Button>
-      </Link>
-      <SettingsIcon />
-    </div>
-  </StudentNavbar>
-);
+        <Link href={getStudentPreferencesURL()}>
+          <Button variant="ghost" size={"sm"}>
+            About Me
+          </Button>
+        </Link>
+        <SettingsIcon />
+      </div>
+    </StudentNavbar>
+  );
+};
 
 type AvatarNavbarProps = {
   title: string;

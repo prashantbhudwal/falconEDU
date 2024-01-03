@@ -1,4 +1,3 @@
-
 import axios from "axios";
 
 export const getVideoIdFromYoutubeUrl = (url: string) => {
@@ -7,15 +6,11 @@ export const getVideoIdFromYoutubeUrl = (url: string) => {
     return videoId;
   }
   if (url.includes("?si=")) {
-    console.log("wcwe");
     const videoId = url.split("?si=")[0].split("/").slice(-1)[0];
     return videoId;
   }
   return url;
 };
-
-
-const photo = `https://img.youtube.com/vi/h02ti0Bl6zk/0.jpg`;
 
 function parseDuration(duration: string) {
   // Parse YouTube duration format (ISO 8601)

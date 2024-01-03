@@ -15,15 +15,15 @@ export const SummaryStats = async function ({
 }) {
   return (
     <div className="bg-dark-500 px-10 rounded-lg">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        <StatCard
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
+        {/* <StatCard
           title="Submissions"
           value={`${totalSubmittedTest}/${
             totalSubmittedTest + totalPendingTest
           }`}
           icon=<FaUsers />
           color="text-accent"
-        />
+        /> */}
         <StatCard
           title="Average Score"
           value={averageScore}
