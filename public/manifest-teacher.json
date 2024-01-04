@@ -1,0 +1,42 @@
+{
+  "theme_color": "#8936FF",
+  "background_color": "#2EC6FE",
+  "icons": [
+    {
+      "purpose": "maskable any",
+      "sizes": "512x512",
+      "src": "icon512_maskable.png",
+      "type": "image/png"
+    },
+    {
+      "purpose": "maskable any",
+      "sizes": "192x192",
+      "src": "icon192_maskable.png",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/dragon/auth/teacher",
+  "scope": "/",
+  "orientation": "any",
+  "display": "standalone",
+  "dir": "auto",
+  "lang": "en-GB",
+  "name": "FalconAI",
+  "short_name": "FalconAI",
+  "screenshots": [
+    {
+      "src": "/ScreenshotAppMobile.png",
+      "form_factor": "narrow",
+      "sizes": "512x1110",
+      "type": "image/png",
+      "label": "Test Chat View"
+    },
+    {
+      "src": "/ScreenshotAppDesktop.png",
+      "form_factor": "wide",
+      "sizes": "2880x1626",
+      "type": "image/png",
+      "label": "Test Creation page"
+    }
+  ]
+}
