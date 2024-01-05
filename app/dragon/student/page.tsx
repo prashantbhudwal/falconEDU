@@ -8,6 +8,7 @@ import { ItemCard } from "./components/item-card";
 import Link from "next/link";
 import { getStudentBotURL, getStudentTeacherURL } from "@/lib/urls";
 import { getTeachersByUserId } from "./queries";
+import { InstallAppDrawer } from "@/components/install-app-drawer";
 
 const basePath = "/dragon/student";
 
@@ -43,6 +44,7 @@ export default async function AllChats() {
           </Link>
         ))}
       </div>
+      <InstallAppDrawer />
     </>
   );
 }

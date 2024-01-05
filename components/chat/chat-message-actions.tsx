@@ -44,31 +44,36 @@ export function ChatMessageActions({
     copyToClipboard(message.content);
   }, [isCopied, copyToClipboard, message.content]);
 
-  const generateSpeech = useCallback(async () => {
-    setIsLoading(true);
-    try {
-      const response = await axios.post(
-        "/dragon/ai/speak",
-        { text: message.content },
-        { responseType: "blob" }
-      );
-      const audioBlob = new Blob([response.data], { type: "audio/mpeg" });
-      const audioUrl = URL.createObjectURL(audioBlob);
-
-      const newAudio = new Audio(audioUrl);
-      newAudio.onended = () => {
-        setIsPlaying(false);
-        setAudio(null); // Reset the audio when it ends
-      };
-      await newAudio.play();
+  const playSpeech = useCallback(async () => {
+    if (audio) {
+      audio.play();
       setIsPlaying(true);
-      setAudio(newAudio); // Set the audio
-    } catch (error) {
-      console.error("Error generating speech:", error);
-    }
-    setIsLoading(false);
-  }, [message.content]);
+    } else {
+      setIsLoading(true);
+      try {
+        const response = await axios.post(
+          "/dragon/ai/speak",
+          { text: message.content },
+          { responseType: "blob" }
+        );
+        const audioBlob = new Blob([response.data], { type: "audio/mpeg" });
+        const audioUrl = URL.createObjectURL(audioBlob);
 
+        const newAudio = new Audio(audioUrl);
+        newAudio.onended = () => {
+          setIsPlaying(false);
+        };
+        setAudio(newAudio); // Set the audio
+        newAudio.play();
+        setIsPlaying(true);
+      } catch (error) {
+        console.error("Error generating speech:", error);
+      }
+      setIsLoading(false);
+    }
+  }, [audio, message.content]);
+
+  // Pause the audio
   const pauseSpeech = useCallback(() => {
     if (audio) {
       audio.pause();
@@ -111,14 +116,14 @@ export function ChatMessageActions({
           variant="ghost"
           size="icon"
           className="rounded-[5px] hover:bg-transparent hover:text-slate-100"
-          onClick={generateSpeech}
+          onClick={isPlaying ? pauseSpeech : playSpeech}
         >
           {<HiSpeakerWave className="h-4 w-4" />}
-          <span className="sr-only">Listen</span>
+          <span className="sr-only">{isPlaying ? "Pause" : "Listen"}</span>
         </Button>
       );
     }
-  }, [isLoading, isPlaying, pauseSpeech, generateSpeech]);
+  }, [isLoading, isPlaying, pauseSpeech, playSpeech]);
 
   return (
     <div

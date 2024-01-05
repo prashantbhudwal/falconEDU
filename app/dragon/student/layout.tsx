@@ -2,6 +2,11 @@ import Navbar from "@/components/navbar/navbar";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { notFound } from "next/navigation";
+import { PWAProvider } from "@/components/pwa-context-provider";
+
+export const metadata = {
+  manifest: "/manifest-student.json",
+};
 
 export default async function StudentLayout({
   children,
@@ -12,7 +17,9 @@ export default async function StudentLayout({
   if (session?.user.userType !== "STUDENT") notFound();
   return (
     <div className="flex flex-col min-h-screen w-full bg-base-300">
-      <main className="flex flex-col flex-1">{children}</main>
+      <PWAProvider>
+        <main className="flex flex-col flex-1">{children}</main>
+      </PWAProvider>
     </div>
   );
 }
