@@ -17,6 +17,7 @@ import { useAtom } from "jotai";
 import { useTheme } from "next-themes";
 import { ModeToggle } from "@/components/theme-toggle";
 import { MdInstallDesktop, MdInstallMobile } from "react-icons/md";
+import { InstallAppDrawer } from "@/components/install-app-drawer";
 
 const SettingsIcon: React.FC = () => {
   return (
@@ -49,52 +50,52 @@ export const StudentNavbar: React.FC<StudentNavbarProps> = ({ children }) => (
 );
 
 export const StudentHomeNavbar: React.FC = () => {
-  const installButtonRef = useRef<HTMLButtonElement | null>(null);
-  const [installPrompt, setInstallPrompt] = useState<any | null>(null); //TODO: remove any
+  // const installButtonRef = useRef<HTMLButtonElement | null>(null);
+  // const [installPrompt, setInstallPrompt] = useState<any | null>(null); //TODO: remove any
 
-  const disableInAppInstallPrompt = useCallback(() => {
-    setInstallPrompt(null);
-    installButtonRef.current?.classList.add("hidden");
-  }, []);
+  // const disableInAppInstallPrompt = useCallback(() => {
+  //   setInstallPrompt(null);
+  //   installButtonRef.current?.classList.add("hidden");
+  // }, []);
 
-  useEffect(() => {
-    const handleBeforeInstallPrompt = (event: Event) => {
-      event.preventDefault();
-      setInstallPrompt(event);
-      installButtonRef.current?.classList.remove("hidden");
-    };
+  // useEffect(() => {
+  //   const handleBeforeInstallPrompt = (event: Event) => {
+  //     event.preventDefault();
+  //     setInstallPrompt(event);
+  //     installButtonRef.current?.classList.remove("hidden");
+  //   };
 
-    const handleAppInstalled = () => {
-      disableInAppInstallPrompt();
-    };
+  //   const handleAppInstalled = () => {
+  //     disableInAppInstallPrompt();
+  //   };
 
-    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
-    window.addEventListener("appinstalled", handleAppInstalled);
+  //   window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+  //   window.addEventListener("appinstalled", handleAppInstalled);
 
-    return () => {
-      window.removeEventListener(
-        "beforeinstallprompt",
-        handleBeforeInstallPrompt
-      );
-      window.removeEventListener("appinstalled", handleAppInstalled);
-    };
-  }, [disableInAppInstallPrompt]);
+  //   return () => {
+  //     window.removeEventListener(
+  //       "beforeinstallprompt",
+  //       handleBeforeInstallPrompt
+  //     );
+  //     window.removeEventListener("appinstalled", handleAppInstalled);
+  //   };
+  // }, [disableInAppInstallPrompt]);
 
-  const handleInstallButtonClick = () => {
-    if (!installPrompt) {
-      return;
-    }
-    installPrompt.prompt();
-    installPrompt.userChoice.then((choiceResult: any) => {
-      if (choiceResult.outcome === "accepted") {
-        console.log("User accepted the Install prompt");
-        disableInAppInstallPrompt();
-      } else {
-        console.log("User dismissed the Install prompt");
-      }
-      setInstallPrompt(null);
-    });
-  };
+  // const handleInstallButtonClick = () => {
+  //   if (!installPrompt) {
+  //     return;
+  //   }
+  //   installPrompt.prompt();
+  //   installPrompt.userChoice.then((choiceResult: any) => {
+  //     if (choiceResult.outcome === "accepted") {
+  //       console.log("User accepted the Install prompt");
+  //       disableInAppInstallPrompt();
+  //     } else {
+  //       console.log("User dismissed the Install prompt");
+  //     }
+  //     setInstallPrompt(null);
+  //   });
+  // };
 
   return (
     <StudentNavbar>
@@ -103,7 +104,7 @@ export const StudentHomeNavbar: React.FC = () => {
         <p className="text-xl">FalconAI</p>
       </div>
       <div className="navbar-end flex items-center gap-2">
-        <Button
+        {/* <Button
           onClick={handleInstallButtonClick}
           ref={installButtonRef}
           className="hidden rounded-2xl border-primary text-xs text-slate-300 bg-transparent hover:text-base-300 border gap-2 items-center"
@@ -113,7 +114,7 @@ export const StudentHomeNavbar: React.FC = () => {
             <MdInstallMobile className="block sm:hidden" />
             Install
           </div>
-        </Button>
+        </Button> */}
         <Link href={getStudentPreferencesURL()}>
           <Button variant="ghost" size={"sm"}>
             About Me
