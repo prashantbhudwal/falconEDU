@@ -1,0 +1,20 @@
+{
+  "recommendations": [
+    "wallabyjs.console-ninja",
+    "aaron-bond.better-comments",
+    "streetsidesoftware.code-spell-checker",
+    "vivaxy.vscode-conventional-commits",
+    "dbaeumer.vscode-eslint",
+    "mhutchie.git-graph",
+    "donjayamanne.githistory",
+    "esbenp.prettier-vscode",
+    "yoavbls.pretty-ts-errors",
+    "prisma.prisma",
+    "bradlc.vscode-tailwindcss",
+    "rangav.vscode-thunder-client",
+    "gruntfuggly.todo-tree",
+    "pflannery.vscode-versionlens",
+    "redhat.vscode-yaml",
+    "atlassian.atlascode"
+  ]
+}
