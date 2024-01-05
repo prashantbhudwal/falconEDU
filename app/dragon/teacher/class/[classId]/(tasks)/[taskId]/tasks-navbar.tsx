@@ -122,6 +122,9 @@ export function TasksNavbar({
           task={task}
           classId={classId}
           cancelPublish={Number(totalParsedQuestions) > 10}
+          isEmptyTest={
+            Number(totalParsedQuestions) === 0 || !totalParsedQuestions
+          }
         />
       </div>
     </div>
@@ -272,10 +275,12 @@ const PublishButton = function ({
   task: initialTask,
   classId,
   cancelPublish,
+  isEmptyTest,
 }: {
   task: BotConfig;
   classId: string;
   cancelPublish: boolean;
+  isEmptyTest: boolean;
 }) {
   const [task, SetTask] = useState<BotConfig>(initialTask);
   const [hover, setHover] = useState(false);
@@ -306,12 +311,12 @@ const PublishButton = function ({
     : `Publishing will make the ${type} available for all students.`;
   const action = isPublished ? onUnPublish : onPublish;
 
-  if (cancelPublish && !isPublished) {
+  if ((cancelPublish || isEmptyTest) && !isPublished) {
+    const description = isEmptyTest
+      ? "The test cannot be empty. Please add some questions before publishing."
+      : "The test cannot exceed 10 questions. Please delete some questions before publishing.";
     return (
-      <AlertDialogComponent
-        title="Alert"
-        description="The test cannot exceed 10 questions. Please delete some questions before publishing."
-      >
+      <AlertDialogComponent title="Alert" description={description}>
         <Button
           type="button"
           variant={"default"}
