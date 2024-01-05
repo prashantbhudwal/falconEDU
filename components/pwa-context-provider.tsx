@@ -1,7 +1,23 @@
 "use client";
-import { useEffect, useState } from "react";
 
-const usePwaAppStatus = () => {
+import {
+  createContext,
+  PropsWithChildren,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+
+interface PWA {
+  disableInAppInstallPrompt: () => void;
+  showInstallDrawer: boolean;
+  setInstallPrompt: (value: any) => void;
+  installPrompt: any;
+}
+
+export const PWAContext = createContext<PWA | undefined>(undefined);
+
+export const PWAProvider = ({ children }: PropsWithChildren) => {
   const [installPrompt, setInstallPrompt] = useState<any | null>(null); //TODO: remove any
   const [showInstallDrawer, setShowInstallDrawer] = useState(false);
 
@@ -33,11 +49,26 @@ const usePwaAppStatus = () => {
     };
   }, []);
 
-  return {
-    disableInAppInstallPrompt: disableInAppInstallPrompt as () => void,
-    showInstallDrawer: showInstallDrawer as boolean,
-    setInstallPrompt: setInstallPrompt as (value: any) => void,
-    installPrompt: installPrompt as any,
-  };
+  return (
+    <PWAContext.Provider
+      value={{
+        disableInAppInstallPrompt,
+        installPrompt,
+        setInstallPrompt,
+        showInstallDrawer,
+      }}
+    >
+      {children}
+    </PWAContext.Provider>
+  );
 };
-export default usePwaAppStatus;
+
+export const usePWAAppStatus = (): PWA => {
+  const context = useContext(PWAContext);
+
+  if (context === undefined) {
+    throw new Error("usePWAAppStatus must be used within a PWAProvider");
+  }
+
+  return context;
+};

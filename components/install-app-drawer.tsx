@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Drawer,
   DrawerClose,
@@ -10,22 +10,35 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Button } from "./ui/button";
-import usePwaAppStatus from "@/hooks/use-pwa-app-status";
 import localForage from "localforage";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import Image from "next/image";
 import { MdInstallDesktop, MdInstallMobile } from "react-icons/md";
+import { usePWAAppStatus } from "./pwa-context-provider";
 
 export const InstallAppDrawer = () => {
   const {
-    showInstallDrawer,
     disableInAppInstallPrompt,
-    installPrompt,
     setInstallPrompt,
-  } = usePwaAppStatus();
+    installPrompt,
+    showInstallDrawer,
+  } = usePWAAppStatus();
+
   const [drawerOpen, setDrawerOpen] = useState(false);
+
   const secretKey =
     process.env.JWT_SECRET_KEY_FOR_PWA_INSTALL_POP_UP || "some_random_key";
+
+  const setNewToken = useCallback(
+    async (value: boolean) => {
+      const payload = { showInstallPopUp: value };
+      const createdToken = jwt.sign(payload, secretKey, {
+        expiresIn: "1m",
+      });
+      await localForage.setItem("pwa-install", createdToken);
+    },
+    [secretKey]
+  );
 
   useEffect(() => {
     if (!showInstallDrawer) return;
@@ -45,43 +58,28 @@ export const InstallAppDrawer = () => {
             }
           } catch (err: any) {
             if (err.message === "jwt expired") {
-              await localForage.removeItem("pwa-install");
-              const payload = { showInstallPopUp: true };
-              const createdToken = jwt.sign(payload, secretKey, {
-                expiresIn: "1m",
-              });
-              await localForage.setItem("pwa-install", createdToken);
+              setNewToken(true);
               setDrawerOpen(true);
             }
           }
         }
         //if the jwt token dont exist, then create one and show the drawer
         if (tokenValue === null) {
-          const payload = { showInstallPopUp: true };
-          const createdToken = jwt.sign(payload, secretKey, {
-            expiresIn: "1m",
-          });
-          await localForage.setItem("pwa-install", createdToken);
+          setNewToken(true);
           setDrawerOpen(true);
         }
       } catch (e) {
         console.log(e);
       }
     })();
-  }, [showInstallDrawer]);
+  }, [showInstallDrawer, secretKey, setNewToken]);
 
-  const closeDrawer = async () => {
+  const closeInstallDrawer = async () => {
     try {
-      await localForage.removeItem("pwa-install");
-      const payload = { showInstallPopUp: false };
-      const createdToken = jwt.sign(payload, secretKey, {
-        expiresIn: "1m",
-      });
-      await localForage.setItem("pwa-install", createdToken);
+      setNewToken(false);
     } catch (err: any) {
       console.log(err);
     }
-
     setDrawerOpen(false);
   };
 
@@ -104,7 +102,7 @@ export const InstallAppDrawer = () => {
   return (
     <>
       {showInstallDrawer && (
-        <Drawer open={drawerOpen} onClose={closeDrawer}>
+        <Drawer open={drawerOpen} onClose={closeInstallDrawer}>
           <DrawerContent className="outline-none">
             <DrawerHeader>
               <DrawerTitle className="flex justify-center gap-2 items-center">
@@ -146,7 +144,7 @@ export const InstallAppDrawer = () => {
                 </div>
               </Button>
               <DrawerClose>
-                <Button variant="outline" onClick={closeDrawer}>
+                <Button variant="outline" onClick={closeInstallDrawer}>
                   Cancel
                 </Button>
               </DrawerClose>
