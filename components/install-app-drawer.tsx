@@ -33,7 +33,7 @@ export const InstallAppDrawer = () => {
     async (value: boolean) => {
       const payload = { showInstallPopUp: value };
       const createdToken = jwt.sign(payload, secretKey, {
-        expiresIn: "1m",
+        expiresIn: "1d",
       });
       await localForage.setItem("pwa-install", createdToken);
     },
