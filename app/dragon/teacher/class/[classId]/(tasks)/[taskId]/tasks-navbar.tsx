@@ -288,6 +288,7 @@ const PublishButton = function ({
   const isPublished = task.published;
   const taskId = task.id;
   const type = task.type as TaskType;
+  const { Icon, iconColor, formattedType } = getTaskProperties(type);
 
   const {
     onPublish,
@@ -307,10 +308,12 @@ const PublishButton = function ({
     }
   }, [updatedTask, taskId, publishingError]);
 
-  const title = isPublished ? `Unpublish ${type}` : `Publish ${type}`;
+  const title = isPublished
+    ? `Unpublish ${formattedType}`
+    : `Publish ${formattedType}`;
   const description = isPublished
-    ? `Unpublishing will make the ${type} unavailable for all students.`
-    : `Publishing will make the ${type} available for all students.`;
+    ? `Unpublishing will make the ${formattedType} unavailable for all students.`
+    : `Publishing will make the ${formattedType} available for all students.`;
   const action = isPublished ? onUnPublish : onPublish;
 
   if ((cancelPublish || isEmptyTest) && !isPublished) {
