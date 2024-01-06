@@ -18,86 +18,11 @@ import { usePWAAppStatus } from "./pwa-context-provider";
 
 export const InstallAppDrawer = () => {
   const {
-    disableInAppInstallPrompt,
-    setInstallPrompt,
-    installPrompt,
     showInstallDrawer,
+    drawerOpen,
+    closeInstallDrawer,
+    handleInstallButtonClick,
   } = usePWAAppStatus();
-
-  const [drawerOpen, setDrawerOpen] = useState(false);
-
-  const secretKey =
-    process.env.JWT_SECRET_KEY_FOR_PWA_INSTALL_POP_UP || "some_random_key";
-
-  const setNewToken = useCallback(
-    async (value: boolean) => {
-      const payload = { showInstallPopUp: value };
-      const createdToken = jwt.sign(payload, secretKey, {
-        expiresIn: "1d",
-      });
-      await localForage.setItem("pwa-install", createdToken);
-    },
-    [secretKey]
-  );
-
-  useEffect(() => {
-    if (!showInstallDrawer) return;
-    (async () => {
-      try {
-        //check if the jwt token exist
-        const tokenValue: string | null =
-          await localForage.getItem("pwa-install");
-
-        //if the jwt token exist or is not expired then check for the showInstallPopUp and if it is true, then show the drawer
-        if (tokenValue) {
-          try {
-            const response = jwt.verify(tokenValue, secretKey);
-
-            if (response && (response as JwtPayload).showInstallPopUp) {
-              setDrawerOpen(true);
-            }
-          } catch (err: any) {
-            if (err.message === "jwt expired") {
-              setNewToken(true);
-              setDrawerOpen(true);
-            }
-          }
-        }
-        //if the jwt token dont exist, then create one and show the drawer
-        if (tokenValue === null) {
-          setNewToken(true);
-          setDrawerOpen(true);
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    })();
-  }, [showInstallDrawer, secretKey, setNewToken]);
-
-  const closeInstallDrawer = async () => {
-    try {
-      setNewToken(false);
-    } catch (err: any) {
-      console.log(err);
-    }
-    setDrawerOpen(false);
-  };
-
-  const handleInstallButtonClick = () => {
-    if (!installPrompt) {
-      return;
-    }
-    installPrompt.prompt();
-    installPrompt.userChoice.then((choiceResult: any) => {
-      if (choiceResult.outcome === "accepted") {
-        disableInAppInstallPrompt();
-      } else {
-        console.log("User dismissed the Install prompt");
-      }
-      setInstallPrompt(null);
-      setDrawerOpen(false);
-    });
-  };
 
   return (
     <>
