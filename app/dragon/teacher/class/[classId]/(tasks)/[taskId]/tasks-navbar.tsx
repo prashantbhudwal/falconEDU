@@ -123,7 +123,8 @@ export function TasksNavbar({
           classId={classId}
           cancelPublish={Number(totalParsedQuestions) > 10}
           isEmptyTest={
-            Number(totalParsedQuestions) === 0 || !totalParsedQuestions
+            task.type === "test" &&
+            (Number(totalParsedQuestions) === 0 || !totalParsedQuestions)
           }
         />
       </div>
@@ -287,6 +288,7 @@ const PublishButton = function ({
   const isPublished = task.published;
   const taskId = task.id;
   const type = task.type as TaskType;
+
   const {
     onPublish,
     onUnPublish,
