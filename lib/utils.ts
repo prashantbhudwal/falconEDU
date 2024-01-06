@@ -3,6 +3,7 @@ import { customAlphabet } from "nanoid";
 import { twMerge } from "tailwind-merge";
 import { z } from "zod";
 export * from "./is-authorized";
+import { format, utcToZonedTime } from "date-fns-tz";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -75,4 +76,10 @@ export const formatName = (name: string) => {
   return nameArray
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
     .join(" ");
+};
+
+export const formatDateWithTimeZone = (date: Date) => {
+  const timeZone = "Asia/Kolkata";
+  const formattedDate = format(date, "dd MMM, h:mm a", { timeZone });
+  return formattedDate;
 };
