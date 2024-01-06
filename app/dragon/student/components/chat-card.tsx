@@ -134,7 +134,7 @@ export async function TaskCard({
                       {defaultChatSubmitted ? "Submitted" : ""}
                     </div>
                   ) : (
-                    formatDateWithTimeZone(new Date(createdAt))
+                    formatDateWithTimeZone(createdAt)
                   )}
                 </div>
                 <div>{!isActive && <span className="">Inactive</span>}</div>

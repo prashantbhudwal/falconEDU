@@ -61,30 +61,43 @@ export default async function ChatPage({ params }: ChatPageProps) {
   const emptyMessage = getTaskProperties(type).emptyChatMessage;
   const context = await getChatContext(type, id);
 
-  return (
-    <>
-      <AvatarNavbar
-        title={bot?.BotConfig.name!}
-        subtitle={bot?.BotConfig.type}
-        timeLimit={bot?.BotConfig.timeLimit || undefined}
+  const SubmitButton = ({ variant }: { variant: "outline" | "default" }) => {
+    const styles =
+      variant === "outline"
+        ? "rounded-xl w-fit bg-base-200 border hover:bg-base-200 px-5 tracking-wider border-slate-500 text-slate-500"
+        : "";
+
+    return bot?.BotConfig.type === "test" && !chat?.isSubmitted ? (
+      <SubmitTestButton
         testBotId={botId}
-        redirectUrl={redirectUrl}
-        isSubmitted={chat?.isSubmitted}
-        isMultipleChats={bot?.BotConfig.canReAttempt}
+        className={styles}
         botChatId={id}
-        button={
-          bot?.BotConfig.type === "test" && !chat?.isSubmitted ? (
-            <SubmitTestButton
-              testBotId={botId}
-              botChatId={id}
-              redirectUrl={redirectUrl}
-              isMultipleChats={bot?.BotConfig.canReAttempt}
-            />
-          ) : (
-            <></>
-          )
-        }
+        redirectUrl={redirectUrl}
+        isMultipleChats={bot?.BotConfig.canReAttempt}
       />
+    ) : (
+      <></>
+    );
+  };
+
+  return (
+    <div className="w-full">
+      <div className="">
+        <AvatarNavbar
+          title={bot?.BotConfig.name!}
+          subtitle={bot?.BotConfig.type}
+          timeLimit={bot?.BotConfig.timeLimit || undefined}
+          testBotId={botId}
+          redirectUrl={redirectUrl}
+          isSubmitted={chat?.isSubmitted}
+          isMultipleChats={bot?.BotConfig.canReAttempt}
+          botChatId={id}
+          button={<SubmitButton variant="default" />}
+        />
+        <div className="fixed w-fit z-10 bottom-20 left-1/2 -translate-x-1/2 rounded-xl">
+          <SubmitButton variant="outline" />
+        </div>
+      </div>
       <Chat
         initialMessages={initialMessages}
         id={id}
@@ -100,6 +113,6 @@ export default async function ChatPage({ params }: ChatPageProps) {
         isSubmitted={chat?.isSubmitted}
         type={bot?.BotConfig.type ?? "chat"}
       />
-    </>
+    </div>
   );
 }

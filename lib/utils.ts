@@ -78,8 +78,9 @@ export const formatName = (name: string) => {
     .join(" ");
 };
 
-export const formatDateWithTimeZone = (date: Date) => {
+export const formatDateWithTimeZone = (createdAt: Date) => {
   const timeZone = "Asia/Kolkata";
-  const formattedDate = format(date, "dd MMM, h:mm a", { timeZone });
+  const zonedDate = utcToZonedTime(createdAt, timeZone);
+  const formattedDate = format(zonedDate, "dd MMM, h:mm a", { timeZone });
   return formattedDate;
 };
