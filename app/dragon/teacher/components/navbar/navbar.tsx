@@ -4,6 +4,7 @@ import ProfileDropDown from "@/components/navbar/profile-dropdown";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { FiSliders, FiAirplay, FiTool } from "react-icons/fi";
+import { NewClass } from "../new-class";
 import {
   teacherTrainingURL,
   teacherAvatarURL,
@@ -14,12 +15,13 @@ import Image from "next/image";
 
 export default function Navbar() {
   return (
-    <div className="flex flex-row justify-between bg-base-200 shadow-sm shadow-base-100 py-2 px-1">
-      <div className="gap-4 pr-2">
+    <div className="flex flex-row justify-between bg-base-200 shadow-sm shadow-base-100 py-3 px-1">
+      <div className="flex flex-row items-center gap-4 pr-2">
         <div className="shadow-md shadow-slate-950  flex gap-2 items-center justify-center px-3 py-2 rounded-lg">
           <Image src={"/chubbi.png"} height={20} width={20} alt="Falcon Logo" />
           <div className="text-xs">FalconAI</div>
         </div>
+        <NewClass />
       </div>
       <div className="flex flex-row gap-3 pr-1 items-center">
         <Link href={teacherAvatarURL}>
@@ -29,7 +31,7 @@ export default function Navbar() {
             className="rounded-xl flex items-center gap-2"
           >
             <FiSliders className="text-primary" />
-            <span> My Avatar </span>
+            <span> Avatar </span>
           </Button>
         </Link>
         <Link href={teacherTrainingURL}>
@@ -49,7 +51,7 @@ export default function Navbar() {
             className="rounded-xl flex items-center gap-2"
           >
             <FiTool className="text-info" />
-            <span> AI Tools </span>
+            <span> Tools </span>
           </Button>
         </Link>
         <ProfileDropDown url={teacherProfileURL} />
