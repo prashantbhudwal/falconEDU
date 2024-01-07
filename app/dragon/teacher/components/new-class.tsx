@@ -2,7 +2,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { FaPlus } from "react-icons/fa6";
 import { useSession } from "next-auth/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -58,7 +58,7 @@ type ClassFormTypes = Pick<Class, "section" | "grade">;
 
 const formSchema = z.object({
   grade: z.nativeEnum(Grade),
-  section: z.string().min(1).max(20),
+  section: z.string().nullable(),
   hasSection: z.boolean(),
 });
 
@@ -83,6 +83,16 @@ export function NewClass() {
     resolver: zodResolver(formSchema),
     defaultValues: {},
   });
+
+  useEffect(() => {
+    if (open) {
+      form.reset({
+        grade: undefined,
+        section: null,
+        hasSection: false,
+      });
+    }
+  }, [open, form.reset, form]);
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild className="rounded-lg">
@@ -162,8 +172,14 @@ export function NewClass() {
                         <FormControl>
                           <Input
                             {...field}
-                            value={field.value ?? null}
+                            value={field.value ?? ""} // Display an empty string if field.value is null or undefined
                             placeholder="Enter Section Name"
+                            onChange={(e) => {
+                              // Update the form state to null if the input is empty, otherwise use the input value
+                              field.onChange(
+                                e.target.value === "" ? null : e.target.value
+                              );
+                            }}
                           />
                         </FormControl>
                         <FormMessage />
