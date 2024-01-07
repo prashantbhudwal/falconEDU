@@ -51,7 +51,7 @@ export function NewTaskModal({
   const [open, setOpen] = useState(false);
   const [error, setError] = useState("");
 
-  const types: TaskType[] = ["chat", "test", "lesson"];
+  const types: TaskType[] = ["lesson", "test", "chat"]; 
 
   const formSchema = z.object({
     taskName: z.string().min(3).max(50),
