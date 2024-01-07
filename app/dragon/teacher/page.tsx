@@ -15,7 +15,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import Navbar from "@/components/navbar/navbar";
+import Navbar from "./components/navbar/navbar";
 
 export default async function Classes() {
   const session = await getServerSession(authOptions);

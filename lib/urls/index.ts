@@ -16,6 +16,10 @@ export const getTestsUrl = (classId: string) =>
 export const getSettingsUrl = (classId: string) =>
   `${baseUrl}/teacher/class/${classId}/dashboard`;
 
+export const teacherProfileURL = `/profile/teacher`;
+export const teacherTrainingURL = `${getTeacherHomeURL()}/teacher-training/gallery`;
+export const teacherAvatarURL = `${getTeacherHomeURL()}/teacher-preferences/`;
+export const teacherAIToolsURL = `/preferences/`;
 export const getTaskUrl = ({
   classId,
   taskId,
