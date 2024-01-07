@@ -1,4 +1,3 @@
-// TODO This is a mess, need to clean up
 "use client";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -49,24 +48,34 @@ const LandingPage = () => {
   }, []);
 
   return (
-    <div className="flex min-h-screen flex-col place-content-center gap-4">
-      <Image
-        src="/chubbi.png"
-        alt="Falcon AI Logo"
-        width={200}
-        height={200}
-        className="mx-auto"
-      />
-      <div className="flex items-center justify-center gap-6 bg-base-300 p-4">
-        <Link href={"/dragon/auth/teacher"}>
-          <Button variant="default" rel="noopener noreferrer">
-            Teacher
-          </Button>
-        </Link>
-        <Link href={"/dragon/auth/student"}>
-          <Button variant="default" rel="noopener noreferrer">
-            Student
-          </Button>
+    <div className="flex flex-col h-screen">
+      <div className="flex-grow flex flex-col justify-center items-center gap-4">
+        <Image
+          src="/chubbi.png"
+          alt="Falcon AI Logo"
+          width={200}
+          height={200}
+          className="mx-auto"
+        />
+        <div className="flex items-center justify-center gap-6 bg-base-300 p-4">
+          <Link href={"/dragon/auth/teacher"}>
+            <Button variant="default" rel="noopener noreferrer">
+              Teacher
+            </Button>
+          </Link>
+          <Link href={"/dragon/auth/student"}>
+            <Button variant="default" rel="noopener noreferrer">
+              Student
+            </Button>
+          </Link>
+        </div>
+      </div>
+      <div className="p-4 text-right">
+        <Link
+          href={"https://falconai.in/#terms-and-policies"}
+          className="underline text-sm text-slate-500"
+        >
+          Terms of Service & Privacy Policy
         </Link>
       </div>
     </div>
