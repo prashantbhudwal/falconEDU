@@ -118,6 +118,8 @@ model Org {
   id            String            @id @default(cuid())
   type          OrgType
   name          String
+  // teacherSeats  Int               @default(0) 
+  // studentSeats  Int               @default(0)
   teacher       TeacherProfile[]
   admin         OrgAdminProfile[]
   students      StudentProfile[]
@@ -134,8 +136,10 @@ enum OrgType {
 
 model Class {
   id         String           @id @default(cuid())
-  name       String
+  name       String?
   teacherId  String
+  grade      Grade            @default(GRADE_5)
+  section    String?
   isActive   Boolean          @default(true)
   Teacher    TeacherProfile   @relation(fields: [teacherId], references: [id], onDelete: Cascade)
   students   StudentProfile[]
@@ -143,6 +147,17 @@ model Class {
   BotConfig  BotConfig[]
   Invitation Invitation[]
   createdAt  DateTime         @default(now())
+}
+
+enum Grade {
+  GRADE_3
+  GRADE_4
+  GRADE_5
+  GRADE_6
+  GRADE_7
+  GRADE_8
+  GRADE_9
+  GRADE_10
 }
 
 enum UserType {
