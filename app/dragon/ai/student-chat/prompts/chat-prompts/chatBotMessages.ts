@@ -94,6 +94,5 @@ export async function getEngineeredChatBotMessages(
     ["human", humanTemplate],
   ]);
   const engineeredMessages = await prompt.formatMessages(preferences);
-  console.log("engineeredMessages", engineeredMessages);
   return { engineeredMessages, prompt };
 }
