@@ -181,7 +181,7 @@ export function PromptForm({
           type="submit"
           size="icon"
           disabled={isLoading || input === ""}
-          className="mr-2 sm:hover:bg-base-300 sm:hover:text-secondary"
+          className="mr-2 hover:bg-base-300"
         >
           <PaperAirplaneIcon className="text-secondary" />
           <span className="sr-only">Send message</span>
