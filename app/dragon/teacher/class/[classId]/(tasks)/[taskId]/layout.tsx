@@ -14,7 +14,6 @@ export default async function ClassLayout({
   params: { classId: string; taskId: string };
 }) {
   const { classId, taskId } = params;
-  const nameOfClass = await db.class.getClassNameByClassId(classId);
   const nameOfTask = await db.botConfig.getConfigNameByConfigId({
     configId: taskId,
   });
@@ -35,7 +34,6 @@ export default async function ClassLayout({
           <TasksNavbar
             classId={classId}
             userId={userId}
-            nameOfClass={nameOfClass}
             task={task}
             totalParsedQuestions={activeParsedQuestions?.length}
           />

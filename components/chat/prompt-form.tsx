@@ -38,17 +38,12 @@ export function PromptForm({
   const [audioChunks, setAudioChunks] = useState<Blob[]>([]);
   const [isSendingAudio, setIsSendingAudio] = useState(false);
 
-  useEffect(() => {
-    if (inputRef.current && !isLoading) {
-      inputRef.current.focus();
-    }
-  }, [isLoading]);
-
-  useEffect(() => {
-    if (inputRef.current && !isLoading) {
-      inputRef.current.focus();
-    }
-  }, [isLoading]);
+  // Auto focus input when loading is done
+  // useEffect(() => {
+  //   if (inputRef.current && !isLoading) {
+  //     inputRef.current.focus();
+  //   }
+  // }, [isLoading]);
 
   const toggleRecording = async (
     event: React.MouseEvent<HTMLButtonElement>
@@ -181,7 +176,7 @@ export function PromptForm({
           type="submit"
           size="icon"
           disabled={isLoading || input === ""}
-          className="mr-2 sm:hover:bg-base-300 sm:hover:text-secondary"
+          className="mr-2 hover:bg-base-300"
         >
           <PaperAirplaneIcon className="text-secondary" />
           <span className="sr-only">Send message</span>

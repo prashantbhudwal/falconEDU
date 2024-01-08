@@ -42,17 +42,17 @@ import { typeGetBotConfigByConfigId } from "@/app/dragon/teacher/routers/botConf
 import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
 import { AlertDialogComponent } from "./test/components/alertDialog";
+import { Grade } from "@prisma/client";
+import { Class } from "@prisma/client";
 
 export function TasksNavbar({
   classId,
   userId,
-  nameOfClass,
   task,
   totalParsedQuestions,
 }: {
   classId: string;
   userId: string;
-  nameOfClass: string;
   task: NonNullable<typeGetBotConfigByConfigId>;
   totalParsedQuestions: number | undefined;
 }) {
@@ -64,7 +64,7 @@ export function TasksNavbar({
   return (
     <div className="navbar flex w-full bg-base-300 border-b border-base-200 py-0 h-full">
       <div className="navbar-start gap-4 pr-2 flex">
-        <ClassLink classId={classId} name={nameOfClass} />
+        <ClassLink classId={classId} />
       </div>
       <div className="navbar-center self-end">
         <Tabs defaultValue="test">
@@ -132,13 +132,7 @@ export function TasksNavbar({
   );
 }
 
-const ClassLink = function ({
-  classId,
-  name,
-}: {
-  classId: string;
-  name: string;
-}) {
+const ClassLink = function ({ classId }: { classId: string }) {
   return (
     <Link href={getClassURL(classId)}>
       <Button
@@ -147,7 +141,6 @@ const ClassLink = function ({
         size="sm"
       >
         <ChevronLeftIcon className="w-6" />
-        {/* <div>{name}</div> */}
       </Button>
     </Link>
   );

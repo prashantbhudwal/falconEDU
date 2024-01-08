@@ -7,6 +7,7 @@ import { FaRobot } from "react-icons/fa6";
 import { HiClipboardDocumentCheck, HiAcademicCap } from "react-icons/hi2";
 import { TaskType } from "@/types/dragon";
 import { IoIosChatboxes } from "react-icons/io";
+import { Grade } from "@prisma/client";
 
 /**
  * Calculates the test metadata based on the given student responses.
@@ -149,3 +150,17 @@ export const getFormattedDate = (date: Date) =>
     month: "short",
     day: "numeric",
   });
+
+export function getFormattedGrade({ grade }: { grade: Grade }) {
+  // Split the string by underscore
+  let parts = grade.split("_");
+
+  // Convert the first part to title case and keep the second part as is
+  let converted =
+    parts[0].charAt(0).toUpperCase() +
+    parts[0].slice(1).toLowerCase() +
+    " " +
+    parts[1];
+
+  return converted;
+}

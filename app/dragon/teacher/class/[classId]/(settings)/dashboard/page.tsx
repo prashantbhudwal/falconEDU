@@ -5,7 +5,6 @@ import {
   TooltipProvider,
 } from "@ui/tooltip";
 import { getTotalStudentsByClassId } from "./queries";
-import EditableClassName from "./components/editable-class-name";
 import Link from "next/link";
 import { getStudentsURL } from "@/lib/urls";
 import { ToggleClassStatusCard } from "./components/toggle-class-status";
@@ -34,7 +33,7 @@ export default async function ClassSettings({
       {/* ------------------------------------------------------------------------------- */}
       <h1 className="text-3xl font-bold  text-slate-400">Class Dashboard</h1>
       <Separator decorative orientation="horizontal" className="w-full" />
-      <EditableClassName classId={classId} />
+  
 
       {/* ------------------------------------------------------------------------------- */}
 

@@ -1,4 +1,5 @@
 "use client";
+import { chatIsLoadingAtom } from "@/lib/atoms/student";
 import { Cog8ToothIcon } from "@heroicons/react/24/solid";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Avvvatars from "avvvatars-react";
@@ -7,6 +8,7 @@ import SignOutButton from "@/components/auth/sign-out-btn";
 import Image from "next/image";
 import Link from "next/link";
 import { MoonIcon, SunIcon } from "@heroicons/react/24/solid";
+import { PulseLoader } from "react-spinners";
 import {
   getStudentPreferencesURL,
   studentHomeURL,
@@ -93,6 +95,7 @@ export const AvatarNavbar: React.FC<AvatarNavbarProps> = ({
   isMultipleChats,
   botChatId,
 }) => {
+  const [isLoading] = useAtom(chatIsLoadingAtom);
   return (
     <StudentNavbar>
       <Link href={studentHomeURL} className="flex gap-3 navbar-start">
@@ -104,7 +107,16 @@ export const AvatarNavbar: React.FC<AvatarNavbarProps> = ({
         </Avatar>
         <div>
           <p className="truncate">{title}</p>
-          <p className="text-sm text-slate-500 truncate">{subtitle}</p>
+          {isLoading ? (
+            <p className="text-sm text-primary truncate">
+              <div className="flex flex-row items-baseline gap-1">
+                <div>typing</div>
+                <PulseLoader size={4} color={"#059669"} speedMultiplier={0.5} />
+              </div>
+            </p>
+          ) : (
+            <p className="text-sm text-slate-500 truncate">{subtitle}</p>
+          )}
         </div>
       </Link>
       <div className="navbar-end flex gap-4">{button}</div>

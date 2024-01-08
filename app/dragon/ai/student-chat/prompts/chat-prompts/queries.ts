@@ -29,6 +29,7 @@ export const getChatContextByChatId = cache(async function (chatId: string) {
           },
           BotConfig: {
             select: {
+              name: true,
               preferences: true,
               teacher: {
                 select: {
@@ -90,6 +91,7 @@ export const getChatContextByChatId = cache(async function (chatId: string) {
       botPreferences: parsedBotPreferences.data,
       teacherPreferences: parsedTeacherPreferences.data,
       studentPreferences: parsedStudentPreferences.data,
+      name: context?.bot?.BotConfig?.name,
     };
     return flatContext;
   } else {

@@ -12,7 +12,7 @@ export default async function ClassLayout({
   params: { classId: string };
 }) {
   const { classId } = params;
-  const nameOfClass = await db.class.getClassNameByClassId(classId);
+  const classData = await db.class.getClassByClassId({ classId });
   const session = await getServerSession(authOptions);
   if (!session) return null;
   const userId = session?.user?.id;
@@ -31,7 +31,8 @@ export default async function ClassLayout({
             classId={classId}
             userId={userId}
             classesWithConfigs={classesWithConfigs}
-            name={nameOfClass}
+            grade={classData.grade}
+            section={classData.section}
           />
         </div>
         <div className="w-full overflow-y-auto custom-scrollbar bg-base-200">

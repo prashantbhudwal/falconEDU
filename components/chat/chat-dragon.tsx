@@ -8,6 +8,8 @@ import { useRef, useLayoutEffect, useState, useEffect } from "react";
 import { MdOutlineKeyboardDoubleArrowDown } from "react-icons/md";
 import { Button } from "../ui/button";
 import { useInView } from "react-intersection-observer";
+import { chatIsLoadingAtom } from "@/lib/atoms/student";
+import { useAtom } from "jotai";
 
 export interface ChatProps extends React.ComponentProps<"div"> {
   initialMessages?: Message[];
@@ -45,6 +47,28 @@ export function Chat({
         }
       },
     });
+
+  const [, setIsLoadingAtom] = useAtom(chatIsLoadingAtom);
+  useEffect(() => {
+    setIsLoadingAtom(isLoading);
+  }, [isLoading, setIsLoadingAtom]);
+
+  const scrollToPercentage = (percent: any) => {
+    const container = containerRef.current;
+    if (container) {
+      const scrollPosition = container.scrollHeight * (percent / 100);
+      container.scrollTo({
+        top: scrollPosition,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (messages.length) {
+      scrollToPercentage(100);
+    }
+  }, [messages.length]);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const { ref: referenceContainerRef, inView, entry } = useInView();
   const [autoScrolling, setAutoScrolling] = useState(false);
