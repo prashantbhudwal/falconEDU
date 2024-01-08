@@ -45,6 +45,22 @@ export function Chat({
         }
       },
     });
+  const scrollToPercentage = (percent: any) => {
+    const container = containerRef.current;
+    if (container) {
+      const scrollPosition = container.scrollHeight * (percent / 100);
+      container.scrollTo({
+        top: scrollPosition,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (messages.length) {
+      scrollToPercentage(80);
+    }
+  }, [messages.length]);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const { ref: referenceContainerRef, inView, entry } = useInView();
   const [autoScrolling, setAutoScrolling] = useState(false);
