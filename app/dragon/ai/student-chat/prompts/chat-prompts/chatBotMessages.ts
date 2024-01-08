@@ -34,6 +34,7 @@ export const getPreferences = (context: ChatContextByChatId) => {
   if (isEmptyObject(studentPreferences) || studentPreferences === undefined) {
     studentPreferences = studentPreferencesTest[0];
   }
+  const name = context?.name;
   const teacherName = context?.teacherName;
   const studentName = context?.studentName;
   const {
@@ -73,6 +74,7 @@ export const getPreferences = (context: ChatContextByChatId) => {
     favoriteCartoons,
     favoriteFoods,
     interests,
+    name,
   } as const;
   return preferences;
 };
@@ -92,5 +94,6 @@ export async function getEngineeredChatBotMessages(
     ["human", humanTemplate],
   ]);
   const engineeredMessages = await prompt.formatMessages(preferences);
+  console.log("engineeredMessages", engineeredMessages);
   return { engineeredMessages, prompt };
 }
