@@ -31,7 +31,7 @@ export const authConfig = [
       "Access your teacher's lesson plans, worksheets, activities and assessments with AI that is easy to use and strictly follows your syllabus.",
     buttonText: "School Admin Sign In",
     buttonVariant: "secondary",
-    auth: "google",
+    auth: "google-org-admin",
     subtext: "Works on large screens only.",
     image: "/chubbi.png",
     callbackUrl: "/dragon/org-admin",
