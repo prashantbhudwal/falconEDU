@@ -58,7 +58,7 @@ export function Chat({
 
   useEffect(() => {
     if (messages.length) {
-      scrollToPercentage(80);
+      scrollToPercentage(100);
     }
   }, [messages.length]);
   const containerRef = useRef<HTMLDivElement | null>(null);
