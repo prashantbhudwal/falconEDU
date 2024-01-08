@@ -38,17 +38,12 @@ export function PromptForm({
   const [audioChunks, setAudioChunks] = useState<Blob[]>([]);
   const [isSendingAudio, setIsSendingAudio] = useState(false);
 
-  useEffect(() => {
-    if (inputRef.current && !isLoading) {
-      inputRef.current.focus();
-    }
-  }, [isLoading]);
-
-  useEffect(() => {
-    if (inputRef.current && !isLoading) {
-      inputRef.current.focus();
-    }
-  }, [isLoading]);
+  // Auto focus input when loading is done
+  // useEffect(() => {
+  //   if (inputRef.current && !isLoading) {
+  //     inputRef.current.focus();
+  //   }
+  // }, [isLoading]);
 
   const toggleRecording = async (
     event: React.MouseEvent<HTMLButtonElement>
