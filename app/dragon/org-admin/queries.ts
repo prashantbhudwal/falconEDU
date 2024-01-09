@@ -47,20 +47,10 @@ export const getAllPublishedTasksByDate = async () => {
       return null;
     }
 
-    const allPublishedTask = publishedTasks.map((item) => item.BotConfig)[0];
+    const allPublishedTask = publishedTasks
+      .map((item) => item.BotConfig)
+      .flat();
 
-    // const publishedTasks = await prisma.botConfig.findMany({
-    //   where: {
-    //     published: true,
-    //   },
-    //   orderBy: {
-    //     createdAt: "asc",
-    //   },
-    // });
-
-    // if (publishedTasks.length === 0) {
-    //   return null;
-    // }
     const dayWiseChartDataMap = new Map();
     const dayWiseData = new Map();
     dayWiseData.set("Today", 0);
@@ -154,28 +144,6 @@ export const getAllTeachersInAnOrg = async () => {
     if (orgTeachers.length === 0) {
       return null;
     }
-
-    // const teachers = await prisma.user.findMany({
-    //   where: {
-    //     userType: "TEACHER",
-    //   },
-    //   select: {
-    //     name: true,
-    //     teacherProfile: {
-    //       select: {
-    //         id: true,
-    //         BotConfig: {
-    //           where: {
-    //             published: true,
-    //           },
-    //         },
-    //       },
-    //     },
-    //   },
-    // });
-    // if (teachers.length === 0) {
-    //   return null;
-    // }
 
     const teacherWeekyData = new Map<
       string | null,
