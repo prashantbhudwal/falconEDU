@@ -7,6 +7,7 @@ import { getOrgByUserId } from "./queries";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getServerSession } from "next-auth";
 import OrgRegisterForm from "./_components/org-register-form";
+import Dashboard from "./_components/dashboard";
 
 const AdminPage = async () => {
   const session = await getServerSession(authOptions); // get this from layout instead of calling again
@@ -38,18 +39,7 @@ const AdminPage = async () => {
         </Flex>
       )}
 
-      {org && org.teacher.length > 0 && (
-        <Flex
-          className="w-full h-full"
-          alignItems="center"
-          justifyContent="center"
-          flexDirection="col"
-        >
-          <Button size="sm" className="rounded-xl">
-            <Link href={"/dragon/org-admin/tasks"}>Tasks</Link>
-          </Button>
-        </Flex>
-      )}
+      {org && org.teacher.length > 0 && <Dashboard />}
     </>
   );
 };
