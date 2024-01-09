@@ -1,7 +1,14 @@
+import SignOutButton from "@/components/auth/sign-out-btn";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { IoIosSettings } from "react-icons/io";
+import { MdMoreVert } from "react-icons/md";
 
 type AdminNavbarProps = {
   title: string;
@@ -15,9 +22,19 @@ const AdminNavbar = ({ title }: AdminNavbarProps) => {
       </Link>
       <h1>{title}</h1>
       <div>
-        <button>
-          <IoIosSettings className="text-2xl" />
-        </button>
+        <DropdownMenu>
+          <DropdownMenuTrigger className="">
+            <MdMoreVert className="text-2xl" />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem>
+              <Link href={"/dragon/org-admin/add-teachers"}>Add Teachers</Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <SignOutButton />
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </div>
   );

@@ -1,6 +1,5 @@
 import React from "react";
 import AdminNavbar from "./_components/admin-navbar";
-import AddTeacherForm from "./_components/add-teacher-form";
 import { IoAdd } from "react-icons/io5";
 import { Button, Flex, Text } from "@tremor/react";
 import Link from "next/link";
@@ -17,25 +16,33 @@ const AdminPage = async () => {
     <>
       <AdminNavbar title="Home" />
       {!org && <OrgRegisterForm userId={session?.user?.id || ""} />}
-      {org && org.teacher.length === 0 && (
-        <Flex
-          className="w-full h-full"
-          alignItems="center"
-          justifyContent="center"
-          flexDirection="col"
-        >
-          <Text className="text-center">
-            You have no Teacher in your Organization add one{" "}
-          </Text>
-          <Button size="sm" className="rounded-xl mt-5">
-            <Link href="/dragon/org-admin/add-teachers">
-              <Flex>
-                <IoAdd /> Teacher
-              </Flex>
-            </Link>
-          </Button>
-        </Flex>
-      )}
+      <Flex
+        className="w-full h-full"
+        alignItems="center"
+        justifyContent="center"
+        flexDirection="col"
+      >
+        {org && org.teacher.length === 0 ? (
+          <>
+            <Text className="text-center">
+              You have no Teacher in your Organization add one{" "}
+            </Text>
+            <Button size="sm" className="rounded-xl mt-5">
+              <Link href="/dragon/org-admin/add-teachers">
+                <Flex>
+                  <IoAdd /> Teacher
+                </Flex>
+              </Link>
+            </Button>
+          </>
+        ) : (
+          <>
+            <Button size="sm" className="rounded-xl">
+              <Link href={"/dragon/org-admin/tasks"}>Tasks</Link>
+            </Button>
+          </>
+        )}
+      </Flex>
     </>
   );
 };
