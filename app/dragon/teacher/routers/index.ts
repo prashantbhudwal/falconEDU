@@ -8,6 +8,7 @@ import * as inviteStudentsRouter from "./inviteStudentsRouter";
 import * as studentRouter from "./studentRouter";
 import * as botChatRouter from "./botChatRouter";
 import * as profileRouter from "./profileRouter";
+import * as accountRouter from "./accountRouter";
 
 export const db = {
   botConfig,
@@ -19,4 +20,5 @@ export const db = {
   studentRouter,
   botChatRouter,
   profile: profileRouter,
+  account: accountRouter,
 };
