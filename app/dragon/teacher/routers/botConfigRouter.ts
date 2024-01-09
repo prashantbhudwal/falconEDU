@@ -561,6 +561,9 @@ export const fetchConfigAndPreferences = cache(
     try {
       const config = await prisma.botConfig.findUnique({
         where: { id: configId },
+        include: {
+          Class: true,
+        },
       });
       let preferences;
       if (config && config.preferences) {

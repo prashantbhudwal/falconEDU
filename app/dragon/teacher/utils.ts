@@ -151,11 +151,21 @@ export const getFormattedDate = (date: Date) =>
     day: "numeric",
   });
 
-export function getFormattedGrade({ grade }: { grade: Grade }) {
+export function getFormattedGrade({
+  grade,
+  options,
+}: {
+  grade: Grade;
+  options?: { numberOnly?: boolean };
+}) {
   // Split the string by underscore
-  let parts = grade.split("_");
+  const { numberOnly } = options || {};
 
-  // Convert the first part to title case and keep the second part as is
+  let parts = grade.split("_");
+  if (numberOnly) {
+    return parts[parts.length - 1];
+  }
+  // Capitalize the first letter of each part
   let converted =
     parts[0].charAt(0).toUpperCase() +
     parts[0].slice(1).toLowerCase() +

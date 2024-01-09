@@ -28,6 +28,17 @@ import { LanguageIcon } from "@heroicons/react/24/solid";
 import { LightBulbIcon } from "@heroicons/react/24/solid";
 import { SpeakerWaveIcon } from "@heroicons/react/24/solid";
 import { Paper } from "@/components/ui/paper";
+import { Grade } from "@prisma/client";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
 import {
   grades,
   board,
@@ -40,16 +51,12 @@ import {
 import subjectsArray from "../../../../../../../data/subjects.json";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 import { Input } from "@/components/ui/input";
-import { LuArchive, LuArchiveRestore } from "react-icons/lu";
-import { ClassDialog } from "@/app/dragon/teacher/components/class-dialog";
+import { getFormattedGrade } from "@/app/dragon/teacher/utils";
 
 const MAX_CHARS = LIMITS_botPreferencesSchema.instructions.maxLength;
 
 const defaultValues: z.infer<typeof botPreferencesSchema> = {
   instructions: "",
-  subjects: [],
-  grades: [],
-  board: "CBSE",
   tone: "Friendly",
   language: "English",
   humorLevel: "Moderate",
@@ -61,6 +68,7 @@ type BotPreferencesFormProps = {
   classId: string;
   botId: string;
   botConfig: BotConfig | null;
+  grade: Grade;
 };
 
 export default function BotPreferencesForm({
@@ -68,6 +76,7 @@ export default function BotPreferencesForm({
   classId,
   botId,
   botConfig,
+  grade,
 }: BotPreferencesFormProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -99,16 +108,14 @@ export default function BotPreferencesForm({
     }
   };
 
-  const grade = form.watch("grades");
-
   const updateSubjectsHandler = () => {
-    const splitGrade = grade[0].split(" ");
-    const gradeNumber = splitGrade[splitGrade.length - 1]; // extracting the number from "grade [Number]" like "grade 1"
-
+    const gradeNumber = getFormattedGrade({
+      grade,
+      options: { numberOnly: true },
+    });
     const gradeObject = subjectsArray.filter(
       (subject) => subject.grade === gradeNumber
     )[0];
-
     return gradeObject.subjects;
   };
 
@@ -147,7 +154,10 @@ export default function BotPreferencesForm({
     <>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
-          <Paper variant="gray" className="w-full max-w-5xl">
+          <Paper
+            variant="gray"
+            className="w-full max-w-5xl bg-base-200 min-h-screen"
+          >
             <div className="flex justify-between flex-wrap p-5">
               <div className="w-[50%]">
                 <Input
@@ -211,139 +221,7 @@ export default function BotPreferencesForm({
                 </FormItem>
               )}
             />
-            {/* ------------------------Grades List ------------------------- */}
-            <FormField
-              control={form.control}
-              name="grades"
-              render={() => (
-                <FormItem>
-                  <div className="mb-5 flex flex-col gap-2">
-                    <FormLabel className="flex gap-2 items-center font-bold">
-                      Grades
-                      <AcademicCapIcon className="h-4 w-4" />
-                    </FormLabel>
-                  </div>
-                  <div className="flex flex-row gap-y-5 flex-wrap gap-x-6">
-                    {grades.map((grade) => (
-                      <FormField
-                        key={grade}
-                        control={form.control}
-                        name="grades"
-                        render={({ field }) => {
-                          return (
-                            <FormItem key={grade}>
-                              <FormControl>
-                                <Chip
-                                  checked={field.value?.includes(grade)}
-                                  onCheckedChange={(checked) => {
-                                    if (checked) {
-                                      field.onChange([grade]);
-                                    }
-                                  }}
-                                  toggleName={grade}
-                                />
-                              </FormControl>
-                            </FormItem>
-                          );
-                        }}
-                      />
-                    ))}
-                  </div>
 
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {/* ------------------------Subjects List ------------------------- */}
-            {grade && grade.length > 0 && (
-              <FormField
-                control={form.control}
-                name="subjects"
-                render={() => (
-                  <FormItem>
-                    <div className="mb-5 flex flex-col gap-2">
-                      <FormLabel className="flex gap-2 items-center font-bold">
-                        Subjects
-                        <FiBookOpen />
-                      </FormLabel>
-                    </div>
-                    <div className="flex flex-row gap-y-5 flex-wrap gap-x-6 ">
-                      {updateSubjectsHandler().map((subject) => (
-                        <FormField
-                          key={subject}
-                          control={form.control}
-                          name="subjects"
-                          render={({ field }) => {
-                            return (
-                              <FormItem key={subject}>
-                                <FormControl>
-                                  <Chip
-                                    checked={field.value?.includes(subject)}
-                                    onCheckedChange={(checked) => {
-                                      return checked
-                                        ? field.onChange([
-                                            ...field.value,
-                                            subject,
-                                          ])
-                                        : field.onChange(
-                                            field.value?.filter(
-                                              (value) => value !== subject
-                                            )
-                                          );
-                                    }}
-                                    toggleName={subject}
-                                  />
-                                </FormControl>
-                              </FormItem>
-                            );
-                          }}
-                        />
-                      ))}
-                    </div>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            )}
-
-            <FormField
-              control={form.control}
-              name="board"
-              render={({ field }) => (
-                <FormItem className="space-y-3">
-                  <FormLabel className="mb-5 flex gap-2 items-center font-bold">
-                    Board
-                    <ClipboardIcon className="h-4 w-4" />
-                  </FormLabel>
-                  <FormControl>
-                    <RadioGroup
-                      onValueChange={() => {
-                        field.onChange;
-                      }}
-                      defaultValue={field.value}
-                      className="flex flex-row space-y-1 space-x-6"
-                    >
-                      {board.map((board) => (
-                        <FormItem
-                          className="flex flex-row items-center space-x-3 space-y-0"
-                          key={board}
-                        >
-                          <FormControl>
-                            <RadioGroupItem
-                              value={board}
-                              className=" active:scale-90 transition-all duration-200 hover:scale-[1.2]"
-                            />
-                          </FormControl>
-                          <FormLabel className="font-normal">{board}</FormLabel>
-                        </FormItem>
-                      ))}
-                    </RadioGroup>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
             <FormField
               control={form.control}
               name="tone"

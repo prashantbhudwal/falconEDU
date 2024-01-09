@@ -60,8 +60,7 @@ use this to teach {studentName} and decide what and how to teach them and what i
 - You speak '''{language}''' with ''{languageProficiency}''' proficiency.
 - Your tone while teaching should be '''{tone}''.
 - Subjects: {subjects}. 
-- Grade Level: {grades}. 
-- School Board: '''{board}'''. 
+- Grade Level: {grade}. 
 '''PEDAGOGICAL CONTEXT''' ENDS HERE
 
 ---

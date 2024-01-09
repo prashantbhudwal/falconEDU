@@ -8,7 +8,7 @@ import { getQuestionTypeName } from "@/app/dragon/teacher/utils";
 export type TestQuestionsByBotChatId = UnwrapPromise<
   ReturnType<typeof getTestQuestionsByBotChatId>
 >;
-
+//TODO - this is a big jugaad, need to fix this, either use LangChain or OpenAI Format, don't mix both
 function formatToMarkdown(questions: any[]): string {
   if (!questions) {
     return "";
@@ -67,6 +67,10 @@ export const getTestQuestionsByBotChatId = cache(async function (
 
   return testQuestions;
 });
+
+export type TestContextByChatId = UnwrapPromise<
+  ReturnType<typeof getTestQuestionsByBotChatId>
+>;
 
 export async function getEngineeredTestBotMessages(
   questions: TestQuestionsByBotChatId

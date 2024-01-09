@@ -67,9 +67,7 @@ export const botPreferencesSchema = z.object({
   instructions: z
     .string()
     .max(LIMITS_botPreferencesSchema.instructions.maxLength),
-  subjects: z.array(z.string()),
-  grades: z.array(z.enum(grades)),
-  board: z.enum(board),
+
   tone: z.enum(tone),
   language: z.enum(language),
   humorLevel: z.enum(humorLevel),
@@ -87,8 +85,6 @@ export const lessonPreferencesSchema = z.object({
   topic: z.string().max(LIMITS_lessonPreferencesSchema.topic.maxLength),
   content: z.string().max(LIMITS_lessonPreferencesSchema.content.maxLength),
   subjects: z.array(z.string()),
-  grades: z.array(z.enum(grades)),
-  board: z.enum(board),
   tone: z.enum(tone),
   language: z.enum(language),
   humorLevel: z.enum(humorLevel),
