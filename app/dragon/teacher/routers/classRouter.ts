@@ -41,6 +41,32 @@ export const createClassForTeacher = async function ({
   return newClass;
 };
 
+export const updateClassForTeacher = async function ({
+  grade,
+  section,
+  classId,
+}: {
+  grade: Class["grade"];
+  section: Class["section"];
+  classId: string;
+}) {
+  await isAuthorized({
+    userType: "TEACHER",
+  });
+  // Step 1: Fetch TeacherProfile based on userId
+
+  // Step 2: Create new class
+  const newClass = await prisma.class.update({
+    where: { id: classId },
+    data: {
+      grade,
+      section,
+    },
+  });
+  revalidatePath(getClassesURL());
+  return newClass;
+};
+
 export const deleteClassByClassId = (classId: string) => {
   deleteClass(classId);
   redirect("/dragon/teacher");
