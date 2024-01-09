@@ -145,7 +145,7 @@ export async function POST(req: NextRequest) {
       temperature: TEMPERATURE,
       messages: openAiFormatMessages,
       model: "gpt-3.5-turbo-1106",
-      functions,
+      functions: botType === "lesson" ? functions : undefined,
     });
 
     const newStream = OpenAIStream(completion, {
