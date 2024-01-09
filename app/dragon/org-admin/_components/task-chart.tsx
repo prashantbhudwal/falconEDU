@@ -1,5 +1,5 @@
 "use client";
-import { Card, LineChart, Title } from "@tremor/react";
+import { AreaChart, Card, LineChart, Title } from "@tremor/react";
 
 export default function TaskChart({
   chartData,
@@ -8,13 +8,17 @@ export default function TaskChart({
 }) {
   return (
     <Card>
-      <Title className="py-0 text-center">Daily Published Tasks</Title>
-      <LineChart
+      <AreaChart
         className="mt-6"
         data={chartData || []}
         index="day"
         categories={["Total Tasks"]}
-        colors={["emerald", "gray"]}
+        showGradient={false}
+        showAnimation
+        animationDuration={1000}
+        colors={["emerald"]}
+        showTooltip={true}
+        curveType="monotone"
         yAxisWidth={30}
       />
     </Card>

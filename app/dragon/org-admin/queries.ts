@@ -53,7 +53,7 @@ export const getAllPublishedTasksByDate = async () => {
 
     const dayWiseChartDataMap = new Map();
     const dayWiseData = new Map();
-    dayWiseData.set("Today", 0);
+    // dayWiseData.set("Today", 0);
     dayWiseData.set("This Week", 0);
     dayWiseData.set("This Month", 0);
 
@@ -79,13 +79,13 @@ export const getAllPublishedTasksByDate = async () => {
     );
 
     allPublishedTask.forEach((task) => {
-      if (isToday(new Date(task.createdAt))) {
-        if (dayWiseData.has("Today")) {
-          dayWiseData.set("Today", dayWiseData.get("Today") + 1);
-        } else {
-          dayWiseData.set("Today", 1);
-        }
-      }
+      // if (isToday(new Date(task.createdAt))) {
+      //   if (dayWiseData.has("Today")) {
+      //     dayWiseData.set("Today", dayWiseData.get("Today") + 1);
+      //   } else {
+      //     dayWiseData.set("Today", 1);
+      //   }
+      // }
 
       if (isThisWeek(new Date(task.createdAt))) {
         if (dayWiseData.has("This Week")) {
@@ -110,6 +110,8 @@ export const getAllPublishedTasksByDate = async () => {
     return null;
   }
 };
+
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 export const getAllTeachersInAnOrg = async () => {
   try {

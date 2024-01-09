@@ -23,10 +23,10 @@ const TasksPage = async () => {
       <AdminNavbar title="Tasks" />
       <TaskChart chartData={allTasks?.dayWiseChartData} />
       <div className="w-11/12 mx-auto">
-        <Grid>
+        <Grid numItemsMd={2} className="mt-5 gap-6">
           {Array.from(allTasks?.dayWiseData || []).map(([key, value]) => {
             return (
-              <Card key={key} className="mt-5 rounded-xl">
+              <Card key={key} className="rounded-xl">
                 <Flex>
                   <Text># Published {key}</Text>
                   <Metric>{value}</Metric>

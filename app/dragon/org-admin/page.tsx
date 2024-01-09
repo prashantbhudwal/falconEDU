@@ -16,13 +16,13 @@ const AdminPage = async () => {
     <>
       <AdminNavbar title="Home" />
       {!org && <OrgRegisterForm userId={session?.user?.id || ""} />}
-      <Flex
-        className="w-full h-full"
-        alignItems="center"
-        justifyContent="center"
-        flexDirection="col"
-      >
-        {org && org.teacher.length === 0 ? (
+      {org && org.teacher.length === 0 && (
+        <Flex
+          className="w-full h-full"
+          alignItems="center"
+          justifyContent="center"
+          flexDirection="col"
+        >
           <>
             <Text className="text-center">
               You have no Teacher in your Organization add one{" "}
@@ -35,14 +35,21 @@ const AdminPage = async () => {
               </Link>
             </Button>
           </>
-        ) : (
-          <>
-            <Button size="sm" className="rounded-xl">
-              <Link href={"/dragon/org-admin/tasks"}>Tasks</Link>
-            </Button>
-          </>
-        )}
-      </Flex>
+        </Flex>
+      )}
+
+      {org && org.teacher.length > 0 && (
+        <Flex
+          className="w-full h-full"
+          alignItems="center"
+          justifyContent="center"
+          flexDirection="col"
+        >
+          <Button size="sm" className="rounded-xl">
+            <Link href={"/dragon/org-admin/tasks"}>Tasks</Link>
+          </Button>
+        </Flex>
+      )}
     </>
   );
 };
