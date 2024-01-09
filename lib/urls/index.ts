@@ -138,3 +138,8 @@ export const parentHomeURL = `${baseUrl}/parent/`;
 export const getParentReportUrlByTaskId = ({ taskId }: { taskId: string }) => {
   return `${baseUrl}/parent/report/${taskId}`;
 };
+
+
+//Org Admin urls
+export const orgAdminHomeURL = `${baseUrl}/org-admin/`;
+export const orgAdminProfileURL = `${baseUrl}/org-admin/profile`;
