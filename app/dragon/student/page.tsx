@@ -9,6 +9,7 @@ import Link from "next/link";
 import { getStudentBotURL, getStudentTeacherURL } from "@/lib/urls";
 import { getTeachersByUserId } from "./queries";
 import { InstallAppDrawer } from "@/components/install-app-drawer";
+import { db } from "../teacher/routers";
 
 const basePath = "/dragon/student";
 
@@ -19,10 +20,13 @@ export default async function AllChats() {
     return null;
   }
   const teachers = await getTeachersByUserId(id);
+  const { orgBrandName } = await db.org.getStudentBrandNameByUserId({
+    userId: id,
+  });
 
   return (
     <>
-      <StudentHomeNavbar />
+      <StudentHomeNavbar brandName={orgBrandName} />
       <div className="pt-1 pb-5 w-full">
         {teachers.length === 0 && (
           <div className="flex flex-col justify-center items-center h-60 rounded-md shadow-md">

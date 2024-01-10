@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { FiSliders, FiAirplay, FiTool } from "react-icons/fi";
 import { NewClass } from "../new-class";
+import { XMarkIcon } from "@heroicons/react/24/solid";
 import {
   teacherTrainingURL,
   teacherAvatarURL,
@@ -12,14 +13,28 @@ import {
   teacherAIToolsURL,
 } from "@/lib/urls";
 import Image from "next/image";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { db } from "../../routers";
 
-export default function Navbar() {
+export default async function Navbar() {
+  const session = await getServerSession(authOptions);
+  const userId = session?.user?.id;
+  if (!userId) {
+    return null;
+  }
+  const { orgBrandName } = await db.org.getTeacherBrandNameByUserId({ userId });
+
   return (
     <div className="flex flex-row justify-between bg-base-200 shadow-sm shadow-base-100 py-3 px-1">
-      <div className="flex flex-row items-center gap-4 pr-2">
+      <div className="flex flex-row items-center space-x-5 pr-2">
         <div className="shadow-md shadow-slate-950  flex gap-2 items-center justify-center px-3 py-2 rounded-lg">
           <Image src={"/chubbi.png"} height={20} width={20} alt="Falcon Logo" />
-          <div className="text-xs">FalconAI</div>
+          <div className="flex flex-row gap-2 items-center">
+            <div className="text-xs">FalconAI</div>
+            {orgBrandName && <XMarkIcon className="text-secondary h-4 w-4" />}
+            {orgBrandName && <div className="text-xs">{orgBrandName}</div>}
+          </div>
         </div>
         <NewClass />
       </div>
