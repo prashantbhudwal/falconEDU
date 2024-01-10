@@ -42,20 +42,22 @@ const Dashboard = async () => {
         {sortedTeachers.map(([key, value]) => {
           return (
             <Card key={key} className="mb-5 rounded-xl">
-              <Flex>
-                <Text>{value.name}</Text>
-                <div>
-                  <Flex className="gap-1">
-                    <Metric>{value.prevWeek}</Metric>
-                    {value.prevWeek > value.thisWeek ? (
-                      <FaArrowDown className="text-error" />
-                    ) : (
-                      <FaArrowUp className="text-primary" />
-                    )}
-                    <Metric>{value.thisWeek}</Metric>
-                  </Flex>
-                </div>
-              </Flex>
+              <Link href={`/dragon/org-admin/teacher/${key}`}>
+                <Flex>
+                  <Text>{value.name}</Text>
+                  <div>
+                    <Flex className="gap-1">
+                      <Metric>{value.prevWeek}</Metric>
+                      {value.prevWeek > value.thisWeek ? (
+                        <FaArrowDown className="text-error" />
+                      ) : (
+                        <FaArrowUp className="text-primary" />
+                      )}
+                      <Metric>{value.thisWeek}</Metric>
+                    </Flex>
+                  </div>
+                </Flex>
+              </Link>
             </Card>
           );
         })}

@@ -4,6 +4,7 @@ import { twMerge } from "tailwind-merge";
 import { z } from "zod";
 export * from "./is-authorized";
 import { format, utcToZonedTime } from "date-fns-tz";
+import colors from "tailwindcss/colors";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -89,4 +90,14 @@ export const formatDateWithTimeZone = ({
   const zonedDate = utcToZonedTime(createdAt, timeZone);
   const formattedDate = format(zonedDate, dateFormat, { timeZone });
   return formattedDate;
+};
+
+export const tailwindColorToHex = (colorClass: string): string => {
+  const colorParts: string[] = colorClass.split("-");
+  const colorName: string = colorParts[1];
+  const colorShade: number | undefined = parseInt(colorParts[2]) || 500;
+  const colorValue: string | undefined = (colors as { [key: string]: any })[
+    colorName
+  ]?.[colorShade];
+  return colorValue || "Color not found";
 };

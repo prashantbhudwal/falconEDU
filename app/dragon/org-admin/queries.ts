@@ -5,6 +5,7 @@ import prisma from "@/prisma";
 import { cache } from "react";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { UnwrapPromise } from "../student/queries";
 
 const getUserId = async (): Promise<string> => {
   const session = await getServerSession(authOptions);
@@ -289,3 +290,37 @@ export const getTeacherWithOrgId = async () => {
     return null;
   }
 };
+
+export const getTeacherTasksWithTeacherId = cache(
+  async ({ teacherId }: { teacherId: string }) => {
+    try {
+      const teacher = await prisma.teacherProfile.findUnique({
+        where: {
+          id: teacherId,
+        },
+        select: {
+          BotConfig: {
+            where: {
+              published: true,
+            },
+            orderBy: {
+              createdAt: "desc",
+            },
+          },
+          Class: true,
+        },
+      });
+
+      if (!teacher) return null;
+
+      return { tasks: teacher.BotConfig, classes: teacher.Class };
+    } catch (err) {
+      console.log(err);
+      return null;
+    }
+  }
+);
+
+export type TeacherTask = UnwrapPromise<
+  ReturnType<typeof getTeacherTasksWithTeacherId>
+>;
