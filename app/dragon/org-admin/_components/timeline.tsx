@@ -42,7 +42,6 @@ const Timeline = ({ teacher }: { teacher: TeacherTask }) => {
             onValueChange={setSelectedTask}
             placeholder="Select Class"
           >
-            <SelectItem value="All">All</SelectItem>
             {teacher?.classes.map((classItem) => (
               <SelectItem key={classItem.id} value={classItem.id}>
                 {classItem.name || classItem.grade}
