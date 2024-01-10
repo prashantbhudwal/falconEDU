@@ -1,6 +1,13 @@
 "use server";
 import { formatDateWithTimeZone } from "@/lib/utils";
-import { isToday, isThisWeek, isThisMonth, compareAsc } from "date-fns";
+import {
+  isToday,
+  isThisWeek,
+  isThisMonth,
+  compareAsc,
+  subDays,
+  startOfDay,
+} from "date-fns";
 import prisma from "@/prisma";
 import { cache } from "react";
 import { getServerSession } from "next-auth";
@@ -50,13 +57,22 @@ export const getAllPublishedTasksByDate = async () => {
 
     const allPublishedTask = publishedTasks
       .map((item) => item.BotConfig)
-      .flat();
+      .flat()
+      .sort((a, b) => compareAsc(new Date(a.createdAt), new Date(b.createdAt)));
 
     const dayWiseChartDataMap = new Map();
-    const dayWiseData = new Map();
-    // dayWiseData.set("Today", 0);
-    dayWiseData.set("This Week", 0);
-    dayWiseData.set("This Month", 0);
+
+    for (let i = 6; i >= 0; i--) {
+      const date = new Date();
+      date.setDate(date.getDate() - i);
+
+      const formattedDate = formatDateWithTimeZone({
+        createdAt: date,
+        dateFormat: "dd MMM",
+      });
+
+      dayWiseChartDataMap.set(formattedDate, 0);
+    }
 
     allPublishedTask.forEach((botConfig) => {
       const day = formatDateWithTimeZone({
@@ -65,8 +81,6 @@ export const getAllPublishedTasksByDate = async () => {
       });
       if (dayWiseChartDataMap.has(day)) {
         dayWiseChartDataMap.set(day, dayWiseChartDataMap.get(day) + 1);
-      } else {
-        dayWiseChartDataMap.set(day, 1);
       }
     });
 
@@ -78,6 +92,11 @@ export const getAllPublishedTasksByDate = async () => {
         };
       }
     );
+
+    const dayWiseData = new Map();
+    // dayWiseData.set("Today", 0);
+    dayWiseData.set("This Week", 0);
+    dayWiseData.set("This Month", 0);
 
     allPublishedTask.forEach((task) => {
       // if (isToday(new Date(task.createdAt))) {

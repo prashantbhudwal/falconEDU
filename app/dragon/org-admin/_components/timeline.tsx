@@ -1,26 +1,26 @@
 "use client";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Chrono } from "react-chrono";
 import { TeacherTask } from "../queries";
 import { formatDateWithTimeZone, tailwindColorToHex } from "@/lib/utils";
 import { getTaskIcon } from "../../teacher/utils";
-import { Flex, Grid, Select, SelectItem, Title } from "@tremor/react";
+import { Flex, Select, SelectItem, Title } from "@tremor/react";
 import { v4 as uuid } from "uuid";
 
 const Timeline = ({ teacher }: { teacher: TeacherTask }) => {
   const [teacherTasks, setTeacherTasks] = useState(teacher?.tasks || []);
   const [selectedClassId, setSelectedClassId] = useState("");
 
-  const items = teacherTasks.map((task) => {
-    return {
+  const items = useMemo(() => {
+    return teacherTasks.map((task) => ({
       title: formatDateWithTimeZone({
         createdAt: task.createdAt,
         dateFormat: "dd MMM",
       }),
       cardTitle: task.name,
       cardSubtitle: task.type.toUpperCase(),
-    };
-  });
+    }));
+  }, [teacherTasks]);
 
   const setSelectedTask = (classId: string) => {
     if (!classId) {
@@ -56,12 +56,12 @@ const Timeline = ({ teacher }: { teacher: TeacherTask }) => {
         </Flex>
       </div>
       <Chrono
-        keys={uuid()}
         items={items}
         hideControls
         allowDynamicUpdate
         enableBreakPoint
         verticalBreakPoint={500}
+        activeItemIndex={0}
         mode="VERTICAL_ALTERNATING"
         theme={{
           primary: tailwindColorToHex("text-gray-700"),
