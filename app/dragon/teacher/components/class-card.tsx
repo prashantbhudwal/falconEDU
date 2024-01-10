@@ -26,8 +26,9 @@ export default function ClassCard({
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       exit={{ x: 100, opacity: 0 }}
-      transition={{ type: "spring", stiffness: 50, damping: 20 }}
+      transition={{ type: "spring", stiffness: 70, damping: 20 }}
       layout
+      whileHover={{ translateY: -10 }}
       className="card w-56 border hover:bg-base-200/60 hover:border-fuchsia-800 hover:-translate-y-1 group"
     >
       <figure className="bg-base-200 py-6 bg-gradient-to-t from-slate-800 to-slate-950 text-fuchsia-800 ">
