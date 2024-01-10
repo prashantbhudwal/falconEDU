@@ -7,6 +7,7 @@ import ClassCard from "./components/class-card";
 import { Paper } from "@/components/ui/paper";
 import { notFound, redirect } from "next/navigation";
 import { db } from "./routers";
+import { ClassCardList } from "./components/class-card-list";
 
 import {
   Accordion,
@@ -33,18 +34,7 @@ export default async function Classes() {
     <div className="flex flex-col min-w-full h-screen">
       <Navbar />
       <Paper className="h-full w-full overflow-y-auto custom-scrollbar bg-base-300 flex flex-col justify-between space-y-6">
-        <div className="flex flex-row gap-10 flex-wrap">
-          {activeClasses.map((classData) => (
-            <Link href={getClassURL(classData.id)} key={classData.id}>
-              <ClassCard
-                className="rounded-lg"
-                grade={classData.grade}
-                section={classData.section}
-                id={classData.id}
-              />
-            </Link>
-          ))}
-        </div>
+        <ClassCardList classes={activeClasses} />
         {archivedClasses.length > 0 && (
           <div className=" flex flex-col gap-4">
             <Accordion
@@ -57,18 +47,7 @@ export default async function Classes() {
                   Archived
                 </AccordionTrigger>
                 <AccordionContent className="border-none px-2 py-4">
-                  <div className="flex flex-row gap-10">
-                    {archivedClasses.map((classData) => (
-                      <Link href={getClassURL(classData.id)} key={classData.id}>
-                        <ClassCard
-                          className="rounded-lg"
-                          id={classData.id}
-                          grade={classData.grade}
-                          section={classData.section}
-                        />
-                      </Link>
-                    ))}
-                  </div>
+                  <ClassCardList classes={archivedClasses} />
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
