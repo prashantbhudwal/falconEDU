@@ -23,6 +23,11 @@ const Timeline = ({ teacher }: { teacher: TeacherTask }) => {
   });
 
   const setSelectedTask = (classId: string) => {
+    if (!classId) {
+      setSelectedClassId(classId);
+      setTeacherTasks(teacher?.tasks || []);
+      return;
+    }
     setSelectedClassId(classId);
     const task = teacher?.tasks.filter((task) => task.classId === classId);
 
