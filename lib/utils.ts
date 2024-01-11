@@ -73,10 +73,14 @@ export const removeOptionalFieldFormZodTypes = <T extends z.ZodObject<any>>(
 };
 
 export const formatName = (name: string) => {
-  const nameArray = name.split(" ");
-  return nameArray
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-    .join(" ");
+  if (name.includes(" ")) {
+    const nameArray = name.split(" ");
+    return nameArray
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(" ");
+  } else {
+    return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+  }
 };
 
 export const formatDateWithTimeZone = ({
@@ -100,4 +104,14 @@ export const tailwindColorToHex = (colorClass: string): string => {
     colorName
   ]?.[colorShade];
   return colorValue || "Color not found";
+};
+
+type EnumValues<T> = T[keyof T];
+
+export const generateZodEnumSchema = <T extends Record<string, EnumValues<T>>>(
+  enumObject: T
+) => {
+  const enumValues = Object.values(enumObject) as EnumValues<T>[];
+  const enumArray = enumValues.map(String) as [string, ...string[]];
+  return z.enum(enumArray);
 };

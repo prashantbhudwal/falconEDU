@@ -13,20 +13,33 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { OrgType } from "@prisma/client";
-import { Button, Select, SelectItem, Text, TextInput } from "@tremor/react";
+import {
+  Button,
+  Flex,
+  Select,
+  SelectItem,
+  Text,
+  TextInput,
+} from "@tremor/react";
 import { registerOrg } from "../mutations";
+import { formatName, generateZodEnumSchema } from "@/lib/utils";
+import { boardNames, languageMedium, orgTypes, stateNames } from "../utils";
 
-const orgTypes: ["SCHOOL", "TUTORIAL", "COLLEGE", "COMPANY", "OTHER"] = [
-  "SCHOOL",
-  "TUTORIAL",
-  "COLLEGE",
-  "COMPANY",
-  "OTHER",
-];
+// const orgTypesOptions = Object.keys(OrgType).map((key) => ({
+//   value: key,
+//   label: formatName(key),
+// }));
 
-const orgRegisterFormSchema = z.object({
+export const orgRegisterFormSchema = z.object({
   name: z.string().min(1),
   type: z.enum(orgTypes), //TODO: fix with imported enums
+  brandName: z.string().min(2),
+  boardNames: z.enum(boardNames), //TODO: fix with imported enums
+  city: z.string().optional(),
+  state: z.enum(stateNames).optional(),
+  pincode: z.string().optional(),
+  language_medium: z.enum(languageMedium),
+  language_native: z.string().optional(),
 });
 
 const OrgRegisterForm = ({ userId }: { userId: string }) => {
@@ -35,14 +48,17 @@ const OrgRegisterForm = ({ userId }: { userId: string }) => {
     defaultValues: {
       name: "",
       type: "SCHOOL",
+      brandName: "",
+      boardNames: "CBSE",
+      state: "Andhra_Pradesh",
+      language_medium: "ENGLISH",
     },
   });
 
   const onSubmit = async function (
     values: z.infer<typeof orgRegisterFormSchema>
   ) {
-    const { name, type } = values;
-    const result = await registerOrg({ name, type, userId });
+    const result = await registerOrg({ values, userId });
     if (result) {
       form.reset();
     }
@@ -50,7 +66,7 @@ const OrgRegisterForm = ({ userId }: { userId: string }) => {
 
   return (
     <Form {...form}>
-      <div className="w-full h-full flex justify-center items-center">
+      <div className="max-w-11/12 mx-auto h-full flex justify-center items-center">
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           className="text-center space-y-4"
@@ -66,7 +82,23 @@ const OrgRegisterForm = ({ userId }: { userId: string }) => {
                     autoComplete="off"
                     type="text"
                     placeholder="Organization Name"
-                    className="w-72"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="brandName"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <TextInput
+                    autoComplete="off"
+                    type="text"
+                    placeholder="Brand Name"
                     {...field}
                   />
                 </FormControl>
@@ -92,7 +124,116 @@ const OrgRegisterForm = ({ userId }: { userId: string }) => {
               </FormItem>
             )}
           />
+          <FormField
+            control={form.control}
+            name="boardNames"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Select {...field}>
+                    {boardNames.map((type) => (
+                      <SelectItem key={type} value={type}>
+                        {type}
+                      </SelectItem>
+                    ))}
+                  </Select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="state"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Select {...field}>
+                    {stateNames.map((type) => (
+                      <SelectItem key={type} value={type}>
+                        {type}
+                      </SelectItem>
+                    ))}
+                  </Select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="language_native"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <TextInput
+                    autoComplete="off"
+                    type="text"
+                    placeholder="Native language"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="language_medium"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Select {...field}>
+                    {languageMedium.map((type) => (
+                      <SelectItem key={type} value={type}>
+                        {type}
+                      </SelectItem>
+                    ))}
+                  </Select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
+          <Flex>
+            <FormField
+              control={form.control}
+              name="city"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <TextInput
+                      autoComplete="off"
+                      type="text"
+                      placeholder="City Name"
+                      className="w-20"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="pincode"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <TextInput
+                      autoComplete="off"
+                      type="text"
+                      placeholder="PIN Code"
+                      className="w-20"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </Flex>
           <Button type="submit" className="min-w-[100px] rounded-xl">
             Save
           </Button>
