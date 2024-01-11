@@ -6,6 +6,8 @@ export * from "./is-authorized";
 import { format, utcToZonedTime } from "date-fns-tz";
 import colors from "tailwindcss/colors";
 
+type EnumValues<T> = T[keyof T];
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
@@ -36,6 +38,7 @@ export async function fetcher<JSON = any>(
 
   return res.json();
 }
+// -----------------------------------------------------------------------------------------------------------------------
 
 export function formatDate(input: string | number | Date): string {
   const date = new Date(input);
@@ -45,6 +48,7 @@ export function formatDate(input: string | number | Date): string {
     year: "numeric",
   });
 }
+// -----------------------------------------------------------------------------------------------------------------------
 
 export const getFormattedDate = (date: string) => {
   return new Date(date).toLocaleDateString("en-US", {
@@ -53,6 +57,8 @@ export const getFormattedDate = (date: string) => {
     day: "numeric",
   });
 };
+
+// -----------------------------------------------------------------------------------------------------------------------
 
 type SchemaType<T extends z.ZodTypeAny> = T extends z.ZodType<infer R, any, any>
   ? R
@@ -72,16 +78,42 @@ export const removeOptionalFieldFormZodTypes = <T extends z.ZodObject<any>>(
   return updatedSchema as unknown as z.ZodObject<SchemaType<T>>;
 };
 
-export const formatName = (name: string) => {
+// -----------------------------------------------------------------------------------------------------------------------
+
+export const formatName = ({
+  name,
+  capitalize = false,
+}: {
+  name: string;
+  capitalize?: boolean;
+}) => {
   if (name.includes(" ")) {
+    if (capitalize) return name.toUpperCase();
     const nameArray = name.split(" ");
     return nameArray
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
       .join(" ");
+  }
+  if (name.includes("_")) {
+    const nameArray = name.split("_");
+    if (capitalize) return nameArray.join(" ").toUpperCase();
+    return nameArray
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(" ");
+  }
+  if (name.includes("-")) {
+    const nameArray = name.split("-");
+    if (capitalize) return nameArray.join(" ").toUpperCase();
+    return nameArray
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(" ");
   } else {
+    if (capitalize) return name.toUpperCase();
     return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
   }
 };
+
+// -----------------------------------------------------------------------------------------------------------------------
 
 export const formatDateWithTimeZone = ({
   createdAt,
@@ -96,6 +128,8 @@ export const formatDateWithTimeZone = ({
   return formattedDate;
 };
 
+// -----------------------------------------------------------------------------------------------------------------------
+
 export const tailwindColorToHex = (colorClass: string): string => {
   const colorParts: string[] = colorClass.split("-");
   const colorName: string = colorParts[1];
@@ -106,7 +140,7 @@ export const tailwindColorToHex = (colorClass: string): string => {
   return colorValue || "Color not found";
 };
 
-type EnumValues<T> = T[keyof T];
+// -----------------------------------------------------------------------------------------------------------------------
 
 export const generateZodEnumSchema = <T extends Record<string, EnumValues<T>>>(
   enumObject: T
@@ -114,4 +148,24 @@ export const generateZodEnumSchema = <T extends Record<string, EnumValues<T>>>(
   const enumValues = Object.values(enumObject) as EnumValues<T>[];
   const enumArray = enumValues.map(String) as [string, ...string[]];
   return z.enum(enumArray);
+};
+
+// -----------------------------------------------------------------------------------------------------------------------
+
+export const generateOptionsFromEnum = <
+  T extends Record<string, EnumValues<T>>,
+>({
+  enumObject,
+  capitalizeOptions = false,
+}: {
+  enumObject: T;
+  capitalizeOptions?: boolean;
+}) => {
+  return Object.keys(enumObject).map((key) => ({
+    value: key,
+    label: formatName({
+      name: key,
+      capitalize: capitalizeOptions,
+    }),
+  }));
 };

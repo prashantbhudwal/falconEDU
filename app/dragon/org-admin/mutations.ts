@@ -5,6 +5,7 @@ import { OrgType } from "@prisma/client";
 import { getServerSession } from "next-auth";
 import { revalidatePath } from "next/cache";
 import { orgRegisterFormSchema } from "./_components/org-register-form";
+import { z } from "zod";
 
 const getUserId = async (): Promise<string> => {
   const session = await getServerSession(authOptions);
@@ -61,10 +62,11 @@ export const registerOrg = async ({
   values,
   userId,
 }: {
-  values: any;
+  values: z.infer<typeof orgRegisterFormSchema>;
   userId: string;
 }) => {
   try {
+    let createdBotId: null | string = null;
     const existingBoard = await prisma.board.findFirst({
       where: {
         name: values.boardNames,
@@ -77,73 +79,40 @@ export const registerOrg = async ({
           name: values.boardNames,
         },
       });
-
-      const createdOrg = await prisma.org.create({
-        data: {
-          name: values.name,
-          type: values.type,
-          brandName: values.brandName,
-          state: values.state,
-          city: values.city,
-          pincode: +values.pincode,
-          language_medium: values.language_medium,
-          language_native: values.language_native,
-          board: {
-            connect: {
-              id: createdBoards.id,
-            },
-          },
-        },
-      });
-      if (!createdOrg) {
-        return null;
-      }
-
-      await prisma.orgAdminProfile.update({
-        where: {
-          userId: userId,
-        },
-        data: {
-          orgId: createdOrg.id,
-        },
-      });
-      revalidatePath("/dragon/org-admin/");
-      return createdOrg;
+      createdBotId = createdBoards.id;
     }
 
-    if (existingBoard) {
-      const createdOrg = await prisma.org.create({
-        data: {
-          name: values.name,
-          type: values.type,
-          brandName: values.brandName,
-          state: values.state,
-          city: values.city,
-          pincode: +values.pincode,
-          language_medium: values.language_medium,
-          language_native: values.language_native,
-          board: {
-            connect: {
-              id: existingBoard.id,
-            },
+    const createdOrg = await prisma.org.create({
+      data: {
+        name: values.name,
+        type: values.type,
+        brandName: values.brandName,
+        state: values.state,
+        city: values.city,
+        pincode: values.pincode,
+        language_medium: values.language_medium,
+        language_native: values.language_native,
+        board: {
+          connect: {
+            id: createdBotId || existingBoard?.id,
           },
         },
-      });
-      if (!createdOrg) {
-        return null;
-      }
-
-      await prisma.orgAdminProfile.update({
-        where: {
-          userId: userId,
-        },
-        data: {
-          orgId: createdOrg.id,
-        },
-      });
-      revalidatePath("/dragon/org-admin/");
-      return createdOrg;
+      },
+    });
+    if (!createdOrg) {
+      return null;
     }
+
+    await prisma.orgAdminProfile.update({
+      where: {
+        userId: userId,
+      },
+      data: {
+        orgId: createdOrg.id,
+      },
+    });
+    revalidatePath("/dragon/org-admin/");
+    return createdOrg;
   } catch (err) {
     console.log(err);
     return null;

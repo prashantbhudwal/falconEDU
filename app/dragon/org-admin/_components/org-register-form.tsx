@@ -10,49 +10,57 @@ import {
   FormField,
   FormControl,
   FormMessage,
+  FormLabel,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { OrgType } from "@prisma/client";
+import { BoardName, IndianStates, OrgType, Language } from "@prisma/client";
 import {
   Button,
   Flex,
+  NumberInput,
   Select,
   SelectItem,
   Text,
   TextInput,
 } from "@tremor/react";
 import { registerOrg } from "../mutations";
-import { formatName, generateZodEnumSchema } from "@/lib/utils";
-import { boardNames, languageMedium, orgTypes, stateNames } from "../utils";
-
-// const orgTypesOptions = Object.keys(OrgType).map((key) => ({
-//   value: key,
-//   label: formatName(key),
-// }));
+import { generateOptionsFromEnum } from "@/lib/utils";
+// import { boardNames, languageMedium, orgTypes, stateNames } from "../utils";
 
 export const orgRegisterFormSchema = z.object({
-  name: z.string().min(1),
-  type: z.enum(orgTypes), //TODO: fix with imported enums
+  name: z.string().min(2),
+  type: z.nativeEnum(OrgType),
   brandName: z.string().min(2),
-  boardNames: z.enum(boardNames), //TODO: fix with imported enums
+  boardNames: z.nativeEnum(BoardName),
   city: z.string().optional(),
-  state: z.enum(stateNames).optional(),
-  pincode: z.string().optional(),
-  language_medium: z.enum(languageMedium),
+  state: z.nativeEnum(IndianStates).optional(),
+  pincode: z.number().max(99999).min(1000).optional(),
+  language_medium: z.nativeEnum(Language),
   language_native: z.string().optional(),
 });
 
 const OrgRegisterForm = ({ userId }: { userId: string }) => {
+  const boardNames = generateOptionsFromEnum({
+    enumObject: BoardName,
+    capitalizeOptions: true,
+  });
+  const orgTypes = generateOptionsFromEnum({ enumObject: OrgType });
+  const stateNames = generateOptionsFromEnum({ enumObject: IndianStates });
+  const languageMedium = generateOptionsFromEnum({ enumObject: Language });
+
   const form = useForm<z.infer<typeof orgRegisterFormSchema>>({
     resolver: zodResolver(orgRegisterFormSchema),
     defaultValues: {
       name: "",
       type: "SCHOOL",
-      brandName: "",
       boardNames: "CBSE",
       state: "Andhra_Pradesh",
       language_medium: "ENGLISH",
+      language_native: "",
+      brandName: "",
+      city: "",
     },
+    mode: "onChange",
   });
 
   const onSubmit = async function (
@@ -66,26 +74,29 @@ const OrgRegisterForm = ({ userId }: { userId: string }) => {
 
   return (
     <Form {...form}>
-      <div className="max-w-11/12 mx-auto h-full flex justify-center items-center">
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="text-center space-y-4"
-        >
-          <Text>Register Organization</Text>
+      <div className="max-w-11/12 mx-auto h-fit my-10 flex justify-center items-center">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
+          <Text className="text-xl text-slate-300 text-center">
+            Register Organization
+          </Text>
           <FormField
             control={form.control}
             name="name"
             render={({ field }) => (
               <FormItem>
+                <FormLabel className="text-[9px] text-left">
+                  Organization Name<sup>*</sup>
+                </FormLabel>
                 <FormControl>
                   <TextInput
                     autoComplete="off"
                     type="text"
                     placeholder="Organization Name"
+                    className={`border-red-400`}
+                    error={!!form.formState.errors.name}
                     {...field}
                   />
                 </FormControl>
-                <FormMessage />
               </FormItem>
             )}
           />
@@ -94,15 +105,18 @@ const OrgRegisterForm = ({ userId }: { userId: string }) => {
             name="brandName"
             render={({ field }) => (
               <FormItem>
+                <FormLabel className="text-[9px] text-left">
+                  Brand Name<sup>*</sup>
+                </FormLabel>
                 <FormControl>
                   <TextInput
                     autoComplete="off"
                     type="text"
                     placeholder="Brand Name"
+                    error={!!form.formState.errors.name}
                     {...field}
                   />
                 </FormControl>
-                <FormMessage />
               </FormItem>
             )}
           />
@@ -111,11 +125,14 @@ const OrgRegisterForm = ({ userId }: { userId: string }) => {
             name="type"
             render={({ field }) => (
               <FormItem>
+                <FormLabel className="text-[9px] text-left">
+                  Type of Org.<sup>*</sup>
+                </FormLabel>
                 <FormControl>
                   <Select {...field}>
                     {orgTypes.map((type) => (
-                      <SelectItem key={type} value={type}>
-                        {type}
+                      <SelectItem key={type.value} value={type.value}>
+                        {type.label}
                       </SelectItem>
                     ))}
                   </Select>
@@ -129,11 +146,14 @@ const OrgRegisterForm = ({ userId }: { userId: string }) => {
             name="boardNames"
             render={({ field }) => (
               <FormItem>
+                <FormLabel className="text-[9px] text-left">
+                  Board name<sup>*</sup>
+                </FormLabel>
                 <FormControl>
                   <Select {...field}>
-                    {boardNames.map((type) => (
-                      <SelectItem key={type} value={type}>
-                        {type}
+                    {boardNames.map((name) => (
+                      <SelectItem key={name.value} value={name.value}>
+                        {name.label}
                       </SelectItem>
                     ))}
                   </Select>
@@ -147,11 +167,14 @@ const OrgRegisterForm = ({ userId }: { userId: string }) => {
             name="state"
             render={({ field }) => (
               <FormItem>
+                <FormLabel className="text-[9px] text-left">
+                  State Name<sup>*</sup>
+                </FormLabel>
                 <FormControl>
                   <Select {...field}>
-                    {stateNames.map((type) => (
-                      <SelectItem key={type} value={type}>
-                        {type}
+                    {stateNames.map((name) => (
+                      <SelectItem key={name.value} value={name.value}>
+                        {name.label}
                       </SelectItem>
                     ))}
                   </Select>
@@ -165,15 +188,18 @@ const OrgRegisterForm = ({ userId }: { userId: string }) => {
             name="language_native"
             render={({ field }) => (
               <FormItem>
+                <FormLabel className="text-[9px] text-left">
+                  Native language
+                </FormLabel>
                 <FormControl>
                   <TextInput
                     autoComplete="off"
                     type="text"
                     placeholder="Native language"
+                    error={!!form.formState.errors.name}
                     {...field}
                   />
                 </FormControl>
-                <FormMessage />
               </FormItem>
             )}
           />
@@ -182,11 +208,14 @@ const OrgRegisterForm = ({ userId }: { userId: string }) => {
             name="language_medium"
             render={({ field }) => (
               <FormItem>
+                <FormLabel className="text-[9px] text-left">
+                  Medium language<sup>*</sup>
+                </FormLabel>
                 <FormControl>
                   <Select {...field}>
-                    {languageMedium.map((type) => (
-                      <SelectItem key={type} value={type}>
-                        {type}
+                    {languageMedium.map((language) => (
+                      <SelectItem key={language.value} value={language.value}>
+                        {language.label}
                       </SelectItem>
                     ))}
                   </Select>
@@ -202,12 +231,16 @@ const OrgRegisterForm = ({ userId }: { userId: string }) => {
               name="city"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel className="text-[9px] text-left">
+                    City Name
+                  </FormLabel>
                   <FormControl>
                     <TextInput
                       autoComplete="off"
                       type="text"
                       placeholder="City Name"
                       className="w-20"
+                      error={!!form.formState.errors.name}
                       {...field}
                     />
                   </FormControl>
@@ -220,23 +253,28 @@ const OrgRegisterForm = ({ userId }: { userId: string }) => {
               name="pincode"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel className="text-[9px] text-left">
+                    Pincode
+                  </FormLabel>
                   <FormControl>
-                    <TextInput
+                    <NumberInput
                       autoComplete="off"
-                      type="text"
+                      enableStepper={false}
                       placeholder="PIN Code"
+                      error={!!form.formState.errors.name}
                       className="w-20"
                       {...field}
                     />
                   </FormControl>
-                  <FormMessage />
                 </FormItem>
               )}
             />
           </Flex>
-          <Button type="submit" className="min-w-[100px] rounded-xl">
-            Save
-          </Button>
+          <Flex justifyContent="center">
+            <Button type="submit" className="min-w-[100px] mt-5 rounded-xl">
+              Save
+            </Button>
+          </Flex>
         </form>
       </div>
     </Form>
