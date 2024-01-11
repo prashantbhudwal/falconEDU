@@ -3,7 +3,6 @@ import React from "react";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-// import { addStudentToClass } from "./mutations";
 import {
   Form,
   FormItem,
@@ -12,7 +11,6 @@ import {
   FormMessage,
   FormLabel,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { BoardName, IndianStates, OrgType, Language } from "@prisma/client";
 import {
   Button,
@@ -25,7 +23,6 @@ import {
 } from "@tremor/react";
 import { registerOrg } from "../mutations";
 import { generateOptionsFromEnum } from "@/lib/utils";
-// import { boardNames, languageMedium, orgTypes, stateNames } from "../utils";
 
 export const orgRegisterFormSchema = z.object({
   name: z.string().min(2),

@@ -30,8 +30,6 @@ const AddTeacherPage = async () => {
           );
         })}
       </div>
-
-      {/* <DataTable students={students || []} classId={classId} /> */}
     </>
   );
 };
