@@ -1,6 +1,6 @@
 "use client";
 import { chatIsLoadingAtom } from "@/lib/atoms/student";
-import { Cog8ToothIcon } from "@heroicons/react/24/solid";
+import { Cog8ToothIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Avvvatars from "avvvatars-react";
 import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
@@ -51,12 +51,20 @@ export const StudentNavbar: React.FC<StudentNavbarProps> = ({ children }) => (
   <div className="bg-base-200 shadow-sm shadow-base-100 navbar">{children}</div>
 );
 
-export const StudentHomeNavbar: React.FC = () => {
+export const StudentHomeNavbar = ({
+  brandName,
+}: {
+  brandName?: string | null;
+}) => {
   return (
     <StudentNavbar>
-      <div className="flex gap-3 navbar-start">
-        <Image src={"/chubbi.png"} height={30} width={30} alt="Falcon Logo" />
-        <p className="text-xl">FalconAI</p>
+      <div className="flex gap-2 navbar-start">
+        <Image src={"/chubbi.png"} height={20} width={20} alt="Falcon Logo" />
+        <div className="flex flex-row gap-2 items-center">
+          <div className="text-xs">FalconAI</div>
+          {brandName && <XMarkIcon className="text-secondary h-4 w-4" />}
+          {brandName && <div className="text-xs">{brandName}</div>}
+        </div>
       </div>
       <div className="navbar-end flex items-center gap-2">
         <Link href={getStudentPreferencesURL()}>

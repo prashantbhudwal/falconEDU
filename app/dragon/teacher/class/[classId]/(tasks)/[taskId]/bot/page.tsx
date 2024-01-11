@@ -21,12 +21,25 @@ export default async function BotPage({ params }: BotPageProps) {
 
   const preferences = result.success ? result.data : undefined;
 
+  const config = botData?.config;
+  if (!config) {
+    throw new Error("Bot config not found");
+  }
+  const Class = botData.config?.Class;
+
+  if (!Class) {
+    throw new Error("Class not found");
+  }
+
+  const grade = Class.grade;
+
   return (
     <BotPreferencesForm
       preferences={preferences}
-      botConfig={botData?.config!}
+      botConfig={config}
       classId={classId}
       botId={taskId}
+      grade={grade}
     />
   );
 }

@@ -9,6 +9,7 @@ import * as studentRouter from "./studentRouter";
 import * as botChatRouter from "./botChatRouter";
 import * as profileRouter from "./profileRouter";
 import * as accountRouter from "./accountRouter";
+import * as orgRouter from "./orgRouter";
 
 export const db = {
   botConfig,
@@ -21,4 +22,5 @@ export const db = {
   botChatRouter,
   profile: profileRouter,
   account: accountRouter,
+  org: orgRouter,
 };

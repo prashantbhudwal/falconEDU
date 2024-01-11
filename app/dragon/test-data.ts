@@ -74,9 +74,6 @@ export const bots: Bot[] = [
 export const botPreferences: Array<z.infer<typeof botPreferencesSchema>> = [
   {
     instructions: "Be clear and concise.",
-    subjects: ["English"],
-    grades: ["Grade 1", "Grade 2", "Grade 3"],
-    board: "ICSE",
     tone: "Friendly",
     language: "English",
     humorLevel: "Low",
@@ -84,9 +81,7 @@ export const botPreferences: Array<z.infer<typeof botPreferencesSchema>> = [
   },
   {
     instructions: "Encourage participation.",
-    subjects: ["Math", "Science"],
-    grades: ["Grade 1", "Grade 2"],
-    board: "CIE",
+
     tone: "Friendly",
     language: "English",
     humorLevel: "High",
@@ -94,9 +89,7 @@ export const botPreferences: Array<z.infer<typeof botPreferencesSchema>> = [
   },
   {
     instructions: "Avoid off-topic discussions.",
-    subjects: ["Science"],
-    grades: ["Grade 3", "Grade 4"],
-    board: "CBSE",
+
     tone: "Strict",
     language: "English",
     humorLevel: "Low",
@@ -110,8 +103,7 @@ export const lessonPreferences: Array<z.infer<typeof lessonPreferencesSchema>> =
       content: "Be clear and concise.",
       topic: "English",
       subjects: ["English"],
-      grades: ["Grade 1", "Grade 2", "Grade 3"],
-      board: "ICSE",
+
       tone: "Friendly",
       language: "English",
       humorLevel: "Low",
@@ -121,8 +113,7 @@ export const lessonPreferences: Array<z.infer<typeof lessonPreferencesSchema>> =
       content: "Be clear and concise.",
       topic: "English",
       subjects: ["Math", "Science"],
-      grades: ["Grade 1", "Grade 2"],
-      board: "CIE",
+
       tone: "Friendly",
       language: "English",
       humorLevel: "High",
@@ -132,8 +123,7 @@ export const lessonPreferences: Array<z.infer<typeof lessonPreferencesSchema>> =
       content: "Be clear and concise.",
       topic: "English",
       subjects: ["Science"],
-      grades: ["Grade 3", "Grade 4"],
-      board: "CBSE",
+
       tone: "Strict",
       language: "English",
       humorLevel: "Low",

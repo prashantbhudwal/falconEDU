@@ -29,6 +29,7 @@ export const getLessonContextByChatId = cache(async function (chatId: string) {
           BotConfig: {
             select: {
               preferences: true,
+              Class: true,
               teacher: {
                 select: {
                   preferences: true,
@@ -45,6 +46,13 @@ export const getLessonContextByChatId = cache(async function (chatId: string) {
       },
     },
   });
+  const Class = context?.bot?.BotConfig?.Class;
+
+  if (!Class) {
+    throw new Error(`Class not found for chatId ${chatId}`);
+  }
+
+  const grade = Class.grade;
 
   const test = await prisma.bot.findMany({
     where: {
@@ -89,6 +97,7 @@ export const getLessonContextByChatId = cache(async function (chatId: string) {
       lessonPreferences: parsedLessonPreferences.data,
       teacherPreferences: parsedTeacherPreferences.data,
       studentPreferences: parsedStudentPreferences.data,
+      grade,
     };
     return flatContext;
   } else {

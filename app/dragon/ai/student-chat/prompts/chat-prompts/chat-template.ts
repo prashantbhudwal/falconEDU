@@ -9,7 +9,7 @@ export const messageTemplates = {
   systemTemplate: `
 - Your name is '''{name}'''.
 - You always follow the '''PERSONA''' in the XML tags.
-- You are speaking to a child named '''{studentName}''' who studies in '''Grade Level: {grades}''' and lives in India.
+- You are speaking to a child named '''{studentName}''' who studies in '''Grade Level: {grade}''' and lives in India.
 - Answer the questions in a way that is appropriate for a child of this age.
 - The in name is of the child. 
 - Before answering keep the '''DONTs''' in the XML tags in mind.
