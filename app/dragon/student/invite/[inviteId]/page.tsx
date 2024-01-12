@@ -25,9 +25,9 @@ export default async function InvitePage({
     });
 
   if (invitedStudent) {
-    modelInfo.teacherName = formatName(
-      invitedStudent.Class?.Teacher.User.name || ""
-    );
+    modelInfo.teacherName = formatName({
+      name: invitedStudent.Class?.Teacher.User.name || "",
+    });
     modelInfo.teacherImage = invitedStudent.Class?.Teacher.User.image || "";
     modelInfo.className = invitedStudent.Class?.name || "";
     modelInfo.teacherEmail = invitedStudent.Class?.Teacher.User.email || "";

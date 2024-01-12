@@ -8,11 +8,12 @@ import { User, Account, Profile } from "next-auth";
 import { JWT } from "next-auth/jwt";
 import { redirect } from "next/navigation";
 import { createUserProfile } from "./mutations";
+import { UserType } from "@prisma/client";
 
 const TRIAL_DURATION = 14;
 
 // Assign trial user properties
-const assignTrialUserProperties = async (userType: string) => {
+const assignTrialUserProperties = async (userType: UserType) => {
   const trialStartDate = new Date();
   const trialEndDate = new Date(trialStartDate);
   trialEndDate.setDate(trialStartDate.getDate() + TRIAL_DURATION);
@@ -25,11 +26,10 @@ const assignTrialUserProperties = async (userType: string) => {
   };
 };
 
-const handleProfile = async (profile: any, token: any, userType: string) => {
+const handleProfile = async (profile: any, token: any, userType: UserType) => {
   const existingUser: PrismaUser | null = await prisma.user.findUnique({
     where: { email: profile.email },
   });
-  // console.log("ProfileTOken", tokens);
   if (existingUser && existingUser.userType !== userType) {
     throw new Error("User type mismatch");
   }
@@ -153,10 +153,10 @@ const jwtCallback = async ({
   isNewUser?: boolean;
   session?: any;
 }): Promise<any> => {
-  // console.log("token", token);
-  // console.log("isNewUser", isNewUser);
-  // console.log("trigger", trigger);
-  // console.log("session", session);
+  //
+  //
+  //
+  //
 
   if (user) {
     token.id = user.id;
@@ -169,12 +169,13 @@ const jwtCallback = async ({
   if (user && isNewUser) {
     try {
       await createUserProfile(user.id, user.userType);
-      // console.log("User profile created");
+
+      //
     } catch (e) {
       return false;
     }
   }
-  // console.log("TokenM", token);
+  //
   return token;
 };
 
@@ -186,8 +187,8 @@ const sessionCallback = async ({
   session: any;
   token: any;
 }) => {
-  // console.log("Session", session);
-  // console.log("token", token);
+  //
+  //
 
   if (token) {
     session.user.id = token.sub; // Add the user ID here
@@ -196,7 +197,7 @@ const sessionCallback = async ({
     session.user.subscriptionEnd = token.subscriptionEnd;
     session.user.userType = token.userType;
   }
-  // console.log("SessionM", session);
+  //
 
   return session;
 };

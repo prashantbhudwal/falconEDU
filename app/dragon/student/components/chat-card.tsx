@@ -2,7 +2,7 @@ import { getFormattedDate } from "../../teacher/utils";
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Avvvatars from "avvvatars-react";
-import { cn } from "@/lib/utils";
+import { cn, formatDateWithTimeZone } from "@/lib/utils";
 const testPriorities = ["HIGH", "MEDIUM", "LOW"] as const;
 import { type BotsByTeacherAndStudentID } from "../../teacher/routers/botRouter";
 import { getChatsByBotId, getDefaultChatReadStatus } from "../queries";
@@ -134,7 +134,10 @@ export async function TaskCard({
                       {defaultChatSubmitted ? "Submitted" : ""}
                     </div>
                   ) : (
-                    format(new Date(createdAt), "dd MMM, h:mm a")
+                    formatDateWithTimeZone({
+                      createdAt,
+                      dateFormat: "dd MMM, h:mm a",
+                    })
                   )}
                 </div>
                 <div>{!isActive && <span className="">Inactive</span>}</div>

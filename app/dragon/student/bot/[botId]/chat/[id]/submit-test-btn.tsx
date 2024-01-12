@@ -8,9 +8,12 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
+  DialogTrigger,
 } from "@/components/ui/dialog";
 import { checkTest } from "@/app/dragon/ai/test-checker";
 
@@ -21,7 +24,7 @@ type PropTypes = React.HTMLAttributes<HTMLDivElement> & {
   isMultipleChats?: boolean;
 };
 const SubmitTestButton = React.forwardRef<HTMLButtonElement, PropTypes>(
-  ({ testBotId, redirectUrl, botChatId }, ref) => {
+  ({ testBotId, redirectUrl, botChatId, className }, ref) => {
     const [loading, setLoading] = useState(false);
     const [showDialog, setShowDialog] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
@@ -67,22 +70,49 @@ const SubmitTestButton = React.forwardRef<HTMLButtonElement, PropTypes>(
     };
 
     return (
-      <div className="flex justify-center">
-        <Dialog open={showDialog}>
-          <DialogContent className="w-11/12 mx-auto flex-col items-center">
-            <DialogHeader className="p-4 rounded-t-lg">
-              <DialogTitle className="text-lg mb-2 flex items-center">
-                {loading ? "Submitting..." : "Good Job! Taking you home..."}
-              </DialogTitle>
-              {loading && <Lottie animationData={loadingBall} />}
-              {isSubmitted && <Lottie animationData={testCheckAnimation} />}
-            </DialogHeader>
-          </DialogContent>
-        </Dialog>
-        <Button ref={ref} size={"sm"} onClick={handleSubmit} disabled={loading}>
-          {loading ? "Submitting" : "Submit"}
-        </Button>
-      </div>
+      <Dialog>
+        <DialogTrigger>
+          <Button className={className} size={"sm"}>
+            Submit
+          </Button>
+        </DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Are you sure absolutely sure?</DialogTitle>
+            <DialogDescription>
+              This action cannot be undone. This will submit your test.
+            </DialogDescription>
+            <div className="flex justify-end gap-5 py-1 items-center">
+              <Dialog open={showDialog}>
+                <DialogContent className="w-11/12 mx-auto flex-col items-center">
+                  <DialogHeader className="p-4 rounded-t-lg">
+                    <DialogTitle className="text-lg mb-2 flex items-center">
+                      {loading
+                        ? "Submitting..."
+                        : "Good Job! Taking you home..."}
+                    </DialogTitle>
+                    {loading && <Lottie animationData={loadingBall} />}
+                    {isSubmitted && (
+                      <Lottie animationData={testCheckAnimation} />
+                    )}
+                  </DialogHeader>
+                </DialogContent>
+              </Dialog>
+              <Button
+                ref={ref}
+                size={"sm"}
+                onClick={handleSubmit}
+                disabled={loading}
+              >
+                {loading ? "Submitting" : "Submit"}
+              </Button>
+              <DialogClose>
+                <Button variant={"outline"}>Cancel</Button>
+              </DialogClose>
+            </div>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
     );
   }
 );

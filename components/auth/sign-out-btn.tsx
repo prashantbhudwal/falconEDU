@@ -23,6 +23,9 @@ export default function SignOutButton({ className }: SignOutButtonProps) {
         case "PARENT":
           redirectUrl = "/dragon/auth/parent";
           break;
+        case "ORG_ADMIN":
+          redirectUrl = "/dragon/auth/org-admin";
+          break;
         default:
           redirectUrl = "/";
       }
