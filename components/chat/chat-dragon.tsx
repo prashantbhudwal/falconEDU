@@ -98,7 +98,7 @@ export function Chat({
         className="overflow-y-scroll custom-scrollbar h-screen"
         ref={containerRef}
       >
-        <div className={cn("pb-[200px] pt-4 md:pt-10", className)}>
+        <div className={cn("pb-[250px] pt-4 md:pt-10", className)}>
           {messages.length ? (
             <>
               <ChatList
@@ -142,7 +142,7 @@ export function Chat({
         <Button
           variant="secondary"
           onClick={() => setAutoScrolling(true)}
-          className="absolute bottom-[180px] w-fit left-1/2 -translate-x-1/2 hover:bg-secondary rounded-full"
+          className="fixed bottom-[80px] w-fit left-1/2 -translate-x-1/2 hover:bg-secondary rounded-full"
         >
           <MdOutlineKeyboardDoubleArrowDown className="text-2xl animate-pulse" />
         </Button>
