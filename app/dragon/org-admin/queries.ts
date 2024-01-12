@@ -278,7 +278,7 @@ export const getOrgByUserId = cache(async (userId: string) => {
   }
 });
 
-export const getTeacherWithOrgId = async () => {
+export const getTeacherWithOrgId = cache(async () => {
   try {
     const userId = await getUserId();
     const org = await prisma.orgAdminProfile.findUnique({
@@ -308,7 +308,7 @@ export const getTeacherWithOrgId = async () => {
     console.error(err);
     return null;
   }
-};
+});
 
 export const getTeacherTasksWithTeacherId = cache(
   async ({ teacherId }: { teacherId: string }) => {
