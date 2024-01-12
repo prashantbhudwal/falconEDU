@@ -5,7 +5,7 @@ import { db } from "../../../../routers";
 import { ClassNavbar } from "../../(home)/components/class-navbar";
 import { TasksNavbar } from "./tasks-navbar";
 import { typeGetBotConfigByConfigId } from "@/app/dragon/teacher/routers/botConfigRouter";
-import { EvalDrawer } from "@/app/dragon/teacher/components/chat-sidebar/eval-drawer";
+import { EvalDrawer } from "@/app/dragon/teacher/class/[classId]/(tasks)/_components/eval-drawer/eval-drawer";
 import { TaskType } from "@/types";
 
 export default async function ClassLayout({

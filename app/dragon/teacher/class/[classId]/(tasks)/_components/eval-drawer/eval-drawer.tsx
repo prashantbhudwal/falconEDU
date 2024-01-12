@@ -11,7 +11,7 @@ import {
 import { useHotkeys } from "react-hotkeys-hook";
 import { Chat } from "@/components/chat/chat-dragon";
 import { getStudentChatApiURL } from "@/lib/urls";
-import { getTaskProperties } from "../../utils";
+import { getTaskProperties } from "../../../../../utils";
 import {
   getChatContextByConfigId,
   getLessonContextByConfigId,
