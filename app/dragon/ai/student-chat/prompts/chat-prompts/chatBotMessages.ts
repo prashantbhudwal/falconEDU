@@ -13,6 +13,7 @@ import {
 } from "../../../../schema";
 import * as z from "zod";
 import { getFormattedGrade } from "@/app/dragon/teacher/utils";
+import { Grade } from "@prisma/client";
 
 export const getPreferences = (context: ChatContextByChatId) => {
   let teacherPreferences = context?.teacherPreferences as z.infer<
@@ -51,7 +52,7 @@ export const getPreferences = (context: ChatContextByChatId) => {
   const { aboutYourself, favoriteCartoons, favoriteFoods, interests } =
     studentPreferences;
 
-  const unformattedGrade = context?.grade;
+  const unformattedGrade = context?.grade as Grade;
   const grade = unformattedGrade
     ? getFormattedGrade({ grade: unformattedGrade })
     : "Grade 5";
