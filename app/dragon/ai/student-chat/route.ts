@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const json = await req.json();
-    let { messages, chatId: botChatId, context } = json;
+    let { messages, chatId: botChatId, context, isTesting } = json;
     const botType = json.type as TaskType;
     if (!botType) {
       throw new Error(`BotConfig with botChatId ${botChatId} not found`);
@@ -79,6 +79,9 @@ export async function POST(req: NextRequest) {
         }
       },
       async onCompletion(completion) {
+        if (isTesting) {
+          return;
+        }
         await saveBotChatToDatabase(botChatId, completion, messages);
         mp.track(
           `${botType.charAt(0).toUpperCase() + botType.slice(1)} Message`,
