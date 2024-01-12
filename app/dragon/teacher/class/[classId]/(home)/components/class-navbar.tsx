@@ -11,6 +11,7 @@ import Link from "next/link";
 import { Grade } from "@prisma/client";
 import { Class } from "@prisma/client";
 import { getFormattedGrade } from "@/app/dragon/teacher/utils";
+import { EditClassModal } from "../../(settings)/dashboard/components/edit-class-modal";
 
 export async function ClassNavbar({
   classId,
@@ -32,8 +33,12 @@ export async function ClassNavbar({
         <DragonHomeBtn />
         <MyStudentsBtn classId={classId} />
       </div>
-      <div className="navbar-center text-secondary/70 font-semibold">
-        {`${getFormattedGrade({ grade })}` + (section ? ` - ${section}` : ``)}
+
+      <div className="navbar-center text-secondary/70 font-semibold space-x-2">
+        <div>
+          {`${getFormattedGrade({ grade })}` + (section ? ` - ${section}` : ``)}
+        </div>
+        <EditClassModal initialValues={classDetails} />
       </div>
       <div className="navbar-end pr-1 flex gap-2">
         {classDetails?.isActive && (
