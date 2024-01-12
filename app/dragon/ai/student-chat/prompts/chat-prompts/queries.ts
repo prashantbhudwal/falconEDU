@@ -11,7 +11,9 @@ import {
 } from "@/app/dragon/schema";
 export const isEmptyObject = (obj: any) => Object.keys(obj).length === 0;
 
-export const getChatContextByChatId = cache(async function (chatId: string) {
+export const getChatContextByChatId = cache(async function (
+  chatId: string
+): Promise<ChatContext> {
   const context = await prisma.botChat.findUnique({
     where: { id: chatId },
     select: {
@@ -109,9 +111,21 @@ export const getChatContextByChatId = cache(async function (chatId: string) {
     return null;
   }
 });
+
 export type ChatContextByChatId = UnwrapPromise<
   ReturnType<typeof getChatContextByChatId>
 >;
+
+export type ChatContext = {
+  teacherName: string | null;
+  studentName: string | null;
+  botPreferences: z.infer<typeof botPreferencesSchema> | {};
+  teacherPreferences: z.infer<typeof teacherPreferencesSchema>;
+  studentPreferences: z.infer<typeof StudentPreferenceSchema>;
+  name: string;
+  grade: string;
+} | null;
+
 export async function getBotConfigTypeByBotChatId(botChatId: string) {
   const botChat = await prisma.botChat.findUnique({
     where: { id: botChatId },
