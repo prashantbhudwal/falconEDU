@@ -20,6 +20,10 @@ import {
 import { useEffect, useState } from "react";
 import { TaskType } from "@/types";
 
+import { typeGetBotConfigByConfigId } from "@/app/dragon/teacher/routers/botConfigRouter";
+import { PublishButton } from "./publish-btn";
+import { Separator } from "@/components/ui/separator";
+
 const getChatContext = async function ({
   type,
   configId,
@@ -51,9 +55,17 @@ const getChatContext = async function ({
 export function EvalDrawer({
   taskId,
   taskType,
+  classId,
+  userId,
+  task,
+  totalParsedQuestions,
 }: {
   taskId: string;
   taskType: TaskType;
+  classId: string;
+  userId: string;
+  task: NonNullable<typeGetBotConfigByConfigId>;
+  totalParsedQuestions: number | undefined;
 }) {
   const [context, setContext] = useState<string>();
   const isOpen = useAtomValue(evalDrawerAtom);
@@ -81,12 +93,26 @@ export function EvalDrawer({
   return (
     <Drawer open={isOpen} onOpenChange={setEvalDrawer}>
       <DrawerContent className="w-full h-[90%] px-4">
-        <DrawerHeader>
-          <DrawerTitle>Check your {formattedType}</DrawerTitle>
-          <DrawerDescription>
-            Test your {formattedType} before publishing.
-          </DrawerDescription>
+        <DrawerHeader className="flex flex-row items-center justify-between">
+          <div className="flex flex-col space-y-2">
+            <DrawerTitle>
+              Check what students see.
+            </DrawerTitle>
+            <DrawerDescription className="">
+              Check your {formattedType.toLocaleLowerCase()} before publishing.
+            </DrawerDescription>
+          </div>
+          <PublishButton
+            task={task}
+            classId={classId}
+            cancelPublish={Number(totalParsedQuestions) > 10}
+            isEmptyTest={
+              task.type === "test" &&
+              (Number(totalParsedQuestions) === 0 || !totalParsedQuestions)
+            }
+          />
         </DrawerHeader>
+        <Separator />
         <div>
           <Chat
             apiPath={getStudentChatApiURL()}

@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { db } from "../../../../routers";
 import { ClassNavbar } from "../../(home)/components/class-navbar";
-import { TasksNavbar } from "./tasks-navbar";
+import { TasksNavbar } from "../_components/tasks-navbar";
 import { typeGetBotConfigByConfigId } from "@/app/dragon/teacher/routers/botConfigRouter";
 import { EvalDrawer } from "@/app/dragon/teacher/class/[classId]/(tasks)/_components/eval-drawer/eval-drawer";
 import { TaskType } from "@/types";
@@ -44,7 +44,14 @@ export default async function ClassLayout({
           <div className="w-full bg-base-300 shadow-sm shadow-base-100 pb-10 min-h-screen">
             {children}
             <Toaster />
-            <EvalDrawer taskId={taskId} taskType={task.type as TaskType} />
+            <EvalDrawer
+              taskId={taskId}
+              taskType={task.type as TaskType}
+              task={task}
+              totalParsedQuestions={activeParsedQuestions?.length}
+              classId={classId}
+              userId={userId}
+            />
           </div>
         </div>
       </div>

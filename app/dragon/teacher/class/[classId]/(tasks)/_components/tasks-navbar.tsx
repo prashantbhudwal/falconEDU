@@ -41,9 +41,9 @@ import { TaskType } from "@/types/dragon";
 import { typeGetBotConfigByConfigId } from "@/app/dragon/teacher/routers/botConfigRouter";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
-import { AlertDialogComponent } from "./test/components/alertDialog";
-import { Grade } from "@prisma/client";
-import { Class } from "@prisma/client";
+import { useSetAtom } from "jotai";
+import { evalDrawerAtom } from "@/lib/atoms/ui";
+import { PublishButton } from "./eval-drawer/publish-btn";
 
 export function TasksNavbar({
   classId,
@@ -56,6 +56,7 @@ export function TasksNavbar({
   task: NonNullable<typeGetBotConfigByConfigId>;
   totalParsedQuestions: number | undefined;
 }) {
+  const setEvalDrawer = useSetAtom(evalDrawerAtom);
   const { currentPage } = usePageTracking();
   const isResponse = currentPage.endsWith("responses");
   const name = task.name;
@@ -118,15 +119,26 @@ export function TasksNavbar({
             )}
           </>
         )}
-        <PublishButton
-          task={task}
-          classId={classId}
-          cancelPublish={Number(totalParsedQuestions) > 10}
-          isEmptyTest={
-            task.type === "test" &&
-            (Number(totalParsedQuestions) === 0 || !totalParsedQuestions)
-          }
-        />
+
+        {task.published ? (
+          <PublishButton
+            task={task}
+            classId={classId}
+            cancelPublish={Number(totalParsedQuestions) > 10}
+            isEmptyTest={
+              task.type === "test" &&
+              (Number(totalParsedQuestions) === 0 || !totalParsedQuestions)
+            }
+          />
+        ) : (
+          <Button
+            size="sm"
+            className="flex items-center gap-1 hover:bg-base-300 hover:text-slate-100 hover:font-semibold"
+            onClick={() => setEvalDrawer(true)}
+          >
+            <div className="capitalize">Check & Publish</div>
+          </Button>
+        )}
       </div>
     </div>
   );
@@ -262,105 +274,6 @@ const ArchiveButton = function ({ task }: { task: BotConfig }) {
         </div>
       }
     />
-  );
-};
-
-const PublishButton = function ({
-  task: initialTask,
-  classId,
-  cancelPublish,
-  isEmptyTest,
-}: {
-  task: BotConfig;
-  classId: string;
-  cancelPublish: boolean;
-  isEmptyTest: boolean;
-}) {
-  const [task, SetTask] = useState<BotConfig>(initialTask);
-  const [hover, setHover] = useState(false);
-  const isPublished = task.published;
-  const taskId = task.id;
-  const type = task.type as TaskType;
-  const { Icon, iconColor, formattedType } = getTaskProperties(type);
-
-  const {
-    onPublish,
-    onUnPublish,
-    loading,
-    error: publishingError,
-    config: updatedTask,
-  } = useConfigPublishing({
-    classId,
-    botId: taskId,
-    type,
-  });
-
-  useEffect(() => {
-    if (updatedTask) {
-      SetTask(updatedTask);
-    }
-  }, [updatedTask, taskId, publishingError]);
-
-  const title = isPublished
-    ? `Unpublish ${formattedType}`
-    : `Publish ${formattedType}`;
-  const description = isPublished
-    ? `Unpublishing will make the ${formattedType} unavailable for all students.`
-    : `Publishing will make the ${formattedType} available for all students.`;
-  const action = isPublished ? onUnPublish : onPublish;
-
-  if ((cancelPublish || isEmptyTest) && !isPublished) {
-    const description = isEmptyTest
-      ? "The test cannot be empty. Please add some questions before publishing."
-      : "The test cannot exceed 10 questions. Please delete some questions before publishing.";
-    return (
-      <AlertDialogComponent title="Alert" description={description}>
-        <Button
-          type="button"
-          variant={"default"}
-          size="sm"
-          className={cn({
-            "text-primary hover:bg-destructive ": isPublished,
-          })}
-          disabled={loading}
-        >
-          Publish
-        </Button>
-      </AlertDialogComponent>
-    );
-  }
-
-  return (
-    <>
-      {task.isActive && (
-        <ClassDialog
-          title={title}
-          description={description}
-          action={action}
-          trigger={
-            <Button
-              onMouseEnter={() => setHover(true)}
-              onMouseLeave={() => setHover(false)}
-              type="button"
-              variant={isPublished ? "outline" : "default"}
-              size="sm"
-              className={cn({
-                "text-primary hover:bg-destructive ": isPublished,
-              })}
-              disabled={loading}
-            >
-              {loading
-                ? "Processing..."
-                : isPublished
-                  ? hover
-                    ? "Unpublish"
-                    : "Published"
-                  : "Publish"}
-            </Button>
-          }
-        />
-      )}
-    </>
   );
 };
 
