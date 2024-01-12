@@ -1,5 +1,6 @@
 "use client";
-import { Cog8ToothIcon } from "@heroicons/react/24/solid";
+import { chatIsLoadingAtom } from "@/lib/atoms/student";
+import { Cog8ToothIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Avvvatars from "avvvatars-react";
 import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
@@ -7,6 +8,7 @@ import SignOutButton from "@/components/auth/sign-out-btn";
 import Image from "next/image";
 import Link from "next/link";
 import { MoonIcon, SunIcon } from "@heroicons/react/24/solid";
+import { PulseLoader } from "react-spinners";
 import {
   getStudentPreferencesURL,
   studentHomeURL,
@@ -49,12 +51,20 @@ export const StudentNavbar: React.FC<StudentNavbarProps> = ({ children }) => (
   <div className="bg-base-200 shadow-sm shadow-base-100 navbar">{children}</div>
 );
 
-export const StudentHomeNavbar: React.FC = () => {
+export const StudentHomeNavbar = ({
+  brandName,
+}: {
+  brandName?: string | null;
+}) => {
   return (
     <StudentNavbar>
-      <div className="flex gap-3 navbar-start">
-        <Image src={"/chubbi.png"} height={30} width={30} alt="Falcon Logo" />
-        <p className="text-xl">FalconAI</p>
+      <div className="flex gap-2 navbar-start">
+        <Image src={"/chubbi.png"} height={20} width={20} alt="Falcon Logo" />
+        <div className="flex flex-row gap-2 items-center">
+          <div className="text-xs">FalconAI</div>
+          {brandName && <XMarkIcon className="text-secondary h-4 w-4" />}
+          {brandName && <div className="text-xs">{brandName}</div>}
+        </div>
       </div>
       <div className="navbar-end flex items-center gap-2">
         <Link href={getStudentPreferencesURL()}>
@@ -93,6 +103,7 @@ export const AvatarNavbar: React.FC<AvatarNavbarProps> = ({
   isMultipleChats,
   botChatId,
 }) => {
+  const [isLoading] = useAtom(chatIsLoadingAtom);
   return (
     <StudentNavbar>
       <Link href={studentHomeURL} className="flex gap-3 navbar-start">
@@ -104,7 +115,16 @@ export const AvatarNavbar: React.FC<AvatarNavbarProps> = ({
         </Avatar>
         <div>
           <p className="truncate">{title}</p>
-          <p className="text-sm text-slate-500 truncate">{subtitle}</p>
+          {isLoading ? (
+            <p className="text-sm text-primary truncate">
+              <div className="flex flex-row items-baseline gap-1">
+                <div>typing</div>
+                <PulseLoader size={4} color={"#059669"} speedMultiplier={0.5} />
+              </div>
+            </p>
+          ) : (
+            <p className="text-sm text-slate-500 truncate">{subtitle}</p>
+          )}
         </div>
       </Link>
       <div className="navbar-end flex gap-4">{button}</div>

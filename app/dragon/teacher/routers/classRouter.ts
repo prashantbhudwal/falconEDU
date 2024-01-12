@@ -6,12 +6,15 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { cache } from "react";
 import { UnwrapPromise } from "../../student/queries";
+import { Class } from "@prisma/client";
 
 export const createClassForTeacher = async function ({
-  className,
+  grade,
+  section,
   userId,
 }: {
-  className: string;
+  grade: Class["grade"];
+  section: Class["section"];
   userId: string;
 }) {
   await isAuthorized({
@@ -29,8 +32,35 @@ export const createClassForTeacher = async function ({
   // Step 2: Create new class
   const newClass = await prisma.class.create({
     data: {
-      name: className,
       teacherId: teacherProfile.id, // Using the id of TeacherProfile
+      grade,
+      section,
+    },
+  });
+  revalidatePath(getClassesURL());
+  return newClass;
+};
+
+export const updateClassForTeacher = async function ({
+  grade,
+  section,
+  classId,
+}: {
+  grade: Class["grade"];
+  section: Class["section"];
+  classId: string;
+}) {
+  await isAuthorized({
+    userType: "TEACHER",
+  });
+  // Step 1: Fetch TeacherProfile based on userId
+
+  // Step 2: Create new class
+  const newClass = await prisma.class.update({
+    where: { id: classId },
+    data: {
+      grade,
+      section,
     },
   });
   revalidatePath(getClassesURL());

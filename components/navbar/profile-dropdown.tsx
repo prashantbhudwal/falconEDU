@@ -1,15 +1,16 @@
 import Avatar from "@/components/avatar";
 import Link from "next/link";
 import SignOutButton from "@/components/auth/sign-out-btn";
+import { Button } from "../ui/button";
 
 interface Props {
   url: string;
 }
 
-export default function ProfileDropDown({url}:Props) {
+export default function ProfileDropDown({ url }: Props) {
   return (
     <div className="dropdown dropdown-end">
-      <label tabIndex={0} className="btn btn-square btn-ghost btn-md">
+      <label tabIndex={0} className="hover:bg-base-300 hover:cursor-pointer">
         <Avatar />
       </label>
       <ul

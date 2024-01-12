@@ -13,6 +13,7 @@ import {
   StudentPreferenceSchema,
 } from "../../../../schema";
 import * as z from "zod";
+import { getFormattedGrade } from "@/app/dragon/teacher/utils";
 
 export const getPreferences = (context: LessonContextByChatId) => {
   let teacherPreferences = context?.teacherPreferences as z.infer<
@@ -41,8 +42,6 @@ export const getPreferences = (context: LessonContextByChatId) => {
     content,
     topic,
     subjects,
-    grades,
-    board,
     tone,
     language,
     humorLevel,
@@ -54,14 +53,17 @@ export const getPreferences = (context: LessonContextByChatId) => {
   const { aboutYourself, favoriteCartoons, favoriteFoods, interests } =
     studentPreferences;
 
-  const stringifiedGrades = JSON.stringify(grades);
+  const unformattedGrade = context?.grade;
+  const grade = unformattedGrade
+    ? getFormattedGrade({ grade: unformattedGrade })
+    : "Grade %";
+
   const stringifiedSubjects = JSON.stringify(subjects);
 
   const preferences = {
     teacherName,
     studentName,
-    board,
-    grades: stringifiedGrades,
+    grade: grade,
     humorLevel,
     content,
     topic,

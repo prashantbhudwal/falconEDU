@@ -38,6 +38,7 @@ export const createUserProfile = async (id: string, userType: string) => {
           userId: id,
         },
       });
+      break;
     default:
       throw new Error("Invalid user type");
   }

@@ -8,17 +8,23 @@ import { Button } from "@/components/ui/button";
 import { WrenchScrewdriverIcon } from "@heroicons/react/24/solid";
 import { getSettingsUrl } from "@/lib/urls";
 import Link from "next/link";
+import { Grade } from "@prisma/client";
+import { Class } from "@prisma/client";
+import { getFormattedGrade } from "@/app/dragon/teacher/utils";
+import { EditClassModal } from "../../(settings)/dashboard/components/edit-class-modal";
 
 export async function ClassNavbar({
   classId,
   userId,
   classesWithConfigs,
-  name,
+  grade,
+  section,
 }: {
   classId: string;
   userId: string;
   classesWithConfigs: ClassesByUserId;
-  name: string;
+  grade: Grade;
+  section: Class["section"];
 }) {
   const classDetails = await db.class.getClassByClassId({ classId });
   return (
@@ -27,7 +33,13 @@ export async function ClassNavbar({
         <DragonHomeBtn />
         <MyStudentsBtn classId={classId} />
       </div>
-      <div className="navbar-center">{name}</div>
+
+      <div className="navbar-center text-secondary/70 font-semibold space-x-2">
+        <div>
+          {`${getFormattedGrade({ grade })}` + (section ? ` - ${section}` : ``)}
+        </div>
+        <EditClassModal initialValues={classDetails} />
+      </div>
       <div className="navbar-end pr-1 flex gap-2">
         {classDetails?.isActive && (
           <>

@@ -1,6 +1,5 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-import { NewClassCard } from "./components/new-class-card";
 import Link from "next/link";
 import { getClassURL } from "@/lib/urls";
 import Avvvatars from "avvvatars-react";
@@ -8,6 +7,7 @@ import ClassCard from "./components/class-card";
 import { Paper } from "@/components/ui/paper";
 import { notFound, redirect } from "next/navigation";
 import { db } from "./routers";
+import { ClassCardList } from "./components/class-card-list";
 
 import {
   Accordion,
@@ -15,7 +15,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import Navbar from "@/components/navbar/navbar";
+import Navbar from "./components/navbar/navbar";
 
 export default async function Classes() {
   const session = await getServerSession(authOptions);
@@ -34,20 +34,7 @@ export default async function Classes() {
     <div className="flex flex-col min-w-full h-screen">
       <Navbar />
       <Paper className="h-full w-full overflow-y-auto custom-scrollbar bg-base-300 flex flex-col justify-between space-y-6">
-        <div className="flex flex-row gap-10 flex-wrap">
-          <NewClassCard />
-          {activeClasses.map((classData) => (
-            <Link href={getClassURL(classData.id)} key={classData.id}>
-              <ClassCard
-                className="rounded-lg"
-                icon={
-                  <Avvvatars value={classData.id} style="shape" size={60} />
-                }
-                name={classData.name}
-              />
-            </Link>
-          ))}
-        </div>
+        <ClassCardList classes={activeClasses} />
         {archivedClasses.length > 0 && (
           <div className=" flex flex-col gap-4">
             <Accordion
@@ -60,25 +47,7 @@ export default async function Classes() {
                   Archived
                 </AccordionTrigger>
                 <AccordionContent className="border-none px-2 py-4">
-                  <div className="flex flex-row gap-10">
-                    {archivedClasses.map((classData) => (
-                      <Link href={getClassURL(classData.id)} key={classData.id}>
-                        <ClassCard
-                          className="rounded-lg"
-                          icon={
-                            <div className="text-base-100">
-                              <Avvvatars
-                                value={classData.id}
-                                style="shape"
-                                size={80}
-                              />
-                            </div>
-                          }
-                          name={classData.name}
-                        />
-                      </Link>
-                    ))}
-                  </div>
+                  <ClassCardList classes={archivedClasses} />
                 </AccordionContent>
               </AccordionItem>
             </Accordion>

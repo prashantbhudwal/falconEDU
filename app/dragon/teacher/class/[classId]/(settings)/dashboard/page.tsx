@@ -5,7 +5,6 @@ import {
   TooltipProvider,
 } from "@ui/tooltip";
 import { getTotalStudentsByClassId } from "./queries";
-import EditableClassName from "./components/editable-class-name";
 import Link from "next/link";
 import { getStudentsURL } from "@/lib/urls";
 import { ToggleClassStatusCard } from "./components/toggle-class-status";
@@ -17,6 +16,7 @@ import { UsersIcon } from "@heroicons/react/24/outline";
 
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import MyStudentsBtn from "../../../../components/class-sidebar/my-students-btn";
+import { ClassPreferencesForm } from "./components/class-preferences-form";
 export default async function ClassSettings({
   params,
 }: {
@@ -30,36 +30,42 @@ export default async function ClassSettings({
   const configs = await db.botConfig.getAllConfigsInClass({ userId, classId });
   const classDetails = await db.class.getClassByClassId({ classId });
   return (
-    <div className="w-[80%] mx-auto flex flex-col space-y-10 pt-10 max-w-5xl">
+    <div className=" mx-auto flex flex-col space-y-10 pt-10 items-center">
       {/* ------------------------------------------------------------------------------- */}
-      <h1 className="text-3xl font-bold  text-slate-400">Class Dashboard</h1>
-      <Separator decorative orientation="horizontal" className="w-full" />
-      <EditableClassName classId={classId} />
+      <h1 className="text-3xl font-bold  text-slate-400">Class Settings</h1>
 
       {/* ------------------------------------------------------------------------------- */}
+      <div className="flex flex-col space-y-10">
+        <ClassPreferencesForm initialValues={classDetails} />
+        <Separator
+          decorative
+          orientation="horizontal"
+          className="w-full bg-slate-600"
+        />
 
-      <div className="flex space-x-10">
-        <StudentsCard
-          classId={classId}
-          totalStudents={totalStudents?.length || 0}
-        />
-        <ToggleClassStatusCard classId={classId} />
+        <div className="flex space-x-10">
+          <StudentsCard
+            classId={classId}
+            totalStudents={totalStudents?.length || 0}
+          />
+          <ToggleClassStatusCard classId={classId} />
+        </div>
+        <div className="flex justify-start items-center space-x-10">
+          <ConfigCard
+            classId={classId}
+            configType="chat"
+            configs={configs}
+            showActions={classDetails.isActive as boolean}
+          />
+          <ConfigCard
+            classId={classId}
+            configType="test"
+            configs={configs}
+            showActions={classDetails.isActive as boolean}
+          />
+        </div>
+        {/* ----------------------------------------------------------------------------------- */}
       </div>
-      <div className="flex justify-start items-center space-x-10">
-        <ConfigCard
-          classId={classId}
-          configType="chat"
-          configs={configs}
-          showActions={classDetails.isActive as boolean}
-        />
-        <ConfigCard
-          classId={classId}
-          configType="test"
-          configs={configs}
-          showActions={classDetails.isActive as boolean}
-        />
-      </div>
-      {/* ----------------------------------------------------------------------------------- */}
     </div>
   );
 }

@@ -16,6 +16,10 @@ export const getTestsUrl = (classId: string) =>
 export const getSettingsUrl = (classId: string) =>
   `${baseUrl}/teacher/class/${classId}/dashboard`;
 
+export const teacherProfileURL = `${getTeacherHomeURL()}/profile`;
+export const teacherTrainingURL = `${getTeacherHomeURL()}/teacher-training/gallery`;
+export const teacherAvatarURL = `${getTeacherHomeURL()}/teacher-preferences/`;
+export const teacherAIToolsURL = `/preferences/`;
 export const getTaskUrl = ({
   classId,
   taskId,
@@ -134,3 +138,8 @@ export const parentHomeURL = `${baseUrl}/parent/`;
 export const getParentReportUrlByTaskId = ({ taskId }: { taskId: string }) => {
   return `${baseUrl}/parent/report/${taskId}`;
 };
+
+
+//Org Admin urls
+export const orgAdminHomeURL = `${baseUrl}/org-admin/`;
+export const orgAdminProfileURL = `${baseUrl}/org-admin/profile`;

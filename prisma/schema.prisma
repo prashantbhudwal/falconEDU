@@ -115,13 +115,85 @@ model OrgAdminProfile {
 }
 
 model Org {
-  id            String            @id @default(cuid())
-  type          OrgType
-  name          String
-  teacher       TeacherProfile[]
-  admin         OrgAdminProfile[]
-  students      StudentProfile[]
-  ParentProfile ParentProfile[]
+  id              String            @id @default(cuid())
+  type            OrgType
+  name            String
+  brandName       String            @default("")
+  // teacherSeats  Int               @default(0) 
+  // studentSeats  Int               @default(0)
+  teacher         TeacherProfile[]
+  admin           OrgAdminProfile[]
+  students        StudentProfile[]
+  ParentProfile   ParentProfile[]
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @default(now()) @updatedAt
+  board           Board[]
+  language_medium Language          @default(ENGLISH)
+  language_native String?
+  state           IndianStates      @default(Andhra_Pradesh)
+  city            String?
+  pincode         Int?
+}
+
+model Board {
+  id    String    @id @default(cuid())
+  name  BoardName
+  other String?
+  org   Org[]
+}
+
+enum BoardName {
+  CBSE
+  CISCE
+  IB
+  NIOS
+  CAMBRIDGE
+  STATE_BOARD
+  OTHER
+}
+
+enum Language {
+  ENGLISH
+  HINDI
+}
+
+enum IndianStates {
+  Andhra_Pradesh
+  Arunachal_Pradesh
+  Assam
+  Bihar
+  Chhattisgarh
+  Goa
+  Gujarat
+  Haryana
+  Himachal_Pradesh
+  Jharkhand
+  Karnataka
+  Kerala
+  Madhya_Pradesh
+  Maharashtra
+  Manipur
+  Meghalaya
+  Mizoram
+  Nagaland
+  Odisha
+  Punjab
+  Rajasthan
+  Sikkim
+  Tamil_Nadu
+  Telangana
+  Tripura
+  Uttar_Pradesh
+  Uttarakhand
+  West_Bengal
+  Andaman_And_Nicobar_Islands
+  Chandigarh
+  Dadra_And_Nagar_Haveli_And_Daman_And_Diu
+  Lakshadweep
+  Delhi
+  Puducherry
+  Jammu_And_Kashmir
+  Ladakh
 }
 
 enum OrgType {
@@ -134,8 +206,10 @@ enum OrgType {
 
 model Class {
   id         String           @id @default(cuid())
-  name       String
+  name       String?
   teacherId  String
+  grade      Grade            @default(GRADE_5)
+  section    String?
   isActive   Boolean          @default(true)
   Teacher    TeacherProfile   @relation(fields: [teacherId], references: [id], onDelete: Cascade)
   students   StudentProfile[]
@@ -143,6 +217,17 @@ model Class {
   BotConfig  BotConfig[]
   Invitation Invitation[]
   createdAt  DateTime         @default(now())
+}
+
+enum Grade {
+  GRADE_3
+  GRADE_4
+  GRADE_5
+  GRADE_6
+  GRADE_7
+  GRADE_8
+  GRADE_9
+  GRADE_10
 }
 
 enum UserType {

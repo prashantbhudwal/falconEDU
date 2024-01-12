@@ -1,9 +1,61 @@
 import type { BaseMessage } from "langchain/schema";
 import { GPTTokens } from "gpt-tokens";
 import type { supportModelType } from "gpt-tokens";
-import { MessageContent } from "langchain/schema";
+import { HumanMessage, MessageContent } from "langchain/schema";
 
 import { AIMessage, SystemMessage } from "langchain/schema";
+import { getEngineeredChatBotMessages } from "./prompts/chat-prompts/chatBotMessages";
+import {
+  TestContextByChatId,
+  getEngineeredTestBotMessages,
+} from "./prompts/test-prompts/testBotMessages";
+import { getEngineeredLessonBotMessages } from "./prompts/lesson-prompts/lessonBotMessages";
+import { LessonContextByChatId } from "./prompts/lesson-prompts/queries";
+import { ChatContextByChatId } from "./prompts/chat-prompts/queries";
+import { TaskType } from "@/types";
+
+export function mapMessagesToLangChainBaseMessage(messages: any[]): BaseMessage[] {
+  return messages.map((m: any) =>
+    m.role == "user" ? new HumanMessage(m.content) : new AIMessage(m.content)
+  );
+}
+
+export const getEngineeredMessagesByType = async ({
+  type,
+  context,
+}: {
+  type: TaskType;
+  context: any;
+}) => {
+  switch (type) {
+    case "chat":
+      return await getEngineeredChatBotMessages(context as ChatContextByChatId);
+    case "test":
+      return await getEngineeredTestBotMessages(context as TestContextByChatId);
+    case "lesson":
+      return await getEngineeredLessonBotMessages(
+        context as LessonContextByChatId
+      );
+    default:
+      return await getEngineeredChatBotMessages(context);
+  }
+};
+
+export function formatLangchainMessagesForOpenAI(messages: BaseMessage[]) {
+  return messages.map((m: BaseMessage) => {
+    let role: "user" | "assistant" | "system";
+    if (m._getType() === "human") {
+      role = "user";
+    } else if (m._getType() === "ai") {
+      role = "assistant";
+    } else if (m._getType() === "system") {
+      role = "system";
+    } else {
+      role = "user";
+    }
+    return { role, content: m.content as string };
+  });
+}
 
 export function countPromptTokens(array: BaseMessage[], modelName: string) {
   const model = modelName as supportModelType;
@@ -14,8 +66,8 @@ export function countPromptTokens(array: BaseMessage[], modelName: string) {
       message instanceof AIMessage
         ? "assistant"
         : message instanceof SystemMessage
-        ? "system"
-        : "user";
+          ? "system"
+          : "user";
 
     const messageTestSt = message.content;
     //TODO: Rework this to use for images

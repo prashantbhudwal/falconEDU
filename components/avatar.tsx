@@ -23,7 +23,7 @@ export default function UserAvatar() {
 
   if (isLoading) {
     return (
-      <Avatar>
+      <Avatar className="w-5 h-5">
         <AvatarImage src="/chubbi.png" />
       </Avatar>
     );
@@ -32,12 +32,12 @@ export default function UserAvatar() {
   return (
     <>
       {user?.image ? (
-        <Avatar className="w-6 h-6">
-          <AvatarImage src={user.image}  />
+        <Avatar className="w-5 h-5">
+          <AvatarImage src={user.image} />
         </Avatar>
       ) : (
-        <span className=" flex h-[35px] w-[35px] items-center justify-center rounded-full bg-slate-800 text-sm font-medium tracking-wide text-secondary shadow-md shadow-slate-950">
-          <div>{getInitials()}</div>
+        <span className=" flex h-[30px] w-[30px] items-center justify-center rounded-full border text-sm font-medium tracking-wide text-secondary">
+          <div className="text-xs lowercase">{getInitials()}</div>
         </span>
       )}
     </>
