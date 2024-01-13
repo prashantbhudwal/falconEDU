@@ -35,15 +35,15 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import usePageTracking from "@/hooks/usePageTracking";
 import { LuArchive, LuArchiveRestore } from "react-icons/lu";
 import { ClassDialog } from "@/app/dragon/teacher/components/class-dialog";
-import { useConfigPublishing } from "@/app/dragon/teacher/hooks/use-config-publishing";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { TaskType } from "@/types/dragon";
 import { typeGetBotConfigByConfigId } from "@/app/dragon/teacher/routers/botConfigRouter";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
-import { useSetAtom } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 import { evalDrawerAtom } from "@/lib/atoms/ui";
 import { PublishButton } from "./eval-drawer/publish-btn";
+import { currentFormAtom } from "@/lib/atoms/tasks";
 
 export function TasksNavbar({
   classId,
@@ -56,6 +56,8 @@ export function TasksNavbar({
   task: NonNullable<typeGetBotConfigByConfigId>;
   totalParsedQuestions: number | undefined;
 }) {
+  const [currentForm] = useAtom(currentFormAtom);
+
   const setEvalDrawer = useSetAtom(evalDrawerAtom);
   const { currentPage } = usePageTracking();
   const isResponse = currentPage.endsWith("responses");
@@ -66,6 +68,12 @@ export function TasksNavbar({
     <div className="navbar flex w-full bg-base-300 border-b border-base-200 py-0 h-full">
       <div className="navbar-start gap-4 pr-2 flex">
         <ClassLink classId={classId} />
+        <ReAttemptSwitch
+          classId={classId}
+          taskId={task.id}
+          canReattempt={task.canReAttempt}
+          className="justify-end"
+        />
       </div>
       <div className="navbar-center self-end">
         <Tabs defaultValue="test">
@@ -102,12 +110,6 @@ export function TasksNavbar({
       </div>
 
       <div className="navbar-end pr-1 flex space-x-6 items-center">
-        <ReAttemptSwitch
-          classId={classId}
-          taskId={task.id}
-          canReattempt={task.canReAttempt}
-          className="justify-end"
-        />
         {task.Class?.isActive && (
           <>
             {!task.published && (
@@ -119,7 +121,14 @@ export function TasksNavbar({
             )}
           </>
         )}
-
+        <Button
+          variant={currentForm.hasUnsavedChanges ? "default" : "outline"}
+          size={"sm"}
+          onClick={currentForm.save}
+          disabled={!currentForm.hasUnsavedChanges}
+        >
+          {currentForm.hasUnsavedChanges ? "Save" : "Saved"}
+        </Button>
         {task.published ? (
           <PublishButton
             task={task}
@@ -135,6 +144,11 @@ export function TasksNavbar({
             size="sm"
             className="flex items-center gap-1 hover:bg-base-300 hover:text-slate-100 hover:font-semibold"
             onClick={() => setEvalDrawer(true)}
+            disabled={
+              currentForm.hasUnsavedChanges ||
+              (task.type === "test" &&
+                (Number(totalParsedQuestions) === 0 || !totalParsedQuestions))
+            }
           >
             <div className="capitalize">Check & Publish</div>
           </Button>

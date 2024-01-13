@@ -1,6 +1,6 @@
 "use client";
 import { Grade, type BotConfig } from "@prisma/client";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -44,6 +44,8 @@ import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 import { Input } from "@/components/ui/input";
 import TextAreaWithUpload from "../../_components/textAreaWithUpload";
 import { getFormattedGrade } from "@/app/dragon/teacher/utils";
+import { useAtom } from "jotai";
+import { currentFormAtom } from "@/lib/atoms/tasks";
 
 const MAX_CHARS = LIMITS_lessonPreferencesSchema.content.maxLength;
 
@@ -78,6 +80,7 @@ export default function LessonForm({
   const [lessonName, setLessonName] = useState<string | undefined>(
     taskConfig?.name
   );
+  const [, setCurrentForm] = useAtom(currentFormAtom);
 
   const form = useForm<z.infer<typeof lessonPreferencesSchema>>({
     resolver: zodResolver(lessonPreferencesSchema),
@@ -86,34 +89,57 @@ export default function LessonForm({
   const { isDirty, setIsDirty } = useIsFormDirty(form);
   const isEmpty = preferences === null || preferences === undefined;
 
-  const onSubmit = async (data: z.infer<typeof lessonPreferencesSchema>) => {
-    setLoading(true);
-    const result = await db.botConfig.updateBotConfig({
-      classId,
-      botId: taskId,
-      data,
-      configType: "lesson",
+  const onSubmit = useCallback(
+    async (data: z.infer<typeof lessonPreferencesSchema>) => {
+      setLoading(true);
+      const result = await db.botConfig.updateBotConfig({
+        classId,
+        botId: taskId,
+        data,
+        configType: "lesson",
+      });
+      setLoading(false);
+      if (result.success) {
+        setIsDirty(false);
+        setCurrentForm((prev) => ({ ...prev, hasUnsavedChanges: false }));
+        setError(null); // clear any existing error
+      } else {
+        console.error("Update failed:", result.error);
+        setError("Failed to update bot config. Please try again."); // set the error message
+      }
+    },
+    [classId, taskId]
+  );
+  useEffect(() => {
+    const subscription = form.watch((value, { name, type }) => {
+      if (name) {
+        setCurrentForm((prev) => ({
+          ...prev,
+          save: () => onSubmit(form.getValues()),
+          hasUnsavedChanges: true,
+        }));
+      }
     });
-    setLoading(false);
-    if (result.success) {
-      setIsDirty(false);
-      setError(null); // clear any existing error
-    } else {
-      console.error("Update failed:", result.error);
-      setError("Failed to update bot config. Please try again."); // set the error message
-    }
-  };
 
- const updateSubjectsHandler = () => {
-   const gradeNumber = getFormattedGrade({
-     grade,
-     options: { numberOnly: true },
-   });
-   const gradeObject = subjectsArray.filter(
-     (subject) => subject.grade === gradeNumber
-   )[0];
-   return gradeObject.subjects;
- };
+    return () => {
+      setCurrentForm({
+        save: () => Promise.resolve(),
+        hasUnsavedChanges: false,
+      });
+      subscription.unsubscribe();
+    };
+  }, [form.watch, onSubmit]);
+
+  const updateSubjectsHandler = () => {
+    const gradeNumber = getFormattedGrade({
+      grade,
+      options: { numberOnly: true },
+    });
+    const gradeObject = subjectsArray.filter(
+      (subject) => subject.grade === gradeNumber
+    )[0];
+    return gradeObject.subjects;
+  };
 
   const updateBotNameHandler = async () => {
     const isValidName = lessonNameSchema.safeParse({ name: lessonName });
@@ -243,7 +269,6 @@ export default function LessonForm({
                 </FormItem>
               )}
             />
-        
 
             {/* ------------------------Subjects List ------------------------- */}
 
@@ -295,7 +320,7 @@ export default function LessonForm({
                 </FormItem>
               )}
             />
-            
+
             {/* ------------------------Tone ------------------------- */}
             <FormField
               control={form.control}

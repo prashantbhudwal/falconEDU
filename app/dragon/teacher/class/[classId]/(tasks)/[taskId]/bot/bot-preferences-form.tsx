@@ -1,6 +1,6 @@
 "use client";
 import { type BotConfig } from "@prisma/client";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -21,47 +21,25 @@ import { botNameSchema, botPreferencesSchema } from "../../../../../../schema";
 import { Button } from "@/components/ui/button";
 import { TextareaWithCounter as Textarea } from "@/components/ui/textarea-counter";
 import { FiInfo } from "react-icons/fi";
-import { FiBookOpen } from "react-icons/fi";
-import { ClipboardIcon } from "@heroicons/react/24/solid";
-import { AcademicCapIcon } from "@heroicons/react/24/solid";
 import { LanguageIcon } from "@heroicons/react/24/solid";
 import { LightBulbIcon } from "@heroicons/react/24/solid";
 import { SpeakerWaveIcon } from "@heroicons/react/24/solid";
 import { Paper } from "@/components/ui/paper";
 import { Grade } from "@prisma/client";
 import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-
-import {
-  grades,
-  board,
   languageProficiency,
   tone,
   humorLevel,
-  subjects,
   LIMITS_botPreferencesSchema,
 } from "../../../../../../schema";
 import subjectsArray from "../../../../../../../data/subjects.json";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 import { Input } from "@/components/ui/input";
 import { getFormattedGrade } from "@/app/dragon/teacher/utils";
+import { useAtom } from "jotai";
+import { currentFormAtom } from "@/lib/atoms/tasks";
 
 const MAX_CHARS = LIMITS_botPreferencesSchema.instructions.maxLength;
-
-const defaultValues: z.infer<typeof botPreferencesSchema> = {
-  instructions: "",
-  tone: "Friendly",
-  language: "English",
-  humorLevel: "Moderate",
-  languageProficiency: "Beginner",
-};
 
 type BotPreferencesFormProps = {
   preferences?: z.infer<typeof botPreferencesSchema> | null;
@@ -78,46 +56,65 @@ export default function BotPreferencesForm({
   botConfig,
   grade,
 }: BotPreferencesFormProps) {
+  const form = useForm<z.infer<typeof botPreferencesSchema>>({
+    resolver: zodResolver(botPreferencesSchema),
+    defaultValues: preferences as z.infer<typeof botPreferencesSchema>,
+  });
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [inputFocus, setInputFocus] = useState("");
   const [botName, setBotName] = useState<string | undefined>(botConfig?.name);
+  const [, setCurrentForm] = useAtom(currentFormAtom);
 
-  const form = useForm<z.infer<typeof botPreferencesSchema>>({
-    resolver: zodResolver(botPreferencesSchema),
-    defaultValues: preferences || defaultValues,
-  });
+  //
   const { isDirty, setIsDirty } = useIsFormDirty(form);
   const isEmpty = preferences === null || preferences === undefined;
+  const disableSave = !isDirty || isEmpty;
+  const saveButtonText = loading ? "Saving" : isDirty ? "Save" : "Saved";
+  const hasUnsavedChanges = isDirty;
 
-  const onSubmit = async (data: z.infer<typeof botPreferencesSchema>) => {
-    setLoading(true);
-    const result = await db.botConfig.updateBotConfig({
-      classId,
-      botId,
-      data,
-      configType: "chat",
-    });
-    setLoading(false);
-    if (result.success) {
-      setIsDirty(false);
-      setError(null); // clear any existing error
-    } else {
-      console.error("Update failed:", result.error);
-      setError("Failed to update bot config. Please try again."); // set the error message
-    }
-  };
+  const onSubmit = useCallback(
+    async (data: z.infer<typeof botPreferencesSchema>) => {
+      setLoading(true);
+      const result = await db.botConfig.updateBotConfig({
+        classId,
+        botId,
+        data,
+        configType: "chat",
+      });
+      setLoading(false);
+      if (result.success) {
+        setIsDirty(false);
+        setCurrentForm((prev) => ({ ...prev, hasUnsavedChanges: false }));
+        setError(null); // clear any existing error
+      } else {
+        console.error("Update failed:", result.error);
+        setError("Failed to update bot config. Please try again."); // set the error message
+      }
+    },
+    [classId, botId]
+  );
 
-  const updateSubjectsHandler = () => {
-    const gradeNumber = getFormattedGrade({
-      grade,
-      options: { numberOnly: true },
+  useEffect(() => {
+    const subscription = form.watch((value, { name, type }) => {
+      if (name) {
+        setCurrentForm((prev) => ({
+          ...prev,
+          save: () => onSubmit(form.getValues()),
+          hasUnsavedChanges: true,
+        }));
+      }
     });
-    const gradeObject = subjectsArray.filter(
-      (subject) => subject.grade === gradeNumber
-    )[0];
-    return gradeObject.subjects;
-  };
+
+    return () => {
+      setCurrentForm({
+        save: () => Promise.resolve(),
+        hasUnsavedChanges: false,
+      });
+      subscription.unsubscribe();
+    };
+  }, [form.watch, onSubmit]);
 
   const updateBotNameHandler = async () => {
     const isValidName = botNameSchema.safeParse({ name: botName });
@@ -173,14 +170,11 @@ export default function BotPreferencesForm({
               </div>
               <div className="flex flex-col gap-2 items-end">
                 <div className="flex flex-row gap-6">
-                  <Button
-                    type="submit"
-                    disabled={(isEmpty && !isDirty) || !isDirty}
-                  >
-                    {loading ? "Saving" : isDirty ? "Save" : "Saved"}
+                  <Button type="submit" disabled={disableSave}>
+                    {saveButtonText}
                   </Button>
                 </div>
-                {isDirty && (
+                {hasUnsavedChanges && (
                   <div className="text-sm text-slate-500">
                     You have unsaved changes.
                   </div>
@@ -221,7 +215,6 @@ export default function BotPreferencesForm({
                 </FormItem>
               )}
             />
-
             <FormField
               control={form.control}
               name="tone"
@@ -233,9 +226,7 @@ export default function BotPreferencesForm({
                   </FormLabel>
                   <FormControl>
                     <RadioGroup
-                      onValueChange={() => {
-                        field.onChange;
-                      }}
+                      onValueChange={field.onChange}
                       defaultValue={field.value}
                       className="flex flex-row space-y-1 space-x-6"
                     >
@@ -270,9 +261,7 @@ export default function BotPreferencesForm({
                   </FormLabel>
                   <FormControl>
                     <RadioGroup
-                      onValueChange={() => {
-                        field.onChange;
-                      }}
+                      onValueChange={field.onChange}
                       defaultValue={field.value}
                       className="flex flex-row space-y-1 space-x-6"
                     >
@@ -309,9 +298,7 @@ export default function BotPreferencesForm({
                   </FormLabel>
                   <FormControl>
                     <RadioGroup
-                      onValueChange={() => {
-                        field.onChange;
-                      }}
+                      onValueChange={field.onChange}
                       defaultValue={field.value}
                       className="flex flex-row space-y-1 space-x-6"
                     >
