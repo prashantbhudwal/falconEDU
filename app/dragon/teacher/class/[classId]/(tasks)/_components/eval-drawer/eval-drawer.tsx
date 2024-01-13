@@ -1,4 +1,5 @@
 "use client";
+import useDeepCompareEffect from "use-deep-compare-effect";
 import { evalDrawerAtom } from "@/lib/atoms/ui";
 import { useAtomValue, useSetAtom } from "jotai";
 import {
@@ -81,7 +82,7 @@ export function EvalDrawer({
     setEvalDrawer(!isOpen);
   });
 
-  useEffect(() => {
+  useDeepCompareEffect(() => {
     if (!taskId) return;
     const getContext = async function () {
       const chatContext = await getChatContext({
@@ -89,9 +90,10 @@ export function EvalDrawer({
         configId: taskId,
       });
       setContext(chatContext);
+      console.log(chatContext);
     };
     getContext();
-  }, [taskId, taskType]);
+  }, [taskId, taskType, task]);
 
   const emptyMessage = getTaskProperties(taskType).emptyChatMessage;
   const formattedType = getTaskProperties(taskType).formattedType;
