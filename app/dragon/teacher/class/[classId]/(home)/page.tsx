@@ -3,9 +3,11 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { Paper } from "@/components/ui/paper";
 import TaskList from "./components/task-list";
 import { db } from "../../../routers";
-import { BotConfig, Class } from "@prisma/client";
 import Link from "next/link";
 import { BsInfoCircleFill } from "react-icons/bs";
+import AnalyticsWidget from "./components/analytics-widget";
+import { Suspense } from "react";
+import AnalyticsWidgetFallback from "./components/analytics-widget-fallback";
 
 export default async function Classes({
   params,
@@ -28,7 +30,7 @@ export default async function Classes({
   const allConfigs = classConfigs.all;
 
   return (
-    <Paper className="h-full flex flex-col items-center w-5/6 overflow-y-auto custom-scrollbar justify-between">
+    <Paper className="h-full flex flex-col relative items-center w-5/6 overflow-y-auto custom-scrollbar justify-between">
       {!classDetails.isActive && (
         <p className="flex items-center text-warning/80 pb-5">
           <BsInfoCircleFill className="w-3 h-3 mr-2" /> Class is archived
@@ -43,6 +45,11 @@ export default async function Classes({
       )}
       <div className="w-8/12 max-w-6xl flex flex-col space-y-6">
         <TaskList tasks={allConfigs} classId={classId} userId={userId} />
+      </div>
+      <div className="fixed top-20 right-10">
+        <Suspense fallback={<AnalyticsWidgetFallback />}>
+          <AnalyticsWidget classId={classId} />
+        </Suspense>
       </div>
     </Paper>
   );
