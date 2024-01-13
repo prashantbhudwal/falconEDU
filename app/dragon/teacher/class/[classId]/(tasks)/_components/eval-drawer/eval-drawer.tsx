@@ -91,7 +91,7 @@ export function EvalDrawer({
       setContext(chatContext);
     };
     getContext();
-  }, [taskId]);
+  }, [taskId, taskType]);
 
   const emptyMessage = getTaskProperties(taskType).emptyChatMessage;
   const formattedType = getTaskProperties(taskType).formattedType;
