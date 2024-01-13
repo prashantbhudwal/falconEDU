@@ -31,10 +31,9 @@ import { toast } from "sonner";
 
 type AddQuestionsDialogProps = {
   loading?: boolean;
-  onModalSubmit: (data: {
-    fullTest: string;
-    timeLimit?: number;
-  }) => Promise<void>;
+  onModalSubmit: (data: { fullTest: string; timeLimit?: number }) => Promise<{
+    success: boolean;
+  }>;
   isDirty: boolean;
   setIsDirty: React.Dispatch<React.SetStateAction<boolean>>;
   setError: React.Dispatch<React.SetStateAction<string | null>>;
@@ -67,8 +66,9 @@ export const AddQuestionsDialog = ({
     };
     await onModalSubmit(values);
 
-    closeModalHandler();
-    toast.success("Questions Added Successfully");
+      closeModalHandler();
+      toast.success("Questions Added Successfully");
+    
   };
 
   return (
