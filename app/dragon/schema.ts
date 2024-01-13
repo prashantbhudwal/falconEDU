@@ -49,6 +49,15 @@ export const LIMITS_lessonPreferencesSchema = {
   },
 };
 
+export const LIMITS_AITestPreferencesSchema = {
+  content: {
+    maxLength: 3000,
+  },
+  topic: {
+    maxLength: 140,
+  },
+};
+
 export const LIMITS_lessonNameSchema = {
   name: {
     maxLength: 50,
@@ -57,6 +66,13 @@ export const LIMITS_lessonNameSchema = {
 };
 
 export const LIMITS_botNameSchema = {
+  name: {
+    maxLength: 30,
+    minLength: 3,
+  },
+};
+
+export const LIMITS_AITestNameSchema = {
   name: {
     maxLength: 30,
     minLength: 3,
@@ -300,6 +316,23 @@ export const parsedQuestionsSchema = z.object({
     }),
   question_type: z.enum(questionTypes),
   //later add other properties like hint , description , questionType etc...
+});
+
+export const AITestPreferenceSchema = z.object({
+  topic: z.string().max(LIMITS_AITestPreferencesSchema.topic.maxLength),
+  content: z.string().max(LIMITS_AITestPreferencesSchema.content.maxLength),
+  subjects: z.array(z.string()),
+  tone: z.enum(tone),
+  language: z.enum(language),
+  humorLevel: z.enum(humorLevel),
+  languageProficiency: z.enum(languageProficiency),
+});
+
+export const AITestNameSchema = z.object({
+  name: z
+    .string()
+    .min(LIMITS_AITestNameSchema.name.minLength)
+    .max(LIMITS_AITestNameSchema.name.maxLength),
 });
 
 // Exhaustive bot preferences schema

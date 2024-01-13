@@ -16,6 +16,7 @@ import {
   botPreferencesSchema,
   lessonPreferencesSchema,
   testBotPreferencesSchema,
+  AITestPreferenceSchema,
 } from "../../schema";
 import { cache } from "react";
 import { UnwrapPromise } from "../../student/queries";
@@ -24,10 +25,12 @@ import { getTaskProperties } from "../utils";
 type BotPreferencesSchemaType = z.infer<typeof botPreferencesSchema>;
 type TestBotPreferencesSchemaType = z.infer<typeof testBotPreferencesSchema>;
 type LessonPreferencesSchemaType = z.infer<typeof lessonPreferencesSchema>;
+type AITestPreferencesSchemaType = z.infer<typeof AITestPreferenceSchema>;
 type ConfigTypeSchemaMap = {
   chat: BotPreferencesSchemaType;
   test: TestBotPreferencesSchemaType;
   lesson: LessonPreferencesSchemaType;
+  "ai-test": AITestPreferencesSchemaType;
 };
 export type AllConfigsInClass = UnwrapPromise<
   ReturnType<typeof getAllConfigsInClass>

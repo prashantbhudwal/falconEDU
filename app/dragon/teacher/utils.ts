@@ -4,7 +4,11 @@ import prisma from "@/prisma";
 import { ConditionalPromptSelector } from "langchain/prompts";
 import { AcademicCapIcon } from "@heroicons/react/24/solid";
 import { FaRobot } from "react-icons/fa6";
-import { HiClipboardDocumentCheck, HiAcademicCap } from "react-icons/hi2";
+import {
+  HiClipboardDocumentCheck,
+  HiAcademicCap,
+  HiOutlineClipboard,
+} from "react-icons/hi2";
 import { TaskType } from "@/types/dragon";
 import { IoIosChatboxes } from "react-icons/io";
 import { Grade } from "@prisma/client";
@@ -130,6 +134,15 @@ export const getTaskProperties = (taskType: TaskType) => {
         iconColor: "text-info",
         newName: "Untitled Lesson",
         emptyChatMessage: "Say hello to start the lesson",
+        aiTemperature: 1,
+      };
+    case "ai-test":
+      return {
+        formattedType: "AI Test",
+        Icon: HiOutlineClipboard,
+        iconColor: "text-accent",
+        newName: "Untitled AI Test",
+        emptyChatMessage: "Say hello to start the test",
         aiTemperature: 1,
       };
     default:

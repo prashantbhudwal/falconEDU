@@ -131,6 +131,40 @@ export const lessonPreferences: Array<z.infer<typeof lessonPreferencesSchema>> =
     },
   ];
 
+export const AITestPreferences: Array<z.infer<typeof lessonPreferencesSchema>> =
+  [
+    {
+      content: "Be clear and concise.",
+      topic: "English",
+      subjects: ["English"],
+
+      tone: "Friendly",
+      language: "English",
+      humorLevel: "Low",
+      languageProficiency: "Advanced",
+    },
+    {
+      content: "Be clear and concise.",
+      topic: "English",
+      subjects: ["Math", "Science"],
+
+      tone: "Friendly",
+      language: "English",
+      humorLevel: "High",
+      languageProficiency: "Beginner",
+    },
+    {
+      content: "Be clear and concise.",
+      topic: "English",
+      subjects: ["Science"],
+
+      tone: "Strict",
+      language: "English",
+      humorLevel: "Low",
+      languageProficiency: "Advanced",
+    },
+  ];
+
 export const teacherPreferences: Array<
   z.infer<typeof teacherPreferencesSchema>
 > = [

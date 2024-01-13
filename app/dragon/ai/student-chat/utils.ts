@@ -9,12 +9,16 @@ import {
   TestContextByChatId,
   getEngineeredTestBotMessages,
 } from "./prompts/test-prompts/testBotMessages";
+import { getEngineeredAITestBotMessages } from "./prompts/ai-test-prompts/AITestBotMessages";
 import { getEngineeredLessonBotMessages } from "./prompts/lesson-prompts/lessonBotMessages";
 import { LessonContextByChatId } from "./prompts/lesson-prompts/queries";
 import { ChatContextByChatId } from "./prompts/chat-prompts/queries";
 import { TaskType } from "@/types";
+import { AITestContextByChatId } from "./prompts/ai-test-prompts/queries";
 
-export function mapMessagesToLangChainBaseMessage(messages: any[]): BaseMessage[] {
+export function mapMessagesToLangChainBaseMessage(
+  messages: any[]
+): BaseMessage[] {
   return messages.map((m: any) =>
     m.role == "user" ? new HumanMessage(m.content) : new AIMessage(m.content)
   );
@@ -35,6 +39,10 @@ export const getEngineeredMessagesByType = async ({
     case "lesson":
       return await getEngineeredLessonBotMessages(
         context as LessonContextByChatId
+      );
+    case "ai-test":
+      return await getEngineeredAITestBotMessages(
+        context as AITestContextByChatId
       );
     default:
       return await getEngineeredChatBotMessages(context);

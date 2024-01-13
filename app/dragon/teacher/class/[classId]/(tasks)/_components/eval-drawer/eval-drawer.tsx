@@ -13,6 +13,7 @@ import { Chat } from "@/components/chat/chat-dragon";
 import { getStudentChatApiURL } from "@/lib/urls";
 import { getTaskProperties } from "../../../../../utils";
 import {
+  getAITestContextByConfigId,
   getChatContextByConfigId,
   getLessonContextByConfigId,
   getTestQuestionsByBotConfigId,
@@ -47,6 +48,11 @@ const getChatContext = async function ({
         configId: configId,
       });
       return JSON.stringify(lessonContext);
+    case "ai-test":
+      const aiTestContext = await getAITestContextByConfigId({
+        configId: configId,
+      });
+      return JSON.stringify(aiTestContext);
     default:
       throw new Error("Invalid type");
   }
@@ -95,9 +101,7 @@ export function EvalDrawer({
       <DrawerContent className="w-full h-[90%] px-4">
         <DrawerHeader className="flex flex-row items-center justify-between">
           <div className="flex flex-col space-y-2">
-            <DrawerTitle>
-              Check what students see.
-            </DrawerTitle>
+            <DrawerTitle>Check what students see.</DrawerTitle>
             <DrawerDescription className="">
               Check your {formattedType.toLocaleLowerCase()} before publishing.
             </DrawerDescription>

@@ -51,7 +51,7 @@ export function NewTaskModal({
   const [open, setOpen] = useState(false);
   const [error, setError] = useState("");
 
-  const types: TaskType[] = ["lesson", "test", "chat"]; 
+  const types: TaskType[] = ["lesson", "test", "chat", "ai-test"];
 
   const formSchema = z.object({
     taskName: z.string().min(3).max(50),
@@ -60,7 +60,12 @@ export function NewTaskModal({
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const { taskName, type } = values;
-    if (type === "chat" || type === "test" || type === "lesson") {
+    if (
+      type === "chat" ||
+      type === "test" ||
+      type === "lesson" ||
+      type === "ai-test"
+    ) {
       try {
         setLoading(true);
         await createNewConfig({
