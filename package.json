@@ -115,6 +115,7 @@
     "superjson": "^2.2.1",
     "swr": "^2.2.4",
     "tailwindcss-animate": "^1.0.7",
+    "use-deep-compare-effect": "^1.8.1",
     "usehooks-ts": "^2.9.2",
     "uuid": "^9.0.1",
     "vaul": "^0.8.0",
