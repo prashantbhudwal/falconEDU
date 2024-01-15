@@ -5,9 +5,9 @@ import TaskList from "./components/task-list";
 import { db } from "../../../routers";
 import Link from "next/link";
 import { BsInfoCircleFill } from "react-icons/bs";
-import AnalyticsWidget from "./components/analytics-widget";
+import AnalyticsWidget from "./components/analytics/analytics-widget";
 import { Suspense } from "react";
-import AnalyticsWidgetFallback from "./components/analytics-widget-fallback";
+import AnalyticsWidgetFallback from "./components/analytics/analytics-widget-fallback";
 
 export default async function Classes({
   params,

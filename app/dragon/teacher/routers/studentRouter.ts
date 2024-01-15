@@ -272,7 +272,7 @@ export const getTaskStats = cache(
 
 export type TypeGetTaskStats = UnwrapPromise<ReturnType<typeof getTaskStats>>;
 
-export const getLeastInteractedTasks = cache(
+export const getTasksWithInteractions = cache(
   async ({ classId }: { classId: string }) => {
     try {
       const currentStudents = await prisma.class.findUnique({
@@ -357,6 +357,10 @@ export const getLeastInteractedTasks = cache(
     }
   }
 );
+
+export type TasksWithInteractions = UnwrapPromise<
+  ReturnType<typeof getTasksWithInteractions>
+>;
 
 //OLD
 // export const addStudentToClassOld = async (email: string, classId: string) => {
