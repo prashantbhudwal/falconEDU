@@ -81,6 +81,7 @@ export const registerOrg = async ({
       });
       createdBotId = createdBoards.id;
     }
+    const dummyPincode = 123456;
 
     const createdOrg = await prisma.org.create({
       data: {
@@ -89,7 +90,7 @@ export const registerOrg = async ({
         brandName: values.brandName,
         state: values.state,
         city: values.city,
-        pincode: values.pincode,
+        pincode: dummyPincode,
         language_medium: values.language_medium,
         language_native: values.language_native,
         board: {

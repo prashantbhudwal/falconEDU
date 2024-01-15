@@ -31,7 +31,6 @@ export const orgRegisterFormSchema = z.object({
   boardNames: z.nativeEnum(BoardName),
   city: z.string().optional(),
   state: z.nativeEnum(IndianStates).optional(),
-  pincode: z.number().max(99999).min(1000).optional(),
   language_medium: z.nativeEnum(Language),
   language_native: z.string().optional(),
 });
@@ -242,27 +241,6 @@ const OrgRegisterForm = ({ userId }: { userId: string }) => {
                     />
                   </FormControl>
                   <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="pincode"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-[9px] text-left">
-                    Pincode
-                  </FormLabel>
-                  <FormControl>
-                    <NumberInput
-                      autoComplete="off"
-                      enableStepper={false}
-                      placeholder="PIN Code"
-                      error={!!form.formState.errors.name}
-                      className="w-20"
-                      {...field}
-                    />
-                  </FormControl>
                 </FormItem>
               )}
             />
