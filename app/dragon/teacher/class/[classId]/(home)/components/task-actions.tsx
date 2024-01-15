@@ -17,10 +17,7 @@ import {
 import Lottie from "lottie-react";
 import { useState } from "react";
 import copyingAnimation from "@/public/animations/copying.json";
-import {
-  AlertDialog,
-  AlertDialogContent,
-} from "@/components/ui/alert-dialog";
+import { AlertDialog, AlertDialogContent } from "@/components/ui/alert-dialog";
 import { PropagationStopper } from "@/components/propagation-stopper";
 
 export function TaskActions({
@@ -44,7 +41,7 @@ export function TaskActions({
   const archivedIcon = isArchived ? (
     <ArrowUpOnSquareIcon className="w-4 text-primary " />
   ) : (
-    <ArchiveBoxArrowDownIcon className="w-4 text-destructive" />
+    <ArchiveBoxArrowDownIcon className="w-4" />
   );
 
   const archivingHandler = (e: React.MouseEvent) => {
@@ -75,14 +72,9 @@ export function TaskActions({
           <Tooltip>
             <TooltipTrigger>
               <PropagationStopper>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={duplicateHandler}
-                  type="button"
-                >
+                <div onClick={duplicateHandler} className="hover:translate-y-1">
                   <DocumentDuplicateIcon className="w-4" />
-                </Button>
+                </div>
               </PropagationStopper>
             </TooltipTrigger>
             <TooltipContent className="bg-slate-500 text-slate-100">
@@ -96,14 +88,9 @@ export function TaskActions({
           <Tooltip>
             <TooltipTrigger>
               <PropagationStopper>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  type="button"
-                  onClick={archivingHandler}
-                >
+                <div onClick={archivingHandler} className="hover:translate-y-1">
                   {archivedIcon}
-                </Button>
+                </div>
               </PropagationStopper>
             </TooltipTrigger>
             <TooltipContent className="bg-slate-500 text-slate-100">
