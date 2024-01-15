@@ -4,16 +4,13 @@ import { cache } from "react";
 import { type UnwrapPromise } from "../../../../student/queries";
 import * as z from "zod";
 import {
-  botPreferencesSchema,
+  AITestPreferenceSchema,
   teacherPreferencesSchema,
   StudentPreferenceSchema,
-  testBotPreferencesSchema,
 } from "@/app/dragon/schema";
-export const isEmptyObject = (obj: any) => Object.keys(obj).length === 0;
+import { isEmptyObject } from "../chat-prompts/queries";
 
-export const getChatContextByChatId = cache(async function (
-  chatId: string
-): Promise<ChatContext> {
+export const getAITestContextByChatId = cache(async function (chatId: string) {
   const context = await prisma.botChat.findUnique({
     where: { id: chatId },
     select: {
@@ -31,7 +28,6 @@ export const getChatContextByChatId = cache(async function (
           },
           BotConfig: {
             select: {
-              name: true,
               preferences: true,
               Class: true,
               teacher: {
@@ -50,7 +46,6 @@ export const getChatContextByChatId = cache(async function (
       },
     },
   });
-
   const Class = context?.bot?.BotConfig?.Class;
 
   if (!Class) {
@@ -75,15 +70,15 @@ export const getChatContextByChatId = cache(async function (
     console.error("context not found for chatId:", chatId);
   }
 
-  let botPreferences = context?.bot?.BotConfig?.preferences;
+  let AITestPreferences = context?.bot?.BotConfig?.preferences;
   let teacherPreferences = context?.bot?.BotConfig?.teacher?.preferences;
   let studentPreferences = context?.bot?.student?.preferences;
 
   // Add default values for preferences and then parse them when empty
 
-  const parsedBotPreferences = isEmptyObject(botPreferences)
+  const parsedAITestPreferences = isEmptyObject(AITestPreferences)
     ? { success: true, data: {} }
-    : botPreferencesSchema.safeParse(botPreferences);
+    : AITestPreferenceSchema.safeParse(AITestPreferences);
   const parsedTeacherPreferences = isEmptyObject(teacherPreferences)
     ? { success: true, data: {} }
     : teacherPreferencesSchema.safeParse(teacherPreferences);
@@ -92,17 +87,16 @@ export const getChatContextByChatId = cache(async function (
     : StudentPreferenceSchema.safeParse(studentPreferences);
 
   if (
-    parsedBotPreferences.success &&
+    parsedAITestPreferences.success &&
     parsedTeacherPreferences.success &&
     parsedStudentPreferences.success
   ) {
     const flatContext = {
       teacherName: context?.bot?.BotConfig?.teacher?.User?.name,
       studentName: context?.bot.student.User.name,
-      botPreferences: parsedBotPreferences.data,
+      lessonPreferences: parsedAITestPreferences.data,
       teacherPreferences: parsedTeacherPreferences.data,
       studentPreferences: parsedStudentPreferences.data,
-      name: context?.bot?.BotConfig?.name,
       grade,
     };
     return flatContext;
@@ -111,36 +105,6 @@ export const getChatContextByChatId = cache(async function (
     return null;
   }
 });
-
-export type ChatContextByChatId = UnwrapPromise<
-  ReturnType<typeof getChatContextByChatId>
+export type AITestContextByChatId = UnwrapPromise<
+  ReturnType<typeof getAITestContextByChatId>
 >;
-
-export type ChatContext = {
-  teacherName: string | null;
-  studentName: string | null;
-  botPreferences: z.infer<typeof botPreferencesSchema> | {};
-  teacherPreferences: z.infer<typeof teacherPreferencesSchema>;
-  studentPreferences: z.infer<typeof StudentPreferenceSchema>;
-  name: string;
-  grade: string;
-} | null;
-
-export async function getBotConfigTypeByBotChatId(botChatId: string) {
-  const botChat = await prisma.botChat.findUnique({
-    where: { id: botChatId },
-    select: {
-      bot: {
-        select: {
-          BotConfig: {
-            select: {
-              type: true,
-            },
-          },
-        },
-      },
-    },
-  });
-
-  return botChat?.bot?.BotConfig?.type;
-}

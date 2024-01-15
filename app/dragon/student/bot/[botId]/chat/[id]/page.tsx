@@ -19,6 +19,7 @@ import { getLessonContextByChatId } from "@/app/dragon/ai/student-chat/prompts/l
 import { getTaskProperties } from "@/app/dragon/teacher/utils";
 import { TaskType } from "@/types/dragon";
 import { setIsReadToTrue } from "./mutations";
+import { getAITestContextByChatId } from "@/app/dragon/ai/student-chat/prompts/ai-test-prompts/queries";
 
 export interface ChatPageProps {
   params: {
@@ -38,6 +39,9 @@ const getChatContext = async function (type: TaskType, chatId: string) {
     case "lesson":
       const lessonContext = await getLessonContextByChatId(chatId);
       return JSON.stringify(lessonContext);
+    case "ai-test":
+      const aiTestContext = await getAITestContextByChatId(chatId);
+      return JSON.stringify(aiTestContext);
     default:
       throw new Error("Invalid type");
   }

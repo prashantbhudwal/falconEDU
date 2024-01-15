@@ -8,6 +8,7 @@ import {
   StopIcon,
 } from "@heroicons/react/24/solid";
 import axios from "axios";
+import { useMediaQuery } from "usehooks-ts";
 
 import { Button } from "@ui/button";
 import { useEnterSubmit } from "../../hooks/use-enter-submit";
@@ -37,13 +38,14 @@ export function PromptForm({
   );
   const [audioChunks, setAudioChunks] = useState<Blob[]>([]);
   const [isSendingAudio, setIsSendingAudio] = useState(false);
+  const isDesktop = useMediaQuery("(min-width: 768px)");
 
   // Auto focus input when loading is done
-  // useEffect(() => {
-  //   if (inputRef.current && !isLoading) {
-  //     inputRef.current.focus();
-  //   }
-  // }, [isLoading]);
+  useEffect(() => {
+    if (inputRef.current && !isLoading && isDesktop) {
+      inputRef.current.focus();
+    }
+  }, [isLoading]);
 
   const toggleRecording = async (
     event: React.MouseEvent<HTMLButtonElement>

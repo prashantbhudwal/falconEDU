@@ -4,8 +4,9 @@ import AdminNavbar from "../_components/admin-navbar";
 import { Card, Flex, Text, Title } from "@tremor/react";
 import { getTeacherWithOrgId } from "../queries";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+export const dynamic = "force-dynamic"; // TODO  Removing this line gives me a build time warning, need to figure out why
 
-const AddTeacherPage = async () => {
+export default async function AddTeacherPage() {
   const allTeacher = await getTeacherWithOrgId();
   return (
     <>
@@ -32,6 +33,4 @@ const AddTeacherPage = async () => {
       </div>
     </>
   );
-};
-
-export default AddTeacherPage;
+}

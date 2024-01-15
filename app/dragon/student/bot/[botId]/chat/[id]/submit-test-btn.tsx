@@ -78,9 +78,9 @@ const SubmitTestButton = React.forwardRef<HTMLButtonElement, PropTypes>(
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Are you sure absolutely sure?</DialogTitle>
+            <DialogTitle>Do you want to submit?</DialogTitle>
             <DialogDescription>
-              This action cannot be undone. This will submit your test.
+              Test will submitted, and the teacher will see it.
             </DialogDescription>
             <div className="flex justify-end gap-5 py-1 items-center">
               <Dialog open={showDialog}>
