@@ -207,6 +207,7 @@ export const getTaskStats = cache(
                 },
                 select: {
                   messages: true,
+                  isRead: true,
                 },
               },
             },
@@ -223,12 +224,29 @@ export const getTaskStats = cache(
       );
 
       const totalInteractedStudents = botForCurrentStudents.filter((bot) => {
+        return bot.BotChat[0].isRead;
+        // const messagesArray =
+        //   typeof bot.BotChat[0].messages === "string"
+        //     ? JSON.parse(bot.BotChat[0].messages)
+        //     : [];
+        // return messagesArray.length >= 2;
+      }).length;
+
+      const totalNumberOfChatsArray = botForCurrentStudents.map((bot) => {
         const messagesArray =
           typeof bot.BotChat[0].messages === "string"
             ? JSON.parse(bot.BotChat[0].messages)
             : [];
-        return messagesArray.length >= 2;
-      }).length;
+        return Math.ceil(messagesArray.length / 2);
+      });
+
+      const total_number_of_chat_of_a_task = totalNumberOfChatsArray.reduce(
+        (a, b) => a + b,
+        0
+      );
+
+      const chatCount =
+        total_number_of_chat_of_a_task / currentStudents.students.length;
 
       const totalSubmittedStudents = botForCurrentStudents.filter(
         (bot) => bot.isSubmitted
@@ -243,6 +261,7 @@ export const getTaskStats = cache(
         percentageOfStudentsInteracted,
         totalSubmittedStudents:
           taskType === "test" ? totalSubmittedStudents : null,
+        chatCount: Math.ceil(chatCount),
       };
     } catch (error) {
       console.error("Error getting task stats:", error);
@@ -289,6 +308,7 @@ export const getLeastInteractedTasks = cache(
                 },
                 select: {
                   messages: true,
+                  isRead: true,
                 },
               },
             },
@@ -310,11 +330,12 @@ export const getLeastInteractedTasks = cache(
       const tasksWithInteractedStudentsCount = allTasksForCurrentStudents.map(
         (task) => {
           const totalInteractedStudents = task.Bot.filter((bot) => {
-            const messagesArray =
-              typeof bot.BotChat[0].messages === "string"
-                ? JSON.parse(bot.BotChat[0].messages)
-                : [];
-            return messagesArray.length >= 2;
+            // const messagesArray =
+            //   typeof bot.BotChat[0].messages === "string"
+            //     ? JSON.parse(bot.BotChat[0].messages)
+            //     : [];
+            // return messagesArray.length >= 2;
+            return bot.BotChat[0].isRead;
           }).length;
           return {
             interactedStudents: totalInteractedStudents,

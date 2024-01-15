@@ -15,10 +15,9 @@ const AnalyticsWidget = async ({ classId }: { classId: string }) => {
       <h3 className="flex gap-2 items-center justify-center py-2 bg-accent/90 text-accent-content rounded-xl w-full">
         <LuActivity className="text-xl" /> Analytics
       </h3>
-      <p className="text-xs text-center my-2">Low Activiy Tasks</p>
+      <p className="text-xs text-center my-2">Low Activity Tasks</p>
       {leastInteractedTasksList?.slice(0, 3).map((taskItem) => {
-        const interactionPercentage =
-          (taskItem.interactedStudents / taskItem.totalStudents) * 100;
+        const interaction = `${taskItem.interactedStudents} / ${taskItem.totalStudents}`;
         return (
           <Link
             href={getTaskUrlByType({
@@ -32,7 +31,7 @@ const AnalyticsWidget = async ({ classId }: { classId: string }) => {
             <h5 className="text-sm truncate">{taskItem.task.name}</h5>
             <div className="flex items-center gap-1">
               <FaBookOpenReader />
-              <span className="text-xs">{interactionPercentage}%</span>
+              <span className="text-xs">{interaction}</span>
             </div>
           </Link>
         );
