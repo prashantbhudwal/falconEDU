@@ -50,7 +50,7 @@ const TaskList = async ({
 }) => {
   return (
     <div>
-      {taskList ? (
+      {taskList && taskList.length > 0 ? (
         <div className="flex flex-col space-y-2">
           {taskList.map((taskItem) => (
             <Link
