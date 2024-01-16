@@ -3,13 +3,17 @@ import React, { useMemo, useState } from "react";
 import { Chrono } from "react-chrono";
 import { TeacherTask } from "../queries";
 import { formatDateWithTimeZone, tailwindColorToHex } from "@/lib/utils";
-import { getTaskIcon } from "../../teacher/utils";
+import { getTaskIcon, getTaskProperties } from "../../teacher/utils";
 import { Flex, Select, SelectItem, Title } from "@tremor/react";
 import { v4 as uuid } from "uuid";
+import { TaskType } from "@/types";
+import { useRouter } from "next/navigation";
 
 const Timeline = ({ teacher }: { teacher: TeacherTask }) => {
   const [teacherTasks, setTeacherTasks] = useState(teacher?.tasks || []);
   const [selectedClassId, setSelectedClassId] = useState("");
+  const [disableNavigation, setDisableNavigation] = useState(true);
+  const router = useRouter();
 
   const items = useMemo(() => {
     return teacherTasks.map((task) => ({
@@ -18,11 +22,13 @@ const Timeline = ({ teacher }: { teacher: TeacherTask }) => {
         dateFormat: "dd MMM",
       }),
       cardTitle: task.name,
-      cardSubtitle: task.type.toUpperCase(),
+      cardSubtitle: getTaskProperties(task.type as TaskType).formattedType,
+      id: task.id,
     }));
   }, [teacherTasks]);
 
   const setSelectedTask = (classId: string) => {
+    setDisableNavigation(true);
     if (!classId) {
       setSelectedClassId(classId);
       setTeacherTasks(teacher?.tasks || []);
@@ -34,6 +40,15 @@ const Timeline = ({ teacher }: { teacher: TeacherTask }) => {
     if (task) {
       setTeacherTasks(task);
     }
+  };
+
+  const handleTaskClick = (index: number) => {
+    if (disableNavigation) {
+      setDisableNavigation(false);
+      return;
+    }
+    const taskId = items[index].id;
+    router.push(`/dragon/org-admin/responses/${taskId}`);
   };
 
   return (
@@ -61,7 +76,6 @@ const Timeline = ({ teacher }: { teacher: TeacherTask }) => {
         allowDynamicUpdate
         enableBreakPoint
         verticalBreakPoint={500}
-        activeItemIndex={0}
         mode="VERTICAL_ALTERNATING"
         theme={{
           primary: tailwindColorToHex("text-gray-700"),
@@ -76,6 +90,9 @@ const Timeline = ({ teacher }: { teacher: TeacherTask }) => {
           cardText: "10px",
           cardTitle: "15px",
           title: "10px",
+        }}
+        onItemSelected={(item: any) => {
+          handleTaskClick(item.index);
         }}
         cardHeight={"fit-content"}
         cardWidth={"fit-content"}

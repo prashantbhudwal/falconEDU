@@ -318,6 +318,11 @@ export const getTeacherTasksWithTeacherId = cache(
           id: teacherId,
         },
         select: {
+          User: {
+            select: {
+              name: true,
+            },
+          },
           BotConfig: {
             where: {
               published: true,
@@ -332,7 +337,11 @@ export const getTeacherTasksWithTeacherId = cache(
 
       if (!teacher) return null;
 
-      return { tasks: teacher.BotConfig, classes: teacher.Class };
+      return {
+        tasks: teacher.BotConfig,
+        classes: teacher.Class,
+        name: teacher.User.name,
+      };
     } catch (err) {
       console.log(err);
       return null;

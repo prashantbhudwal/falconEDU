@@ -17,7 +17,7 @@ const AnalyticsWidget = async ({ classId }: { classId: string }) => {
       </h3>
       <p className="text-xs text-center my-2">Low Activity Tasks</p>
       {leastInteractedTasksList?.slice(0, 3).map((taskItem) => {
-        const interaction = `${taskItem.interactedStudents} / ${taskItem.totalStudents}`;
+        const interaction = `${taskItem.interactedStudents}/${taskItem.totalStudents}`;
         return (
           <Link
             href={getTaskUrlByType({

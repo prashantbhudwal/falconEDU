@@ -6,6 +6,7 @@ import { getOrgByUserId, getTeacherTasksWithTeacherId } from "../../queries";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import RedirectComponent from "../../_components/redirect";
+import { formatName } from "@/lib/utils";
 
 const TeacherPage = async ({ params }: { params: { teacherId: string } }) => {
   const session = await getServerSession(authOptions); // get this from layout instead of calling again
@@ -19,7 +20,9 @@ const TeacherPage = async ({ params }: { params: { teacherId: string } }) => {
   }
   return (
     <div>
-      <AdminNavbar title="Teacher" />
+      <AdminNavbar
+        title={formatName({ name: teacher?.name || "" }) || "Teacher"}
+      />
       <Timeline teacher={teacher} />
     </div>
   );
