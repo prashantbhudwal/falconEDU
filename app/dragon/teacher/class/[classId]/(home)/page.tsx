@@ -8,6 +8,12 @@ import AnalyticsWidget from "./components/analytics/analytics-widget";
 import { Suspense } from "react";
 import AnalyticsWidgetFallback from "./components/analytics/analytics-widget-fallback";
 import { cn } from "@/lib/utils";
+import { is } from "date-fns/locale";
+import { getStudentsByClassId } from "../../../queries";
+import { CheckCircleIcon } from "@heroicons/react/24/solid";
+import { get } from "http";
+import { getStudentsURL } from "@/lib/urls";
+import { EmptyClassCard } from "./components/empty-class-card";
 
 export default async function Classes({
   params,
@@ -27,16 +33,27 @@ export default async function Classes({
     userId,
     classId,
   });
+  const { students } = await getStudentsByClassId(classId);
+  const noStudents = students && students.length === 0;
   const allConfigs = classConfigs.all;
+  const isEmpty = allConfigs.length === 0;
+  const isArchived = !classDetails.isActive;
 
+  if (isEmpty) {
+    return (
+      <Paper className="h-full flex flex-col items-center justify-between space-y-2">
+        <EmptyClassCard classId={classId} noStudents={!!noStudents} />
+      </Paper>
+    );
+  }
   return (
     <Paper className="h-full flex flex-col items-center justify-between space-y-2">
-      {!classDetails.isActive && <ArchivedClass classId={classId} />}
+      {isArchived && <ArchivedClass classId={classId} />}
       <div
         className={cn(
           "w-full flex flex-col items-center md:relative lg:relative",
           {
-            "brightness-50": !classDetails.isActive,
+            "brightness-50": isArchived,
           }
         )}
       >
