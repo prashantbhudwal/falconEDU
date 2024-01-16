@@ -19,7 +19,7 @@ const getUserId = async (): Promise<string> => {
   return session?.user.id || "";
 }; //TODO: dont use this function to get userId pass from the layout to all components
 
-export const getAllPublishedTasksByDate = async () => {
+export const getAllPublishedTasksByDate = cache(async () => {
   try {
     const userId = await getUserId();
     const org = await prisma.orgAdminProfile.findUnique({
@@ -129,11 +129,11 @@ export const getAllPublishedTasksByDate = async () => {
     console.error(err);
     return null;
   }
-};
+});
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-export const getAllTeachersInAnOrg = async () => {
+export const getAllTeachersInAnOrg = cache(async () => {
   try {
     const userId = await getUserId();
     const org = await prisma.orgAdminProfile.findUnique({
@@ -247,7 +247,7 @@ export const getAllTeachersInAnOrg = async () => {
     console.error(err);
     return null;
   }
-};
+});
 
 export const getOrgByUserId = cache(async (userId: string) => {
   try {

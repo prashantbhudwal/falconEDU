@@ -4,6 +4,8 @@ import { TaskActions } from "./task-actions";
 import { getFormattedDate, getTaskProperties } from "../../../../utils";
 import { TaskType } from "@/types/dragon";
 import { AllConfigsInClass } from "@/app/dragon/teacher/routers/botConfigRouter";
+import { db } from "@/app/dragon/teacher/routers";
+import TaskAnalytics from "./task-analytics";
 
 type TaskCardProps = {
   className?: string;
@@ -12,7 +14,7 @@ type TaskCardProps = {
   userId: string;
 };
 
-export function TaskCard({
+export async function TaskCard({
   className,
   config,
   classId,
@@ -26,11 +28,21 @@ export function TaskCard({
   const createdAt = config.createdAt;
   const formattedDate = getFormattedDate(createdAt);
   const { Icon, iconColor, formattedType } = getTaskProperties(type);
+  let analyticsStats = null;
+  if (isPublished) {
+    const analytics = await db.studentRouter.getTaskStats({
+      classId,
+      taskId: config.id,
+      taskType: type,
+    });
+
+    analyticsStats = analytics;
+  }
 
   return (
     <div
       className={cn(
-        "bg-base-200 group py-4 px-2 flex items-center space-x-2 h-24 shadow-md rounded-2xl border-transparent cursor-pointer hover:bg-base-100 transition-colors duration-200 ease-in-out",
+        "max-w-2xl bg-base-200 group py-4 px-6 flex items-center space-x-1 justify-between h-20 shadow-md rounded-2xl border-transparent cursor-pointer hover:bg-base-100 transition-colors duration-200 ease-in-out",
         isArchived && "bg-base-200/40 hover:bg-base-200",
         className
       )}
@@ -38,48 +50,50 @@ export function TaskCard({
     >
       <section
         className={cn(
-          "flex-none w-1/12 min-w-[100px] h-full flex pl-4",
+          "flex-none w-1/12 min-w-[80px] h-full flex",
           iconColor
         )}
       >
-        <div className="flex flex-col justify-center items-center gap-1">
-          <div className="w-10 h-10">
-            <Icon className="h-10 w-10" />
+        <div className="flex flex-col justify-center items-center space-y-1">
+          <div className="w-8 h-8">
+            <Icon className="h-8 w-8" />
           </div>
-          <div className="rounded-full text-sm">{formattedType}</div>
+          <div className="rounded-full text-xs">{formattedType}</div>
         </div>
       </section>
-      <section className="flex-grow h-full py-1 flex items-center">
+      <section className="flex-grow h-full flex ">
         <div className="flex flex-col space-y-2 flex-grow">
           <div className="font-medium tracking-wide capitalize truncate ">
-            <div className="truncate text-lg font-semibold text-slate-400 ">
-              {name}
-            </div>
+            <div className="truncate font-semibold text-slate-400 ">{name}</div>
           </div>
-          <div className="text-sm text-slate-500">{formattedDate}</div>
-        </div>
-        <div
-          className={cn("text-slate-600 text-sm w-16", {
-            "text-primary": isPublished,
-            "": !isPublished,
-          })}
-        >
-          {isPublished ? "Published" : ""}
+          <div className="flex flex-row items-baseline space-x-5 text-xs text-slate-500">
+            {isPublished ? (
+              <div className="text-primary/80"> Published </div>
+            ) : (
+              <div> Draft </div>
+            )}
+            <div>Created: {formattedDate}</div>
+          </div>
         </div>
       </section>
-      <section className="flex-none w-2/12 flex">
-        <div className="hidden group-hover:block w-full">
-          {config.Class?.isActive && (
-            <TaskActions
-              configId={config.id}
-              classId={classId}
-              userId={userId}
-              isArchived={isArchived}
-              isPublished={isPublished}
-              type={type}
-            />
-          )}
-        </div>
+      <section className="flex flex-col w-2/12 justify-between h-full">
+        <section className="flex self-end items-center space-x-3">
+          <div className="hidden group-hover:block w-full">
+            {config.Class?.isActive && (
+              <TaskActions
+                configId={config.id}
+                classId={classId}
+                userId={userId}
+                isArchived={isArchived}
+                isPublished={isPublished}
+                type={type}
+              />
+            )}
+          </div>
+        </section>
+        <section className="flex-none flex self-end">
+          <TaskAnalytics analytics={analyticsStats} />
+        </section>
       </section>
     </div>
   );

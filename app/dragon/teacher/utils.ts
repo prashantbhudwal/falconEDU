@@ -159,7 +159,7 @@ export const getTaskProperties = (taskType: TaskType) => {
 
 export const getFormattedDate = (date: Date) =>
   new Date(date).toLocaleDateString("en-UK", {
-    year: "numeric",
+   
     month: "short",
     day: "numeric",
   });
