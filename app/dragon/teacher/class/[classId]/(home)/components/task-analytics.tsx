@@ -39,7 +39,7 @@ const TaskAnalytics = ({ analytics }: { analytics: TypeGetTaskStats }) => {
           )}
         </div>
       </HoverCardTrigger>
-      <HoverCardContent className="bg-base-300">
+      <HoverCardContent className="bg-base-300 rounded-lg" align="start">
         <div className="flex flex-col space-y-2">
           <div className="flex items-center gap-2">
             <div className="flex items-center gap-1">
