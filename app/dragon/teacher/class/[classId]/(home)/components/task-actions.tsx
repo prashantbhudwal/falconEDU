@@ -39,9 +39,9 @@ export function TaskActions({
   const [isDuplicating, setIsDuplicating] = useState(false);
   const [open, setOpen] = useState(false);
   const archivedIcon = isArchived ? (
-    <ArrowUpOnSquareIcon className="w-4 text-primary " />
+    <ArrowUpOnSquareIcon className="w-3 text-primary " />
   ) : (
-    <ArchiveBoxArrowDownIcon className="w-4" />
+    <ArchiveBoxArrowDownIcon className="w-3" />
   );
 
   const archivingHandler = (e: React.MouseEvent) => {
@@ -73,11 +73,11 @@ export function TaskActions({
             <TooltipTrigger>
               <PropagationStopper>
                 <div onClick={duplicateHandler} className="hover:translate-y-1">
-                  <DocumentDuplicateIcon className="w-4" />
+                  <DocumentDuplicateIcon className="w-3" />
                 </div>
               </PropagationStopper>
             </TooltipTrigger>
-            <TooltipContent className="bg-slate-500 text-slate-100">
+            <TooltipContent className="bg-slate-600 text-slate-100">
               <p>Create Copy</p>
             </TooltipContent>
           </Tooltip>
@@ -93,7 +93,7 @@ export function TaskActions({
                 </div>
               </PropagationStopper>
             </TooltipTrigger>
-            <TooltipContent className="bg-slate-500 text-slate-100">
+            <TooltipContent className="bg-slate-600 text-slate-100">
               <p>{isArchived ? "Unarchive" : "Archive"}</p>
             </TooltipContent>
           </Tooltip>
