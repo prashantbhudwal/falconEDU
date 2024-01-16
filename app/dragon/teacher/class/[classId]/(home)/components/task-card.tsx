@@ -42,7 +42,7 @@ export async function TaskCard({
   return (
     <div
       className={cn(
-        "max-w-2xl bg-base-200 group py-4 px-2 flex items-center space-x-1 justify-between h-20 shadow-md rounded-2xl border-transparent cursor-pointer hover:bg-base-100 transition-colors duration-200 ease-in-out",
+        "max-w-2xl bg-base-200 group py-4 px-6 flex items-center space-x-1 justify-between h-20 shadow-md rounded-2xl border-transparent cursor-pointer hover:bg-base-100 transition-colors duration-200 ease-in-out",
         isArchived && "bg-base-200/40 hover:bg-base-200",
         className
       )}
@@ -50,7 +50,7 @@ export async function TaskCard({
     >
       <section
         className={cn(
-          "flex-none w-1/12 min-w-[80px] h-full flex pl-4",
+          "flex-none w-1/12 min-w-[80px] h-full flex",
           iconColor
         )}
       >
