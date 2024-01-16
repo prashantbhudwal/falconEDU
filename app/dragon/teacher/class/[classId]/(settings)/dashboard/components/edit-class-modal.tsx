@@ -1,15 +1,11 @@
 "use client";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaPlus } from "react-icons/fa6";
-import { PencilSquareIcon } from "@heroicons/react/24/solid";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -17,7 +13,6 @@ import {
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -27,8 +22,7 @@ import { Input } from "@/components/ui/input";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FolderPlusIcon } from "@heroicons/react/24/solid";
-
+import { FiEdit3 } from "react-icons/fi";
 import { Grade } from "@prisma/client";
 import { Class } from "@prisma/client";
 import {
@@ -40,7 +34,6 @@ import {
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { db } from "@/app/dragon/teacher/routers";
-import { FaEdit } from "react-icons/fa";
 
 type GradeOption = {
   label: string;
@@ -105,7 +98,7 @@ export function EditClassModal({ initialValues }: { initialValues: Class }) {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild className="rounded-lg">
         <Button variant={"ghost"} size={"sm"} className="rounded-full">
-          <PencilSquareIcon className="w-4 h-4 text-slate-400" />
+          <FiEdit3 className="w-4 h-4 text-secondary/40" />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px">
