@@ -3,13 +3,13 @@ import { getTaskUrlByType } from "@/lib/urls";
 import { TaskType } from "@/types";
 import Link from "next/link";
 import React from "react";
-import { FaBookOpenReader } from "react-icons/fa6";
 import { type TasksWithInteractions } from "@/app/dragon/teacher/routers/studentRouter";
 import {
   ArrowTrendingDownIcon,
   ArrowTrendingUpIcon,
   FaceFrownIcon,
 } from "@heroicons/react/24/solid";
+import { UserIcon } from "@heroicons/react/24/solid";
 
 const AnalyticsWidget = async ({ classId }: { classId: string }) => {
   const leastInteractedTasksList = await getTasksWithInteractions({ classId });
@@ -66,8 +66,8 @@ const TaskList = async ({
                 {taskItem.task.name}
               </h5>
               <div className="flex items-center gap-1">
-                <FaBookOpenReader />
-                <span>{`${taskItem.interactedStudents} / ${taskItem.totalStudents}`}</span>
+                <UserIcon className="w-3" />
+                <span className="tracking-wider">{`${taskItem.interactedStudents}/${taskItem.totalStudents}`}</span>
               </div>
             </Link>
           ))}
