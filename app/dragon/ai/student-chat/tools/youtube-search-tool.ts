@@ -1,25 +1,26 @@
 import axios from "axios";
+import * as z from "zod";
+import { FunctionDefinition, ToolWithCallback, toolName } from "./types";
+import { zodSchemaToOpenAIParameters } from "../utils";
+import { ChatCompletionTool } from "openai/resources";
 
-export async function searchYouTubeVideo(
-  query: string,
-  channelId = "UC4a-Gbdw7vOaccHmFo40b9g", // Default set to Khan Academy's Channel ID
-  maxResults = 5,
-  order = "relevance"
-) {
+const KHAN_ACADEMY_CHANNEL_ID = "UC4a-Gbdw7vOaccHmFo40b9g";
+const MAX_RESULTS = 3;
+const YOUTUBE_ENDPOINT = "https://www.googleapis.com/youtube/v3/search";
+
+export async function searchYouTubeVideo({ query }: { query: string }) {
   try {
-    const response = await axios.get(
-      "https://www.googleapis.com/youtube/v3/search",
-      {
-        params: {
-          part: "snippet",
-          channelId: channelId, // Added channelId to the request parameters
-          q: query,
-          maxResults: maxResults,
-          order: order,
-          key: process.env.GOOGLE_API_KEY,
-        },
-      }
-    );
+    const response = await axios.get(YOUTUBE_ENDPOINT, {
+      params: {
+        part: "snippet",
+        channelId: KHAN_ACADEMY_CHANNEL_ID,
+        q: query,
+        maxResults: MAX_RESULTS,
+        order: "relevance",
+        key: process.env.GOOGLE_API_KEY,
+      },
+    });
+    console.log("response", response);
     return response.data;
   } catch (error) {
     console.error("Error during YouTube API call:", error);
@@ -27,21 +28,31 @@ export async function searchYouTubeVideo(
   }
 }
 
-export const youtubeSearchTool = {
+const schema = z.object({
+  query: z
+    .string()
+    .describe(
+      "The search query for finding a video on YouTube. Video will be from Khan Academy."
+    ),
+});
+
+export const youtubeSearchFunction: FunctionDefinition = {
   name: "search_youtube_video",
   description:
-    "Search for a Khan Academy YouTube video based on a user's query",
-  parameters: {
-    type: "object",
-    properties: {
-      query: {
-        type: "string",
-        description:
-          "The search query for finding a video on YouTube. Video will be from Khan Academy.",
-      },
-    },
-    required: ["query", "apiKey"],
-  },
+    "Search for a Khan Academy YouTube video when user asks for a video. Show the video in the chat.",
+  parameters: zodSchemaToOpenAIParameters(schema),
 };
 
+export const youtubeSearch: ToolWithCallback = {
+  name: "search_youtube_video",
+  tool: {
+    type: "function",
+    function: youtubeSearchFunction,
+  },
+  callback: searchYouTubeVideo,
+};
 
+export function findToolByName(name: toolName): ToolWithCallback | undefined {
+  const tools: ToolWithCallback[] = [youtubeSearch];
+  return tools.find((tool) => tool.name === name);
+}
