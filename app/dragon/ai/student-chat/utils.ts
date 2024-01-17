@@ -15,6 +15,9 @@ import { LessonContextByChatId } from "./prompts/lesson-prompts/queries";
 import { ChatContextByChatId } from "./prompts/chat-prompts/queries";
 import { TaskType } from "@/types";
 import { AITestContextByChatId } from "./prompts/ai-test-prompts/queries";
+import zodToJsonSchema from "zod-to-json-schema";
+import { CustomJsonSchema } from "./tools/types";
+import { z } from "zod";
 
 export function mapMessagesToLangChainBaseMessage(
   messages: any[]
@@ -135,3 +138,11 @@ export function filterMessagesByTokenLimit(
 
  * If the role of the last element of messages is assistant, the last message is regarded as the completion returned by openai, and only the 'content' content in the completion participates in the calculation of tokens
  */
+
+export const zodSchemaToOpenAIParameters = (zodSchema: z.ZodSchema<any>) => {
+  const jsonSchema = zodToJsonSchema(zodSchema);
+  // Removing $schema and additionalProperties from the schema to save tokens
+  const { $schema, additionalProperties, ...parameters } =
+    jsonSchema as CustomJsonSchema;
+  return parameters;
+};
