@@ -14,10 +14,10 @@ import {
   getEngineeredMessagesByType,
   mapMessagesToLangChainBaseMessage,
 } from "./utils";
-import { searchYouTubeVideo } from "./tools/youtube";
+import { searchYouTubeVideo } from "./tools/youtube-search-tool";
 // export const runtime = "edge";
 export const dynamic = "force-dynamic";
-import { youtubeSearchTool } from "./tools/youtube";
+import { youtubeSearchTool } from "./tools/youtube-search-tool";
 
 const functions: ChatCompletionCreateParams.Function[] = [youtubeSearchTool];
 
