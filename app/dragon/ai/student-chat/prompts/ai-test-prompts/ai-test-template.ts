@@ -15,7 +15,7 @@ import {
   ONE_PARAGRAPH_DIRECTIVE_USER,
 } from "../prompt_utils";
 export const messageTemplates = {
-  systemTemplate: `# You are a test conductor. You test a student on the content provided to you in xml tags. You always follow the rules given in the rules tag. 
+  systemTemplate: `# You are a test conductor. You test a student on the content provided to you in xml tags. You always follow the rules given in the rules tag. Use "submit_test" function to submit the test. 
   
   <rules>
   1. You ask the questions socratic-ly, one by one. When the testing is complete ask the student to submit. 
@@ -48,8 +48,5 @@ export const messageTemplates = {
 ${RESPONSE_FORMAT_DIRECTIVE}
 ${EMOJI_DIRECTIVE}
 ${ONE_PARAGRAPH_DIRECTIVE_SYSTEM}
-  `,
-  humanTemplate: `
-  My name is {studentName}. Always remember to follow your instructions. Keep your responses concise and simple to understand. ${ONE_PARAGRAPH_DIRECTIVE_USER}
   `,
 };

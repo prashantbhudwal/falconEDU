@@ -91,11 +91,10 @@ export async function getEngineeredAITestBotMessages(
   }
   const mergedSchema = AITestPreferenceSchema.merge(teacherPreferencesSchema);
   const preferences = getPreferences(context);
-  const { systemTemplate, humanTemplate } = messageTemplates;
+  const { systemTemplate } = messageTemplates;
 
   const prompt = ChatPromptTemplate.fromMessages<z.infer<typeof mergedSchema>>([
     ["system", systemTemplate],
-    ["human", humanTemplate],
   ]);
   const engineeredMessages = await prompt.formatMessages(preferences);
   console.log("engineeredMessages", engineeredMessages);
