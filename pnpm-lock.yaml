@@ -149,6 +149,9 @@ dependencies:
   docx:
     specifier: 8.0.2
     version: 8.0.2
+  endent:
+    specifier: ^2.1.0
+    version: 2.1.0
   eventsource-parser:
     specifier: ^1.1.1
     version: 1.1.1
@@ -5945,6 +5948,10 @@ packages:
       character-entities: 2.0.2
     dev: false
 
+  /dedent@0.7.0:
+    resolution: {integrity: sha512-Q6fKUPqnAHAyhiUgFU7BUzLiv0kd8saH9al7tnu5Q/okj6dnupxyTgFIBjVzJATdfIAm9NAsvXNzjaKa+bxVyA==}
+    dev: false
+
   /deep-is@0.1.4:
     resolution: {integrity: sha512-oIPzksmTg4/MriiaYGO+okXDT7ztn/w3Eptv/+gSIdMdKsJo0u4CfYNFJPy+4SKMuCqGw2wxnA+URMg3t8a/bQ==}
     dev: true
@@ -6173,6 +6180,14 @@ packages:
   /emojis-list@3.0.0:
     resolution: {integrity: sha512-/kyM18EfinwXZbno9FyUGeFh87KC8HRQBQGildHZbEuRyWFOmv1U10o9BBp8XVZDVNNuQKyIGIu5ZYAAXJ0V2Q==}
     engines: {node: '>= 4'}
+    dev: false
+
+  /endent@2.1.0:
+    resolution: {integrity: sha512-r8VyPX7XL8U01Xgnb1CjZ3XV+z90cXIJ9JPE/R9SEC9vpw2P6CfsRPJmp20DppC5N7ZAMCmjYkJIa744Iyg96w==}
+    dependencies:
+      dedent: 0.7.0
+      fast-json-parse: 1.0.3
+      objectorarray: 1.0.5
     dev: false
 
   /enhanced-resolve@5.15.0:
@@ -6731,6 +6746,10 @@ packages:
       glob-parent: 5.1.2
       merge2: 1.4.1
       micromatch: 4.0.5
+
+  /fast-json-parse@1.0.3:
+    resolution: {integrity: sha512-FRWsaZRWEJ1ESVNbDWmsAlqDk96gPQezzLghafp5J4GUKjbCz3OkAHuZs5TuPEtkbVQERysLp9xv6c24fBm8Aw==}
+    dev: false
 
   /fast-json-stable-stringify@2.1.0:
     resolution: {integrity: sha512-lhd/wF+Lk98HZoTCtlVraHtfh5XYijIjalXck7saUtuanSDyLMxnHhSXEDJqHxD7msR8D0uCmqlkwjCV8xvwHw==}
@@ -9541,6 +9560,10 @@ packages:
       define-properties: 1.2.1
       es-abstract: 1.22.3
     dev: true
+
+  /objectorarray@1.0.5:
+    resolution: {integrity: sha512-eJJDYkhJFFbBBAxeh8xW+weHlkI28n2ZdQV/J/DNfWfSKlGEf2xcfAbZTv3riEXHAhL9SVOTs2pRmXiSTf78xg==}
+    dev: false
 
   /oidc-token-hash@5.0.3:
     resolution: {integrity: sha512-IF4PcGgzAr6XXSff26Sk/+P4KZFJVuHAJZj3wgO3vX2bMdNVp/QXTP3P7CEm9V1IdG8lDLY3HhiqpsE/nOwpPw==}

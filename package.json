@@ -60,6 +60,7 @@
     "date-fns": "^2.30.0",
     "date-fns-tz": "^2.0.0",
     "docx": "8.0.2",
+    "endent": "^2.1.0",
     "eventsource-parser": "^1.1.1",
     "file-saver": "^2.0.5",
     "framer-motion": "^10.18.0",
