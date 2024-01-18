@@ -14,7 +14,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { UnwrapPromise } from "../student/queries";
 
-const getUserId = async (): Promise<string> => {
+const getUserId: () => Promise<string> = async () => {
   const session = await getServerSession(authOptions);
   return session?.user.id || "";
 }; //TODO: dont use this function to get userId pass from the layout to all components
@@ -352,3 +352,58 @@ export const getTeacherTasksWithTeacherId = cache(
 export type TeacherTask = UnwrapPromise<
   ReturnType<typeof getTeacherTasksWithTeacherId>
 >;
+
+export const getStudentSubmissionsStatsByTaskId = cache(
+  async ({ taskId }: { taskId: string }) => {
+    try {
+      const bots = await prisma.bot.findMany({
+        where: { botConfigId: taskId },
+        select: {
+          id: true,
+          isSubmitted: true,
+          isChecked: true,
+          isActive: true,
+          BotChat: {
+            where: { isDefault: true },
+            select: {
+              isRead: true,
+            },
+          },
+          student: {
+            select: {
+              User: {
+                select: {
+                  name: true,
+                  email: true,
+                  image: true,
+                },
+              },
+            },
+          },
+        },
+      });
+
+      // console.log(bots);
+
+      if (bots.length === 0) {
+        return null;
+      }
+
+      const students = bots.map((bot) => ({
+        studentBotId: bot.id,
+        name: bot.student.User.name,
+        email: bot.student.User.email,
+        image: bot.student.User.image,
+        isSubmitted: bot.isSubmitted,
+        isChecked: bot.isChecked,
+        isActive: bot.isActive,
+        isRead: bot.BotChat.length > 0 ? bot.BotChat[0].isRead : false,
+      }));
+
+      return students;
+    } catch (err) {
+      console.error(err);
+      return null;
+    }
+  }
+);
