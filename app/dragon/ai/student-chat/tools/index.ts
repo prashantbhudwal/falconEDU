@@ -1,13 +1,14 @@
 import { TaskType } from "@/types";
 import { ToolWithCallback, toolName } from "./types";
 import { youtubeSearch } from "./youtube-search-tool";
+import { submitTest } from "./test-submission-tool";
 
 // All tools that are available for each task type
 const taskToolMap: Record<TaskType, ToolWithCallback[]> = {
   chat: [],
   test: [],
   lesson: [youtubeSearch],
-  "ai-test": [],
+  "ai-test": [submitTest],
 };
 
 const allTools = Object.values(taskToolMap).flat();
