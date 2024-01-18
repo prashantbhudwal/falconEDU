@@ -68,7 +68,12 @@ const Timeline = ({ teacher }: { teacher: TeacherTask }) => {
           >
             {teacher?.classes.map((classItem) => (
               <SelectItem key={classItem.id} value={classItem.id}>
-                {classItem.name || classItem.grade}
+                {formatName({
+                  name: classItem.grade,
+                })}
+                {classItem.section
+                  ? ` - ${formatName({ name: classItem.section })}`
+                  : ""}
               </SelectItem>
             ))}
           </Select>

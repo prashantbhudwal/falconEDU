@@ -331,7 +331,11 @@ export const getTeacherTasksWithTeacherId = cache(
               createdAt: "desc",
             },
           },
-          Class: true,
+          Class: {
+            orderBy: {
+              createdAt: "desc",
+            },
+          },
         },
       });
 
