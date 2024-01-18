@@ -1,9 +1,6 @@
 import axios from "axios";
 import * as z from "zod";
-import { FunctionDefinition, ToolWithCallback, toolName } from "./types";
-import { zodSchemaToOpenAIParameters } from "../utils";
-import { ChatCompletionTool } from "openai/resources";
-
+import { createToolWithCallback } from "../utils";
 const KHAN_ACADEMY_CHANNEL_ID = "UC4a-Gbdw7vOaccHmFo40b9g";
 const MAX_RESULTS = 3;
 const YOUTUBE_ENDPOINT = "https://www.googleapis.com/youtube/v3/search";
@@ -20,7 +17,6 @@ export async function searchYouTubeVideo({ query }: { query: string }) {
         key: process.env.GOOGLE_API_KEY,
       },
     });
-    console.log("response", response);
     return response.data;
   } catch (error) {
     console.error("Error during YouTube API call:", error);
@@ -36,23 +32,11 @@ const schema = z.object({
     ),
 });
 
-export const youtubeSearchFunction: FunctionDefinition = {
+export const youtubeSearch = createToolWithCallback({
   name: "search_youtube_video",
   description:
     "Search for a Khan Academy YouTube video when user asks for a video. Show the video in the chat.",
-  parameters: zodSchemaToOpenAIParameters(schema),
-};
-
-export const youtubeSearch: ToolWithCallback = {
-  name: "search_youtube_video",
-  tool: {
-    type: "function",
-    function: youtubeSearchFunction,
-  },
+  schema,
   callback: searchYouTubeVideo,
-};
-
-export function findToolByName(name: toolName): ToolWithCallback | undefined {
-  const tools: ToolWithCallback[] = [youtubeSearch];
-  return tools.find((tool) => tool.name === name);
-}
+  type: "function",
+});
