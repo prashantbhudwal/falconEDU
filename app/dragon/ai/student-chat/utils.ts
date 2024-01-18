@@ -16,7 +16,12 @@ import { ChatContextByChatId } from "./prompts/chat-prompts/queries";
 import { TaskType } from "@/types";
 import { AITestContextByChatId } from "./prompts/ai-test-prompts/queries";
 import zodToJsonSchema from "zod-to-json-schema";
-import { CustomJsonSchema } from "./tools/types";
+import {
+  CustomJsonSchema,
+  FunctionDefinition,
+  ToolWithCallback,
+  toolName,
+} from "./tools/types";
 import { z } from "zod";
 
 export function mapMessagesToLangChainBaseMessage(
@@ -145,4 +150,32 @@ export const zodSchemaToOpenAIParameters = (zodSchema: z.ZodSchema<any>) => {
   const { $schema, additionalProperties, ...parameters } =
     jsonSchema as CustomJsonSchema;
   return parameters;
+};
+
+export const createToolWithCallback = function ({
+  name,
+  description,
+  schema,
+  callback,
+  type = "function",
+}: {
+  name: toolName;
+  description: string;
+  schema: z.ZodSchema<any>;
+  callback: Function;
+  type: "function";
+}): ToolWithCallback {
+  const functionDefinition: FunctionDefinition = {
+    name,
+    description,
+    parameters: zodSchemaToOpenAIParameters(schema),
+  };
+  return {
+    name,
+    tool: {
+      type: type,
+      function: functionDefinition,
+    },
+    callback,
+  };
 };
