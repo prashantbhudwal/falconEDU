@@ -112,13 +112,13 @@ dependencies:
     version: 3.13.1(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)(tailwindcss@3.4.1)
   '@trpc/client':
     specifier: next
-    version: 11.0.0-next-beta.193
+    version: 11.0.0-next-beta.208
   '@trpc/react-query':
     specifier: next
-    version: 11.0.0-next-beta.193(@tanstack/react-query@5.17.9)(@trpc/client@11.0.0-next-beta.193)(react-dom@18.2.0)(react@18.2.0)
+    version: 11.0.0-next-beta.208(@tanstack/react-query@5.17.9)(@trpc/client@11.0.0-next-beta.208)(react-dom@18.2.0)(react@18.2.0)
   '@trpc/server':
     specifier: next
-    version: 11.0.0-next-beta.193
+    version: 11.0.0-next-beta.208
   '@vercel/analytics':
     specifier: ^1.1.1
     version: 1.1.1
@@ -178,10 +178,13 @@ dependencies:
     version: 0.16.9
   langchain:
     specifier: ^0.0.196
-    version: 0.0.196(axios@1.6.5)(mammoth@1.6.0)(pdf-parse@1.1.1)
+    version: 0.0.196(axios@1.6.5)(lodash@4.17.21)(mammoth@1.6.0)(pdf-parse@1.1.1)
   localforage:
     specifier: ^1.10.0
     version: 1.10.0
+  lodash:
+    specifier: ^4.17.21
+    version: 4.17.21
   lottie-react:
     specifier: ^2.4.0
     version: 2.4.0(react-dom@18.2.0)(react@18.2.0)
@@ -4260,35 +4263,35 @@ packages:
       - tailwindcss
     dev: false
 
-  /@trpc/client@11.0.0-next-beta.193:
-    resolution: {integrity: sha512-s+SSMrAPxbGoIZ4CianOYWJ7RbgECkTP9Dihi194IdiLrxM8+ijckKVYcXrPjTOfszGFcm6QaHQfk7hIHtgckg==}
+  /@trpc/client@11.0.0-next-beta.208:
+    resolution: {integrity: sha512-x0vno9PSQI9idwDNjKDCOGx2xAo7iwUcYJdiKvUDrX3B3ChCpQMN7gNJAlLj7wOycviHysO/Cifdom7s5bVgnQ==}
     dependencies:
-      '@trpc/core': 11.0.0-next-beta.193
+      '@trpc/core': 11.0.0-next-beta.208
     dev: false
 
-  /@trpc/core@11.0.0-next-beta.193:
-    resolution: {integrity: sha512-oF/Tg6ue12v8EjtbLEjiuLddbFovdpwK1hGPgZUesX1gtRiuWoJugpo4Xn2L1ESFhn1MVCZdAgXLj3qoNpXxIg==}
+  /@trpc/core@11.0.0-next-beta.208:
+    resolution: {integrity: sha512-7l4aEde9rLapNYDfLmuWMiPYI1L/XAI548A/giqCCJdlJcNp/qaHUQwxgzN0eDE+zEvXtxWdc/JMs03tB/8bdQ==}
     dev: false
 
-  /@trpc/react-query@11.0.0-next-beta.193(@tanstack/react-query@5.17.9)(@trpc/client@11.0.0-next-beta.193)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-cC9IB8LiViqZeHGUKnmYhi5nwpUd5wC3efidAUyX2jCQdwPiThZQJWcmtXfPmb9qXvERq6E40nu7cHQXlMDzrQ==}
+  /@trpc/react-query@11.0.0-next-beta.208(@tanstack/react-query@5.17.9)(@trpc/client@11.0.0-next-beta.208)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-vRh76HfgWpCjz3sCp2nvBx9P3dzoGKHkebwLi6txXjm4GBKgKeiUqkBc9bSFWwOpHYkoiPFYyYf3G3Kr9I3bJw==}
     peerDependencies:
       '@tanstack/react-query': ^5.0.0
-      '@trpc/client': 11.0.0-next-beta.193+ec8719429
+      '@trpc/client': 11.0.0-next-beta.208+ce423b8ae
       react: '>=18.2.0'
       react-dom: '>=18.2.0'
     dependencies:
       '@tanstack/react-query': 5.17.9(react@18.2.0)
-      '@trpc/client': 11.0.0-next-beta.193
-      '@trpc/core': 11.0.0-next-beta.193
+      '@trpc/client': 11.0.0-next-beta.208
+      '@trpc/core': 11.0.0-next-beta.208
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
-  /@trpc/server@11.0.0-next-beta.193:
-    resolution: {integrity: sha512-NRs1IyydAQI2jKZQzotVUwwUtBdvZWZOCxtaLsA5EkqZyXWbSQ2hF0xwbCZvUBnMWJXrXZljWidFzsGGsEGSag==}
+  /@trpc/server@11.0.0-next-beta.208:
+    resolution: {integrity: sha512-+UfVM/oJVz3XugnxSB67tnQiO9O7VRuwFDZEhBCCcT4CXHeAal4sB0JvfJ7FHMer2Wvek9jyoFmrXicRsp4Czg==}
     dependencies:
-      '@trpc/core': 11.0.0-next-beta.193
+      '@trpc/core': 11.0.0-next-beta.208
     dev: false
 
   /@tsconfig/node10@1.0.9:
@@ -8034,7 +8037,7 @@ packages:
       uuid: 9.0.1
     dev: false
 
-  /langchain@0.0.196(axios@1.6.5)(mammoth@1.6.0)(pdf-parse@1.1.1):
+  /langchain@0.0.196(axios@1.6.5)(lodash@4.17.21)(mammoth@1.6.0)(pdf-parse@1.1.1):
     resolution: {integrity: sha512-kt17GGTDFWHNv3jJOIXymsQxfa+h9UQ6hrHbhur+V2pV6RBKO5E+RRCvnCqBzbnOPtrlkENF6Wl3Ezmsfo21dg==}
     engines: {node: '>=18'}
     peerDependencies:
@@ -8345,6 +8348,7 @@ packages:
       langchain-core: 0.0.1
       langchainhub: 0.0.6
       langsmith: 0.0.58
+      lodash: 4.17.21
       mammoth: 1.6.0
       ml-distance: 4.0.1
       openai: 4.24.4

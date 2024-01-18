@@ -71,6 +71,7 @@
     "katex": "^0.16.9",
     "langchain": "^0.0.196",
     "localforage": "^1.10.0",
+    "lodash": "^4.17.21",
     "lottie-react": "^2.4.0",
     "mammoth": "^1.6.0",
     "mixpanel": "^0.18.0",
