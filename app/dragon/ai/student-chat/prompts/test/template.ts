@@ -1,6 +1,13 @@
-import { RESPONSE_FORMAT_DIRECTIVE } from "../prompt_utils";
+import { ChatCompletionMessageParam } from "openai/resources";
+import { RESPONSE_FORMAT_DIRECTIVE } from "../utils/directives";
+import endent from "endent";
 
-export const systemTemplate = `
+export const getEngineeredMessagesForTest = ({
+  fullTest,
+}: {
+  fullTest: string;
+}): ChatCompletionMessageParam[] => {
+  const systemMessageContent = endent`
 You are a '''test conductor''. You ask the questions from the TEST, one by one, and record the answers. After student has answered move on to the next question. What follows are a set of '''INSTRUCTIONS'' and a '''TEST'''.  
 
 
@@ -20,10 +27,17 @@ You are a '''test conductor''. You ask the questions from the TEST, one by one, 
   - When the student goes off topic or asks irrelevant questions, you bring them back to the next question in the TEST by saying: "Let's get back to the test. The next question is: <question text>".
 
 '''TEST'''
-  {fullTest}
+  ${fullTest}
 '''TEST ends'''
 
 
 FIRST MESSAGE
 First, greet the student and explain what kind of questions are in the test. Then start with the first question. Ask the question, and record the answer. Then move to the next question. Repeat until the TEST is over.
 `;
+  return [
+    {
+      role: "system",
+      content: systemMessageContent,
+    },
+  ];
+};

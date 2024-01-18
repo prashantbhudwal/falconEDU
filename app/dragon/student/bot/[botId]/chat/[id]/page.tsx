@@ -13,13 +13,13 @@ import { Chat } from "@/components/chat/chat-dragon";
 import { AvatarNavbar } from "@/app/dragon/student/components/student-navbar";
 import SubmitTestButton from "./submit-test-btn";
 import { revalidatePath } from "next/cache";
-import { getTestQuestionsByBotChatId } from "@/app/dragon/ai/student-chat/prompts/test-prompts/testBotMessages";
-import { getChatContextByChatId } from "@/app/dragon/ai/student-chat/prompts/chat-prompts/queries";
-import { getLessonContextByChatId } from "@/app/dragon/ai/student-chat/prompts/lesson-prompts/queries";
+import { getTestQuestionsByBotChatId } from "@/app/dragon/ai/student-chat/prompts/test/messages";
+import { getChatContextByChatId } from "@/app/dragon/ai/student-chat/prompts/chat/queries";
+import { getLessonContextByChatId } from "@/app/dragon/ai/student-chat/prompts/lesson/queries";
 import { getTaskProperties } from "@/app/dragon/teacher/utils";
 import { TaskType } from "@/types/dragon";
 import { setIsReadToTrue } from "./mutations";
-import { getAITestContextByChatId } from "@/app/dragon/ai/student-chat/prompts/ai-test-prompts/queries";
+import { getAITestContextByChatId } from "@/app/dragon/ai/student-chat/prompts/ai-test/queries";
 
 export interface ChatPageProps {
   params: {

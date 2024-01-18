@@ -1,4 +1,6 @@
 "use client";
+import { newTaskModalAtom } from "@/lib/atoms/ui";
+import { useAtom } from "jotai";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -48,7 +50,7 @@ export function NewTaskModal({
 }) {
   const createNewConfig = useCreateNewConfig();
   const [loading, setLoading] = useState(false);
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useAtom(newTaskModalAtom);
   const [error, setError] = useState("");
 
   const types: TaskType[] = ["lesson", "test", "chat", "ai-test"];

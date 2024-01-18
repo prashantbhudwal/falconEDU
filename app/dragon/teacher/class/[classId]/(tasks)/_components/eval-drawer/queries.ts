@@ -3,7 +3,7 @@
 import {
   ChatContext,
   isEmptyObject,
-} from "@/app/dragon/ai/student-chat/prompts/chat-prompts/queries";
+} from "@/app/dragon/ai/student-chat/prompts/chat/queries";
 import {
   StudentPreferenceSchema,
   botPreferencesSchema,
@@ -196,7 +196,6 @@ export const getLessonContextByConfigId = cache(async function ({
     return null;
   }
 });
-
 
 export const getAITestContextByConfigId = cache(async function ({
   configId,

@@ -16,10 +16,10 @@ export default async function ClassLayout({
   const session = await getServerSession(authOptions);
   if (!session) return null;
   const userId = session?.user?.id;
-  const classConfigs = await db.botConfig.getAllConfigsInClass({
-    userId,
-    classId,
-  });
+  // const classConfigs = await db.botConfig.getAllConfigsInClass({
+  //   userId,
+  //   classId,
+  // });
 
   const classesWithConfigs = await db.class.getClassesByUserId({ userId });
 

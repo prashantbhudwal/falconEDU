@@ -8,18 +8,14 @@ import { mp } from "@/lib/mixpanel";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { TaskType } from "@/types/dragon";
-import { ChatCompletionCreateParams } from "openai/resources";
-import {
-  formatLangchainMessagesForOpenAI,
-  getEngineeredMessagesByType,
-  mapMessagesToLangChainBaseMessage,
-} from "./utils";
-import { searchYouTubeVideo } from "./tools/youtube";
+import { getEngineeredMessagesByType } from "./utils";
+
 // export const runtime = "edge";
 export const dynamic = "force-dynamic";
-import { youtubeSearchTool } from "./tools/youtube";
+import { toolName } from "./tools/types";
+import { findToolsByTask } from "./tools";
 
-const functions: ChatCompletionCreateParams.Function[] = [youtubeSearchTool];
+const MESSAGES_IN_CONTEXT_WINDOW = 50;
 
 export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);
@@ -43,46 +39,77 @@ export async function POST(req: NextRequest) {
       context: parsedContext,
     });
 
-    const history = mapMessagesToLangChainBaseMessage(messages);
+    const relevantHistory = messages.slice(-MESSAGES_IN_CONTEXT_WINDOW);
+    const messageArray = [...engineeredMessages, ...relevantHistory];
 
-    // Only keep the last 20 messages
-    const relevantHistory = history.slice(-20);
-
-    const langChainMessageArray = [...engineeredMessages, ...relevantHistory];
-
-    const openAiFormatMessages = formatLangchainMessagesForOpenAI(
-      langChainMessageArray
-    );
+    const { tools, toolsWithCallback } = findToolsByTask(botType);
+    const temperature = getTaskProperties(botType).aiTemperature;
+    const model = "gpt-3.5-turbo-1106";
 
     const completion = await openai.chat.completions.create({
       stream: true,
-      temperature: getTaskProperties(botType).aiTemperature,
-      messages: openAiFormatMessages,
-      model: "gpt-3.5-turbo-1106",
-      functions: botType === "lesson" ? functions : undefined,
+      temperature,
+      messages: messageArray,
+      model,
+      tools,
+      tool_choice: !!tools ? "auto" : undefined,
     });
 
     const newStream = OpenAIStream(completion, {
-      experimental_onFunctionCall: async (
-        { name, arguments: args },
-        createFunctionCallMessages
+      experimental_onToolCall: async (
+        toolCallPayload,
+        appendToolCallMessage
       ) => {
-        if (name === "search_youtube_video") {
-          const video = await searchYouTubeVideo(args.query as string);
-          const newMessages = createFunctionCallMessages(video);
-          return openai.chat.completions.create({
-            messages: [...messages, ...newMessages],
-            stream: true,
-            model: "gpt-3.5-turbo-1106",
-            // functions,
+        console.log("toolCallPayload", toolCallPayload);
+        const tools = toolCallPayload.tools;
+
+        const toolCallPromises = tools.map(async (tool) => {
+          const toolName = tool.func.name as toolName;
+          // TODO - fix this: Even though the types says record<string, unknown>, it's actually a string
+          let args;
+          // @ts-ignore
+          if (typeof tool.func.arguments === "string")
+            args = JSON.parse(tool.func.arguments);
+          else args = tool.func.arguments;
+
+          const myTool = toolsWithCallback?.find(
+            (tool) => tool.name === toolName
+          );
+          const callBack = myTool?.callback;
+          if (!callBack) {
+            throw new Error(`Tool ${toolName} not found`);
+          }
+
+          const toolResult = await callBack(args);
+
+          appendToolCallMessage({
+            tool_call_id: tool.id,
+            function_name: tool.func.name,
+            tool_call_result: toolResult,
           });
-        }
+        });
+        await Promise.all(toolCallPromises);
+        const appendedMessages = appendToolCallMessage();
+        const functionCompletion = await openai.chat.completions.create({
+          messages: [...messages, ...appendedMessages],
+          stream: true,
+          model,
+          temperature,
+          // functions,
+        });
+
+        return functionCompletion;
       },
       async onCompletion(completion) {
         if (isTesting) {
           return;
         }
-        await saveBotChatToDatabase(botChatId, completion, messages);
+        const test = await saveBotChatToDatabase(
+          botChatId,
+          completion,
+          messages
+        );
+
         mp.track(
           `${botType.charAt(0).toUpperCase() + botType.slice(1)} Message`,
           {
@@ -97,7 +124,7 @@ export async function POST(req: NextRequest) {
 
     return new StreamingTextResponse(newStream);
   } catch (e) {
-    console.log(e);
+    console.error(e);
     return new Response("Error", { status: 500 });
   }
 }

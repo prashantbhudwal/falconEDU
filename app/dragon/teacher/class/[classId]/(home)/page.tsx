@@ -4,10 +4,16 @@ import { Paper } from "@/components/ui/paper";
 import TaskList from "./components/task-list";
 import { db } from "../../../routers";
 import Link from "next/link";
-import { BsInfoCircleFill } from "react-icons/bs";
-import AnalyticsWidget from "./components/analytics-widget";
+import AnalyticsWidget from "./components/analytics/analytics-widget";
 import { Suspense } from "react";
-import AnalyticsWidgetFallback from "./components/analytics-widget-fallback";
+import AnalyticsWidgetFallback from "./components/analytics/analytics-widget-fallback";
+import { cn } from "@/lib/utils";
+import { is } from "date-fns/locale";
+import { getStudentsByClassId } from "../../../queries";
+import { CheckCircleIcon } from "@heroicons/react/24/solid";
+import { get } from "http";
+import { getStudentsURL } from "@/lib/urls";
+import { EmptyClassCard } from "./components/empty-class-card";
 
 export default async function Classes({
   params,
@@ -27,30 +33,56 @@ export default async function Classes({
     userId,
     classId,
   });
+  const { students } = await getStudentsByClassId(classId);
+  const noStudents = students && students.length === 0;
   const allConfigs = classConfigs.all;
+  const isEmpty = allConfigs.length === 0;
+  const isArchived = !classDetails.isActive;
 
+  if (isEmpty) {
+    return (
+      <Paper className="h-full flex flex-col items-center justify-between space-y-2">
+        <EmptyClassCard classId={classId} noStudents={!!noStudents} />
+      </Paper>
+    );
+  }
   return (
-    <Paper className="h-full flex flex-col relative items-center w-5/6 overflow-y-auto custom-scrollbar justify-between">
-      {!classDetails.isActive && (
-        <p className="flex items-center text-warning/80 pb-5">
-          <BsInfoCircleFill className="w-3 h-3 mr-2" /> Class is archived
-          <Link
-            className="underline cursor-pointer px-2 hover:text-warning"
-            href={`${classId}/dashboard`}
-          >
-            Activate
-          </Link>
-          it to enable the execution of operations.
-        </p>
-      )}
-      <div className="w-8/12 max-w-6xl flex flex-col space-y-6">
-        <TaskList tasks={allConfigs} classId={classId} userId={userId} />
-      </div>
-      <div className="fixed top-20 right-10">
-        <Suspense fallback={<AnalyticsWidgetFallback />}>
-          <AnalyticsWidget classId={classId} />
-        </Suspense>
+    <Paper className="h-full flex flex-col items-center justify-between space-y-2">
+      {isArchived && <ArchivedClass classId={classId} />}
+      <div
+        className={cn(
+          "w-full flex flex-col items-center md:relative lg:relative",
+          {
+            "brightness-50": isArchived,
+          }
+        )}
+      >
+        <div className="md:fixed lg:fixed top-20 right-5">
+          <Suspense fallback={<AnalyticsWidgetFallback />}>
+            <AnalyticsWidget classId={classId} />
+          </Suspense>
+        </div>
+        <div className="w-8/12 max-w-6xl flex flex-col space-y-6">
+          <TaskList tasks={allConfigs} classId={classId} userId={userId} />
+        </div>
       </div>
     </Paper>
   );
 }
+
+const ArchivedClass = ({ classId }: { classId: string }) => {
+  return (
+    <div className="flex flex-col items-center justify-center h-full space-y-3 w-full pb-5">
+      <h2 className="text-2xl font-semibold">Class is archived</h2>
+      <p className="text-sm text-slate-500">
+        <Link
+          className="underline cursor-pointer hover:text-warning"
+          href={`${classId}/dashboard`}
+        >
+          Activate
+        </Link>{" "}
+        it to start using it again
+      </p>
+    </div>
+  );
+};

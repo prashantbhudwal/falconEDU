@@ -1,5 +1,4 @@
-import { messageTemplates } from "./chat-template";
-import { ChatPromptTemplate } from "langchain/prompts";
+import { getEngineeredMessagesForChat } from "./template";
 import {
   botPreferences as botPreferencesTest,
   teacherPreferences as teacherPreferencesTest,
@@ -85,14 +84,15 @@ export async function getEngineeredChatBotMessages(
   if (!context) {
     console.error("context not found for chatId:");
   }
-  const mergedSchema = botPreferencesSchema.merge(teacherPreferencesSchema);
-  const preferences = getPreferences(context);
-  const { systemTemplate, humanTemplate } = messageTemplates;
 
-  const prompt = ChatPromptTemplate.fromMessages<z.infer<typeof mergedSchema>>([
-    ["system", systemTemplate],
-    ["human", humanTemplate],
-  ]);
-  const engineeredMessages = await prompt.formatMessages(preferences);
-  return { engineeredMessages, prompt };
+  const preferences = getPreferences(context);
+
+  const engineeredMessages = getEngineeredMessagesForChat({
+    teacherName: preferences.teacherName,
+    studentName: preferences.studentName,
+    grade: preferences.grade,
+    instructions: preferences.instructions,
+    name: preferences.name,
+  });
+  return { engineeredMessages };
 }

@@ -2,7 +2,6 @@ import "./globals.css";
 import { Analytics } from "@vercel/analytics/react";
 import Providers from "../components/providers";
 import { Inter } from "next/font/google";
-import Chubbi from "../components/chubbi";
 import TRPCProvider from "./_trpc/provider";
 import { headers } from "next/headers";
 import { Toaster } from "@/components/ui/sonner";
@@ -40,7 +39,6 @@ export default function RootLayout({
         <Providers>
           <main className="flex grow flex-col items-center">
             <TRPCProvider headers={headers()}>{children}</TRPCProvider>
-            <Chubbi />
           </main>
           <Toaster />
         </Providers>

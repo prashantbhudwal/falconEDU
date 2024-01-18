@@ -1,4 +1,3 @@
-import { getFormattedDate } from "../../teacher/utils";
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Avvvatars from "avvvatars-react";

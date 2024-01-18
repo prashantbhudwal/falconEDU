@@ -3,7 +3,7 @@ import prisma from "@/prisma";
 import { cache } from "react";
 import { ChatPromptTemplate } from "langchain/prompts";
 import { UnwrapPromise } from "../../../../student/queries";
-import { systemTemplate } from "./test-template";
+import { getEngineeredMessagesForTest } from "./template";
 import { getQuestionTypeName } from "@/app/dragon/teacher/utils";
 export type TestQuestionsByBotChatId = UnwrapPromise<
   ReturnType<typeof getTestQuestionsByBotChatId>
@@ -90,18 +90,13 @@ export async function getEngineeredTestBotMessages(
     return result;
   });
 
-  console.log("questionsWitRelevantFields", questionsWitRelevantFields);
-
   const markdownQuestions = formatToMarkdown(
     questionsWitRelevantFields as any[]
   );
-  console.log("markdownQuestions", markdownQuestions);
 
   const stringifiedQuestions = JSON.stringify(markdownQuestions ?? "");
 
-  const prompt = ChatPromptTemplate.fromMessages([["system", systemTemplate]]);
-
-  const engineeredMessages = await prompt.formatMessages({
+  const engineeredMessages = getEngineeredMessagesForTest({
     fullTest: stringifiedQuestions,
   });
   return { engineeredMessages, prompt };
