@@ -1,5 +1,8 @@
-import { messageTemplates } from "./ai-test-template";
-import { ChatPromptTemplate } from "langchain/prompts";
+import { getAITestSystemMessage } from "./ai-test-template";
+import {
+  ChatCompletionMessageParam,
+  ChatCompletionSystemMessageParam,
+} from "openai/resources";
 import {
   AITestPreferences as AITestPreferencesTest,
   teacherPreferences as teacherPreferencesTest,
@@ -89,14 +92,25 @@ export async function getEngineeredAITestBotMessages(
   if (!context) {
     console.error("context not found for chatId:");
   }
-  const mergedSchema = AITestPreferenceSchema.merge(teacherPreferencesSchema);
   const preferences = getPreferences(context);
-  const { systemTemplate } = messageTemplates;
+  const systemMessageContent = getAITestSystemMessage({
+    studentName: preferences.studentName,
+    grade: preferences.grade,
+    aboutYourself: preferences.aboutYourself,
+    favoriteCartoons: preferences.favoriteCartoons,
+    favoriteFoods: preferences.favoriteFoods,
+    interests: preferences.interests,
+    topic: preferences.topic,
+    subjects: preferences.subjects,
+    content: preferences.content,
+  });
 
-  const prompt = ChatPromptTemplate.fromMessages<z.infer<typeof mergedSchema>>([
-    ["system", systemTemplate],
-  ]);
-  const engineeredMessages = await prompt.formatMessages(preferences);
-  console.log("engineeredMessages", engineeredMessages);
-  return { engineeredMessages, prompt };
+  const systemMessage: ChatCompletionSystemMessageParam = {
+    role: "system",
+    content: systemMessageContent,
+  };
+
+  const engineeredMessages: ChatCompletionMessageParam[] = [systemMessage];
+
+  return { engineeredMessages };
 }

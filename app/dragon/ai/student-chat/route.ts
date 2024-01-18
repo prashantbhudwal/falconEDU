@@ -8,11 +8,7 @@ import { mp } from "@/lib/mixpanel";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { TaskType } from "@/types/dragon";
-import {
-  formatLangchainMessagesForOpenAI,
-  getEngineeredMessagesByType,
-  mapMessagesToLangChainBaseMessage,
-} from "./utils";
+import { getEngineeredMessagesByType } from "./utils";
 
 // export const runtime = "edge";
 export const dynamic = "force-dynamic";
@@ -43,15 +39,8 @@ export async function POST(req: NextRequest) {
       context: parsedContext,
     });
 
-    const history = mapMessagesToLangChainBaseMessage(messages);
-
-    const relevantHistory = history.slice(-MESSAGES_IN_CONTEXT_WINDOW);
-
-    const langChainMessageArray = [...engineeredMessages, ...relevantHistory];
-
-    const openAiFormatMessages = formatLangchainMessagesForOpenAI(
-      langChainMessageArray
-    );
+    const relevantHistory = messages.slice(-MESSAGES_IN_CONTEXT_WINDOW);
+    const messageArray = [...engineeredMessages, ...relevantHistory];
 
     const { tools, toolsWithCallback } = findToolsByTask(botType);
     const temperature = getTaskProperties(botType).aiTemperature;
@@ -60,7 +49,7 @@ export async function POST(req: NextRequest) {
     const completion = await openai.chat.completions.create({
       stream: true,
       temperature,
-      messages: openAiFormatMessages,
+      messages: messageArray,
       model,
       tools,
       tool_choice: !!tools ? "auto" : undefined,
@@ -71,6 +60,7 @@ export async function POST(req: NextRequest) {
         toolCallPayload,
         appendToolCallMessage
       ) => {
+        console.log("toolCallPayload", toolCallPayload);
         const tools = toolCallPayload.tools;
 
         const toolCallPromises = tools.map(async (tool) => {

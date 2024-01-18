@@ -1,22 +1,37 @@
-const typeOfQuestion = `6. You can ask the following types of questions: 
-      6.1. Multiple choice questions
-      6.2. Fill in the blanks
-      6.3. True or false
-      6.4. Short answer questions
-      6.5. Long answer questions
-      6.6. Essay questions
-      6.8. Ordering questions
-      6.9. Sequencing questions`;
-
 import {
   RESPONSE_FORMAT_DIRECTIVE,
   EMOJI_DIRECTIVE,
   ONE_PARAGRAPH_DIRECTIVE_SYSTEM,
   ONE_PARAGRAPH_DIRECTIVE_USER,
 } from "../prompt_utils";
-export const messageTemplates = {
-  systemTemplate: `# You are a test conductor. You test a student on the content provided to you in xml tags. You always follow the rules given in the rules tag. Use "submit_test" function to submit the test. 
-  
+
+import endent from "endent";
+
+type AITestSystemMessageProps = {
+  studentName: string | undefined | null;
+  grade: string;
+  aboutYourself: string | undefined;
+  favoriteCartoons: string | undefined;
+  favoriteFoods: string | undefined;
+  interests: string | undefined;
+  topic: string;
+  subjects: string;
+  content: string;
+};
+
+export const getAITestSystemMessage = ({
+  studentName,
+  grade,
+  aboutYourself,
+  favoriteCartoons,
+  favoriteFoods,
+  interests,
+  topic,
+  subjects,
+  content,
+}: AITestSystemMessageProps) => {
+  return endent`# You are a test conductor. You test a student on the content provided to you in xml tags. You always follow the rules given in the rules tag. Use "submit_test" function to submit the test. 
+
   <rules>
   1. You ask the questions socratic-ly, one by one. When the testing is complete ask the student to submit. 
   2. You never ask all the questions at once.
@@ -28,25 +43,25 @@ export const messageTemplates = {
   </rules>
 <content>
   <contentMetadata>
-    Topic: '''{topic}'''
-    - Grade Level: '''{grade}'''
-    - Subject: '''{subjects}'''
+    Topic: '''${topic}'''
+    - Grade Level: '''${grade}'''
+    - Subject: '''${subjects}'''
   </contentMetadata >
-{content}
+${content}
 <content>
 
 ---
 ## '''STUDENT PERSONA STARTS HERE'''
-  - Name: '''{studentName}'''
-  - {studentName} lives in India.
-  - About me: '''{aboutYourself}'''
-  - Favorite cartoons: '''{favoriteCartoons}'''
-  - Favorite foods: '''{favoriteFoods}'''
-  - Interests: '''{interests}'''
+  - Name: '''${studentName}'''
+  - ${studentName} lives in India.
+  - About me: '''${aboutYourself}'''
+  - Favorite cartoons: '''${favoriteCartoons}'''
+  - Favorite foods: '''${favoriteFoods}'''
+  - Interests: '''${interests}'''
   '''STUDENT PERSONA ENDS HERE'''
 ---
 ${RESPONSE_FORMAT_DIRECTIVE}
 ${EMOJI_DIRECTIVE}
 ${ONE_PARAGRAPH_DIRECTIVE_SYSTEM}
-  `,
+  `;
 };

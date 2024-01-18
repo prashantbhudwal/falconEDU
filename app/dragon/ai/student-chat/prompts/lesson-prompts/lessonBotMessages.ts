@@ -1,4 +1,4 @@
-import { messageTemplates } from "./lesson-template";
+import { getEngineeredMessagesForLesson } from "./lesson-template";
 import { ChatPromptTemplate } from "langchain/prompts";
 import {
   lessonPreferences as lessonPreferencesTest,
@@ -91,13 +91,27 @@ export async function getEngineeredLessonBotMessages(
   }
   const mergedSchema = lessonPreferencesSchema.merge(teacherPreferencesSchema);
   const preferences = getPreferences(context);
-  const { systemTemplate, humanTemplate } = messageTemplates;
 
-  const prompt = ChatPromptTemplate.fromMessages<z.infer<typeof mergedSchema>>([
-    ["system", systemTemplate],
-    ["human", humanTemplate],
-  ]);
-  const engineeredMessages = await prompt.formatMessages(preferences);
-  console.log("engineeredMessages", engineeredMessages);
+  const engineeredMessages = getEngineeredMessagesForLesson({
+    aboutYourself: preferences.aboutYourself,
+    favoriteCartoons: preferences.favoriteCartoons,
+    favoriteFoods: preferences.favoriteFoods,
+    grade: preferences.grade,
+    humorLevel: preferences.humorLevel,
+    interests: preferences.interests,
+    language: preferences.language,
+    languageProficiency: preferences.languageProficiency,
+    likes: preferences.likes,
+    dislikes: preferences.dislikes,
+    personalInformation: preferences.personalInformation,
+    professionalInformation: preferences.professionalInformation,
+    studentName: preferences.studentName,
+    subjects: preferences.subjects,
+    teacherName: preferences.teacherName,
+    topic: preferences.topic,
+    tone: preferences.tone,
+    content: preferences.content,
+  });
+
   return { engineeredMessages, prompt };
 }
