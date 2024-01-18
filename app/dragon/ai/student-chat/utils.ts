@@ -4,17 +4,17 @@ import type { supportModelType } from "gpt-tokens";
 import { HumanMessage, MessageContent } from "langchain/schema";
 
 import { AIMessage, SystemMessage } from "langchain/schema";
-import { getEngineeredChatBotMessages } from "./prompts/chat-prompts/chatBotMessages";
+import { getEngineeredChatBotMessages } from "./prompts/chat/messages";
 import {
   TestContextByChatId,
   getEngineeredTestBotMessages,
-} from "./prompts/test-prompts/testBotMessages";
-import { getEngineeredAITestBotMessages } from "./prompts/ai-test-prompts/AITestBotMessages";
-import { getEngineeredLessonBotMessages } from "./prompts/lesson-prompts/lessonBotMessages";
-import { LessonContextByChatId } from "./prompts/lesson-prompts/queries";
-import { ChatContextByChatId } from "./prompts/chat-prompts/queries";
+} from "./prompts/test/messages";
+import { getEngineeredAITestBotMessages } from "./prompts/ai-test/messages";
+import { getEngineeredLessonBotMessages } from "./prompts/lesson/messages";
+import { LessonContextByChatId } from "./prompts/lesson/queries";
+import { ChatContextByChatId } from "./prompts/chat/queries";
 import { TaskType } from "@/types";
-import { AITestContextByChatId } from "./prompts/ai-test-prompts/queries";
+import { AITestContextByChatId } from "./prompts/ai-test/queries";
 import zodToJsonSchema from "zod-to-json-schema";
 import {
   CustomJsonSchema,

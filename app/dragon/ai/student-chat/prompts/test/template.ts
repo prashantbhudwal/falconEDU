@@ -1,5 +1,5 @@
 import { ChatCompletionMessageParam } from "openai/resources";
-import { RESPONSE_FORMAT_DIRECTIVE } from "../prompt_utils";
+import { RESPONSE_FORMAT_DIRECTIVE } from "../utils/directives";
 import endent from "endent";
 
 export const getEngineeredMessagesForTest = ({

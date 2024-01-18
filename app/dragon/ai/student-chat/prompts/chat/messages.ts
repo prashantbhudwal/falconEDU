@@ -1,4 +1,4 @@
-import { getEngineeredMessagesForChat } from "./chat-template";
+import { getEngineeredMessagesForChat } from "./template";
 import {
   botPreferences as botPreferencesTest,
   teacherPreferences as teacherPreferencesTest,

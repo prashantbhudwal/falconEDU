@@ -1,4 +1,4 @@
-import { getAITestSystemMessage } from "./ai-test-template";
+import { getAITestSystemMessage } from "./template";
 import {
   ChatCompletionMessageParam,
   ChatCompletionSystemMessageParam,
@@ -9,7 +9,7 @@ import {
   studentPreferences as studentPreferencesTest,
 } from "../../../../test-data";
 import { AITestContextByChatId } from "./queries";
-import { isEmptyObject } from "../chat-prompts/queries";
+import { isEmptyObject } from "../chat/queries";
 import {
   AITestPreferenceSchema,
   teacherPreferencesSchema,

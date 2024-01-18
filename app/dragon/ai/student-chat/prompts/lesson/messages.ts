@@ -1,4 +1,4 @@
-import { getEngineeredMessagesForLesson } from "./lesson-template";
+import { getEngineeredMessagesForLesson } from "./template";
 import { ChatPromptTemplate } from "langchain/prompts";
 import {
   lessonPreferences as lessonPreferencesTest,
@@ -6,7 +6,7 @@ import {
   studentPreferences as studentPreferencesTest,
 } from "../../../../test-data";
 import { LessonContextByChatId } from "./queries";
-import { isEmptyObject } from "../chat-prompts/queries";
+import { isEmptyObject } from "../chat/queries";
 import {
   lessonPreferencesSchema,
   teacherPreferencesSchema,

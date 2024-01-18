@@ -4,13 +4,13 @@ import { cache } from "react";
 import { type UnwrapPromise } from "../../../../student/queries";
 import * as z from "zod";
 import {
-  AITestPreferenceSchema,
+  lessonPreferencesSchema,
   teacherPreferencesSchema,
   StudentPreferenceSchema,
 } from "@/app/dragon/schema";
-import { isEmptyObject } from "../chat-prompts/queries";
+import { isEmptyObject } from "../chat/queries";
 
-export const getAITestContextByChatId = cache(async function (chatId: string) {
+export const getLessonContextByChatId = cache(async function (chatId: string) {
   const context = await prisma.botChat.findUnique({
     where: { id: chatId },
     select: {
@@ -70,15 +70,15 @@ export const getAITestContextByChatId = cache(async function (chatId: string) {
     console.error("context not found for chatId:", chatId);
   }
 
-  let AITestPreferences = context?.bot?.BotConfig?.preferences;
+  let lessonPreferences = context?.bot?.BotConfig?.preferences;
   let teacherPreferences = context?.bot?.BotConfig?.teacher?.preferences;
   let studentPreferences = context?.bot?.student?.preferences;
 
   // Add default values for preferences and then parse them when empty
 
-  const parsedAITestPreferences = isEmptyObject(AITestPreferences)
+  const parsedLessonPreferences = isEmptyObject(lessonPreferences)
     ? { success: true, data: {} }
-    : AITestPreferenceSchema.safeParse(AITestPreferences);
+    : lessonPreferencesSchema.safeParse(lessonPreferences);
   const parsedTeacherPreferences = isEmptyObject(teacherPreferences)
     ? { success: true, data: {} }
     : teacherPreferencesSchema.safeParse(teacherPreferences);
@@ -87,14 +87,14 @@ export const getAITestContextByChatId = cache(async function (chatId: string) {
     : StudentPreferenceSchema.safeParse(studentPreferences);
 
   if (
-    parsedAITestPreferences.success &&
+    parsedLessonPreferences.success &&
     parsedTeacherPreferences.success &&
     parsedStudentPreferences.success
   ) {
     const flatContext = {
       teacherName: context?.bot?.BotConfig?.teacher?.User?.name,
       studentName: context?.bot.student.User.name,
-      lessonPreferences: parsedAITestPreferences.data,
+      lessonPreferences: parsedLessonPreferences.data,
       teacherPreferences: parsedTeacherPreferences.data,
       studentPreferences: parsedStudentPreferences.data,
       grade,
@@ -105,6 +105,6 @@ export const getAITestContextByChatId = cache(async function (chatId: string) {
     return null;
   }
 });
-export type AITestContextByChatId = UnwrapPromise<
-  ReturnType<typeof getAITestContextByChatId>
+export type LessonContextByChatId = UnwrapPromise<
+  ReturnType<typeof getLessonContextByChatId>
 >;

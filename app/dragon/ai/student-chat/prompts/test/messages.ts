@@ -3,7 +3,7 @@ import prisma from "@/prisma";
 import { cache } from "react";
 import { ChatPromptTemplate } from "langchain/prompts";
 import { UnwrapPromise } from "../../../../student/queries";
-import { getEngineeredMessagesForTest } from "./test-template";
+import { getEngineeredMessagesForTest } from "./template";
 import { getQuestionTypeName } from "@/app/dragon/teacher/utils";
 export type TestQuestionsByBotChatId = UnwrapPromise<
   ReturnType<typeof getTestQuestionsByBotChatId>
