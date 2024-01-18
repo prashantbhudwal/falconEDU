@@ -40,6 +40,9 @@ type AddStudentFormProps = {
   nameOfClass: string;
 };
 
+const getInviteLink = (inviteId: string | undefined) =>
+  `https://app.falconai.in/dragon/auth/student?inviteId=${inviteId}`;
+
 export default function AddStudentForm({
   classId,
   nameOfClass,
@@ -99,7 +102,7 @@ export default function AddStudentForm({
         teacherEmail: user.email,
         nameOfClass,
         teacherImage: user.image,
-        inviteLink: `https://chubbi.falconai.in/dragon/auth/student?inviteId=${addedInvitation?.id}`,
+        inviteLink: getInviteLink(addedInvitation?.id),
       };
       const emailResponse = await axios.post(
         "/api/email",
@@ -137,7 +140,7 @@ export default function AddStudentForm({
         teacherEmail: user.email,
         nameOfClass,
         teacherImage: user.image,
-        inviteLink: `https://chubbi.falconai.in/dragon/auth/student?inviteId=${updatedInvitation?.id}`,
+        inviteLink: getInviteLink(updatedInvitation?.id),
       };
       const emailResponse = await axios.post(
         "/api/email",
