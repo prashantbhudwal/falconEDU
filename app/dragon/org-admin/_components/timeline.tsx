@@ -2,7 +2,11 @@
 import React, { useMemo, useState } from "react";
 import { Chrono } from "react-chrono";
 import { TeacherTask } from "../queries";
-import { formatDateWithTimeZone, tailwindColorToHex } from "@/lib/utils";
+import {
+  formatDateWithTimeZone,
+  formatName,
+  tailwindColorToHex,
+} from "@/lib/utils";
 import { getTaskIcon, getTaskProperties } from "../../teacher/utils";
 import { Flex, Select, SelectItem, Title } from "@tremor/react";
 import { v4 as uuid } from "uuid";
@@ -21,7 +25,7 @@ const Timeline = ({ teacher }: { teacher: TeacherTask }) => {
         createdAt: task.createdAt,
         dateFormat: "dd MMM",
       }),
-      cardTitle: task.name,
+      cardTitle: formatName({ name: task.name }),
       cardSubtitle: getTaskProperties(task.type as TaskType).formattedType,
       id: task.id,
     }));
