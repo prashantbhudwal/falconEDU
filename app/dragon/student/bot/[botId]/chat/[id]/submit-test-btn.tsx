@@ -16,6 +16,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { checkTest } from "@/app/dragon/ai/test-checker";
+import { submitTestModalAtom } from "@/lib/atoms/ui";
+import { useAtom } from "jotai";
 
 type PropTypes = React.HTMLAttributes<HTMLDivElement> & {
   testBotId: string;
@@ -29,6 +31,7 @@ const SubmitTestButton = React.forwardRef<HTMLButtonElement, PropTypes>(
     const [showDialog, setShowDialog] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
     const router = useRouter();
+    const [showSubmitModal, setShowSubmitModal] = useAtom(submitTestModalAtom);
 
     const saveTestHandler = async () => {
       try {
@@ -70,7 +73,7 @@ const SubmitTestButton = React.forwardRef<HTMLButtonElement, PropTypes>(
     };
 
     return (
-      <Dialog>
+      <Dialog open={showSubmitModal} onOpenChange={setShowSubmitModal}>
         <DialogTrigger>
           <Button className={className} size={"sm"}>
             Submit

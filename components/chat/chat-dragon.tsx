@@ -9,6 +9,7 @@ import { MdOutlineKeyboardDoubleArrowDown } from "react-icons/md";
 import { Button } from "../ui/button";
 import { useInView } from "react-intersection-observer";
 import { chatIsLoadingAtom } from "@/lib/atoms/student";
+import { useSubmitTest } from "@/hooks/ai/use-submit-test";
 import { useAtom } from "jotai";
 
 export interface ChatProps extends React.ComponentProps<"div"> {
@@ -35,7 +36,7 @@ export function Chat({
   isSubmitted = false,
   type,
 }: ChatProps) {
-  const { messages, append, reload, stop, isLoading, input, setInput } =
+  const { messages, append, reload, stop, isLoading, input, setInput, data } =
     useChat({
       api: apiPath,
       initialMessages,
@@ -47,6 +48,8 @@ export function Chat({
         }
       },
     });
+
+  useSubmitTest({ data, isLoading });
 
   const [, setIsLoadingAtom] = useAtom(chatIsLoadingAtom);
   useEffect(() => {

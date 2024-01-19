@@ -1,7 +1,7 @@
 import { TaskType } from "@/types";
 import { ToolWithCallback, toolName } from "./types";
-import { youtubeSearch } from "./youtube-search-tool";
-import { submitTest } from "./test-submission-tool";
+import { youtubeSearch } from "./toolkit/youtube-search-tool";
+import { submitTest } from "./toolkit/test-submission-tool";
 
 // All tools that are available for each task type
 const taskToolMap: Record<TaskType, ToolWithCallback[]> = {

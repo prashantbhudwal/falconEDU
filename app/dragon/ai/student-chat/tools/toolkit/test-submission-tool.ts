@@ -1,10 +1,15 @@
 import * as z from "zod";
-import { createToolWithCallback } from "../utils";
+import { createToolWithCallback } from "../tool-creator";
+import { UnwrapPromise } from "next/dist/lib/coalesced-function";
 
 export async function submitTestCallback(submit: boolean) {
   console.log("Test submitted", submit);
-  return "Test submitted";
+  return { submitTest: submit };
 }
+
+export type SubmitTestResult = UnwrapPromise<
+  ReturnType<typeof submitTestCallback>
+>;
 
 const schema = z.object({
   submit: z.boolean().describe("Whether to submit the test now"),

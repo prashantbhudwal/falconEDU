@@ -2,18 +2,28 @@ import { NextRequest } from "next/server";
 import { getTaskProperties } from "../../teacher/utils";
 import OpenAI from "openai";
 const openai = new OpenAI();
-import { OpenAIStream, StreamingTextResponse } from "ai";
+import {
+  OpenAIStream,
+  StreamingTextResponse,
+  experimental_StreamData,
+} from "ai";
 import { saveBotChatToDatabase } from "./mutations";
 import { mp } from "@/lib/mixpanel";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { TaskType } from "@/types/dragon";
-import { getEngineeredMessagesByType } from "./utils";
+export type ToolData = {
+  type: "tool_call";
+  tool_call_id: string;
+  function_name: toolName;
+  tool_call_result: any;
+};
 
 // export const runtime = "edge";
 export const dynamic = "force-dynamic";
 import { toolName } from "./tools/types";
 import { findToolsByTask } from "./tools";
+import { getEngineeredMessagesByType } from "./prompts";
 
 const MESSAGES_IN_CONTEXT_WINDOW = 50;
 
@@ -54,13 +64,13 @@ export async function POST(req: NextRequest) {
       tools,
       tool_choice: !!tools ? "auto" : undefined,
     });
+    const data = new experimental_StreamData();
 
     const newStream = OpenAIStream(completion, {
       experimental_onToolCall: async (
         toolCallPayload,
         appendToolCallMessage
       ) => {
-        console.log("toolCallPayload", toolCallPayload);
         const tools = toolCallPayload.tools;
 
         const toolCallPromises = tools.map(async (tool) => {
@@ -87,6 +97,13 @@ export async function POST(req: NextRequest) {
             function_name: tool.func.name,
             tool_call_result: toolResult,
           });
+          const toolData: ToolData = {
+            type: "tool_call",
+            tool_call_id: tool.id,
+            function_name: toolName,
+            tool_call_result: toolResult,
+          };
+          data.append(toolData);
         });
         await Promise.all(toolCallPromises);
         const appendedMessages = appendToolCallMessage();
@@ -120,9 +137,15 @@ export async function POST(req: NextRequest) {
           }
         );
       },
+      onFinal(completion) {
+        // IMPORTANT! you must close StreamData manually or the response will never finish.
+        data.close();
+      },
+      // IMPORTANT! until this is stable, you must explicitly opt in to supporting streamData.
+      experimental_streamData: true,
     });
 
-    return new StreamingTextResponse(newStream);
+    return new StreamingTextResponse(newStream, {}, data);
   } catch (e) {
     console.error(e);
     return new Response("Error", { status: 500 });
