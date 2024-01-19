@@ -21,16 +21,23 @@ import { FaCheck } from "react-icons/fa6";
  * Renders a combox component.
  * Always use this inside the FormProvider from react-hook-form
  */
-const ComboBox = ({ subjects, ...field }: { subjects: string[] }) => {
+const ComboBox = ({
+  items,
+  placeholder,
+  ...field
+}: {
+  items: string[];
+  placeholder: string;
+}) => {
   const [popoverOpen, setPopoverOpen] = useState(false);
   const { getValues, setValue } = useFormContext();
 
   const { value } = field as { value: string; label: string };
 
-  const formatedSubjects = subjects.map((subject) => {
+  const formatedItems = items.map((item) => {
     return {
-      label: subject,
-      value: subject.toLowerCase(),
+      label: item,
+      value: item.toLowerCase(),
     };
   });
 
@@ -44,22 +51,21 @@ const ComboBox = ({ subjects, ...field }: { subjects: string[] }) => {
           className="min-w-fit max-w-fit justify-between"
         >
           {value && value.length > 0
-            ? formatedSubjects.find((subject) => subject.value === value[0])
-                ?.label
-            : "Select Subject..."}
+            ? formatedItems.find((item) => item.value === value[0])?.label
+            : placeholder}
           <LuChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="max-w-fit min-w-fit p-0 h-[400px]">
         <Command>
-          <CommandInput placeholder="Search subjects..." />
-          <CommandEmpty>No framework found.</CommandEmpty>
+          <CommandInput placeholder={placeholder} />
+          <CommandEmpty>No item found.</CommandEmpty>
           <CommandGroup className="h-full overflow-y-scroll custom-scrollbar">
-            {formatedSubjects.map((subject) => {
+            {formatedItems.map((item) => {
               return (
                 <CommandItem
-                  key={subject.value}
-                  value={subject.value}
+                  key={item.value}
+                  value={item.value}
                   onSelect={(currentValue) => {
                     setValue(
                       "subjects",
@@ -71,10 +77,10 @@ const ComboBox = ({ subjects, ...field }: { subjects: string[] }) => {
                   <FaCheck
                     className={cn(
                       "mr-2 h-4 w-4",
-                      value[0] === subject.value ? "opacity-100" : "opacity-0"
+                      value[0] === item.value ? "opacity-100" : "opacity-0"
                     )}
                   />
-                  {subject.label}
+                  {item.label}
                 </CommandItem>
               );
             })}

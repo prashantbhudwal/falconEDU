@@ -258,7 +258,8 @@ export default function LessonForm({
                       <div className="flex flex-row gap-y-5 flex-wrap gap-x-6 ">
                         <ComboBox
                           {...field}
-                          subjects={updateSubjectsHandler()}
+                          items={updateSubjectsHandler()}
+                          placeholder="Search subject ..."
                         />
                       </div>
                       <FormMessage />
