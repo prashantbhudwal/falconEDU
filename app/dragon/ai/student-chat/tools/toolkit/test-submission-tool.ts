@@ -1,5 +1,5 @@
 import * as z from "zod";
-import { createToolWithCallback } from "../utils";
+import { createToolWithCallback } from "../tool-creator";
 
 export async function submitTestCallback(submit: boolean) {
   console.log("Test submitted", submit);

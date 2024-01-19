@@ -1,6 +1,7 @@
 import axios from "axios";
 import * as z from "zod";
-import { createToolWithCallback } from "../utils";
+import { createToolWithCallback } from "../tool-creator";
+
 const KHAN_ACADEMY_CHANNEL_ID = "UC4a-Gbdw7vOaccHmFo40b9g";
 const MAX_RESULTS = 3;
 const YOUTUBE_ENDPOINT = "https://www.googleapis.com/youtube/v3/search";

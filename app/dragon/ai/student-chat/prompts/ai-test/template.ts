@@ -3,7 +3,7 @@ import {
   EMOJI_DIRECTIVE,
   ONE_PARAGRAPH_DIRECTIVE_SYSTEM,
   ONE_PARAGRAPH_DIRECTIVE_USER,
-} from "../utils/directives";
+} from "../common/directives";
 
 import endent from "endent";
 

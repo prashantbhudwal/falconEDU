@@ -8,12 +8,12 @@ import { mp } from "@/lib/mixpanel";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { TaskType } from "@/types/dragon";
-import { getEngineeredMessagesByType } from "./utils";
 
 // export const runtime = "edge";
 export const dynamic = "force-dynamic";
 import { toolName } from "./tools/types";
 import { findToolsByTask } from "./tools";
+import { getEngineeredMessagesByType } from "./prompts";
 
 const MESSAGES_IN_CONTEXT_WINDOW = 50;
 
