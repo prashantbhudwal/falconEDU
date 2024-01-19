@@ -12,7 +12,7 @@ export const grades = [
   "Grade 9",
   "Grade 10",
 ] as const;
-export const humorLevel = ["High", "Moderate", "Low"] as const;
+export const humorLevel = ["Low", "Moderate", "High"] as const;
 export const board = ["CBSE", "ICSE", "CIE", "IB", "IGCSE"] as const;
 export const language = ["English", "Hindi", "Hinglish"] as const;
 export const languageProficiency = [

@@ -52,6 +52,9 @@ import subjectsArray from "../../../../../../../data/subjects.json";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 import { Input } from "@/components/ui/input";
 import { getFormattedGrade } from "@/app/dragon/teacher/utils";
+import { Slider } from "@/components/ui/slider";
+import { getHumourLevelfromNumber } from "@/lib/utils";
+import { BsStars } from "react-icons/bs";
 
 const MAX_CHARS = LIMITS_botPreferencesSchema.instructions.maxLength;
 
@@ -269,31 +272,20 @@ export default function BotPreferencesForm({
                     <LightBulbIcon className="h-4 w-4" />
                   </FormLabel>
                   <FormControl>
-                    <RadioGroup
-                      onValueChange={() => {
-                        field.onChange;
+                    <Slider
+                      defaultValue={[50]}
+                      className="w-64 cursor-pointer"
+                      max={100}
+                      step={1}
+                      onValueChange={(value) => {
+                        const humourLevel = getHumourLevelfromNumber(value[0]);
+                        form.setValue("humorLevel", humourLevel);
                       }}
-                      defaultValue={field.value}
-                      className="flex flex-row space-y-1 space-x-6"
-                    >
-                      {humorLevel.map((humorLevel) => (
-                        <FormItem
-                          className="flex flex-row items-center space-x-3 space-y-0"
-                          key={humorLevel}
-                        >
-                          <FormControl>
-                            <RadioGroupItem
-                              value={humorLevel}
-                              className=" active:scale-90 transition-all duration-200 hover:scale-[1.2]"
-                            />
-                          </FormControl>
-                          <FormLabel className="font-normal">
-                            {humorLevel}
-                          </FormLabel>
-                        </FormItem>
-                      ))}
-                    </RadioGroup>
+                    />
                   </FormControl>
+                  <div className="flex items-center gap-2">
+                    <BsStars /> {field.value}
+                  </div>
                   <FormMessage />
                 </FormItem>
               )}

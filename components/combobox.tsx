@@ -32,8 +32,7 @@ const ComboBox = ({
   const [popoverOpen, setPopoverOpen] = useState(false);
   const { getValues, setValue } = useFormContext();
 
-  const { value } = field as { value: string; label: string };
-
+  const { value, name } = field as { value: string; name: string };
   const formatedItems = items.map((item) => {
     return {
       label: item,
@@ -50,7 +49,7 @@ const ComboBox = ({
           aria-expanded={popoverOpen}
           className="min-w-fit max-w-fit justify-between"
         >
-          {value && value.length > 0
+          {Array.isArray(value) && value.length > 0
             ? formatedItems.find((item) => item.value === value[0])?.label
             : placeholder}
           <LuChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -68,7 +67,7 @@ const ComboBox = ({
                   value={item.value}
                   onSelect={(currentValue) => {
                     setValue(
-                      "subjects",
+                      name,
                       currentValue === value[0] ? [] : [currentValue]
                     );
                     setPopoverOpen(false);

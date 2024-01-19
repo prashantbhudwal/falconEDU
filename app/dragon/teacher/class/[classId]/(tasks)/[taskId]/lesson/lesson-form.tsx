@@ -40,6 +40,9 @@ import { Input } from "@/components/ui/input";
 import TextAreaWithUpload from "../../_components/textAreaWithUpload";
 import { getFormattedGrade } from "@/app/dragon/teacher/utils";
 import ComboBox from "@/components/combobox";
+import { Slider } from "@/components/ui/slider";
+import { BsStars } from "react-icons/bs";
+import { getHumourLevelfromNumber } from "@/lib/utils";
 
 const MAX_CHARS = LIMITS_lessonPreferencesSchema.content.maxLength;
 
@@ -240,34 +243,70 @@ export default function LessonForm({
               )}
             />
 
-            {/* ------------------------Subjects List ------------------------- */}
+            <div className="flex items-center gap-10">
+              {/* ------------------------Subjects List ------------------------- */}
 
-            <FormField
-              control={form.control}
-              name="subjects"
-              render={({ field }) => {
-                return (
-                  <FormProvider {...form}>
-                    <FormItem>
-                      <div className="mb-5 flex flex-col gap-2">
-                        <FormLabel className="flex gap-2 items-center font-bold">
-                          Subjects
-                          <FiBookOpen />
-                        </FormLabel>
-                      </div>
-                      <div className="flex flex-row gap-y-5 flex-wrap gap-x-6 ">
-                        <ComboBox
-                          {...field}
-                          items={updateSubjectsHandler()}
-                          placeholder="Search subject ..."
+              <FormField
+                control={form.control}
+                name="subjects"
+                render={({ field }) => {
+                  return (
+                    <FormProvider {...form}>
+                      <FormItem>
+                        <div className="mb-5 flex flex-col gap-2">
+                          <FormLabel className="flex gap-2 items-center font-bold">
+                            Subjects
+                            <FiBookOpen />
+                          </FormLabel>
+                        </div>
+                        <div className="flex flex-row gap-y-5 flex-wrap gap-x-6 ">
+                          <ComboBox
+                            {...field}
+                            items={updateSubjectsHandler()}
+                            placeholder="Search subject..."
+                          />
+                        </div>
+                        <FormMessage />
+                      </FormItem>
+                    </FormProvider>
+                  );
+                }}
+              />
+
+              {/* ------------------------Language ------------------------- */}
+              <FormField
+                control={form.control}
+                name="humorLevel"
+                render={({ field }) => {
+                  return (
+                    <FormItem className="space-y-3">
+                      <FormLabel className="mb-5 flex gap-2 items-center font-bold">
+                        Humor Level
+                        <LightBulbIcon className="h-4 w-4" />
+                      </FormLabel>
+                      <FormControl>
+                        <Slider
+                          defaultValue={[50]}
+                          className="w-64 cursor-pointer"
+                          max={100}
+                          step={1}
+                          onValueChange={(value) => {
+                            const humourLevel = getHumourLevelfromNumber(
+                              value[0]
+                            );
+                            form.setValue("humorLevel", humourLevel);
+                          }}
                         />
+                      </FormControl>
+                      <div className="flex items-center gap-2">
+                        <BsStars /> {field.value}
                       </div>
                       <FormMessage />
                     </FormItem>
-                  </FormProvider>
-                );
-              }}
-            />
+                  );
+                }}
+              />
+            </div>
 
             {/* ------------------------Tone ------------------------- */}
             {/* <FormField
@@ -307,46 +346,7 @@ export default function LessonForm({
                 </FormItem>
               )}
             /> */}
-            {/* ------------------------Language ------------------------- */}
-            <FormField
-              control={form.control}
-              name="humorLevel"
-              render={({ field }) => (
-                <FormItem className="space-y-3">
-                  <FormLabel className="mb-5 flex gap-2 items-center font-bold">
-                    Humor Level
-                    <LightBulbIcon className="h-4 w-4" />
-                  </FormLabel>
-                  <FormControl>
-                    <RadioGroup
-                      onValueChange={() => {
-                        field.onChange;
-                      }}
-                      defaultValue={field.value}
-                      className="flex flex-row space-y-1 space-x-6"
-                    >
-                      {humorLevel.map((humorLevel) => (
-                        <FormItem
-                          className="flex flex-row items-center space-x-3 space-y-0"
-                          key={humorLevel}
-                        >
-                          <FormControl>
-                            <RadioGroupItem
-                              value={humorLevel}
-                              className=" active:scale-90 transition-all duration-200 hover:scale-[1.2]"
-                            />
-                          </FormControl>
-                          <FormLabel className="font-normal">
-                            {humorLevel}
-                          </FormLabel>
-                        </FormItem>
-                      ))}
-                    </RadioGroup>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+
             {/* ------------------------Language ------------------------- */}
             {/* <FormField
               control={form.control}
