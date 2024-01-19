@@ -49,9 +49,13 @@ const ComboBox = ({
           aria-expanded={popoverOpen}
           className="min-w-fit max-w-fit justify-between"
         >
-          {Array.isArray(value) && value.length > 0
-            ? formatedItems.find((item) => item.value === value[0])?.label
-            : placeholder}
+          {Array.isArray(value)
+            ? value.length > 0
+              ? formatedItems.find((item) => item.value === value[0])?.label
+              : placeholder
+            : value
+              ? formatedItems.find((item) => item.value === value)?.label
+              : placeholder}
           <LuChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
@@ -66,17 +70,27 @@ const ComboBox = ({
                   key={item.value}
                   value={item.value}
                   onSelect={(currentValue) => {
-                    setValue(
-                      name,
-                      currentValue === value[0] ? [] : [currentValue]
-                    );
+                    const selectedValue = Array.isArray(value)
+                      ? currentValue === value[0]
+                        ? []
+                        : [currentValue]
+                      : currentValue === value
+                        ? ""
+                        : currentValue;
+                    setValue(name, selectedValue);
                     setPopoverOpen(false);
                   }}
                 >
                   <FaCheck
                     className={cn(
                       "mr-2 h-4 w-4",
-                      value[0] === item.value ? "opacity-100" : "opacity-0"
+                      (Array.isArray(value)
+                        ? value.length > 0
+                          ? value[0]
+                          : ""
+                        : value) === item.value
+                        ? "opacity-100"
+                        : "opacity-0"
                     )}
                   />
                   {item.label}
