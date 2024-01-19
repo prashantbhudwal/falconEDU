@@ -222,7 +222,7 @@ export default function BotPreferencesForm({
               )}
             />
 
-            <FormField
+            {/* <FormField
               control={form.control}
               name="tone"
               render={({ field }) => (
@@ -258,7 +258,7 @@ export default function BotPreferencesForm({
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
             <FormField
               control={form.control}
               name="humorLevel"
@@ -298,7 +298,7 @@ export default function BotPreferencesForm({
                 </FormItem>
               )}
             />
-            <FormField
+            {/* <FormField
               control={form.control}
               name="languageProficiency"
               render={({ field }) => (
@@ -336,7 +336,7 @@ export default function BotPreferencesForm({
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
           </Paper>
         </form>
       </Form>

@@ -21,14 +21,9 @@ import {
   lessonNameSchema,
 } from "../../../../../../schema";
 import { Button } from "@/components/ui/button";
-import { TextareaWithCounter as Textarea } from "@/components/ui/textarea-counter";
 import { FiInfo } from "react-icons/fi";
 import { FiBookOpen } from "react-icons/fi";
-import { ClipboardIcon } from "@heroicons/react/24/solid";
-import { AcademicCapIcon } from "@heroicons/react/24/solid";
-import { LanguageIcon } from "@heroicons/react/24/solid";
 import { LightBulbIcon } from "@heroicons/react/24/solid";
-import { SpeakerWaveIcon } from "@heroicons/react/24/solid";
 import { Paper } from "@/components/ui/paper";
 import {
   grades,
@@ -44,6 +39,7 @@ import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 import { Input } from "@/components/ui/input";
 import TextAreaWithUpload from "../../_components/textAreaWithUpload";
 import { getFormattedGrade } from "@/app/dragon/teacher/utils";
+import ComboBox from "@/components/combobox";
 
 const MAX_CHARS = LIMITS_lessonPreferencesSchema.content.maxLength;
 
@@ -104,16 +100,16 @@ export default function LessonForm({
     }
   };
 
- const updateSubjectsHandler = () => {
-   const gradeNumber = getFormattedGrade({
-     grade,
-     options: { numberOnly: true },
-   });
-   const gradeObject = subjectsArray.filter(
-     (subject) => subject.grade === gradeNumber
-   )[0];
-   return gradeObject.subjects;
- };
+  const updateSubjectsHandler = () => {
+    const gradeNumber = getFormattedGrade({
+      grade,
+      options: { numberOnly: true },
+    });
+    const gradeObject = subjectsArray.filter(
+      (subject) => subject.grade === gradeNumber
+    )[0];
+    return gradeObject.subjects;
+  };
 
   const updateBotNameHandler = async () => {
     const isValidName = lessonNameSchema.safeParse({ name: lessonName });
@@ -243,61 +239,37 @@ export default function LessonForm({
                 </FormItem>
               )}
             />
-        
 
             {/* ------------------------Subjects List ------------------------- */}
 
             <FormField
               control={form.control}
               name="subjects"
-              render={() => (
-                <FormItem>
-                  <div className="mb-5 flex flex-col gap-2">
-                    <FormLabel className="flex gap-2 items-center font-bold">
-                      Subjects
-                      <FiBookOpen />
-                    </FormLabel>
-                  </div>
-                  <div className="flex flex-row gap-y-5 flex-wrap gap-x-6 ">
-                    {updateSubjectsHandler().map((subject) => (
-                      <FormField
-                        key={subject}
-                        control={form.control}
-                        name="subjects"
-                        render={({ field }) => {
-                          return (
-                            <FormItem key={subject}>
-                              <FormControl>
-                                <Chip
-                                  checked={field.value?.includes(subject)}
-                                  onCheckedChange={(checked) => {
-                                    return checked
-                                      ? field.onChange([
-                                          ...field.value,
-                                          subject,
-                                        ])
-                                      : field.onChange(
-                                          field.value?.filter(
-                                            (value) => value !== subject
-                                          )
-                                        );
-                                  }}
-                                  toggleName={subject}
-                                />
-                              </FormControl>
-                            </FormItem>
-                          );
-                        }}
-                      />
-                    ))}
-                  </div>
-                  <FormMessage />
-                </FormItem>
-              )}
+              render={({ field }) => {
+                return (
+                  <FormProvider {...form}>
+                    <FormItem>
+                      <div className="mb-5 flex flex-col gap-2">
+                        <FormLabel className="flex gap-2 items-center font-bold">
+                          Subjects
+                          <FiBookOpen />
+                        </FormLabel>
+                      </div>
+                      <div className="flex flex-row gap-y-5 flex-wrap gap-x-6 ">
+                        <ComboBox
+                          {...field}
+                          subjects={updateSubjectsHandler()}
+                        />
+                      </div>
+                      <FormMessage />
+                    </FormItem>
+                  </FormProvider>
+                );
+              }}
             />
-            
+
             {/* ------------------------Tone ------------------------- */}
-            <FormField
+            {/* <FormField
               control={form.control}
               name="tone"
               render={({ field }) => (
@@ -333,7 +305,7 @@ export default function LessonForm({
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
             {/* ------------------------Language ------------------------- */}
             <FormField
               control={form.control}
@@ -375,7 +347,7 @@ export default function LessonForm({
               )}
             />
             {/* ------------------------Language ------------------------- */}
-            <FormField
+            {/* <FormField
               control={form.control}
               name="languageProficiency"
               render={({ field }) => (
@@ -413,7 +385,7 @@ export default function LessonForm({
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
           </Paper>
         </form>
       </Form>
