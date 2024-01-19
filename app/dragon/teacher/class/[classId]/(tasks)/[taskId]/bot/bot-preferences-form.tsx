@@ -55,6 +55,7 @@ import { getFormattedGrade } from "@/app/dragon/teacher/utils";
 import { Slider } from "@/components/ui/slider";
 import { getHumourLevelfromNumber } from "@/lib/utils";
 import { BsStars } from "react-icons/bs";
+import TextAreaWithUpload from "../../_components/textAreaWithUpload";
 
 const MAX_CHARS = LIMITS_botPreferencesSchema.instructions.maxLength;
 
@@ -161,7 +162,7 @@ export default function BotPreferencesForm({
             variant="gray"
             className="w-full max-w-5xl bg-base-200 min-h-screen"
           >
-            <div className="flex justify-between flex-wrap p-5">
+            <div className="flex justify-between flex-wrap px-5">
               <div className="w-[50%]">
                 <Input
                   type="text"
@@ -192,7 +193,7 @@ export default function BotPreferencesForm({
                 )}
               </div>
             </div>
-            <Separator className="my-6" />
+            <Separator />
             <FormField
               control={form.control}
               name="instructions"
@@ -209,15 +210,15 @@ export default function BotPreferencesForm({
                     </div>
                   </FormLabel>
                   <FormControl>
-                    <Textarea
-                      placeholder="Be polite with the students. Never use negative language."
-                      className="resize-none text-sm"
-                      {...field}
-                      onFocus={() => setInputFocus("instructions")}
-                      onBlur={() => setInputFocus("")}
-                      hasCounter
-                      maxChars={MAX_CHARS}
-                    />
+                    <div className="border border-input">
+                      <TextAreaWithUpload
+                        placeholder="Be polite with the students. Never use negative language."
+                        className="bg-base-200"
+                        {...field}
+                        counter
+                        maxChars={MAX_CHARS}
+                      />
+                    </div>
                   </FormControl>
                   <FormDescription>
                     How do you want the bot to behave?

@@ -241,7 +241,7 @@ export default function TestPreferencesForm({
                   <FormItem className="pb-10">
                     <FormProvider {...form}>
                       <FormControl>
-                        <div className="relative w-full rounded-md border border-input bg-transparent px-3 py-2 shadow-sm min-h-[200px] sm:min-h-[150px] text-sm">
+                        <div className="relative w-full rounded-md border border-input bg-transparent py-2 shadow-sm min-h-[200px] sm:min-h-[150px] text-sm">
                           <TextAreaWithUpload
                             counter
                             maxChars={MAX_CHARS}
@@ -249,6 +249,7 @@ export default function TestPreferencesForm({
                             placeholder="Enter or paste the full test here. Please provide the answers too. The bot will conduct the test for you."
                             hasDocUploader
                             setIsDirty={setIsDirty}
+                            className="bg-base-300"
                             {...field}
                           />
                         </div>

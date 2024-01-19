@@ -150,7 +150,7 @@ export default function LessonForm({
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
           <Paper variant="gray" className="w-full max-w-5xl bg-base-200">
-            <div className="flex justify-between flex-wrap p-5">
+            <div className="flex justify-between flex-wrap px-5">
               <div className="w-[50%]">
                 <Input
                   type="text"
@@ -181,7 +181,7 @@ export default function LessonForm({
                 )}
               </div>
             </div>
-            <Separator className="my-6" />
+            <Separator />
             {/* ------------------------Topic ------------------------- */}
             <FormField
               control={form.control}
@@ -229,17 +229,19 @@ export default function LessonForm({
                     </div>
                   </FormLabel>
                   <FormProvider {...form}>
-                    <FormControl className="rounded-md border border-input">
-                      <TextAreaWithUpload
-                        placeholder="Add any additional reference material"
-                        counter
-                        maxChars={MAX_CHARS}
-                        required
-                        hasDocUploader
-                        setIsDirty={setIsDirty}
-                        className="bg-base-200 border-none"
-                        {...field}
-                      />
+                    <FormControl className="rounded-md">
+                      <div className="border border-input">
+                        <TextAreaWithUpload
+                          placeholder="Add any additional reference material"
+                          counter
+                          maxChars={MAX_CHARS}
+                          required
+                          hasDocUploader
+                          setIsDirty={setIsDirty}
+                          className="bg-base-200"
+                          {...field}
+                        />
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormProvider>

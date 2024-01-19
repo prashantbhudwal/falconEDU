@@ -118,7 +118,7 @@ export const AddQuestionsDialog = ({
               <FormItem className="pb-10">
                 <FormProvider {...form}>
                   <FormControl>
-                    <div className="relative w-full mt-5 rounded-md border border-input bg-transparent px-3 py-2 shadow-sm min-h-[200px] sm:min-h-[150px] text-sm">
+                    <div className="relative w-full mt-5 rounded-md border border-input bg-transparent py-2 shadow-sm min-h-[200px] sm:min-h-[150px] text-sm">
                       <TextAreaWithUpload
                         counter
                         maxChars={MAX_CHARS}
