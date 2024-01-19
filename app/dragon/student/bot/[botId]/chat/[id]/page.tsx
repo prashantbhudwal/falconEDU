@@ -71,7 +71,8 @@ export default async function ChatPage({ params }: ChatPageProps) {
         ? "rounded-xl w-fit bg-base-200 border hover:bg-base-200 px-5 tracking-wider border-slate-500 text-slate-500"
         : "";
 
-    return bot?.BotConfig.type === "test" && !chat?.isSubmitted ? (
+    return bot?.BotConfig.type === "test" ||
+      (bot?.BotConfig.type === "ai-test" && !chat?.isSubmitted) ? (
       <SubmitTestButton
         testBotId={botId}
         className={styles}
