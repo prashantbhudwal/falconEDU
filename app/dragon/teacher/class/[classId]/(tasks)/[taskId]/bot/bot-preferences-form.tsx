@@ -168,23 +168,25 @@ export default function BotPreferencesForm({
                   value={botName}
                   onChange={onBotNameChange}
                   onBlur={updateBotNameHandler}
-                  className="outline-none border-none md:text-3xl pl-0 font-bold tracking-wide focus-visible:ring-0 "
+                  className="outline-none border-none md:text-xl pl-0 font-bold tracking-wide focus-visible:ring-0 "
                 />
                 {error && (
-                  <div className="text-red-500 text-sm mt-3">{error}</div>
+                  <div className="text-red-500 text-xs mt-3">{error}</div>
                 )}
               </div>
               <div className="flex flex-col gap-2 items-end">
                 <div className="flex flex-row gap-6">
                   <Button
                     type="submit"
+                    className="text-xs"
+                    size={"sm"}
                     disabled={(isEmpty && !isDirty) || !isDirty}
                   >
                     {loading ? "Saving" : isDirty ? "Save" : "Saved"}
                   </Button>
                 </div>
                 {isDirty && (
-                  <div className="text-sm text-slate-500">
+                  <div className="text-xs text-slate-500">
                     You have unsaved changes.
                   </div>
                 )}
@@ -197,11 +199,11 @@ export default function BotPreferencesForm({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel
-                    className={`mb-5 flex justify-between w-full align-middle font-bold ${
+                    className={`mb-3 flex justify-between w-full align-middle font-bold ${
                       inputFocus === "instructions" ? "text-white" : ""
                     }`}
                   >
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 items-center text-xs">
                       Instructions
                       <FiInfo />
                     </div>
@@ -209,7 +211,7 @@ export default function BotPreferencesForm({
                   <FormControl>
                     <Textarea
                       placeholder="Be polite with the students. Never use negative language."
-                      className="resize-none"
+                      className="resize-none text-sm"
                       {...field}
                       onFocus={() => setInputFocus("instructions")}
                       onBlur={() => setInputFocus("")}
@@ -267,7 +269,7 @@ export default function BotPreferencesForm({
               name="humorLevel"
               render={({ field }) => (
                 <FormItem className="space-y-3">
-                  <FormLabel className="mb-5 flex gap-2 items-center font-bold">
+                  <FormLabel className="mb-3 flex gap-2 items-center text-xs font-bold">
                     Humor Level
                     <LightBulbIcon className="h-4 w-4" />
                   </FormLabel>
@@ -283,7 +285,7 @@ export default function BotPreferencesForm({
                       }}
                     />
                   </FormControl>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 text-xs">
                     <BsStars /> {field.value}
                   </div>
                   <FormMessage />

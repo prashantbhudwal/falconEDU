@@ -279,7 +279,7 @@ export const AddQuestionForm = forwardRef<HTMLDivElement, PropType>(
                       <FormItem>
                         <FormControl>
                           <TextareaAutosize
-                            className="bg-transparent min-h-fit resize-none overflow-y-auto whitespace-pre-line border-none outline-none focus-visible:ring-0 p-0 text-lg w-full"
+                            className="bg-transparent min-h-fit resize-none overflow-y-auto whitespace-pre-line border-none outline-none focus-visible:ring-0 p-0 w-full"
                             placeholder={
                               !field.value ? "Add your Question" : ""
                             }
@@ -311,7 +311,7 @@ export const AddQuestionForm = forwardRef<HTMLDivElement, PropType>(
                                   <FormItem>
                                     <FormControl>
                                       <TextareaAutosize
-                                        className="bg-transparent min-h-fit resize-none overflow-y-auto whitespace-pre-line border-none outline-none focus-visible:ring-0 p-0 text-[16px]"
+                                        className="bg-transparent min-h-fit resize-none overflow-y-auto whitespace-pre-line border-none outline-none focus-visible:ring-0 p-0 text-sm"
                                         placeholder={
                                           !option.value
                                             ? `Option ${index + 1}`

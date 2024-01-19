@@ -216,7 +216,7 @@ export function TestParsedQuestion({
       >
         <div className="w-11/12 mx-auto">
           <AccordionItem value="item-1" className="border-none">
-            <AccordionTrigger className="text-lg text-slate-400">
+            <AccordionTrigger className="text-slate-400">
               Deleted Questions
             </AccordionTrigger>
             <AccordionContent>

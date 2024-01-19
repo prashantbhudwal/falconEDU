@@ -165,7 +165,7 @@ const Answer = React.forwardRef<HTMLDivElement, AccordionProps>(
                   <Tooltip>
                     <TooltipTrigger className="group">
                       <div className="flex gap-4 items-center">
-                        <div className="text-warning flex gap-2 text-sm items-center hover:underline">
+                        <div className="text-warning flex gap-2 text-xs items-center hover:underline">
                           <BsFillInfoCircleFill className="text-xs" /> Possibly
                           incorrect.
                         </div>

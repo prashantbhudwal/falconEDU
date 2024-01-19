@@ -44,7 +44,7 @@ import { questionTypes } from "@/app/dragon/ai/test-checker/tool";
 import { getQuestionTypeName } from "../../../../../../../utils";
 import { UpdatedQuestionType } from "@/app/dragon/types";
 
-type QuestionProps = typeActiveParsedQuestionByBotConfigId
+type QuestionProps = typeActiveParsedQuestionByBotConfigId;
 
 type PropType = React.HTMLProps<HTMLDivElement> & {
   question: QuestionProps;
@@ -219,7 +219,7 @@ export const QuestionForm = ({
                     <FormItem>
                       <FormControl>
                         <TextareaAutosize
-                          className="bg-transparent min-h-fit resize-none overflow-y-auto whitespace-pre-line border-none outline-none focus-visible:ring-0 p-0 text-lg w-full"
+                          className="bg-transparent min-h-fit resize-none overflow-y-auto whitespace-pre-line border-none outline-none focus-visible:ring-0 p-0 w-full"
                           placeholder={!field.value ? "Add your Question" : ""}
                           {...field}
                         />
@@ -253,7 +253,7 @@ export const QuestionForm = ({
                                 <FormItem>
                                   <FormControl>
                                     <TextareaAutosize
-                                      className="bg-transparent min-h-fit resize-none overflow-y-auto whitespace-pre-line border-none outline-none focus-visible:ring-0 p-0 text-[16px]"
+                                      className="bg-transparent min-h-fit resize-none overflow-y-auto whitespace-pre-line border-none outline-none focus-visible:ring-0 p-0 text-sm"
                                       placeholder={
                                         !option.value
                                           ? `Option ${index + 1}`

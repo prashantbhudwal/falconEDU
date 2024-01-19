@@ -192,7 +192,7 @@ export default function TestPreferencesForm({
                   onChange={onTestNameChange}
                   onBlur={updateTestNameHandler}
                   required
-                  className="outline-none w-full border-none pl-0 md:text-2xl font-bold tracking-wide focus-visible:ring-0 "
+                  className="outline-none w-full border-none pl-0 md:text-xl font-bold tracking-wide focus-visible:ring-0 "
                 />
                 {error && !parsedQuestionFromDb && (
                   <div className="text-error text-sm mt-3">{error}</div>
@@ -203,7 +203,8 @@ export default function TestPreferencesForm({
                   <Button
                     type="submit"
                     disabled={loading || !isDirty}
-                    className="min-w-[100px]"
+                    className="text-xs"
+                    size={"sm"}
                   >
                     {loading ? (
                       <span className="loading loading-infinity loading-sm"></span>
@@ -214,7 +215,7 @@ export default function TestPreferencesForm({
                     )}
                   </Button>
                   {isDirty && (
-                    <div className="text-sm text-slate-500">
+                    <div className="text-xs text-slate-500">
                       You have unsaved changes.
                     </div>
                   )}

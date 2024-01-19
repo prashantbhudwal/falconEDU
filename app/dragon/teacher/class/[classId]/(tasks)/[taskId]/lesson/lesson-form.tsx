@@ -157,23 +157,25 @@ export default function LessonForm({
                   value={lessonName}
                   onChange={onBotNameChange}
                   onBlur={updateBotNameHandler}
-                  className="outline-none border-none md:text-3xl pl-0 font-bold tracking-wide focus-visible:ring-0 "
+                  className="outline-none border-none md:text-xl pl-0 font-bold tracking-wide focus-visible:ring-0 "
                 />
                 {error && (
-                  <div className="text-red-500 text-sm mt-3">{error}</div>
+                  <div className="text-red-500 text-xs mt-3">{error}</div>
                 )}
               </div>
               <div className="flex flex-col gap-2 items-end">
                 <div className="flex flex-row gap-6">
                   <Button
                     type="submit"
+                    className="text-xs"
+                    size={"sm"}
                     disabled={(isEmpty && !isDirty) || !isDirty}
                   >
                     {loading ? "Saving" : isDirty ? "Save" : "Saved"}
                   </Button>
                 </div>
                 {isDirty && (
-                  <div className="text-sm text-slate-500">
+                  <div className="text-xs text-slate-500">
                     You have unsaved changes.
                   </div>
                 )}
@@ -187,17 +189,19 @@ export default function LessonForm({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel
-                    className={`mb-5 flex justify-between w-full align-middle font-bold ${
+                    className={`mb-3 flex justify-between w-full align-middle font-bold ${
                       inputFocus === "topic" ? "text-white" : ""
                     }`}
                   >
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 items-center text-xs">
                       Topic
                       <FiInfo />
                     </div>
                   </FormLabel>
                   <FormControl>
                     <Input
+                      autoComplete="off"
+                      className="text-sm"
                       placeholder="Topic you want to teach. For multiple topics, separate them with commas."
                       {...field}
                       onFocus={() => setInputFocus("topic")}
@@ -215,11 +219,11 @@ export default function LessonForm({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel
-                    className={`mb-5 flex justify-between w-full align-middle font-bold ${
+                    className={`mb-3 flex justify-between w-full align-middle font-bold ${
                       inputFocus === "content" ? "text-white" : ""
                     }`}
                   >
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 items-center text-xs">
                       Content
                       <FiInfo />
                     </div>
@@ -253,13 +257,13 @@ export default function LessonForm({
                   return (
                     <FormProvider {...form}>
                       <FormItem>
-                        <div className="mb-5 flex flex-col gap-2">
-                          <FormLabel className="flex gap-2 items-center font-bold">
+                        <div className="mb-3 flex flex-col gap-2">
+                          <FormLabel className="flex gap-2 items-center text-xs font-bold">
                             Subjects
                             <FiBookOpen />
                           </FormLabel>
                         </div>
-                        <div className="flex flex-row gap-y-5 flex-wrap gap-x-6 ">
+                        <div>
                           <ComboBox
                             {...field}
                             items={updateSubjectsHandler()}
@@ -280,7 +284,7 @@ export default function LessonForm({
                 render={({ field }) => {
                   return (
                     <FormItem className="space-y-3">
-                      <FormLabel className="mb-5 flex gap-2 items-center font-bold">
+                      <FormLabel className="mb-3 flex gap-2 items-center text-xs font-bold">
                         Humor Level
                         <LightBulbIcon className="h-4 w-4" />
                       </FormLabel>
@@ -298,7 +302,7 @@ export default function LessonForm({
                           }}
                         />
                       </FormControl>
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 text-xs">
                         <BsStars /> {field.value}
                       </div>
                       <FormMessage />
