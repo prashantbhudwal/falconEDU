@@ -76,7 +76,7 @@ const TextAreaWithUpload = ({
       className={cn("relative h-[200px] overflow-y-scroll custom-scrollbar")}
     >
       <Textarea
-        className="resize-none mt-3 pb-0 mb-0 text-sm placeholder:text-slate-400 text-slate-200 py-0 h-full focus-visible:ring-0 outline-none border-none"
+        className="resize-none mt-3 pb-0 mb-0 text-sm placeholder:text-slate-600 text-slate-200 py-0 h-full focus-visible:ring-0 outline-none border-none"
         {...field}
         hasCounter={counter}
         maxChars={maxChars}
