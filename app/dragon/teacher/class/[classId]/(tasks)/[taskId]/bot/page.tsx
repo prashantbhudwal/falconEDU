@@ -1,5 +1,5 @@
 import { cache } from "react";
-import BotPreferencesForm from "./bot-preferences-form";
+import BotPreferencesForm from "./bot-form";
 import prisma from "@/prisma";
 import { botPreferencesSchema } from "@/app/dragon/schema";
 import { db } from "@/app/dragon/teacher/routers";

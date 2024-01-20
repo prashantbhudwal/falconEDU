@@ -61,9 +61,8 @@ export const getFormattedDate = (date: string) => {
 
 // -----------------------------------------------------------------------------------------------------------------------
 
-type SchemaType<T extends z.ZodTypeAny> = T extends z.ZodType<infer R, any, any>
-  ? R
-  : never;
+type SchemaType<T extends z.ZodTypeAny> =
+  T extends z.ZodType<infer R, any, any> ? R : never;
 
 export const removeOptionalFieldFormZodTypes = <T extends z.ZodObject<any>>(
   schema: T
@@ -174,7 +173,7 @@ export const generateOptionsFromEnum = <
 
 // -----------------------------------------------------------------------------------------------------------------------
 
-export const getHumourLevelfromNumber = (number: number) => {
+export const getHumourLevelFromNumber = (number: number) => {
   if (number >= 0 && number < 30) {
     return humorLevel.find((item) => item === "Low") || "Moderate";
   }

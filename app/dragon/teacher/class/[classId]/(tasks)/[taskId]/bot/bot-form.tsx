@@ -14,46 +14,20 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group-form";
 import { Separator } from "@/components/ui/separator";
-import { Chip } from "@/components/ui/chip";
 import { botNameSchema, botPreferencesSchema } from "../../../../../../schema";
 import { Button } from "@/components/ui/button";
-import { TextareaWithCounter as Textarea } from "@/components/ui/textarea-counter";
 import { FiInfo } from "react-icons/fi";
-import { FiBookOpen } from "react-icons/fi";
-import { ClipboardIcon } from "@heroicons/react/24/solid";
-import { AcademicCapIcon } from "@heroicons/react/24/solid";
-import { LanguageIcon } from "@heroicons/react/24/solid";
 import { LightBulbIcon } from "@heroicons/react/24/solid";
-import { SpeakerWaveIcon } from "@heroicons/react/24/solid";
 import { Paper } from "@/components/ui/paper";
 import { Grade } from "@prisma/client";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-
-import {
-  grades,
-  board,
-  languageProficiency,
-  tone,
-  humorLevel,
-  subjects,
-  LIMITS_botPreferencesSchema,
-} from "../../../../../../schema";
+import { LIMITS_botPreferencesSchema } from "../../../../../../schema";
 import subjectsArray from "../../../../../../../data/subjects.json";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 import { Input } from "@/components/ui/input";
 import { getFormattedGrade } from "@/app/dragon/teacher/utils";
 import { Slider } from "@/components/ui/slider";
-import { getHumourLevelfromNumber } from "@/lib/utils";
+import { getHumourLevelFromNumber } from "@/lib/utils";
 import { BsStars } from "react-icons/bs";
 import TextAreaWithUpload from "../../_components/textAreaWithUpload";
 
@@ -227,8 +201,43 @@ export default function BotPreferencesForm({
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name="humorLevel"
+              render={({ field }) => (
+                <FormItem className="space-y-3">
+                  <FormLabel className="mb-3 flex gap-2 items-center text-xs font-bold">
+                    Humor Level
+                    <LightBulbIcon className="h-4 w-4" />
+                  </FormLabel>
+                  <FormControl>
+                    <Slider
+                      defaultValue={[50]}
+                      className="w-64 cursor-pointer"
+                      max={100}
+                      step={1}
+                      onValueChange={(value) => {
+                        const humourLevel = getHumourLevelFromNumber(value[0]);
+                        form.setValue("humorLevel", humourLevel);
+                      }}
+                    />
+                  </FormControl>
+                  <div className="flex items-center gap-2 text-xs">
+                    <BsStars /> {field.value}
+                  </div>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </Paper>
+        </form>
+      </Form>
+    </>
+  );
+}
 
-            {/* <FormField
+// Old fields -----------------------------
+/* <FormField
               control={form.control}
               name="tone"
               render={({ field }) => (
@@ -264,36 +273,9 @@ export default function BotPreferencesForm({
                   <FormMessage />
                 </FormItem>
               )}
-            /> */}
-            <FormField
-              control={form.control}
-              name="humorLevel"
-              render={({ field }) => (
-                <FormItem className="space-y-3">
-                  <FormLabel className="mb-3 flex gap-2 items-center text-xs font-bold">
-                    Humor Level
-                    <LightBulbIcon className="h-4 w-4" />
-                  </FormLabel>
-                  <FormControl>
-                    <Slider
-                      defaultValue={[50]}
-                      className="w-64 cursor-pointer"
-                      max={100}
-                      step={1}
-                      onValueChange={(value) => {
-                        const humourLevel = getHumourLevelfromNumber(value[0]);
-                        form.setValue("humorLevel", humourLevel);
-                      }}
-                    />
-                  </FormControl>
-                  <div className="flex items-center gap-2 text-xs">
-                    <BsStars /> {field.value}
-                  </div>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            {/* <FormField
+            /> */
+
+/* <FormField
               control={form.control}
               name="languageProficiency"
               render={({ field }) => (
@@ -331,10 +313,4 @@ export default function BotPreferencesForm({
                   <FormMessage />
                 </FormItem>
               )}
-            /> */}
-          </Paper>
-        </form>
-      </Form>
-    </>
-  );
-}
+            /> */
