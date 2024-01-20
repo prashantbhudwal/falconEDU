@@ -14,11 +14,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Separator } from "@/components/ui/separator";
 import { botNameSchema, botPreferencesSchema } from "../../../../../../schema";
 import { Button } from "@/components/ui/button";
-import { FiInfo } from "react-icons/fi";
-import { LightBulbIcon } from "@heroicons/react/24/solid";
 import { Paper } from "@/components/ui/paper";
 import { Grade } from "@prisma/client";
 import { LIMITS_botPreferencesSchema } from "../../../../../../schema";
@@ -30,6 +27,8 @@ import { Slider } from "@/components/ui/slider";
 import { getHumourLevelFromNumber } from "@/lib/utils";
 import { BsStars } from "react-icons/bs";
 import TextAreaWithUpload from "../../_components/textAreaWithUpload";
+import endent from "endent";
+import { HumorLevelField } from "../../_components/form/humor-level";
 
 const MAX_CHARS = LIMITS_botPreferencesSchema.instructions.maxLength;
 
@@ -68,6 +67,8 @@ export default function BotPreferencesForm({
   const { isDirty, setIsDirty } = useIsFormDirty(form);
   const isEmpty = preferences === null || preferences === undefined;
 
+  //log the form values
+
   const onSubmit = async (data: z.infer<typeof botPreferencesSchema>) => {
     setLoading(true);
     const result = await db.botConfig.updateBotConfig({
@@ -84,17 +85,6 @@ export default function BotPreferencesForm({
       console.error("Update failed:", result.error);
       setError("Failed to update bot config. Please try again."); // set the error message
     }
-  };
-
-  const updateSubjectsHandler = () => {
-    const gradeNumber = getFormattedGrade({
-      grade,
-      options: { numberOnly: true },
-    });
-    const gradeObject = subjectsArray.filter(
-      (subject) => subject.grade === gradeNumber
-    )[0];
-    return gradeObject.subjects;
   };
 
   const updateBotNameHandler = async () => {
@@ -134,26 +124,27 @@ export default function BotPreferencesForm({
         <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
           <Paper
             variant="gray"
-            className="w-full max-w-5xl bg-base-200 min-h-screen"
+            className="w-full max-w-5xl min-h-screen border-none shadow-none space-y-12 pt-12"
           >
-            <div className="flex justify-between flex-wrap px-5">
+            <div className="flex justify-between flex-wrap min-h-14">
               <div className="w-[50%]">
                 <Input
                   type="text"
                   value={botName}
                   onChange={onBotNameChange}
                   onBlur={updateBotNameHandler}
-                  className="outline-none border-none md:text-xl pl-0 font-bold tracking-wide focus-visible:ring-0 "
+                  className="outline-none border-none text-xl pl-0 font-bold tracking-wide focus-visible:ring-0  "
                 />
                 {error && (
                   <div className="text-red-500 text-xs mt-3">{error}</div>
                 )}
               </div>
-              <div className="flex flex-col gap-2 items-end">
+              <div className="flex flex-col gap-2 items-center">
                 <div className="flex flex-row gap-6">
                   <Button
+                    variant={"default"}
                     type="submit"
-                    className="text-xs"
+                    className="text-xs min-w-28 border-primary"
                     size={"sm"}
                     disabled={(isEmpty && !isDirty) || !isDirty}
                   >
@@ -161,32 +152,31 @@ export default function BotPreferencesForm({
                   </Button>
                 </div>
                 {isDirty && (
-                  <div className="text-xs text-slate-500">
-                    You have unsaved changes.
-                  </div>
+                  <div className="text-xs text-slate-500">Unsaved Changes</div>
                 )}
               </div>
             </div>
-            <Separator />
             <FormField
               control={form.control}
               name="instructions"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel
-                    className={`mb-3 flex justify-between w-full align-middle font-bold ${
+                    className={`mb-3 flex justify-between w-full align-middle${
                       inputFocus === "instructions" ? "text-white" : ""
                     }`}
                   >
-                    <div className="flex gap-2 items-center text-xs">
-                      Instructions
-                      <FiInfo />
-                    </div>
+                    How do you want the bot to behave?
                   </FormLabel>
                   <FormControl>
                     <div className="border border-input">
                       <TextAreaWithUpload
-                        placeholder="Be polite with the students. Never use negative language."
+                        placeholder={endent`Your name is Sporty, the sports teacher. You make students excited about sports. 
+                        
+                        - Be polite with the students. 
+                        - Never use negative language.
+                        - Use positive reinforcement.
+                         `}
                         className="bg-base-200"
                         {...field}
                         counter
@@ -194,41 +184,11 @@ export default function BotPreferencesForm({
                       />
                     </div>
                   </FormControl>
-                  <FormDescription>
-                    How do you want the bot to behave?
-                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="humorLevel"
-              render={({ field }) => (
-                <FormItem className="space-y-3">
-                  <FormLabel className="mb-3 flex gap-2 items-center text-xs font-bold">
-                    Humor Level
-                    <LightBulbIcon className="h-4 w-4" />
-                  </FormLabel>
-                  <FormControl>
-                    <Slider
-                      defaultValue={[50]}
-                      className="w-64 cursor-pointer"
-                      max={100}
-                      step={1}
-                      onValueChange={(value) => {
-                        const humourLevel = getHumourLevelFromNumber(value[0]);
-                        form.setValue("humorLevel", humourLevel);
-                      }}
-                    />
-                  </FormControl>
-                  <div className="flex items-center gap-2 text-xs">
-                    <BsStars /> {field.value}
-                  </div>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <HumorLevelField name="humorLevel" />
           </Paper>
         </form>
       </Form>
