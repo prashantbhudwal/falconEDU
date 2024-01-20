@@ -42,7 +42,7 @@ import { getFormattedGrade } from "@/app/dragon/teacher/utils";
 import ComboBox from "@/components/combobox";
 import { Slider } from "@/components/ui/slider";
 import { BsStars } from "react-icons/bs";
-import { getHumourLevelfromNumber } from "@/lib/utils";
+import { getHumourLevelFromNumber } from "@/lib/utils";
 
 const MAX_CHARS = LIMITS_lessonPreferencesSchema.content.maxLength;
 
@@ -297,7 +297,7 @@ export default function LessonForm({
                           max={100}
                           step={1}
                           onValueChange={(value) => {
-                            const humourLevel = getHumourLevelfromNumber(
+                            const humourLevel = getHumourLevelFromNumber(
                               value[0]
                             );
                             form.setValue("humorLevel", humourLevel);
