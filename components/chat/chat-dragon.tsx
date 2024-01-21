@@ -11,6 +11,7 @@ import { useInView } from "react-intersection-observer";
 import { chatIsLoadingAtom } from "@/lib/atoms/student";
 import { useSubmitTest } from "@/hooks/ai/use-submit-test";
 import { useAtom } from "jotai";
+import { useFirstMessage } from "./use-first-message";
 
 export interface ChatProps extends React.ComponentProps<"div"> {
   initialMessages?: Message[];
@@ -85,6 +86,8 @@ export function Chat({
       }); //  might need to adjust this if there's a fixed header/footer.
     }
   };
+
+  useFirstMessage({ messages, append, type });
 
   useLayoutEffect(() => {
     if (messages.length && autoScrolling) {

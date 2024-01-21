@@ -1,0 +1,29 @@
+import { useEffect } from "react";
+import { CreateMessage, Message } from "ai";
+import { TaskType } from "@/types";
+import { getFirstMessage } from "@/app/dragon/ai/student-chat/prompts/common/start-messages";
+
+export function useFirstMessage({
+  messages,
+  append,
+  type,
+}: {
+  messages: CreateMessage[];
+  append: (message: CreateMessage) => void;
+  type: string;
+}) {
+  useEffect(() => {
+    const customWindow = window as any;
+    if (!messages || messages.length === 0) {
+      if (process.env.NODE_ENV === "development" && customWindow.hasRunEffect) {
+        return;
+      }
+      customWindow.hasRunEffect = true;
+      const firstMessage = getFirstMessage({
+        language: "english",
+        taskType: type as TaskType,
+      });
+      append(firstMessage);
+    }
+  }, []);
+}
