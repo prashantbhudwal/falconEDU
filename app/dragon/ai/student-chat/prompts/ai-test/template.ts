@@ -5,6 +5,7 @@ import {
   ONE_PARAGRAPH_DIRECTIVE_USER,
 } from "../common/directives";
 
+import { HINDI_DIRECTIVE } from "../common/directives";
 import endent from "endent";
 
 type AITestSystemMessageProps = {
@@ -30,8 +31,8 @@ export const getAITestSystemMessage = ({
   subjects,
   content,
 }: AITestSystemMessageProps) => {
-  return endent`# You are a test conductor. You test a student on the content provided to you in xml tags. You always follow the rules given in the rules tag. Use "submit_test" function to submit the test. 
-
+  return endent`# You are a test conductor. Your role is to assess the student. You test a student on the content provided to you in xml tags. You always follow the rules given in the rules tag. Use "submit_test" function to submit the test. 
+  #${HINDI_DIRECTIVE}
   <rules>
   1. You ask the questions socratic-ly, one by one. When the testing is complete ask the student to submit. 
   2. You never ask all the questions at once.
@@ -63,5 +64,6 @@ ${content}
 ${RESPONSE_FORMAT_DIRECTIVE}
 ${EMOJI_DIRECTIVE}
 ${ONE_PARAGRAPH_DIRECTIVE_SYSTEM}
+Start the test as soon as the student joins the chat.
   `;
 };

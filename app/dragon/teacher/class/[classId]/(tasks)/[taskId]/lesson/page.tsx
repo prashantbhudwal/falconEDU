@@ -1,6 +1,7 @@
 import { db } from "@/lib/routers";
 import LessonForm from "./lesson-form";
 import { lessonPreferencesSchema } from "@/lib/schema";
+import { z } from "zod";
 
 export interface BotPageProps {
   params: {
@@ -9,21 +10,22 @@ export interface BotPageProps {
   };
 }
 
-export default async function BotPage({ params }: BotPageProps) {
+export default async function LessonPage({ params }: BotPageProps) {
   const { classId, taskId } = params;
-  const botData = await db.botConfig.fetchConfigAndPreferences({
+  const lessonData = await db.botConfig.fetchConfigAndPreferences({
     configId: taskId,
     type: "lesson",
   });
-  const result = lessonPreferencesSchema.safeParse(botData?.preferences);
 
-  const preferences = result.success ? result.data : undefined;
+  const preferences = lessonData?.preferences as z.infer<
+    typeof lessonPreferencesSchema
+  >;
 
-  const config = botData?.config;
+  const config = lessonData?.config;
   if (!config) {
     throw new Error("Bot config not found");
   }
-  const Class = botData.config?.Class;
+  const Class = lessonData.config?.Class;
 
   if (!Class) {
     throw new Error("Class not found");

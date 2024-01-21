@@ -35,7 +35,7 @@ export const MediumOfInstructionField = ({ name }: { name: string }) => {
               defaultValue={field.value}
               autoComplete="on"
             >
-              <SelectTrigger className="w-[180px] capitalize">
+              <SelectTrigger className="w-[250px] capitalize ">
                 <SelectValue placeholder="Medium of Instruction" />
               </SelectTrigger>
               <SelectContent>

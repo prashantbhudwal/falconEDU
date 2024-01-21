@@ -1,7 +1,6 @@
 "use server";
 import prisma from "@/prisma";
 import { cache } from "react";
-import { ChatPromptTemplate } from "langchain/prompts";
 import { UnwrapPromise } from "../../../../student/queries";
 import { getEngineeredMessagesForTest } from "./template";
 import { getQuestionTypeName } from "@/app/dragon/teacher/utils";
@@ -99,5 +98,5 @@ export async function getEngineeredTestBotMessages(
   const engineeredMessages = getEngineeredMessagesForTest({
     fullTest: stringifiedQuestions,
   });
-  return { engineeredMessages, prompt };
+  return { engineeredMessages };
 }

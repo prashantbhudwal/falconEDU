@@ -1,12 +1,17 @@
-import { ChatCompletionMessageParam } from "openai/resources";
+import {
+  ChatCompletionMessageParam,
+  ChatCompletionUserMessageParam,
+} from "openai/resources";
 
 import {
   RESPONSE_FORMAT_DIRECTIVE,
   EMOJI_DIRECTIVE,
   ONE_PARAGRAPH_DIRECTIVE_SYSTEM,
   ONE_PARAGRAPH_DIRECTIVE_USER,
+  HINDI_DIRECTIVE,
 } from "../common/directives";
 import endent from "endent";
+import { replyInHindi } from "../common/student-messages";
 
 export const getEngineeredMessagesForChat = ({
   teacherName,
@@ -14,14 +19,19 @@ export const getEngineeredMessagesForChat = ({
   grade,
   instructions,
   name,
+  mediumOfInstruction,
 }: {
   teacherName: string | undefined | null;
   studentName: string | undefined | null;
   grade: string;
   instructions: string;
   name: string | undefined | null;
+  mediumOfInstruction: string | undefined;
 }): ChatCompletionMessageParam[] => {
+  const medium = mediumOfInstruction ? mediumOfInstruction : "english";
+
   const systemMessageContent = endent`
+  ${medium === "hindi" ? HINDI_DIRECTIVE : ""}
 - Your name is '''${name}'''.
 - You always follow the '''PERSONA''' in the XML tags.
 - You are speaking to a child named '''${studentName}''' who studies in '''Grade Level: ${grade}''' and lives in India.
@@ -50,15 +60,20 @@ ${ONE_PARAGRAPH_DIRECTIVE_SYSTEM}
   `;
 
   const userMessageContent = endent`${ONE_PARAGRAPH_DIRECTIVE_USER}`;
-
-  return [
+  const defaultUserMessage: ChatCompletionUserMessageParam = {
+    role: "user",
+    content: userMessageContent,
+  };
+  const messages: ChatCompletionMessageParam[] = [
     {
       role: "system",
       content: systemMessageContent,
     },
-    {
-      role: "user",
-      content: userMessageContent,
-    },
   ];
+
+  medium === "hindi"
+    ? messages.push(replyInHindi)
+    : messages.push(defaultUserMessage);
+
+  return messages;
 };

@@ -1,11 +1,16 @@
-import { ChatCompletionMessageParam } from "openai/resources";
+import {
+  ChatCompletionMessageParam,
+  ChatCompletionUserMessageParam,
+} from "openai/resources";
 import {
   RESPONSE_FORMAT_DIRECTIVE,
   EMOJI_DIRECTIVE,
   ONE_PARAGRAPH_DIRECTIVE_SYSTEM,
   ONE_PARAGRAPH_DIRECTIVE_USER,
+  HINDI_DIRECTIVE,
 } from "../common/directives";
 import endent from "endent";
+import { replyInHindi } from "../common/student-messages";
 
 export const getEngineeredMessagesForLesson = ({
   teacherName,
@@ -26,6 +31,7 @@ export const getEngineeredMessagesForLesson = ({
   professionalInformation,
   likes,
   dislikes,
+  mediumOfInstruction,
 }: {
   teacherName: string | undefined | null;
   studentName: string | undefined | null;
@@ -45,8 +51,12 @@ export const getEngineeredMessagesForLesson = ({
   professionalInformation: string | undefined;
   likes: string | undefined;
   dislikes: string | undefined;
+  mediumOfInstruction: string | undefined;
 }): ChatCompletionMessageParam[] => {
+  const medium = mediumOfInstruction ? mediumOfInstruction : "english";
+
   const systemMessageContent = endent`
+${medium === "hindi" ? HINDI_DIRECTIVE : ""}
 # Your name is ${teacherName} and you are a teacher. Your job is to teach a '''LESSON'''. The source of truth for "what to teach" is the '''LESSON CONTENT''' section. Adapt the '''LESSON CONTENT''' to the '''STUDENT PERSONA''' and teach it to the student. Don't give all the information at once. Give the information in parts. Ask questions to check understanding. Give feedback. Follow the socratic method of teaching.
 
 
@@ -74,6 +84,7 @@ ___
 
 ---
 '''LESSON CONTENT STARTS HERE'''
+## Medium of Instruction: '''${mediumOfInstruction}'''
 ## Lesson Topic: '''${topic}'''
 ## Lesson Content: 
 '''${content}'''
@@ -123,21 +134,26 @@ use this to teach {studentName} and decide what and how to teach them and what i
 
 ## The AI you use to teach was made by FalconAI aka. Falcon AI(www.falconai.in).
 
-## Start the conversation with a greeting. For example: "Hello ${studentName}, are you ready for the lesson?"
-
 ${ONE_PARAGRAPH_DIRECTIVE_SYSTEM}
   `;
 
   const userMessageContent = endent`My name is ${studentName}. Always remember to follow your instructions. Most importantly remember that you are teaching this lesson: '''${topic}.''' Keep your responses concise and simple to understand. You already know my PERSONA, can you use that to make your teaching more personal and effective? Maybe you can use my PERSONA tp personalize examples, analogies, stories, etc. for me. I am excited to learn from you. I am ready for the lesson. ${ONE_PARAGRAPH_DIRECTIVE_USER}`;
 
-  return [
+  const defaultUserMessage: ChatCompletionUserMessageParam = {
+    role: "user",
+    content: userMessageContent,
+  };
+
+  const messages: ChatCompletionMessageParam[] = [
     {
       role: "system",
       content: systemMessageContent,
     },
-    {
-      role: "user",
-      content: userMessageContent,
-    },
   ];
+
+  medium === "hindi"
+    ? messages.push(replyInHindi)
+    : messages.push(defaultUserMessage);
+
+  return messages;
 };

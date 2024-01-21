@@ -1,5 +1,4 @@
 import { getEngineeredMessagesForLesson } from "./template";
-import { ChatPromptTemplate } from "langchain/prompts";
 import {
   lessonPreferences as lessonPreferencesTest,
   teacherPreferences as teacherPreferencesTest,
@@ -47,6 +46,7 @@ export const getPreferences = (context: LessonContextByChatId) => {
     language,
     humorLevel,
     languageProficiency,
+    mediumOfInstruction,
   } = lessonPreferences;
   const { personalInformation, professionalInformation, likes, dislikes } =
     teacherPreferences;
@@ -80,6 +80,7 @@ export const getPreferences = (context: LessonContextByChatId) => {
     favoriteCartoons,
     favoriteFoods,
     interests,
+    mediumOfInstruction,
   } as const;
   return preferences;
 };
@@ -90,7 +91,6 @@ export async function getEngineeredLessonBotMessages(
   if (!context) {
     console.error("context not found for chatId:");
   }
-  const mergedSchema = lessonPreferencesSchema.merge(teacherPreferencesSchema);
   const preferences = getPreferences(context);
 
   const engineeredMessages = getEngineeredMessagesForLesson({
@@ -112,7 +112,8 @@ export async function getEngineeredLessonBotMessages(
     topic: preferences.topic,
     tone: preferences.tone,
     content: preferences.content,
+    mediumOfInstruction: preferences.mediumOfInstruction,
   });
 
-  return { engineeredMessages, prompt };
+  return { engineeredMessages };
 }

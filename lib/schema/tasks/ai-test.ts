@@ -38,5 +38,5 @@ export const AITestPreferenceSchema = z.object({
   language: z.enum(language),
   humorLevel: z.enum(humorLevel),
   languageProficiency: z.enum(languageProficiency),
-  mediumOfInstruction: z.enum(mediumOfInstruction),
+  mediumOfInstruction: z.enum(mediumOfInstruction).optional(),
 });

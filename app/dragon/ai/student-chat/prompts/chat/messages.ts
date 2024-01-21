@@ -45,6 +45,7 @@ export const getPreferences = (context: ChatContextByChatId) => {
     language,
     humorLevel,
     languageProficiency,
+    mediumOfInstruction,
   } = botPreferences;
   const { personalInformation, professionalInformation, likes, dislikes } =
     teacherPreferences;
@@ -74,6 +75,7 @@ export const getPreferences = (context: ChatContextByChatId) => {
     interests,
     name,
     grade,
+    mediumOfInstruction,
   } as const;
   return preferences;
 };
@@ -93,6 +95,7 @@ export async function getEngineeredChatBotMessages(
     grade: preferences.grade,
     instructions: preferences.instructions,
     name: preferences.name,
+    mediumOfInstruction: preferences.mediumOfInstruction,
   });
   return { engineeredMessages };
 }

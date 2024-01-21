@@ -1,6 +1,7 @@
 import { botPreferencesSchema } from "@/lib/schema";
 import BotPreferencesForm from "./bot-form";
 import { db } from "@/lib/routers";
+import { z } from "zod";
 
 export interface BotPageProps {
   params: {
@@ -15,9 +16,9 @@ export default async function BotPage({ params }: BotPageProps) {
     configId: taskId,
     type: "chat",
   });
-  const result = botPreferencesSchema.safeParse(botData?.preferences);
-
-  const preferences = result.success ? result.data : undefined;
+  const preferences = botData?.preferences as z.infer<
+    typeof botPreferencesSchema
+  >;
 
   const config = botData?.config;
   if (!config) {
