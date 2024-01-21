@@ -2,13 +2,12 @@
 import prisma from "@/prisma";
 import { cache } from "react";
 import { type UnwrapPromise } from "../../../../student/queries";
-import * as z from "zod";
+import { isEmptyObject } from "../chat/queries";
 import {
   AITestPreferenceSchema,
-  teacherPreferencesSchema,
   StudentPreferenceSchema,
-} from "@/app/dragon/schema";
-import { isEmptyObject } from "../chat/queries";
+  teacherPreferencesSchema,
+} from "@/lib/schema";
 
 export const getAITestContextByChatId = cache(async function (chatId: string) {
   const context = await prisma.botChat.findUnique({

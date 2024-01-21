@@ -10,13 +10,9 @@ import {
 } from "../../../../test-data";
 import { AITestContextByChatId } from "./queries";
 import { isEmptyObject } from "../chat/queries";
-import {
-  AITestPreferenceSchema,
-  teacherPreferencesSchema,
-  StudentPreferenceSchema,
-} from "../../../../schema";
 import * as z from "zod";
 import { getFormattedGrade } from "@/app/dragon/teacher/utils";
+import { AITestPreferenceSchema, StudentPreferenceSchema, teacherPreferencesSchema } from "@/lib/schema";
 
 export const getPreferences = (context: AITestContextByChatId) => {
   let teacherPreferences = context?.teacherPreferences as z.infer<

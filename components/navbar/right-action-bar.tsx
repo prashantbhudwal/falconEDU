@@ -15,9 +15,9 @@ import {
   getTeacherData,
   typeGetTeacherPreferences,
 } from "@/app/dragon/teacher/(settings)/teacher-preferences/getTeacherData";
-import { teacherPreferencesSchema } from "@/app/dragon/schema";
 import { removeOptionalFieldFormZodTypes } from "@/lib/utils";
 import { SparklesIcon } from "@heroicons/react/24/solid";
+import { teacherPreferencesSchema } from "@/lib/schema";
 
 export default function RightActionBar() {
   const { currentPage } = usePageTracking();

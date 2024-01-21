@@ -5,14 +5,14 @@ import {
   studentPreferences as studentPreferencesTest,
 } from "../../../../test-data";
 import { ChatContextByChatId, isEmptyObject } from "./queries";
-import {
-  botPreferencesSchema,
-  teacherPreferencesSchema,
-  StudentPreferenceSchema,
-} from "../../../../schema";
 import * as z from "zod";
 import { getFormattedGrade } from "@/app/dragon/teacher/utils";
 import { Grade } from "@prisma/client";
+import {
+  StudentPreferenceSchema,
+  botPreferencesSchema,
+  teacherPreferencesSchema,
+} from "@/lib/schema";
 
 export const getPreferences = (context: ChatContextByChatId) => {
   let teacherPreferences = context?.teacherPreferences as z.infer<

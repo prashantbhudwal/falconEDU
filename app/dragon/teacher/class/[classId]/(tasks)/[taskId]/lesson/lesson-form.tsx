@@ -13,15 +13,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Separator } from "@/components/ui/separator";
-import {
-  lessonPreferencesSchema,
-  lessonNameSchema,
-} from "../../../../../../schema";
-import { Button } from "@/components/ui/button";
 import { FiInfo } from "react-icons/fi";
 import { Paper } from "@/components/ui/paper";
-import { LIMITS_lessonPreferencesSchema } from "../../../../../../schema";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 import { Input } from "@/components/ui/input";
 import TextAreaWithUpload from "../../_components/textAreaWithUpload";
@@ -30,6 +23,11 @@ import { SubjectsField } from "../../_components/form/subjects-old";
 import { TopicField } from "../../_components/form/topic";
 const MAX_CHARS = LIMITS_lessonPreferencesSchema.content.maxLength;
 import { SaveButton } from "../../_components/form/save-btn";
+import {
+  LIMITS_lessonPreferencesSchema,
+  lessonNameSchema,
+  lessonPreferencesSchema,
+} from "@/lib/schema";
 
 const defaultValues: z.infer<typeof lessonPreferencesSchema> = {
   topic: "",

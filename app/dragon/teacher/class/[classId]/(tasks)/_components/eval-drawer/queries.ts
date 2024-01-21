@@ -4,12 +4,7 @@ import {
   ChatContext,
   isEmptyObject,
 } from "@/app/dragon/ai/student-chat/prompts/chat/queries";
-import {
-  StudentPreferenceSchema,
-  botPreferencesSchema,
-  lessonPreferencesSchema,
-  teacherPreferencesSchema,
-} from "@/app/dragon/schema";
+import { StudentPreferenceSchema, botPreferencesSchema, lessonPreferencesSchema, teacherPreferencesSchema } from "@/lib/schema";
 import prisma from "@/prisma";
 import { cache } from "react";
 import * as z from "zod";

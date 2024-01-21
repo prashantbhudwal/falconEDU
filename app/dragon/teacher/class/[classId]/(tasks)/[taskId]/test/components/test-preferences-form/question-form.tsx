@@ -6,9 +6,8 @@ import {
   Options,
   Option,
 } from "../question/question";
-import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import React, { RefObject, useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import {
   Form,
@@ -18,12 +17,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { parsedQuestionsSchema } from "@/app/dragon/schema";
 import { z } from "zod";
 import { TextareaAutosize } from "@/components/ui/textarea-autosize";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
-
 import { db } from "@/app/dragon/teacher/routers";
 import { typeActiveParsedQuestionByBotConfigId } from "@/app/dragon/teacher/routers/parsedQuestionRouter";
 import { LuCopy, LuTrash } from "react-icons/lu";
@@ -43,6 +40,7 @@ import {
 import { questionTypes } from "@/app/dragon/ai/test-checker/tool";
 import { getQuestionTypeName } from "../../../../../../../utils";
 import { UpdatedQuestionType } from "@/app/dragon/types";
+import { parsedQuestionsSchema } from "@/lib/schema";
 
 type QuestionProps = typeActiveParsedQuestionByBotConfigId;
 

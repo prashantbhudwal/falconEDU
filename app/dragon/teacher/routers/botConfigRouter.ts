@@ -1,27 +1,15 @@
 "use server";
 import * as z from "zod";
-import {
-  getBotsURL,
-  getClassURL,
-  getTaskUrl,
-  getTeacherHomeURL,
-} from "@/lib/urls";
-import { type BotConfig } from "@prisma/client";
-import { getClassesURL, getStudentsURL } from "@/lib/urls";
+import { getBotsURL, getTaskUrl, getTeacherHomeURL } from "@/lib/urls";
 import { isAuthorized } from "@/lib/utils";
 import prisma from "@/prisma";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
-import {
-  botPreferencesSchema,
-  lessonPreferencesSchema,
-  testBotPreferencesSchema,
-  AITestPreferenceSchema,
-} from "../../schema";
 import { cache } from "react";
 import { UnwrapPromise } from "../../student/queries";
 import { TaskType } from "@/types/dragon";
 import { getTaskProperties } from "../utils";
+import { AITestPreferenceSchema, botPreferencesSchema, lessonPreferencesSchema, testBotPreferencesSchema } from "@/lib/schema";
 type BotPreferencesSchemaType = z.infer<typeof botPreferencesSchema>;
 type TestBotPreferencesSchemaType = z.infer<typeof testBotPreferencesSchema>;
 type LessonPreferencesSchemaType = z.infer<typeof lessonPreferencesSchema>;

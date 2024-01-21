@@ -1,9 +1,9 @@
 "use server";
 import { z } from "zod";
-import { StudentPreferenceSchema } from "@/app/dragon/schema";
 import { isAuthorized } from "@/lib/is-authorized";
 import prisma from "@/prisma";
 import { revalidatePath } from "next/cache";
+import { StudentPreferenceSchema } from "@/lib/schema";
 
 export const updateStudentPreferences = async ({
   studentId,

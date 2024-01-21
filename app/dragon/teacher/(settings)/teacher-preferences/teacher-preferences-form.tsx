@@ -5,7 +5,6 @@ import { TextareaWithCounter as Textarea } from "@/components/ui/textarea-counte
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { teacherPreferencesSchema } from "../../../schema";
 import { updateTeacherPreferences } from "../../mutations";
 import { FiThumbsDown } from "react-icons/fi";
 import { FiThumbsUp } from "react-icons/fi";
@@ -22,8 +21,8 @@ import {
 } from "@/components/ui/form";
 import { useState } from "react";
 import { Paper } from "@/components/ui/paper";
-import { LIMITS_teacherPreferencesSchema } from "../../../schema";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
+import { LIMITS_teacherPreferencesSchema, teacherPreferencesSchema } from "@/lib/schema";
 
 const defaultValues: z.infer<typeof teacherPreferencesSchema> = {
   personalInformation: "",

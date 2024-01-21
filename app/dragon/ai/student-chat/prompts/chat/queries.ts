@@ -3,12 +3,7 @@ import prisma from "@/prisma";
 import { cache } from "react";
 import { type UnwrapPromise } from "../../../../student/queries";
 import * as z from "zod";
-import {
-  botPreferencesSchema,
-  teacherPreferencesSchema,
-  StudentPreferenceSchema,
-  testBotPreferencesSchema,
-} from "@/app/dragon/schema";
+import { StudentPreferenceSchema, botPreferencesSchema, teacherPreferencesSchema } from "@/lib/schema";
 export const isEmptyObject = (obj: any) => Object.keys(obj).length === 0;
 
 export const getChatContextByChatId = cache(async function (

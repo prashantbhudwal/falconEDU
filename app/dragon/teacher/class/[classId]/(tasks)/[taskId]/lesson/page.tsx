@@ -1,6 +1,6 @@
 import { db } from "@/app/dragon/teacher/routers";
 import LessonForm from "./lesson-form";
-import { lessonPreferencesSchema } from "@/app/dragon/schema";
+import { lessonPreferencesSchema } from "@/lib/schema";
 
 export interface BotPageProps {
   params: {

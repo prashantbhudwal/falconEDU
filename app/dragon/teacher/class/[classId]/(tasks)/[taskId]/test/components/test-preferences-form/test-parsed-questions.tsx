@@ -4,13 +4,11 @@ import {
   typeArchivedParsedQuestionByBotConfigId,
 } from "@/app/dragon/teacher/routers/parsedQuestionRouter";
 import { QuestionForm } from "./question-form";
-import { Button } from "@/components/ui/button";
 import React, { useEffect, useRef, useState } from "react";
-import { parsedQuestionsSchema } from "@/app/dragon/schema";
 import { AddQuestionForm } from "./add-question-form";
 import { nanoid } from "nanoid";
 import { Actions } from "./actions";
-import { ZodType, z } from "zod";
+import { z } from "zod";
 import {
   Accordion,
   AccordionContent,
@@ -18,6 +16,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { ArchivedQuestions } from "./archived-questions";
+import { parsedQuestionsSchema } from "@/lib/schema";
 
 export function TestParsedQuestion({
   activeParsedQuestions,

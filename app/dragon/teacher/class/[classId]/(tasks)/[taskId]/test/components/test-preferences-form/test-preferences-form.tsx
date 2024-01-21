@@ -13,12 +13,7 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import {
-  botNameSchema,
-  testBotPreferencesSchema,
-} from "../../../../../../../../schema";
 import { Button } from "@/components/ui/button";
-import { LIMITS_testBotPreferencesSchema } from "../../../../../../../../schema";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 import { Input } from "@/components/ui/input";
 import { parseTestQuestions } from "@/app/dragon/ai/test-question-parser/get-test-questions";
@@ -27,6 +22,7 @@ const MAX_CHARS = LIMITS_testBotPreferencesSchema.fullTest.maxLength;
 import TextAreaWithUpload from "../../../../_components/textAreaWithUpload";
 import { AddQuestionsDialog } from "./add-questions-dialog";
 import { SaveButton } from "../../../../_components/form/save-btn";
+import { LIMITS_testBotPreferencesSchema, botNameSchema, testBotPreferencesSchema } from "@/lib/schema";
 
 type BotPreferencesFormProps = {
   preferences?: z.infer<typeof testBotPreferencesSchema> | null;

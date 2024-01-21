@@ -1,6 +1,6 @@
 import { db } from "@/app/dragon/teacher/routers";
 import AITestForm from "./ai-test-form";
-import { AITestPreferenceSchema } from "@/app/dragon/schema";
+import { AITestPreferenceSchema } from "@/lib/schema";
 
 export interface BotPageProps {
   params: {

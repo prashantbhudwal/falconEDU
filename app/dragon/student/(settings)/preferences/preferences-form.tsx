@@ -10,7 +10,6 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { TextareaAutosize } from "@/components/ui/textarea-autosize";
 import { Paper } from "@/components/ui/paper";
@@ -18,7 +17,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { useState } from "react";
 import { updateStudentPreferences } from "./mutations";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
-import { StudentPreferenceSchema } from "@/app/dragon/schema";
+import { StudentPreferenceSchema } from "@/lib/schema";
 
 //TODO: shifting this to a seperate schema file
 

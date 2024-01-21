@@ -14,14 +14,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Separator } from "@/components/ui/separator";
-import {
-  AITestNameSchema,
-  AITestPreferenceSchema,
-} from "../../../../../../schema";
+
 import { Button } from "@/components/ui/button";
 import { FiInfo } from "react-icons/fi";
 import { Paper } from "@/components/ui/paper";
-import { LIMITS_AITestPreferencesSchema } from "../../../../../../schema";
 import subjectsArray from "../../../../../../../data/subjects.json";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 import { Input } from "@/components/ui/input";
@@ -31,6 +27,11 @@ import { SubjectsField } from "../../_components/form/subjects-old";
 import { HumorLevelField } from "../../_components/form/humor-level";
 import { TopicField } from "../../_components/form/topic";
 import { SaveButton } from "../../_components/form/save-btn";
+import {
+  AITestNameSchema,
+  AITestPreferenceSchema,
+  LIMITS_AITestPreferencesSchema,
+} from "@/lib/schema";
 
 const MAX_CHARS = LIMITS_AITestPreferencesSchema.content.maxLength;
 

@@ -1,12 +1,6 @@
 "use server";
 import prisma from "@/prisma";
 import { cache } from "react";
-import * as z from "zod";
-import {
-  botPreferencesSchema,
-  teacherPreferencesSchema,
-  StudentPreferenceSchema,
-} from "../schema";
 
 export const getStudentId = cache(async function (userId: string) {
   const studentProfile = await prisma.studentProfile.findFirst({

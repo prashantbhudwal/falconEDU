@@ -3,9 +3,8 @@ import prisma from "@/prisma";
 import { revalidatePath } from "next/cache";
 import * as z from "zod";
 import { isAuthorized } from "@/lib/utils";
-import { teacherPreferencesSchema } from "../schema";
-import { redirect } from "next/navigation";
 import { TestQuestions } from "../ai/test-question-parser/model";
+import { teacherPreferencesSchema } from "@/lib/schema";
 
 //TODO: Add auth for functions
 

@@ -5,7 +5,6 @@ import { z } from "zod";
 export * from "./is-authorized";
 import { format, utcToZonedTime } from "date-fns-tz";
 import colors from "tailwindcss/colors";
-import { humorLevel } from "@/app/dragon/schema";
 
 type EnumValues<T> = T[keyof T];
 
@@ -172,16 +171,3 @@ export const generateOptionsFromEnum = <
 };
 
 // -----------------------------------------------------------------------------------------------------------------------
-
-export const getHumourLevelFromNumber = (number: number) => {
-  if (number >= 0 && number < 30) {
-    return humorLevel.find((item) => item === "Low") || "Moderate";
-  }
-  if (number >= 30 && number < 70) {
-    return humorLevel.find((item) => item === "Moderate") || "Moderate";
-  }
-  if (number >= 70 && number < 100) {
-    return humorLevel.find((item) => item === "High") || "Moderate";
-  }
-  return "Moderate";
-};

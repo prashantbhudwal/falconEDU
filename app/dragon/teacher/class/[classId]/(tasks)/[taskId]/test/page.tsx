@@ -1,18 +1,12 @@
 import { cache } from "react";
 import prisma from "@/prisma";
-import { testBotPreferencesSchema } from "@/app/dragon/schema";
 import { UnwrapPromise } from "@/app/dragon/student/queries";
 import { Paper } from "@/components/ui/paper";
 import TestPreferencesForm from "./components/test-preferences-form/test-preferences-form";
 import { db } from "@/app/dragon/teacher/routers";
 import { TestParsedQuestion } from "./components/test-preferences-form/test-parsed-questions";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionTrigger,
-  AccordionItem,
-} from "@/components/ui/accordion";
 import { typeActiveParsedQuestionByBotConfigId } from "@/app/dragon/teacher/routers/parsedQuestionRouter";
+import { testBotPreferencesSchema } from "@/lib/schema";
 export interface BotPageProps {
   params: {
     classId: string;

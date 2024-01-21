@@ -2,22 +2,18 @@
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { FieldValue, FormProvider, useFormContext } from "react-hook-form";
+import { FormProvider, useFormContext } from "react-hook-form";
 import { IoMdAdd } from "react-icons/io";
 import TextAreaWithUpload from "../../../../_components/textAreaWithUpload";
-import { LIMITS_testBotPreferencesSchema } from "@/app/dragon/schema";
 import {
   FormControl,
   FormDescription,
@@ -28,6 +24,7 @@ import {
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { LIMITS_testBotPreferencesSchema } from "@/lib/schema";
 
 type AddQuestionsDialogProps = {
   loading?: boolean;

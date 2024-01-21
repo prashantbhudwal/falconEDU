@@ -1,6 +1,6 @@
 "use client";
 import { type BotConfig } from "@prisma/client";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -13,17 +13,15 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { botNameSchema, botPreferencesSchema } from "../../../../../../schema";
-import { Button } from "@/components/ui/button";
 import { Paper } from "@/components/ui/paper";
 import { Grade } from "@prisma/client";
-import { LIMITS_botPreferencesSchema } from "../../../../../../schema";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 import { Input } from "@/components/ui/input";
 import TextAreaWithUpload from "../../_components/textAreaWithUpload";
 import endent from "endent";
 import { HumorLevelField } from "../../_components/form/humor-level";
 import { SaveButton } from "../../_components/form/save-btn";
+import { LIMITS_botPreferencesSchema, botNameSchema, botPreferencesSchema } from "@/lib/schema";
 
 const MAX_CHARS = LIMITS_botPreferencesSchema.instructions.maxLength;
 
