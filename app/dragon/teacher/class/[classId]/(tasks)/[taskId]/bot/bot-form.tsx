@@ -23,6 +23,7 @@ import { Input } from "@/components/ui/input";
 import TextAreaWithUpload from "../../_components/textAreaWithUpload";
 import endent from "endent";
 import { HumorLevelField } from "../../_components/form/humor-level";
+import { SaveButton } from "../../_components/form/save-btn";
 
 const MAX_CHARS = LIMITS_botPreferencesSchema.instructions.maxLength;
 
@@ -133,22 +134,11 @@ export default function BotPreferencesForm({
                   <div className="mt-3 text-xs text-red-500">{error}</div>
                 )}
               </div>
-              <div className="flex flex-col items-center gap-2">
-                <div className="flex flex-row gap-6">
-                  <Button
-                    variant={"default"}
-                    type="submit"
-                    className="min-w-28 border-primary text-xs"
-                    size={"sm"}
-                    disabled={(isEmpty && !isDirty) || !isDirty}
-                  >
-                    {loading ? "Saving" : isDirty ? "Save" : "Saved"}
-                  </Button>
-                </div>
-                {isDirty && (
-                  <div className="text-xs text-slate-500">Unsaved Changes</div>
-                )}
-              </div>
+              <SaveButton
+                isLoading={loading}
+                isDisabled={(isEmpty && !isDirty) || !isDirty}
+                hasUnsavedChanges={isDirty}
+              />
             </div>
             <FormField
               control={form.control}

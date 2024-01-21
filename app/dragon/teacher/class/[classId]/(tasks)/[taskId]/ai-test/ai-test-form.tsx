@@ -30,6 +30,7 @@ import { getFormattedGrade } from "@/app/dragon/teacher/utils";
 import { SubjectsField } from "../../_components/form/subjects-old";
 import { HumorLevelField } from "../../_components/form/humor-level";
 import { TopicField } from "../../_components/form/topic";
+import { SaveButton } from "../../_components/form/save-btn";
 
 const MAX_CHARS = LIMITS_AITestPreferencesSchema.content.maxLength;
 
@@ -150,23 +151,12 @@ export default function AITestForm({
                   <div className="mt-3 text-sm text-red-500">{error}</div>
                 )}
               </div>
-              <div className="flex flex-col items-end gap-2">
-                <div className="flex flex-row gap-6">
-                  <Button
-                    type="submit"
-                    disabled={(isEmpty && !isDirty) || !isDirty}
-                  >
-                    {loading ? "Saving" : isDirty ? "Save" : "Saved"}
-                  </Button>
-                </div>
-                {isDirty && (
-                  <div className="text-sm text-slate-500">
-                    You have unsaved changes.
-                  </div>
-                )}
-              </div>
+              <SaveButton
+                isLoading={loading}
+                isDisabled={(isEmpty && !isDirty) || !isDirty}
+                hasUnsavedChanges={isDirty}
+              />
             </div>
-            <Separator className="my-6" />
             <TopicField name="topic" />
             <SubjectsField name="subjects" grade={grade} />
             {/* ------------------------Content ------------------------- */}

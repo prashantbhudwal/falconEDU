@@ -26,6 +26,7 @@ import { typeActiveParsedQuestionByBotConfigId } from "@/app/dragon/teacher/rout
 const MAX_CHARS = LIMITS_testBotPreferencesSchema.fullTest.maxLength;
 import TextAreaWithUpload from "../../../../_components/textAreaWithUpload";
 import { AddQuestionsDialog } from "./add-questions-dialog";
+import { SaveButton } from "../../../../_components/form/save-btn";
 
 type BotPreferencesFormProps = {
   preferences?: z.infer<typeof testBotPreferencesSchema> | null;
@@ -196,27 +197,11 @@ export default function TestPreferencesForm({
                 )}
               </div>
               {!parsedQuestionFromDb ? (
-                <div className="flex w-fit flex-col items-end gap-2">
-                  <Button
-                    type="submit"
-                    disabled={loading || !isDirty}
-                    className="text-xs"
-                    size={"sm"}
-                  >
-                    {loading ? (
-                      <span className="loading loading-infinity loading-sm"></span>
-                    ) : isDirty ? (
-                      "Save"
-                    ) : (
-                      "Saved"
-                    )}
-                  </Button>
-                  {isDirty && (
-                    <div className="text-xs text-slate-500">
-                      You have unsaved changes.
-                    </div>
-                  )}
-                </div>
+                <SaveButton
+                  isLoading={loading}
+                  isDisabled={loading || !isDirty}
+                  hasUnsavedChanges={isDirty}
+                />
               ) : (
                 <AddQuestionsDialog
                   loading={loading}

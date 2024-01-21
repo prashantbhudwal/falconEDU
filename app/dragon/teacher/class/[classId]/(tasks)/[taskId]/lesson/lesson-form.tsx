@@ -29,6 +29,7 @@ import { HumorLevelField } from "../../_components/form/humor-level";
 import { SubjectsField } from "../../_components/form/subjects-old";
 import { TopicField } from "../../_components/form/topic";
 const MAX_CHARS = LIMITS_lessonPreferencesSchema.content.maxLength;
+import { SaveButton } from "../../_components/form/save-btn";
 
 const defaultValues: z.infer<typeof lessonPreferencesSchema> = {
   topic: "",
@@ -126,7 +127,7 @@ export default function LessonForm({
             variant="gray"
             className="min-h-screen w-full max-w-5xl space-y-12 bg-base-200"
           >
-            <div className="flex flex-wrap justify-between px-5">
+            <div className="flex flex-wrap justify-between">
               <div className="w-[50%]">
                 <Input
                   type="text"
@@ -139,25 +140,12 @@ export default function LessonForm({
                   <div className="mt-3 text-xs text-red-500">{error}</div>
                 )}
               </div>
-              <div className="flex flex-col items-end gap-2">
-                <div className="flex flex-row gap-6">
-                  <Button
-                    type="submit"
-                    className="text-xs"
-                    size={"sm"}
-                    disabled={(isEmpty && !isDirty) || !isDirty}
-                  >
-                    {loading ? "Saving" : isDirty ? "Save" : "Saved"}
-                  </Button>
-                </div>
-                {isDirty && (
-                  <div className="text-xs text-slate-500">
-                    You have unsaved changes.
-                  </div>
-                )}
-              </div>
+              <SaveButton
+                isLoading={loading}
+                isDisabled={(isEmpty && !isDirty) || !isDirty}
+                hasUnsavedChanges={isDirty}
+              />
             </div>
-            <Separator />
             <TopicField name="topic" />
             <SubjectsField name="subjects" grade={grade} />
             <FormField
