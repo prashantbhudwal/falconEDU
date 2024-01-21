@@ -32,6 +32,7 @@ import {
   AITestPreferenceSchema,
   LIMITS_AITestPreferencesSchema,
 } from "@/lib/schema";
+import { MediumOfInstructionField } from "../../_components/task-form";
 
 const MAX_CHARS = LIMITS_AITestPreferencesSchema.content.maxLength;
 
@@ -43,6 +44,7 @@ const defaultValues: z.infer<typeof AITestPreferenceSchema> = {
   language: "English",
   humorLevel: "Moderate",
   languageProficiency: "Beginner",
+  mediumOfInstruction: "english",
 };
 
 type AITestFormProps = {
@@ -194,7 +196,7 @@ export default function AITestForm({
                 </FormItem>
               )}
             />
-
+            <MediumOfInstructionField name="mediumOfInstruction" />
             <HumorLevelField name="humorLevel" />
           </Paper>
         </form>

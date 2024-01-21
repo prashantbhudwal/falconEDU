@@ -85,6 +85,7 @@ export const botPreferences: Array<z.infer<typeof botPreferencesSchema>> = [
     language: "English",
     humorLevel: "Low",
     languageProficiency: "Advanced",
+    mediumOfInstruction: "english",
   },
   {
     instructions: "Encourage participation.",
@@ -93,6 +94,7 @@ export const botPreferences: Array<z.infer<typeof botPreferencesSchema>> = [
     language: "English",
     humorLevel: "High",
     languageProficiency: "Beginner",
+    mediumOfInstruction: "english",
   },
   {
     instructions: "Avoid off-topic discussions.",
@@ -101,6 +103,7 @@ export const botPreferences: Array<z.infer<typeof botPreferencesSchema>> = [
     language: "English",
     humorLevel: "Low",
     languageProficiency: "Advanced",
+    mediumOfInstruction: "english",
   },
 ];
 
@@ -110,7 +113,7 @@ export const lessonPreferences: Array<z.infer<typeof lessonPreferencesSchema>> =
       content: "Be clear and concise.",
       topic: "English",
       subjects: ["English"],
-
+      mediumOfInstruction: "english",
       tone: "Friendly",
       language: "English",
       humorLevel: "Low",
@@ -120,21 +123,21 @@ export const lessonPreferences: Array<z.infer<typeof lessonPreferencesSchema>> =
       content: "Be clear and concise.",
       topic: "English",
       subjects: ["Math", "Science"],
-
       tone: "Friendly",
       language: "English",
       humorLevel: "High",
       languageProficiency: "Beginner",
+      mediumOfInstruction: "english",
     },
     {
       content: "Be clear and concise.",
       topic: "English",
       subjects: ["Science"],
-
       tone: "Strict",
       language: "English",
       humorLevel: "Low",
       languageProficiency: "Advanced",
+      mediumOfInstruction: "english",
     },
   ];
 
@@ -144,31 +147,31 @@ export const AITestPreferences: Array<z.infer<typeof lessonPreferencesSchema>> =
       content: "Be clear and concise.",
       topic: "English",
       subjects: ["English"],
-
       tone: "Friendly",
       language: "English",
       humorLevel: "Low",
       languageProficiency: "Advanced",
+      mediumOfInstruction: "english",
     },
     {
       content: "Be clear and concise.",
       topic: "English",
       subjects: ["Math", "Science"],
-
       tone: "Friendly",
       language: "English",
       humorLevel: "High",
       languageProficiency: "Beginner",
+      mediumOfInstruction: "english",
     },
     {
       content: "Be clear and concise.",
       topic: "English",
       subjects: ["Science"],
-
       tone: "Strict",
       language: "English",
       humorLevel: "Low",
       languageProficiency: "Advanced",
+      mediumOfInstruction: "english",
     },
   ];
 
