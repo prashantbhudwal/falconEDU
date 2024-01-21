@@ -25,10 +25,7 @@ export const TopicField = ({ name }: { name: string }) => {
               inputFocus === "topic" ? "text-white" : ""
             }`}
           >
-            <div className="flex items-center gap-2 text-xs">
-              Topic
-              <FiInfo />
-            </div>
+            Topic
           </FormLabel>
           <FormControl>
             <Input

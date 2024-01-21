@@ -42,7 +42,6 @@ export const SubjectsField = ({
           <div className="mb-5 flex flex-col gap-2">
             <FormLabel className="flex items-center gap-2 font-bold">
               Subjects
-              <FiBookOpen />
             </FormLabel>
           </div>
           <div className="flex flex-row flex-wrap gap-x-6 gap-y-5 ">
