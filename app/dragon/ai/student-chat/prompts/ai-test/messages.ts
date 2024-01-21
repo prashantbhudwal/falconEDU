@@ -7,12 +7,16 @@ import {
   AITestPreferences as AITestPreferencesTest,
   teacherPreferences as teacherPreferencesTest,
   studentPreferences as studentPreferencesTest,
-} from "../../../../test-data";
+} from "../../../../../../lib/schema/test-data";
 import { AITestContextByChatId } from "./queries";
 import { isEmptyObject } from "../chat/queries";
 import * as z from "zod";
 import { getFormattedGrade } from "@/app/dragon/teacher/utils";
-import { AITestPreferenceSchema, StudentPreferenceSchema, teacherPreferencesSchema } from "@/lib/schema";
+import {
+  AITestPreferenceSchema,
+  StudentPreferenceSchema,
+  teacherPreferencesSchema,
+} from "@/lib/schema";
 
 export const getPreferences = (context: AITestContextByChatId) => {
   let teacherPreferences = context?.teacherPreferences as z.infer<

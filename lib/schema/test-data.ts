@@ -4,7 +4,7 @@ import {
   lessonPreferencesSchema,
   teacherPreferencesSchema,
 } from "@/lib/schema";
-import { type Bot } from "./student/types";
+import { type Bot } from "../../app/dragon/student/types";
 
 export const botData = {
   id: "111",

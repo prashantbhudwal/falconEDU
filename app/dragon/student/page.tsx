@@ -1,7 +1,7 @@
 import { getChats } from "@/app/(engines)/chubbi/actions";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-import { bots } from "@/app/dragon/test-data";
+import { bots } from "@/lib/schema/test-data";
 import { getBotsByUserId } from "./queries";
 import { StudentHomeNavbar } from "./components/student-navbar";
 import { ItemCard } from "./components/item-card";

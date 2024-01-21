@@ -3,7 +3,7 @@ import {
   botPreferences as botPreferencesTest,
   teacherPreferences as teacherPreferencesTest,
   studentPreferences as studentPreferencesTest,
-} from "../../../../test-data";
+} from "../../../../../../lib/schema/test-data";
 import { ChatContextByChatId, isEmptyObject } from "./queries";
 import * as z from "zod";
 import { getFormattedGrade } from "@/app/dragon/teacher/utils";
