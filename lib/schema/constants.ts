@@ -1,4 +1,4 @@
-export const medium_of_instruction = ["english", "hindi", ,] as const;
+export const mediumOfInstruction = ["english", "hindi"] as const;
 
 export const grades = [
   "Grade 1",

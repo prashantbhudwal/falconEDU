@@ -19,13 +19,14 @@ import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 import { Input } from "@/components/ui/input";
 import TextAreaWithUpload from "../../_components/textAreaWithUpload";
 import endent from "endent";
-import { HumorLevelField } from "../../_components/form/humor-level";
-import { SaveButton } from "../../_components/form/save-btn";
+import { HumorLevelField } from "../../_components/task-form/fields/humor-level";
+import { SaveButton } from "../../_components/task-form/save-btn";
 import {
   LIMITS_botPreferencesSchema,
   botNameSchema,
   botPreferencesSchema,
 } from "@/lib/schema";
+import { MediumOfInstructionField } from "../../_components/task-form";
 
 const MAX_CHARS = LIMITS_botPreferencesSchema.instructions.maxLength;
 
@@ -35,6 +36,7 @@ const defaultValues: z.infer<typeof botPreferencesSchema> = {
   language: "English",
   humorLevel: "Moderate",
   languageProficiency: "Beginner",
+  mediumOfInstruction: "english",
 };
 
 type BotPreferencesFormProps = {
@@ -174,6 +176,7 @@ export default function BotPreferencesForm({
                 </FormItem>
               )}
             />
+            <MediumOfInstructionField name="mediumOfInstruction" />
             <HumorLevelField name="humorLevel" />
           </Paper>
         </form>

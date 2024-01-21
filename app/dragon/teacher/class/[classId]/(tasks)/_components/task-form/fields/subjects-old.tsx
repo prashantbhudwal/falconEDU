@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import {
   FormField,
@@ -9,7 +10,7 @@ import {
 import { useFormContext } from "react-hook-form";
 import { FiBookOpen } from "react-icons/fi";
 import { getFormattedGrade } from "@/app/dragon/teacher/utils";
-import subjectsArray from "../../../../../../../data/subjects.json";
+import subjectsArray from "../../../../../../../../data/subjects.json";
 import { Grade } from "@prisma/client";
 import { Chip } from "@/components/ui/chip";
 

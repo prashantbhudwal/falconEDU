@@ -1,5 +1,11 @@
 import { z } from "zod";
-import { humorLevel, language, languageProficiency, tone } from "../constants";
+import {
+  humorLevel,
+  language,
+  languageProficiency,
+  mediumOfInstruction,
+  tone,
+} from "../constants";
 
 export const LIMITS_botPreferencesSchema = {
   instructions: {
@@ -23,6 +29,7 @@ export const botPreferencesSchema = z.object({
   language: z.enum(language),
   humorLevel: z.enum(humorLevel),
   languageProficiency: z.enum(languageProficiency),
+  mediumOfInstruction: z.enum(mediumOfInstruction),
 });
 
 export const botNameSchema = z.object({

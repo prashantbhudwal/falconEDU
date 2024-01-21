@@ -18,16 +18,17 @@ import { Paper } from "@/components/ui/paper";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 import { Input } from "@/components/ui/input";
 import TextAreaWithUpload from "../../_components/textAreaWithUpload";
-import { HumorLevelField } from "../../_components/form/humor-level";
-import { SubjectsField } from "../../_components/form/subjects-old";
-import { TopicField } from "../../_components/form/topic";
-const MAX_CHARS = LIMITS_lessonPreferencesSchema.content.maxLength;
-import { SaveButton } from "../../_components/form/save-btn";
+import { HumorLevelField } from "../../_components/task-form/fields/humor-level";
+import { SubjectsField } from "../../_components/task-form/fields/subjects-old";
+import { TopicField } from "../../_components/task-form/fields/topic";
+import { SaveButton } from "../../_components/task-form/save-btn";
 import {
   LIMITS_lessonPreferencesSchema,
   lessonNameSchema,
   lessonPreferencesSchema,
 } from "@/lib/schema";
+const MAX_CHARS = LIMITS_lessonPreferencesSchema.content.maxLength;
+import { MediumOfInstructionField } from "../../_components/task-form";
 
 const defaultValues: z.infer<typeof lessonPreferencesSchema> = {
   topic: "",
@@ -37,6 +38,7 @@ const defaultValues: z.infer<typeof lessonPreferencesSchema> = {
   language: "English",
   humorLevel: "Moderate",
   languageProficiency: "Beginner",
+  mediumOfInstruction: "english",
 };
 
 type LessonFormProps = {
@@ -181,7 +183,7 @@ export default function LessonForm({
                 </FormItem>
               )}
             />
-
+            <MediumOfInstructionField name="mediumOfInstruction" />
             <HumorLevelField name="humorLevel" />
           </Paper>
         </form>

@@ -1,5 +1,6 @@
 import { questionTypes } from "@/app/dragon/ai/test-checker/tool";
 import * as z from "zod";
+import { mediumOfInstruction } from "../constants";
 
 export const LIMITS_testBotPreferencesSchema = {
   fullTest: {

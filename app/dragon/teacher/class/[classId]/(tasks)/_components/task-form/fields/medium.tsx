@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import {
   FormField,
@@ -16,8 +17,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useFormContext } from "react-hook-form";
+import { mediumOfInstruction } from "@/lib/schema/constants";
 
-export const HumorLevelField = ({ name }: { name: string }) => {
+export const MediumOfInstructionField = ({ name }: { name: string }) => {
   const form = useFormContext();
 
   return (
@@ -26,19 +28,28 @@ export const HumorLevelField = ({ name }: { name: string }) => {
       name={name}
       render={({ field }) => (
         <FormItem className="space-y-3">
-          <FormLabel className="flex items-center gap-2 font-bold">
-            Medium of Instruction
-          </FormLabel>
+          <FormLabel>Medium of Instruction</FormLabel>
           <FormControl>
-            <Select onValueChange={field.onChange} defaultValue={field.value}>
-              <SelectTrigger className="w-[180px]">
+            <Select
+              onValueChange={field.onChange}
+              defaultValue={field.value}
+              autoComplete="on"
+            >
+              <SelectTrigger className="w-[180px] capitalize">
                 <SelectValue placeholder="Medium of Instruction" />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
                   <SelectLabel>Languages</SelectLabel>
-                  <SelectItem value="english">English</SelectItem>
-                  <SelectItem value="hindi">Hindi</SelectItem>
+                  {mediumOfInstruction.map((medium) => (
+                    <SelectItem
+                      key={medium}
+                      value={medium}
+                      className="capitalize"
+                    >
+                      {medium}
+                    </SelectItem>
+                  ))}
                 </SelectGroup>
               </SelectContent>
             </Select>

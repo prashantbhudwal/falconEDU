@@ -1,5 +1,11 @@
 import { z } from "zod";
-import { humorLevel, language, languageProficiency, tone } from "../constants";
+import {
+  humorLevel,
+  language,
+  languageProficiency,
+  mediumOfInstruction,
+  tone,
+} from "../constants";
 
 export const LIMITS_lessonPreferencesSchema = {
   content: {
@@ -24,6 +30,7 @@ export const lessonPreferencesSchema = z.object({
   language: z.enum(language),
   humorLevel: z.enum(humorLevel),
   languageProficiency: z.enum(languageProficiency),
+  mediumOfInstruction: z.enum(mediumOfInstruction)
 });
 
 export const lessonNameSchema = z.object({

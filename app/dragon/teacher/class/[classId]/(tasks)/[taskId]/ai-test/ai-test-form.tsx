@@ -23,10 +23,10 @@ import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 import { Input } from "@/components/ui/input";
 import TextAreaWithUpload from "../../_components/textAreaWithUpload";
 import { getFormattedGrade } from "@/app/dragon/teacher/utils";
-import { SubjectsField } from "../../_components/form/subjects-old";
-import { HumorLevelField } from "../../_components/form/humor-level";
-import { TopicField } from "../../_components/form/topic";
-import { SaveButton } from "../../_components/form/save-btn";
+import { SubjectsField } from "../../_components/task-form/fields/subjects-old";
+import { HumorLevelField } from "../../_components/task-form/fields/humor-level";
+import { TopicField } from "../../_components/task-form/fields/topic";
+import { SaveButton } from "../../_components/task-form/save-btn";
 import {
   AITestNameSchema,
   AITestPreferenceSchema,

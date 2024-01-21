@@ -13,7 +13,6 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 import { Input } from "@/components/ui/input";
 import { parseTestQuestions } from "@/app/dragon/ai/test-question-parser/get-test-questions";
@@ -21,7 +20,7 @@ import { typeActiveParsedQuestionByBotConfigId } from "@/lib/routers/parsedQuest
 const MAX_CHARS = LIMITS_testBotPreferencesSchema.fullTest.maxLength;
 import TextAreaWithUpload from "../../../../_components/textAreaWithUpload";
 import { AddQuestionsDialog } from "./add-questions-dialog";
-import { SaveButton } from "../../../../_components/form/save-btn";
+import { SaveButton } from "../../../../_components/task-form/save-btn";
 import {
   LIMITS_testBotPreferencesSchema,
   botNameSchema,
@@ -58,7 +57,7 @@ export default function TestPreferencesForm({
 
   const form = useForm<z.infer<typeof testBotPreferencesSchema>>({
     // resolver: zodResolver(testBotPreferencesSchema),
-    defaultValues: { fullTest: "", timeLimit }, // later change with value from db of timelimit
+    defaultValues: { fullTest: "" }, // later change with value from db of timelimit
     mode: "onChange",
   });
 

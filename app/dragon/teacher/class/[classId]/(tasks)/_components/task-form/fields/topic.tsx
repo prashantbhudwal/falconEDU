@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import {
   FormField,
@@ -8,7 +9,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useFormContext } from "react-hook-form";
-import { FiInfo } from "react-icons/fi";
 
 export const TopicField = ({ name }: { name: string }) => {
   const form = useFormContext();
@@ -29,6 +29,7 @@ export const TopicField = ({ name }: { name: string }) => {
           </FormLabel>
           <FormControl>
             <Input
+              required
               autoComplete="off"
               className="text-sm"
               placeholder="Topic you want to teach. For multiple topics, separate them with commas."
