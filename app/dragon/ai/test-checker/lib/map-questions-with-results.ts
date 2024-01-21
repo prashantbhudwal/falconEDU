@@ -6,7 +6,7 @@ import {
   type SingleTestResultWithID,
 } from "../tool";
 import { parsedQuestions } from "@prisma/client";
-import { UpdatedQuestionType } from "@/app/dragon/types";
+import { UpdatedQuestionType } from "@/types";
 
 const getDummyAnswer = function (
   testQuestion: parsedQuestions,

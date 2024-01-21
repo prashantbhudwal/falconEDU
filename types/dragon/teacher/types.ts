@@ -1,4 +1,4 @@
-import { questionTypes } from "../dragon/ai/test-checker/tool"; // Find a way to type check question type with prisma
+import { questionTypes } from "../../../app/dragon/ai/test-checker/tool"; // Find a way to type check question type with prisma
 
 export type UpdatedQuestionType = Exclude<
   (typeof questionTypes)[number],

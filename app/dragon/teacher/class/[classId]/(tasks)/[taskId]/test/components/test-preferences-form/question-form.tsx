@@ -39,8 +39,8 @@ import {
 } from "@/components/ui/select";
 import { questionTypes } from "@/app/dragon/ai/test-checker/tool";
 import { getQuestionTypeName } from "../../../../../../../utils";
-import { UpdatedQuestionType } from "@/app/dragon/types";
 import { parsedQuestionsSchema } from "@/lib/schema";
+import { UpdatedQuestionType } from "@/types";
 
 type QuestionProps = typeActiveParsedQuestionByBotConfigId;
 
