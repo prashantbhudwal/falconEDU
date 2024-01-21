@@ -9,6 +9,7 @@ export async function POST(req: Request, res: NextResponse) {
       model: "tts-1",
       voice: "alloy",
       input: text,
+      speed: 0.9,
     });
 
     // Convert to buffer
