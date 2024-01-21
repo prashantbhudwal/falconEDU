@@ -17,7 +17,7 @@ import { Paper } from "@/components/ui/paper";
 import { Grade } from "@prisma/client";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 import { Input } from "@/components/ui/input";
-import TextAreaWithUpload from "../../_components/textAreaWithUpload";
+import TextAreaWithUpload from "../../_components/textarea-with-upload";
 import endent from "endent";
 import { HumorLevelField } from "../../_components/task-form/fields/humor-level";
 import { SaveButton } from "../../_components/task-form/save-btn";

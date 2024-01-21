@@ -18,7 +18,7 @@ import { Input } from "@/components/ui/input";
 import { parseTestQuestions } from "@/app/dragon/ai/test-question-parser/get-test-questions";
 import { typeActiveParsedQuestionByBotConfigId } from "@/lib/routers/parsedQuestionRouter";
 const MAX_CHARS = LIMITS_testBotPreferencesSchema.fullTest.maxLength;
-import TextAreaWithUpload from "../../../../_components/textAreaWithUpload";
+import TextAreaWithUpload from "../../../../_components/textarea-with-upload";
 import { AddQuestionsDialog } from "./add-questions-dialog";
 import { SaveButton } from "../../../../_components/task-form/save-btn";
 import {

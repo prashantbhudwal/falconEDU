@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/tooltip";
 import { FormProvider, useFormContext } from "react-hook-form";
 import { IoMdAdd } from "react-icons/io";
-import TextAreaWithUpload from "../../../../_components/textAreaWithUpload";
+import TextAreaWithUpload from "../../../../_components/textarea-with-upload";
 import {
   FormControl,
   FormDescription,

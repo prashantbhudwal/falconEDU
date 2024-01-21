@@ -17,7 +17,7 @@ import { FiInfo } from "react-icons/fi";
 import { Paper } from "@/components/ui/paper";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 import { Input } from "@/components/ui/input";
-import TextAreaWithUpload from "../../_components/textAreaWithUpload";
+import TextAreaWithUpload from "../../_components/textarea-with-upload";
 import { HumorLevelField } from "../../_components/task-form/fields/humor-level";
 import { SubjectsField } from "../../_components/task-form/fields/subjects-old";
 import { TopicField } from "../../_components/task-form/fields/topic";
