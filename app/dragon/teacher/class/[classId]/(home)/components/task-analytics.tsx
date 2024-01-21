@@ -22,42 +22,42 @@ const TaskAnalytics = ({ analytics }: { analytics: TypeGetTaskStats }) => {
   return (
     <HoverCard openDelay={200}>
       <HoverCardTrigger asChild>
-        <div className="flex items-center space-x-4 px-2 py-1 hover:bg-base-300 rounded">
+        <div className="flex items-center space-x-4 rounded px-2 py-1 hover:bg-base-300">
           <div className="flex items-center gap-1">
-            <UserIcon className="w-3 h-3" />
+            <UserIcon className="h-3 w-3" />
             <span className="text-xs">{interaction}</span>
           </div>
           <div className="flex items-center gap-1">
-            <ChatBubbleLeftRightIcon className="w-3 h-3" />
+            <ChatBubbleLeftRightIcon className="h-3 w-3" />
             <span className="text-xs">{chatCount}</span>
           </div>
           {analytics.totalSubmittedStudents !== null && (
             <div className="flex items-center gap-1">
-              <HiOutlineClipboardDocumentCheck className="w-3 h-3" />
+              <HiOutlineClipboardDocumentCheck className="h-3 w-3" />
               <span className="text-xs">{submittedStudents}</span>
             </div>
           )}
         </div>
       </HoverCardTrigger>
-      <HoverCardContent className="bg-base-300 rounded-lg" align="start">
+      <HoverCardContent className="rounded-lg bg-base-300" align="start">
         <div className="flex flex-col space-y-2">
           <div className="flex items-center gap-2">
             <div className="flex items-center gap-1">
-              <UserIcon className="w-3 h-3" />
+              <UserIcon className="h-3 w-3" />
               <span>Interactions:</span>
             </div>
             <span className="text-xs">{interaction}</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="flex items-center gap-1">
-              <BiChat className="w-3 h-3" />
+              <BiChat className="h-3 w-3" />
               <span>Chat count:</span>
             </div>
             <span className="text-xs">{chatCount}</span>
           </div>
           {analytics.totalSubmittedStudents !== null && (
             <div className="flex items-center gap-1">
-              <HiOutlineClipboardDocumentCheck className="w-3 h-3" />
+              <HiOutlineClipboardDocumentCheck className="h-3 w-3" />
               <span className="text-xs">{submittedStudents}</span>
             </div>
           )}

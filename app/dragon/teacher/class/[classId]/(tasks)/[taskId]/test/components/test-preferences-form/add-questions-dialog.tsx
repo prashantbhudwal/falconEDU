@@ -78,20 +78,20 @@ export const AddQuestionsDialog = ({
           <TooltipTrigger
             type="button"
             onClick={() => setOpen(true)}
-            className="text-xs flex items-center px-3 gap-1 border bg-accent/80 font-semibold border-base-100 text-accent-content hover:bg-accent"
+            className="flex items-center gap-1 border border-base-100 bg-accent/80 px-3 text-xs font-semibold text-accent-content hover:bg-accent"
           >
             Add <IoMdAdd className="text-base" />
           </TooltipTrigger>
-          <TooltipContent className="text-xs bg-base-100 text-slate-200">
+          <TooltipContent className="bg-base-100 text-xs text-slate-200">
             <p>Add more questions</p>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
-      <DialogContent className="min-w-[800px] overflow-y-scroll custom-scrollbar">
+      <DialogContent className="custom-scrollbar min-w-[800px] overflow-y-scroll">
         <DialogHeader>
-          <DialogTitle className="flex w-full items-center justify-between mt-5">
+          <DialogTitle className="mt-5 flex w-full items-center justify-between">
             Add More Questions{" "}
-            <div className="flex w-fit flex-col gap-2 items-end">
+            <div className="flex w-fit flex-col items-end gap-2">
               <Button
                 onClick={submittingModalHandler}
                 size={"sm"}
@@ -118,7 +118,7 @@ export const AddQuestionsDialog = ({
               <FormItem className="pb-10">
                 <FormProvider {...form}>
                   <FormControl>
-                    <div className="relative w-full mt-5 rounded-md border border-input bg-transparent py-2 shadow-sm min-h-[200px] sm:min-h-[150px] text-sm">
+                    <div className="relative mt-5 min-h-[200px] w-full rounded-md border border-input bg-transparent py-2 text-sm shadow-sm sm:min-h-[150px]">
                       <TextAreaWithUpload
                         counter
                         maxChars={MAX_CHARS}
@@ -137,7 +137,7 @@ export const AddQuestionsDialog = ({
                 </FormDescription>
                 <FormMessage />
                 {error && (
-                  <div className="text-error text-sm mt-3">{error}</div>
+                  <div className="mt-3 text-sm text-error">{error}</div>
                 )}
               </FormItem>
             )}

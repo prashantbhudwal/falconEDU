@@ -28,7 +28,7 @@ export default function Page() {
               key={questionObject.type}
               hasDelete={false}
             />
-          )
+          ),
       )}
     </div>
   );

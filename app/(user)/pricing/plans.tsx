@@ -25,7 +25,7 @@ const checkout = async (priceId: string) => {
 };
 
 const isStripePrice = (
-  price: string | Stripe.Price | null | undefined
+  price: string | Stripe.Price | null | undefined,
 ): price is Stripe.Price => {
   return (price as Stripe.Price).unit_amount !== undefined;
 };
@@ -73,7 +73,7 @@ const Plans: React.FC<PlansProps> = ({ products }) => {
 
   return (
     <section className="flex flex-col items-center justify-center gap-6">
-      <div className="w-64 mt-8">
+      <div className="mt-8 w-64">
         <input
           type="range"
           min={1}
@@ -83,7 +83,7 @@ const Plans: React.FC<PlansProps> = ({ products }) => {
           step="1"
           onChange={(e) => selectProduct(e.target.value)}
         />
-        <div className="w-full flex justify-between text-sm px-2">
+        <div className="flex w-full justify-between px-2 text-sm">
           {sortedProducts.map((product) => (
             <span key={product.id}>
               {product.default_price.lookup_key &&
@@ -92,7 +92,7 @@ const Plans: React.FC<PlansProps> = ({ products }) => {
           ))}
         </div>
       </div>
-      <div className="card lg:card-side bg-base-100 shadow-xl">
+      <div className="card bg-base-100 shadow-xl lg:card-side">
         <figure className="bg-base-200 px-32">
           <Image src="/chubbi.png" alt="Album" width={200} height={200} />
         </figure>
@@ -112,7 +112,7 @@ const Plans: React.FC<PlansProps> = ({ products }) => {
               {price.unit_amount &&
                 price.lookup_key &&
                 Math.round(
-                  price.unit_amount / 100 / getNumberOfMonths(price.lookup_key)
+                  price.unit_amount / 100 / getNumberOfMonths(price.lookup_key),
                 )}
             </span>
             <span className="text-gray-500">per month</span>

@@ -15,12 +15,12 @@ export function cn(...inputs: ClassValue[]) {
 
 export const nanoid = customAlphabet(
   "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
-  7
+  7,
 ); // 7-character random string
 
 export async function fetcher<JSON = any>(
   input: RequestInfo,
-  init?: RequestInit
+  init?: RequestInit,
 ): Promise<JSON> {
   const res = await fetch(input, init);
 
@@ -65,11 +65,11 @@ type SchemaType<T extends z.ZodTypeAny> =
   T extends z.ZodType<infer R, any, any> ? R : never;
 
 export const removeOptionalFieldFormZodTypes = <T extends z.ZodObject<any>>(
-  schema: T
+  schema: T,
 ): z.ZodObject<SchemaType<T>> => {
   const updatedSchema = schema.partial().refine((data) => {
     const requiredFields = Object.keys(schema.shape).filter((field) =>
-      schema.shape[field as keyof typeof schema.shape].optional()
+      schema.shape[field as keyof typeof schema.shape].optional(),
     ) as (keyof typeof schema.shape)[];
 
     return requiredFields.every((field) => data[String(field)] !== undefined);
@@ -144,7 +144,7 @@ export const tailwindColorToHex = (colorClass: string): string => {
 // -----------------------------------------------------------------------------------------------------------------------
 
 export const generateZodEnumSchema = <T extends Record<string, EnumValues<T>>>(
-  enumObject: T
+  enumObject: T,
 ) => {
   const enumValues = Object.values(enumObject) as EnumValues<T>[];
   const enumArray = enumValues.map(String) as [string, ...string[]];

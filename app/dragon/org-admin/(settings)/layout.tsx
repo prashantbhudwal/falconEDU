@@ -7,11 +7,11 @@ export default async function SettingsLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-col h-screen bg-base-300 w-full">
-      <div className="flex flex-col h-full w-full">
+    <div className="flex h-screen w-full flex-col bg-base-300">
+      <div className="flex h-full w-full flex-col">
         <BackBar link={orgAdminHomeURL} />
-        <div className="w-full overflow-y-auto custom-scrollbar bg-base-300">
-          <div className="w-full bg-base-300 shadow-sm shadow-base-100 pb-10 min-h-screen">
+        <div className="custom-scrollbar w-full overflow-y-auto bg-base-300">
+          <div className="min-h-screen w-full bg-base-300 pb-10 shadow-sm shadow-base-100">
             {children}
           </div>
         </div>

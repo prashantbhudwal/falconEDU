@@ -37,15 +37,15 @@ export const InviteStudentsEmail = ({
       <Head />
       <Preview>{previewText}</Preview>
       <Tailwind>
-        <Body className="bg-white my-auto mx-auto font-sans">
-          <Container className="border border-solid border-[#eaeaea] rounded my-[40px] mx-auto p-[20px] w-[465px]">
-            <Heading className="text-black text-[24px] font-normal text-center p-0 my-[30px] mx-0">
+        <Body className="mx-auto my-auto bg-white font-sans">
+          <Container className="mx-auto my-[40px] w-[465px] rounded border border-solid border-[#eaeaea] p-[20px]">
+            <Heading className="mx-0 my-[30px] p-0 text-center text-[24px] font-normal text-black">
               Your teacher is inviting you to join their class on FalconAI.
             </Heading>
-            <Section className="text-center mt-[32px] mb-[32px]">
+            <Section className="mb-[32px] mt-[32px] text-center">
               <Button
                 style={{ padding: "1rem" }}
-                className="bg-[#000000] rounded text-white text-[12px] font-semibold no-underline text-center"
+                className="rounded bg-[#000000] text-center text-[12px] font-semibold text-white no-underline"
                 href={inviteLink}
               >
                 Join the Class

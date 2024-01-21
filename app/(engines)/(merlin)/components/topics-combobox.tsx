@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { subtopicsAtom } from "@/lib/atoms/preferences";
 import { subtopicAtom } from "@/lib/atoms/preferences";
 import { useAtom } from "jotai";
@@ -52,16 +52,14 @@ export function TopicsCombobox() {
                 key={topic.value}
                 value={topic.value}
                 onSelect={(currentValue) => {
-                  setSubtopic(
-                    currentValue === subtopic ? "" : currentValue
-                  );
+                  setSubtopic(currentValue === subtopic ? "" : currentValue);
                   setOpen(false);
                 }}
               >
                 <LuCheck
                   className={cn(
                     "mr-2 h-4 w-4",
-                    subtopic === topic.value ? "opacity-100" : "opacity-0"
+                    subtopic === topic.value ? "opacity-100" : "opacity-0",
                   )}
                 />
                 {topic.label}

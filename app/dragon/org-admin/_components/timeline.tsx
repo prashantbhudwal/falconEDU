@@ -57,8 +57,8 @@ const Timeline = ({ teacher }: { teacher: TeacherTask }) => {
 
   return (
     <>
-      <div className="w-11/12 mx-auto my-5">
-        <Flex className="gap-3 flex-wrap">
+      <div className="mx-auto my-5 w-11/12">
+        <Flex className="flex-wrap gap-3">
           <Title>Historical Timeline</Title>
           <Select
             value={selectedClassId}
@@ -108,7 +108,7 @@ const Timeline = ({ teacher }: { teacher: TeacherTask }) => {
       />
       {teacherTasks.length === 0 && (
         <Flex className="w-full items-center justify-center">
-          <Title className="mt-5 mb-2">No Tasks Yet</Title>
+          <Title className="mb-2 mt-5">No Tasks Yet</Title>
         </Flex>
       )}
     </>

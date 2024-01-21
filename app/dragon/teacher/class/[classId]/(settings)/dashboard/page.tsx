@@ -30,7 +30,7 @@ export default async function ClassSettings({
   const configs = await db.botConfig.getAllConfigsInClass({ userId, classId });
   const classDetails = await db.class.getClassByClassId({ classId });
   return (
-    <div className=" mx-auto flex flex-col space-y-10 pt-10 items-center">
+    <div className=" mx-auto flex flex-col items-center space-y-10 pt-10">
       {/* ------------------------------------------------------------------------------- */}
       <h1 className="text-3xl font-bold  text-slate-400">Class Settings</h1>
 
@@ -50,7 +50,7 @@ export default async function ClassSettings({
           />
           <ToggleClassStatusCard classId={classId} />
         </div>
-        <div className="flex justify-start items-center space-x-10">
+        <div className="flex items-center justify-start space-x-10">
           <ConfigCard
             classId={classId}
             configType="chat"
@@ -83,7 +83,7 @@ const StudentsCard = function ({
         <TooltipTrigger asChild>
           <Link
             href={getStudentsURL(classId)}
-            className="rounded-md border-border border-[1px] bg-base-200 w-[200px] hover:bg-primary hover:text-base-300"
+            className="w-[200px] rounded-md border-[1px] border-border bg-base-200 hover:bg-primary hover:text-base-300"
           >
             <div className="flex items-center justify-center gap-5 p-4 ">
               <div className="flex flex-col items-center text-xs">
@@ -96,12 +96,12 @@ const StudentsCard = function ({
                 className="h-[20px] bg-accent"
               />
 
-              <UsersIcon className="w-7 h-7" />
+              <UsersIcon className="h-7 w-7" />
             </div>
           </Link>
         </TooltipTrigger>
         <TooltipContent
-          className="bg-base-200 text-slate-300 text-base "
+          className="bg-base-200 text-base text-slate-300 "
           sideOffset={10}
         >
           Add students to your class

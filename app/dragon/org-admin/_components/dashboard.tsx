@@ -19,13 +19,13 @@ const Dashboard = async () => {
   const allTasks = await getAllPublishedTasksByDate();
   const teachers = await getAllTeachersInAnOrg();
   const sortedTeachers = Array.from(teachers?.teacherWeekyData || []).sort(
-    (a, b) => b[1].thisWeek - a[1].thisWeek
+    (a, b) => b[1].thisWeek - a[1].thisWeek,
   );
 
   return (
     <>
       <TaskChart chartData={allTasks?.dayWiseChartData} />
-      <div className="w-11/12 mx-auto">
+      <div className="mx-auto w-11/12">
         <Grid numItemsMd={2} className="mt-5 gap-6">
           {Array.from(allTasks?.dayWiseData || []).map(([key, value]) => {
             return (
@@ -38,7 +38,7 @@ const Dashboard = async () => {
             );
           })}
         </Grid>
-        <Title className="mt-5 mb-2">Teachers</Title>
+        <Title className="mb-2 mt-5">Teachers</Title>
         {sortedTeachers.map(([key, value]) => {
           return (
             <Card key={key} className="mb-5 rounded-xl">

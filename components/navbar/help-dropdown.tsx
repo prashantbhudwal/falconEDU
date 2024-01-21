@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function HelpDropdown() {
   return (
-    <div className="dropdown-end dropdown">
+    <div className="dropdown dropdown-end">
       <label
         tabIndex={0}
         className="btn btn-circle btn-sm flex flex-row gap-1 bg-base-100 shadow-sm shadow-slate-950"
@@ -12,7 +12,7 @@ export default function HelpDropdown() {
       </label>
       <ul
         tabIndex={0}
-        className="menu dropdown-content rounded-box menu-sm z-[1] mt-3 w-52 bg-base-100 p-2 shadow"
+        className="menu dropdown-content menu-sm z-[1] mt-3 w-52 rounded-box bg-base-100 p-2 shadow"
       >
         <li>
           <Link href="https://brindle-diascia-0d5.notion.site/Falcon-Help-f8b1691a6810473cbaa4bebb3566da90">

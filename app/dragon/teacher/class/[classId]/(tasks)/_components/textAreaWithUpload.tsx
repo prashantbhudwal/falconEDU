@@ -73,10 +73,10 @@ const TextAreaWithUpload = ({
   return (
     <div
       ref={textContainerRef}
-      className={cn("relative h-[200px] overflow-y-scroll custom-scrollbar")}
+      className={cn("custom-scrollbar relative h-[200px] overflow-y-scroll")}
     >
       <Textarea
-        className="resize-none mt-3 pb-0 mb-0 text-sm placeholder:text-slate-600 text-slate-200 py-0 h-full focus-visible:ring-0 outline-none border-none"
+        className="mb-0 mt-3 h-full resize-none border-none py-0 pb-0 text-sm text-slate-200 outline-none placeholder:text-slate-600 focus-visible:ring-0"
         {...field}
         hasCounter={counter}
         maxChars={maxChars}
@@ -95,8 +95,8 @@ const TextAreaWithUpload = ({
         <div
           onClick={() => setOpen(true)}
           className={cn(
-            "sticky border-[3px] bg-base-300 cursor-pointer border-base-100 rounded-full p-2 bottom-3 float-right -translate-x-2 text-xl",
-            className
+            "sticky bottom-3 float-right -translate-x-2 cursor-pointer rounded-full border-[3px] border-base-100 bg-base-300 p-2 text-xl",
+            className,
           )}
         >
           <TbBorderCorners />
@@ -104,16 +104,16 @@ const TextAreaWithUpload = ({
       )}
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="min-w-[800px] px-0 ">
-          <DialogHeader className="w-full h-[550px] overflow-y-scroll custom-scrollbar">
+          <DialogHeader className="custom-scrollbar h-[550px] w-full overflow-y-scroll">
             <Textarea
-              className="resize-none mt-3 px-5 mb-0 text-sm placeholder:text-slate-400 text-slate-200 py-0 h-full focus-visible:ring-0 outline-none border-none"
+              className="mb-0 mt-3 h-full resize-none border-none px-5 py-0 text-sm text-slate-200 outline-none placeholder:text-slate-400 focus-visible:ring-0"
               {...field}
               hasCounter={counter}
               maxChars={maxChars}
               required={required}
               placeholder={placeholder}
             />
-            <div className="w-fit fixed bottom-3 right-3">
+            <div className="fixed bottom-3 right-3 w-fit">
               {hasDocUploader && (
                 <FileUploader
                   setParsedDocs={parsedDocsHandler}

@@ -14,7 +14,7 @@ export const ModeToggle: React.FC<ModeToggleProps> = ({
           className={
             "flex items-center gap-1 rounded-lg border px-3 py-2 " +
             (!isAdvancedMode
-              ? "border-black/10 shadow-[0_1px_7px_0px_rgba(0,0,0,0.06)] bg-slate-800"
+              ? "border-black/10 bg-slate-800 shadow-[0_1px_7px_0px_rgba(0,0,0,0.06)]"
               : "border-transparent text-gray-500 hover:bg-white/5")
           }
         >
@@ -26,8 +26,8 @@ export const ModeToggle: React.FC<ModeToggleProps> = ({
           className={
             "relative flex items-center gap-1 rounded-lg border px-3 py-2 " +
             (isAdvancedMode
-              ? "font-semibold border-black/10  shadow-[0_1px_7px_0px_rgba(0,0,0,0.06)]border-gray-600/50 bg-fuchsia-700"
-              : "border-transparent text-gray-500 hover:bg-white/5 opacity-80")
+              ? "shadow-[0_1px_7px_0px_rgba(0,0,0,0.06)]border-gray-600/50 border-black/10  bg-fuchsia-700 font-semibold"
+              : "border-transparent text-gray-500 opacity-80 hover:bg-white/5")
           }
         >
           <span className="truncate">✨Pro</span>

@@ -273,7 +273,7 @@ function getTextbookName(board: string | undefined) {
 }
 
 function getSystemMessage(
-  payload: QuestionPayload
+  payload: QuestionPayload,
 ): ChatCompletionRequestMessage[] {
   return [
     {
@@ -285,7 +285,7 @@ function getSystemMessage(
 
 function getInitialUserMessage(payload: QuestionPayload): string {
   const previousQuestionsMessage = getPreviousQuestionsMessage(
-    payload.generatedQuestions
+    payload.generatedQuestions,
   );
   const { bloomLevel, topic, subtopic, grade, board, type } = payload.data;
   const { batchSize } = payload;
@@ -303,7 +303,7 @@ function getInitialUserMessage(payload: QuestionPayload): string {
 }
 
 export function getQuestionMessages(
-  payload: QuestionPayload
+  payload: QuestionPayload,
 ): ChatCompletionRequestMessage[] {
   const questionType = payload.data.type;
   const systemMessage = getSystemMessage(payload);

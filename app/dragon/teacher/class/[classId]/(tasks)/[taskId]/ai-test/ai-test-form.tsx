@@ -73,7 +73,7 @@ export default function AITestForm({
   const [error, setError] = useState<string | null>(null);
   const [inputFocus, setInputFocus] = useState("");
   const [AITestName, setAITestName] = useState<string | undefined>(
-    taskConfig?.name
+    taskConfig?.name,
   );
 
   const form = useForm<z.infer<typeof AITestPreferenceSchema>>({
@@ -107,7 +107,7 @@ export default function AITestForm({
       options: { numberOnly: true },
     });
     const gradeObject = subjectsArray.filter(
-      (subject) => subject.grade === gradeNumber
+      (subject) => subject.grade === gradeNumber,
     )[0];
     return gradeObject.subjects;
   };
@@ -116,7 +116,7 @@ export default function AITestForm({
     const isValidName = AITestNameSchema.safeParse({ name: AITestName });
     if (!isValidName.success) {
       setError(
-        "Failed to update , Names should be between 3 and 30 characters in length."
+        "Failed to update , Names should be between 3 and 30 characters in length.",
       ); // set the error message
       setAITestName(taskConfig?.name);
       return;
@@ -148,20 +148,20 @@ export default function AITestForm({
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
           <Paper variant="gray" className="w-full max-w-5xl bg-base-200">
-            <div className="flex justify-between flex-wrap p-5">
+            <div className="flex flex-wrap justify-between p-5">
               <div className="w-[50%]">
                 <Input
                   type="text"
                   value={AITestName}
                   onChange={onBotNameChange}
                   onBlur={updateBotNameHandler}
-                  className="outline-none border-none md:text-3xl pl-0 font-bold tracking-wide focus-visible:ring-0 "
+                  className="border-none pl-0 font-bold tracking-wide outline-none focus-visible:ring-0 md:text-3xl "
                 />
                 {error && (
-                  <div className="text-red-500 text-sm mt-3">{error}</div>
+                  <div className="mt-3 text-sm text-red-500">{error}</div>
                 )}
               </div>
-              <div className="flex flex-col gap-2 items-end">
+              <div className="flex flex-col items-end gap-2">
                 <div className="flex flex-row gap-6">
                   <Button
                     type="submit"
@@ -185,7 +185,7 @@ export default function AITestForm({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel
-                    className={`mb-5 flex justify-between w-full align-middle font-bold ${
+                    className={`mb-5 flex w-full justify-between align-middle font-bold ${
                       inputFocus === "topic" ? "text-white" : ""
                     }`}
                   >
@@ -213,7 +213,7 @@ export default function AITestForm({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel
-                    className={`mb-5 flex justify-between w-full align-middle font-bold ${
+                    className={`mb-5 flex w-full justify-between align-middle font-bold ${
                       inputFocus === "content" ? "text-white" : ""
                     }`}
                   >
@@ -231,7 +231,7 @@ export default function AITestForm({
                         required
                         hasDocUploader
                         setIsDirty={setIsDirty}
-                        className="bg-base-200 border-none"
+                        className="border-none bg-base-200"
                         {...field}
                       />
                     </FormControl>
@@ -249,12 +249,12 @@ export default function AITestForm({
               render={() => (
                 <FormItem>
                   <div className="mb-5 flex flex-col gap-2">
-                    <FormLabel className="flex gap-2 items-center font-bold">
+                    <FormLabel className="flex items-center gap-2 font-bold">
                       Subjects
                       <FiBookOpen />
                     </FormLabel>
                   </div>
-                  <div className="flex flex-row gap-y-5 flex-wrap gap-x-6 ">
+                  <div className="flex flex-row flex-wrap gap-x-6 gap-y-5 ">
                     {updateSubjectsHandler().map((subject) => (
                       <FormField
                         key={subject}
@@ -274,8 +274,8 @@ export default function AITestForm({
                                         ])
                                       : field.onChange(
                                           field.value?.filter(
-                                            (value) => value !== subject
-                                          )
+                                            (value) => value !== subject,
+                                          ),
                                         );
                                   }}
                                   toggleName={subject}
@@ -298,7 +298,7 @@ export default function AITestForm({
               name="tone"
               render={({ field }) => (
                 <FormItem className="space-y-3">
-                  <FormLabel className="mb-5 flex gap-2 items-center font-bold">
+                  <FormLabel className="mb-5 flex items-center gap-2 font-bold">
                     Tone
                     <SpeakerWaveIcon className="h-4 w-4" />
                   </FormLabel>
@@ -308,7 +308,7 @@ export default function AITestForm({
                         field.onChange;
                       }}
                       defaultValue={field.value}
-                      className="flex flex-row space-y-1 space-x-6"
+                      className="flex flex-row space-x-6 space-y-1"
                     >
                       {tone.map((tone) => (
                         <FormItem
@@ -318,7 +318,7 @@ export default function AITestForm({
                           <FormControl>
                             <RadioGroupItem
                               value={tone}
-                              className=" active:scale-90 transition-all duration-200 hover:scale-[1.2]"
+                              className=" transition-all duration-200 hover:scale-[1.2] active:scale-90"
                             />
                           </FormControl>
                           <FormLabel className="font-normal">{tone}</FormLabel>
@@ -336,7 +336,7 @@ export default function AITestForm({
               name="humorLevel"
               render={({ field }) => (
                 <FormItem className="space-y-3">
-                  <FormLabel className="mb-5 flex gap-2 items-center font-bold">
+                  <FormLabel className="mb-5 flex items-center gap-2 font-bold">
                     Humor Level
                     <LightBulbIcon className="h-4 w-4" />
                   </FormLabel>
@@ -346,7 +346,7 @@ export default function AITestForm({
                         field.onChange;
                       }}
                       defaultValue={field.value}
-                      className="flex flex-row space-y-1 space-x-6"
+                      className="flex flex-row space-x-6 space-y-1"
                     >
                       {humorLevel.map((humorLevel) => (
                         <FormItem
@@ -356,7 +356,7 @@ export default function AITestForm({
                           <FormControl>
                             <RadioGroupItem
                               value={humorLevel}
-                              className=" active:scale-90 transition-all duration-200 hover:scale-[1.2]"
+                              className=" transition-all duration-200 hover:scale-[1.2] active:scale-90"
                             />
                           </FormControl>
                           <FormLabel className="font-normal">
@@ -376,7 +376,7 @@ export default function AITestForm({
               name="languageProficiency"
               render={({ field }) => (
                 <FormItem className="space-y-3">
-                  <FormLabel className="flex gap-2 items-center font-bold">
+                  <FormLabel className="flex items-center gap-2 font-bold">
                     Language Proficiency
                     <LanguageIcon className="h-4 w-4" />
                   </FormLabel>
@@ -386,7 +386,7 @@ export default function AITestForm({
                         field.onChange;
                       }}
                       defaultValue={field.value}
-                      className="flex flex-row space-y-1 space-x-6"
+                      className="flex flex-row space-x-6 space-y-1"
                     >
                       {languageProficiency.map((languageProficiency) => (
                         <FormItem
@@ -396,7 +396,7 @@ export default function AITestForm({
                           <FormControl>
                             <RadioGroupItem
                               value={languageProficiency}
-                              className=" active:scale-90 transition-all duration-200 hover:scale-[1.2]"
+                              className=" transition-all duration-200 hover:scale-[1.2] active:scale-90"
                             />
                           </FormControl>
                           <FormLabel className="font-normal">

@@ -11,8 +11,8 @@ export default async function AddTeacherPage() {
   return (
     <>
       <AdminNavbar title="Add Teacher" />
-      <div className="w-11/12 mx-auto my-10">
-        <h2 className="font-semibold text-xl mb-2">Teachers</h2>
+      <div className="mx-auto my-10 w-11/12">
+        <h2 className="mb-2 text-xl font-semibold">Teachers</h2>
         <AddTeacherForm />
         {allTeacher?.map((teacher) => {
           return (

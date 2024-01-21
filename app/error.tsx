@@ -21,7 +21,7 @@ export default function Error({
     console.error(error);
   }, [error]);
   return (
-    <div className="flex flex-col items-center justify-center h-screen w-screen gap-5">
+    <div className="flex h-screen w-screen flex-col items-center justify-center gap-5">
       <Image
         src="/chubbi-sad.png"
         alt="chubbi"

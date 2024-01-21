@@ -40,14 +40,14 @@ export const ReportTable = ({
         <TableRow className="hover:bg-muted/0">
           <TableHead className="w-[100px]">Q.No.</TableHead>
           <TableHead>Status</TableHead>
-          <TableHead className="text-right flex gap-1 items-center justify-end">
+          <TableHead className="flex items-center justify-end gap-1 text-right">
             <TooltipProvider>
               <Tooltip delayDuration={200}>
                 <TooltipTrigger>
-                  <InformationCircleIcon className="w-4 h-4" />
+                  <InformationCircleIcon className="h-4 w-4" />
                 </TooltipTrigger>
-                <TooltipContent className="bg-base-300 max-w-[200px]">
-                  <p className="text-[10px] text-white text-center">
+                <TooltipContent className="max-w-[200px] bg-base-300">
+                  <p className="text-center text-[10px] text-white">
                     What percentage of students who attempted the test have
                     gotten this right?
                   </p>
@@ -61,10 +61,10 @@ export const ReportTable = ({
       <TableBody>
         {testResults.map(async (question, i: number) => {
           const attemptedQuestions = await getTotalQuestion(
-            question.parsedQuestionsId as string
+            question.parsedQuestionsId as string,
           );
           const correctQuestions = attemptedQuestions?.filter(
-            (ques) => ques.isCorrect
+            (ques) => ques.isCorrect,
           );
           let correctQuestionsPercentage = 20;
           if (correctQuestions && attemptedQuestions) {
@@ -72,7 +72,7 @@ export const ReportTable = ({
               (correctQuestions.length / attemptedQuestions.length) * 100;
           }
           const progressBarColor = getProgressBarColor(
-            correctQuestionsPercentage
+            correctQuestionsPercentage,
           );
           return (
             <TableRow key={i} className="hover:bg-muted/0">
@@ -85,7 +85,7 @@ export const ReportTable = ({
                 )}
               </TableCell>
               <TableCell>
-                <div className="flex gap-5 items-center">
+                <div className="flex items-center gap-5">
                   {correctQuestionsPercentage.toFixed(1)}%
                   <Progress
                     value={correctQuestionsPercentage}

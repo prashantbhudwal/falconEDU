@@ -43,7 +43,7 @@ export default function Page() {
       chapter: string,
       subject: string,
       board: string,
-      grade: string
+      grade: string,
     ) => {
       const content = await predictTopics({ chapter, subject, board, grade });
       setTopics(content);

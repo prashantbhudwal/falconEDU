@@ -6,5 +6,5 @@ Use Falcon AI to create lesson plans specific to your book, curriculum or board,
 
 Now has auth. And database.
 
-+ mixpanel
-+ bitbucket
+- mixpanel
+- bitbucket

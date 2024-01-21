@@ -39,13 +39,13 @@ export default async function Expired({
       {!subscriptionEnded ? (
         children
       ) : (
-        <div className="flex min-h-screen h-screen flex-col items-center pt-2 text-center bg-base-300 w-full overflow-y-auto custom-scrollbar">
+        <div className="custom-scrollbar flex h-screen min-h-screen w-full flex-col items-center overflow-y-auto bg-base-300 pt-2 text-center">
           <h1 className="my-2 max-w-xl text-2xl leading-10 text-slate-300">
             Subscription expired. Please subscribe.
           </h1>
           <Plans products={products.data} />
           <p className="text-sm"></p>
-          <SignOutButton className="btn btn-base-100 text-slate-500 my-4" />
+          <SignOutButton className="btn-base-100 btn my-4 text-slate-500" />
         </div>
       )}
     </>

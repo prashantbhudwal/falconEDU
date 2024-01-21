@@ -50,10 +50,10 @@ export const getParsedQuestionByBotConfigId = cache(
 
       if (questions && questions.parsedQuestions.length > 0) {
         const archivedParsedQuestions = questions.parsedQuestions.filter(
-          (question) => question.isArchived
+          (question) => question.isArchived,
         );
         const activeParsedQuestions = questions.parsedQuestions.filter(
-          (question) => !question.isArchived
+          (question) => !question.isArchived,
         );
         return {
           archivedParsedQuestions,
@@ -72,7 +72,7 @@ export const getParsedQuestionByBotConfigId = cache(
         activeParsedQuestions: null,
       };
     }
-  }
+  },
 );
 
 // export type typeGetParsedQuestionByBotConfigId = UnwrapPromise<
@@ -142,7 +142,7 @@ export const getParsedQuestionsByBotChatId = cache(
       console.log(err);
       return null;
     }
-  }
+  },
 );
 
 export const getTestResults = cache(
@@ -201,7 +201,7 @@ export const getTestResults = cache(
 
       const groupBy = (
         array: QuestionWithAnswers,
-        key: keyof QuestionWithAnswers[number]
+        key: keyof QuestionWithAnswers[number],
       ) => {
         return array.reduce((result, currentItem) => {
           const keyValue = currentItem[key];
@@ -222,13 +222,13 @@ export const getTestResults = cache(
         [botChatId: string]: BotChatScore;
       };
       const calculateBotChatScores = (
-        botChats: GroupedResults
+        botChats: GroupedResults,
       ): BotChatScores => {
         const scores: BotChatScores = {};
 
         Object.entries(botChats).forEach(([botChatId, questions]) => {
           const correctAnswers = questions.filter(
-            (question) => question.isCorrect
+            (question) => question.isCorrect,
           ).length; // Assuming 'isCorrect' field exists
           scores[botChatId] = {
             correctAnswers,
@@ -258,7 +258,7 @@ export const getTestResults = cache(
       console.log(err);
       return null;
     }
-  }
+  },
 );
 
 export const archiveParsedQuestion = async ({

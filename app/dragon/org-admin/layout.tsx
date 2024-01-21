@@ -14,7 +14,7 @@ export default async function AdminLayout({
   const session = await getServerSession(authOptions);
   if (session?.user.userType !== "ORG_ADMIN") notFound();
   return (
-    <main className="min-h-screen h-screen w-full overflow-y-scroll custom-scrollbar">
+    <main className="custom-scrollbar h-screen min-h-screen w-full overflow-y-scroll">
       {children}
     </main>
   );

@@ -51,7 +51,7 @@ export const PWAProvider = ({ children }: PropsWithChildren) => {
     return () => {
       window.removeEventListener(
         "beforeinstallprompt",
-        handleBeforeInstallPrompt
+        handleBeforeInstallPrompt,
       );
       window.removeEventListener("appinstalled", handleAppInstalled);
     };
@@ -90,7 +90,7 @@ export const usePWAAppStatus = (): PWAProviderProps => {
       });
       await localForage.setItem("pwa-install", createdToken);
     },
-    [secretKey]
+    [secretKey],
   );
 
   useEffect(() => {
@@ -150,7 +150,7 @@ export const usePWAAppStatus = (): PWAProviderProps => {
         }
         context.setInstallPrompt(null);
         setDrawerOpen(false);
-      }
+      },
     );
   };
 

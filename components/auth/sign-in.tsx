@@ -57,26 +57,26 @@ export default function SignIn() {
   };
 
   return (
-    <div className="flex flex-col items-center min-h-screen py-10 overflow-y-auto custom-scrollbar h-screen w-screen">
+    <div className="custom-scrollbar flex h-screen min-h-screen w-screen flex-col items-center overflow-y-auto py-10">
       <Image src={"/chubbi.png"} height={100} width={100} alt="Falcon Logo" />
 
-      <h1 className="mt-10 text-3xl md:text-4xl font-bold text-white">
+      <h1 className="mt-10 text-3xl font-bold text-white md:text-4xl">
         Welcome to FalconAI
       </h1>
 
-      <p className="mt-4 text-lg md:text-lg text-gray-300 max-w-xs md:max-w-lg text-center">
+      <p className="mt-4 max-w-xs text-center text-lg text-gray-300 md:max-w-lg md:text-lg">
         {`Access your teacher's lesson plans, worksheets, activities and
         assessments with AI that is easy to use and strictly follows your
         syllabus.`}
       </p>
 
-      <div className="flex flex-col md:flex-row mt-12 space-y-4 md:space-y-0 md:space-x-8">
+      <div className="mt-12 flex flex-col space-y-4 md:flex-row md:space-x-8 md:space-y-0">
         {signInConfig.map((config) => (
           <div
             key={config.auth}
-            className="flex flex-col items-center space-y-5 bg-slate-200 p-8 rounded-md shadow-lg md:min-w-[500px]"
+            className="flex flex-col items-center space-y-5 rounded-md bg-slate-200 p-8 shadow-lg md:min-w-[500px]"
           >
-            <h2 className="text-xl md:text-4xl font-semibold text-gray-700">
+            <h2 className="text-xl font-semibold text-gray-700 md:text-4xl">
               {config.headline}
             </h2>
 
@@ -88,10 +88,10 @@ export default function SignIn() {
               {sessionStatus === "loading"
                 ? "Signing you in..."
                 : sessionStatus === "authenticated"
-                ? "Taking you to the app..."
-                : config.buttonText}
+                  ? "Taking you to the app..."
+                  : config.buttonText}
             </Button>
-            <p className="text-xs md:text-base text-gray-600">
+            <p className="text-xs text-gray-600 md:text-base">
               {config.subtext}
             </p>
           </div>

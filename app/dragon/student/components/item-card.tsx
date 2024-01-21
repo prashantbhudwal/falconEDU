@@ -30,13 +30,13 @@ export function ItemCard({
   isSubmitted,
 }: ItemCardProps) {
   return (
-    <Card className="relative flex flex-row max-w-sm border-none bg-base-300">
+    <Card className="relative flex max-w-sm flex-row border-none bg-base-300">
       <div
         className={cn("absolute inset-y-0 w-4", priorityColor[priority])}
       ></div>
-      <div className={cn("absolute top-5 right-5")}>
+      <div className={cn("absolute right-5 top-5")}>
         {!isRead && (
-          <div className="flex gap-1 items-center">
+          <div className="flex items-center gap-1">
             <div className="h-3 w-3 rounded-full bg-primary"></div>
           </div>
         )}

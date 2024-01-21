@@ -47,9 +47,9 @@ export const ConfigCard = ({
   const activeConfigs = cardConfigs.active;
 
   return (
-    <Card className="w-[300px] h-[300px] flex flex-col justify-between">
+    <Card className="flex h-[300px] w-[300px] flex-col justify-between">
       <CardHeader>
-        <CardTitle className="capitalize text-2xl">
+        <CardTitle className="text-2xl capitalize">
           {getTaskProperties(configType).formattedType}
         </CardTitle>
         <CardDescription>
@@ -59,11 +59,11 @@ export const ConfigCard = ({
       <CardContent>
         <div className="flex flex-col gap-2">
           <div className="flex flex-col gap-2">
-            <div className="flex justify-between items-center">
+            <div className="flex items-center justify-between">
               <div>Active</div>
               <div className="text-2xl">{activeConfigs.length}</div>
             </div>
-            <div className="flex justify-between items-center">
+            <div className="flex items-center justify-between">
               <div>Archived</div>
               <div className="text-2xl">{archivedConfigs.length}</div>
             </div>
@@ -74,7 +74,7 @@ export const ConfigCard = ({
         {showActions && (
           <Button
             variant={"outline"}
-            className="px-2 capitalize flex items-center justify-start gap-3 w-full group-hover:text-slate-950 group"
+            className="group flex w-full items-center justify-start gap-3 px-2 capitalize group-hover:text-slate-950"
             onClick={() => createNewConfig({ userId, classId, configType })}
           >
             <PlusIcon className="w-5 text-accent group-hover:text-inherit" />

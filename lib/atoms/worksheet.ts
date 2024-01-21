@@ -56,4 +56,3 @@ export const batchSizeAtom = atom(1);
 export const checkedQuestionTypesAtom = atom<QuestionType[]>([
   "multipleChoiceSingleCorrect",
 ]);
-

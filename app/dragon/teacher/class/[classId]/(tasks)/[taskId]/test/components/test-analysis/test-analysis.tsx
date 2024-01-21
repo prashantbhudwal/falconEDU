@@ -42,16 +42,16 @@ export async function TestAnalysis({
 
   const { isPublished, students } = await getStudentsByBotConfigId(testBotId);
   const totalSubmittedTest = students.filter(
-    (student) => student.isSubmitted
+    (student) => student.isSubmitted,
   ).length;
   const totalPendingTest = students.length - totalSubmittedTest;
 
   return (
-    <div className="w-full max-w-5xl min-h-screen flex flex-col gap-2 ">
+    <div className="flex min-h-screen w-full max-w-5xl flex-col gap-2 ">
       {!isPublished ? (
         <NotPublished />
       ) : students.length !== 0 ? (
-        <div className="flex flex-col gap-4 items-center">
+        <div className="flex flex-col items-center gap-4">
           <SummaryStats
             averageScore={averageScore}
             highestScore={highestScore}
@@ -63,7 +63,7 @@ export async function TestAnalysis({
           <Accordion
             type="single"
             collapsible
-            className="w-5/6 bg-base-200 rounded-lg p-2"
+            className="w-5/6 rounded-lg bg-base-200 p-2"
           >
             <AccordionItem value="item-1" className="border-none">
               <AccordionTrigger className="text-lg hover:no-underline">

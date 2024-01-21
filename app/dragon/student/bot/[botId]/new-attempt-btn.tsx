@@ -24,8 +24,8 @@ export const NewAttemptButton = ({
       size={"lg"}
       onClick={createHandler}
       className={cn(
-        "font-semibold flex items-center border border-base-100 gap-2 text-xs rounded-full",
-        className
+        "flex items-center gap-2 rounded-full border border-base-100 text-xs font-semibold",
+        className,
       )}
     >
       <ArrowUpIcon className="w-4" /> Attempt

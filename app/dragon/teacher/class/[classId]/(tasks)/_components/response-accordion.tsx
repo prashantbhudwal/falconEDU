@@ -33,22 +33,22 @@ export const Response = async function ({
   });
 
   return (
-    <div className="w-[700px] bg-base-200 max-w-3xl flex items-start space-x-6 rounded-md relative my-1 border border-base-200">
+    <div className="relative my-1 flex w-[700px] max-w-3xl items-start space-x-6 rounded-md border border-base-200 bg-base-200">
       <Accordion
         type="single"
         collapsible
-        className="my-3 p-3 text-slate-500 cursor-pointer border border-base-200 w-full"
+        className="my-3 w-full cursor-pointer border border-base-200 p-3 text-slate-500"
       >
         <AccordionItem value="item-1" className="border-none">
-          <AccordionTrigger className="text-lg px-4 text-slate-400">
+          <AccordionTrigger className="px-4 text-lg text-slate-400">
             {student.name}
           </AccordionTrigger>
-          <AccordionContent className="pl-2 text-slate-400 text-base">
+          <AccordionContent className="pl-2 text-base text-slate-400">
             {allAttempts
               .sort(
                 (a, b) =>
                   new Date(b.createdAt).getTime() -
-                  new Date(a.createdAt).getTime()
+                  new Date(a.createdAt).getTime(),
               )
               .map((attempt) => (
                 <AttemptCard

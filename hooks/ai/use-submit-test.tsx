@@ -19,7 +19,7 @@ export const useSubmitTest = ({
     if (data && !isLoading) {
       toolData = JSON.parse(JSON.stringify(data)) as ToolData[];
       const submitTool = toolData.find(
-        (tool) => tool.function_name === "submit_test"
+        (tool) => tool.function_name === "submit_test",
       );
       if (submitTool) {
         if (submitTool.tool_call_result.submitTest.submit === true) {

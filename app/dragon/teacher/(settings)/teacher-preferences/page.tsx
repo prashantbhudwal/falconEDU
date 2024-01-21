@@ -16,7 +16,7 @@ export default async function TeacherPreferencesPage({
   };
 
   return (
-    <div className="w-full h-full overflow-y-scroll custom-scrollbar">
+    <div className="custom-scrollbar h-full w-full overflow-y-scroll">
       <TeacherPreferencesForm
         initialValues={preferences || {}}
         teacherId={teacherId}

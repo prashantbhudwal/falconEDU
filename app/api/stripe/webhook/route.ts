@@ -18,7 +18,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     if (!sig || !endpointSecret)
       return NextResponse.json(
         { error: "Missing Stripe signature" },
-        { status: 400 }
+        { status: 400 },
       );
     event = stripe.webhooks.constructEvent(buf, sig, endpointSecret);
   } catch (error) {
@@ -71,7 +71,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       const existingSubscriptionEndDate = user.subscriptionEnd || new Date();
       const newSubscriptionEndDate = new Date(existingSubscriptionEndDate);
       newSubscriptionEndDate.setDate(
-        existingSubscriptionEndDate.getDate() + subscriptionDuration
+        existingSubscriptionEndDate.getDate() + subscriptionDuration,
       );
 
       await prisma.user.update({

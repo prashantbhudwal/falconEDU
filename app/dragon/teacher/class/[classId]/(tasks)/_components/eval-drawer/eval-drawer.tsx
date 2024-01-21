@@ -100,7 +100,7 @@ export function EvalDrawer({
 
   return (
     <Drawer open={isOpen} onOpenChange={setEvalDrawer}>
-      <DrawerContent className="w-full h-[90%] px-4">
+      <DrawerContent className="h-[90%] w-full px-4">
         <DrawerHeader className="flex flex-row items-center justify-between">
           <div className="flex flex-col space-y-2">
             <DrawerTitle>Check what students see.</DrawerTitle>

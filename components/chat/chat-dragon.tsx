@@ -98,7 +98,7 @@ export function Chat({
   return (
     <div className="relative">
       <div
-        className="overflow-y-scroll custom-scrollbar h-screen"
+        className="custom-scrollbar h-screen overflow-y-scroll"
         ref={containerRef}
       >
         <div className={cn("pb-[250px] pt-4 md:pt-10", className)}>
@@ -113,7 +113,7 @@ export function Chat({
             </>
           ) : (
             <div className="mx-auto max-w-2xl px-4 pt-8">
-              <div className="bg-slate-900 py-4 rounded-md flex place-content-center">
+              <div className="flex place-content-center rounded-md bg-slate-900 py-4">
                 <h1 className="text-xl font-medium text-slate-500">
                   {emptyMessage}
                 </h1>
@@ -134,7 +134,7 @@ export function Chat({
             setInput={setInput}
           />
         ) : (
-          <div className="fixed inset-x-0 bottom-0 bg-gray-900 text-white p-4 rounded-t-lg shadow-lg">
+          <div className="fixed inset-x-0 bottom-0 rounded-t-lg bg-gray-900 p-4 text-white shadow-lg">
             <h1 className="text-center text-lg font-semibold">
               {!isSubmitted ? "No longer active." : "Already submitted."}
             </h1>
@@ -145,9 +145,9 @@ export function Chat({
         <Button
           variant="secondary"
           onClick={() => setAutoScrolling(true)}
-          className="fixed bottom-[80px] w-fit left-1/2 -translate-x-1/2 hover:bg-secondary rounded-full"
+          className="fixed bottom-[80px] left-1/2 w-fit -translate-x-1/2 rounded-full hover:bg-secondary"
         >
-          <MdOutlineKeyboardDoubleArrowDown className="text-2xl animate-pulse" />
+          <MdOutlineKeyboardDoubleArrowDown className="animate-pulse text-2xl" />
         </Button>
       )}
     </div>

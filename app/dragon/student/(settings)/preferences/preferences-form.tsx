@@ -22,7 +22,6 @@ import { StudentPreferenceSchema } from "@/app/dragon/schema";
 
 //TODO: shifting this to a seperate schema file
 
-
 const defaultValues = {
   interests: "",
   favoriteCartoons: "",
@@ -70,16 +69,16 @@ export function StudentPreferencesForm({
     setIsLoading(false);
   };
   return (
-    <Paper className="w-full flex flex-col items-center">
+    <Paper className="flex w-full flex-col items-center">
       {Object.keys(form.formState.errors).length > 0 && (
-        <div className="text-destructive font-semibold my-2">
+        <div className="my-2 font-semibold text-destructive">
           Please fill out all fields
         </div>
       )}
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="flex flex-col space-y-5 max-w-4xl w-full"
+          className="flex w-full max-w-4xl flex-col space-y-5"
         >
           <FormField
             control={form.control}
@@ -134,7 +133,7 @@ export function StudentPreferencesForm({
             )}
           />
           {error && (
-            <div className="text-destructive font-semibold my-2">{error}</div>
+            <div className="my-2 font-semibold text-destructive">{error}</div>
           )}
           <Button type="submit" disabled={!isDirty}>
             {isLoading ? "Saving" : isDirty ? "Save" : "Saved"}

@@ -32,7 +32,7 @@ export const HumorLevelField = ({ name }: { name: string }) => {
       name={name}
       render={({ field }) => (
         <FormItem className="space-y-3">
-          <FormLabel className="mb-3 flex gap-2 items-center justify-between text-xs font-bold w-56">
+          <FormLabel className="mb-3 flex w-56 items-center justify-between gap-2 text-xs font-bold">
             <div>Humor Level</div>
             <div className="flex items-center gap-2 text-xs">
               <BsStars /> {field.value}

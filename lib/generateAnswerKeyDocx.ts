@@ -110,6 +110,6 @@ export async function generateAnswerKeyDocx(data: DocData): Promise<void> {
     blob,
     `${
       data.topic.charAt(0).toUpperCase() + data.topic.slice(1)
-    }- AnswerKey.docx`
+    }- AnswerKey.docx`,
   );
 }

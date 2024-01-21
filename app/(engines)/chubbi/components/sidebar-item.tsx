@@ -29,11 +29,11 @@ export function SidebarItem({ chat, children }: SidebarItemProps) {
         className={cn(
           buttonVariants({ variant: "ghost" }),
           "group w-full pl-8 pr-16",
-          isActive && "bg-slate-600"
+          isActive && "bg-slate-600",
         )}
       >
         <div
-          className="relative max-h-5 flex-1 select-none overflow-hidden text-ellipsis break-all w-16"
+          className="relative max-h-5 w-16 flex-1 select-none overflow-hidden text-ellipsis break-all"
           title={chat.title}
         >
           <span className="whitespace-nowrap">{chat.title}</span>

@@ -11,7 +11,7 @@ import { TestQuestions } from "../ai/test-question-parser/model";
 
 export const updateTeacherPreferences = async (
   teacherId: string,
-  data: z.infer<typeof teacherPreferencesSchema>
+  data: z.infer<typeof teacherPreferencesSchema>,
 ) => {
   await isAuthorized({
     userType: "TEACHER",

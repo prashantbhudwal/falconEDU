@@ -79,7 +79,7 @@ export const getPreferences = (context: ChatContextByChatId) => {
 };
 
 export async function getEngineeredChatBotMessages(
-  context: ChatContextByChatId
+  context: ChatContextByChatId,
 ) {
   if (!context) {
     console.error("context not found for chatId:");

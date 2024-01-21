@@ -47,14 +47,14 @@ const AttemptCard = ({
     <Link
       href={disabled ? "" : link}
       className={cn(
-        "bg-base-200 max-w-3xl flex items-start py-6 space-x-6 w-full px-6 rounded-md hover:bg-base-100 relative my-1 border border-base-200",
+        "relative my-1 flex w-full max-w-3xl items-start space-x-6 rounded-md border border-base-200 bg-base-200 px-6 py-6 hover:bg-base-100",
         {
           "cursor-not-allowed hover:bg-base-200": disabled,
         },
-        className
+        className,
       )}
     >
-      <div className="flex-grow border-none bg-inherit shadow-none flex flex-col space-y-3">
+      <div className="flex flex-grow flex-col space-y-3 border-none bg-inherit shadow-none">
         <div className="flex flex-col space-y-1">
           <h1 className="font-bold ">{title}</h1>
           {type === "test" && (

@@ -14,7 +14,7 @@ export const teacherHasOrgMode = cache(
     });
     if (!teacherProfile) return null;
     return teacherProfile.orgMode;
-  }
+  },
 );
 
 export const getTeacherByTeacherId = cache(
@@ -32,7 +32,5 @@ export const getTeacherByTeacherId = cache(
       console.log(err);
       return { teacherProfile: null };
     }
-  }
+  },
 );
-
-

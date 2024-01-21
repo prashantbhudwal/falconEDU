@@ -11,7 +11,7 @@ import { z } from "zod";
 const testResultObjectSchemaWithId = z.array(
   TestResultsAnswerSchema.extend({
     id: z.string(),
-  })
+  }),
 );
 type FinalTestResults = z.infer<typeof testResultObjectSchemaWithId>;
 

@@ -133,7 +133,7 @@ export const getClassesByUserId = cache(
     });
 
     return classes;
-  }
+  },
 );
 
 export type ClassesByUserId = UnwrapPromise<
@@ -152,7 +152,7 @@ export const getClassByClassId = cache(
     }
 
     return classInfo;
-  }
+  },
 );
 
 export const archiveClassByClassId = async ({

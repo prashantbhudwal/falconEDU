@@ -13,7 +13,7 @@ const API_URL = "/ai/predictor";
 const fetchPredictions = async (
   subject: string,
   board: string,
-  grade: string
+  grade: string,
 ) => {
   const chaptersJson = await fetch(API_URL, {
     method: "POST",

@@ -6,7 +6,7 @@ import getBlackboardMessages from "./blackboard";
 import getShortVideoScriptMessages from "./shortVideoScript";
 
 export default function getChatCompletionRequestMessages(
-  payload: StreamPayload
+  payload: StreamPayload,
 ) {
   const { payloadType } = payload;
 

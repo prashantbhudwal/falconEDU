@@ -90,7 +90,7 @@ export const getAllPublishedTasksByDate = cache(async () => {
           day: key as string,
           ["Total Tasks"]: value as number,
         };
-      }
+      },
     );
 
     const dayWiseData = new Map();
@@ -194,7 +194,7 @@ export const getAllTeachersInAnOrg = cache(async () => {
         }
 
         const weekAgo = new Date(
-          new Date().getTime() - 7 * 24 * 60 * 60 * 1000
+          new Date().getTime() - 7 * 24 * 60 * 60 * 1000,
         );
         const taskDate = new Date(botConfig.createdAt);
 
@@ -350,7 +350,7 @@ export const getTeacherTasksWithTeacherId = cache(
       console.log(err);
       return null;
     }
-  }
+  },
 );
 
 export type TeacherTask = UnwrapPromise<
@@ -409,5 +409,5 @@ export const getStudentSubmissionsStatsByTaskId = cache(
       console.error(err);
       return null;
     }
-  }
+  },
 );

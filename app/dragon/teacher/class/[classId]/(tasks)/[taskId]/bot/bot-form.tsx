@@ -91,7 +91,7 @@ export default function BotPreferencesForm({
     const isValidName = botNameSchema.safeParse({ name: botName });
     if (!isValidName.success) {
       setError(
-        "Failed to update , Bot names should be between 3 and 30 characters in length."
+        "Failed to update , Bot names should be between 3 and 30 characters in length.",
       ); // set the error message
       setBotName(botConfig?.name);
       return;
@@ -124,27 +124,27 @@ export default function BotPreferencesForm({
         <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
           <Paper
             variant="gray"
-            className="w-full max-w-5xl min-h-screen border-none shadow-none space-y-12 pt-12"
+            className="min-h-screen w-full max-w-5xl space-y-12 border-none pt-12 shadow-none"
           >
-            <div className="flex justify-between flex-wrap min-h-14">
+            <div className="flex min-h-14 flex-wrap justify-between">
               <div className="w-[50%]">
                 <Input
                   type="text"
                   value={botName}
                   onChange={onBotNameChange}
                   onBlur={updateBotNameHandler}
-                  className="outline-none border-none text-xl pl-0 font-bold tracking-wide focus-visible:ring-0  "
+                  className="border-none pl-0 text-xl font-bold tracking-wide outline-none focus-visible:ring-0  "
                 />
                 {error && (
-                  <div className="text-red-500 text-xs mt-3">{error}</div>
+                  <div className="mt-3 text-xs text-red-500">{error}</div>
                 )}
               </div>
-              <div className="flex flex-col gap-2 items-center">
+              <div className="flex flex-col items-center gap-2">
                 <div className="flex flex-row gap-6">
                   <Button
                     variant={"default"}
                     type="submit"
-                    className="text-xs min-w-28 border-primary"
+                    className="min-w-28 border-primary text-xs"
                     size={"sm"}
                     disabled={(isEmpty && !isDirty) || !isDirty}
                   >
@@ -162,7 +162,7 @@ export default function BotPreferencesForm({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel
-                    className={`mb-3 flex justify-between w-full align-middle${
+                    className={`mb-3 flex w-full justify-between align-middle${
                       inputFocus === "instructions" ? "text-white" : ""
                     }`}
                   >

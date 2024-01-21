@@ -34,7 +34,7 @@ export function PromptForm({
   const [loading, setLoading] = useState(false);
   const [recording, setRecording] = useState(false);
   const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(
-    null
+    null,
   );
   const [audioChunks, setAudioChunks] = useState<Blob[]>([]);
   const [isSendingAudio, setIsSendingAudio] = useState(false);
@@ -48,7 +48,7 @@ export function PromptForm({
   }, [isLoading]);
 
   const toggleRecording = async (
-    event: React.MouseEvent<HTMLButtonElement>
+    event: React.MouseEvent<HTMLButtonElement>,
   ) => {
     event.preventDefault();
     event.stopPropagation();
@@ -119,22 +119,22 @@ export function PromptForm({
       }}
       ref={formRef}
     >
-      <div className="flex items-center space-x-2 bg-base-300 shadow-md shadow-base-300 relative w-full px-2">
+      <div className="relative flex w-full items-center space-x-2 bg-base-300 px-2 shadow-md shadow-base-300">
         <Button
           variant="ghost"
           size="icon"
           disabled={isLoading || isSendingAudio || input.length > 0}
           onClick={toggleRecording}
-          className="sm:hover:bg-base-300 sm:hover:text-secondary flex-none"
+          className="flex-none sm:hover:bg-base-300 sm:hover:text-secondary"
         >
           <div
             className={cn("", {
-              "animate-pulse rounded-full bg-accent scale-110": recording,
+              "scale-110 animate-pulse rounded-full bg-accent": recording,
             })}
           >
             {recording ? (
               <StopIcon
-                className={cn("w-7 h-7 text-secondary", {
+                className={cn("h-7 w-7 text-secondary", {
                   "text-red-500": recording,
                   "text-base-200": isLoading || isSendingAudio,
                 })}
@@ -166,11 +166,11 @@ export function PromptForm({
           }
           spellCheck={false}
           className={cn(
-            "min-h-[60px] w-full resize-none bg-transparent px-4 py-[1.3rem] focus-within:outline-none sm:text-sm disabled:cursor-not-allowed",
+            "min-h-[60px] w-full resize-none bg-transparent px-4 py-[1.3rem] focus-within:outline-none disabled:cursor-not-allowed sm:text-sm",
             {
               " placeholder:animate-pulse placeholder-shown:animate-pulse placeholder-shown:font-bold":
                 isSendingAudio,
-            }
+            },
           )}
         />
         <Button

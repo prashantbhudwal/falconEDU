@@ -46,7 +46,7 @@ export const ArchivedQuestions = ({ archivedQuestions }: PropTypes) => {
                       questionNumber={question.question_number}
                       className="w-full text-slate-500"
                     >
-                      <div className="bg-transparent min-h-fit resize-none overflow-y-auto whitespace-pre-line border-none outline-none focus-visible:ring-0 p-0 text-lg w-full">
+                      <div className="min-h-fit w-full resize-none overflow-y-auto whitespace-pre-line border-none bg-transparent p-0 text-lg outline-none focus-visible:ring-0">
                         {question.question}
                       </div>
                     </QuestionText>
@@ -59,7 +59,7 @@ export const ArchivedQuestions = ({ archivedQuestions }: PropTypes) => {
                               onClick={() =>
                                 restoreQuestionHandler({ id: question.id })
                               }
-                              className="cursor-pointer rounded-full hover:bg-base-100 hover:shadow-slate-700 hover:shadow-sm h-fit p-2 hover:text-base-content text-slate-300"
+                              className="h-fit cursor-pointer rounded-full p-2 text-slate-300 hover:bg-base-100 hover:text-base-content hover:shadow-sm hover:shadow-slate-700"
                             >
                               <LuArchiveRestore />
                             </button>
@@ -71,9 +71,9 @@ export const ArchivedQuestions = ({ archivedQuestions }: PropTypes) => {
                       </TooltipProvider>
                     </div>
                   </div>
-                  <div className="flex flex-col gap-1 items-end -translate-y-4">
+                  <div className="flex -translate-y-4 flex-col items-end gap-1">
                     {error && (
-                      <p className="text-xs whitespace-nowrap font-medium text-red-400">
+                      <p className="whitespace-nowrap text-xs font-medium text-red-400">
                         {error}
                       </p>
                     )}
@@ -84,7 +84,7 @@ export const ArchivedQuestions = ({ archivedQuestions }: PropTypes) => {
                       {question.options.map((option, index) => {
                         return (
                           <Option key={index}>
-                            <div className="bg-transparent min-h-fit resize-none overflow-y-auto whitespace-pre-line border-none outline-none focus-visible:ring-0 p-0 text-[16px] text-slate-500">
+                            <div className="min-h-fit resize-none overflow-y-auto whitespace-pre-line border-none bg-transparent p-0 text-[16px] text-slate-500 outline-none focus-visible:ring-0">
                               {option}
                             </div>
                           </Option>
@@ -97,7 +97,7 @@ export const ArchivedQuestions = ({ archivedQuestions }: PropTypes) => {
                     <Answer accordianTitleStyles="text-slate-500">
                       {question.correct_answer.map((answer, index) => (
                         <div
-                          className="bg-transparent min-h-fit resize-none overflow-y-auto whitespace-pre-line border-none outline-none focus-visible:ring-0 p-0 text-slate-500"
+                          className="min-h-fit resize-none overflow-y-auto whitespace-pre-line border-none bg-transparent p-0 text-slate-500 outline-none focus-visible:ring-0"
                           key={index}
                         >
                           {answer}
@@ -112,7 +112,7 @@ export const ArchivedQuestions = ({ archivedQuestions }: PropTypes) => {
           })}
         </>
       ) : (
-        <div className="py-5 text-lg w-full flex justify-center items-center">
+        <div className="flex w-full items-center justify-center py-5 text-lg">
           No Questions Found
         </div>
       )}

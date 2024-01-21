@@ -59,11 +59,11 @@ const ComboBox = ({
           <LuChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="max-w-fit min-w-fit p-0 h-[400px]">
+      <PopoverContent className="h-[400px] min-w-fit max-w-fit p-0">
         <Command>
           <CommandInput placeholder={placeholder} />
           <CommandEmpty>No item found.</CommandEmpty>
-          <CommandGroup className="h-full overflow-y-scroll custom-scrollbar">
+          <CommandGroup className="custom-scrollbar h-full overflow-y-scroll">
             {formatedItems.map((item) => {
               return (
                 <CommandItem
@@ -90,7 +90,7 @@ const ComboBox = ({
                           : ""
                         : value) === item.value
                         ? "opacity-100"
-                        : "opacity-0"
+                        : "opacity-0",
                     )}
                   />
                   {item.label}

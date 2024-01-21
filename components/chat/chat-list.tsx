@@ -22,7 +22,7 @@ export function ChatList({
   }
 
   return (
-    <div className="relative mx-auto max-w-2xl px-2 flex flex-col space-y-3 pb-10">
+    <div className="relative mx-auto flex max-w-2xl flex-col space-y-3 px-2 pb-10">
       {messages.map((message, index) => {
         const isLastMessage = index === messages.length - 1;
         return (

@@ -99,10 +99,10 @@ export function NewClass() {
         <Button
           variant={"outline"}
           size={"sm"}
-          className="border-slate-300 text-slate-300 rounded hover:bg-secondary"
+          className="rounded border-slate-300 text-slate-300 hover:bg-secondary"
         >
           <div className="flex items-center gap-1">
-            <FaPlus className="w-3 h-3 text-secondary" />
+            <FaPlus className="h-3 w-3 text-secondary" />
             <div> New Class</div>
           </div>
         </Button>
@@ -144,7 +144,7 @@ export function NewClass() {
               control={form.control}
               name="hasSection"
               render={({ field }) => (
-                <FormItem className="flex flex-row items-center justify-between border p-2 my-0">
+                <FormItem className="my-0 flex flex-row items-center justify-between border p-2">
                   <FormLabel>Are there sections?</FormLabel>
                   <FormControl>
                     <Switch
@@ -177,7 +177,7 @@ export function NewClass() {
                             onChange={(e) => {
                               // Update the form state to null if the input is empty, otherwise use the input value
                               field.onChange(
-                                e.target.value === "" ? null : e.target.value
+                                e.target.value === "" ? null : e.target.value,
                               );
                             }}
                           />

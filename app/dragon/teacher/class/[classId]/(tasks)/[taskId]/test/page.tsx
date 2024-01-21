@@ -71,7 +71,7 @@ export default async function BotPage({ params }: BotPageProps) {
     });
 
   const isAnswersPossiblyIncorrect = (
-    activeParsedQuestions: typeActiveParsedQuestionByBotConfigId[]
+    activeParsedQuestions: typeActiveParsedQuestionByBotConfigId[],
   ): boolean => {
     if (!activeParsedQuestions) return false;
     const incorrectQuestions = activeParsedQuestions.filter((question) => {
@@ -85,7 +85,7 @@ export default async function BotPage({ params }: BotPageProps) {
   return (
     <div className="w-full">
       <Paper
-        className="w-full max-w-5xl py-3 px-4 min-h-screen "
+        className="min-h-screen w-full max-w-5xl px-4 py-3 "
         variant={"gray"}
       >
         <TestPreferencesForm
@@ -97,7 +97,7 @@ export default async function BotPage({ params }: BotPageProps) {
           isActive={isActive}
         />
         {activeParsedQuestions && (
-          <div className="flex flex-col space-y-4 items-center">
+          <div className="flex flex-col items-center space-y-4">
             <div className="text-center">
               <h1 className="text-2xl font-semibold text-slate-500">Review</h1>
               {isAnswersPossiblyIncorrect(activeParsedQuestions) && (

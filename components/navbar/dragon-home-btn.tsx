@@ -30,9 +30,9 @@ export default function DragonHomeBtn({ className }: { className?: string }) {
             <Link href="/dragon/teacher" className={cn("", className)}>
               <Button variant={"ghost"} size={"icon"}>
                 {currentPage == "/dragon/teacher" ? (
-                  <HomeIconSolid className="w-5 h-5" />
+                  <HomeIconSolid className="h-5 w-5" />
                 ) : (
-                  <HomeIcon className="w-4 h-4" />
+                  <HomeIcon className="h-4 w-4" />
                 )}
               </Button>
             </Link>

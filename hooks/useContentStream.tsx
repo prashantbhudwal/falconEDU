@@ -23,7 +23,7 @@ export function useContentStream(apiRoute: APIRoute) {
   const [prevStreamId, setPrevStreamId] = useAtom(prevStreamIdAtom);
   const [contentStream, setContentStream] = useState<string[]>([]);
   const [contentStreamCompleted, setContentStreamCompleted] = useAtom(
-    contentStreamCompletedAtom
+    contentStreamCompletedAtom,
   );
   const [fetchedContent, setFetchedContent] = useState<string[]>([]);
 
@@ -34,7 +34,7 @@ export function useContentStream(apiRoute: APIRoute) {
           setContentStream((prevContent) => [...prevContent, message]);
         },
         payload,
-        apiRoute
+        apiRoute,
       );
       if (done) {
         setContentStreamCompleted(true);

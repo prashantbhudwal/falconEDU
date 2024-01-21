@@ -13,7 +13,7 @@ export const botConfigRouter = createTRPCRouter({
       z.object({
         classId: z.string(),
         botConfigId: z.string(),
-      })
+      }),
     )
     .mutation(async ({ input, ctx }) => {
       const { classId, botConfigId } = input;
@@ -86,7 +86,7 @@ export const botConfigRouter = createTRPCRouter({
       z.object({
         classId: z.string(),
         botConfigId: z.string(),
-      })
+      }),
     )
     .mutation(async ({ input }) => {
       const { classId, botConfigId } = input;
@@ -121,7 +121,7 @@ export const botConfigRouter = createTRPCRouter({
         classId: z.string(),
         configName: z.string(),
         configType: z.string(),
-      })
+      }),
     )
     .mutation(async ({ input }) => {
       const { userId, classId, configName, configType } = input;
@@ -158,7 +158,7 @@ export const botConfigRouter = createTRPCRouter({
         botId: z.string(),
         data: z.any(), // Adjust based on ConfigTypeSchemaMap
         configType: z.union([z.literal("chat"), z.literal("test")]),
-      })
+      }),
     )
     .mutation(async ({ input }) => {
       const { classId, botId, data, configType } = input;
@@ -173,7 +173,7 @@ export const botConfigRouter = createTRPCRouter({
           },
         });
         revalidatePath(
-          getTaskUrl({ classId, taskId: botId, type: configType })
+          getTaskUrl({ classId, taskId: botId, type: configType }),
         );
         return { success: true };
       } catch (error) {
@@ -188,7 +188,7 @@ export const botConfigRouter = createTRPCRouter({
         classId: z.string(),
         botId: z.string(),
         name: z.string(),
-      })
+      }),
     )
     .mutation(async ({ input }) => {
       const { classId, botId, name } = input;
@@ -203,7 +203,7 @@ export const botConfigRouter = createTRPCRouter({
           },
         });
         revalidatePath(
-          getTaskUrl({ classId, taskId: botId, type: result.type as TaskType })
+          getTaskUrl({ classId, taskId: botId, type: result.type as TaskType }),
         );
         return { success: true };
       } catch (error) {

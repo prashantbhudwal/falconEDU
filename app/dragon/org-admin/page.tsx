@@ -19,7 +19,7 @@ const AdminPage = async () => {
       {!org && <OrgRegisterForm userId={session?.user?.id || ""} />}
       {org && org.teacher.length === 0 && (
         <Flex
-          className="w-full h-full"
+          className="h-full w-full"
           alignItems="center"
           justifyContent="center"
           flexDirection="col"
@@ -28,7 +28,7 @@ const AdminPage = async () => {
             <Text className="text-center">
               You have no Teacher in your Organization add one{" "}
             </Text>
-            <Button size="sm" className="rounded-xl mt-5">
+            <Button size="sm" className="mt-5 rounded-xl">
               <Link href="/dragon/org-admin/add-teachers">
                 <Flex>
                   <IoAdd /> Teacher

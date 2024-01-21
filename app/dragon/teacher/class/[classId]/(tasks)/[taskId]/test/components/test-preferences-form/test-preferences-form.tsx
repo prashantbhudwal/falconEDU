@@ -93,7 +93,7 @@ export default function TestPreferencesForm({
     if (!parsedQuestions) {
       setLoading(false);
       setError(
-        "No questions provided. Please provide the questions and answers."
+        "No questions provided. Please provide the questions and answers.",
       );
       return { success: false };
     }
@@ -151,7 +151,7 @@ export default function TestPreferencesForm({
     const isValidName = botNameSchema.safeParse({ name: testName });
     if (!isValidName.success) {
       setError(
-        "Failed to update , Bot names should be between 3 and 30 characters in length."
+        "Failed to update , Bot names should be between 3 and 30 characters in length.",
       ); // set the error message
       setTestName(botConfig?.name);
       return;
@@ -184,7 +184,7 @@ export default function TestPreferencesForm({
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div>
             {/* -------------------------------------- Form Header-------------------------------- */}
-            <div className="w-11/12 mx-auto flex justify-between flex-wrap gap-10 py-5">
+            <div className="mx-auto flex w-11/12 flex-wrap justify-between gap-10 py-5">
               <div className="w-7/12">
                 <Input
                   type="text"
@@ -192,14 +192,14 @@ export default function TestPreferencesForm({
                   onChange={onTestNameChange}
                   onBlur={updateTestNameHandler}
                   required
-                  className="outline-none w-full border-none pl-0 md:text-xl font-bold tracking-wide focus-visible:ring-0 "
+                  className="w-full border-none pl-0 font-bold tracking-wide outline-none focus-visible:ring-0 md:text-xl "
                 />
                 {error && !parsedQuestionFromDb && (
-                  <div className="text-error text-sm mt-3">{error}</div>
+                  <div className="mt-3 text-sm text-error">{error}</div>
                 )}
               </div>
               {!parsedQuestionFromDb ? (
-                <div className="flex w-fit flex-col gap-2 items-end">
+                <div className="flex w-fit flex-col items-end gap-2">
                   <Button
                     type="submit"
                     disabled={loading || !isDirty}
@@ -241,7 +241,7 @@ export default function TestPreferencesForm({
                   <FormItem className="pb-10">
                     <FormProvider {...form}>
                       <FormControl>
-                        <div className="relative w-full rounded-md border border-input bg-transparent py-2 shadow-sm min-h-[200px] sm:min-h-[150px] text-sm">
+                        <div className="relative min-h-[200px] w-full rounded-md border border-input bg-transparent py-2 text-sm shadow-sm sm:min-h-[150px]">
                           <TextAreaWithUpload
                             counter
                             maxChars={MAX_CHARS}

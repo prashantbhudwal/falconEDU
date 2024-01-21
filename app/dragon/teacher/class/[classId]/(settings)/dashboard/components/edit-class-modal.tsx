@@ -98,7 +98,7 @@ export function EditClassModal({ initialValues }: { initialValues: Class }) {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild className="rounded-lg">
         <Button variant={"ghost"} size={"sm"} className="rounded-full">
-          <FiEdit3 className="w-4 h-4 text-secondary/40" />
+          <FiEdit3 className="h-4 w-4 text-secondary/40" />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px">
@@ -138,7 +138,7 @@ export function EditClassModal({ initialValues }: { initialValues: Class }) {
               control={form.control}
               name="hasSection"
               render={({ field }) => (
-                <FormItem className="flex flex-row items-center justify-between border p-2 my-0">
+                <FormItem className="my-0 flex flex-row items-center justify-between border p-2">
                   <FormLabel>Are there sections?</FormLabel>
                   <FormControl>
                     <Switch
@@ -171,7 +171,7 @@ export function EditClassModal({ initialValues }: { initialValues: Class }) {
                             onChange={(e) => {
                               // Update the form state to null if the input is empty, otherwise use the input value
                               field.onChange(
-                                e.target.value === "" ? null : e.target.value
+                                e.target.value === "" ? null : e.target.value,
                               );
                             }}
                           />

@@ -49,8 +49,8 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, classId, userId }) => {
     <>
       {Object.keys(groupedTasks).map((group) => (
         <section key={group}>
-          <h2 className="font-semibold mb-2">{group}</h2>
-          <div className="flex flex-col space-y-4 mb-3">
+          <h2 className="mb-2 font-semibold">{group}</h2>
+          <div className="mb-3 flex flex-col space-y-4">
             {groupedTasks[group].map((task) => {
               return (
                 <Link

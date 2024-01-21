@@ -13,7 +13,7 @@ const ResponsesPage = async ({ params }: { params: { taskId: string } }) => {
   return (
     <div>
       <AdminNavbar title="Responses" />
-      <div className="w-11/12 mx-auto">
+      <div className="mx-auto w-11/12">
         <Flex className="my-10 gap-3" flexDirection="col">
           {students &&
             students.length > 0 &&
@@ -29,7 +29,7 @@ const ResponsesPage = async ({ params }: { params: { taskId: string } }) => {
                     </Avatar>
                     <Flex flexDirection="col" alignItems="start">
                       <Title>{student.name}</Title>
-                      <Text className="text-xs w-11/12 truncate">
+                      <Text className="w-11/12 truncate text-xs">
                         {student.email}
                       </Text>
                     </Flex>

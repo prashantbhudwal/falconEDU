@@ -188,7 +188,7 @@ export const getTaskStats = cache(
       }
 
       const currentStudentsIds = currentStudents?.students.map(
-        (student) => student.id
+        (student) => student.id,
       );
 
       const allBotsForTask = await prisma.botConfig.findUnique({
@@ -220,7 +220,7 @@ export const getTaskStats = cache(
       }
 
       const botForCurrentStudents = allBotsForTask?.Bot.filter((bot) =>
-        currentStudentsIds.includes(bot.studentId)
+        currentStudentsIds.includes(bot.studentId),
       );
 
       const totalInteractedStudents = botForCurrentStudents.filter((bot) => {
@@ -242,14 +242,14 @@ export const getTaskStats = cache(
 
       const total_number_of_chat_of_a_task = totalNumberOfChatsArray.reduce(
         (a, b) => a + b,
-        0
+        0,
       );
 
       const chatCount =
         total_number_of_chat_of_a_task / currentStudents.students.length;
 
       const totalSubmittedStudents = botForCurrentStudents.filter(
-        (bot) => bot.isSubmitted
+        (bot) => bot.isSubmitted,
       ).length;
 
       const percentageOfStudentsInteracted =
@@ -267,7 +267,7 @@ export const getTaskStats = cache(
       console.error("Error getting task stats:", error);
       return null;
     }
-  }
+  },
 );
 
 export type TypeGetTaskStats = UnwrapPromise<ReturnType<typeof getTaskStats>>;
@@ -289,7 +289,7 @@ export const getTasksWithInteractions = cache(
       }
 
       const currentStudentsIds = currentStudents?.students.map(
-        (student) => student.id
+        (student) => student.id,
       );
 
       const allTasks = await prisma.botConfig.findMany({
@@ -342,12 +342,12 @@ export const getTasksWithInteractions = cache(
             totalStudents: currentStudents.students.length,
             task: task,
           };
-        }
+        },
       );
 
       const sortedTasksWithInteractedStudentsCount =
         tasksWithInteractedStudentsCount.sort(
-          (a, b) => a.interactedStudents - b.interactedStudents
+          (a, b) => a.interactedStudents - b.interactedStudents,
         );
 
       return sortedTasksWithInteractedStudentsCount;
@@ -355,7 +355,7 @@ export const getTasksWithInteractions = cache(
       console.error(err);
       return null;
     }
-  }
+  },
 );
 
 export type TasksWithInteractions = UnwrapPromise<

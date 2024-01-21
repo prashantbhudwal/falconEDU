@@ -87,7 +87,7 @@ export const getPreferences = (context: AITestContextByChatId) => {
 };
 
 export async function getEngineeredAITestBotMessages(
-  context: AITestContextByChatId
+  context: AITestContextByChatId,
 ) {
   if (!context) {
     console.error("context not found for chatId:");

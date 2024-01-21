@@ -32,6 +32,7 @@ There are two branches in the project: master and chubbi. These branches are pro
 - deploy the master branch to app.falconai.in.
 
 ### Hotfix
+
 - A hotfix is a bug fix that is done on the master branch directly.
 - If there is a hotfix, only the reviewer can make the changes.
 

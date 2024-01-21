@@ -63,19 +63,19 @@ export function TasksNavbar({
   const type = task.type as TaskType;
 
   return (
-    <div className="navbar flex w-full bg-base-300 border-b border-base-200 py-0 h-full">
-      <div className="navbar-start gap-4 pr-2 flex">
+    <div className="navbar flex h-full w-full border-b border-base-200 bg-base-300 py-0">
+      <div className="navbar-start flex gap-4 pr-2">
         <ClassLink classId={classId} />
       </div>
       <div className="navbar-center self-end">
         <Tabs defaultValue="test">
-          <TabsList className="flex w-96 bg-transparent border-b">
+          <TabsList className="flex w-96 border-b bg-transparent">
             <TabsTrigger
               className={cn(
-                "w-1/2 text-lg border-white rounded-none bg-base-300 data-[state=active]:bg-transparent",
+                "w-1/2 rounded-none border-white bg-base-300 text-lg data-[state=active]:bg-transparent",
                 {
                   "border-b-[1px]": !isResponse,
-                }
+                },
               )}
               value="task"
             >
@@ -89,10 +89,10 @@ export function TasksNavbar({
             <TabsTrigger
               value="responses"
               className={cn(
-                "w-1/2 text-lg border-white rounded-none bg-base-300 data-[state=active]:bg-transparent",
+                "w-1/2 rounded-none border-white bg-base-300 text-lg data-[state=active]:bg-transparent",
                 {
                   "border-b-[1px] ": isResponse,
-                }
+                },
               )}
             >
               <ResponseLink type={type} classId={classId} configId={task.id} />
@@ -101,7 +101,7 @@ export function TasksNavbar({
         </Tabs>
       </div>
 
-      <div className="navbar-end pr-1 flex space-x-6 items-center">
+      <div className="navbar-end flex items-center space-x-6 pr-1">
         <ReAttemptSwitch
           classId={classId}
           taskId={task.id}
@@ -133,7 +133,7 @@ export function TasksNavbar({
         ) : (
           <Button
             size="sm"
-            className="flex items-center gap-1 hover:bg-base-300 hover:text-slate-100 hover:font-semibold"
+            className="flex items-center gap-1 hover:bg-base-300 hover:font-semibold hover:text-slate-100"
             onClick={() => setEvalDrawer(true)}
           >
             <div className="capitalize">Check & Publish</div>
@@ -148,7 +148,7 @@ const ClassLink = function ({ classId }: { classId: string }) {
   return (
     <Link href={getClassURL(classId)}>
       <Button
-        className="flex items-center gap-1 hover:bg-base-300 hover:text-slate-100 hover:font-semibold"
+        className="flex items-center gap-1 hover:bg-base-300 hover:font-semibold hover:text-slate-100"
         variant="ghost"
         size="sm"
       >
@@ -177,7 +177,7 @@ const TaskLink = function ({
         classId,
         configId: taskId,
       })}
-      className="w-full  flex justify-center"
+      className="flex  w-full justify-center"
     >
       <div className={cn("flex items-center gap-1 ", iconColor)}>
         <Icon className="w-5" />
@@ -203,7 +203,7 @@ const ResponseLink = function ({
         classId,
         configId,
       })}
-      className="w-full  flex justify-center"
+      className="flex  w-full justify-center"
     >
       Responses
     </Link>
@@ -223,13 +223,13 @@ export const TaskOptionsDropdown = function ({
     <DropdownMenu>
       <DropdownMenuTrigger
         asChild
-        className="flex items-center cursor-pointer gap-1"
+        className="flex cursor-pointer items-center gap-1"
       >
         <EllipsisHorizontalIcon className="w-6 text-slate-500" />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-48 cursor-pointer">
         <DropdownMenuItem
-          className="flex items-center gap-1 cursor-pointer"
+          className="flex cursor-pointer items-center gap-1"
           onSelect={() => {}}
         >
           <ArchiveButton task={task} />
@@ -268,7 +268,7 @@ const ArchiveButton = function ({ task }: { task: BotConfig }) {
       } for all students in the class.`}
       action={() => archiveHandler(archiveAction)}
       trigger={
-        <div className="gap-1 flex items-center">
+        <div className="flex items-center gap-1">
           {isArchived ? <LuArchiveRestore /> : <LuArchive />}
           <div>{isArchived ? "Un-archive" : "Archive"}</div>
         </div>

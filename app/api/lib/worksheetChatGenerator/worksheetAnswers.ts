@@ -12,7 +12,7 @@ export function filterEmptyQuestions(questionBank: QuestionBank): QuestionBank {
   return questionBank.filter((qo: QuestionObject) => qo.questions.length !== 0);
 }
 export function getWorksheetAnswersMessages(
-  payload: QuestionBankPayload
+  payload: QuestionBankPayload,
 ): ChatCompletionRequestMessage[] {
   const questionBank = payload.data;
   const filteredQuestionBank = filterEmptyQuestions(questionBank);

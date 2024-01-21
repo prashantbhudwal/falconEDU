@@ -110,6 +110,6 @@ export async function generateDocx(data: DocData): Promise<void> {
     blob,
     `${data.topic.charAt(0).toUpperCase() + data.topic.slice(1)}-${
       data.subtopic
-    }.docx`
+    }.docx`,
   );
 }

@@ -35,7 +35,7 @@ export async function predictChapters({
       subject: subject,
       board: board,
     });
-   //console.log(chapterPrediction);
+    //console.log(chapterPrediction);
 
     const parsedChapterPrediction = chapterSchema.safeParse(chapterPrediction);
     //console.log(parsedChapterPrediction);

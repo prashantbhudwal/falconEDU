@@ -41,7 +41,7 @@ function formatToMarkdown(questions: any[]): string {
 }
 
 export const getTestQuestionsByBotChatId = cache(async function (
-  botChatId: string
+  botChatId: string,
 ) {
   const context = await prisma.botChat.findUnique({
     where: { id: botChatId },
@@ -73,7 +73,7 @@ export type TestContextByChatId = UnwrapPromise<
 >;
 
 export async function getEngineeredTestBotMessages(
-  questions: TestQuestionsByBotChatId
+  questions: TestQuestionsByBotChatId,
 ) {
   const questionsWitRelevantFields = questions?.map((questionObject) => {
     const { question, question_type, hint, options } = questionObject;
@@ -91,7 +91,7 @@ export async function getEngineeredTestBotMessages(
   });
 
   const markdownQuestions = formatToMarkdown(
-    questionsWitRelevantFields as any[]
+    questionsWitRelevantFields as any[],
   );
 
   const stringifiedQuestions = JSON.stringify(markdownQuestions ?? "");

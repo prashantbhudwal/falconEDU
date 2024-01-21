@@ -18,14 +18,14 @@ export function ReportModal({ children }: { children: React.ReactNode }) {
         if (onDismiss) onDismiss();
       }
     },
-    [onDismiss, overlay, wrapper]
+    [onDismiss, overlay, wrapper],
   );
 
   const onKeyDown = useCallback(
     (e: KeyboardEvent) => {
       if (e.key === "Escape") onDismiss();
     },
-    [onDismiss]
+    [onDismiss],
   );
 
   useEffect(() => {
@@ -36,11 +36,11 @@ export function ReportModal({ children }: { children: React.ReactNode }) {
   return (
     <div
       ref={overlay}
-      className="fixed z-10 left-0 right-0 top-0 bg-base-200/75 first-line:w-full flex justify-center"
+      className="fixed left-0 right-0 top-0 z-10 flex justify-center bg-base-200/75 first-line:w-full"
       onClick={onClick}
     >
       <div ref={wrapper} className="relative w-full max-w-7xl">
-        <CloseModalButton className="absolute top-2 right-2" />
+        <CloseModalButton className="absolute right-2 top-2" />
         {children}
       </div>
     </div>

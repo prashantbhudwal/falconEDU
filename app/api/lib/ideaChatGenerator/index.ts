@@ -8,7 +8,7 @@ function getEngineeredMessages(
   topic: string,
   subtopic: string,
   board: string,
-  subject: string
+  subject: string,
 ): ChatCompletionRequestMessage[] {
   return [
     {
@@ -31,7 +31,7 @@ function getEngineeredMessages(
 }
 
 export function getChatMessages(
-  payload: IdeaStreamPayload
+  payload: IdeaStreamPayload,
 ): ChatCompletionRequestMessage[] {
   const { grade, topic, subtopic, board, prompt, subject } = payload;
   const engineeredMessages = getEngineeredMessages(
@@ -39,7 +39,7 @@ export function getChatMessages(
     topic,
     subtopic,
     board,
-    subject
+    subject,
   );
 
   switch (prompt) {

@@ -27,7 +27,7 @@ export default function AddTeacherForm() {
   });
 
   const onSubmit = async function (
-    values: z.infer<typeof addTeacherFormSchema>
+    values: z.infer<typeof addTeacherFormSchema>,
   ) {
     const { email } = values;
     const addedTeacher = await addTeacherToOrg({ email });
@@ -64,7 +64,7 @@ export default function AddTeacherForm() {
                   <TextInput
                     type="email"
                     placeholder="Enter Teacher email."
-                    className="max-w-72 w-52"
+                    className="w-52 max-w-72"
                     {...field}
                   />
                 </FormControl>

@@ -75,7 +75,7 @@ export default function LessonForm({
   const [error, setError] = useState<string | null>(null);
   const [inputFocus, setInputFocus] = useState("");
   const [lessonName, setLessonName] = useState<string | undefined>(
-    taskConfig?.name
+    taskConfig?.name,
   );
 
   const form = useForm<z.infer<typeof lessonPreferencesSchema>>({
@@ -109,7 +109,7 @@ export default function LessonForm({
       options: { numberOnly: true },
     });
     const gradeObject = subjectsArray.filter(
-      (subject) => subject.grade === gradeNumber
+      (subject) => subject.grade === gradeNumber,
     )[0];
     return gradeObject.subjects;
   };
@@ -118,7 +118,7 @@ export default function LessonForm({
     const isValidName = lessonNameSchema.safeParse({ name: lessonName });
     if (!isValidName.success) {
       setError(
-        "Failed to update , Bot names should be between 3 and 30 characters in length."
+        "Failed to update , Bot names should be between 3 and 30 characters in length.",
       ); // set the error message
       setLessonName(taskConfig?.name);
       return;
@@ -150,20 +150,20 @@ export default function LessonForm({
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
           <Paper variant="gray" className="w-full max-w-5xl bg-base-200">
-            <div className="flex justify-between flex-wrap px-5">
+            <div className="flex flex-wrap justify-between px-5">
               <div className="w-[50%]">
                 <Input
                   type="text"
                   value={lessonName}
                   onChange={onBotNameChange}
                   onBlur={updateBotNameHandler}
-                  className="outline-none border-none md:text-xl pl-0 font-bold tracking-wide focus-visible:ring-0 "
+                  className="border-none pl-0 font-bold tracking-wide outline-none focus-visible:ring-0 md:text-xl "
                 />
                 {error && (
-                  <div className="text-red-500 text-xs mt-3">{error}</div>
+                  <div className="mt-3 text-xs text-red-500">{error}</div>
                 )}
               </div>
-              <div className="flex flex-col gap-2 items-end">
+              <div className="flex flex-col items-end gap-2">
                 <div className="flex flex-row gap-6">
                   <Button
                     type="submit"
@@ -189,11 +189,11 @@ export default function LessonForm({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel
-                    className={`mb-3 flex justify-between w-full align-middle font-bold ${
+                    className={`mb-3 flex w-full justify-between align-middle font-bold ${
                       inputFocus === "topic" ? "text-white" : ""
                     }`}
                   >
-                    <div className="flex gap-2 items-center text-xs">
+                    <div className="flex items-center gap-2 text-xs">
                       Topic
                       <FiInfo />
                     </div>
@@ -219,11 +219,11 @@ export default function LessonForm({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel
-                    className={`mb-3 flex justify-between w-full align-middle font-bold ${
+                    className={`mb-3 flex w-full justify-between align-middle font-bold ${
                       inputFocus === "content" ? "text-white" : ""
                     }`}
                   >
-                    <div className="flex gap-2 items-center text-xs">
+                    <div className="flex items-center gap-2 text-xs">
                       Content
                       <FiInfo />
                     </div>
@@ -260,7 +260,7 @@ export default function LessonForm({
                     <FormProvider {...form}>
                       <FormItem>
                         <div className="mb-3 flex flex-col gap-2">
-                          <FormLabel className="flex gap-2 items-center text-xs font-bold">
+                          <FormLabel className="flex items-center gap-2 text-xs font-bold">
                             Subjects
                             <FiBookOpen />
                           </FormLabel>
@@ -286,7 +286,7 @@ export default function LessonForm({
                 render={({ field }) => {
                   return (
                     <FormItem className="space-y-3">
-                      <FormLabel className="mb-3 flex gap-2 items-center text-xs font-bold">
+                      <FormLabel className="mb-3 flex items-center gap-2 text-xs font-bold">
                         Humor Level
                         <LightBulbIcon className="h-4 w-4" />
                       </FormLabel>
@@ -298,7 +298,7 @@ export default function LessonForm({
                           step={1}
                           onValueChange={(value) => {
                             const humourLevel = getHumourLevelFromNumber(
-                              value[0]
+                              value[0],
                             );
                             form.setValue("humorLevel", humourLevel);
                           }}

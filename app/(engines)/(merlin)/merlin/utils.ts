@@ -3,11 +3,11 @@ import { generateDocx } from "../../../../lib/generateDocx";
 
 export const getSelectedBlockContent = (
   selectedBlockId: any,
-  lessonIdeas: BlockContent[]
+  lessonIdeas: BlockContent[],
 ) => {
   // Find the block with the selected id
   const selectedBlock = lessonIdeas.find(
-    (block) => block.id === selectedBlockId
+    (block) => block.id === selectedBlockId,
   );
   return selectedBlock?.text;
 };
@@ -15,7 +15,7 @@ export const getSelectedBlockContent = (
 export const downloadBlock = (
   id: string,
   lessonIdeas: BlockContent[],
-  subtopic: string
+  subtopic: string,
 ) => {
   const blockToDownload = lessonIdeas.filter((idea) => idea.id == id);
   const content = blockToDownload[0].text;

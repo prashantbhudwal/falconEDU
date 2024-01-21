@@ -6,11 +6,11 @@ import questionData from "@/app/data/questionMatrix.json";
 import { customAlphabet } from "nanoid";
 export const nanoid = customAlphabet(
   "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
-  7
+  7,
 );
 
 export const getEmoji = function (
-  ideaType: ideaType | aidType | worksheetAidType
+  ideaType: ideaType | aidType | worksheetAidType,
 ) {
   const loweCaseBlockType = ideaType.toLowerCase();
   switch (loweCaseBlockType) {
@@ -58,7 +58,7 @@ export const getEmoji = function (
 };
 
 export const getName = function (
-  ideaType: ideaType | aidType | worksheetAidType
+  ideaType: ideaType | aidType | worksheetAidType,
 ) {
   const loweCaseBlockType = ideaType.toLowerCase();
   switch (loweCaseBlockType) {
@@ -176,7 +176,7 @@ export const getQuestionSectionShadow = function (questionType: QuestionType) {
   }
 };
 export const getQuestionSectionTextColor = function (
-  questionType: QuestionType
+  questionType: QuestionType,
 ) {
   switch (questionType) {
     case "fillInTheBlanks":
@@ -219,7 +219,7 @@ export const getQuestionSectionTextColor = function (
 };
 
 export const getQuestionSectionBorderColor = function (
-  questionType: QuestionType
+  questionType: QuestionType,
 ) {
   switch (questionType) {
     case "fillInTheBlanks":
@@ -339,7 +339,8 @@ export const blockContentArray = [
 ];
 
 export const getQuestionTypeTitle = (questionType: QuestionType) => {
-  const title = questionData.find((question) => question.type === questionType)
-    ?.title;
+  const title = questionData.find(
+    (question) => question.type === questionType,
+  )?.title;
   return title ? title : "";
 };

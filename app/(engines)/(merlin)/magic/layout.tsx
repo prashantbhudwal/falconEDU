@@ -29,7 +29,7 @@ export default function MagicLayout({
   const handouts = useHandouts();
   const [_, setTeachingAidsAt] = useAtom(teachingAidsAtom);
   const [contentStreamCompleted, setContentStreamCompleted] = useAtom(
-    contentStreamCompletedAtom
+    contentStreamCompletedAtom,
   );
   const [savedQuestions] = useAtom(savedQuestionsAtom);
 
