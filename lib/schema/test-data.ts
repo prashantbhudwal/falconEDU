@@ -4,7 +4,15 @@ import {
   lessonPreferencesSchema,
   teacherPreferencesSchema,
 } from "@/lib/schema";
-import { type Bot } from "../../app/dragon/student/types";
+import { type Message } from "ai";
+import { type User } from "@prisma/client";
+
+export type Bot = {
+  id: string;
+  userId: string;
+  messages: Message[];
+  createdAt: Date;
+};
 
 export const botData = {
   id: "111",
