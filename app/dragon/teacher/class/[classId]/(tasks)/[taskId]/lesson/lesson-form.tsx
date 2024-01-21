@@ -13,37 +13,21 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group-form";
 import { Separator } from "@/components/ui/separator";
-import { Chip } from "@/components/ui/chip";
 import {
   lessonPreferencesSchema,
   lessonNameSchema,
 } from "../../../../../../schema";
 import { Button } from "@/components/ui/button";
 import { FiInfo } from "react-icons/fi";
-import { FiBookOpen } from "react-icons/fi";
-import { LightBulbIcon } from "@heroicons/react/24/solid";
 import { Paper } from "@/components/ui/paper";
-import {
-  grades,
-  board,
-  languageProficiency,
-  tone,
-  humorLevel,
-  subjects,
-  LIMITS_lessonPreferencesSchema,
-} from "../../../../../../schema";
-import subjectsArray from "../../../../../../../data/subjects.json";
+import { LIMITS_lessonPreferencesSchema } from "../../../../../../schema";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 import { Input } from "@/components/ui/input";
 import TextAreaWithUpload from "../../_components/textAreaWithUpload";
-import { getFormattedGrade } from "@/app/dragon/teacher/utils";
-import ComboBox from "@/components/combobox";
-import { Slider } from "@/components/ui/slider";
-import { BsStars } from "react-icons/bs";
-import { getHumourLevelFromNumber } from "@/lib/utils";
-
+import { HumorLevelField } from "../../_components/form/humor-level";
+import { SubjectsField } from "../../_components/form/subjects-old";
+import { TopicField } from "../../_components/form/topic";
 const MAX_CHARS = LIMITS_lessonPreferencesSchema.content.maxLength;
 
 const defaultValues: z.infer<typeof lessonPreferencesSchema> = {
@@ -103,17 +87,6 @@ export default function LessonForm({
     }
   };
 
-  const updateSubjectsHandler = () => {
-    const gradeNumber = getFormattedGrade({
-      grade,
-      options: { numberOnly: true },
-    });
-    const gradeObject = subjectsArray.filter(
-      (subject) => subject.grade === gradeNumber,
-    )[0];
-    return gradeObject.subjects;
-  };
-
   const updateBotNameHandler = async () => {
     const isValidName = lessonNameSchema.safeParse({ name: lessonName });
     if (!isValidName.success) {
@@ -149,7 +122,10 @@ export default function LessonForm({
     <>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
-          <Paper variant="gray" className="w-full max-w-5xl bg-base-200">
+          <Paper
+            variant="gray"
+            className="min-h-screen w-full max-w-5xl space-y-12 bg-base-200"
+          >
             <div className="flex flex-wrap justify-between px-5">
               <div className="w-[50%]">
                 <Input
@@ -182,37 +158,8 @@ export default function LessonForm({
               </div>
             </div>
             <Separator />
-            {/* ------------------------Topic ------------------------- */}
-            <FormField
-              control={form.control}
-              name="topic"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel
-                    className={`mb-3 flex w-full justify-between align-middle font-bold ${
-                      inputFocus === "topic" ? "text-white" : ""
-                    }`}
-                  >
-                    <div className="flex items-center gap-2 text-xs">
-                      Topic
-                      <FiInfo />
-                    </div>
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      autoComplete="off"
-                      className="text-sm"
-                      placeholder="Topic you want to teach. For multiple topics, separate them with commas."
-                      {...field}
-                      onFocus={() => setInputFocus("topic")}
-                      onBlur={() => setInputFocus("")}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            {/* ------------------------Content ------------------------- */}
+            <TopicField name="topic" />
+            <SubjectsField name="subjects" grade={grade} />
             <FormField
               control={form.control}
               name="content"
@@ -249,73 +196,17 @@ export default function LessonForm({
               )}
             />
 
-            <div className="flex items-center gap-10">
-              {/* ------------------------Subjects List ------------------------- */}
+            <HumorLevelField name="humorLevel" />
+          </Paper>
+        </form>
+      </Form>
+    </>
+  );
+}
 
-              <FormField
-                control={form.control}
-                name="subjects"
-                render={({ field }) => {
-                  return (
-                    <FormProvider {...form}>
-                      <FormItem>
-                        <div className="mb-3 flex flex-col gap-2">
-                          <FormLabel className="flex items-center gap-2 text-xs font-bold">
-                            Subjects
-                            <FiBookOpen />
-                          </FormLabel>
-                        </div>
-                        <div>
-                          <ComboBox
-                            {...field}
-                            items={updateSubjectsHandler()}
-                            placeholder="Search subject..."
-                          />
-                        </div>
-                        <FormMessage />
-                      </FormItem>
-                    </FormProvider>
-                  );
-                }}
-              />
+/* ------------------------Tone ------------------------- */
 
-              {/* ------------------------Language ------------------------- */}
-              <FormField
-                control={form.control}
-                name="humorLevel"
-                render={({ field }) => {
-                  return (
-                    <FormItem className="space-y-3">
-                      <FormLabel className="mb-3 flex items-center gap-2 text-xs font-bold">
-                        Humor Level
-                        <LightBulbIcon className="h-4 w-4" />
-                      </FormLabel>
-                      <FormControl>
-                        <Slider
-                          defaultValue={[50]}
-                          className="w-64 cursor-pointer"
-                          max={100}
-                          step={1}
-                          onValueChange={(value) => {
-                            const humourLevel = getHumourLevelFromNumber(
-                              value[0],
-                            );
-                            form.setValue("humorLevel", humourLevel);
-                          }}
-                        />
-                      </FormControl>
-                      <div className="flex items-center gap-2 text-xs">
-                        <BsStars /> {field.value}
-                      </div>
-                      <FormMessage />
-                    </FormItem>
-                  );
-                }}
-              />
-            </div>
-
-            {/* ------------------------Tone ------------------------- */}
-            {/* <FormField
+/* <FormField
               control={form.control}
               name="tone"
               render={({ field }) => (
@@ -351,10 +242,11 @@ export default function LessonForm({
                   <FormMessage />
                 </FormItem>
               )}
-            /> */}
+            /> */
 
-            {/* ------------------------Language ------------------------- */}
-            {/* <FormField
+/* ------------------------Language ------------------------- */
+
+/* <FormField
               control={form.control}
               name="languageProficiency"
               render={({ field }) => (
@@ -392,10 +284,4 @@ export default function LessonForm({
                   <FormMessage />
                 </FormItem>
               )}
-            /> */}
-          </Paper>
-        </form>
-      </Form>
-    </>
-  );
-}
+            /> */

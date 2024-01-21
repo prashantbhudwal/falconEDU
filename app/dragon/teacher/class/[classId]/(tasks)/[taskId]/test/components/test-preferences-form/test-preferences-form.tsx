@@ -1,8 +1,7 @@
 "use client";
 import { type BotConfig } from "@prisma/client";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { saveParsedQuestions } from "../../../../../../../mutations";
 import { db } from "@/app/dragon/teacher/routers";
@@ -14,13 +13,11 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import { IoMdAdd } from "react-icons/io";
 import {
   botNameSchema,
   testBotPreferencesSchema,
 } from "../../../../../../../../schema";
 import { Button } from "@/components/ui/button";
-import { TextareaWithCounter as Textarea } from "@/components/ui/textarea-counter";
 import { LIMITS_testBotPreferencesSchema } from "../../../../../../../../schema";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 import { Input } from "@/components/ui/input";

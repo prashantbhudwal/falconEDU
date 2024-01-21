@@ -8,7 +8,6 @@ import { db } from "@/app/dragon/teacher/routers";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -19,13 +18,8 @@ import { Button } from "@/components/ui/button";
 import { Paper } from "@/components/ui/paper";
 import { Grade } from "@prisma/client";
 import { LIMITS_botPreferencesSchema } from "../../../../../../schema";
-import subjectsArray from "../../../../../../../data/subjects.json";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 import { Input } from "@/components/ui/input";
-import { getFormattedGrade } from "@/app/dragon/teacher/utils";
-import { Slider } from "@/components/ui/slider";
-import { getHumourLevelFromNumber } from "@/lib/utils";
-import { BsStars } from "react-icons/bs";
 import TextAreaWithUpload from "../../_components/textAreaWithUpload";
 import endent from "endent";
 import { HumorLevelField } from "../../_components/form/humor-level";

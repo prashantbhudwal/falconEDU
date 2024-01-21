@@ -13,34 +13,23 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group-form";
 import { Separator } from "@/components/ui/separator";
-import { Chip } from "@/components/ui/chip";
 import {
   AITestNameSchema,
   AITestPreferenceSchema,
 } from "../../../../../../schema";
 import { Button } from "@/components/ui/button";
 import { FiInfo } from "react-icons/fi";
-import { FiBookOpen } from "react-icons/fi";
-import { LanguageIcon } from "@heroicons/react/24/solid";
-import { LightBulbIcon } from "@heroicons/react/24/solid";
-import { SpeakerWaveIcon } from "@heroicons/react/24/solid";
 import { Paper } from "@/components/ui/paper";
-import {
-  grades,
-  board,
-  languageProficiency,
-  tone,
-  humorLevel,
-  subjects,
-  LIMITS_AITestPreferencesSchema,
-} from "../../../../../../schema";
+import { LIMITS_AITestPreferencesSchema } from "../../../../../../schema";
 import subjectsArray from "../../../../../../../data/subjects.json";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 import { Input } from "@/components/ui/input";
 import TextAreaWithUpload from "../../_components/textAreaWithUpload";
 import { getFormattedGrade } from "@/app/dragon/teacher/utils";
+import { SubjectsField } from "../../_components/form/subjects-old";
+import { HumorLevelField } from "../../_components/form/humor-level";
+import { TopicField } from "../../_components/form/topic";
 
 const MAX_CHARS = LIMITS_AITestPreferencesSchema.content.maxLength;
 
@@ -178,34 +167,8 @@ export default function AITestForm({
               </div>
             </div>
             <Separator className="my-6" />
-            {/* ------------------------Topic ------------------------- */}
-            <FormField
-              control={form.control}
-              name="topic"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel
-                    className={`mb-5 flex w-full justify-between align-middle font-bold ${
-                      inputFocus === "topic" ? "text-white" : ""
-                    }`}
-                  >
-                    <div className="flex gap-2">
-                      Topic
-                      <FiInfo />
-                    </div>
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Topic you want to teach. For multiple topics, separate them with commas."
-                      {...field}
-                      onFocus={() => setInputFocus("topic")}
-                      onBlur={() => setInputFocus("")}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <TopicField name="topic" />
+            <SubjectsField name="subjects" grade={grade} />
             {/* ------------------------Content ------------------------- */}
             <FormField
               control={form.control}
@@ -241,58 +204,16 @@ export default function AITestForm({
               )}
             />
 
-            {/* ------------------------Subjects List ------------------------- */}
+            <HumorLevelField name="humorLevel" />
+          </Paper>
+        </form>
+      </Form>
+    </>
+  );
+}
 
-            <FormField
-              control={form.control}
-              name="subjects"
-              render={() => (
-                <FormItem>
-                  <div className="mb-5 flex flex-col gap-2">
-                    <FormLabel className="flex items-center gap-2 font-bold">
-                      Subjects
-                      <FiBookOpen />
-                    </FormLabel>
-                  </div>
-                  <div className="flex flex-row flex-wrap gap-x-6 gap-y-5 ">
-                    {updateSubjectsHandler().map((subject) => (
-                      <FormField
-                        key={subject}
-                        control={form.control}
-                        name="subjects"
-                        render={({ field }) => {
-                          return (
-                            <FormItem key={subject}>
-                              <FormControl>
-                                <Chip
-                                  checked={field.value?.includes(subject)}
-                                  onCheckedChange={(checked) => {
-                                    return checked
-                                      ? field.onChange([
-                                          ...field.value,
-                                          subject,
-                                        ])
-                                      : field.onChange(
-                                          field.value?.filter(
-                                            (value) => value !== subject,
-                                          ),
-                                        );
-                                  }}
-                                  toggleName={subject}
-                                />
-                              </FormControl>
-                            </FormItem>
-                          );
-                        }}
-                      />
-                    ))}
-                  </div>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {/* ------------------------Tone ------------------------- */}
+/**
+ *  
             <FormField
               control={form.control}
               name="tone"
@@ -330,48 +251,7 @@ export default function AITestForm({
                 </FormItem>
               )}
             />
-            {/* ------------------------Language ------------------------- */}
-            <FormField
-              control={form.control}
-              name="humorLevel"
-              render={({ field }) => (
-                <FormItem className="space-y-3">
-                  <FormLabel className="mb-5 flex items-center gap-2 font-bold">
-                    Humor Level
-                    <LightBulbIcon className="h-4 w-4" />
-                  </FormLabel>
-                  <FormControl>
-                    <RadioGroup
-                      onValueChange={() => {
-                        field.onChange;
-                      }}
-                      defaultValue={field.value}
-                      className="flex flex-row space-x-6 space-y-1"
-                    >
-                      {humorLevel.map((humorLevel) => (
-                        <FormItem
-                          className="flex flex-row items-center space-x-3 space-y-0"
-                          key={humorLevel}
-                        >
-                          <FormControl>
-                            <RadioGroupItem
-                              value={humorLevel}
-                              className=" transition-all duration-200 hover:scale-[1.2] active:scale-90"
-                            />
-                          </FormControl>
-                          <FormLabel className="font-normal">
-                            {humorLevel}
-                          </FormLabel>
-                        </FormItem>
-                      ))}
-                    </RadioGroup>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            {/* ------------------------Language ------------------------- */}
-            <FormField
+ *  <FormField
               control={form.control}
               name="languageProficiency"
               render={({ field }) => (
@@ -410,9 +290,5 @@ export default function AITestForm({
                 </FormItem>
               )}
             />
-          </Paper>
-        </form>
-      </Form>
-    </>
-  );
-}
+ * 
+ */
