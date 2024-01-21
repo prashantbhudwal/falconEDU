@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { Paper } from "@/components/ui/paper";
 import TaskList from "./components/task-list";
-import { db } from "../../../routers";
+import { db } from "../../../../../../lib/routers";
 import Link from "next/link";
 import AnalyticsWidget from "./components/analytics/analytics-widget";
 import { Suspense } from "react";

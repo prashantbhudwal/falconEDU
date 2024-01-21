@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { db } from "@/app/dragon/teacher/routers";
+import { db } from "@/lib/routers";
 import { ArrowUpIcon } from "@heroicons/react/24/solid";
 import { cn } from "@/lib/utils";
 

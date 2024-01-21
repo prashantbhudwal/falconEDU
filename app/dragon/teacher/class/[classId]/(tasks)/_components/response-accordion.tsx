@@ -1,7 +1,7 @@
 import { StudentsByBotConfigId } from "../[taskId]/test/queries";
 import { TaskType } from "@/types/dragon";
 import { ResponseCard } from "./response-card";
-import { db } from "@/app/dragon/teacher/routers";
+import { db } from "@/lib/routers";
 import { AttemptCard } from "./attempt-card";
 
 type ResponseProps = {

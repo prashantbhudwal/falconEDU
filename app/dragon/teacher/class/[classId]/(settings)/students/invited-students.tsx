@@ -1,5 +1,5 @@
-import { db } from "@/app/dragon/teacher/routers";
-import { typeGetInviteList } from "@/app/dragon/teacher/routers/inviteStudentsRouter";
+import { db } from "@/lib/routers";
+import { typeGetInviteList } from "@/lib/routers/inviteStudentsRouter";
 import {
   Table,
   TableBody,

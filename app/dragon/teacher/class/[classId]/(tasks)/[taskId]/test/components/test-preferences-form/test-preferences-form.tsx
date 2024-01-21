@@ -4,7 +4,7 @@ import { ChangeEvent, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import * as z from "zod";
 import { saveParsedQuestions } from "../../../../../../../mutations";
-import { db } from "@/app/dragon/teacher/routers";
+import { db } from "@/lib/routers";
 import {
   Form,
   FormControl,
@@ -17,12 +17,16 @@ import { Button } from "@/components/ui/button";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 import { Input } from "@/components/ui/input";
 import { parseTestQuestions } from "@/app/dragon/ai/test-question-parser/get-test-questions";
-import { typeActiveParsedQuestionByBotConfigId } from "@/app/dragon/teacher/routers/parsedQuestionRouter";
+import { typeActiveParsedQuestionByBotConfigId } from "@/lib/routers/parsedQuestionRouter";
 const MAX_CHARS = LIMITS_testBotPreferencesSchema.fullTest.maxLength;
 import TextAreaWithUpload from "../../../../_components/textAreaWithUpload";
 import { AddQuestionsDialog } from "./add-questions-dialog";
 import { SaveButton } from "../../../../_components/form/save-btn";
-import { LIMITS_testBotPreferencesSchema, botNameSchema, testBotPreferencesSchema } from "@/lib/schema";
+import {
+  LIMITS_testBotPreferencesSchema,
+  botNameSchema,
+  testBotPreferencesSchema,
+} from "@/lib/schema";
 
 type BotPreferencesFormProps = {
   preferences?: z.infer<typeof testBotPreferencesSchema> | null;

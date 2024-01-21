@@ -1,5 +1,5 @@
 "use client";
-import { typeActiveParsedQuestionByBotConfigId } from "@/app/dragon/teacher/routers/parsedQuestionRouter";
+import { typeActiveParsedQuestionByBotConfigId } from "@/lib/routers/parsedQuestionRouter";
 import {
   Answer,
   Option,
@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/tooltip";
 import { LuArchiveRestore } from "react-icons/lu";
 import { useState } from "react";
-import { db } from "@/app/dragon/teacher/routers";
+import { db } from "@/lib/routers";
 
 type PropTypes = {
   archivedQuestions: typeActiveParsedQuestionByBotConfigId[] | null;

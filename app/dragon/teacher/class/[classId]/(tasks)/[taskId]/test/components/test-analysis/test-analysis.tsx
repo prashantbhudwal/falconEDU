@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { SummaryStats } from "./summary-stats";
 import { IndividualResponsesList } from "../../../../_components/individual-responses-list";
 import { SummaryStatTable } from "./summary-stat-table";
-import { db } from "@/app/dragon/teacher/routers";
+import { db } from "@/lib/routers";
 import {
   Accordion,
   AccordionContent,
@@ -17,7 +17,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { getTestMetadata } from "../../../../../../../utils";
-import { getTestResults } from "@/app/dragon/teacher/routers/parsedQuestionRouter";
+import { getTestResults } from "@/lib/routers/parsedQuestionRouter";
 import { NoStudents } from "../../../../_components/no-students";
 import { NotPublished } from "../../../../_components/not-published";
 

@@ -4,7 +4,7 @@ import { ChangeEvent, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { db } from "@/app/dragon/teacher/routers";
+import { db } from "@/lib/routers";
 import {
   Form,
   FormControl,
@@ -21,7 +21,11 @@ import TextAreaWithUpload from "../../_components/textAreaWithUpload";
 import endent from "endent";
 import { HumorLevelField } from "../../_components/form/humor-level";
 import { SaveButton } from "../../_components/form/save-btn";
-import { LIMITS_botPreferencesSchema, botNameSchema, botPreferencesSchema } from "@/lib/schema";
+import {
+  LIMITS_botPreferencesSchema,
+  botNameSchema,
+  botPreferencesSchema,
+} from "@/lib/schema";
 
 const MAX_CHARS = LIMITS_botPreferencesSchema.instructions.maxLength;
 

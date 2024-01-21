@@ -9,7 +9,7 @@ import Link from "next/link";
 import { getStudentBotURL, getStudentTeacherURL } from "@/lib/urls";
 import { getTeachersByUserId } from "./queries";
 import { InstallAppDrawer } from "@/components/install-app-drawer";
-import { db } from "../teacher/routers";
+import { db } from "../../../lib/routers";
 
 const basePath = "/dragon/student";
 

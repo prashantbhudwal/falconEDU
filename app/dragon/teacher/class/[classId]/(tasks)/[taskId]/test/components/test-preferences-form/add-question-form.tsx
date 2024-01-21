@@ -23,7 +23,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 import { LuCopy, LuX } from "react-icons/lu";
 import { LuTrash } from "react-icons/lu";
-import { typeActiveParsedQuestionByBotConfigId } from "@/app/dragon/teacher/routers/parsedQuestionRouter";
+import { typeActiveParsedQuestionByBotConfigId } from "@/lib/routers/parsedQuestionRouter";
 import { saveParsedQuestions } from "@/app/dragon/teacher/mutations";
 import {
   Tooltip,

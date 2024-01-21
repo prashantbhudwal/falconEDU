@@ -3,7 +3,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Avvvatars from "avvvatars-react";
 import { cn, formatDateWithTimeZone } from "@/lib/utils";
 const testPriorities = ["HIGH", "MEDIUM", "LOW"] as const;
-import { type BotsByTeacherAndStudentID } from "../../teacher/routers/botRouter";
+import { type BotsByTeacherAndStudentID } from "../../../../lib/routers/botRouter";
 import { getChatsByBotId, getDefaultChatReadStatus } from "../queries";
 import { getTaskProperties } from "../../teacher/utils";
 import { TaskType } from "@/types/dragon";

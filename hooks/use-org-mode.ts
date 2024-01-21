@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import useUserData from "./useUserData";
-import { db } from "@/app/dragon/teacher/routers";
+import { db } from "@/lib/routers";
 
 export function useOrgMode() {
   const [orgMode, setOrgMode] = useState(false);

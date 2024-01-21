@@ -8,7 +8,7 @@ import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { getTeacherHomeURL } from "@/lib/urls";
-import { db } from "@/app/dragon/teacher/routers";
+import { db } from "@/lib/routers";
 
 export const ToggleClassStatusCard = ({ classId }: { classId: string }) => {
   const router = useRouter();

@@ -1,6 +1,6 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getServerSession } from "next-auth";
-import { db } from "../teacher/routers";
+import { db } from "../../../lib/routers";
 import prisma from "@/prisma";
 import { cache } from "react";
 import { Card } from "@/components/ui/card";

@@ -3,8 +3,8 @@ import { cn } from "@/lib/utils";
 import { TaskActions } from "./task-actions";
 import { getFormattedDate, getTaskProperties } from "../../../../utils";
 import { TaskType } from "@/types/dragon";
-import { AllConfigsInClass } from "@/app/dragon/teacher/routers/botConfigRouter";
-import { db } from "@/app/dragon/teacher/routers";
+import { AllConfigsInClass } from "@/lib/routers/botConfigRouter";
+import { db } from "@/lib/routers";
 import TaskAnalytics from "./task-analytics";
 
 type TaskCardProps = {

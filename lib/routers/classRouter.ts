@@ -5,7 +5,7 @@ import prisma from "@/prisma";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { cache } from "react";
-import { UnwrapPromise } from "../../student/queries";
+import { UnwrapPromise } from "../../app/dragon/student/queries";
 import { Class } from "@prisma/client";
 
 export const createClassForTeacher = async function ({

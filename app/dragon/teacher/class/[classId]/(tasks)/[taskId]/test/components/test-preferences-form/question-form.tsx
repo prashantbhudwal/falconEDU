@@ -21,8 +21,8 @@ import { z } from "zod";
 import { TextareaAutosize } from "@/components/ui/textarea-autosize";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
-import { db } from "@/app/dragon/teacher/routers";
-import { typeActiveParsedQuestionByBotConfigId } from "@/app/dragon/teacher/routers/parsedQuestionRouter";
+import { db } from "@/lib/routers";
+import { typeActiveParsedQuestionByBotConfigId } from "@/lib/routers/parsedQuestionRouter";
 import { LuCopy, LuTrash } from "react-icons/lu";
 import {
   Tooltip,

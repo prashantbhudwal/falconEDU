@@ -33,7 +33,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
-import { db } from "@/app/dragon/teacher/routers";
+import { db } from "@/lib/routers";
 
 type GradeOption = {
   label: string;

@@ -1,5 +1,5 @@
 "use client";
-import { db } from "@/app/dragon/teacher/routers";
+import { db } from "@/lib/routers";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";

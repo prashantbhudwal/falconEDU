@@ -11,7 +11,7 @@ import {
   DialogHeader,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { db } from "@/app/dragon/teacher/routers";
+import { db } from "@/lib/routers";
 
 export const revalidate = 3600; // revalidate the data at most every hour
 

@@ -1,4 +1,4 @@
-import { db } from "@/app/dragon/teacher/routers";
+import { db } from "@/lib/routers";
 import { formatName } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";

@@ -35,7 +35,7 @@ import {
 } from "@/components/ui/tooltip";
 import { ClassDialog } from "../../../../components/class-dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { db } from "@/app/dragon/teacher/routers";
+import { db } from "@/lib/routers";
 
 type StudentData = NonNullable<StudentsByClassId["students"]>[number];
 

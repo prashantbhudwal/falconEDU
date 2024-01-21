@@ -1,5 +1,5 @@
 "use client";
-import { db } from "@/app/dragon/teacher/routers";
+import { db } from "@/lib/routers";
 import Link from "next/link";
 import { use, useEffect, useState } from "react";
 import { useSession } from "next-auth/react";

@@ -10,7 +10,7 @@ import { getStudentsURL } from "@/lib/urls";
 import { ToggleClassStatusCard } from "./components/toggle-class-status";
 import { ConfigCard } from "./components/config-card";
 import { Separator } from "@/components/ui/separator";
-import { db } from "../../../../routers";
+import { db } from "../../../../../../../lib/routers";
 import { getServerSession } from "next-auth";
 import { UsersIcon } from "@heroicons/react/24/outline";
 

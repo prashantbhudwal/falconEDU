@@ -7,7 +7,7 @@ import {
 import {
   archiveAllBotsOfBotConfig,
   unArchiveAllBotsOfBotConfig,
-} from "../../routers/botRouter";
+} from "../../../../../lib/routers/botRouter";
 import Link from "next/link";
 import {
   useSelectedLayoutSegment,

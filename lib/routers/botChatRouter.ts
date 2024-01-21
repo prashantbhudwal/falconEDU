@@ -3,9 +3,9 @@ import * as z from "zod";
 import { revalidatePath } from "next/cache";
 import prisma from "@/prisma";
 import { cache } from "react";
-import { UnwrapPromise } from "../../student/queries";
+import { UnwrapPromise } from "../../app/dragon/student/queries";
 import { TaskType } from "@/types/dragon";
-import { getTaskProperties } from "../utils";
+import { getTaskProperties } from "../../app/dragon/teacher/utils";
 export const createBotChat = async ({ botId }: { botId: string }) => {
   try {
     await prisma.$transaction(async (prisma) => {

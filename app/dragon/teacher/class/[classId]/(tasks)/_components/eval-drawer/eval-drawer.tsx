@@ -22,7 +22,7 @@ import {
 import { useEffect, useState } from "react";
 import { TaskType } from "@/types";
 
-import { typeGetBotConfigByConfigId } from "@/app/dragon/teacher/routers/botConfigRouter";
+import { typeGetBotConfigByConfigId } from "@/lib/routers/botConfigRouter";
 import { PublishButton } from "./publish-btn";
 import { Separator } from "@/components/ui/separator";
 

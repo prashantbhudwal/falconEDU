@@ -6,7 +6,7 @@ import prisma from "@/prisma";
 import { TaskType } from "@/types";
 import { revalidatePath } from "next/cache";
 import { cache } from "react";
-import { UnwrapPromise } from "../../student/queries";
+import { UnwrapPromise } from "../../app/dragon/student/queries";
 
 export const addStudentToClass = async ({
   email,

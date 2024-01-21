@@ -4,7 +4,7 @@ import { TaskCard } from "./task-card";
 import Link from "next/link";
 import { getTaskUrlByType } from "@/lib/urls";
 import { TaskType } from "@/types/dragon";
-import { AllConfigsInClass } from "@/app/dragon/teacher/routers/botConfigRouter";
+import { AllConfigsInClass } from "@/lib/routers/botConfigRouter";
 
 type GroupedTasks = {
   [key: string]: AllConfigsInClass["all"];

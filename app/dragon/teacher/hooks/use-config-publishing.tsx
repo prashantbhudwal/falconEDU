@@ -1,5 +1,5 @@
 "use client";
-import { db } from "../routers";
+import { db } from "../../../../lib/routers";
 import { revalidatePath } from "next/cache";
 import { SetStateAction, useState } from "react";
 import { BotConfig } from "@prisma/client";

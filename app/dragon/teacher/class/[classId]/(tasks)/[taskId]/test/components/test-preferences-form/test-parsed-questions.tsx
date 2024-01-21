@@ -2,7 +2,7 @@
 import {
   typeActiveParsedQuestionByBotConfigId,
   typeArchivedParsedQuestionByBotConfigId,
-} from "@/app/dragon/teacher/routers/parsedQuestionRouter";
+} from "@/lib/routers/parsedQuestionRouter";
 import { QuestionForm } from "./question-form";
 import React, { useEffect, useRef, useState } from "react";
 import { AddQuestionForm } from "./add-question-form";

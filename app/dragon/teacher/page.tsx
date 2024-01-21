@@ -6,7 +6,7 @@ import Avvvatars from "avvvatars-react";
 import ClassCard from "./components/class-card";
 import { Paper } from "@/components/ui/paper";
 import { notFound, redirect } from "next/navigation";
-import { db } from "./routers";
+import { db } from "../../../lib/routers";
 import { ClassCardList } from "./components/class-card-list";
 
 import {

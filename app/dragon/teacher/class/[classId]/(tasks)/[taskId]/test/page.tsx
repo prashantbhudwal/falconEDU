@@ -3,9 +3,9 @@ import prisma from "@/prisma";
 import { UnwrapPromise } from "@/app/dragon/student/queries";
 import { Paper } from "@/components/ui/paper";
 import TestPreferencesForm from "./components/test-preferences-form/test-preferences-form";
-import { db } from "@/app/dragon/teacher/routers";
+import { db } from "@/lib/routers";
 import { TestParsedQuestion } from "./components/test-preferences-form/test-parsed-questions";
-import { typeActiveParsedQuestionByBotConfigId } from "@/app/dragon/teacher/routers/parsedQuestionRouter";
+import { typeActiveParsedQuestionByBotConfigId } from "@/lib/routers/parsedQuestionRouter";
 import { testBotPreferencesSchema } from "@/lib/schema";
 export interface BotPageProps {
   params: {

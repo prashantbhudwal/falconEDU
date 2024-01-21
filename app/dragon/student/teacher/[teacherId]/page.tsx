@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { AvatarNavbar } from "../../components/student-navbar";
 import { TaskCard } from "../../components/chat-card";
-import { db } from "@/app/dragon/teacher/routers";
+import { db } from "@/lib/routers";
 
 export default async function TeacherDashboard({
   params,

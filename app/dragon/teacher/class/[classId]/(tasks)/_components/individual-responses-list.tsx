@@ -6,7 +6,7 @@ import { getReportUrl } from "@/lib/urls";
 import { NoStudents } from "./no-students";
 import { NotPublished } from "./not-published";
 import { TaskType } from "@/types/dragon";
-import { db } from "@/app/dragon/teacher/routers";
+import { db } from "@/lib/routers";
 import { Response } from "./response-accordion";
 
 export const IndividualResponsesList = async function ({

@@ -19,9 +19,9 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { IoClose } from "react-icons/io5";
-import { typeActiveParsedQuestionByBotConfigId } from "@/app/dragon/teacher/routers/parsedQuestionRouter";
+import { typeActiveParsedQuestionByBotConfigId } from "@/lib/routers/parsedQuestionRouter";
 import { Button } from "@/components/ui/button";
-import { db } from "@/app/dragon/teacher/routers";
+import { db } from "@/lib/routers";
 import { useState } from "react";
 import {
   Tooltip,

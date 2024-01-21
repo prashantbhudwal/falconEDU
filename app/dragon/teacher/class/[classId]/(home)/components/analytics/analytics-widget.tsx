@@ -1,9 +1,9 @@
-import { getTasksWithInteractions } from "@/app/dragon/teacher/routers/studentRouter";
+import { getTasksWithInteractions } from "@/lib/routers/studentRouter";
 import { getTaskUrlByType } from "@/lib/urls";
 import { TaskType } from "@/types";
 import Link from "next/link";
 import React from "react";
-import { type TasksWithInteractions } from "@/app/dragon/teacher/routers/studentRouter";
+import { type TasksWithInteractions } from "@/lib/routers/studentRouter";
 import {
   ArrowTrendingDownIcon,
   ArrowTrendingUpIcon,

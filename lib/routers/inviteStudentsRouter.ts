@@ -3,7 +3,7 @@ import prisma from "@/prisma";
 import { InvitationStatus } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { cache } from "react";
-import { UnwrapPromise } from "../../student/queries";
+import { UnwrapPromise } from "../../app/dragon/student/queries";
 
 export const addToInviteList = async ({
   studentEmail,

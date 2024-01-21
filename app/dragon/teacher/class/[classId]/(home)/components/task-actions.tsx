@@ -1,6 +1,6 @@
 "use client";
 import { useDuplicateConfig } from "@/app/dragon/teacher/hooks/use-duplicate-config";
-import { db } from "@/app/dragon/teacher/routers";
+import { db } from "@/lib/routers";
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,

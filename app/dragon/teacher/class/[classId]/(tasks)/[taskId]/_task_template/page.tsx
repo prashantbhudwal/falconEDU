@@ -1,4 +1,4 @@
-import { db } from "@/app/dragon/teacher/routers";
+import { db } from "@/lib/routers";
 
 export interface BotPageProps {
   params: {

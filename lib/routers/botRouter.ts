@@ -3,7 +3,7 @@ import { isAuthorized } from "@/lib/is-authorized";
 import prisma from "@/prisma";
 import { revalidatePath } from "next/cache";
 import { cache } from "react";
-import { UnwrapPromise } from "../../student/queries";
+import { UnwrapPromise } from "../../app/dragon/student/queries";
 
 export const archiveAllBotsOfBotConfig = async (botConfigId: string) => {
   await isAuthorized({

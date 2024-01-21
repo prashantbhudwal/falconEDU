@@ -15,7 +15,7 @@ import {
 import Image from "next/image";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-import { db } from "../../routers";
+import { db } from "../../../../../lib/routers";
 
 export default async function Navbar() {
   const session = await getServerSession(authOptions);

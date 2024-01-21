@@ -27,7 +27,7 @@ import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FolderPlusIcon } from "@heroicons/react/24/solid";
-import { db } from "../routers";
+import { db } from "../../../../lib/routers";
 import { Grade } from "@prisma/client";
 import { Class } from "@prisma/client";
 import {

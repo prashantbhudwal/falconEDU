@@ -1,6 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { db } from "../routers";
+import { db } from "../../../../lib/routers";
 import { type TaskType } from "@/types/dragon";
 import { getTaskProperties } from "../utils";
 import { getTaskUrl } from "@/lib/urls";

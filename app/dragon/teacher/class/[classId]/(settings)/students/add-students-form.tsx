@@ -22,7 +22,7 @@ import { LuMail } from "react-icons/lu";
 import { useState } from "react";
 import axios from "axios";
 import useUserData from "@/hooks/useUserData";
-import { db } from "@/app/dragon/teacher/routers";
+import { db } from "@/lib/routers";
 import { IoMdAdd } from "react-icons/io";
 import {
   Tooltip,

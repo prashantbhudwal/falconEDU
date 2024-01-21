@@ -4,7 +4,7 @@ import React from "react";
 import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { useCreateNewConfig } from "@/app/dragon/teacher/hooks/use-create-config";
-import { AllConfigsInClass } from "@/app/dragon/teacher/routers/botConfigRouter";
+import { AllConfigsInClass } from "@/lib/routers/botConfigRouter";
 import {
   Card,
   CardContent,

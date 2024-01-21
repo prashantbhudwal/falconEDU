@@ -4,7 +4,7 @@ import { ChangeEvent, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { db } from "@/app/dragon/teacher/routers";
+import { db } from "@/lib/routers";
 import {
   Form,
   FormControl,

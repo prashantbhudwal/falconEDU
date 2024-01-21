@@ -1,5 +1,5 @@
 "use client";
-import { db } from "../app/dragon/teacher/routers";
+import { db } from "../lib/routers";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";

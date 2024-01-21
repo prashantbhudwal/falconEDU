@@ -1,4 +1,4 @@
-import { db } from "@/app/dragon/teacher/routers";
+import { db } from "@/lib/routers";
 import LessonForm from "./lesson-form";
 import { lessonPreferencesSchema } from "@/lib/schema";
 
