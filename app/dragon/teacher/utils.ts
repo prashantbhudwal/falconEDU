@@ -186,3 +186,11 @@ export function getFormattedGrade({
 
   return converted;
 }
+
+export const isNonEmptyObject = (obj: Object) => {
+  return obj && typeof obj === "object" && Object.keys(obj).length > 0;
+};
+
+export const isEmptyObject = (obj: Object) => {
+  return obj && typeof obj === "object" && Object.keys(obj).length === 0;
+};
