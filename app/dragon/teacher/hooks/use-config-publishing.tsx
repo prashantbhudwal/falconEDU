@@ -21,7 +21,7 @@ export function useConfigPublishing({
     const result = await db.botConfig.publishBotConfig({
       classId,
       botConfigId: botId,
-      type
+      type,
     });
     setLoading(false);
 
@@ -41,7 +41,7 @@ export function useConfigPublishing({
     const result = await db.botConfig.unPublishBotConfig({
       classId,
       botConfigId: botId,
-      type
+      type,
     });
     setLoading(false);
     if (result.success) {

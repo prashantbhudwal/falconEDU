@@ -13,39 +13,23 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group-form";
 import { Separator } from "@/components/ui/separator";
-import { Chip } from "@/components/ui/chip";
 import {
   lessonPreferencesSchema,
   lessonNameSchema,
 } from "../../../../../../schema";
 import { Button } from "@/components/ui/button";
-import { TextareaWithCounter as Textarea } from "@/components/ui/textarea-counter";
 import { FiInfo } from "react-icons/fi";
-import { FiBookOpen } from "react-icons/fi";
-import { ClipboardIcon } from "@heroicons/react/24/solid";
-import { AcademicCapIcon } from "@heroicons/react/24/solid";
-import { LanguageIcon } from "@heroicons/react/24/solid";
-import { LightBulbIcon } from "@heroicons/react/24/solid";
-import { SpeakerWaveIcon } from "@heroicons/react/24/solid";
 import { Paper } from "@/components/ui/paper";
-import {
-  grades,
-  board,
-  languageProficiency,
-  tone,
-  humorLevel,
-  subjects,
-  LIMITS_lessonPreferencesSchema,
-} from "../../../../../../schema";
-import subjectsArray from "../../../../../../../data/subjects.json";
+import { LIMITS_lessonPreferencesSchema } from "../../../../../../schema";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 import { Input } from "@/components/ui/input";
 import TextAreaWithUpload from "../../_components/textAreaWithUpload";
-import { getFormattedGrade } from "@/app/dragon/teacher/utils";
-
+import { HumorLevelField } from "../../_components/form/humor-level";
+import { SubjectsField } from "../../_components/form/subjects-old";
+import { TopicField } from "../../_components/form/topic";
 const MAX_CHARS = LIMITS_lessonPreferencesSchema.content.maxLength;
+import { SaveButton } from "../../_components/form/save-btn";
 
 const defaultValues: z.infer<typeof lessonPreferencesSchema> = {
   topic: "",
@@ -76,7 +60,7 @@ export default function LessonForm({
   const [error, setError] = useState<string | null>(null);
   const [inputFocus, setInputFocus] = useState("");
   const [lessonName, setLessonName] = useState<string | undefined>(
-    taskConfig?.name
+    taskConfig?.name,
   );
 
   const form = useForm<z.infer<typeof lessonPreferencesSchema>>({
@@ -104,22 +88,11 @@ export default function LessonForm({
     }
   };
 
- const updateSubjectsHandler = () => {
-   const gradeNumber = getFormattedGrade({
-     grade,
-     options: { numberOnly: true },
-   });
-   const gradeObject = subjectsArray.filter(
-     (subject) => subject.grade === gradeNumber
-   )[0];
-   return gradeObject.subjects;
- };
-
   const updateBotNameHandler = async () => {
     const isValidName = lessonNameSchema.safeParse({ name: lessonName });
     if (!isValidName.success) {
       setError(
-        "Failed to update , Bot names should be between 3 and 30 characters in length."
+        "Failed to update , Bot names should be between 3 and 30 characters in length.",
       ); // set the error message
       setLessonName(taskConfig?.name);
       return;
@@ -150,154 +123,78 @@ export default function LessonForm({
     <>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
-          <Paper variant="gray" className="w-full max-w-5xl bg-base-200">
-            <div className="flex justify-between flex-wrap p-5">
+          <Paper
+            variant="gray"
+            className="min-h-screen w-full max-w-5xl space-y-12 bg-base-200"
+          >
+            <div className="flex flex-wrap justify-between">
               <div className="w-[50%]">
                 <Input
                   type="text"
                   value={lessonName}
                   onChange={onBotNameChange}
                   onBlur={updateBotNameHandler}
-                  className="outline-none border-none md:text-3xl pl-0 font-bold tracking-wide focus-visible:ring-0 "
+                  className="border-none pl-0 font-bold tracking-wide outline-none focus-visible:ring-0 md:text-xl "
                 />
                 {error && (
-                  <div className="text-red-500 text-sm mt-3">{error}</div>
+                  <div className="mt-3 text-xs text-red-500">{error}</div>
                 )}
               </div>
-              <div className="flex flex-col gap-2 items-end">
-                <div className="flex flex-row gap-6">
-                  <Button
-                    type="submit"
-                    disabled={(isEmpty && !isDirty) || !isDirty}
-                  >
-                    {loading ? "Saving" : isDirty ? "Save" : "Saved"}
-                  </Button>
-                </div>
-                {isDirty && (
-                  <div className="text-sm text-slate-500">
-                    You have unsaved changes.
-                  </div>
-                )}
-              </div>
+              <SaveButton
+                isLoading={loading}
+                isDisabled={(isEmpty && !isDirty) || !isDirty}
+                hasUnsavedChanges={isDirty}
+              />
             </div>
-            <Separator className="my-6" />
-            {/* ------------------------Topic ------------------------- */}
-            <FormField
-              control={form.control}
-              name="topic"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel
-                    className={`mb-5 flex justify-between w-full align-middle font-bold ${
-                      inputFocus === "topic" ? "text-white" : ""
-                    }`}
-                  >
-                    <div className="flex gap-2">
-                      Topic
-                      <FiInfo />
-                    </div>
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Topic you want to teach. For multiple topics, separate them with commas."
-                      {...field}
-                      onFocus={() => setInputFocus("topic")}
-                      onBlur={() => setInputFocus("")}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            {/* ------------------------Content ------------------------- */}
+            <TopicField name="topic" />
+            <SubjectsField name="subjects" grade={grade} />
             <FormField
               control={form.control}
               name="content"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel
-                    className={`mb-5 flex justify-between w-full align-middle font-bold ${
+                    className={`mb-3 flex w-full justify-between align-middle font-bold ${
                       inputFocus === "content" ? "text-white" : ""
                     }`}
                   >
-                    <div className="flex gap-2">
+                    <div className="flex items-center gap-2 text-xs">
                       Content
                       <FiInfo />
                     </div>
                   </FormLabel>
                   <FormProvider {...form}>
-                    <FormControl className="rounded-md border border-input">
-                      <TextAreaWithUpload
-                        placeholder="Add any additional reference material"
-                        counter
-                        maxChars={MAX_CHARS}
-                        required
-                        hasDocUploader
-                        setIsDirty={setIsDirty}
-                        className="bg-base-200 border-none"
-                        {...field}
-                      />
+                    <FormControl className="rounded-md">
+                      <div className="border border-input">
+                        <TextAreaWithUpload
+                          placeholder="Add any additional reference material"
+                          counter
+                          maxChars={MAX_CHARS}
+                          required
+                          hasDocUploader
+                          setIsDirty={setIsDirty}
+                          className="bg-base-200"
+                          {...field}
+                        />
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormProvider>
                 </FormItem>
               )}
             />
-        
 
-            {/* ------------------------Subjects List ------------------------- */}
+            <HumorLevelField name="humorLevel" />
+          </Paper>
+        </form>
+      </Form>
+    </>
+  );
+}
 
-            <FormField
-              control={form.control}
-              name="subjects"
-              render={() => (
-                <FormItem>
-                  <div className="mb-5 flex flex-col gap-2">
-                    <FormLabel className="flex gap-2 items-center font-bold">
-                      Subjects
-                      <FiBookOpen />
-                    </FormLabel>
-                  </div>
-                  <div className="flex flex-row gap-y-5 flex-wrap gap-x-6 ">
-                    {updateSubjectsHandler().map((subject) => (
-                      <FormField
-                        key={subject}
-                        control={form.control}
-                        name="subjects"
-                        render={({ field }) => {
-                          return (
-                            <FormItem key={subject}>
-                              <FormControl>
-                                <Chip
-                                  checked={field.value?.includes(subject)}
-                                  onCheckedChange={(checked) => {
-                                    return checked
-                                      ? field.onChange([
-                                          ...field.value,
-                                          subject,
-                                        ])
-                                      : field.onChange(
-                                          field.value?.filter(
-                                            (value) => value !== subject
-                                          )
-                                        );
-                                  }}
-                                  toggleName={subject}
-                                />
-                              </FormControl>
-                            </FormItem>
-                          );
-                        }}
-                      />
-                    ))}
-                  </div>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            
-            {/* ------------------------Tone ------------------------- */}
-            <FormField
+/* ------------------------Tone ------------------------- */
+
+/* <FormField
               control={form.control}
               name="tone"
               render={({ field }) => (
@@ -333,49 +230,11 @@ export default function LessonForm({
                   <FormMessage />
                 </FormItem>
               )}
-            />
-            {/* ------------------------Language ------------------------- */}
-            <FormField
-              control={form.control}
-              name="humorLevel"
-              render={({ field }) => (
-                <FormItem className="space-y-3">
-                  <FormLabel className="mb-5 flex gap-2 items-center font-bold">
-                    Humor Level
-                    <LightBulbIcon className="h-4 w-4" />
-                  </FormLabel>
-                  <FormControl>
-                    <RadioGroup
-                      onValueChange={() => {
-                        field.onChange;
-                      }}
-                      defaultValue={field.value}
-                      className="flex flex-row space-y-1 space-x-6"
-                    >
-                      {humorLevel.map((humorLevel) => (
-                        <FormItem
-                          className="flex flex-row items-center space-x-3 space-y-0"
-                          key={humorLevel}
-                        >
-                          <FormControl>
-                            <RadioGroupItem
-                              value={humorLevel}
-                              className=" active:scale-90 transition-all duration-200 hover:scale-[1.2]"
-                            />
-                          </FormControl>
-                          <FormLabel className="font-normal">
-                            {humorLevel}
-                          </FormLabel>
-                        </FormItem>
-                      ))}
-                    </RadioGroup>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            {/* ------------------------Language ------------------------- */}
-            <FormField
+            /> */
+
+/* ------------------------Language ------------------------- */
+
+/* <FormField
               control={form.control}
               name="languageProficiency"
               render={({ field }) => (
@@ -413,10 +272,4 @@ export default function LessonForm({
                   <FormMessage />
                 </FormItem>
               )}
-            />
-          </Paper>
-        </form>
-      </Form>
-    </>
-  );
-}
+            /> */

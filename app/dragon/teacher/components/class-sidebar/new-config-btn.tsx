@@ -19,7 +19,7 @@ export const NewConfigButton = function ({
   return (
     <Button
       variant={"ghost"}
-      className="px-2 capitalize flex items-center justify-start gap-3 w-full group-hover:text-slate-950 group"
+      className="group flex w-full items-center justify-start gap-3 px-2 capitalize group-hover:text-slate-950"
       onClick={() => createNewConfig({ userId, classId, configType })}
     >
       <PlusIcon className="w-5 text-accent group-hover:text-inherit" />

@@ -26,24 +26,24 @@ export default async function Navbar() {
   const { orgBrandName } = await db.org.getTeacherBrandNameByUserId({ userId });
 
   return (
-    <div className="flex flex-row justify-between bg-base-200 shadow-sm shadow-base-100 py-3 px-1">
+    <div className="flex flex-row justify-between bg-base-200 px-1 py-3 shadow-sm shadow-base-100">
       <div className="flex flex-row items-center space-x-5 pr-2">
-        <div className="shadow-md shadow-slate-950  flex gap-2 items-center justify-center px-3 py-2 rounded-lg">
+        <div className="flex items-center  justify-center gap-2 rounded-lg px-3 py-2 shadow-md shadow-slate-950">
           <Image src={"/chubbi.png"} height={20} width={20} alt="Falcon Logo" />
-          <div className="flex flex-row gap-2 items-center">
+          <div className="flex flex-row items-center gap-2">
             <div className="text-xs">FalconAI</div>
-            {orgBrandName && <XMarkIcon className="text-secondary h-4 w-4" />}
+            {orgBrandName && <XMarkIcon className="h-4 w-4 text-secondary" />}
             {orgBrandName && <div className="text-xs">{orgBrandName}</div>}
           </div>
         </div>
         <NewClass />
       </div>
-      <div className="flex flex-row gap-3 pr-1 items-center">
+      <div className="flex flex-row items-center gap-3 pr-1">
         <Link href={teacherAvatarURL}>
           <Button
             variant={"outline"}
             size={"sm"}
-            className="rounded-xl flex items-center gap-2"
+            className="flex items-center gap-2 rounded-xl"
           >
             <FiSliders className="text-primary" />
             <span> Avatar </span>
@@ -53,7 +53,7 @@ export default async function Navbar() {
           <Button
             variant={"outline"}
             size={"sm"}
-            className="rounded-xl flex items-center gap-2"
+            className="flex items-center gap-2 rounded-xl"
           >
             <FiAirplay className="text-secondary" />
             <span> Teacher Training </span>
@@ -63,7 +63,7 @@ export default async function Navbar() {
           <Button
             variant={"outline"}
             size={"sm"}
-            className="rounded-xl flex items-center gap-2"
+            className="flex items-center gap-2 rounded-xl"
           >
             <FiTool className="text-info" />
             <span> Tools </span>

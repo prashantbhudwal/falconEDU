@@ -12,7 +12,7 @@ export default function Page({
   const [lessonIdeas] = useAtom(lessonIdeasAtom);
   const handouts = ideasToHandouts(lessonIdeas);
   const filteredHandouts = handouts.filter(
-    (handout) => handout.aid === params.handout
+    (handout) => handout.aid === params.handout,
   );
 
   return (

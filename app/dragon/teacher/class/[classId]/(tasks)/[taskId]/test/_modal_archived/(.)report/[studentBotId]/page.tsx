@@ -11,7 +11,7 @@ type ReportProps = {
 export default async function ReportModal({ params }: ReportProps) {
   return (
     <Modal>
-      <div className="w-full py-5 overflow-y-scroll custom-scrollbar h-screen bg-base-300 rounded-xl ring-1 ring-slate-700 ">
+      <div className="custom-scrollbar h-screen w-full overflow-y-scroll rounded-xl bg-base-300 py-5 ring-1 ring-slate-700 ">
         {/* <Report params={params} /> */}
       </div>
     </Modal>

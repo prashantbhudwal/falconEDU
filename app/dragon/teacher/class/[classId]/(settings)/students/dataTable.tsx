@@ -72,7 +72,7 @@ export function DataTable({
       header: ({ column }) => {
         return (
           <Button
-            className="bg-transparent text-inherit px-0 hover:bg-transparent hover:text-base-content"
+            className="bg-transparent px-0 text-inherit hover:bg-transparent hover:text-base-content"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Name
@@ -91,7 +91,7 @@ export function DataTable({
       header: ({ column }) => {
         return (
           <Button
-            className="bg-transparent text-inherit px-0 hover:bg-transparent hover:text-base-content"
+            className="bg-transparent px-0 text-inherit hover:bg-transparent hover:text-base-content"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Email
@@ -143,7 +143,7 @@ export function DataTable({
   ];
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
+    [],
   );
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
@@ -189,7 +189,7 @@ export function DataTable({
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext()
+                            header.getContext(),
                           )}
                     </TableHead>
                   );
@@ -205,7 +205,7 @@ export function DataTable({
                     <TableCell key={cell.id} className="pl-5">
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </TableCell>
                   ))}

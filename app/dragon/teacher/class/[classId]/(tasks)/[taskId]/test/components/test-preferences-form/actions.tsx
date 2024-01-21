@@ -35,7 +35,7 @@ export const Actions = ({
     <div
       ref={actionBoxRef}
       className={cn(
-        `absolute flex flex-col gap-2 bg-base-200 bottom-0 -right-10 rounded border border-base-100 p-2`
+        `absolute -right-10 bottom-0 flex flex-col gap-2 rounded border border-base-100 bg-base-200 p-2`,
       )}
       style={{
         transform: `translateY(${-(questionCardHeight - actionBoxHeight)}px)`,

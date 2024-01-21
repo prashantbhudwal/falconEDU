@@ -15,10 +15,10 @@ export const deleteAccountByEmail = async ({ email }: { email: string }) => {
   if (!userId) {
     throw new Error("User not found");
   }
-    await prisma.user.delete({
-      where: {
-        id: userId,
-      },
-    });
+  await prisma.user.delete({
+    where: {
+      id: userId,
+    },
+  });
   redirect("/");
 };

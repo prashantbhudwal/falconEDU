@@ -12,7 +12,7 @@ export const grades = [
   "Grade 9",
   "Grade 10",
 ] as const;
-export const humorLevel = ["High", "Moderate", "Low"] as const;
+export const humorLevel = ["Low", "Moderate", "High"] as const;
 export const board = ["CBSE", "ICSE", "CIE", "IB", "IGCSE"] as const;
 export const language = ["English", "Hindi", "Hinglish"] as const;
 export const languageProficiency = [
@@ -234,44 +234,44 @@ export const StudentPreferenceSchema = z.object({
     .string()
     .min(
       LIMITS_StudentPreferencesSchema.interests.minLength.value,
-      LIMITS_StudentPreferencesSchema.interests.minLength.message
+      LIMITS_StudentPreferencesSchema.interests.minLength.message,
     )
     .max(
       LIMITS_StudentPreferencesSchema.interests.maxLength.value,
-      LIMITS_StudentPreferencesSchema.interests.maxLength.message
+      LIMITS_StudentPreferencesSchema.interests.maxLength.message,
     )
     .optional(),
   favoriteCartoons: z
     .string()
     .min(
       LIMITS_StudentPreferencesSchema.favoriteCartoons.minLength.value,
-      LIMITS_StudentPreferencesSchema.favoriteCartoons.minLength.message
+      LIMITS_StudentPreferencesSchema.favoriteCartoons.minLength.message,
     )
     .max(
       LIMITS_StudentPreferencesSchema.favoriteCartoons.maxLength.value,
-      LIMITS_StudentPreferencesSchema.favoriteCartoons.maxLength.message
+      LIMITS_StudentPreferencesSchema.favoriteCartoons.maxLength.message,
     )
     .optional(),
   favoriteFoods: z
     .string()
     .min(
       LIMITS_StudentPreferencesSchema.favoriteFoods.minLength.value,
-      LIMITS_StudentPreferencesSchema.favoriteFoods.minLength.message
+      LIMITS_StudentPreferencesSchema.favoriteFoods.minLength.message,
     )
     .max(
       LIMITS_StudentPreferencesSchema.favoriteFoods.maxLength.value,
-      LIMITS_StudentPreferencesSchema.favoriteFoods.maxLength.message
+      LIMITS_StudentPreferencesSchema.favoriteFoods.maxLength.message,
     )
     .optional(),
   aboutYourself: z
     .string()
     .min(
       LIMITS_StudentPreferencesSchema.aboutYourself.minLength.value,
-      LIMITS_StudentPreferencesSchema.aboutYourself.minLength.message
+      LIMITS_StudentPreferencesSchema.aboutYourself.minLength.message,
     )
     .max(
       LIMITS_StudentPreferencesSchema.aboutYourself.maxLength.value,
-      LIMITS_StudentPreferencesSchema.aboutYourself.maxLength.message
+      LIMITS_StudentPreferencesSchema.aboutYourself.maxLength.message,
     )
     .optional(),
 });
@@ -297,14 +297,14 @@ export const parsedQuestionsSchema = z.object({
       value: z.string().min(1, {
         message: "Answer must be at least 1 characters",
       }),
-    })
+    }),
   ),
   options: z.array(
     z.object({
       value: z.string().min(1, {
         message: "Options must be at least 1 characters",
       }),
-    })
+    }),
   ),
   question: z
     .string()

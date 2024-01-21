@@ -19,7 +19,7 @@ type AdminNavbarProps = {
 
 const AdminNavbar = ({ title }: AdminNavbarProps) => {
   return (
-    <div className="flex justify-between z-20 w-full sticky top-0 left-0 items-center px-3 py-3 bg-base-300">
+    <div className="sticky left-0 top-0 z-20 flex w-full items-center justify-between bg-base-300 px-3 py-3">
       <Link href={orgAdminHomeURL}>
         <Image src={"/chubbi.png"} height={30} width={30} alt="Falcon Logo" />
       </Link>

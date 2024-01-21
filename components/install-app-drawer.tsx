@@ -30,7 +30,7 @@ export const InstallAppDrawer = () => {
         <Drawer open={drawerOpen} onClose={closeInstallDrawer}>
           <DrawerContent className="outline-none">
             <DrawerHeader>
-              <DrawerTitle className="flex justify-center gap-2 items-center">
+              <DrawerTitle className="flex items-center justify-center gap-2">
                 <Image
                   src={"/chubbi.png"}
                   height={30}
@@ -39,7 +39,7 @@ export const InstallAppDrawer = () => {
                 />{" "}
                 Install FalconAI on your device
               </DrawerTitle>
-              <div className="flex gap-2 py-4 items-center justify-center px-5">
+              <div className="flex items-center justify-center gap-2 px-5 py-4">
                 <Image
                   src={"/mobileScreenShot1.png"}
                   height={200}
@@ -62,7 +62,7 @@ export const InstallAppDrawer = () => {
             </DrawerHeader>
             <div className="flex justify-center gap-5">
               <Button onClick={handleInstallButtonClick}>
-                <div className="flex h-full w-full items-center gap-2 justify-center">
+                <div className="flex h-full w-full items-center justify-center gap-2">
                   <MdInstallDesktop className="hidden sm:block" />
                   <MdInstallMobile className="block sm:hidden" />
                   Install

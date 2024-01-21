@@ -35,7 +35,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={inter.className}>
-      <body className="flex min-h-screen flex-col bg-slate-900 text-slate-400 custom-scrollbar overflow-hidden">
+      <body className="custom-scrollbar flex min-h-screen flex-col overflow-hidden bg-slate-900 text-slate-400">
         <Providers>
           <main className="flex grow flex-col items-center">
             <TRPCProvider headers={headers()}>{children}</TRPCProvider>

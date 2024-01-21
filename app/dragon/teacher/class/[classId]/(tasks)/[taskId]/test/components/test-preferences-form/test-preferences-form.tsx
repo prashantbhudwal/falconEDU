@@ -1,8 +1,7 @@
 "use client";
 import { type BotConfig } from "@prisma/client";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { saveParsedQuestions } from "../../../../../../../mutations";
 import { db } from "@/app/dragon/teacher/routers";
@@ -14,13 +13,11 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import { IoMdAdd } from "react-icons/io";
 import {
   botNameSchema,
   testBotPreferencesSchema,
 } from "../../../../../../../../schema";
 import { Button } from "@/components/ui/button";
-import { TextareaWithCounter as Textarea } from "@/components/ui/textarea-counter";
 import { LIMITS_testBotPreferencesSchema } from "../../../../../../../../schema";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 import { Input } from "@/components/ui/input";
@@ -29,6 +26,7 @@ import { typeActiveParsedQuestionByBotConfigId } from "@/app/dragon/teacher/rout
 const MAX_CHARS = LIMITS_testBotPreferencesSchema.fullTest.maxLength;
 import TextAreaWithUpload from "../../../../_components/textAreaWithUpload";
 import { AddQuestionsDialog } from "./add-questions-dialog";
+import { SaveButton } from "../../../../_components/form/save-btn";
 
 type BotPreferencesFormProps = {
   preferences?: z.infer<typeof testBotPreferencesSchema> | null;
@@ -93,7 +91,7 @@ export default function TestPreferencesForm({
     if (!parsedQuestions) {
       setLoading(false);
       setError(
-        "No questions provided. Please provide the questions and answers."
+        "No questions provided. Please provide the questions and answers.",
       );
       return { success: false };
     }
@@ -151,7 +149,7 @@ export default function TestPreferencesForm({
     const isValidName = botNameSchema.safeParse({ name: testName });
     if (!isValidName.success) {
       setError(
-        "Failed to update , Bot names should be between 3 and 30 characters in length."
+        "Failed to update , Bot names should be between 3 and 30 characters in length.",
       ); // set the error message
       setTestName(botConfig?.name);
       return;
@@ -184,7 +182,7 @@ export default function TestPreferencesForm({
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div>
             {/* -------------------------------------- Form Header-------------------------------- */}
-            <div className="w-11/12 mx-auto flex justify-between flex-wrap gap-10 py-5">
+            <div className="mx-auto flex w-11/12 flex-wrap justify-between gap-10 py-5">
               <div className="w-7/12">
                 <Input
                   type="text"
@@ -192,33 +190,18 @@ export default function TestPreferencesForm({
                   onChange={onTestNameChange}
                   onBlur={updateTestNameHandler}
                   required
-                  className="outline-none w-full border-none pl-0 md:text-2xl font-bold tracking-wide focus-visible:ring-0 "
+                  className="w-full border-none pl-0 font-bold tracking-wide outline-none focus-visible:ring-0 md:text-xl "
                 />
                 {error && !parsedQuestionFromDb && (
-                  <div className="text-error text-sm mt-3">{error}</div>
+                  <div className="mt-3 text-sm text-error">{error}</div>
                 )}
               </div>
               {!parsedQuestionFromDb ? (
-                <div className="flex w-fit flex-col gap-2 items-end">
-                  <Button
-                    type="submit"
-                    disabled={loading || !isDirty}
-                    className="min-w-[100px]"
-                  >
-                    {loading ? (
-                      <span className="loading loading-infinity loading-sm"></span>
-                    ) : isDirty ? (
-                      "Save"
-                    ) : (
-                      "Saved"
-                    )}
-                  </Button>
-                  {isDirty && (
-                    <div className="text-sm text-slate-500">
-                      You have unsaved changes.
-                    </div>
-                  )}
-                </div>
+                <SaveButton
+                  isLoading={loading}
+                  isDisabled={loading || !isDirty}
+                  hasUnsavedChanges={isDirty}
+                />
               ) : (
                 <AddQuestionsDialog
                   loading={loading}
@@ -240,7 +223,7 @@ export default function TestPreferencesForm({
                   <FormItem className="pb-10">
                     <FormProvider {...form}>
                       <FormControl>
-                        <div className="relative w-full rounded-md border border-input bg-transparent px-3 py-2 shadow-sm min-h-[200px] sm:min-h-[150px] text-sm">
+                        <div className="relative min-h-[200px] w-full rounded-md border border-input bg-transparent py-2 text-sm shadow-sm sm:min-h-[150px]">
                           <TextAreaWithUpload
                             counter
                             maxChars={MAX_CHARS}
@@ -248,6 +231,7 @@ export default function TestPreferencesForm({
                             placeholder="Enter or paste the full test here. Please provide the answers too. The bot will conduct the test for you."
                             hasDocUploader
                             setIsDirty={setIsDirty}
+                            className="bg-base-300"
                             {...field}
                           />
                         </div>

@@ -120,7 +120,7 @@ export async function getWorksheetDocx(questionBank: QuestionBank) {
               sectionParagraphs.push(new Paragraph({})); // Add an empty paragraph for spacing after options
             }
           }
-        }
+        },
       );
 
       docChildren.push(...sectionParagraphs);

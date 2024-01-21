@@ -14,8 +14,8 @@ export const SummaryStats = async function ({
   totalSubmittedTest: number;
 }) {
   return (
-    <div className="bg-dark-500 px-10 rounded-lg">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
+    <div className="bg-dark-500 rounded-lg px-10">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
         {/* <StatCard
           title="Submissions"
           value={`${totalSubmittedTest}/${
@@ -58,9 +58,9 @@ const StatCard = ({
   icon: React.ReactNode;
   color: string;
 }) => (
-  <div className={`card shadow-lg p-4 rounded-lg bg-base-200`}>
+  <div className={`card rounded-lg bg-base-200 p-4 shadow-lg`}>
     <div className="flex items-center space-x-4">
-      <div className={`p-4 rounded-full bg-base-300 ${color}`}>{icon}</div>
+      <div className={`rounded-full bg-base-300 p-4 ${color}`}>{icon}</div>
       <div>
         <p className="text-2xl font-bold text-slate-200">{value}</p>
         <p className={`text-sm capitalize `}>{title}</p>

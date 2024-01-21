@@ -12,7 +12,7 @@ import {
 export const isEmptyObject = (obj: any) => Object.keys(obj).length === 0;
 
 export const getChatContextByChatId = cache(async function (
-  chatId: string
+  chatId: string,
 ): Promise<ChatContext> {
   const context = await prisma.botChat.findUnique({
     where: { id: chatId },

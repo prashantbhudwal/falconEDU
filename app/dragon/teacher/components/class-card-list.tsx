@@ -8,7 +8,7 @@ import { AnimatePresence } from "framer-motion";
 export const ClassCardList = ({ classes }: { classes: ClassesByUserId }) => {
   return (
     <AnimatePresence>
-      <div className="flex flex-row gap-10 flex-wrap">
+      <div className="flex flex-row flex-wrap gap-10">
         {classes.map((classData) => (
           <Link href={getClassURL(classData.id)} key={classData.id}>
             <ClassCard

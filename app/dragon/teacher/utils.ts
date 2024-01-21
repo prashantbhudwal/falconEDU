@@ -20,7 +20,7 @@ import { Grade } from "@prisma/client";
  * @return {Object} - An object containing the maximum score, highest score, least score, and average score.
  */
 export const getTestMetadata = (
-  allStudentResponses: AllStudentResponsesByBotConfigId
+  allStudentResponses: AllStudentResponsesByBotConfigId,
 ) => {
   let allStudentScore;
   let maxScore = 0;
@@ -35,10 +35,10 @@ export const getTestMetadata = (
         .length;
     });
     leastScore = allStudentScore.reduce((acc, curr) =>
-      acc > curr ? curr : acc
+      acc > curr ? curr : acc,
     );
     highestScore = allStudentScore.reduce((acc, curr) =>
-      acc < curr ? curr : acc
+      acc < curr ? curr : acc,
     );
 
     const totalCorrect = allStudentScore.reduce((acc, curr) => acc + curr, 0);
@@ -159,7 +159,6 @@ export const getTaskProperties = (taskType: TaskType) => {
 
 export const getFormattedDate = (date: Date) =>
   new Date(date).toLocaleDateString("en-UK", {
-   
     month: "short",
     day: "numeric",
   });

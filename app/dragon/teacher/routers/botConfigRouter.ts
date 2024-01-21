@@ -279,7 +279,7 @@ export const updateBotConfigName = async function ({
       },
     });
     revalidatePath(
-      getTaskUrl({ classId, taskId: botId, type: result.type as TaskType })
+      getTaskUrl({ classId, taskId: botId, type: result.type as TaskType }),
     );
     return { success: true };
   } catch (error) {
@@ -292,14 +292,14 @@ export const getAllConfigsInClass = cache(
   async ({ userId, classId }: { userId: string; classId: string }) => {
     const organizeConfigs = (botConfigs: BOT_CONFIG_TYPE[]) => {
       const testConfigs = botConfigs.filter(
-        (botConfig) => botConfig.type === "test"
+        (botConfig) => botConfig.type === "test",
       );
       const chatConfigs = botConfigs.filter(
-        (botConfig) => botConfig.type === "chat"
+        (botConfig) => botConfig.type === "chat",
       );
 
       const lessonConfigs = botConfigs.filter(
-        (botConfig) => botConfig.type === "lesson"
+        (botConfig) => botConfig.type === "lesson",
       );
 
       const activeLessonConfigs = lessonConfigs
@@ -325,23 +325,23 @@ export const getAllConfigsInClass = cache(
         .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
 
       const publishedLessonConfigs = lessonConfigs.filter(
-        (botConfig) => botConfig.published
+        (botConfig) => botConfig.published,
       );
       const unPublishedLessonConfigs = lessonConfigs.filter(
-        (botConfig) => !botConfig.published
+        (botConfig) => !botConfig.published,
       );
 
       const publishedChatConfigs = chatConfigs.filter(
-        (botConfig) => botConfig.published
+        (botConfig) => botConfig.published,
       );
       const unPublishedChatConfigs = chatConfigs.filter(
-        (botConfig) => !botConfig.published
+        (botConfig) => !botConfig.published,
       );
       const publishedTestConfigs = testConfigs.filter(
-        (botConfig) => botConfig.published
+        (botConfig) => botConfig.published,
       );
       const unPublishedTestConfigs = testConfigs.filter(
-        (botConfig) => !botConfig.published
+        (botConfig) => !botConfig.published,
       );
 
       const configs = {
@@ -391,7 +391,7 @@ export const getAllConfigsInClass = cache(
     type BOT_CONFIG_TYPE = (typeof botConfigs)[0];
     const configs = organizeConfigs(botConfigs);
     return configs;
-  }
+  },
 );
 
 export const getAllConfigs = cache(async ({ userId }: { userId: string }) => {
@@ -428,7 +428,7 @@ export const getIsBotConfigArchivedByBotConfigId = cache(
       console.log(err);
       return { success: false, message: "Something went wrong" };
     }
-  }
+  },
 );
 
 export const duplicateConfig = async function ({
@@ -464,7 +464,7 @@ export const duplicateConfig = async function ({
     const parsedQuestions = botConfig.parsedQuestions;
     // Prisma automatically adds id to the parsedQuestions array, need to remove it. This will be automatically added by prisma
     const parsedQuestionsWithoutId = parsedQuestions.map(
-      ({ botConfigId, id, ...rest }) => rest
+      ({ botConfigId, id, ...rest }) => rest,
     );
     const originalName = botConfig.name;
     const copyTag = "Copy";
@@ -583,7 +583,7 @@ export const fetchConfigAndPreferences = cache(
       console.error("Failed to fetch:", error);
       return null;
     }
-  }
+  },
 );
 
 export const updateBotConfigTimeLimit = async ({
@@ -612,7 +612,7 @@ export const updateBotConfigTimeLimit = async ({
       return { success: false };
     }
     revalidatePath(
-      getTaskUrl({ classId, taskId: botId, type: result.type as TaskType })
+      getTaskUrl({ classId, taskId: botId, type: result.type as TaskType }),
     );
     return { success: true };
   } catch (err) {
@@ -647,7 +647,7 @@ export const enableReAttempt = async ({
         classId,
         taskId: taskId,
         type: result.type as TaskType,
-      })
+      }),
     );
     return { success: true };
   } catch (err) {
@@ -682,7 +682,7 @@ export const disableReAttempt = async ({
         classId,
         taskId: taskId,
         type: result.type as TaskType,
-      })
+      }),
     );
     return { success: true };
   } catch (err) {

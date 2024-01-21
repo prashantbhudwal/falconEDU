@@ -112,7 +112,7 @@ export const deleteBotConfigAndDeactivateBots = async (botConfigId: string) => {
 
 export const getBotsByTeacherAndStudentID = cache(async function (
   teacherId: string,
-  userId: string
+  userId: string,
 ) {
   // Fetch studentId from StudentProfile using userId
   const studentProfile = await prisma.studentProfile.findFirst({

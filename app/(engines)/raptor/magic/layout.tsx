@@ -35,7 +35,7 @@ export default function AidLayout({ children }: { children: React.ReactNode }) {
                   >
                     {`${getEmoji(aid)} ${getName(aid)}`}
                   </SidebarButton>
-                )
+                ),
             )}
           </Section>
         </Sidebar>

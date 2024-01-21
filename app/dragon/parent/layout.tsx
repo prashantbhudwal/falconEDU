@@ -11,9 +11,9 @@ export default async function ParentLayout({
   const session = await getServerSession(authOptions);
   if (session?.user.userType !== "PARENT") notFound();
   return (
-    <div className="flex flex-col h-screen w-full bg-base-300">
+    <div className="flex h-screen w-full flex-col bg-base-300">
       <StudentHomeNavbar />
-      <main className="flex flex-col flex-1 overflow-y-auto custom-scrollbar">
+      <main className="custom-scrollbar flex flex-1 flex-col overflow-y-auto">
         {children}
       </main>
     </div>

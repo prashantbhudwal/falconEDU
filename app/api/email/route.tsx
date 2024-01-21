@@ -12,7 +12,7 @@ export async function POST(request: Request) {
       invitedByEmail={data.teacherEmail}
       nameOfClass={data.nameOfClass}
       inviteLink={data.inviteLink}
-    />
+    />,
   );
   try {
     await sendgrid.send({

@@ -8,50 +8,22 @@ import { db } from "@/app/dragon/teacher/routers";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group-form";
-import { Separator } from "@/components/ui/separator";
-import { Chip } from "@/components/ui/chip";
 import { botNameSchema, botPreferencesSchema } from "../../../../../../schema";
 import { Button } from "@/components/ui/button";
-import { TextareaWithCounter as Textarea } from "@/components/ui/textarea-counter";
-import { FiInfo } from "react-icons/fi";
-import { FiBookOpen } from "react-icons/fi";
-import { ClipboardIcon } from "@heroicons/react/24/solid";
-import { AcademicCapIcon } from "@heroicons/react/24/solid";
-import { LanguageIcon } from "@heroicons/react/24/solid";
-import { LightBulbIcon } from "@heroicons/react/24/solid";
-import { SpeakerWaveIcon } from "@heroicons/react/24/solid";
 import { Paper } from "@/components/ui/paper";
 import { Grade } from "@prisma/client";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-
-import {
-  grades,
-  board,
-  languageProficiency,
-  tone,
-  humorLevel,
-  subjects,
-  LIMITS_botPreferencesSchema,
-} from "../../../../../../schema";
-import subjectsArray from "../../../../../../../data/subjects.json";
+import { LIMITS_botPreferencesSchema } from "../../../../../../schema";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 import { Input } from "@/components/ui/input";
-import { getFormattedGrade } from "@/app/dragon/teacher/utils";
+import TextAreaWithUpload from "../../_components/textAreaWithUpload";
+import endent from "endent";
+import { HumorLevelField } from "../../_components/form/humor-level";
+import { SaveButton } from "../../_components/form/save-btn";
 
 const MAX_CHARS = LIMITS_botPreferencesSchema.instructions.maxLength;
 
@@ -90,6 +62,8 @@ export default function BotPreferencesForm({
   const { isDirty, setIsDirty } = useIsFormDirty(form);
   const isEmpty = preferences === null || preferences === undefined;
 
+  //log the form values
+
   const onSubmit = async (data: z.infer<typeof botPreferencesSchema>) => {
     setLoading(true);
     const result = await db.botConfig.updateBotConfig({
@@ -108,22 +82,11 @@ export default function BotPreferencesForm({
     }
   };
 
-  const updateSubjectsHandler = () => {
-    const gradeNumber = getFormattedGrade({
-      grade,
-      options: { numberOnly: true },
-    });
-    const gradeObject = subjectsArray.filter(
-      (subject) => subject.grade === gradeNumber
-    )[0];
-    return gradeObject.subjects;
-  };
-
   const updateBotNameHandler = async () => {
     const isValidName = botNameSchema.safeParse({ name: botName });
     if (!isValidName.success) {
       setError(
-        "Failed to update , Bot names should be between 3 and 30 characters in length."
+        "Failed to update , Bot names should be between 3 and 30 characters in length.",
       ); // set the error message
       setBotName(botConfig?.name);
       return;
@@ -156,73 +119,69 @@ export default function BotPreferencesForm({
         <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
           <Paper
             variant="gray"
-            className="w-full max-w-5xl bg-base-200 min-h-screen"
+            className="min-h-screen w-full max-w-5xl space-y-12 border-none pt-12 shadow-none"
           >
-            <div className="flex justify-between flex-wrap p-5">
+            <div className="flex min-h-14 flex-wrap justify-between">
               <div className="w-[50%]">
                 <Input
                   type="text"
                   value={botName}
                   onChange={onBotNameChange}
                   onBlur={updateBotNameHandler}
-                  className="outline-none border-none md:text-3xl pl-0 font-bold tracking-wide focus-visible:ring-0 "
+                  className="border-none pl-0 text-xl font-bold tracking-wide outline-none focus-visible:ring-0  "
                 />
                 {error && (
-                  <div className="text-red-500 text-sm mt-3">{error}</div>
+                  <div className="mt-3 text-xs text-red-500">{error}</div>
                 )}
               </div>
-              <div className="flex flex-col gap-2 items-end">
-                <div className="flex flex-row gap-6">
-                  <Button
-                    type="submit"
-                    disabled={(isEmpty && !isDirty) || !isDirty}
-                  >
-                    {loading ? "Saving" : isDirty ? "Save" : "Saved"}
-                  </Button>
-                </div>
-                {isDirty && (
-                  <div className="text-sm text-slate-500">
-                    You have unsaved changes.
-                  </div>
-                )}
-              </div>
+              <SaveButton
+                isLoading={loading}
+                isDisabled={(isEmpty && !isDirty) || !isDirty}
+                hasUnsavedChanges={isDirty}
+              />
             </div>
-            <Separator className="my-6" />
             <FormField
               control={form.control}
               name="instructions"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel
-                    className={`mb-5 flex justify-between w-full align-middle font-bold ${
+                    className={`mb-3 flex w-full justify-between align-middle${
                       inputFocus === "instructions" ? "text-white" : ""
                     }`}
                   >
-                    <div className="flex gap-2">
-                      Instructions
-                      <FiInfo />
-                    </div>
+                    How do you want the bot to behave?
                   </FormLabel>
                   <FormControl>
-                    <Textarea
-                      placeholder="Be polite with the students. Never use negative language."
-                      className="resize-none"
-                      {...field}
-                      onFocus={() => setInputFocus("instructions")}
-                      onBlur={() => setInputFocus("")}
-                      hasCounter
-                      maxChars={MAX_CHARS}
-                    />
+                    <div className="border border-input">
+                      <TextAreaWithUpload
+                        placeholder={endent`Your name is Sporty, the sports teacher. You make students excited about sports. 
+                        
+                        - Be polite with the students. 
+                        - Never use negative language.
+                        - Use positive reinforcement.
+                         `}
+                        className="bg-base-200"
+                        {...field}
+                        counter
+                        maxChars={MAX_CHARS}
+                      />
+                    </div>
                   </FormControl>
-                  <FormDescription>
-                    How do you want the bot to behave?
-                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
+            <HumorLevelField name="humorLevel" />
+          </Paper>
+        </form>
+      </Form>
+    </>
+  );
+}
 
-            <FormField
+// Old fields -----------------------------
+/* <FormField
               control={form.control}
               name="tone"
               render={({ field }) => (
@@ -258,47 +217,9 @@ export default function BotPreferencesForm({
                   <FormMessage />
                 </FormItem>
               )}
-            />
-            <FormField
-              control={form.control}
-              name="humorLevel"
-              render={({ field }) => (
-                <FormItem className="space-y-3">
-                  <FormLabel className="mb-5 flex gap-2 items-center font-bold">
-                    Humor Level
-                    <LightBulbIcon className="h-4 w-4" />
-                  </FormLabel>
-                  <FormControl>
-                    <RadioGroup
-                      onValueChange={() => {
-                        field.onChange;
-                      }}
-                      defaultValue={field.value}
-                      className="flex flex-row space-y-1 space-x-6"
-                    >
-                      {humorLevel.map((humorLevel) => (
-                        <FormItem
-                          className="flex flex-row items-center space-x-3 space-y-0"
-                          key={humorLevel}
-                        >
-                          <FormControl>
-                            <RadioGroupItem
-                              value={humorLevel}
-                              className=" active:scale-90 transition-all duration-200 hover:scale-[1.2]"
-                            />
-                          </FormControl>
-                          <FormLabel className="font-normal">
-                            {humorLevel}
-                          </FormLabel>
-                        </FormItem>
-                      ))}
-                    </RadioGroup>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
+            /> */
+
+/* <FormField
               control={form.control}
               name="languageProficiency"
               render={({ field }) => (
@@ -336,10 +257,4 @@ export default function BotPreferencesForm({
                   <FormMessage />
                 </FormItem>
               )}
-            />
-          </Paper>
-        </form>
-      </Form>
-    </>
-  );
-}
+            /> */

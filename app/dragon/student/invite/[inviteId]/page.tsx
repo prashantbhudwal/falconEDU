@@ -36,17 +36,17 @@ export default async function InvitePage({
   }
 
   return (
-    <div className="w-full h-screen flex justify-center items-center">
+    <div className="flex h-screen w-full items-center justify-center">
       {invitedStudent && (
-        <div className="flex flex-col items-center gap-5 p-10 rounded-xl bg-base-200">
-          <h3 className="text-2xl flex items-center">
+        <div className="flex flex-col items-center gap-5 rounded-xl bg-base-200 p-10">
+          <h3 className="flex items-center text-2xl">
             Welcome to{" "}
-            <span className="font-bold flex items-center gap-2 px-2 text-slate-300">
+            <span className="flex items-center gap-2 px-2 font-bold text-slate-300">
               FalconAi
               <Image src={"/chubbi.png"} alt="logo" width={40} height={40} />
             </span>
           </h3>
-          <div className="flex gap-4 items-center">
+          <div className="flex items-center gap-4">
             <Image
               className="rounded-full"
               src={modelInfo.teacherImage}

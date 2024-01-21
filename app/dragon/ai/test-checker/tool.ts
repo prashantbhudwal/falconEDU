@@ -26,13 +26,13 @@ export const TestResultsAnswerSchema = z.object({
     .min(1)
     .max(100)
     .describe(
-      "The serial number of each question in the test. The question asked FIRST in the test is numbered as 1, and so on. Never count duplicate questions. The serial number of the question is the same as the serial number of the question in the test."
+      "The serial number of each question in the test. The question asked FIRST in the test is numbered as 1, and so on. Never count duplicate questions. The serial number of the question is the same as the serial number of the question in the test.",
     ),
   options: z.array(
-    z.string().describe("Options for the question, if provided")
+    z.string().describe("Options for the question, if provided"),
   ),
   correct_answer: z.array(
-    z.string().describe("Correct answer for the question")
+    z.string().describe("Correct answer for the question"),
   ),
   sample_answer: z
     .string()
@@ -40,7 +40,7 @@ export const TestResultsAnswerSchema = z.object({
     .describe("Sample answer for the test, if provided"),
   max_score: z.number().optional(),
   student_answer: z.array(
-    z.string().describe("Answer provided by the student in chat")
+    z.string().describe("Answer provided by the student in chat"),
   ),
   isCorrect: z
     .boolean()
@@ -66,7 +66,7 @@ export type TestResultsObject = z.infer<typeof testResultsObjectSchema>;
 export const testResultObjectWithIdSchema = z.array(
   TestResultsAnswerSchema.extend({
     id: z.string(),
-  })
+  }),
 );
 export type TestResultObjectWithIdArray = z.infer<
   typeof testResultObjectWithIdSchema

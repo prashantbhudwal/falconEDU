@@ -18,7 +18,7 @@ export async function FullChat({ attemptId }: ChatResponseProps) {
   return (
     <Suspense
       fallback={
-        <div className="flex flex-col w-full h-full place-content-center">
+        <div className="flex h-full w-full flex-col place-content-center">
           <Image src="/chubbi.png" alt="Chubbi" width={100} height={100} />
         </div>
       }

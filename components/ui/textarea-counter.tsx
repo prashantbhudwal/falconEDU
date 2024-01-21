@@ -46,15 +46,15 @@ export const TextareaWithCounter: React.FC<TextareaWithCounterProps> = ({
             ? "border-error focus-visible:ring-error"
             : "",
           "min-h-[200px] sm:min-h-[150px]",
-          className
+          className,
         )}
       />
       {hasCounter && withinTwentyPercent && (
         <span
           className={cn(
-            "absolute top-2 right-3 text-xs badge badge-lg",
+            "badge badge-lg absolute right-3 top-2 text-xs",
             withinTwentyPercent ? "text-warning" : "",
-            count >= (maxChars ?? Number.POSITIVE_INFINITY) ? "text-error" : ""
+            count >= (maxChars ?? Number.POSITIVE_INFINITY) ? "text-error" : "",
           )}
         >
           {maxChars ? maxChars - count : ``}

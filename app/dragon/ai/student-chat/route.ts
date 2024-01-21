@@ -69,7 +69,7 @@ export async function POST(req: NextRequest) {
     const newStream = OpenAIStream(completion, {
       experimental_onToolCall: async (
         toolCallPayload,
-        appendToolCallMessage
+        appendToolCallMessage,
       ) => {
         const tools = toolCallPayload.tools;
 
@@ -83,7 +83,7 @@ export async function POST(req: NextRequest) {
           else args = tool.func.arguments;
 
           const myTool = toolsWithCallback?.find(
-            (tool) => tool.name === toolName
+            (tool) => tool.name === toolName,
           );
           const callBack = myTool?.callback;
           if (!callBack) {
@@ -124,7 +124,7 @@ export async function POST(req: NextRequest) {
         const test = await saveBotChatToDatabase(
           botChatId,
           completion,
-          messages
+          messages,
         );
 
         mp.track(
@@ -134,7 +134,7 @@ export async function POST(req: NextRequest) {
             botType: botType,
             teacherName: parsedContext.teacherName ?? "",
             studentName: parsedContext.studentName ?? "",
-          }
+          },
         );
       },
       onFinal(completion) {

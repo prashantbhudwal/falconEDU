@@ -27,13 +27,13 @@ export default async function AllChats() {
   return (
     <>
       <StudentHomeNavbar brandName={orgBrandName} />
-      <div className="pt-1 pb-5 w-full">
+      <div className="w-full pb-5 pt-1">
         {teachers.length === 0 && (
-          <div className="flex flex-col justify-center items-center h-60 rounded-md shadow-md">
-            <h1 className="text-gray-200 text-2xl font-semibold mb-2">
+          <div className="flex h-60 flex-col items-center justify-center rounded-md shadow-md">
+            <h1 className="mb-2 text-2xl font-semibold text-gray-200">
               🤖 Oops... Nothing here.
             </h1>
-            <p className="text-gray-400 text-lg">
+            <p className="text-lg text-gray-400">
               Ask a teacher to add you to their class.
             </p>
           </div>

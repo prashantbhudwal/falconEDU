@@ -7,7 +7,7 @@ const testQuestionsSchema = z.array(
   z.object({
     question_number: z.number().describe("Question number of the test"),
     correct_answer: z.array(
-      z.string().describe("Correct answer for the question")
+      z.string().describe("Correct answer for the question"),
     ),
     options: z.array(z.string().describe("Options for the question")),
     question: z.string().describe("The question asked"),
@@ -18,7 +18,7 @@ const testQuestionsSchema = z.array(
       reason: z.string().describe("Why is the answer possibly wrong").max(200),
     }),
     question_type: QuestionTypeSchema,
-  })
+  }),
 );
 export type TestQuestions = z.infer<typeof testQuestionsSchema>;
 

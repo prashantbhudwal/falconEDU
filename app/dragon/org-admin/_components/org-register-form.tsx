@@ -60,7 +60,7 @@ const OrgRegisterForm = ({ userId }: { userId: string }) => {
   });
 
   const onSubmit = async function (
-    values: z.infer<typeof orgRegisterFormSchema>
+    values: z.infer<typeof orgRegisterFormSchema>,
   ) {
     const result = await registerOrg({ values, userId });
     if (result) {
@@ -70,9 +70,9 @@ const OrgRegisterForm = ({ userId }: { userId: string }) => {
 
   return (
     <Form {...form}>
-      <div className="max-w-11/12 mx-auto h-fit my-10 flex justify-center items-center">
+      <div className="max-w-11/12 mx-auto my-10 flex h-fit items-center justify-center">
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
-          <Text className="text-xl text-slate-300 text-center">
+          <Text className="text-center text-xl text-slate-300">
             Register Organization
           </Text>
           <FormField
@@ -80,7 +80,7 @@ const OrgRegisterForm = ({ userId }: { userId: string }) => {
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-[9px] text-left">
+                <FormLabel className="text-left text-[9px]">
                   Organization Name<sup>*</sup>
                 </FormLabel>
                 <FormControl>
@@ -101,7 +101,7 @@ const OrgRegisterForm = ({ userId }: { userId: string }) => {
             name="brandName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-[9px] text-left">
+                <FormLabel className="text-left text-[9px]">
                   Brand Name<sup>*</sup>
                 </FormLabel>
                 <FormControl>
@@ -121,7 +121,7 @@ const OrgRegisterForm = ({ userId }: { userId: string }) => {
             name="type"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-[9px] text-left">
+                <FormLabel className="text-left text-[9px]">
                   Type of Org.<sup>*</sup>
                 </FormLabel>
                 <FormControl>
@@ -142,7 +142,7 @@ const OrgRegisterForm = ({ userId }: { userId: string }) => {
             name="boardNames"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-[9px] text-left">
+                <FormLabel className="text-left text-[9px]">
                   Board name<sup>*</sup>
                 </FormLabel>
                 <FormControl>
@@ -163,7 +163,7 @@ const OrgRegisterForm = ({ userId }: { userId: string }) => {
             name="state"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-[9px] text-left">
+                <FormLabel className="text-left text-[9px]">
                   State Name<sup>*</sup>
                 </FormLabel>
                 <FormControl>
@@ -184,7 +184,7 @@ const OrgRegisterForm = ({ userId }: { userId: string }) => {
             name="language_native"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-[9px] text-left">
+                <FormLabel className="text-left text-[9px]">
                   Native language
                 </FormLabel>
                 <FormControl>
@@ -204,7 +204,7 @@ const OrgRegisterForm = ({ userId }: { userId: string }) => {
             name="language_medium"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-[9px] text-left">
+                <FormLabel className="text-left text-[9px]">
                   Medium language<sup>*</sup>
                 </FormLabel>
                 <FormControl>
@@ -227,7 +227,7 @@ const OrgRegisterForm = ({ userId }: { userId: string }) => {
               name="city"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-[9px] text-left">
+                  <FormLabel className="text-left text-[9px]">
                     City Name
                   </FormLabel>
                   <FormControl>
@@ -246,7 +246,7 @@ const OrgRegisterForm = ({ userId }: { userId: string }) => {
             />
           </Flex>
           <Flex justifyContent="center">
-            <Button type="submit" className="min-w-[100px] mt-5 rounded-xl">
+            <Button type="submit" className="mt-5 min-w-[100px] rounded-xl">
               Save
             </Button>
           </Flex>

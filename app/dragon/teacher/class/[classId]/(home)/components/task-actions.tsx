@@ -66,7 +66,7 @@ export function TaskActions({
   };
 
   return (
-    <div className="flex gap-2 justify-end w-full">
+    <div className="flex w-full justify-end gap-2">
       {!isArchived && (
         <TooltipProvider delayDuration={100}>
           <Tooltip>
@@ -104,7 +104,7 @@ export function TaskActions({
           <AlertDialog open={open}>
             <AlertDialogContent className="p-0">
               <Lottie className="h-[200px]" animationData={copyingAnimation} />
-              <p className="text-center -translate-y-10 text-lg font-semibold">
+              <p className="-translate-y-10 text-center text-lg font-semibold">
                 Generating Replica...
               </p>
             </AlertDialogContent>

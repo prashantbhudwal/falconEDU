@@ -20,25 +20,25 @@ export default function TeacherBreadcrumbs() {
   const crumbList = (
     <ul>
       {classes && (
-        <li className="truncate flex gap-2">
+        <li className="flex gap-2 truncate">
           <FiFolder />
           <p className="truncate">Classes</p>
         </li>
       )}
       {className && (
-        <li className="truncate flex gap-2">
+        <li className="flex gap-2 truncate">
           <FiFolder />
           <p className="truncate">{className}</p>
         </li>
       )}
       {bots && (
-        <li className="truncate flex gap-2">
+        <li className="flex gap-2 truncate">
           <FiFolder />
           <p className="truncate">Bots</p>
         </li>
       )}
       {botName && (
-        <li className="truncate flex gap-2">
+        <li className="flex gap-2 truncate">
           <FiFolder />
           <p className="truncate"> {botName}</p>
         </li>

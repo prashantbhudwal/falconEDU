@@ -16,8 +16,8 @@ const CustomLink = ({
   return (
     <Link
       className={cn(
-        "text-5xl text-center text-primary px-8 font-bold hover:bg-base-100 bg-base-300 h-full w-full flex flex-col justify-center",
-        className
+        "flex h-full w-full flex-col justify-center bg-base-300 px-8 text-center text-5xl font-bold text-primary hover:bg-base-100",
+        className,
       )}
       href={href}
     >
@@ -36,7 +36,7 @@ export default async function DragonLogin() {
   }
 
   return (
-    <div className="flex flex-col min-w-full h-screen justify-center items-center bg-dark">
+    <div className="bg-dark flex h-screen min-w-full flex-col items-center justify-center">
       <CustomLink href={teacherLoginRoute} className="text-secondary">
         Teacher
       </CustomLink>

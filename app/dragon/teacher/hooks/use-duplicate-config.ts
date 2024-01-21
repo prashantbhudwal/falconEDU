@@ -30,7 +30,7 @@ export function useDuplicateConfig() {
         classId: botConfig.classId as string,
         taskId: botConfig.id,
         type: botConfig.type as TaskType,
-      })
+      }),
     );
   };
 

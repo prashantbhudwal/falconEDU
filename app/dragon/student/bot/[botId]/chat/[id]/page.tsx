@@ -99,7 +99,7 @@ export default async function ChatPage({ params }: ChatPageProps) {
           botChatId={id}
           button={<SubmitButton variant="default" />}
         />
-        <div className="fixed w-fit z-10 bottom-20 left-1/2 -translate-x-1/2 rounded-xl">
+        <div className="fixed bottom-20 left-1/2 z-10 w-fit -translate-x-1/2 rounded-xl">
           <SubmitButton variant="outline" />
         </div>
       </div>

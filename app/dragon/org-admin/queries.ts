@@ -14,7 +14,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { UnwrapPromise } from "../student/queries";
 
-const getUserId = async (): Promise<string> => {
+const getUserId: () => Promise<string> = async () => {
   const session = await getServerSession(authOptions);
   return session?.user.id || "";
 }; //TODO: dont use this function to get userId pass from the layout to all components
@@ -90,7 +90,7 @@ export const getAllPublishedTasksByDate = cache(async () => {
           day: key as string,
           ["Total Tasks"]: value as number,
         };
-      }
+      },
     );
 
     const dayWiseData = new Map();
@@ -194,7 +194,7 @@ export const getAllTeachersInAnOrg = cache(async () => {
         }
 
         const weekAgo = new Date(
-          new Date().getTime() - 7 * 24 * 60 * 60 * 1000
+          new Date().getTime() - 7 * 24 * 60 * 60 * 1000,
         );
         const taskDate = new Date(botConfig.createdAt);
 
@@ -318,6 +318,11 @@ export const getTeacherTasksWithTeacherId = cache(
           id: teacherId,
         },
         select: {
+          User: {
+            select: {
+              name: true,
+            },
+          },
           BotConfig: {
             where: {
               published: true,
@@ -326,20 +331,83 @@ export const getTeacherTasksWithTeacherId = cache(
               createdAt: "desc",
             },
           },
-          Class: true,
+          Class: {
+            orderBy: {
+              createdAt: "desc",
+            },
+          },
         },
       });
 
       if (!teacher) return null;
 
-      return { tasks: teacher.BotConfig, classes: teacher.Class };
+      return {
+        tasks: teacher.BotConfig,
+        classes: teacher.Class,
+        name: teacher.User.name,
+      };
     } catch (err) {
       console.log(err);
       return null;
     }
-  }
+  },
 );
 
 export type TeacherTask = UnwrapPromise<
   ReturnType<typeof getTeacherTasksWithTeacherId>
 >;
+
+export const getStudentSubmissionsStatsByTaskId = cache(
+  async ({ taskId }: { taskId: string }) => {
+    try {
+      const bots = await prisma.bot.findMany({
+        where: { botConfigId: taskId },
+        select: {
+          id: true,
+          isSubmitted: true,
+          isChecked: true,
+          isActive: true,
+          BotChat: {
+            where: { isDefault: true },
+            select: {
+              isRead: true,
+            },
+          },
+          student: {
+            select: {
+              User: {
+                select: {
+                  name: true,
+                  email: true,
+                  image: true,
+                },
+              },
+            },
+          },
+        },
+      });
+
+      // console.log(bots);
+
+      if (bots.length === 0) {
+        return null;
+      }
+
+      const students = bots.map((bot) => ({
+        studentBotId: bot.id,
+        name: bot.student.User.name,
+        email: bot.student.User.email,
+        image: bot.student.User.image,
+        isSubmitted: bot.isSubmitted,
+        isChecked: bot.isChecked,
+        isActive: bot.isActive,
+        isRead: bot.BotChat.length > 0 ? bot.BotChat[0].isRead : false,
+      }));
+
+      return students;
+    } catch (err) {
+      console.error(err);
+      return null;
+    }
+  },
+);

@@ -74,7 +74,7 @@ export const ReportHistogram = ({
       getValue: (datum: { primary: string }) => datum.primary,
       elementType: "bar" as const,
     }),
-    []
+    [],
   );
   const secondaryAxes: AxisOptions<{ primary: string; score: number }>[] =
     React.useMemo(
@@ -87,7 +87,7 @@ export const ReportHistogram = ({
           show: true,
         },
       ],
-      []
+      [],
     );
 
   return (

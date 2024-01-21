@@ -40,24 +40,24 @@ export const EmptyClassCard = async ({
   ];
 
   return (
-    <div className="flex flex-col items-center justify-center h-full space-y-3 w-full max-w-xl py-8">
+    <div className="flex h-full w-full max-w-xl flex-col items-center justify-center space-y-3 py-8">
       <ul className="space-y-10 text-xl">
         {steps.map((step) => (
           <li
             key={step.stepNo}
             className={cn("flex items-center space-x-5", {
-              "opacity-50 disabled": !step.isActive,
+              "disabled opacity-50": !step.isActive,
             })}
           >
             {step.isChecked ? (
-              <CheckCircleIcon className="w-10 h-10 text-primary" />
+              <CheckCircleIcon className="h-10 w-10 text-primary" />
             ) : (
               <div
                 className={cn(
-                  "flex items-center justify-center w-9 h-9 rounded-full border-2 border-accent/60 text-accent/60",
+                  "flex h-9 w-9 items-center justify-center rounded-full border-2 border-accent/60 text-accent/60",
                   {
-                    "bg-accent/60 border-none text-base-200": step.isActive,
-                  }
+                    "border-none bg-accent/60 text-base-200": step.isActive,
+                  },
                 )}
               >
                 {step.stepNo}
@@ -68,7 +68,7 @@ export const EmptyClassCard = async ({
               className={cn("", {
                 "line-through": step.isChecked,
                 disabled: !step.isActive,
-                "hover:decoration-accent hover:cursor-pointer underline-offset-4 underline decoration-slate-500 hover:text-slate-200":
+                "underline decoration-slate-500 underline-offset-4 hover:cursor-pointer hover:text-slate-200 hover:decoration-accent":
                   step.isActive,
               })}
             >

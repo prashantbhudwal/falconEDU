@@ -31,7 +31,7 @@ export default function useOpenAI(
   chatTopic: string,
   chatSubtopic: string,
   chatGrade: string,
-  blockType: string
+  blockType: string,
 ) {
   const body = {
     topic: chatTopic,
@@ -49,7 +49,7 @@ export default function useOpenAI(
       revalidateOnReconnect: false,
       revalidateOnMount: false,
       initialData: { response: "", topic: "", promptType: "", id: "" },
-    }
+    },
   );
   return [data, error, isLoading, isValidating, mutate];
 }

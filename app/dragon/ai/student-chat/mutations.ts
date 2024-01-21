@@ -11,7 +11,7 @@ import type { Message } from "ai";
 export const saveBotChatToDatabase = async function (
   botChatId: string,
   completion: any,
-  history: Message[]
+  history: Message[],
 ) {
   try {
     const updatedBotChat = await prisma.botChat.update({

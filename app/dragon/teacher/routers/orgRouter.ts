@@ -33,7 +33,7 @@ export const getTeacherBrandNameByUserId = cache(
       console.log(err);
       return { orgBrandName: null };
     }
-  }
+  },
 );
 
 export const getStudentBrandNameByUserId = cache(
@@ -66,5 +66,5 @@ export const getStudentBrandNameByUserId = cache(
       console.log(err);
       return { orgBrandName: null };
     }
-  }
+  },
 );

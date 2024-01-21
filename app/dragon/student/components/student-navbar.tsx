@@ -23,13 +23,13 @@ import { InstallAppDrawer } from "@/components/install-app-drawer";
 
 const SettingsIcon: React.FC = () => {
   return (
-    <div className="dropdown-end dropdown">
+    <div className="dropdown dropdown-end">
       <label tabIndex={0}>
         <Cog8ToothIcon className="h-6 w-6 text-slate-500" />
       </label>
       <ul
         tabIndex={0}
-        className="menu dropdown-content rounded-box menu-sm z-[1] mt-3 w-32 bg-base-100 p-2 shadow"
+        className="menu dropdown-content menu-sm z-[1] mt-3 w-32 rounded-box bg-base-100 p-2 shadow"
       >
         <li>
           <Link href={studentProfileURL}>My Profile</Link>
@@ -48,7 +48,7 @@ type StudentNavbarProps = {
 };
 
 export const StudentNavbar: React.FC<StudentNavbarProps> = ({ children }) => (
-  <div className="bg-base-200 shadow-sm shadow-base-100 navbar">{children}</div>
+  <div className="navbar bg-base-200 shadow-sm shadow-base-100">{children}</div>
 );
 
 export const StudentHomeNavbar = ({
@@ -58,11 +58,11 @@ export const StudentHomeNavbar = ({
 }) => {
   return (
     <StudentNavbar>
-      <div className="flex gap-2 navbar-start">
+      <div className="navbar-start flex gap-2">
         <Image src={"/chubbi.png"} height={20} width={20} alt="Falcon Logo" />
-        <div className="flex flex-row gap-2 items-center">
+        <div className="flex flex-row items-center gap-2">
           <div className="text-xs">FalconAI</div>
-          {brandName && <XMarkIcon className="text-secondary h-4 w-4" />}
+          {brandName && <XMarkIcon className="h-4 w-4 text-secondary" />}
           {brandName && <div className="text-xs">{brandName}</div>}
         </div>
       </div>
@@ -106,7 +106,7 @@ export const AvatarNavbar: React.FC<AvatarNavbarProps> = ({
   const [isLoading] = useAtom(chatIsLoadingAtom);
   return (
     <StudentNavbar>
-      <Link href={studentHomeURL} className="flex gap-3 navbar-start">
+      <Link href={studentHomeURL} className="navbar-start flex gap-3">
         <Avatar>
           <AvatarImage src={avatarUrl} />
           <AvatarFallback className="bg-base-300">
@@ -116,14 +116,14 @@ export const AvatarNavbar: React.FC<AvatarNavbarProps> = ({
         <div>
           <p className="truncate">{title}</p>
           {isLoading ? (
-            <p className="text-sm text-primary truncate">
+            <p className="truncate text-sm text-primary">
               <div className="flex flex-row items-baseline gap-1">
                 <div>typing</div>
                 <PulseLoader size={4} color={"#059669"} speedMultiplier={0.5} />
               </div>
             </p>
           ) : (
-            <p className="text-sm text-slate-500 truncate">{subtitle}</p>
+            <p className="truncate text-sm text-slate-500">{subtitle}</p>
           )}
         </div>
       </Link>

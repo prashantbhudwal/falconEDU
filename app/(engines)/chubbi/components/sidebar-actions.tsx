@@ -39,7 +39,7 @@ export function SidebarActions({ chat, removeChat }: SidebarActionsProps) {
           <TooltipTrigger asChild>
             <Button
               variant="ghost"
-              className="hover:bg-background h-6 w-6 p-0"
+              className="h-6 w-6 p-0 hover:bg-background"
               disabled={isRemovePending}
               onClick={() => setDeleteDialogOpen(true)}
             >

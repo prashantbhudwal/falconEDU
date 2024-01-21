@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
     console.error("Error while trying to transcribe the file\n", e);
     return NextResponse.json(
       { error: "Something went wrong during transcription." },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

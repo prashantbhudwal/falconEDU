@@ -5,7 +5,7 @@ import Link from "next/link";
 export const NoStudents = function ({ classId }: { classId: string }) {
   return (
     <div className="flex flex-col items-center gap-3">
-      <h1 className="text-center font-semibold text-xl mt-10 ">
+      <h1 className="mt-10 text-center text-xl font-semibold ">
         You have no students in this class.
       </h1>
       <Link href={getStudentsURL(classId)}>

@@ -34,7 +34,7 @@ export default async function ChubbiLayout({
             ) : (
               <></>
             )}
-            <div className="col-span-8 col-start-3 bg-slate-950 overflow-y-auto custom-scrollbar">
+            <div className="custom-scrollbar col-span-8 col-start-3 overflow-y-auto bg-slate-950">
               {children}
             </div>
           </MerlinGrid>

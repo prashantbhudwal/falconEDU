@@ -68,7 +68,7 @@ export const AddQuestionForm = forwardRef<HTMLDivElement, PropType>(
       createDuplicate,
       ...props
     },
-    ref
+    ref,
   ) => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
@@ -184,7 +184,7 @@ export const AddQuestionForm = forwardRef<HTMLDivElement, PropType>(
             className={cn("", props.className)}
           >
             <Question>
-              <div className="pb-5 w-full flex items-center justify-between">
+              <div className="flex w-full items-center justify-between pb-5">
                 <FormField
                   control={form.control}
                   name="question_type"
@@ -217,7 +217,7 @@ export const AddQuestionForm = forwardRef<HTMLDivElement, PropType>(
                         <button
                           type="button"
                           onClick={() => deleteQuestions({ id: question.id })}
-                          className="cursor-pointer rounded-full hover:bg-base-100 hover:shadow-slate-700 hover:shadow-sm h-fit p-2 hover:text-base-content text-slate-500"
+                          className="h-fit cursor-pointer rounded-full p-2 text-slate-500 hover:bg-base-100 hover:text-base-content hover:shadow-sm hover:shadow-slate-700"
                         >
                           <LuTrash />
                         </button>
@@ -240,7 +240,7 @@ export const AddQuestionForm = forwardRef<HTMLDivElement, PropType>(
                               },
                             })
                           }
-                          className="cursor-pointer rounded-full hover:bg-base-100 hover:shadow-slate-700 hover:shadow-sm h-fit p-2 hover:text-base-content text-slate-500"
+                          className="h-fit cursor-pointer rounded-full p-2 text-slate-500 hover:bg-base-100 hover:text-base-content hover:shadow-sm hover:shadow-slate-700"
                         >
                           <LuCopy />
                         </button>
@@ -253,15 +253,15 @@ export const AddQuestionForm = forwardRef<HTMLDivElement, PropType>(
                   <Button
                     disabled={!isDirty || loading}
                     type="submit"
-                    className="cursor-pointer h-7 min-w-[70px] text-xs disabled:brightness-75 ml-2 disabled:cursor-not-allowed"
+                    className="ml-2 h-7 min-w-[70px] cursor-pointer text-xs disabled:cursor-not-allowed disabled:brightness-75"
                   >
                     {loading ? "Saving..." : "Save"}
                   </Button>
                 </div>
               </div>
-              <div className="flex flex-col gap-1 items-end">
+              <div className="flex flex-col items-end gap-1">
                 {error && (
-                  <p className="text-xs whitespace-nowrap font-medium text-red-400">
+                  <p className="whitespace-nowrap text-xs font-medium text-red-400">
                     {error}
                   </p>
                 )}
@@ -279,7 +279,7 @@ export const AddQuestionForm = forwardRef<HTMLDivElement, PropType>(
                       <FormItem>
                         <FormControl>
                           <TextareaAutosize
-                            className="bg-transparent min-h-fit resize-none overflow-y-auto whitespace-pre-line border-none outline-none focus-visible:ring-0 p-0 text-lg w-full"
+                            className="min-h-fit w-full resize-none overflow-y-auto whitespace-pre-line border-none bg-transparent p-0 outline-none focus-visible:ring-0"
                             placeholder={
                               !field.value ? "Add your Question" : ""
                             }
@@ -300,18 +300,18 @@ export const AddQuestionForm = forwardRef<HTMLDivElement, PropType>(
                       return (
                         <Option
                           key={option.id}
-                          className="flex items-center justify-between gap-5 group"
+                          className="group flex items-center justify-between gap-5"
                         >
                           <FormField
                             control={form.control}
                             name={`options.${index}.value`}
                             render={({ field }) => {
                               return (
-                                <div className="pt-1 pb-2 w-full">
+                                <div className="w-full pb-2 pt-1">
                                   <FormItem>
                                     <FormControl>
                                       <TextareaAutosize
-                                        className="bg-transparent min-h-fit resize-none overflow-y-auto whitespace-pre-line border-none outline-none focus-visible:ring-0 p-0 text-[16px]"
+                                        className="min-h-fit resize-none overflow-y-auto whitespace-pre-line border-none bg-transparent p-0 text-sm outline-none focus-visible:ring-0"
                                         placeholder={
                                           !option.value
                                             ? `Option ${index + 1}`
@@ -333,7 +333,7 @@ export const AddQuestionForm = forwardRef<HTMLDivElement, PropType>(
                               removeFieldsHandler({ field: "options", index })
                             }
                           >
-                            <LuX className="h-6 w-6 p-1 rounded-full" />
+                            <LuX className="h-6 w-6 rounded-full p-1" />
                           </button>
                         </Option>
                       );
@@ -342,7 +342,7 @@ export const AddQuestionForm = forwardRef<HTMLDivElement, PropType>(
                 )}
                 <button
                   type="button"
-                  className="text-xs ml-3 underline text-primary"
+                  className="ml-3 text-xs text-primary underline"
                   onClick={() => addFieldsHandler({ field: "options" })}
                 >
                   Add Option
@@ -352,7 +352,7 @@ export const AddQuestionForm = forwardRef<HTMLDivElement, PropType>(
               <Answer>
                 {answerFields.map((answer, index) => (
                   <div
-                    className="flex gap-5 justify-between items-center group"
+                    className="group flex items-center justify-between gap-5"
                     key={answer.id}
                   >
                     <FormField
@@ -360,11 +360,11 @@ export const AddQuestionForm = forwardRef<HTMLDivElement, PropType>(
                       name={`correct_answer.${index}.value`}
                       render={({ field }) => {
                         return (
-                          <div className="pt-1 w-full pb-2">
+                          <div className="w-full pb-2 pt-1">
                             <FormItem>
                               <FormControl>
                                 <TextareaAutosize
-                                  className="bg-transparent min-h-fit resize-none overflow-y-auto whitespace-pre-line border-none outline-none focus-visible:ring-0 p-0"
+                                  className="min-h-fit resize-none overflow-y-auto whitespace-pre-line border-none bg-transparent p-0 outline-none focus-visible:ring-0"
                                   placeholder={!answer.value ? "Answer..." : ""}
                                   {...field}
                                 />
@@ -382,14 +382,14 @@ export const AddQuestionForm = forwardRef<HTMLDivElement, PropType>(
                         removeFieldsHandler({ field: "correct_answer", index })
                       }
                     >
-                      <LuX className="h-6 w-6 p-1 rounded-full" />
+                      <LuX className="h-6 w-6 rounded-full p-1" />
                     </button>
                   </div>
                 ))}
               </Answer>
               <button
                 type="button"
-                className="text-xs ml-3 underline text-primary"
+                className="ml-3 text-xs text-primary underline"
                 onClick={() => addFieldsHandler({ field: "correct_answer" })}
               >
                 Add Answer
@@ -400,7 +400,7 @@ export const AddQuestionForm = forwardRef<HTMLDivElement, PropType>(
         </Form>
       </div>
     );
-  }
+  },
 );
 
 AddQuestionForm.displayName = "AddQuestionForm";

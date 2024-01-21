@@ -41,28 +41,28 @@ export default async function Classes({
 
   if (isEmpty) {
     return (
-      <Paper className="h-full flex flex-col items-center justify-between space-y-2">
+      <Paper className="flex h-full flex-col items-center justify-between space-y-2">
         <EmptyClassCard classId={classId} noStudents={!!noStudents} />
       </Paper>
     );
   }
   return (
-    <Paper className="h-full flex flex-col items-center justify-between space-y-2">
+    <Paper className="flex h-full flex-col items-center justify-between space-y-2">
       {isArchived && <ArchivedClass classId={classId} />}
       <div
         className={cn(
-          "w-full flex flex-col items-center md:relative lg:relative",
+          "flex w-full flex-col items-center md:relative lg:relative",
           {
             "brightness-50": isArchived,
-          }
+          },
         )}
       >
-        <div className="md:fixed lg:fixed top-20 right-5">
+        <div className="right-5 top-20 md:fixed lg:fixed">
           <Suspense fallback={<AnalyticsWidgetFallback />}>
             <AnalyticsWidget classId={classId} />
           </Suspense>
         </div>
-        <div className="w-8/12 max-w-6xl flex flex-col space-y-6">
+        <div className="flex w-8/12 max-w-6xl flex-col space-y-6">
           <TaskList tasks={allConfigs} classId={classId} userId={userId} />
         </div>
       </div>
@@ -72,11 +72,11 @@ export default async function Classes({
 
 const ArchivedClass = ({ classId }: { classId: string }) => {
   return (
-    <div className="flex flex-col items-center justify-center h-full space-y-3 w-full pb-5">
+    <div className="flex h-full w-full flex-col items-center justify-center space-y-3 pb-5">
       <h2 className="text-2xl font-semibold">Class is archived</h2>
       <p className="text-sm text-slate-500">
         <Link
-          className="underline cursor-pointer hover:text-warning"
+          className="cursor-pointer underline hover:text-warning"
           href={`${classId}/dashboard`}
         >
           Activate

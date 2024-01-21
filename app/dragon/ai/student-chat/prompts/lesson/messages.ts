@@ -84,7 +84,7 @@ export const getPreferences = (context: LessonContextByChatId) => {
 };
 
 export async function getEngineeredLessonBotMessages(
-  context: LessonContextByChatId
+  context: LessonContextByChatId,
 ) {
   if (!context) {
     console.error("context not found for chatId:");

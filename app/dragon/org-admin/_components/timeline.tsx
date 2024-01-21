@@ -2,14 +2,22 @@
 import React, { useMemo, useState } from "react";
 import { Chrono } from "react-chrono";
 import { TeacherTask } from "../queries";
-import { formatDateWithTimeZone, tailwindColorToHex } from "@/lib/utils";
-import { getTaskIcon } from "../../teacher/utils";
+import {
+  formatDateWithTimeZone,
+  formatName,
+  tailwindColorToHex,
+} from "@/lib/utils";
+import { getTaskIcon, getTaskProperties } from "../../teacher/utils";
 import { Flex, Select, SelectItem, Title } from "@tremor/react";
 import { v4 as uuid } from "uuid";
+import { TaskType } from "@/types";
+import { useRouter } from "next/navigation";
 
 const Timeline = ({ teacher }: { teacher: TeacherTask }) => {
   const [teacherTasks, setTeacherTasks] = useState(teacher?.tasks || []);
   const [selectedClassId, setSelectedClassId] = useState("");
+  const [disableNavigation, setDisableNavigation] = useState(true);
+  const router = useRouter();
 
   const items = useMemo(() => {
     return teacherTasks.map((task) => ({
@@ -17,12 +25,14 @@ const Timeline = ({ teacher }: { teacher: TeacherTask }) => {
         createdAt: task.createdAt,
         dateFormat: "dd MMM",
       }),
-      cardTitle: task.name,
-      cardSubtitle: task.type.toUpperCase(),
+      cardTitle: formatName({ name: task.name }),
+      cardSubtitle: getTaskProperties(task.type as TaskType).formattedType,
+      id: task.id,
     }));
   }, [teacherTasks]);
 
   const setSelectedTask = (classId: string) => {
+    setDisableNavigation(true);
     if (!classId) {
       setSelectedClassId(classId);
       setTeacherTasks(teacher?.tasks || []);
@@ -36,10 +46,19 @@ const Timeline = ({ teacher }: { teacher: TeacherTask }) => {
     }
   };
 
+  const handleTaskClick = (index: number) => {
+    if (disableNavigation) {
+      setDisableNavigation(false);
+      return;
+    }
+    const taskId = items[index].id;
+    router.push(`/dragon/org-admin/responses/${taskId}`);
+  };
+
   return (
     <>
-      <div className="w-11/12 mx-auto my-5">
-        <Flex className="gap-3 flex-wrap">
+      <div className="mx-auto my-5 w-11/12">
+        <Flex className="flex-wrap gap-3">
           <Title>Historical Timeline</Title>
           <Select
             value={selectedClassId}
@@ -49,7 +68,12 @@ const Timeline = ({ teacher }: { teacher: TeacherTask }) => {
           >
             {teacher?.classes.map((classItem) => (
               <SelectItem key={classItem.id} value={classItem.id}>
-                {classItem.name || classItem.grade}
+                {formatName({
+                  name: classItem.grade,
+                })}
+                {classItem.section
+                  ? ` - ${formatName({ name: classItem.section })}`
+                  : ""}
               </SelectItem>
             ))}
           </Select>
@@ -61,7 +85,6 @@ const Timeline = ({ teacher }: { teacher: TeacherTask }) => {
         allowDynamicUpdate
         enableBreakPoint
         verticalBreakPoint={500}
-        activeItemIndex={0}
         mode="VERTICAL_ALTERNATING"
         theme={{
           primary: tailwindColorToHex("text-gray-700"),
@@ -77,12 +100,15 @@ const Timeline = ({ teacher }: { teacher: TeacherTask }) => {
           cardTitle: "15px",
           title: "10px",
         }}
+        onItemSelected={(item: any) => {
+          handleTaskClick(item.index);
+        }}
         cardHeight={"fit-content"}
         cardWidth={"fit-content"}
       />
       {teacherTasks.length === 0 && (
         <Flex className="w-full items-center justify-center">
-          <Title className="mt-5 mb-2">No Tasks Yet</Title>
+          <Title className="mb-2 mt-5">No Tasks Yet</Title>
         </Flex>
       )}
     </>

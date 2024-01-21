@@ -6,7 +6,7 @@ import type { ChatCompletionCreateParams } from "openai/resources/chat";
 async function searchYouTubeVideo(
   query: string,
   maxResults = 5,
-  order = "relevance"
+  order = "relevance",
 ) {
   try {
     const response = await axios.get(
@@ -19,7 +19,7 @@ async function searchYouTubeVideo(
           order: order,
           key: process.env.GOOGLE_API_KEY,
         },
-      }
+      },
     );
     return response.data;
   } catch (error) {
@@ -86,10 +86,9 @@ export async function POST(req: Request) {
   console.log(response);
 
   const stream = OpenAIStream(response, {
-
     experimental_onFunctionCall: async (
       { name, arguments: args },
-      createFunctionCallMessages
+      createFunctionCallMessages,
     ) => {
       // if you skip the function call and return nothing, the `function_call`
       // message will be sent to the client for it to handle
@@ -108,9 +107,6 @@ export async function POST(req: Request) {
         });
       }
     },
-
-
-    
   });
   console.log(stream);
 

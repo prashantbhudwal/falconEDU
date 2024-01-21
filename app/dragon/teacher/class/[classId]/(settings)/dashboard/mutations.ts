@@ -6,7 +6,7 @@ import { revalidatePath } from "next/cache";
 
 export const updateClassNameByClassId = async (
   classId: string,
-  name: string
+  name: string,
 ) => {
   try {
     const response = await prisma.class.update({

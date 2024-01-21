@@ -29,7 +29,7 @@ const schema = z.object({
   query: z
     .string()
     .describe(
-      "The search query for finding a video on YouTube. Video will be from Khan Academy."
+      "The search query for finding a video on YouTube. Video will be from Khan Academy.",
     ),
 });
 

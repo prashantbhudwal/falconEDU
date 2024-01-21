@@ -17,7 +17,7 @@ const fetchPredictions = async (
   topic: string,
   subject: string,
   board: string,
-  grade: string
+  grade: string,
 ) => {
   const topicsJson = await fetch("/ai/predictor", {
     method: "POST",
@@ -137,7 +137,7 @@ export default function Page() {
       topic: string,
       subject: string,
       board: string,
-      grade: string
+      grade: string,
     ) => {
       // post request to the api
       try {
@@ -204,7 +204,7 @@ export default function Page() {
           placeholder="Add custom subtopics..."
         />
         <button
-          className=" btn btn-square btn-neutral join-item"
+          className=" btn btn-square join-item btn-neutral"
           onClick={handleAddSubtopic}
           disabled={!inputValue}
         >
@@ -249,7 +249,7 @@ export default function Page() {
               setSubtopics([...subtopics, selectedOption]);
             } else {
               setSubtopics(
-                subtopics.filter((option) => option !== selectedOption)
+                subtopics.filter((option) => option !== selectedOption),
               );
             }
           }}

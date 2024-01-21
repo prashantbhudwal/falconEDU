@@ -5,9 +5,9 @@ import { StudentHomeNavbar } from "@/app/dragon/student/components/student-navba
 
 export default function ProfilePage() {
   return (
-    <div className="w-full flex flex-col items-center">
+    <div className="flex w-full flex-col items-center">
       <StudentHomeNavbar />
-      <div className="flex flex-col items-center gap-3  h-screen w-full custom-scrollbar overflow-y-auto ">
+      <div className="custom-scrollbar flex h-screen w-full  flex-col items-center gap-3 overflow-y-auto ">
         <BasicInfo />
         <PaymentsTable />
       </div>

@@ -84,12 +84,12 @@ export function ImportModal({
           onClick={() => setIsOpen(true)}
         >
           <div>Import</div>
-          <ArrowLeftOnRectangleIcon className="w-5 h-5" />
+          <ArrowLeftOnRectangleIcon className="h-5 w-5" />
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="text-2xl font-medium pb-5">
+          <DialogTitle className="pb-5 text-2xl font-medium">
             Import Tasks
           </DialogTitle>
         </DialogHeader>

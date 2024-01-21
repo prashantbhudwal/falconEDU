@@ -24,11 +24,11 @@ export const getEngineeredMessagesByType = async ({
       return await getEngineeredTestBotMessages(context as TestContextByChatId);
     case "lesson":
       return await getEngineeredLessonBotMessages(
-        context as LessonContextByChatId
+        context as LessonContextByChatId,
       );
     case "ai-test":
       return await getEngineeredAITestBotMessages(
-        context as AITestContextByChatId
+        context as AITestContextByChatId,
       );
     default:
       return await getEngineeredChatBotMessages(context);

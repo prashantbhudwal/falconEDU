@@ -46,12 +46,12 @@ export default function RightActionBar() {
       icon: { Icon, additionalClass },
       isEnabled = true,
       onClick,
-    }: ButtonConfig
+    }: ButtonConfig,
   ) => {
     let isFormIncomplete = false;
     if (name === "My Avatar") {
       const updatedTeacherPreferencesSchema = removeOptionalFieldFormZodTypes(
-        teacherPreferencesSchema
+        teacherPreferencesSchema,
       );
       const { success } =
         updatedTeacherPreferencesSchema.safeParse(preferences);
@@ -66,13 +66,13 @@ export default function RightActionBar() {
           href !== "" && router.push(href);
         }}
         className={clsx(
-          `btn btn-xs py-4 relative rounded-sm font-medium capitalize flex place-content-center`,
-          linkClass
+          `btn btn-xs relative flex place-content-center rounded-sm py-4 font-medium capitalize`,
+          linkClass,
         )}
         disabled={!isEnabled}
       >
         <Icon
-          className={clsx(`text-slate-600 text-sm font-bold`, additionalClass)}
+          className={clsx(`text-sm font-bold text-slate-600`, additionalClass)}
         />
         {name}
         {/* ---------------------------------------------- */}
@@ -80,7 +80,7 @@ export default function RightActionBar() {
           <TooltipProvider>
             <Tooltip delayDuration={20}>
               <TooltipTrigger asChild>
-                <span className="absolute -top-2 -left-2 h-[20px] w-[20px] text-destructive">
+                <span className="absolute -left-2 -top-2 h-[20px] w-[20px] text-destructive">
                   <SparklesIcon />
                 </span>
               </TooltipTrigger>
@@ -95,13 +95,13 @@ export default function RightActionBar() {
   };
 
   const pageConfig = buttonConfiguration.find(({ pattern }) =>
-    pattern.test(currentPage)
+    pattern.test(currentPage),
   );
 
   if (!pageConfig) return null;
 
   const buttons = pageConfig.buttons.map((buttonConfig) =>
-    createButton(`${currentPage}-${buttonConfig.name}`, buttonConfig)
+    createButton(`${currentPage}-${buttonConfig.name}`, buttonConfig),
   );
 
   return <>{buttons}</>;

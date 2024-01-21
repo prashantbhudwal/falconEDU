@@ -42,28 +42,25 @@ export async function TaskCard({
   return (
     <div
       className={cn(
-        "max-w-2xl bg-base-200 group py-4 px-6 flex items-center space-x-1 justify-between h-20 shadow-md rounded-2xl border-transparent cursor-pointer hover:bg-base-100 transition-colors duration-200 ease-in-out",
+        "group flex h-20 max-w-2xl cursor-pointer items-center justify-between space-x-1 rounded-2xl border-transparent bg-base-200 px-6 py-4 shadow-md transition-colors duration-200 ease-in-out hover:bg-base-100",
         isArchived && "bg-base-200/40 hover:bg-base-200",
-        className
+        className,
       )}
       {...props}
     >
       <section
-        className={cn(
-          "flex-none w-1/12 min-w-[80px] h-full flex",
-          iconColor
-        )}
+        className={cn("flex h-full w-1/12 min-w-[80px] flex-none", iconColor)}
       >
-        <div className="flex flex-col justify-center items-center space-y-1">
-          <div className="w-8 h-8">
+        <div className="flex flex-col items-center justify-center space-y-1">
+          <div className="h-8 w-8">
             <Icon className="h-8 w-8" />
           </div>
           <div className="rounded-full text-xs">{formattedType}</div>
         </div>
       </section>
-      <section className="flex-grow h-full flex ">
-        <div className="flex flex-col space-y-2 flex-grow">
-          <div className="font-medium tracking-wide capitalize truncate ">
+      <section className="flex h-full flex-grow ">
+        <div className="flex flex-grow flex-col space-y-2">
+          <div className="truncate font-medium capitalize tracking-wide ">
             <div className="truncate font-semibold text-slate-400 ">{name}</div>
           </div>
           <div className="flex flex-row items-baseline space-x-5 text-xs text-slate-500">
@@ -76,9 +73,9 @@ export async function TaskCard({
           </div>
         </div>
       </section>
-      <section className="flex flex-col w-2/12 justify-between h-full">
-        <section className="flex self-end items-center space-x-3">
-          <div className="hidden group-hover:block w-full">
+      <section className="flex h-full w-2/12 flex-col justify-between">
+        <section className="flex items-center space-x-3 self-end">
+          <div className="hidden w-full group-hover:block">
             {config.Class?.isActive && (
               <TaskActions
                 configId={config.id}
@@ -91,7 +88,7 @@ export async function TaskCard({
             )}
           </div>
         </section>
-        <section className="flex-none flex self-end">
+        <section className="flex flex-none self-end">
           <TaskAnalytics analytics={analyticsStats} />
         </section>
       </section>

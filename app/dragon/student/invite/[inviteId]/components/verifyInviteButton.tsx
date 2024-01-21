@@ -35,7 +35,7 @@ export const VerifyInviteButton = ({
 
   return (
     <Button
-      className="w-fit disabled:opacity-40 min-w-[150px] disabled:cursor-not-allowed"
+      className="w-fit min-w-[150px] disabled:cursor-not-allowed disabled:opacity-40"
       disabled={loading}
       onClick={joinClassHandler}
     >

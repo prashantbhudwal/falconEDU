@@ -26,8 +26,7 @@ export default function Merlin() {
   const [teachingAids, setTeachingAids] = useAtom(teachingAidsAtom);
   const router = useRouter();
   const [lessonIdeas] = useAtom(lessonIdeasAtom);
-  if (subtopic === "" && subtopics.length > 0)
-    setSubtopic(subtopics[0]);
+  if (subtopic === "" && subtopics.length > 0) setSubtopic(subtopics[0]);
   return (
     <DndProvider backend={HTML5Backend}>
       <MerlinGrid>

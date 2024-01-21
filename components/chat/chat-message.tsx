@@ -28,29 +28,29 @@ export function ChatMessage({
   return (
     <div
       className={cn(
-        "group relative flex items-start md:-ml-12 py-3 px-2 rounded-xl",
+        "group relative flex items-start rounded-xl px-2 py-3 md:-ml-12",
         {
           "bg-zinc-700": isUser,
           "bg-base-100": !isUser,
-        }
+        },
       )}
       {...props}
     >
       <div
         className={cn(
-          "flex shrink-0 select-none items-center justify-center rounded-md"
+          "flex shrink-0 select-none items-center justify-center rounded-md",
         )}
       >
         {message.role === "user" ? (
           studentImage ? (
-            <Avatar className="w-6 h-6">
+            <Avatar className="h-6 w-6">
               <AvatarImage src={studentImage} className="" />
             </Avatar>
           ) : (
             <UserAvatar />
           )
         ) : (
-          <Avatar className="w-6 h-6">
+          <Avatar className="h-6 w-6">
             <AvatarImage src={botImage ? botImage : "/chubbi.png"} />
           </Avatar>
         )}

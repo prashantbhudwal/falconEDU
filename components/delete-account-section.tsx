@@ -57,10 +57,10 @@ export const DeleteAccountSection = function () {
   return (
     <>
       <Separator className="bg-red-900" />
-      <div className="rounded-md p-6 text-slate-400 flex flex-col space-y-4">
-        <div className="flex space-x-2 items-center">
-          <div className="font-bold text-error text-lg">Danger Zone</div>
-          <ExclamationTriangleIcon className="text-error w-6 h-6" />
+      <div className="flex flex-col space-y-4 rounded-md p-6 text-slate-400">
+        <div className="flex items-center space-x-2">
+          <div className="text-lg font-bold text-error">Danger Zone</div>
+          <ExclamationTriangleIcon className="h-6 w-6 text-error" />
         </div>
         <DeleteAccountDialog
           open={openDialog}
@@ -70,7 +70,7 @@ export const DeleteAccountSection = function () {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <div>
-              <FormDescription className="text-slate-500 font-semibold text-lg">
+              <FormDescription className="text-lg font-semibold text-slate-500">
                 This will permanently delete your account and all of your data.
                 This action cannot be undone.
               </FormDescription>

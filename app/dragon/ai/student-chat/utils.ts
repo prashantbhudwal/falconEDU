@@ -6,10 +6,10 @@ import { HumanMessage, MessageContent } from "langchain/schema";
 import { AIMessage, SystemMessage } from "langchain/schema";
 
 export function mapMessagesToLangChainBaseMessage(
-  messages: any[]
+  messages: any[],
 ): BaseMessage[] {
   return messages.map((m: any) =>
-    m.role == "user" ? new HumanMessage(m.content) : new AIMessage(m.content)
+    m.role == "user" ? new HumanMessage(m.content) : new AIMessage(m.content),
   );
 }
 
@@ -68,7 +68,7 @@ export function countPromptTokens(array: BaseMessage[], modelName: string) {
 export function filterMessagesByTokenLimit(
   messages: BaseMessage[],
   tokenLimit: number,
-  modelName: string
+  modelName: string,
 ): BaseMessage[] {
   let filteredMessages: BaseMessage[] = [];
   let currentTokens = 0;

@@ -5,7 +5,7 @@ import { type Message } from "ai/react";
 type UnwrapPromise<T> = T extends Promise<infer U> ? U : T;
 
 export const getStudentsByBotConfigId = cache(async function (
-  botConfigId: string
+  botConfigId: string,
 ) {
   const isPublished = await prisma.botConfig.findUnique({
     where: { id: botConfigId },
@@ -69,7 +69,7 @@ export type StudentsByBotConfigId = UnwrapPromise<
 >;
 
 export const getSingleStudentByStudentBotId = cache(async function (
-  botConfigId: string
+  botConfigId: string,
 ) {
   const bot = await prisma.bot.findUnique({
     where: { id: botConfigId },
@@ -130,7 +130,7 @@ export const getBotChatWithStudentByBotChatId = cache(async function ({
 });
 
 export const getDefaultChatMessagesByStudentBotId = cache(async function (
-  studentBotId: string
+  studentBotId: string,
 ): Promise<{ messages: Message[]; id: string; userImage: string }> {
   const defaultChat = await prisma.botChat.findFirst({
     where: {
@@ -227,7 +227,7 @@ export const getChatMessagesByBotChatId = cache(async function ({
 });
 
 export const getUserImageByStudentBotId = async function (
-  studentBotId: string
+  studentBotId: string,
 ): Promise<string | null> {
   const bot = await prisma.bot.findUnique({
     where: { id: studentBotId },
@@ -309,7 +309,7 @@ export const getAllQuestionResponsesByBotConfigId = cache(
     } catch (err) {
       return null;
     }
-  }
+  },
 );
 export type AllStudentResponsesByBotConfigId = UnwrapPromise<
   ReturnType<typeof getAllQuestionResponsesByBotConfigId>

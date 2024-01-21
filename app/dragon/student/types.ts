@@ -7,5 +7,3 @@ export type Bot = {
   messages: Message[];
   createdAt: Date;
 };
-
-

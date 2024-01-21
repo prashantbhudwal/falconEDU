@@ -114,16 +114,16 @@ export function NewTaskModal({
         <Button
           variant={"ghost"}
           size={"sm"}
-          className="group flex items-center justify-end gap-2 text-primary hover:bg-primary border border-primary"
+          className="group flex items-center justify-end gap-2 border border-primary text-primary hover:bg-primary"
           onClick={() => setOpen(true)}
         >
-          <PlusIcon className="w-4 h-4" />
+          <PlusIcon className="h-4 w-4" />
           <div className="font-bold">New Task</div>
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="text-2xl font-medium pb-5">
+          <DialogTitle className="pb-5 text-2xl font-medium">
             New Task
           </DialogTitle>
         </DialogHeader>
@@ -137,17 +137,17 @@ export function NewTaskModal({
                   <FormMessage />
                   <RadioGroup
                     onValueChange={field.onChange}
-                    className="flex gap-4 justify-around"
+                    className="flex justify-around gap-4"
                   >
                     {types.map((type, index) => (
                       <FormItem key={index}>
-                        <FormLabel className="[&:has([data-state=checked])>div]:border-primary [&:has([data-state=checked])>div>span]:block flex flex-col items-center gap-2 cursor-pointer">
+                        <FormLabel className="flex cursor-pointer flex-col items-center gap-2 [&:has([data-state=checked])>div>span]:block [&:has([data-state=checked])>div]:border-primary">
                           <FormControl>
                             <RadioGroupItem value={type} className="sr-only" />
                           </FormControl>
-                          <div className="text-5xl relative p-4 border-2 rounded-full">
+                          <div className="relative rounded-full border-2 p-4 text-5xl">
                             {getTypeIcon(type)}
-                            <span className="absolute top-0 hidden -right-1 text-primary text-2xl bg-base-200 rounded-full">
+                            <span className="absolute -right-1 top-0 hidden rounded-full bg-base-200 text-2xl text-primary">
                               <IoIosCheckmarkCircle />
                             </span>
                           </div>
@@ -172,7 +172,7 @@ export function NewTaskModal({
                 </FormItem>
               )}
             />
-            {error && <p className="text-error text-sm pb-2">{error}</p>}
+            {error && <p className="pb-2 text-sm text-error">{error}</p>}
             <Button type="submit" className="w-full" disabled={loading}>
               {loading ? (
                 <span className="loading loading-infinity loading-xs"></span>

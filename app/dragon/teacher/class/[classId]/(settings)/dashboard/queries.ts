@@ -60,7 +60,7 @@ export const getTotalPublishedTestsByClassId = cache(
       }
       if (response.BotConfig) {
         const publishedTest = response.BotConfig.filter(
-          (bot) => bot.type === "test" && bot.published
+          (bot) => bot.type === "test" && bot.published,
         );
         return publishedTest;
       }
@@ -69,7 +69,7 @@ export const getTotalPublishedTestsByClassId = cache(
       console.error(err);
       return null;
     }
-  }
+  },
 );
 export type typePublishedTestByClassId = UnwrapPromise<
   ReturnType<typeof getTotalPublishedTestsByClassId>
@@ -89,7 +89,7 @@ export const getTotalUnPublishedTestsByClassId = cache(
       }
       if (response.BotConfig) {
         const unpublishedTest = response.BotConfig.filter(
-          (bot) => bot.type === "test" && !bot.published
+          (bot) => bot.type === "test" && !bot.published,
         );
         return unpublishedTest;
       }
@@ -98,7 +98,7 @@ export const getTotalUnPublishedTestsByClassId = cache(
       console.error(err);
       return null;
     }
-  }
+  },
 );
 
 export const getTotalPublishedBotsByClassId = cache(async (classId: string) => {
@@ -114,7 +114,7 @@ export const getTotalPublishedBotsByClassId = cache(async (classId: string) => {
     }
     if (response.BotConfig) {
       const publishedBots = response.BotConfig.filter(
-        (bot) => bot.type === "chat" && bot.published
+        (bot) => bot.type === "chat" && bot.published,
       );
       return publishedBots;
     }
@@ -142,7 +142,7 @@ export const getTotalUnpublishedBotsByClassId = cache(
       }
       if (response.BotConfig) {
         const unpublishedBots = response.BotConfig.filter(
-          (bot) => bot.type === "chat" && !bot.published
+          (bot) => bot.type === "chat" && !bot.published,
         );
         return unpublishedBots;
       }
@@ -151,5 +151,5 @@ export const getTotalUnpublishedBotsByClassId = cache(
       console.error(err);
       return null;
     }
-  }
+  },
 );
