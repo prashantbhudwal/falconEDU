@@ -39,7 +39,7 @@ export async function parseTestQuestions(test: string) {
       hasQuestions,
       hasAnswers,
       error: false,
-      message: "Parsing Successfull",
+      message: "Parsing Successful",
     };
   } catch (err) {
     console.error(err);
