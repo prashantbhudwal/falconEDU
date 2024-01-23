@@ -3,8 +3,7 @@ import endent from "endent";
 export const systemPrompt = endent`You create "Learning Goals" from a piece of <content> in a <syntax> based on <guidelines>.
 
 <syntax>
-Learning goals take the form: “At the end of this session, students will be able
-to...” followed by a specific action verb and a task. 
+“Students will be able to...” followed by a specific action verb and a task. 
 <syntax>
 
 <rules>
