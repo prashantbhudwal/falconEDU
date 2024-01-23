@@ -277,6 +277,7 @@ model LearningGoals {
   createdAt        DateTime         @default(now())
   updatedAt        DateTime         @default(now()) @updatedAt
   GoalAssessment   GoalAssessment[]
+  goalNumber       Int
 }
 
 enum CognitiveLevel {
