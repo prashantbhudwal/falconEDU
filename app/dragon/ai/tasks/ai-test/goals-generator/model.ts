@@ -3,11 +3,23 @@ import * as z from "zod";
 import { zodToJsonSchema } from "zod-to-json-schema";
 
 const bloomLevel = z
-  .enum(["Remember", "Understand", "Apply", "Analyze", "Evaluate", "Create"])
+  .enum([
+    "knowledge",
+    "comprehension",
+    "application",
+    "analysis",
+    "synthesis",
+    "evaluation",
+  ])
   .describe("Level of cognitive skill based on Bloom’s taxonomy");
 
 const learningGoal = z.object({
-  learningGoal: z.string().describe("The learning goal"),
+  goalNumber: z
+    .number()
+    .min(1)
+    .max(100)
+    .describe("The serial number learning goal number"),
+  goal: z.string().describe("The learning goal"),
   level: z
     .enum(["Beginner", "Intermediate", "Advanced"])
     .describe("Educational level or difficulty"),
@@ -27,8 +39,9 @@ const learningGoal = z.object({
 });
 
 const conciseLearningGoal = learningGoal.pick({
-  learningGoal: true,
+  goal: true,
   cognitiveSkillLevel: true,
+  goalNumber: true,
 });
 
 const learningGoalSchema = z.array(conciseLearningGoal);
