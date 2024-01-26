@@ -2,7 +2,7 @@
 import testCheckAnimation from "@/public/animations/test-check.json";
 import loadingBall from "@/public/animations/loading-ball.json";
 import Lottie from "lottie-react";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { saveTestResultsByBotChatId, submitBotChat } from "./mutations";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
@@ -16,65 +16,38 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { checkTest } from "@/app/dragon/ai/test-checker";
-import { checkAITest } from "@/app/dragon/ai/tasks/ai-test/submission";
 import { submitTestModalAtom } from "@/lib/atoms/ui";
 import { useAtom } from "jotai";
-import { TaskType } from "@/types";
-import { saveGoalAssessmentByBotChatId } from "@/app/dragon/ai/tasks/ai-test/submission/mutations";
-import { cva } from "class-variance-authority";
-
-const testHandler = async (botChatId: string) => {
-  const testResults = await checkTest({ botChatId: botChatId });
-  if (testResults) {
-    await saveTestResultsByBotChatId({
-      botChatId,
-      testResults,
-    });
-    await submitBotChat({ botChatId });
-  }
-};
-
-const aiTestHandler = async (botChatId: string) => {
-  const goals = await checkAITest({ botChatId });
-  if (goals) {
-    await saveGoalAssessmentByBotChatId({ botChatId, goals });
-  }
-  await submitBotChat({ botChatId });
-};
-
-const taskHandlers: {
-  [key in TaskType]: (botChatId: string) => Promise<void>;
-} = {
-  test: testHandler,
-  "ai-test": aiTestHandler,
-  lesson: async () => {},
-  chat: async () => {},
-};
 
 type PropTypes = React.HTMLAttributes<HTMLDivElement> & {
   testBotId: string;
   redirectUrl: string;
   botChatId: string;
   isMultipleChats?: boolean;
-  type: TaskType;
 };
-
 const SubmitTestButton = React.forwardRef<HTMLButtonElement, PropTypes>(
-  ({ testBotId, redirectUrl, botChatId, className, type: taskType }, ref) => {
+  ({ testBotId, redirectUrl, botChatId, className }, ref) => {
     const [loading, setLoading] = useState(false);
     const [showDialog, setShowDialog] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
     const router = useRouter();
     const [showSubmitModal, setShowSubmitModal] = useAtom(submitTestModalAtom);
 
-    const saveTaskHandler = async ({ taskType }: { taskType: TaskType }) => {
+    const saveTestHandler = async () => {
       try {
         setLoading(true);
-
-        await taskHandlers[taskType](botChatId);
-
+        const testResults = await checkTest({ botChatId: botChatId });
+        if (testResults) {
+          await saveTestResultsByBotChatId({
+            botChatId,
+            testResults,
+          });
+          await submitBotChat({ botChatId });
+          setLoading(false);
+          return { success: true };
+        }
         setLoading(false);
-        return { success: true };
+        return { success: false };
       } catch (err) {
         setLoading(false);
         setShowDialog(false);
@@ -85,10 +58,10 @@ const SubmitTestButton = React.forwardRef<HTMLButtonElement, PropTypes>(
 
     const handleSubmit = async () => {
       setShowDialog(true);
-      const { success }: { success: boolean } = await saveTaskHandler({
-        taskType,
-      });
+      const { success }: { success: boolean } = await saveTestHandler();
       if (!success) {
+        setLoading(false);
+        setShowDialog(false);
         return;
       }
       setIsSubmitted(true);

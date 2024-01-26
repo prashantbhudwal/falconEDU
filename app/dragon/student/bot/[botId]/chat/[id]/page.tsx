@@ -65,23 +65,25 @@ export default async function ChatPage({ params }: ChatPageProps) {
   const emptyMessage = getTaskProperties(type).emptyChatMessage;
   const context = await getChatContext(type, id);
 
+  const showSubmit = !chat?.isSubmitted && ["test", "ai-test"].includes(type);
+
   const SubmitButton = ({ variant }: { variant: "outline" | "default" }) => {
     const styles =
       variant === "outline"
         ? "rounded-xl w-fit bg-base-200 border hover:bg-base-200 px-5 tracking-wider border-slate-500 text-slate-500"
         : "";
 
-    return bot?.BotConfig.type === "test" ||
-      (bot?.BotConfig.type === "ai-test" && !chat?.isSubmitted) ? (
-      <SubmitTestButton
-        testBotId={botId}
-        className={styles}
-        botChatId={id}
-        redirectUrl={redirectUrl}
-        isMultipleChats={bot?.BotConfig.canReAttempt}
-      />
-    ) : (
-      <></>
+    return (
+      showSubmit && (
+        <SubmitTestButton
+          testBotId={botId}
+          className={styles}
+          botChatId={id}
+          redirectUrl={redirectUrl}
+          isMultipleChats={bot?.BotConfig.canReAttempt}
+          type={type}
+        />
+      )
     );
   };
 
