@@ -63,6 +63,12 @@ export default function TestPreferencesForm({
 
   const { isDirty, setIsDirty } = useIsFormDirty(form);
 
+  const resetFormState = () => {
+    setError(null);
+    setIsDirty(false);
+    form.setValue("fullTest", "");
+  };
+
   // --------------------------------------------- On Parsing ----------------------------------------------------------------
   const onSubmit = async (data: z.infer<typeof testBotPreferencesSchema>) => {
     // setting error and loading state whenever the form is submitted
@@ -132,10 +138,8 @@ export default function TestPreferencesForm({
 
     // if both saving the parsedQuestion and botconfig are successful, then handling updating the state and reseting the form
     if (response.success && updateBotConfigResult.success) {
-      setError(null); // clear any existing error
-      setIsDirty(false);
       setLoading(false);
-      form.setValue("fullTest", "");
+      resetFormState();
       return { success: true };
     } else {
       setError("Failed to update bot config. Please try again."); // set the error message
