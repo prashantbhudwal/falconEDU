@@ -63,6 +63,7 @@
     "endent": "^2.1.0",
     "eventsource-parser": "^1.1.1",
     "file-saver": "^2.0.5",
+    "fp-ts": "^2.16.2",
     "framer-motion": "^10.18.0",
     "gpt-tokens": "^1.2.0",
     "jotai": "^2.6.2",
