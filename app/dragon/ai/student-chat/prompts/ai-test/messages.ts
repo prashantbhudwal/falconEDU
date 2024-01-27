@@ -49,6 +49,7 @@ export const getPreferences = (context: AITestContextByChatId) => {
     language,
     humorLevel,
     languageProficiency,
+    mediumOfInstruction,
   } = lessonPreferences;
   const { personalInformation, professionalInformation, likes, dislikes } =
     teacherPreferences;
@@ -82,6 +83,7 @@ export const getPreferences = (context: AITestContextByChatId) => {
     favoriteCartoons,
     favoriteFoods,
     interests,
+    mediumOfInstruction,
   } as const;
   return preferences;
 };
@@ -103,6 +105,7 @@ export async function getEngineeredAITestBotMessages(
     topic: preferences.topic,
     subjects: preferences.subjects,
     content: preferences.content,
+    mediumOfInstruction: preferences.mediumOfInstruction,
   });
 
   const systemMessage: ChatCompletionSystemMessageParam = {
