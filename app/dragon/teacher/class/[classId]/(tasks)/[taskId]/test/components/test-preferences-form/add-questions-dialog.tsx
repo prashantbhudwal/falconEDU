@@ -11,20 +11,13 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { FormProvider, useFormContext } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 import { IoMdAdd } from "react-icons/io";
-import TextAreaWithUpload from "../../../../_components/textarea-with-upload";
-import {
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@/components/ui/form";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { LIMITS_testBotPreferencesSchema } from "@/lib/schema";
+import { TextAreaField } from "../../../../_components/task-form/fields/textarea";
 
 type AddQuestionsDialogProps = {
   loading?: boolean;
@@ -108,36 +101,10 @@ export const AddQuestionsDialog = ({
               )}
             </div>
           </DialogTitle>
-          <FormField
-            control={form.control}
+          <TextAreaField
             name="fullTest"
-            render={({ field }) => (
-              <FormItem className="pb-10">
-                <FormProvider {...form}>
-                  <FormControl>
-                    <div className="relative mt-5 min-h-[200px] w-full rounded-md border border-input bg-transparent py-2 text-sm shadow-sm sm:min-h-[150px]">
-                      <TextAreaWithUpload
-                        counter
-                        maxChars={MAX_CHARS}
-                        required
-                        placeholder="Enter or paste the full test here. Please provide the answers too. The bot will conduct the test for you."
-                        hasDocUploader
-                        className="bg-base-200"
-                        setIsDirty={setIsDirty}
-                        {...field}
-                      />
-                    </div>
-                  </FormControl>
-                </FormProvider>
-                <FormDescription>
-                  {"Don't forget to provide answers."}
-                </FormDescription>
-                <FormMessage />
-                {error && (
-                  <div className="mt-3 text-sm text-error">{error}</div>
-                )}
-              </FormItem>
-            )}
+            maxChars={MAX_CHARS}
+            placeholder="Enter or paste the full test here. Please provide the answers too. The bot will conduct the test for you."
           />
         </DialogHeader>
       </DialogContent>
