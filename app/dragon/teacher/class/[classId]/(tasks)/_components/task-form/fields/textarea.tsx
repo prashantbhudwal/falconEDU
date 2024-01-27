@@ -4,6 +4,7 @@ import {
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { FormProvider, useFormContext } from "react-hook-form";
@@ -16,11 +17,13 @@ export const TextAreaField = ({
   maxChars,
   placeholder,
   className,
+  label,
 }: {
   name: string;
   maxChars: number;
   placeholder: string;
   className?: string;
+  label?: string;
 }) => {
   const form = useFormContext();
   const { isDirty, setIsDirty } = useIsFormDirty(form);
@@ -31,6 +34,13 @@ export const TextAreaField = ({
       render={({ field }) => (
         <FormItem>
           <FormProvider {...form}>
+            {label && (
+              <FormLabel
+                className={`mb-3 flex w-full justify-between align-middle font-bold`}
+              >
+                {label}
+              </FormLabel>
+            )}
             <FormControl>
               <div
                 className={cn(
@@ -45,7 +55,6 @@ export const TextAreaField = ({
                   placeholder={placeholder}
                   hasDocUploader
                   setIsDirty={setIsDirty}
-                  className="bg-base-300"
                   {...field}
                 />
               </div>
