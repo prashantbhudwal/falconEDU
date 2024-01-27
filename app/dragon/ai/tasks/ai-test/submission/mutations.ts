@@ -25,8 +25,16 @@ export const saveGoalAssessmentByBotChatId = async function ({
           botChatId: existingBotChat?.id,
           result: goals.gradeAssigned,
           resultDesc: goals.gradeDescription,
+          learningGoalId: goals.id,
         })),
       });
+
+      // const newGoalAssessment = await prisma.goalAssessment.findMany({
+      //   where: {
+      //     botChatId: existingBotChat?.id,
+      //   },
+      // });
+      // console.log(newGoalAssessment);
     });
   } catch (err) {
     console.log(err);
