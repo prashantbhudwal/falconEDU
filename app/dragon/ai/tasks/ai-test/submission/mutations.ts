@@ -26,6 +26,7 @@ export const saveGoalAssessmentByBotChatId = async function ({
           result: goals.gradeAssigned,
           resultDesc: goals.gradeDescription,
           learningGoalId: goals.id,
+          aiRemarks: goals.remarks,
         })),
       });
 

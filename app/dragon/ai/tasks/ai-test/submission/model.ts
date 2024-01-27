@@ -31,6 +31,9 @@ export const goalAssessmentResult = z.object({
   goal: z.string().describe("The exact learning goal in the goal list"),
   gradeDescription: gradeDescriptionEnum,
   gradeAssigned: gradeEnum,
+  remarks: z
+    .string()
+    .describe("The reasoning behind the grade assigned, along with evidence."),
 });
 
 const goalAssessmentResults = z.array(goalAssessmentResult);

@@ -16,6 +16,7 @@ const getDummyAnswer = function (
     goal,
     gradeAssigned: "f",
     gradeDescription: gradeDescriptionsObject.f,
+    remarks: "No answer provided",
   };
   return dummyAnswer;
 };
