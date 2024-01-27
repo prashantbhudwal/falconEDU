@@ -10,6 +10,7 @@ import * as botChatRouter from "./botChatRouter";
 import * as profileRouter from "./profileRouter";
 import * as accountRouter from "./accountRouter";
 import * as orgRouter from "./orgRouter";
+import * as learningGoalsRouter from "./learningGoalsRouter";
 
 export const db = {
   botConfig,
@@ -23,4 +24,5 @@ export const db = {
   profile: profileRouter,
   account: accountRouter,
   org: orgRouter,
+  learningGoals: learningGoalsRouter,
 };

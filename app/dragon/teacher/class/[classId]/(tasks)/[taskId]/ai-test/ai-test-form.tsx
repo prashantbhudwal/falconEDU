@@ -20,6 +20,8 @@ import {
 } from "@/lib/schema";
 import { MediumOfInstructionField } from "../../_components/task-form";
 import { TextAreaField } from "../../_components/task-form/fields/textarea";
+import { generateLearningGoals } from "@/app/dragon/ai/tasks/ai-test/goals-generator";
+import { LearningGoals } from "@/app/dragon/ai/tasks/ai-test/goals-generator/model";
 
 const MAX_CHARS = LIMITS_AITestPreferencesSchema.content.maxLength;
 
@@ -62,8 +64,31 @@ export default function AITestForm({
   const { isDirty, setIsDirty } = useIsFormDirty(form);
   const isEmpty = preferences === null || preferences === undefined;
 
+  const getLearningGoals = async (
+    content: z.infer<(typeof AITestPreferenceSchema)["shape"]["content"]>,
+  ) => {
+    const { goals, error, message } = await generateLearningGoals({ content });
+    if (error || !goals) {
+      setError(message);
+      return;
+    }
+    return goals;
+  };
+
+  const saveLearningGoals = async (goals: LearningGoals) => {
+    await db.learningGoals.createLearningGoals({
+      configId: taskId,
+      learningGoals: goals,
+    });
+  };
+
   const onSubmit = async (data: z.infer<typeof AITestPreferenceSchema>) => {
     setLoading(true);
+    const { content } = data;
+    const goals = await getLearningGoals(content);
+    if (goals) {
+      await saveLearningGoals(goals);
+    }
     const result = await db.botConfig.updateBotConfig({
       classId,
       botId: taskId,
