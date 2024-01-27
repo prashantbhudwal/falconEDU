@@ -76,7 +76,7 @@ const TextAreaWithUpload = ({
         <div
           onClick={() => setOpen(true)}
           className={cn(
-            "sticky bottom-3 float-right -translate-x-2 cursor-pointer rounded-full border-[3px] border-base-100 bg-base-300 p-2 text-xl",
+            "sticky bottom-3 float-right -translate-x-2 cursor-pointer rounded-full border-[3px] border-base-100 p-2 text-xl",
             className,
           )}
         >
