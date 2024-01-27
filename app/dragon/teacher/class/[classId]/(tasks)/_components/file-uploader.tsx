@@ -110,7 +110,7 @@ const FileUploader = ({ setParsedDocs, className }: PropTypes) => {
   });
 
   return (
-    <div {...getRootProps()} className={cn("dropzone bg-base-300", className)}>
+    <div {...getRootProps()} className={cn("dropzone", className)}>
       <input {...getInputProps()} />
       <motion.div
         onMouseEnter={() => setIsButtonHovered(true)}
