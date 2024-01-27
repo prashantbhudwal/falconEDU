@@ -1,5 +1,6 @@
 import { IndividualResponse } from "../../../../../_components/response";
 import { FullChat } from "../../../../../_components/full-chat";
+import { AITestReport } from "./report";
 
 type ReportProps = {
   params: {
@@ -17,6 +18,7 @@ export default async function IndividualResponsePage({ params }: ReportProps) {
       <IndividualResponse
         fullChatComponent={<FullChat attemptId={attemptId} />}
         attemptId={attemptId}
+        reportComponent={<AITestReport taskId={taskId} attemptId={attemptId} />}
       />
     </div>
   );
