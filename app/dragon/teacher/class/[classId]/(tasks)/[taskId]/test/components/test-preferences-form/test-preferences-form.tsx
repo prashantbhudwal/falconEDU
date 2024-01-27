@@ -5,20 +5,11 @@ import { FormProvider, useForm } from "react-hook-form";
 import * as z from "zod";
 import { saveParsedQuestions } from "../../../../../../../mutations";
 import { db } from "@/lib/routers";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@/components/ui/form";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 import { Input } from "@/components/ui/input";
 import { parseTestQuestions } from "@/app/dragon/ai/test-question-parser/get-test-questions";
 import { typeActiveParsedQuestionByBotConfigId } from "@/lib/routers/parsedQuestionRouter";
 const MAX_CHARS = LIMITS_testBotPreferencesSchema.fullTest.maxLength;
-import TextAreaWithUpload from "../../../../_components/textarea-with-upload";
 import { AddQuestionsDialog } from "./add-questions-dialog";
 import { SaveButton } from "../../../../_components/task-form/save-btn";
 import {
@@ -26,6 +17,8 @@ import {
   botNameSchema,
   testBotPreferencesSchema,
 } from "@/lib/schema";
+import { type ParsedQuestions } from "@/app/dragon/ai/test-question-parser/get-test-questions";
+import { TextAreaField } from "../../../../_components/task-form/fields/textarea";
 
 type BotPreferencesFormProps = {
   preferences?: z.infer<typeof testBotPreferencesSchema> | null;
@@ -34,6 +27,91 @@ type BotPreferencesFormProps = {
   botConfig: BotConfig | null;
   activeParsedQuestions: typeActiveParsedQuestionByBotConfigId[] | null;
   isActive: boolean;
+};
+
+const ERROR = {
+  NO_QUESTIONS: "No questions provided. Please provide the questions.",
+  NO_ANSWERS: "No answers provided. Please provide the answers.",
+  NO_QUESTIONS_AND_ANSWERS:
+    "No questions and answers provided. Please provide the questions and answers.",
+};
+
+const appendTest = (existingTest: string, newTest: string) => {
+  return newTest ? existingTest + "\n" + newTest : existingTest;
+};
+
+const parseQuestions = async (fullTest: string) => {
+  const { parsedQuestions, hasQuestions, hasAnswers, error, message } =
+    await parseTestQuestions(fullTest);
+
+  if (error) {
+    throw new Error(message);
+  }
+
+  if (!hasQuestions || !hasAnswers) {
+    const errorMessage = !hasQuestions
+      ? ERROR.NO_QUESTIONS
+      : !hasAnswers
+        ? ERROR.NO_ANSWERS
+        : ERROR.NO_QUESTIONS_AND_ANSWERS;
+    throw new Error(errorMessage);
+  }
+
+  if (!parsedQuestions) {
+    throw new Error(ERROR.NO_QUESTIONS_AND_ANSWERS);
+  }
+
+  return parsedQuestions;
+};
+
+const addQuestionNumberToParsedQuestions = ({
+  parsedQuestions,
+  parsedQuestionFromDb,
+}: {
+  parsedQuestions: ParsedQuestions["parsedQuestions"];
+  parsedQuestionFromDb: typeActiveParsedQuestionByBotConfigId[];
+}) => {
+  if (!parsedQuestions) {
+    throw new Error("No parsed questions provided.");
+  }
+  return parsedQuestions.map((question, index) => {
+    return {
+      ...question,
+      question_number: parsedQuestionFromDb.length + index + 1,
+    };
+  });
+};
+
+const saveTest = async (
+  fullTest: string,
+  botId: string,
+  classId: string,
+  config: any,
+) => {
+  let testToBeSaved = fullTest;
+  const configHasFullTest = !!(
+    config?.preferences &&
+    typeof config.preferences === "object" &&
+    "fullTest" in config.preferences
+  );
+
+  if (configHasFullTest) {
+    const testInConfig = config.preferences.fullTest;
+    testToBeSaved = appendTest(testInConfig, fullTest);
+  }
+
+  const updateBotConfigResult = await db.botConfig.updateBotConfig({
+    classId,
+    botId,
+    data: {
+      fullTest: testToBeSaved,
+    },
+    configType: "test",
+  });
+
+  if (!updateBotConfigResult.success) {
+    throw new Error("Failed to update bot config.");
+  }
 };
 
 export default function TestPreferencesForm({
@@ -48,8 +126,6 @@ export default function TestPreferencesForm({
   const [error, setError] = useState<string | null>(null);
   const [testName, setTestName] = useState<string | undefined>(config?.name);
   const [botConfig, setBotConfig] = useState<BotConfig | null>(config);
-
-  const timeLimit = config?.timeLimit || 0;
 
   if (!testBotPreferencesSchema.safeParse(config?.preferences)) {
     setError("Failed to parse bot preferences. Please try again.");
@@ -69,80 +145,38 @@ export default function TestPreferencesForm({
     form.setValue("fullTest", "");
   };
 
-  // --------------------------------------------- On Parsing ----------------------------------------------------------------
   const onSubmit = async (data: z.infer<typeof testBotPreferencesSchema>) => {
-    // setting error and loading state whenever the form is submitted
+    console.log("onSubmit");
+    console.log(data.fullTest);
     setError("");
     setLoading(true);
+    try {
+      const parsedQuestions = await parseQuestions(data.fullTest);
+      let questionsToBeSaved = parsedQuestions;
+      console.log(parsedQuestions);
 
-    // geting parsed Question via function call
-    const { parsedQuestions, hasQuestions, hasAnswers, error, message } =
-      await parseTestQuestions(data.fullTest);
+      const dbHasParsedQuestions =
+        Array.isArray(parsedQuestionFromDb) && parsedQuestionFromDb.length > 0;
 
-    // handling errors and exception case from parsing the questions
-    if (error) {
-      setError(message);
-      setLoading(false);
-      return { success: false };
-    }
-    if (!hasQuestions || !hasAnswers) {
-      const errorMessage = !hasQuestions
-        ? "No questions provided. Please provide the questions and answers."
-        : "No answers provided. Please provide the answers.";
-      setError(errorMessage);
-      setLoading(false);
-      return { success: false };
-    }
-    if (!parsedQuestions) {
-      setLoading(false);
-      setError(
-        "No questions provided. Please provide the questions and answers.",
-      );
-      return { success: false };
-    }
-
-    // updating the question_number of the questions from the parsed questions and saving it to database
-    const updatedParsedQuestions =
-      Array.isArray(parsedQuestionFromDb) &&
-      parsedQuestionFromDb.length > 0 &&
-      parsedQuestions.map((question, index) => {
-        return {
-          ...question,
-          question_number: parsedQuestionFromDb.length + index + 1,
-        };
+      if (dbHasParsedQuestions) {
+        questionsToBeSaved = addQuestionNumberToParsedQuestions({
+          parsedQuestions,
+          parsedQuestionFromDb,
+        });
+      }
+      console.log(questionsToBeSaved);
+      await saveParsedQuestions({
+        parsedQuestions: questionsToBeSaved,
+        botId,
+        classId,
       });
-
-    const response = await saveParsedQuestions({
-      parsedQuestions: updatedParsedQuestions || parsedQuestions,
-      botId,
-      classId,
-    });
-
-    // updating the test in botconfig and saving it to database
-    let fullTest = data.fullTest;
-    if (
-      config?.preferences &&
-      typeof config.preferences === "object" &&
-      "fullTest" in config.preferences
-    ) {
-      fullTest = config.preferences.fullTest + "\n" + fullTest;
-    }
-    const updateBotConfigResult = await db.botConfig.updateBotConfig({
-      classId,
-      botId,
-      data: {
-        fullTest: fullTest,
-      },
-      configType: "test",
-    });
-
-    // if both saving the parsedQuestion and botconfig are successful, then handling updating the state and reseting the form
-    if (response.success && updateBotConfigResult.success) {
+      // TODO: the save should happen before parsing the questions, so that if there is an error, the user can fix it and save again
+      await saveTest(data.fullTest, botId, classId, config);
       setLoading(false);
       resetFormState();
       return { success: true };
-    } else {
-      setError("Failed to update bot config. Please try again."); // set the error message
+    } catch (error) {
+      setError((error as Error).message);
       setLoading(false);
       return { success: false };
     }
@@ -185,7 +219,7 @@ export default function TestPreferencesForm({
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div>
             {/* -------------------------------------- Form Header-------------------------------- */}
-            <div className="mx-auto flex w-11/12 flex-wrap justify-between gap-10 py-5">
+            <div className="flex w-full flex-wrap justify-between gap-10">
               <div className="w-7/12">
                 <Input
                   type="text"
@@ -193,12 +227,13 @@ export default function TestPreferencesForm({
                   onChange={onTestNameChange}
                   onBlur={updateTestNameHandler}
                   required
-                  className="w-full border-none pl-0 font-bold tracking-wide outline-none focus-visible:ring-0 md:text-xl "
+                  className="w-full border-b-2 border-none pl-0 font-bold tracking-wide outline-none focus-visible:ring-0 md:text-xl "
                 />
                 {error && !parsedQuestionFromDb && (
                   <div className="mt-3 text-sm text-error">{error}</div>
                 )}
               </div>
+
               {!parsedQuestionFromDb ? (
                 <SaveButton
                   isLoading={loading}
@@ -217,35 +252,11 @@ export default function TestPreferencesForm({
               )}
             </div>
             <div className="mb-6" />
-            {/* -------------------------------------- Form Fields -------------------------------- */}
             {!parsedQuestionFromDb && (
-              <FormField
-                control={form.control}
+              <TextAreaField
                 name="fullTest"
-                render={({ field }) => (
-                  <FormItem className="pb-10">
-                    <FormProvider {...form}>
-                      <FormControl>
-                        <div className="relative min-h-[200px] w-full rounded-md border border-input bg-transparent py-2 text-sm shadow-sm sm:min-h-[150px]">
-                          <TextAreaWithUpload
-                            counter
-                            maxChars={MAX_CHARS}
-                            required
-                            placeholder="Enter or paste the full test here. Please provide the answers too. The bot will conduct the test for you."
-                            hasDocUploader
-                            setIsDirty={setIsDirty}
-                            className="bg-base-300"
-                            {...field}
-                          />
-                        </div>
-                      </FormControl>
-                    </FormProvider>
-                    <FormDescription>
-                      {"Don't forget to provide answers."}
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                maxChars={MAX_CHARS}
+                placeholder="Enter or paste the full test here. Please provide the answers too. The bot will conduct the test for you."
               />
             )}
           </div>
