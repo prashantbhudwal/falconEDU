@@ -370,6 +370,7 @@ model GoalAssessment {
   updatedAt      DateTime             @default(now()) @updatedAt
   result         GoalAssessmentResult
   resultDesc     String
+  aiRemarks      String               @default("")
 }
 
 enum GoalAssessmentResult {
