@@ -146,14 +146,11 @@ export default function TestPreferencesForm({
   };
 
   const onSubmit = async (data: z.infer<typeof testBotPreferencesSchema>) => {
-    console.log("onSubmit");
-    console.log(data.fullTest);
     setError("");
     setLoading(true);
     try {
       const parsedQuestions = await parseQuestions(data.fullTest);
       let questionsToBeSaved = parsedQuestions;
-      console.log(parsedQuestions);
 
       const dbHasParsedQuestions =
         Array.isArray(parsedQuestionFromDb) && parsedQuestionFromDb.length > 0;
@@ -164,7 +161,7 @@ export default function TestPreferencesForm({
           parsedQuestionFromDb,
         });
       }
-      console.log(questionsToBeSaved);
+
       await saveParsedQuestions({
         parsedQuestions: questionsToBeSaved,
         botId,
