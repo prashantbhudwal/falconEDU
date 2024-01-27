@@ -59,7 +59,7 @@ const getLearningGoals = async (botChatId: string) => {
 };
 
 export const getCheckingContext = async (botChatId: string) => {
-  const messages = await getChatMessagesByBotChatId({ botChatId });
+  const { messages } = await getChatMessagesByBotChatId({ botChatId });
   const goals = await getLearningGoals(botChatId);
 
   if (!goals) {
