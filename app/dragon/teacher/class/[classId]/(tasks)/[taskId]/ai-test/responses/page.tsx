@@ -1,6 +1,6 @@
 import { IndividualResponsesList } from "../../../_components/individual-responses-list";
 
-export default function BotResponses({
+export default function Responses({
   params,
 }: {
   params: { classId: string; taskId: string };
@@ -8,6 +8,10 @@ export default function BotResponses({
   const { classId, taskId } = params;
 
   return (
-    <IndividualResponsesList classId={classId} taskId={taskId} type={"chat"} />
+    <IndividualResponsesList
+      classId={classId}
+      taskId={taskId}
+      type={"ai-test"}
+    />
   );
 }
