@@ -1,17 +1,10 @@
 import { TextareaWithCounter as Textarea } from "@/components/ui/textarea-counter";
-import React, { HTMLProps, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import FileUploader from "./file-uploader";
-import { useForm, useFormContext } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 import { cn } from "@/lib/utils";
 import { TbBorderCorners } from "react-icons/tb";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog";
 
 type PropType = {
   counter?: boolean;
@@ -23,18 +16,6 @@ type PropType = {
   setIsDirty?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-/**
- * Renders a TextArea component with an optional file uploader.
- * Always use this inside the FormProvider from react-hook-form
- *
- * @param {number} props.counter - The counter value.
- * @param {number} props.maxChars - The maximum number of characters allowed in the TextArea.
- * @param {boolean} props.required - Whether the TextArea is required.
- * @param {string} props.placeholder - The placeholder text for the TextArea.
- * @param {boolean} props.hasDocUploader - Whether to show the file uploader.
- * @param {string} props.className - Additional CSS classes for the component.
- * @return {JSX.Element} The rendered TextAreaWithUpload component.
- */
 const TextAreaWithUpload = ({
   counter,
   maxChars,
