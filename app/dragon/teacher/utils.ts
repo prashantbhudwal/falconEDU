@@ -112,6 +112,7 @@ export const getTaskProperties = (taskType: TaskType) => {
     case "chat":
       return {
         formattedType: "Bot",
+        formattedTypeStudent: "Bot",
         Icon: FaRobot,
         iconColor: "text-primary",
         newName: "Untitled Bot",
@@ -121,6 +122,7 @@ export const getTaskProperties = (taskType: TaskType) => {
     case "test":
       return {
         formattedType: "Test",
+        formattedTypeStudent: "Test",
         Icon: HiClipboardDocumentCheck,
         iconColor: "text-secondary",
         newName: "Untitled Test",
@@ -130,6 +132,7 @@ export const getTaskProperties = (taskType: TaskType) => {
     case "lesson":
       return {
         formattedType: "Lesson",
+        formattedTypeStudent: "Lesson",
         Icon: HiAcademicCap,
         iconColor: "text-info",
         newName: "Untitled Lesson",
@@ -139,6 +142,7 @@ export const getTaskProperties = (taskType: TaskType) => {
     case "ai-test":
       return {
         formattedType: "AI Test",
+        formattedTypeStudent: "Quiz",
         Icon: HiOutlineClipboard,
         iconColor: "text-accent",
         newName: "Untitled AI Test",
@@ -148,6 +152,7 @@ export const getTaskProperties = (taskType: TaskType) => {
     default:
       return {
         formattedType: "Chat",
+        formattedTypeStudent: "Chat",
         Icon: IoIosChatboxes,
         iconColor: "text-blue-500",
         newName: "Untitled Chat",

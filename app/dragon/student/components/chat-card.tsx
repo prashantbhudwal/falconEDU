@@ -109,8 +109,8 @@ export async function TaskCard({
                 )}
               </AvatarFallback>
             </Avatar>
-            <div className="text-xs lowercase text-slate-500">
-              {taskProperties.formattedType}
+            <div className="text-[10px] lowercase text-slate-500">
+              {taskProperties.formattedTypeStudent}
             </div>
           </div>
           <div className="flex w-full flex-col items-start space-y-2">
