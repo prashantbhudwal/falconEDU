@@ -1,7 +1,7 @@
 export const authConfig = [
   {
     type: "student",
-    headline: "AI for Students",
+    headline: "For Students",
     description:
       "Access your teacher's lesson plans, worksheets, activities and assessments with AI that is easy to use and strictly follows your syllabus.",
     buttonText: "Student Sign In",
@@ -10,10 +10,13 @@ export const authConfig = [
     subtext: "Works on mobile phones and laptop.",
     image: "/chubbi.png",
     callbackUrl: "/dragon/student",
+    userType: "STUDENT",
+    inviteCallbackUrl: "/dragon/student/invite",
+    decorationColor: "decoration-primary",
   },
   {
     type: "teacher",
-    headline: "AI for Teachers",
+    headline: "For Teachers",
     description:
       "Access your teacher's lesson plans, worksheets, activities and assessments with AI that is easy to use and strictly follows your syllabus.",
     buttonText: "Teacher Sign In",
@@ -22,23 +25,29 @@ export const authConfig = [
     subtext: "Works on large screens only.",
     image: "/chubbi.png",
     callbackUrl: "/dragon/teacher",
+    userType: "TEACHER",
+    inviteCallbackUrl: "/dragon/teacher/invite",
+    decorationColor: "decoration-secondary",
   },
 
   {
     type: "org-admin",
-    headline: "AI for Org Admins",
+    headline: "For Administrators",
     description:
       "Access your teacher's lesson plans, worksheets, activities and assessments with AI that is easy to use and strictly follows your syllabus.",
-    buttonText: "School Admin Sign In",
+    buttonText: "Admin Sign In",
     buttonVariant: "secondary",
     auth: "google-org-admin",
     subtext: "Works on large screens only.",
     image: "/chubbi.png",
     callbackUrl: "/dragon/org-admin",
+    userType: "ORG_ADMIN",
+    inviteCallbackUrl: "/dragon/org-admin/invite",
+    decorationColor: "decoration-secondary",
   },
   {
     type: "parent",
-    headline: "AI for Parents",
+    headline: "For Parents",
     description:
       "Access your teacher's lesson plans, worksheets, activities and assessments with AI that is easy to use and strictly follows your syllabus.",
     buttonText: "Parent Sign In",
@@ -47,5 +56,8 @@ export const authConfig = [
     subtext: "Works on large screens only.",
     image: "/chubbi.png",
     callbackUrl: "/dragon/parent",
+    userType: "PARENT",
+    inviteCallbackUrl: "/dragon/parent/invite",
+    decorationColor: "decoration-secondary",
   },
 ] as const;
