@@ -137,7 +137,7 @@ model Org {
 
 model Board {
   id    String    @id @default(cuid())
-  name  BoardName
+  name  BoardName @unique
   other String?
   org   Org[]
 }
