@@ -1,4 +1,4 @@
-import { teacherPageURL } from "@/lib/urls";
+import { manageOrgURL, manageStudentsUrl, manageTeachersURL } from "@/lib/urls";
 import Link from "next/link";
 import {
   Card,
@@ -17,19 +17,19 @@ const useOrgSettingsCards = (): {
   return [
     {
       name: "Manage Organization",
-      link: teacherPageURL,
+      link: manageOrgURL,
       description: "Change brand, admins and logo",
       icon: <SchoolIcon size={"lg"} color="primary" />,
     },
     {
       name: "Manage Teachers",
-      link: teacherPageURL,
+      link: manageTeachersURL,
       description: "Add or remove teachers to your organization",
       icon: <TeacherIcon size={"lg"} color="secondary" />,
     },
     {
       name: "Manage Students",
-      link: teacherPageURL,
+      link: manageStudentsUrl,
       description: "Add or remove students to your organization",
       icon: <StudentIcon size={"lg"} color="accent" />,
     },
@@ -53,7 +53,7 @@ export default async function OrgSettings() {
   );
 }
 
-export function SettingsCard({
+const SettingsCard = ({
   name,
   link,
   description,
@@ -63,7 +63,7 @@ export function SettingsCard({
   link: string;
   description: string;
   icon?: React.ReactNode;
-}) {
+}) => {
   return (
     <Link href={link}>
       <Card className="w-full">
@@ -77,4 +77,4 @@ export function SettingsCard({
       </Card>
     </Link>
   );
-}
+};

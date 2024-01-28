@@ -1,21 +1,9 @@
-import {
-  orgAdminHomeURL,
-  orgAdminOrgSettingsURL,
-  teacherPageURL,
-} from "@/lib/urls";
+import { orgAdminHomeURL, orgAdminOrgSettingsURL } from "@/lib/urls";
 import ProfileDropDown from "@/components/navbar/profile-dropdown";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { orgAdminProfileURL } from "@/lib/urls";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { MdMoreVert } from "react-icons/md";
-import { Flex } from "@tremor/react";
 import { Button } from "@/components/ui/button";
 import { Settings } from "@/components/icons";
 
