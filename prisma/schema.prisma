@@ -106,12 +106,20 @@ model TeacherProfile {
 }
 
 model OrgAdminProfile {
-  id          String  @id @default(cuid())
-  designation String  @default("")
-  org         Org?    @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  id          String    @id @default(cuid())
+  designation String    @default("")
+  org         Org?      @relation(fields: [orgId], references: [id], onDelete: Cascade)
   orgId       String?
-  User        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId      String  @unique
+  User        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String    @unique
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @default(now()) @updatedAt
+  adminRole   AdminRole @default(SUPER_ADMIN)
+}
+
+enum AdminRole {
+  SUPER_ADMIN
+  MANAGER
 }
 
 model Org {
