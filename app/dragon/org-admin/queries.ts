@@ -167,51 +167,60 @@ export const getAllTeachersInAnOrg = cache(async () => {
       return null;
     }
 
-    const teacherWeekyData = new Map<
-      string | null,
-      { thisWeek: number; prevWeek: number; name: string }
-    >();
+    type WeeklyData = {
+      thisWeek: number;
+      prevWeek: number;
+      name: string;
+    };
+
+    const teacherWeeklyData = new Map<string | null, WeeklyData>();
 
     orgTeachers.forEach((teacher) => {
-      teacher?.BotConfig.forEach((botConfig) => {
+      teacher?.BotConfig?.forEach((botConfig) => {
         const teacherId = botConfig.teacherId;
         const teacherName = teacher.User.name || "";
-        ////////////////////////////////////////////////////////////////
+
         if (isThisWeek(new Date(botConfig.createdAt))) {
-          if (teacherWeekyData.has(teacherId)) {
-            teacherWeekyData.set(teacherId, {
-              thisWeek: (teacherWeekyData.get(teacherId)?.thisWeek || 0) + 1,
-              prevWeek: teacherWeekyData.get(teacherId)?.prevWeek || 0,
-              name: teacherWeekyData.get(teacherId)?.name || teacherName || "",
-            });
-          } else {
-            teacherWeekyData.set(teacherId, {
-              thisWeek: 1,
-              prevWeek: teacherWeekyData.get(teacherId)?.prevWeek || 0,
+          let existingData = teacherWeeklyData.get(teacherId);
+
+          if (!existingData) {
+            // Initialize new record if it doesn't exist
+            existingData = {
+              thisWeek: 0,
+              prevWeek: 0,
               name: teacherName || "",
-            });
+            };
           }
+
+          teacherWeeklyData.set(teacherId, {
+            thisWeek: existingData.thisWeek + 1,
+            prevWeek: existingData.prevWeek,
+            name: existingData.name,
+          });
         }
 
-        const weekAgo = new Date(
-          new Date().getTime() - 7 * 24 * 60 * 60 * 1000,
-        );
+        const MILLISECONDS_IN_A_WEEK = 7 * 24 * 60 * 60 * 1000;
+
+        const weekAgo = new Date(new Date().getTime() - MILLISECONDS_IN_A_WEEK);
         const taskDate = new Date(botConfig.createdAt);
 
         const differenceInMilliseconds = weekAgo.getTime() - taskDate.getTime();
+
+        const MILLISECONDS_IN_A_DAY = 1000 * 60 * 60 * 24;
+
         const differenceInDays =
-          differenceInMilliseconds / (1000 * 60 * 60 * 24);
+          differenceInMilliseconds / MILLISECONDS_IN_A_DAY;
 
         if (differenceInDays > 0 && differenceInDays < 7) {
-          if (teacherWeekyData.has(teacherId)) {
-            teacherWeekyData.set(teacherId, {
-              thisWeek: teacherWeekyData.get(teacherId)?.thisWeek || 0,
-              prevWeek: (teacherWeekyData.get(teacherId)?.prevWeek || 0) + 1,
-              name: teacherWeekyData.get(teacherId)?.name || teacherName || "",
+          if (teacherWeeklyData.has(teacherId)) {
+            teacherWeeklyData.set(teacherId, {
+              thisWeek: teacherWeeklyData.get(teacherId)?.thisWeek || 0,
+              prevWeek: (teacherWeeklyData.get(teacherId)?.prevWeek || 0) + 1,
+              name: teacherWeeklyData.get(teacherId)?.name || teacherName || "",
             });
           } else {
-            teacherWeekyData.set(teacherId, {
-              thisWeek: teacherWeekyData.get(teacherId)?.thisWeek || 0,
+            teacherWeeklyData.set(teacherId, {
+              thisWeek: teacherWeeklyData.get(teacherId)?.thisWeek || 0,
               prevWeek: 1,
               name: teacherName || "",
             });
@@ -225,14 +234,14 @@ export const getAllTeachersInAnOrg = cache(async () => {
             isThisWeek(new Date(botConfig.createdAt))
           )
         ) {
-          if (teacherWeekyData.has(teacherId)) {
-            teacherWeekyData.set(teacherId, {
-              thisWeek: teacherWeekyData.get(teacherId)?.thisWeek || 0,
-              prevWeek: teacherWeekyData.get(teacherId)?.prevWeek || 0,
-              name: teacherWeekyData.get(teacherId)?.name || teacherName || "",
+          if (teacherWeeklyData.has(teacherId)) {
+            teacherWeeklyData.set(teacherId, {
+              thisWeek: teacherWeeklyData.get(teacherId)?.thisWeek || 0,
+              prevWeek: teacherWeeklyData.get(teacherId)?.prevWeek || 0,
+              name: teacherWeeklyData.get(teacherId)?.name || teacherName || "",
             });
           } else {
-            teacherWeekyData.set(teacherId, {
+            teacherWeeklyData.set(teacherId, {
               thisWeek: 0,
               prevWeek: 0,
               name: teacherName || "",
@@ -242,7 +251,7 @@ export const getAllTeachersInAnOrg = cache(async () => {
       });
     });
 
-    return { orgTeachers, teacherWeekyData };
+    return { orgTeachers, teacherWeeklyData };
   } catch (err) {
     console.error(err);
     return null;
@@ -311,7 +320,9 @@ export const getTeachersWithUserId = cache(
   },
 );
 
-export type TeachersInOrg = UnwrapPromise<ReturnType<typeof getTeachersWithUserId>>;
+export type TeachersInOrg = UnwrapPromise<
+  ReturnType<typeof getTeachersWithUserId>
+>;
 
 export const getTeacherTasksWithTeacherId = cache(
   async ({ teacherId }: { teacherId: string }) => {
