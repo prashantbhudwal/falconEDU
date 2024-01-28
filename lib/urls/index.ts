@@ -164,4 +164,6 @@ export const getParentReportUrlByTaskId = ({ taskId }: { taskId: string }) => {
 export const orgAdminHomeURL = `${baseUrl}/org-admin/`;
 export const orgAdminProfileURL = `${baseUrl}/org-admin/profile`;
 export const orgAdminOrgSettingsURL = `${baseUrl}/org-admin/org-settings`;
-export const teacherPageURL = `${baseUrl}/org-admin/add-teachers`;
+export const manageTeachersURL = `${baseUrl}/org-admin/teachers`;
+export const manageStudentsUrl = `${baseUrl}/org-admin/students`;
+export const manageOrgURL = `${baseUrl}/org-admin/org`;
