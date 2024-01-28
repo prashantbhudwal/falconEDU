@@ -70,10 +70,10 @@ const SubmitTestButton = React.forwardRef<HTMLButtonElement, PropTypes>(
     const saveTaskHandler = async ({ taskType }: { taskType: TaskType }) => {
       try {
         setLoading(true);
-
         await taskHandlers[taskType](botChatId);
-
         setLoading(false);
+        setShowDialog(false);
+        setShowSubmitModal(false);
         return { success: true };
       } catch (err) {
         setLoading(false);
@@ -93,7 +93,7 @@ const SubmitTestButton = React.forwardRef<HTMLButtonElement, PropTypes>(
       }
       setIsSubmitted(true);
       setTimeout(() => {
-        setIsSubmitted(false);
+        setIsSubmitted(true);
         setShowDialog(false);
         router.push(redirectUrl);
       }, 3000);
