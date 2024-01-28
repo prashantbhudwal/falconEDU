@@ -1,4 +1,8 @@
-import { orgAdminHomeURL } from "@/lib/urls";
+import {
+  orgAdminHomeURL,
+  orgAdminOrgSettingsURL,
+  teacherPageURL,
+} from "@/lib/urls";
 import ProfileDropDown from "@/components/navbar/profile-dropdown";
 import {
   DropdownMenu,
@@ -12,6 +16,8 @@ import Link from "next/link";
 import React from "react";
 import { MdMoreVert } from "react-icons/md";
 import { Flex } from "@tremor/react";
+import { Button } from "@/components/ui/button";
+import { Settings } from "@/components/icons";
 
 type AdminNavbarProps = {
   title: string;
@@ -24,19 +30,18 @@ const AdminNavbar = ({ title }: AdminNavbarProps) => {
         <Image src={"/chubbi.png"} height={30} width={30} alt="Falcon Logo" />
       </Link>
       <h1>{title}</h1>
-      <Flex className="w-fit ">
+      <div className="flex w-fit flex-row items-center gap-2">
+        <Link href={orgAdminOrgSettingsURL}>
+          <Button
+            variant={"outline"}
+            size={"icon"}
+            className="rounded-full border-none"
+          >
+            <Settings />
+          </Button>
+        </Link>
         <ProfileDropDown url={orgAdminProfileURL} />
-        <DropdownMenu>
-          <DropdownMenuTrigger className="">
-            <MdMoreVert className="text-xl" />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuItem>
-              <Link href={"/dragon/org-admin/add-teachers"}>Add Teachers</Link>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </Flex>
+      </div>
     </div>
   );
 };
