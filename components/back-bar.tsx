@@ -1,14 +1,21 @@
 import Link from "next/link";
 import { Button } from "./ui/button";
 import { ChevronLeftIcon } from "@heroicons/react/24/solid";
+import { cn } from "@/lib/utils";
 
 interface BackBarProps {
   link: string;
   noText?: boolean;
+  className?: string;
 }
 
-const BackBar: React.FC<BackBarProps> = ({ link, noText }) => (
-  <div className="flex h-20 items-center justify-start bg-base-300">
+const BackBar: React.FC<BackBarProps> = ({ link, noText, className }) => (
+  <div
+    className={cn(
+      "flex h-20 items-center justify-start bg-base-300",
+      className,
+    )}
+  >
     <Link href={link}>
       <Button
         className="flex items-center gap-1 hover:bg-base-300 hover:font-semibold hover:text-slate-100"
