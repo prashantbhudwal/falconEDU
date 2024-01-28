@@ -1,7 +1,6 @@
 import AddStudentForm from "./add-students-form";
 import { getStudentsByClassId } from "../../../../queries";
 import { DataTable } from "./data-table";
-import { _TestOverflow } from "@/components/_test-overflow";
 import { Paper } from "@/components/ui/paper";
 import { InvitedSudents } from "./invited-students";
 import { HiOutlineInboxStack } from "react-icons/hi2";
