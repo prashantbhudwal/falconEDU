@@ -8,6 +8,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getServerSession } from "next-auth";
 import OrgRegisterForm from "./_components/org-register-form";
 import Dashboard from "./_components/dashboard";
+import { manageTeachersURL } from "@/lib/urls";
 
 const AdminPage = async () => {
   const session = await getServerSession(authOptions);
@@ -30,7 +31,7 @@ const AdminPage = async () => {
                 You have no Teacher in your Organization add one{" "}
               </Text>
               <Button size="sm" className="mt-5 rounded-xl">
-                <Link href="/dragon/org-admin/add-teachers">
+                <Link href={manageTeachersURL}>
                   <Flex>
                     <IoAdd /> Teacher
                   </Flex>
