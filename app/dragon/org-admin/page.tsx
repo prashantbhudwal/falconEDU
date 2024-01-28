@@ -10,7 +10,7 @@ import OrgRegisterForm from "./_components/org-register-form";
 import Dashboard from "./_components/dashboard";
 
 const AdminPage = async () => {
-  const session = await getServerSession(authOptions); // get this from layout instead of calling again
+  const session = await getServerSession(authOptions);
   const org = await getOrgByUserId(session?.user?.id || "");
 
   return (
