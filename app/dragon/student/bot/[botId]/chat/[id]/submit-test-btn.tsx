@@ -110,7 +110,7 @@ const SubmitTestButton = React.forwardRef<HTMLButtonElement, PropTypes>(
           <DialogHeader>
             <DialogTitle>Do you want to submit?</DialogTitle>
             <DialogDescription>
-              Test will submitted, and the teacher will see it.
+              Test will be submitted to your teacher for checking.
             </DialogDescription>
             <div className="flex items-center justify-end gap-5 py-1">
               <Dialog open={showDialog}>
