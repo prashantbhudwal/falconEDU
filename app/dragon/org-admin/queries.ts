@@ -278,37 +278,40 @@ export const getOrgByUserId = cache(async (userId: string) => {
   }
 });
 
-export const getTeacherWithOrgId = cache(async () => {
-  try {
-    const userId = await getUserId();
-    const org = await prisma.orgAdminProfile.findUnique({
-      where: {
-        userId,
-      },
-      select: {
-        org: true,
-      },
-    });
+export const getTeachersWithUserId = cache(
+  async ({ userId }: { userId: string }) => {
+    try {
+      const org = await prisma.orgAdminProfile.findUnique({
+        where: {
+          userId,
+        },
+        select: {
+          org: true,
+        },
+      });
 
-    if (!org) {
+      if (!org) {
+        return null;
+      }
+
+      const teachers = await prisma.teacherProfile.findMany({
+        where: {
+          orgId: org.org?.id,
+        },
+        include: {
+          User: true,
+        },
+      }); // or find teachers from orgId
+
+      return teachers;
+    } catch (err) {
+      console.error(err);
       return null;
     }
+  },
+);
 
-    const teachers = await prisma.teacherProfile.findMany({
-      where: {
-        orgId: org.org?.id,
-      },
-      include: {
-        User: true,
-      },
-    }); // or find teachers from orgId
-
-    return teachers;
-  } catch (err) {
-    console.error(err);
-    return null;
-  }
-});
+export type TeachersInOrg = UnwrapPromise<ReturnType<typeof getTeachersWithUserId>>;
 
 export const getTeacherTasksWithTeacherId = cache(
   async ({ teacherId }: { teacherId: string }) => {

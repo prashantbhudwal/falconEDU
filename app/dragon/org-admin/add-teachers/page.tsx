@@ -1,35 +1,37 @@
 import React from "react";
 import AddTeacherForm from "../_components/add-teacher-form";
 import AdminNavbar from "../_components/admin-navbar";
+import { getTeachersWithUserId } from "../queries";
 import { Card, Flex, Text, Title } from "@tremor/react";
-import { getTeacherWithOrgId } from "../queries";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-export const dynamic = "force-dynamic"; // TODO  Removing this line gives me a build time warning, need to figure out why
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { getServerSession } from "next-auth";
 
 export default async function AddTeacherPage() {
-  const allTeacher = await getTeacherWithOrgId();
+  const session = await getServerSession(authOptions);
+  const userId = session?.user?.id;
+  if (!userId) return null;
+  const teachers = await getTeachersWithUserId({ userId });
   return (
     <>
       <AdminNavbar title="Add Teacher" />
       <div className="mx-auto my-10 w-11/12">
         <h2 className="mb-2 text-xl font-semibold">Teachers</h2>
         <AddTeacherForm />
-        {allTeacher?.map((teacher) => {
-          return (
-            <Card key={teacher.id} className="my-3">
-              <Flex className="gap-5">
-                <Avatar>
-                  <AvatarImage src={teacher.User.image || "/chubbi.png"} />
-                  <AvatarFallback>CN</AvatarFallback>
-                </Avatar>
-                <Flex flexDirection="col" alignItems="start" className="gap-2">
-                  <Title>{teacher.User.name}</Title>
-                  <Text>{teacher.User.email}</Text>
-                </Flex>
+        {teachers?.map((teacher) => (
+          <Card key={teacher.id} className="my-3">
+            <Flex className="gap-5">
+              <Avatar>
+                <AvatarImage src={teacher.User.image || "/chubbi.png"} />
+                <AvatarFallback>CN</AvatarFallback>
+              </Avatar>
+              <Flex flexDirection="col" alignItems="start" className="gap-2">
+                <Title>{teacher.User.name}</Title>
+                <Text>{teacher.User.email}</Text>
               </Flex>
-            </Card>
-          );
-        })}
+            </Flex>
+          </Card>
+        ))}
       </div>
     </>
   );
