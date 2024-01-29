@@ -4,6 +4,7 @@ import {
   AcademicCapIcon,
   UserCircleIcon,
   BuildingLibraryIcon,
+  FaceSmileIcon,
 } from "@heroicons/react/24/solid";
 
 // Tailwind Size Mapping
@@ -22,6 +23,7 @@ const colorMapping = {
   secondary: "text-secondary",
   accent: "text-accent",
   white: "text-white",
+  info: "text-info",
 };
 
 type BaseIconProps = {
@@ -58,7 +60,7 @@ export const Settings: React.FC<IconProps> = (props) => (
 );
 
 export const StudentIcon: React.FC<IconProps> = (props) => (
-  <BaseIcon {...props} Icon={UserCircleIcon} />
+  <BaseIcon {...props} Icon={FaceSmileIcon} />
 );
 
 export const TeacherIcon: React.FC<IconProps> = (props) => (
@@ -67,4 +69,8 @@ export const TeacherIcon: React.FC<IconProps> = (props) => (
 
 export const SchoolIcon: React.FC<IconProps> = (props) => (
   <BaseIcon {...props} Icon={BuildingLibraryIcon} />
+);
+
+export const AdminIcon: React.FC<IconProps> = (props) => (
+  <BaseIcon {...props} Icon={UserCircleIcon} />
 );
