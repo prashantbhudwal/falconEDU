@@ -146,8 +146,8 @@ export const getTaskProperties = (taskType: TaskType) => {
         Icon: HiOutlineClipboard,
         iconColor: "text-accent",
         newName: "Untitled AI Test",
-        emptyChatMessage: "Say hello to start the test",
-        aiTemperature: 1,
+        emptyChatMessage: "Say hello to start the quiz",
+        aiTemperature: 0.7,
       };
     default:
       return {
