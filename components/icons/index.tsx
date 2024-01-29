@@ -5,6 +5,7 @@ import {
   UserCircleIcon,
   BuildingLibraryIcon,
   FaceSmileIcon,
+  TrashIcon,
 } from "@heroicons/react/24/solid";
 
 // Tailwind Size Mapping
@@ -73,4 +74,8 @@ export const SchoolIcon: React.FC<IconProps> = (props) => (
 
 export const AdminIcon: React.FC<IconProps> = (props) => (
   <BaseIcon {...props} Icon={UserCircleIcon} />
+);
+
+export const DeleteIcon: React.FC<IconProps> = (props) => (
+  <BaseIcon {...props} Icon={TrashIcon} />
 );
