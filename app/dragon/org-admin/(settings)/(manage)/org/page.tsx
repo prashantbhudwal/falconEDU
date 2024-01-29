@@ -1,3 +1,36 @@
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { UpdateOrgForm } from "../../../_components/org-form";
+import { getServerSession } from "next-auth";
+import { db } from "@/lib/routers";
+import { OrgFormValues } from "../../../_components/org-form";
+
 export default async function ManageOrg() {
-  return <div className="flex flex-col space-y-4 p-2">Manage Org</div>;
+  const session = await getServerSession(authOptions);
+  const userId = session?.user?.id || "";
+  const orgId = await db.org.getOrgIdByUserId({ userId });
+  if (!orgId) return <div>You have No Org registered with your profile</div>;
+  const orgData = await db.org.getOrgDataByOrgId({
+    orgId,
+  });
+  if (!orgData) return <div>Something went wrong</div>;
+
+  const board = orgData.board[0].name;
+
+  const initialValues: OrgFormValues = {
+    name: orgData.name,
+    type: orgData.type,
+    boardNames: board,
+    state: orgData.state,
+    language_medium: orgData.language_medium,
+    language_native: orgData.language_native || "",
+    brandName: orgData.brandName,
+    city: orgData.city || "",
+  };
+
+  return (
+    <div className="flex flex-col space-y-4 p-2">
+      <div className="self-center font-semibold text-accent">Edit your Org</div>
+      <UpdateOrgForm initialValues={initialValues} orgId={orgId} />
+    </div>
+  );
 }
