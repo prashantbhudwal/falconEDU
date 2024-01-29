@@ -265,14 +265,14 @@ export const addTeacherToOrg = async ({
 };
 
 export const removeTeacherFromOrg = async ({
-  teacherId,
+  userId,
 }: {
-  teacherId: string;
+  userId: string;
 }): Promise<boolean> => {
   try {
     await prisma.teacherProfile.update({
       where: {
-        userId: teacherId,
+        userId: userId,
       },
       data: {
         orgMode: false,
