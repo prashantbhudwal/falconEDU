@@ -8,20 +8,21 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getServerSession } from "next-auth";
 import { RegisterOrgForm } from "./_components/org-form";
 import Dashboard from "./_components/dashboard";
-import { manageTeachersURL } from "@/lib/urls";
+import { getManageTeachersURL } from "@/lib/urls";
 
 export default async function AdminHome() {
   const session = await getServerSession(authOptions);
   const org = await getOrgByUserId(session?.user?.id || "");
   const userId = session?.user?.id || "";
   const hasTeachers = org && org?.teacher?.length > 0;
+  const orgId = org?.id || "";
 
   return (
     <div className="flex h-screen min-w-full flex-col">
       <AdminNavbar title="Home" />
       <div className="custom-scrollbar overflow-y-auto">
         {!org && <RegisterOrg userId={userId} />}
-        {hasTeachers ? <Dashboard /> : <AddTeachers />}
+        {hasTeachers ? <Dashboard /> : <AddTeachers orgId={orgId} />}
       </div>
     </div>
   );
@@ -36,7 +37,7 @@ const RegisterOrg = ({ userId }: { userId: string }) => {
   );
 };
 
-const AddTeachers = () => {
+const AddTeachers = ({ orgId }: { orgId: string }) => {
   return (
     <Flex
       className="h-full w-full"
@@ -49,7 +50,7 @@ const AddTeachers = () => {
           You have no Teacher in your Organization add one{" "}
         </Text>
         <Button size="sm" className="mt-5 rounded-xl">
-          <Link href={manageTeachersURL}>
+          <Link href={getManageTeachersURL(orgId)}>
             <Flex>
               <IoAdd /> Teacher
             </Flex>

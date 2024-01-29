@@ -225,3 +225,64 @@ export const getAdminRoleByUserId = cache(
     }
   },
 );
+
+export const addTeacherToOrg = async ({
+  email,
+  orgId,
+}: {
+  email: string;
+  orgId: string;
+}) => {
+  try {
+    const teacher = await prisma.user.findUnique({
+      where: {
+        email: email,
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    if (!teacher) {
+      return { teacher: null, found: false };
+    }
+
+    const addedTeacher = await prisma.teacherProfile.update({
+      where: {
+        userId: teacher.id,
+      },
+      data: {
+        orgMode: true,
+        orgId: orgId,
+      },
+    });
+    revalidatePath("/dragon/org-admin/");
+    return { teacher: addedTeacher, found: true };
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+};
+
+export const removeTeacherFromOrg = async ({
+  teacherId,
+}: {
+  teacherId: string;
+}): Promise<boolean> => {
+  try {
+    await prisma.teacherProfile.update({
+      where: {
+        userId: teacherId,
+      },
+      data: {
+        orgMode: false,
+        orgId: null,
+      },
+    });
+    revalidatePath("/dragon/org-admin/");
+    return true;
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+};

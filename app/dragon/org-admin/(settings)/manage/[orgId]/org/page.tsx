@@ -1,14 +1,14 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-import { UpdateOrgForm } from "../../../_components/org-form";
+import { UpdateOrgForm } from "../../../../_components/org-form";
 import { getServerSession } from "next-auth";
 import { db } from "@/lib/routers";
-import { OrgFormValues } from "../../../_components/org-form";
+import { OrgFormValues } from "../../../../_components/org-form";
 
-export default async function ManageOrg() {
-  const session = await getServerSession(authOptions);
-  const userId = session?.user?.id || "";
-  const orgId = await db.org.getOrgIdByUserId({ userId });
-  if (!orgId) return <div>You have No Org registered with your profile</div>;
+export default async function ManageOrg({
+  params: { orgId },
+}: {
+  params: { orgId: string };
+}) {
   const orgData = await db.org.getOrgDataByOrgId({
     orgId,
   });

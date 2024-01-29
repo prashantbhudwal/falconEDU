@@ -1,8 +1,8 @@
 import {
-  manageAdminsURL,
-  manageOrgURL,
-  manageStudentsUrl,
-  manageTeachersURL,
+  getManageAdminsURL,
+  getManageOrgURL,
+  getManageStudentsURL,
+  getManageTeachersURL,
 } from "@/lib/urls";
 import {
   AdminIcon,
@@ -22,6 +22,9 @@ export default async function OrgSettings() {
   if (!userId) return null;
   const adminRole = await db.org.getAdminRoleByUserId({ userId });
   if (!adminRole) return null;
+  const orgId = await db.org.getOrgIdByUserId({ userId });
+  if (!orgId) return null;
+
   const orgSettingsCards = getOrgSettingCardData({ role: adminRole });
   return (
     <div className="flex flex-col space-y-4 p-2">
@@ -29,7 +32,7 @@ export default async function OrgSettings() {
         <SettingsCard
           key={card.name}
           name={card.name}
-          link={card.link}
+          link={card.link(orgId)}
           description={card.description}
           icon={card.icon}
         />
@@ -44,7 +47,7 @@ const getOrgSettingCardData = ({
   role: AdminRole;
 }): {
   name: string;
-  link: string;
+  link: (orgId: string) => string;
   description: string;
   icon: React.ReactNode;
   role: AdminRole;
@@ -52,28 +55,28 @@ const getOrgSettingCardData = ({
   const orgSettingsCards = [
     {
       name: "Manage Organization",
-      link: manageOrgURL,
+      link: getManageOrgURL,
       description: "Change brand, name, etc.",
       icon: <SchoolIcon size={"lg"} color="primary" />,
       role: "SUPER_ADMIN",
     },
     {
       name: "Manage Admins",
-      link: manageAdminsURL,
+      link: getManageAdminsURL,
       description: "Add or remove admins",
       icon: <AdminIcon size={"lg"} color="info" />,
       role: "SUPER_ADMIN",
     },
     {
       name: "Manage Teachers",
-      link: manageTeachersURL,
+      link: getManageTeachersURL,
       description: "Add or remove teachers",
       icon: <TeacherIcon size={"lg"} color="secondary" />,
       role: "MANAGER",
     },
     {
       name: "Manage Students",
-      link: manageStudentsUrl,
+      link: getManageStudentsURL,
       description: "Add or remove students",
       icon: <StudentIcon size={"lg"} color="accent" />,
       role: "MANAGER",

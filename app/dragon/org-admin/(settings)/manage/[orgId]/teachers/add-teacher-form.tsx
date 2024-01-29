@@ -10,13 +10,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Button, Flex, TextInput } from "@tremor/react";
-import { addTeacherToOrg } from "../../../mutations";
+import { db } from "@/lib/routers";
 
 const addTeacherFormSchema = z.object({
   email: z.string().email().nonempty(),
 });
 
-export const AddTeacherForm = function () {
+export const AddTeacherForm = function ({ orgId }: { orgId: string }) {
   const form = useForm<z.infer<typeof addTeacherFormSchema>>({
     resolver: zodResolver(addTeacherFormSchema),
     defaultValues: {
@@ -28,7 +28,10 @@ export const AddTeacherForm = function () {
     values: z.infer<typeof addTeacherFormSchema>,
   ) {
     const { email } = values;
-    const addedTeacher = await addTeacherToOrg({ email });
+    const addedTeacher = await db.org.addTeacherToOrg({
+      orgId,
+      email,
+    });
 
     if (!addedTeacher) {
       form.setError("email", {
