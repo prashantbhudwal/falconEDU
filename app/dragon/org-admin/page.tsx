@@ -1,5 +1,5 @@
 import React from "react";
-import AdminNavbar from "./_components/admin-navbar";
+import { AdminNavbar } from "./_components/navbar";
 import { IoAdd } from "react-icons/io5";
 import { Button, Flex, Text } from "@tremor/react";
 import Link from "next/link";

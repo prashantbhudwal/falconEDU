@@ -2,7 +2,6 @@
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-// import { addStudentToClass } from "./mutations";
 import {
   Form,
   FormItem,
@@ -10,15 +9,14 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { Button, Flex, TextInput } from "@tremor/react";
-import { addTeacherToOrg } from "../mutations";
+import { addTeacherToOrg } from "../../../mutations";
 
 const addTeacherFormSchema = z.object({
   email: z.string().email().nonempty(),
 });
 
-export default function AddTeacherForm() {
+export const AddTeacherForm = function () {
   const form = useForm<z.infer<typeof addTeacherFormSchema>>({
     resolver: zodResolver(addTeacherFormSchema),
     defaultValues: {
@@ -79,4 +77,4 @@ export default function AddTeacherForm() {
       </form>
     </Form>
   );
-}
+};

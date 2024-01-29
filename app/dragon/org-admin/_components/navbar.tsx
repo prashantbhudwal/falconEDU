@@ -11,7 +11,7 @@ type AdminNavbarProps = {
   title: string;
 };
 
-const AdminNavbar = ({ title }: AdminNavbarProps) => {
+export const AdminNavbar = ({ title }: AdminNavbarProps) => {
   return (
     <div className="sticky left-0 top-0 z-20 flex w-full items-center justify-between bg-base-300 px-3 py-3">
       <Link href={orgAdminHomeURL}>
@@ -33,5 +33,3 @@ const AdminNavbar = ({ title }: AdminNavbarProps) => {
     </div>
   );
 };
-
-export default AdminNavbar;

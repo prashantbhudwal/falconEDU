@@ -1,11 +1,10 @@
 import React from "react";
-import AddTeacherForm from "../../../_components/add-teacher-form";
+import {AddTeacherForm} from "./add-teacher-form";
 import { getTeachersWithUserId } from "../../../queries";
 import { Card, Flex, Text, Title } from "@tremor/react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getServerSession } from "next-auth";
-import { TestOverflow } from "@/components/test-overflow";
 
 export default async function AddTeacherPage() {
   const session = await getServerSession(authOptions);

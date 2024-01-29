@@ -1,19 +1,27 @@
 "use client";
 import React, { useMemo, useState } from "react";
 import { Chrono } from "react-chrono";
-import { TeacherTask } from "../queries";
+import { TeacherTask } from "../../queries";
 import {
   formatDateWithTimeZone,
   formatName,
   tailwindColorToHex,
 } from "@/lib/utils";
-import { getTaskIcon, getTaskProperties } from "../../teacher/utils";
+import { getTaskIcon, getTaskProperties } from "../../../teacher/utils";
 import { Flex, Select, SelectItem, Title } from "@tremor/react";
 import { v4 as uuid } from "uuid";
 import { TaskType } from "@/types";
 import { useRouter } from "next/navigation";
 
-const Timeline = ({ teacher }: { teacher: TeacherTask }) => {
+function formatClassName(classItem: any) {
+  let className = formatName({ name: classItem.grade });
+  if (classItem.section) {
+    className += ` - ${formatName({ name: classItem.section })}`;
+  }
+  return className;
+}
+
+export const Timeline = ({ teacher }: { teacher: TeacherTask }) => {
   const [teacherTasks, setTeacherTasks] = useState(teacher?.tasks || []);
   const [selectedClassId, setSelectedClassId] = useState("");
   const [disableNavigation, setDisableNavigation] = useState(true);
@@ -39,7 +47,7 @@ const Timeline = ({ teacher }: { teacher: TeacherTask }) => {
       return;
     }
     setSelectedClassId(classId);
-    const task = teacher?.tasks.filter((task) => task.classId === classId);
+    const task = teacher?.tasks?.filter((task) => task.classId === classId);
 
     if (task) {
       setTeacherTasks(task);
@@ -56,29 +64,19 @@ const Timeline = ({ teacher }: { teacher: TeacherTask }) => {
   };
 
   return (
-    <>
-      <div className="mx-auto my-5 w-11/12">
-        <Flex className="flex-wrap gap-3">
-          <Title>Historical Timeline</Title>
-          <Select
-            value={selectedClassId}
-            className="w-fit justify-self-end"
-            onValueChange={setSelectedTask}
-            placeholder="Select Class"
-          >
-            {teacher?.classes.map((classItem) => (
-              <SelectItem key={classItem.id} value={classItem.id}>
-                {formatName({
-                  name: classItem.grade,
-                })}
-                {classItem.section
-                  ? ` - ${formatName({ name: classItem.section })}`
-                  : ""}
-              </SelectItem>
-            ))}
-          </Select>
-        </Flex>
-      </div>
+    <div className="flex flex-col space-y-6 px-2 py-2">
+      <Select
+        value={selectedClassId}
+        className="w-full justify-self-end"
+        onValueChange={setSelectedTask}
+        placeholder="Select Class"
+      >
+        {teacher?.classes?.map((classItem) => (
+          <SelectItem key={classItem.id} value={classItem.id}>
+            {formatClassName(classItem)}
+          </SelectItem>
+        ))}
+      </Select>
       <Chrono
         items={items}
         hideControls
@@ -111,8 +109,7 @@ const Timeline = ({ teacher }: { teacher: TeacherTask }) => {
           <Title className="mb-2 mt-5">No Tasks Yet</Title>
         </Flex>
       )}
-    </>
+    </div>
   );
 };
 
-export default Timeline;
