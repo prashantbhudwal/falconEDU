@@ -1,11 +1,11 @@
 import React from "react";
-import {AdminNavbar} from "../../_components/navbar";
+import { AdminNavbar } from "../../_components/navbar";
 import { Timeline } from "./timeline";
 import { getOrgByUserId, getTeacherTasksWithTeacherId } from "../../queries";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-import RedirectComponent from "../../_components/redirect";
 import { formatName } from "@/lib/utils";
+import { redirect } from "next/navigation";
 
 const TeacherPage = async ({ params }: { params: { teacherId: string } }) => {
   const session = await getServerSession(authOptions);
@@ -14,7 +14,7 @@ const TeacherPage = async ({ params }: { params: { teacherId: string } }) => {
     teacherId: params.teacherId,
   });
   if (org && org.teacher.length === 0) {
-    return <RedirectComponent redirectUrl="/dragon/org-admin" />;
+    redirect("/dragon/org-admin");
   }
   return (
     <div className="flex h-screen min-w-full flex-col">
