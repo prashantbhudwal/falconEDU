@@ -69,7 +69,7 @@ export const Timeline = ({ teacher }: { teacher: TeacherTask }) => {
         value={selectedClassId}
         className="w-full justify-self-end"
         onValueChange={setSelectedTask}
-        placeholder="Select Class"
+        placeholder="All Classes"
       >
         {teacher?.classes?.map((classItem) => (
           <SelectItem key={classItem.id} value={classItem.id}>
@@ -112,4 +112,3 @@ export const Timeline = ({ teacher }: { teacher: TeacherTask }) => {
     </div>
   );
 };
-
