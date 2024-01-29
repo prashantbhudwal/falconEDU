@@ -40,7 +40,7 @@ const AddUserForm = ({
                 <FormControl>
                   <TextInput
                     type="email"
-                    placeholder="Enter Teacher email."
+                    placeholder="Enter email."
                     className="w-52 max-w-72"
                     {...field}
                   />
