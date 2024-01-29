@@ -167,3 +167,4 @@ export const orgAdminOrgSettingsURL = `${baseUrl}/org-admin/org-settings`;
 export const manageTeachersURL = `${baseUrl}/org-admin/teachers`;
 export const manageStudentsUrl = `${baseUrl}/org-admin/students`;
 export const manageOrgURL = `${baseUrl}/org-admin/org`;
+export const manageAdminsURL = `${baseUrl}/org-admin/admins`;
