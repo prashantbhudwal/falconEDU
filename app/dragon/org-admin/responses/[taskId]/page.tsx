@@ -1,4 +1,3 @@
-import { AvatarNavbar } from "@/app/dragon/student/components/student-navbar";
 import React from "react";
 import { AdminNavbar } from "../../_components/navbar";
 import { getStudentSubmissionsStatsByTaskId } from "../../queries";
