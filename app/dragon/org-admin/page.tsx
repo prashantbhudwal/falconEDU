@@ -21,7 +21,6 @@ export default async function AdminHome() {
       <AdminNavbar title="Home" />
       <div className="custom-scrollbar overflow-y-auto">
         {!org && <RegisterOrg userId={userId} />}
-        <RegisterOrg userId={userId} />
         {hasTeachers ? <Dashboard /> : <AddTeachers />}
       </div>
     </div>
