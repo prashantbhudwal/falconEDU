@@ -11,7 +11,7 @@ export const getFirstMessage = ({
 }) => {
   const firstMessageContent = {
     test: {
-      english: "Can you start the test? I am ready.",
+      english: "Can we start the test?",
       hindi: "क्या आप टेस्ट शुरू कर सकते हैं? मैं तैयार हूँ।",
     },
     lesson: {
@@ -23,7 +23,7 @@ export const getFirstMessage = ({
       hindi: "आप क्या कर सकते हैं?",
     },
     "ai-test": {
-      english: "Can you start the test? I am ready.",
+      english: "Can we start the quiz?",
       hindi: "क्या आप टेस्ट शुरू कर सकते हैं? मैं तैयार हूँ।",
     },
   };

@@ -4,7 +4,7 @@ import { cn } from "../../lib/utils";
 import { ChatList } from "./chat-list";
 import { ChatPanel } from "./chat-panel";
 import { toast } from "react-hot-toast";
-import { useRef, useLayoutEffect, useState, useEffect } from "react";
+import React, { useRef, useLayoutEffect, useState, useEffect } from "react";
 import { MdOutlineKeyboardDoubleArrowDown } from "react-icons/md";
 import { Button } from "../ui/button";
 import { useInView } from "react-intersection-observer";
@@ -12,6 +12,17 @@ import { chatIsLoadingAtom } from "@/lib/atoms/student";
 import { useSubmitTest } from "@/hooks/ai/use-submit-test";
 import { useAtom } from "jotai";
 import { useFirstMessage } from "./use-first-message";
+
+const InDev = ({ component }: { component: React.ReactNode }) => {
+  if (process.env.NODE_ENV === "production") {
+    return null;
+  }
+  return (
+    <div className="fixed bottom-3 right-2 min-h-36 w-fit border border-dotted border-accent/60 p-2">
+      {component}
+    </div>
+  );
+};
 
 export interface ChatProps extends React.ComponentProps<"div"> {
   initialMessages?: Message[];
@@ -104,6 +115,7 @@ export function Chat({
         className="custom-scrollbar h-screen overflow-y-scroll"
         ref={containerRef}
       >
+        <InDev component={<Button onClick={() => reload()}>Reload</Button>} />
         <div className={cn("pb-[250px] pt-4 md:pt-10", className)}>
           {messages.length ? (
             <>
