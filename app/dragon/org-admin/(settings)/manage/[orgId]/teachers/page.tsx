@@ -5,6 +5,7 @@ import { Card, Flex, Text, Title } from "@tremor/react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getServerSession } from "next-auth";
+import { TeacherCard } from "./teacher-card";
 
 export default async function AddTeacherPage({
   params: { orgId },
@@ -18,20 +19,9 @@ export default async function AddTeacherPage({
   return (
     <>
       <div className="mx-auto my-10 w-11/12">
-        <AddTeacherForm orgId = {orgId}/>
+        <AddTeacherForm orgId={orgId} />
         {teachers?.map((teacher) => (
-          <Card key={teacher.id} className="my-3">
-            <Flex className="gap-5">
-              <Avatar>
-                <AvatarImage src={teacher.User.image || "/chubbi.png"} />
-                <AvatarFallback>CN</AvatarFallback>
-              </Avatar>
-              <Flex flexDirection="col" alignItems="start" className="gap-2">
-                <Title>{teacher.User.name}</Title>
-                <Text>{teacher.User.email}</Text>
-              </Flex>
-            </Flex>
-          </Card>
+          <TeacherCard teacher={teacher} key={teacher.id} />
         ))}
       </div>
     </>
