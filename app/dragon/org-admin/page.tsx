@@ -6,45 +6,57 @@ import Link from "next/link";
 import { getOrgByUserId } from "./queries";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getServerSession } from "next-auth";
-import OrgRegisterForm from "./_components/org-register-form";
+import { RegisterOrgForm } from "./_components/org-form";
 import Dashboard from "./_components/dashboard";
 import { manageTeachersURL } from "@/lib/urls";
 
-const AdminPage = async () => {
+export default async function AdminHome() {
   const session = await getServerSession(authOptions);
   const org = await getOrgByUserId(session?.user?.id || "");
+  const userId = session?.user?.id || "";
+  const hasTeachers = org && org?.teacher?.length > 0;
 
   return (
     <div className="flex h-screen min-w-full flex-col">
       <AdminNavbar title="Home" />
       <div className="custom-scrollbar overflow-y-auto">
-        {!org && <OrgRegisterForm userId={session?.user?.id || ""} />}
-        {org && org.teacher.length === 0 && (
-          <Flex
-            className="h-full w-full"
-            alignItems="center"
-            justifyContent="center"
-            flexDirection="col"
-          >
-            <>
-              <Text className="text-center">
-                You have no Teacher in your Organization add one{" "}
-              </Text>
-              <Button size="sm" className="mt-5 rounded-xl">
-                <Link href={manageTeachersURL}>
-                  <Flex>
-                    <IoAdd /> Teacher
-                  </Flex>
-                </Link>
-              </Button>
-            </>
-          </Flex>
-        )}
-
-        {org && org.teacher.length > 0 && <Dashboard />}
+        {!org && <RegisterOrg userId={userId} />}
+        <RegisterOrg userId={userId} />
+        {hasTeachers ? <Dashboard /> : <AddTeachers />}
       </div>
+    </div>
+  );
+}
+
+const RegisterOrg = ({ userId }: { userId: string }) => {
+  return (
+    <div className="flex min-w-full flex-col space-y-2 px-4 py-3">
+      <div className="font-semibold text-accent"> Register your Org </div>
+      <RegisterOrgForm userId={userId} />
     </div>
   );
 };
 
-export default AdminPage;
+const AddTeachers = () => {
+  return (
+    <Flex
+      className="h-full w-full"
+      alignItems="center"
+      justifyContent="center"
+      flexDirection="col"
+    >
+      <>
+        <Text className="text-center">
+          You have no Teacher in your Organization add one{" "}
+        </Text>
+        <Button size="sm" className="mt-5 rounded-xl">
+          <Link href={manageTeachersURL}>
+            <Flex>
+              <IoAdd /> Teacher
+            </Flex>
+          </Link>
+        </Button>
+      </>
+    </Flex>
+  );
+};
