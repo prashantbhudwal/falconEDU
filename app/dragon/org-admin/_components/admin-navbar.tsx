@@ -25,7 +25,7 @@ const AdminNavbar = ({ title }: AdminNavbarProps) => {
             size={"icon"}
             className="rounded-full border-none"
           >
-            <Settings />
+            <Settings size="xs" />
           </Button>
         </Link>
         <ProfileDropDown url={orgAdminProfileURL} />
