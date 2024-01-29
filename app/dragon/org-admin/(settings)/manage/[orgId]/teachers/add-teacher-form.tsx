@@ -9,8 +9,9 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/form";
-import { Button, Flex, TextInput } from "@tremor/react";
+import { Flex, TextInput } from "@tremor/react";
 import { db } from "@/lib/routers";
+import { Button } from "@/components/ui/button";
 
 const addTeacherFormSchema = z.object({
   email: z.string().email().nonempty(),
@@ -73,9 +74,7 @@ export const AddTeacherForm = function ({ orgId }: { orgId: string }) {
               </FormItem>
             )}
           />
-          <Button type="submit" className="rounded-xl">
-            Add to Org
-          </Button>
+          <Button type="submit">Add to Org</Button>
         </Flex>
       </form>
     </Form>
