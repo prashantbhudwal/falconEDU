@@ -14,12 +14,12 @@ export function cn(...inputs: ClassValue[]) {
 
 export const nanoid = customAlphabet(
   "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
-  7
+  7,
 ); // 7-character random string
 
 export async function fetcher<JSON = any>(
   input: RequestInfo,
-  init?: RequestInit
+  init?: RequestInit,
 ): Promise<JSON> {
   const res = await fetch(input, init);
 
@@ -60,16 +60,15 @@ export const getFormattedDate = (date: string) => {
 
 // -----------------------------------------------------------------------------------------------------------------------
 
-type SchemaType<T extends z.ZodTypeAny> = T extends z.ZodType<infer R, any, any>
-  ? R
-  : never;
+type SchemaType<T extends z.ZodTypeAny> =
+  T extends z.ZodType<infer R, any, any> ? R : never;
 
 export const removeOptionalFieldFormZodTypes = <T extends z.ZodObject<any>>(
-  schema: T
+  schema: T,
 ): z.ZodObject<SchemaType<T>> => {
   const updatedSchema = schema.partial().refine((data) => {
     const requiredFields = Object.keys(schema.shape).filter((field) =>
-      schema.shape[field as keyof typeof schema.shape].optional()
+      schema.shape[field as keyof typeof schema.shape].optional(),
     ) as (keyof typeof schema.shape)[];
 
     return requiredFields.every((field) => data[String(field)] !== undefined);
@@ -101,13 +100,14 @@ export const formatName = ({
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
       .join(" ");
   }
-  if (name.includes("-")) {
-    const nameArray = name.split("-");
-    if (capitalize) return nameArray.join(" ").toUpperCase();
-    return nameArray
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-      .join(" ");
-  } else {
+  // if (name.includes("-")) {
+  //   const nameArray = name.split("-");
+  //   if (capitalize) return nameArray.join(" ").toUpperCase();
+  //   return nameArray
+  //     .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+  //     .join(" ");
+  // }
+  else {
     if (capitalize) return name.toUpperCase();
     return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
   }
@@ -143,7 +143,7 @@ export const tailwindColorToHex = (colorClass: string): string => {
 // -----------------------------------------------------------------------------------------------------------------------
 
 export const generateZodEnumSchema = <T extends Record<string, EnumValues<T>>>(
-  enumObject: T
+  enumObject: T,
 ) => {
   const enumValues = Object.values(enumObject) as EnumValues<T>[];
   const enumArray = enumValues.map(String) as [string, ...string[]];
@@ -169,3 +169,5 @@ export const generateOptionsFromEnum = <
     }),
   }));
 };
+
+// -----------------------------------------------------------------------------------------------------------------------

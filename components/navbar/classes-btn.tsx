@@ -1,5 +1,5 @@
 "use client";
-import { db } from "@/app/dragon/teacher/routers";
+import { db } from "@/lib/routers";
 import Link from "next/link";
 import { use, useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
@@ -19,8 +19,8 @@ export function MyClassesBtn() {
     return (
       <Link href="/dragon/teacher/">
         <Button variant="outline" size={"default"}>
-          <div className="flex gap-2 items-center justify-center">
-            <HomeIconSolid className="w-5 h-5" />
+          <div className="flex items-center justify-center gap-2">
+            <HomeIconSolid className="h-5 w-5" />
             <div>My Classes</div>
           </div>
         </Button>

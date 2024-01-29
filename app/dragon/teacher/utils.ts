@@ -4,7 +4,11 @@ import prisma from "@/prisma";
 import { ConditionalPromptSelector } from "langchain/prompts";
 import { AcademicCapIcon } from "@heroicons/react/24/solid";
 import { FaRobot } from "react-icons/fa6";
-import { HiClipboardDocumentCheck, HiAcademicCap } from "react-icons/hi2";
+import {
+  HiClipboardDocumentCheck,
+  HiAcademicCap,
+  HiOutlineClipboard,
+} from "react-icons/hi2";
 import { TaskType } from "@/types/dragon";
 import { IoIosChatboxes } from "react-icons/io";
 import { Grade } from "@prisma/client";
@@ -16,7 +20,7 @@ import { Grade } from "@prisma/client";
  * @return {Object} - An object containing the maximum score, highest score, least score, and average score.
  */
 export const getTestMetadata = (
-  allStudentResponses: AllStudentResponsesByBotConfigId
+  allStudentResponses: AllStudentResponsesByBotConfigId,
 ) => {
   let allStudentScore;
   let maxScore = 0;
@@ -31,10 +35,10 @@ export const getTestMetadata = (
         .length;
     });
     leastScore = allStudentScore.reduce((acc, curr) =>
-      acc > curr ? curr : acc
+      acc > curr ? curr : acc,
     );
     highestScore = allStudentScore.reduce((acc, curr) =>
-      acc < curr ? curr : acc
+      acc < curr ? curr : acc,
     );
 
     const totalCorrect = allStudentScore.reduce((acc, curr) => acc + curr, 0);
@@ -108,6 +112,7 @@ export const getTaskProperties = (taskType: TaskType) => {
     case "chat":
       return {
         formattedType: "Bot",
+        formattedTypeStudent: "Bot",
         Icon: FaRobot,
         iconColor: "text-primary",
         newName: "Untitled Bot",
@@ -117,6 +122,7 @@ export const getTaskProperties = (taskType: TaskType) => {
     case "test":
       return {
         formattedType: "Test",
+        formattedTypeStudent: "Test",
         Icon: HiClipboardDocumentCheck,
         iconColor: "text-secondary",
         newName: "Untitled Test",
@@ -126,15 +132,27 @@ export const getTaskProperties = (taskType: TaskType) => {
     case "lesson":
       return {
         formattedType: "Lesson",
+        formattedTypeStudent: "Lesson",
         Icon: HiAcademicCap,
         iconColor: "text-info",
         newName: "Untitled Lesson",
         emptyChatMessage: "Say hello to start the lesson",
         aiTemperature: 1,
       };
+    case "ai-test":
+      return {
+        formattedType: "AI Test",
+        formattedTypeStudent: "Quiz",
+        Icon: HiOutlineClipboard,
+        iconColor: "text-accent",
+        newName: "Untitled AI Test",
+        emptyChatMessage: "Say hello to start the test",
+        aiTemperature: 1,
+      };
     default:
       return {
         formattedType: "Chat",
+        formattedTypeStudent: "Chat",
         Icon: IoIosChatboxes,
         iconColor: "text-blue-500",
         newName: "Untitled Chat",
@@ -146,7 +164,6 @@ export const getTaskProperties = (taskType: TaskType) => {
 
 export const getFormattedDate = (date: Date) =>
   new Date(date).toLocaleDateString("en-UK", {
-    year: "numeric",
     month: "short",
     day: "numeric",
   });
@@ -174,3 +191,11 @@ export function getFormattedGrade({
 
   return converted;
 }
+
+export const isNonEmptyObject = (obj: Object) => {
+  return obj && typeof obj === "object" && Object.keys(obj).length > 0;
+};
+
+export const isEmptyObject = (obj: Object) => {
+  return obj && typeof obj === "object" && Object.keys(obj).length === 0;
+};

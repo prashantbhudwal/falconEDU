@@ -1,5 +1,5 @@
 "use client";
-import { db } from "../routers";
+import { db } from "../../../../lib/routers";
 import { revalidatePath } from "next/cache";
 import { SetStateAction, useState } from "react";
 import { BotConfig } from "@prisma/client";
@@ -21,7 +21,7 @@ export function useConfigPublishing({
     const result = await db.botConfig.publishBotConfig({
       classId,
       botConfigId: botId,
-      type
+      type,
     });
     setLoading(false);
 
@@ -41,7 +41,7 @@ export function useConfigPublishing({
     const result = await db.botConfig.unPublishBotConfig({
       classId,
       botConfigId: botId,
-      type
+      type,
     });
     setLoading(false);
     if (result.success) {

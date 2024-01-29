@@ -7,6 +7,7 @@ import {
   testQuestionObjectSchema,
 } from "./model";
 import { systemTemplateForParsing } from "./template";
+import { UnwrapPromise } from "../../student/queries";
 
 export async function parseTestQuestions(test: string) {
   const jsonOutputParser = new JsonOutputFunctionsParser();
@@ -39,7 +40,7 @@ export async function parseTestQuestions(test: string) {
       hasQuestions,
       hasAnswers,
       error: false,
-      message: "Parsing Successfull",
+      message: "Parsing Successful",
     };
   } catch (err) {
     console.error(err);
@@ -53,3 +54,6 @@ export async function parseTestQuestions(test: string) {
     throw new Error("Can't generate results");
   }
 }
+export type ParsedQuestions = UnwrapPromise<
+  ReturnType<typeof parseTestQuestions>
+>;

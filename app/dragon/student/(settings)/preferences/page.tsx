@@ -9,9 +9,9 @@ const PreferencesPage: React.FC = async () => {
   };
 
   return (
-    <div className="flex flex-col space-y-4 items-center">
-      <h1 className="text-3xl font-bold text-center">My Profile</h1>
-      <p className="text-gray-500 text-center">
+    <div className="flex flex-col items-center space-y-4">
+      <h1 className="text-center text-3xl font-bold">My Profile</h1>
+      <p className="text-center text-gray-500">
         Tell the teachers about yourself.
       </p>
       <StudentPreferencesForm

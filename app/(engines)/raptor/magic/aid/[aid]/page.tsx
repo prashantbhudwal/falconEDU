@@ -31,7 +31,7 @@ export default function Page({
   const { content, startStreaming } = useWorksheetStream("generateAnswers");
   const [savedQuestions] = useAtom(savedQuestionsAtom);
   const [worksheetAnswerKey, setWorksheetAnswerKey] = useAtom(
-    worksheetAnswerKeyAtom
+    worksheetAnswerKeyAtom,
   );
 
   useEffect(() => {

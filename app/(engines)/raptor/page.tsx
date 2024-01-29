@@ -58,10 +58,10 @@ export default function Raptor() {
   const [contentStreamCompleted] = useAtom(contentStreamCompletedAtom);
   const [subtopics] = useAtom(subtopicsAtom);
   const [worksheetAnswerKey, setWorksheetAnswerKey] = useAtom(
-    worksheetAnswerKeyAtom
+    worksheetAnswerKeyAtom,
   );
   const [checkedQuestionTypes, setCheckedQuestionTypes] = useAtom(
-    checkedQuestionTypesAtom
+    checkedQuestionTypesAtom,
   );
   const [isAdvancedMode, setIsAdvancedMode] = useAtom(isAdvancedModeAtom);
   const [firstRender, setFirstRender] = useState(true);
@@ -75,7 +75,7 @@ export default function Raptor() {
   const handleCheckboxChange = (value: QuestionType) => {
     if (checkedQuestionTypes.includes(value)) {
       setCheckedQuestionTypes(
-        checkedQuestionTypes.filter((val) => val !== value)
+        checkedQuestionTypes.filter((val) => val !== value),
       );
     } else {
       setCheckedQuestionTypes([...checkedQuestionTypes, value]);
@@ -102,7 +102,7 @@ export default function Raptor() {
         if ("type" in content) {
           const parsedQuestionType = content.type;
           const questionIndex = updatedQuestions.findIndex(
-            (q: any) => q.type === parsedQuestionType
+            (q: any) => q.type === parsedQuestionType,
           );
 
           if (questionIndex !== -1) {
@@ -118,7 +118,7 @@ export default function Raptor() {
 
             // Check if a question with the same hash already exists
             const existingQuestion = questionArray.find(
-              (q) => q.questionId === questionId
+              (q) => q.questionId === questionId,
             );
 
             if (!existingQuestion) {
@@ -134,7 +134,7 @@ export default function Raptor() {
               };
 
               questionArray.push(
-                parsedContentWithId as unknown as QuestionItem
+                parsedContentWithId as unknown as QuestionItem,
               );
               updatedQuestions[questionIndex] = {
                 ...updatedQuestions[questionIndex],
@@ -164,7 +164,7 @@ export default function Raptor() {
           return {
             ...questionObject,
             questions: questionObject.questions.filter(
-              (q) => q.questionId !== question.questionId
+              (q) => q.questionId !== question.questionId,
             ),
           };
         }
@@ -206,7 +206,7 @@ export default function Raptor() {
 
           {savedQuestions.map((questionObject: QuestionObject) => {
             return !checkedQuestionTypes.includes(
-              questionObject.type
+              questionObject.type,
             ) ? null : (
               <QuestionsBlock
                 questions={questionObject.questions}

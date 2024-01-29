@@ -34,7 +34,7 @@ export async function BasicInfo() {
           </div>
         </div>
       </div>
-      <div className="rounded-md p-6 text-slate-400 flex flex-col space-y-2">
+      <div className="flex flex-col space-y-2 rounded-md p-6 text-slate-400">
         <div className="grid grid-cols-2 gap-4 ">
           <div>
             <p className="font-bold text-slate-200">Email</p>

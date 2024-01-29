@@ -1,6 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { db } from "../routers";
+import { db } from "../../../../lib/routers";
 import { getTaskUrl } from "@/lib/urls";
 import { TaskType } from "@/types/dragon";
 
@@ -30,7 +30,7 @@ export function useDuplicateConfig() {
         classId: botConfig.classId as string,
         taskId: botConfig.id,
         type: botConfig.type as TaskType,
-      })
+      }),
     );
   };
 

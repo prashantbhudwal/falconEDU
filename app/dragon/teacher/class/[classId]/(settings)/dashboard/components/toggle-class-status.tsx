@@ -8,7 +8,7 @@ import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { getTeacherHomeURL } from "@/lib/urls";
-import { db } from "@/app/dragon/teacher/routers";
+import { db } from "@/lib/routers";
 
 export const ToggleClassStatusCard = ({ classId }: { classId: string }) => {
   const router = useRouter();
@@ -49,11 +49,11 @@ export const ToggleClassStatusCard = ({ classId }: { classId: string }) => {
     <Card
       onClick={onCardClick}
       className={cn(
-        "flex items-center gap-5 w-[400px] justify-start pl-10 hover:cursor-pointer hover:text-base-100",
+        "flex w-[400px] items-center justify-start gap-5 pl-10 hover:cursor-pointer hover:text-base-100",
         {
-          "hover:bg-primary bg-primary": !isActive,
+          "bg-primary hover:bg-primary": !isActive,
           "hover:bg-destructive": isActive,
-        }
+        },
       )}
     >
       {isActive ? (

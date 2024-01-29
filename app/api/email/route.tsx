@@ -1,6 +1,6 @@
 import sendgrid from "@sendgrid/mail";
 import { NextResponse } from "next/server";
-import { InviteStudentsEmail } from "../../emails/invite-email";
+import { InviteStudentsEmail } from "../../dragon/teacher/class/[classId]/(settings)/students/invite-email";
 import { render } from "@react-email/render";
 sendgrid.setApiKey(process.env.SENDGRID_API_KEY ?? "");
 
@@ -12,7 +12,7 @@ export async function POST(request: Request) {
       invitedByEmail={data.teacherEmail}
       nameOfClass={data.nameOfClass}
       inviteLink={data.inviteLink}
-    />
+    />,
   );
   try {
     await sendgrid.send({

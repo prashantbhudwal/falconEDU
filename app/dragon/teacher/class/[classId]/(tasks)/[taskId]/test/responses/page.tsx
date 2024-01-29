@@ -7,7 +7,7 @@ export default async function TestResponses({
 }) {
   const { classId, taskId } = params;
   return (
-    <div className="flex flex-col items-center w-full py-4">
+    <div className="flex w-full flex-col items-center py-4">
       <TestAnalysis testBotId={taskId} classId={classId} />
     </div>
   );

@@ -25,7 +25,7 @@ const Paper = React.forwardRef<HTMLDivElement, PaperProps>(
       className={cn(paperVariants({ variant, className }))}
       {...props}
     />
-  )
+  ),
 );
 Paper.displayName = "Paper";
 

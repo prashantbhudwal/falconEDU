@@ -1,6 +1,6 @@
-import { db } from "@/app/dragon/teacher/routers";
 import LessonForm from "./lesson-form";
-import { lessonPreferencesSchema } from "@/app/dragon/schema";
+import { lessonPreferencesSchema } from "@/lib/schema";
+import { getTaskData } from "../get-task-data";
 
 export interface BotPageProps {
   params: {
@@ -9,27 +9,13 @@ export interface BotPageProps {
   };
 }
 
-export default async function BotPage({ params }: BotPageProps) {
+export default async function LessonPage({ params }: BotPageProps) {
   const { classId, taskId } = params;
-  const botData = await db.botConfig.fetchConfigAndPreferences({
-    configId: taskId,
-    type: "lesson",
+  const { preferences, config, grade } = await getTaskData({
+    taskId,
+    taskType: "lesson",
+    schema: lessonPreferencesSchema,
   });
-  const result = lessonPreferencesSchema.safeParse(botData?.preferences);
-
-  const preferences = result.success ? result.data : undefined;
-
-  const config = botData?.config;
-  if (!config) {
-    throw new Error("Bot config not found");
-  }
-  const Class = botData.config?.Class;
-
-  if (!Class) {
-    throw new Error("Class not found");
-  }
-
-  const grade = Class.grade;
 
   return (
     <LessonForm

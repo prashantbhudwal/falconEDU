@@ -20,11 +20,11 @@ export default function Chubbi() {
 
   return (
     <Link
-      className="dropdown-end dropdown-top dropdown fixed bottom-5 right-5"
+      className="dropdown dropdown-end dropdown-top fixed bottom-5 right-5"
       href={"/chubbi"}
     >
       <div className="chat chat-end">
-        <div className="chat-image avatar">
+        <div className="avatar chat-image">
           <div className="w-10 rounded-full">
             <Image
               src={"/chubbi.png"}

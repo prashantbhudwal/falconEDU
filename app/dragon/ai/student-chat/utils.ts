@@ -4,42 +4,14 @@ import type { supportModelType } from "gpt-tokens";
 import { HumanMessage, MessageContent } from "langchain/schema";
 
 import { AIMessage, SystemMessage } from "langchain/schema";
-import { getEngineeredChatBotMessages } from "./prompts/chat-prompts/chatBotMessages";
-import {
-  TestContextByChatId,
-  getEngineeredTestBotMessages,
-} from "./prompts/test-prompts/testBotMessages";
-import { getEngineeredLessonBotMessages } from "./prompts/lesson-prompts/lessonBotMessages";
-import { LessonContextByChatId } from "./prompts/lesson-prompts/queries";
-import { ChatContextByChatId } from "./prompts/chat-prompts/queries";
-import { TaskType } from "@/types";
 
-export function mapMessagesToLangChainBaseMessage(messages: any[]): BaseMessage[] {
+export function mapMessagesToLangChainBaseMessage(
+  messages: any[],
+): BaseMessage[] {
   return messages.map((m: any) =>
-    m.role == "user" ? new HumanMessage(m.content) : new AIMessage(m.content)
+    m.role == "user" ? new HumanMessage(m.content) : new AIMessage(m.content),
   );
 }
-
-export const getEngineeredMessagesByType = async ({
-  type,
-  context,
-}: {
-  type: TaskType;
-  context: any;
-}) => {
-  switch (type) {
-    case "chat":
-      return await getEngineeredChatBotMessages(context as ChatContextByChatId);
-    case "test":
-      return await getEngineeredTestBotMessages(context as TestContextByChatId);
-    case "lesson":
-      return await getEngineeredLessonBotMessages(
-        context as LessonContextByChatId
-      );
-    default:
-      return await getEngineeredChatBotMessages(context);
-  }
-};
 
 export function formatLangchainMessagesForOpenAI(messages: BaseMessage[]) {
   return messages.map((m: BaseMessage) => {
@@ -96,7 +68,7 @@ export function countPromptTokens(array: BaseMessage[], modelName: string) {
 export function filterMessagesByTokenLimit(
   messages: BaseMessage[],
   tokenLimit: number,
-  modelName: string
+  modelName: string,
 ): BaseMessage[] {
   let filteredMessages: BaseMessage[] = [];
   let currentTokens = 0;

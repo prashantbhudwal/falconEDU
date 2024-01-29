@@ -6,9 +6,8 @@ import {
   Options,
   Option,
 } from "../question/question";
-import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import React, { RefObject, useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import {
   Form,
@@ -18,14 +17,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { parsedQuestionsSchema } from "@/app/dragon/schema";
 import { z } from "zod";
 import { TextareaAutosize } from "@/components/ui/textarea-autosize";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
-
-import { db } from "@/app/dragon/teacher/routers";
-import { typeActiveParsedQuestionByBotConfigId } from "@/app/dragon/teacher/routers/parsedQuestionRouter";
+import { db } from "@/lib/routers";
+import { typeActiveParsedQuestionByBotConfigId } from "@/lib/routers/parsedQuestionRouter";
 import { LuCopy, LuTrash } from "react-icons/lu";
 import {
   Tooltip,
@@ -42,9 +39,10 @@ import {
 } from "@/components/ui/select";
 import { questionTypes } from "@/app/dragon/ai/test-checker/tool";
 import { getQuestionTypeName } from "../../../../../../../utils";
-import { UpdatedQuestionType } from "@/app/dragon/types";
+import { parsedQuestionsSchema } from "@/lib/schema";
+import { UpdatedQuestionType } from "@/types";
 
-type QuestionProps = typeActiveParsedQuestionByBotConfigId
+type QuestionProps = typeActiveParsedQuestionByBotConfigId;
 
 type PropType = React.HTMLProps<HTMLDivElement> & {
   question: QuestionProps;
@@ -97,7 +95,7 @@ export const QuestionForm = ({
       // mapping these values because the data is changed during the form creation process when using useFieldArray hook for looping through the array
       formattedData.question = data.question;
       formattedData.correct_answer = data.correct_answer.map(
-        (answer) => answer.value
+        (answer) => answer.value,
       );
       formattedData.options = data.options.map((option) => option.value);
       formattedData.question_type =
@@ -150,7 +148,7 @@ export const QuestionForm = ({
           <Question>
             {/* ---------------------------------- Questions -------------------------------------- */}
             <div className="">
-              <div className="pb-2 w-full flex items-center justify-between text-slate-500">
+              <div className="flex w-full items-center justify-between pb-2 text-slate-500">
                 <FormField
                   control={form.control}
                   name="question_type"
@@ -158,7 +156,7 @@ export const QuestionForm = ({
                     <FormItem>
                       <FormControl>
                         <Select onValueChange={field.onChange} {...field}>
-                          <SelectTrigger className="w-fit ring-0 border-none pl-0 focus:ring-0">
+                          <SelectTrigger className="w-fit border-none pl-0 ring-0 focus:ring-0">
                             <SelectValue placeholder={question.question_type} />
                           </SelectTrigger>
                           <SelectContent>
@@ -183,7 +181,7 @@ export const QuestionForm = ({
                         <button
                           type="button"
                           onClick={archiveQuestionHandler}
-                          className="cursor-pointer rounded-full hover:bg-base-100 hover:shadow-slate-700 hover:shadow-sm h-fit p-2 hover:text-base-content text-slate-500"
+                          className="h-fit cursor-pointer rounded-full p-2 text-slate-500 hover:bg-base-100 hover:text-base-content hover:shadow-sm hover:shadow-slate-700"
                         >
                           <LuTrash />
                         </button>
@@ -199,7 +197,7 @@ export const QuestionForm = ({
                         <button
                           type="button"
                           onClick={createDuplicateHandler}
-                          className="cursor-pointer rounded-full hover:bg-base-100 hover:shadow-slate-700 hover:shadow-sm h-fit p-2 hover:text-base-content text-slate-500"
+                          className="h-fit cursor-pointer rounded-full p-2 text-slate-500 hover:bg-base-100 hover:text-base-content hover:shadow-sm hover:shadow-slate-700"
                         >
                           <LuCopy />
                         </button>
@@ -219,7 +217,7 @@ export const QuestionForm = ({
                     <FormItem>
                       <FormControl>
                         <TextareaAutosize
-                          className="bg-transparent min-h-fit resize-none overflow-y-auto whitespace-pre-line border-none outline-none focus-visible:ring-0 p-0 text-lg w-full"
+                          className="min-h-fit w-full resize-none overflow-y-auto whitespace-pre-line border-none bg-transparent p-0 outline-none focus-visible:ring-0"
                           placeholder={!field.value ? "Add your Question" : ""}
                           {...field}
                         />
@@ -230,9 +228,9 @@ export const QuestionForm = ({
                 />
               </QuestionText>
             </div>
-            <div className="flex flex-col gap-1 items-end">
+            <div className="flex flex-col items-end gap-1">
               {error && (
-                <p className="text-xs whitespace-nowrap font-medium text-red-400">
+                <p className="whitespace-nowrap text-xs font-medium text-red-400">
                   {error}
                 </p>
               )}
@@ -249,11 +247,11 @@ export const QuestionForm = ({
                         render={({ field }) => {
                           return (
                             <>
-                              <div className="pt-1 pb-2">
+                              <div className="pb-2 pt-1">
                                 <FormItem>
                                   <FormControl>
                                     <TextareaAutosize
-                                      className="bg-transparent min-h-fit resize-none overflow-y-auto whitespace-pre-line border-none outline-none focus-visible:ring-0 p-0 text-[16px]"
+                                      className="min-h-fit resize-none overflow-y-auto whitespace-pre-line border-none bg-transparent p-0 text-sm outline-none focus-visible:ring-0"
                                       placeholder={
                                         !option.value
                                           ? `Option ${index + 1}`
@@ -285,11 +283,11 @@ export const QuestionForm = ({
                     render={({ field }) => {
                       return (
                         <>
-                          <div className="pt-1 pb-2">
+                          <div className="pb-2 pt-1">
                             <FormItem>
                               <FormControl>
                                 <TextareaAutosize
-                                  className="bg-transparent min-h-fit resize-none overflow-y-auto whitespace-pre-line border-none outline-none focus-visible:ring-0 p-0"
+                                  className="min-h-fit resize-none overflow-y-auto whitespace-pre-line border-none bg-transparent p-0 outline-none focus-visible:ring-0"
                                   placeholder={!answer.value ? "Answer" : ""}
                                   {...field}
                                 />

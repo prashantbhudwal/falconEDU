@@ -30,8 +30,8 @@ import { ClassSidebarItem } from "./class-sidebar-item";
 import { useSelectedLayoutSegment } from "next/navigation";
 import { MdDashboard } from "react-icons/md";
 import { cn } from "@/lib/utils";
-import { AllConfigsInClass } from "../../routers/botConfigRouter";
-import { ClassesByUserId } from "../../routers/classRouter";
+import { AllConfigsInClass } from "../../../../../lib/routers/botConfigRouter";
+import { ClassesByUserId } from "../../../../../lib/routers/classRouter";
 import { TaskType } from "@/types/dragon";
 
 export function ClassSidebar({
@@ -48,7 +48,7 @@ export function ClassSidebar({
   classesWithConfigs: ClassesByUserId;
 }) {
   return (
-    <nav className="bg-base-200 flex flex-col custom-scrollbar overflow-y-scroll h-full py-4 space-y-1 pl-2 pb-32 w-[240px]">
+    <nav className="custom-scrollbar flex h-full w-[240px] flex-col space-y-1 overflow-y-scroll bg-base-200 py-4 pb-32 pl-2">
       <Header nameOfClass={nameOfClass} classId={classId} />
       <Body configs={configs} classId={classId} userId={userId} />
       <Footer
@@ -102,7 +102,7 @@ const Body = function ({
           : layoutSegment || teacherSidebarConfig[0].layoutSegment
       }
     >
-      <TabsList className="grid grid-cols-2 w-11/12 rounded-md bg-slate-800/60">
+      <TabsList className="grid w-11/12 grid-cols-2 rounded-md bg-slate-800/60">
         {teacherSidebarConfig.map((item) => (
           <TabsTrigger
             value={item.layoutSegment}
@@ -170,26 +170,26 @@ const Header = function ({
   return (
     <Link
       href={getSettingsUrl(classId)}
-      className="flex items-center mb-4 gap-2"
+      className="mb-4 flex items-center gap-2"
     >
-      <DragonHomeBtn className="ring-1 ring-slate-700 rounded-lg" />
+      <DragonHomeBtn className="rounded-lg ring-1 ring-slate-700" />
       <TooltipProvider>
         <Tooltip delayDuration={20}>
           <TooltipTrigger asChild>
             <div
               className={cn(
-                "w-full text-sm text-slate-400 ring-1 ring-slate-700  truncate text-left flex items-center justify-between hover:bg-base-100 hover:text-slate-300 rounded-lg mr-2",
+                "mr-2 flex w-full items-center justify-between  truncate rounded-lg text-left text-sm text-slate-400 ring-1 ring-slate-700 hover:bg-base-100 hover:text-slate-300",
                 {
                   "shadow-sm shadow-accent": isActive,
-                }
+                },
               )}
             >
-              <div className="truncate w-[100] px-2 text-xs">{nameOfClass}</div>
+              <div className="w-[100] truncate px-2 text-xs">{nameOfClass}</div>
 
               <Button
                 variant={"ghost"}
                 size={"icon"}
-                className="rounded-full hover:bg-base-100 hover:text-slate-400 text-slate-600"
+                className="rounded-full text-slate-600 hover:bg-base-100 hover:text-slate-400"
               >
                 <MdDashboard
                   className={cn("text-slate-300", {
@@ -221,7 +221,7 @@ const Footer = function ({
     /* TODO This is a big jugaad. Fix this later using flexbox. Make ths header and footer of the navbar be at the top and bottom using flexbox. */
   }
   return (
-    <div className="flex items-center gap-1 fixed bottom-0 left-0 w-[240px] h-10 bg-slate-800 ">
+    <div className="fixed bottom-0 left-0 flex h-10 w-[240px] items-center gap-1 bg-slate-800 ">
       <ImportModal
         classId={classId}
         userId={userId}

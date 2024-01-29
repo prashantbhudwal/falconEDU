@@ -3,7 +3,7 @@ import { UseFormReturn, FieldValues } from "react-hook-form";
 
 export function useIsFormDirty<T extends FieldValues>(
   form: UseFormReturn<T>,
-  initialValue = false
+  initialValue = false,
 ) {
   const [isDirty, setIsDirty] = useState(initialValue);
 

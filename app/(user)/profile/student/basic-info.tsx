@@ -5,7 +5,7 @@ import { RotateLoader } from "react-spinners";
 import useUserData from "@/hooks/useUserData";
 import EditProfileModal from "./edit/modal";
 import { getFormattedDate } from "@/lib/utils";
-import  { Separator }  from "@/components/ui/separator";
+import { Separator } from "@/components/ui/separator";
 
 export default function BasicInfo() {
   const { user, error, isLoading } = useUserData();
@@ -22,8 +22,8 @@ export default function BasicInfo() {
   }
   return (
     <div className=" w-full bg-slate-900 pb-4 text-slate-200 shadow-sm ">
-      <div className="relative mb-6 flex flex-col w-full gap-3  rounded-sm bg-base-100 py-4">
-        <div className="shrink-0 w-[80%] mx-auto">
+      <div className="relative mb-6 flex w-full flex-col gap-3  rounded-sm bg-base-100 py-4">
+        <div className="mx-auto w-[80%] shrink-0">
           {user?.image ? (
             <Image
               className="rounded-full object-cover"
@@ -42,8 +42,8 @@ export default function BasicInfo() {
             />
           )}
         </div>
-        <div className="flex flex-col gap-2 w-[80%] mx-auto">
-            <h2 className="text-xl">{user?.name}</h2>
+        <div className="mx-auto flex w-[80%] flex-col gap-2">
+          <h2 className="text-xl">{user?.name}</h2>
           <p className="text-base text-slate-300">
             {!user?.teacherProfile?.bio
               ? "Your Headline"
@@ -54,7 +54,10 @@ export default function BasicInfo() {
           <EditProfileModal />
         </div>
       </div>
-      <Section title="Contact" className="rounded-md py-6 w-[80%] mx-auto text-slate-400">
+      <Section
+        title="Contact"
+        className="mx-auto w-[80%] rounded-md py-6 text-slate-400"
+      >
         <div className="">
           <div>
             <p className="font-bold text-slate-200">Email</p>
@@ -62,8 +65,11 @@ export default function BasicInfo() {
           </div>
         </div>
       </Section>
-      <Separator className="bg-slate-400 w-[80%] m-auto"/>
-      <Section title="Subscription" className="rounded-md py-6 w-[80%] mx-auto text-slate-400 mt-5">
+      <Separator className="m-auto w-[80%] bg-slate-400" />
+      <Section
+        title="Subscription"
+        className="mx-auto mt-5 w-[80%] rounded-md py-6 text-slate-400"
+      >
         <div className="flex flex-col gap-4">
           <div>
             <p className="font-bold capitalize text-slate-200">Plan</p>
@@ -87,7 +93,7 @@ export default function BasicInfo() {
           </div>
         </div>
       </Section>
-      <Separator className="bg-slate-400 w-[80%] m-auto"/>
+      <Separator className="m-auto w-[80%] bg-slate-400" />
     </div>
   );
 }

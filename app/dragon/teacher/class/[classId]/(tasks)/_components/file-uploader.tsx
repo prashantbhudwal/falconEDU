@@ -110,13 +110,7 @@ const FileUploader = ({ setParsedDocs, className }: PropTypes) => {
   });
 
   return (
-    <div
-      {...getRootProps()}
-      className={cn(
-        "dropzone absolute bottom-3 right-3 bg-base-300",
-        className
-      )}
-    >
+    <div {...getRootProps()} className={cn("dropzone", className)}>
       <input {...getInputProps()} />
       <motion.div
         onMouseEnter={() => setIsButtonHovered(true)}
@@ -124,16 +118,16 @@ const FileUploader = ({ setParsedDocs, className }: PropTypes) => {
         variants={containerVariant}
         initial="collapsed"
         animate={isButtonHovered ? "expanded" : "collapsed"}
-        className="cursor-pointer w-11 h-11 flex items-center justify-center text-slate-200 border-[3px] border-text-slate-500 rounded-full overflow-hidden"
+        className="border-text-slate-500 flex h-11 w-11 cursor-pointer items-center justify-center overflow-hidden rounded-full border-[3px] text-slate-200"
       >
-        <div className="w-11 h-11 rounded-[28px] flex absolute left-0 items-center">
+        <div className="absolute left-0 flex h-11 w-11 items-center rounded-[28px]">
           <MdCloudUpload className="h-5 w-11" />
         </div>
         <motion.span
           variants={textVariant}
           initial="hide"
           animate={isButtonHovered ? "show" : "hide"}
-          className="text-xs text-slate-400 mr-2 ml-9 whitespace-nowrap"
+          className="ml-9 mr-2 whitespace-nowrap text-xs text-slate-400"
         >
           Upload
         </motion.span>

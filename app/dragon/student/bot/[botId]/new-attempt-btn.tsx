@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { db } from "@/app/dragon/teacher/routers";
+import { db } from "@/lib/routers";
 import { ArrowUpIcon } from "@heroicons/react/24/solid";
 import { cn } from "@/lib/utils";
 
@@ -24,8 +24,8 @@ export const NewAttemptButton = ({
       size={"lg"}
       onClick={createHandler}
       className={cn(
-        "font-semibold flex items-center border border-base-100 gap-2 text-xs rounded-full",
-        className
+        "flex items-center gap-2 rounded-full border border-base-100 text-xs font-semibold",
+        className,
       )}
     >
       <ArrowUpIcon className="w-4" /> Attempt

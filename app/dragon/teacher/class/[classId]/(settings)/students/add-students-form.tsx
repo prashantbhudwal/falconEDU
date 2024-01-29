@@ -22,7 +22,7 @@ import { LuMail } from "react-icons/lu";
 import { useState } from "react";
 import axios from "axios";
 import useUserData from "@/hooks/useUserData";
-import { db } from "@/app/dragon/teacher/routers";
+import { db } from "@/lib/routers";
 import { IoMdAdd } from "react-icons/io";
 import {
   Tooltip,
@@ -62,7 +62,7 @@ export default function AddStudentForm({
   });
 
   const onSubmit = async function (
-    values: z.infer<typeof addStudentFormSchema>
+    values: z.infer<typeof addStudentFormSchema>,
   ) {
     let { email } = values;
     email = email.replace(/^www\./, "");
@@ -106,7 +106,7 @@ export default function AddStudentForm({
       };
       const emailResponse = await axios.post(
         "/api/email",
-        JSON.stringify(data)
+        JSON.stringify(data),
       );
       if (emailResponse.status === 200) {
         setOpenDialog(false);
@@ -144,7 +144,7 @@ export default function AddStudentForm({
       };
       const emailResponse = await axios.post(
         "/api/email",
-        JSON.stringify(data)
+        JSON.stringify(data),
       );
       if (emailResponse.status === 200) {
         setOpenDialog(false);
@@ -173,7 +173,7 @@ export default function AddStudentForm({
       <TooltipProvider delayDuration={100}>
         <Tooltip>
           <TooltipTrigger onClick={() => setOpenDialog(true)}>
-            <div className="w-8 h-8 flex justify-center items-center rounded-full border-2 border-base-100 hover:border-4 transition-all box-border">
+            <div className="box-border flex h-8 w-8 items-center justify-center rounded-full border-2 border-base-100 transition-all hover:border-4">
               <IoMdAdd className="text-lg" />
             </div>
           </TooltipTrigger>
@@ -191,7 +191,7 @@ export default function AddStudentForm({
                   onSubmit={form.handleSubmit(onSubmit)}
                   className="flex flex-col gap-5"
                 >
-                  <h3 className="text-center font-bold text-2xl">
+                  <h3 className="text-center text-2xl font-bold">
                     Add or Invite Students
                   </h3>
                   <FormField
@@ -203,7 +203,7 @@ export default function AddStudentForm({
                           <Input
                             type="email"
                             placeholder="Enter student email."
-                            className="min-w-72 w-full"
+                            className="w-full min-w-72"
                             {...field}
                           />
                         </FormControl>
@@ -215,7 +215,7 @@ export default function AddStudentForm({
                     Add to class
                   </Button>
                   <p className="text-xs">
-                    <span className="text-slate-200 font-semibold">Note:</span>{" "}
+                    <span className="font-semibold text-slate-200">Note:</span>{" "}
                     Once published, students can see all tasks in the class.
                   </p>
                 </form>
@@ -225,16 +225,16 @@ export default function AddStudentForm({
                 <p className="text-sm">
                   This email is not registered with FalconAI
                 </p>
-                <DialogTitle className="text-2xl pt-5 pb-2 text-slate-100">
+                <DialogTitle className="pb-2 pt-5 text-2xl text-slate-100">
                   Invite this student to FalconAI
                 </DialogTitle>
-                <div className="flex gap-5 justify-center">
+                <div className="flex justify-center gap-5">
                   {alreadyInvited && (
                     <Button
                       variant={"secondary"}
                       onClick={cancelModalHandler}
                       disabled={sendingEmail}
-                      className="w-fit disabled:opacity-40 disabled:cursor-not-allowed"
+                      className="w-fit disabled:cursor-not-allowed disabled:opacity-40"
                     >
                       Cancel
                     </Button>
@@ -244,7 +244,7 @@ export default function AddStudentForm({
                       {sendingEmail ? (
                         <span className="loading loading-infinity loading-md"></span>
                       ) : (
-                        <span className="flex gap-2 items-center tracking-wider">
+                        <span className="flex items-center gap-2 tracking-wider">
                           <LuMail />
                           Invite
                         </span>
@@ -255,7 +255,7 @@ export default function AddStudentForm({
                       {sendingEmail ? (
                         <span className="loading loading-infinity loading-md"></span>
                       ) : (
-                        <span className="flex gap-2 items-center tracking-wider">
+                        <span className="flex items-center gap-2 tracking-wider">
                           <LuMail />
                           Invite Again
                         </span>
@@ -264,9 +264,9 @@ export default function AddStudentForm({
                   )}
                 </div>
                 {emailError && (
-                  <p className="text-error text-xs pt-1">{emailError}</p>
+                  <p className="pt-1 text-xs text-error">{emailError}</p>
                 )}
-                <DialogDescription className="text-xs text-center pt-5">
+                <DialogDescription className="pt-5 text-center text-xs">
                   We&apos;ll send an email invitation to join your class, and
                   your email address will be included in the message so that the
                   student is aware of who extended the invitation.

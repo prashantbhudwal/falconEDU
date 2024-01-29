@@ -1,4 +1,5 @@
 import { TaskType } from "@/types/dragon";
+import { el } from "date-fns/locale";
 
 // Dragon urls
 const baseUrl = `/dragon`;
@@ -35,6 +36,8 @@ export const getTaskUrl = ({
     return `${baseUrl}/teacher/class/${classId}/${taskId}/test`;
   } else if (type === "lesson") {
     return `${baseUrl}/teacher/class/${classId}/${taskId}/lesson`;
+  } else if (type === "ai-test") {
+    return `${baseUrl}/teacher/class/${classId}/${taskId}/ai-test`;
   } else {
     return `${baseUrl}/teacher/class/${classId}/${taskId}/test`;
   }
@@ -51,7 +54,14 @@ export const getReportUrl = ({
   attemptId: string;
   type: TaskType;
 }) => {
-  const route = type === "test" ? "test" : type === "lesson" ? "lesson" : "bot";
+  const route =
+    type === "test"
+      ? "test"
+      : type === "lesson"
+        ? "lesson"
+        : type === "ai-test"
+          ? "ai-test"
+          : "bot";
   return `${baseUrl}/teacher/class/${classId}/${testId}/${route}/responses/individual-response/${attemptId}`;
 };
 
@@ -68,7 +78,14 @@ export const getReportUrlWithAttempts = ({
   type: TaskType;
   attemptId: string;
 }) => {
-  const route = type === "test" ? "test" : type === "lesson" ? "lesson" : "bot";
+  const route =
+    type === "test"
+      ? "test"
+      : type === "lesson"
+        ? "lesson"
+        : type === "ai-test"
+          ? "ai-test"
+          : "bot";
   return `${baseUrl}/teacher/class/${classId}/${testId}/${route}/responses/individual-response/${studentBotId}/${attemptId}`;
 };
 
@@ -87,6 +104,8 @@ export const getTaskUrlByType = ({
     return `${baseUrl}/teacher/class/${classId}/${configId}/test`;
   } else if (type === "lesson") {
     return `${baseUrl}/teacher/class/${classId}/${configId}/lesson`;
+  } else if (type === "ai-test") {
+    return `${baseUrl}/teacher/class/${classId}/${configId}/ai-test`;
   } else {
     return `${baseUrl}/teacher/class/${classId}/${configId}/test`;
   }
@@ -107,6 +126,8 @@ export const getTaskResponsesUrlByType = ({
     return `${baseUrl}/teacher/class/${classId}/${configId}/test/responses`;
   } else if (type === "lesson") {
     return `${baseUrl}/teacher/class/${classId}/${configId}/lesson/responses`;
+  } else if (type === "ai-test") {
+    return `${baseUrl}/teacher/class/${classId}/${configId}/ai-test/responses`;
   } else {
     return `${baseUrl}/teacher/class/${classId}/${configId}/test/responses`;
   }
@@ -139,7 +160,16 @@ export const getParentReportUrlByTaskId = ({ taskId }: { taskId: string }) => {
   return `${baseUrl}/parent/report/${taskId}`;
 };
 
-
 //Org Admin urls
 export const orgAdminHomeURL = `${baseUrl}/org-admin/`;
 export const orgAdminProfileURL = `${baseUrl}/org-admin/profile`;
+export const orgAdminOrgSettingsURL = `${baseUrl}/org-admin/org-settings`;
+
+export const getManageTeachersURL = (orgId: string) =>
+  `${baseUrl}/org-admin/manage/${orgId}/teachers`;
+export const getManageStudentsURL = (orgId: string) =>
+  `${baseUrl}/org-admin/manage/${orgId}/students`;
+export const getManageAdminsURL = (orgId: string) =>
+  `${baseUrl}/org-admin/manage/${orgId}/admins`;
+export const getManageOrgURL = (orgId: string) =>
+  `${baseUrl}/org-admin/manage/${orgId}/org`;

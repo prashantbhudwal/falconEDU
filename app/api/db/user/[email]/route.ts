@@ -10,7 +10,7 @@ export async function GET(
     params,
   }: {
     params: { email: string };
-  }
+  },
 ) {
   const session = await getServerSession(authOptions);
   if (!session) {
@@ -27,7 +27,7 @@ export async function POST(
     params,
   }: {
     params: { email: string };
-  }
+  },
 ) {
   const session = await getServerSession(authOptions);
   if (!session) {
@@ -64,7 +64,7 @@ export async function POST(
       {
         error: `Unable to update teacher's profile: ${error}`,
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

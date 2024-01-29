@@ -19,9 +19,9 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { IoClose } from "react-icons/io5";
-import { typeActiveParsedQuestionByBotConfigId } from "@/app/dragon/teacher/routers/parsedQuestionRouter";
+import { typeActiveParsedQuestionByBotConfigId } from "@/lib/routers/parsedQuestionRouter";
 import { Button } from "@/components/ui/button";
-import { db } from "@/app/dragon/teacher/routers";
+import { db } from "@/lib/routers";
 import { useState } from "react";
 import {
   Tooltip,
@@ -60,18 +60,18 @@ const Question = React.forwardRef<HTMLDivElement, QuestionProps>(
         ref={ref}
         className={cn(
           className,
-          "py-2 px-4 text-slate-300",
+          "px-4 py-2 text-slate-300",
 
           {
             "ring-1 ring-primary": isCorrect,
             "ring-1 ring-destructive": isCorrect !== undefined && !isCorrect,
-          }
+          },
         )}
       >
         {children}
       </Card>
     );
-  }
+  },
 );
 Question.displayName = "Question";
 
@@ -80,14 +80,14 @@ const QuestionText = React.forwardRef<HTMLHeadingElement, QuestionTextProps>(
     <h2
       ref={ref}
       className={cn(
-        "leading-none tracking-tight flex flex-row items-baseline",
-        className
+        "flex flex-row items-baseline leading-none tracking-tight",
+        className,
       )}
     >
       {questionNumber && <span className="mr-1">{questionNumber}.</span>}
       <div className="w-full">{children}</div>
     </h2>
-  )
+  ),
 );
 QuestionText.displayName = "QuestionText";
 
@@ -95,11 +95,11 @@ const Options = React.forwardRef<HTMLDivElement, CommonProps>(
   ({ children, className }, ref) => (
     <div
       ref={ref}
-      className={cn("flex flex-col space-y-2 pl-2 my-3", className)}
+      className={cn("my-3 flex flex-col space-y-2 pl-2", className)}
     >
       {children}
     </div>
-  )
+  ),
 );
 Options.displayName = "Options";
 
@@ -107,11 +107,11 @@ const Option = React.forwardRef<HTMLDivElement, CommonProps>(
   ({ children, className }, ref) => (
     <div
       ref={ref}
-      className={cn("border rounded-md p-1 pl-2 text-xs", className)}
+      className={cn("rounded-md border p-1 pl-2 text-xs", className)}
     >
       {children}
     </div>
-  )
+  ),
 );
 Option.displayName = "Option";
 
@@ -155,7 +155,7 @@ const Answer = React.forwardRef<HTMLDivElement, AccordionProps>(
             className={cn(
               AccordionHeaderStyle,
               accordianTitleStyles,
-              "hover:no-underline cursor-pointer"
+              "cursor-pointer hover:no-underline",
             )}
           >
             <div className="flex items-center gap-3">
@@ -164,32 +164,32 @@ const Answer = React.forwardRef<HTMLDivElement, AccordionProps>(
                 <TooltipProvider delayDuration={100}>
                   <Tooltip>
                     <TooltipTrigger className="group">
-                      <div className="flex gap-4 items-center">
-                        <div className="text-warning flex gap-2 text-sm items-center hover:underline">
+                      <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-2 text-xs text-warning hover:underline">
                           <BsFillInfoCircleFill className="text-xs" /> Possibly
                           incorrect.
                         </div>
                         <button
                           onClick={removeWarningHandler}
-                          className="w-fit group-hover:block rounded-full hover:text-slate-100 text-sm hidden text-slate-500"
+                          className="hidden w-fit rounded-full text-sm text-slate-500 hover:text-slate-100 group-hover:block"
                         >
                           <IoClose />
                         </button>
                       </div>
                     </TooltipTrigger>
                     {error && <p className="text-xs text-error">{error}</p>}
-                    <TooltipContent className="bg-slate-700 text-slate-100 text-start max-w-[400px] cursor-default">
+                    <TooltipContent className="max-w-[400px] cursor-default bg-slate-700 text-start text-slate-100">
                       <div className="">
                         <h3 className="text-lg font-medium text-slate-300">
                           Answer Verification
                         </h3>
-                        <p className="text-xs pt-3 pb-1">Provided Answer:</p>
-                        <div className="flex flex-col gap-2 px-3 py-2 border border-slate-500 rounded-lg">
+                        <p className="pb-1 pt-3 text-xs">Provided Answer:</p>
+                        <div className="flex flex-col gap-2 rounded-lg border border-slate-500 px-3 py-2">
                           {question.correct_answer.map((answer, index) => {
                             return <p key={index}>{answer}</p>;
                           })}
                         </div>
-                        <p className="text-slate-100 text-sm py-3">
+                        <p className="py-3 text-sm text-slate-100">
                           {question.isPossiblyWrongDesc}
                         </p>
                       </div>
@@ -205,7 +205,7 @@ const Answer = React.forwardRef<HTMLDivElement, AccordionProps>(
         </AccordionItem>
       </Accordion>
     );
-  }
+  },
 );
 Answer.displayName = "Answer";
 
@@ -230,7 +230,7 @@ const StudentResponse = React.forwardRef<HTMLDivElement, AccordionProps>(
         </AccordionContent>
       </AccordionItem>
     </Accordion>
-  )
+  ),
 );
 
 StudentResponse.displayName = "StudentResponse";
@@ -255,7 +255,7 @@ const Hint = React.forwardRef<HTMLDivElement, AccordionProps>(
         </AccordionContent>
       </AccordionItem>
     </Accordion>
-  )
+  ),
 );
 
 Hint.displayName = "Hint";

@@ -54,7 +54,7 @@ export function ChatMessageActions({
         const response = await axios.post(
           "/dragon/ai/speak",
           { text: message.content },
-          { responseType: "blob" }
+          { responseType: "blob" },
         );
         const audioBlob = new Blob([response.data], { type: "audio/mpeg" });
         const audioUrl = URL.createObjectURL(audioBlob);
@@ -84,7 +84,7 @@ export function ChatMessageActions({
   const renderButton = useMemo(() => {
     if (isLoading) {
       return (
-        <div className="p-2  w-9 h-9 rounded-md">
+        <div className="h-9  w-9 rounded-md p-2">
           <BounceLoader size={20} color="#94a3b8" />
         </div>
       );
@@ -100,7 +100,7 @@ export function ChatMessageActions({
             <FaPause className="h-4 w-4" />
             <span className="sr-only">Pause</span>
           </Button>
-          <div className="p-2  w-9 h-9 rounded-md flex justify-center items-center">
+          <div className="flex  h-9 w-9 items-center justify-center rounded-md p-2">
             <ScaleLoader
               className="px-2"
               height={10}
@@ -128,14 +128,14 @@ export function ChatMessageActions({
   return (
     <div
       className={cn(
-        "flex items-center justify-start transition-opacity group-hover:opacity-100 md:absolute md:right-0 md:translate-x-full md:-top-3 ",
+        "flex items-center justify-start transition-opacity group-hover:opacity-100 md:absolute md:-top-3 md:right-0 md:translate-x-full ",
         className,
         {
           "opacity-0": !isLastMessage && !isLoading && !isPlaying,
         },
         {
           "opacity-1": message.role !== "user",
-        }
+        },
       )}
       {...props}
     >

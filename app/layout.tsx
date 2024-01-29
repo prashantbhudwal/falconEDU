@@ -2,7 +2,6 @@ import "./globals.css";
 import { Analytics } from "@vercel/analytics/react";
 import Providers from "../components/providers";
 import { Inter } from "next/font/google";
-import Chubbi from "../components/chubbi";
 import TRPCProvider from "./_trpc/provider";
 import { headers } from "next/headers";
 import { Toaster } from "@/components/ui/sonner";
@@ -36,11 +35,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={inter.className}>
-      <body className="flex min-h-screen flex-col bg-slate-900 text-slate-400 custom-scrollbar overflow-hidden">
+      <body className="custom-scrollbar flex min-h-screen flex-col overflow-hidden bg-slate-900 text-slate-400">
         <Providers>
           <main className="flex grow flex-col items-center">
             <TRPCProvider headers={headers()}>{children}</TRPCProvider>
-            <Chubbi />
           </main>
           <Toaster />
         </Providers>

@@ -22,7 +22,7 @@ import {
   DialogTrigger,
   DialogOverlay,
 } from "@/components/ui/dialog";
-import { ClassesByUserId } from "../../../../routers/classRouter";
+import { ClassesByUserId } from "../../../../../../../lib/routers/classRouter";
 import { useState } from "react";
 import { TaskType } from "@/types/dragon";
 import { getTaskProperties } from "@/app/dragon/teacher/utils";
@@ -84,12 +84,12 @@ export function ImportModal({
           onClick={() => setIsOpen(true)}
         >
           <div>Import</div>
-          <ArrowLeftOnRectangleIcon className="w-5 h-5" />
+          <ArrowLeftOnRectangleIcon className="h-5 w-5" />
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="text-2xl font-medium pb-5">
+          <DialogTitle className="pb-5 text-2xl font-medium">
             Import Tasks
           </DialogTitle>
         </DialogHeader>

@@ -2,5 +2,5 @@
   "typescript.tsdk": "node_modules/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "conventionalCommits.scopes": ["Commit Messages"],
-  "cSpell.words": ["dall", "sendgrid"]
+  "cSpell.words": ["Chrono", "dall", "endent", "Pincode", "sendgrid"]
 }

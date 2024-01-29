@@ -46,7 +46,7 @@ function ProfileEditForm({ closeModal }: { closeModal: () => void }) {
     >
       <button
         onClick={closeModal}
-        className="btn btn-circle btn-neutral btn-ghost btn-sm absolute right-2 top-2 text-lg text-emerald-500"
+        className="btn btn-circle btn-ghost btn-neutral btn-sm absolute right-2 top-2 text-lg text-emerald-500"
       >
         ✕
       </button>

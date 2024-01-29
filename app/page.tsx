@@ -48,8 +48,8 @@ const LandingPage = () => {
   }, []);
 
   return (
-    <div className="flex flex-col h-screen">
-      <div className="flex-grow flex flex-col justify-center items-center gap-4">
+    <div className="flex h-screen flex-col">
+      <div className="flex flex-grow flex-col items-center justify-center gap-4">
         <Image
           src="/chubbi.png"
           alt="Falcon AI Logo"
@@ -73,7 +73,7 @@ const LandingPage = () => {
       <div className="p-4 text-right">
         <Link
           href={"https://falconai.in/#terms-and-policies"}
-          className="underline text-sm text-slate-500"
+          className="text-sm text-slate-500 underline"
         >
           Terms of Service & Privacy Policy
         </Link>

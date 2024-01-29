@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/tooltip";
 import { InformationCircleIcon } from "@heroicons/react/24/solid";
 import { getProgressBarColor } from "../../../../../../../utils";
-import { typeActiveParsedQuestionByBotConfigId } from "@/app/dragon/teacher/routers/parsedQuestionRouter";
+import { typeActiveParsedQuestionByBotConfigId } from "@/lib/routers/parsedQuestionRouter";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 export const SummaryStatTable = ({
@@ -46,11 +46,11 @@ export const SummaryStatTable = ({
         <TableBody>
           {testQuestions.map(async (question: any, i: number) => {
             const attemptedQuestions = await getTotalQuestion(
-              question.id as string
+              question.id as string,
             );
 
             const correctQuestions = attemptedQuestions?.filter(
-              (ques) => ques.isCorrect
+              (ques) => ques.isCorrect,
             );
 
             let correctQuestionsPercentage = 20;
@@ -61,14 +61,14 @@ export const SummaryStatTable = ({
             }
 
             const progressBarColor = getProgressBarColor(
-              correctQuestionsPercentage
+              correctQuestionsPercentage,
             );
 
             return (
               <TableRow key={i} className="hover:bg-muted/0">
-                <TableCell className="font-medium text-left">{i + 1}</TableCell>
+                <TableCell className="text-left font-medium">{i + 1}</TableCell>
                 <TableCell>
-                  <div className="flex gap-5 items-center">
+                  <div className="flex items-center gap-5">
                     {correctQuestionsPercentage.toFixed(1)}%
                     <Progress
                       value={correctQuestionsPercentage}
@@ -89,14 +89,14 @@ export const Header = () => (
   <TableHeader>
     <TableRow className="hover:bg-muted/0">
       <TableHead className="w-[100px]">Q.No.</TableHead>
-      <TableHead className="text-right flex gap-1 items-center justify-end">
+      <TableHead className="flex items-center justify-end gap-1 text-right">
         <TooltipProvider>
           <Tooltip delayDuration={200}>
             <TooltipTrigger>
-              <InformationCircleIcon className="w-4 h-4" />
+              <InformationCircleIcon className="h-4 w-4" />
             </TooltipTrigger>
-            <TooltipContent className="bg-base-300 max-w-[200px]">
-              <p className="text-[10px] text-white text-center">
+            <TooltipContent className="max-w-[200px] bg-base-300">
+              <p className="text-center text-[10px] text-white">
                 What percentage of students who attempted the test have gotten
                 this right?
               </p>

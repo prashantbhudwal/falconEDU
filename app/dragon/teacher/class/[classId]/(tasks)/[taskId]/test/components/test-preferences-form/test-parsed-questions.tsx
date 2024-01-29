@@ -2,15 +2,13 @@
 import {
   typeActiveParsedQuestionByBotConfigId,
   typeArchivedParsedQuestionByBotConfigId,
-} from "@/app/dragon/teacher/routers/parsedQuestionRouter";
+} from "@/lib/routers/parsedQuestionRouter";
 import { QuestionForm } from "./question-form";
-import { Button } from "@/components/ui/button";
 import React, { useEffect, useRef, useState } from "react";
-import { parsedQuestionsSchema } from "@/app/dragon/schema";
 import { AddQuestionForm } from "./add-question-form";
 import { nanoid } from "nanoid";
 import { Actions } from "./actions";
-import { ZodType, z } from "zod";
+import { z } from "zod";
 import {
   Accordion,
   AccordionContent,
@@ -18,6 +16,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { ArchivedQuestions } from "./archived-questions";
+import { parsedQuestionsSchema } from "@/lib/schema";
 
 export function TestParsedQuestion({
   activeParsedQuestions,
@@ -126,7 +125,7 @@ export function TestParsedQuestion({
   // -------------------------------- deleting questions from added question list ---------------------------------------
   const deleteAddQuestion = ({ id }: { id: string }) => {
     const filteredQuestions = addedQuestions.filter(
-      (question) => question.id !== id
+      (question) => question.id !== id,
     );
     setAddedQuestions(filteredQuestions);
   };
@@ -164,7 +163,7 @@ export function TestParsedQuestion({
 
   return (
     <>
-      <div className="relative w-11/12 mx-auto">
+      <div className="relative mx-auto w-11/12">
         <div ref={containerRef} className="flex flex-col space-y-3">
           {activeParsedQuestions &&
             activeParsedQuestions.length > 0 &&
@@ -212,11 +211,11 @@ export function TestParsedQuestion({
       <Accordion
         type="single"
         collapsible
-        className="w-11/12 mx-auto my-10 bg-slate-900/70 text-slate-500"
+        className="mx-auto my-10 w-11/12 bg-slate-900/70 text-slate-500"
       >
-        <div className="w-11/12 mx-auto">
+        <div className="mx-auto w-11/12">
           <AccordionItem value="item-1" className="border-none">
-            <AccordionTrigger className="text-lg text-slate-400">
+            <AccordionTrigger className="text-slate-400">
               Deleted Questions
             </AccordionTrigger>
             <AccordionContent>

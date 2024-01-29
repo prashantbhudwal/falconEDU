@@ -5,7 +5,6 @@ import { TextareaWithCounter as Textarea } from "@/components/ui/textarea-counte
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { teacherPreferencesSchema } from "../../../schema";
 import { updateTeacherPreferences } from "../../mutations";
 import { FiThumbsDown } from "react-icons/fi";
 import { FiThumbsUp } from "react-icons/fi";
@@ -22,8 +21,8 @@ import {
 } from "@/components/ui/form";
 import { useState } from "react";
 import { Paper } from "@/components/ui/paper";
-import { LIMITS_teacherPreferencesSchema } from "../../../schema";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
+import { LIMITS_teacherPreferencesSchema, teacherPreferencesSchema } from "@/lib/schema";
 
 const defaultValues: z.infer<typeof teacherPreferencesSchema> = {
   personalInformation: "",
@@ -126,14 +125,14 @@ export default function TeacherPreferencesForm({
     <Paper variant="gray" className="my-8 bg-base-200">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="flex justify-between p-5 rounded-lg ">
+          <div className="flex justify-between rounded-lg p-5 ">
             <div className=" flex flex-col gap-2">
-              <h2 className="md:text-3xl text-slate-200 font-bold tracking-wide">
+              <h2 className="font-bold tracking-wide text-slate-200 md:text-3xl">
                 My Avatar
               </h2>
 
               <p
-                className={` text-base max-w-lg hover:transition-all duration-300 ${
+                className={` max-w-lg text-base duration-300 hover:transition-all ${
                   onHover ? "text-slate-400" : "text-slate-400"
                 } `}
               >
@@ -154,12 +153,12 @@ export default function TeacherPreferencesForm({
               </Button>
               <div className="flex flex-col space-y-2">
                 {isDirty && (
-                  <div className="text-sm font-semibold text-slate-500  mt-2 whitespace-nowrap ">
+                  <div className="mt-2 whitespace-nowrap text-sm  font-semibold text-slate-500 ">
                     Unsaved changes
                   </div>
                 )}
                 {Object.keys(form.formState.errors).length > 0 && (
-                  <div className="text-destructive font-semibold my-2 text-sm">
+                  <div className="my-2 text-sm font-semibold text-destructive">
                     Check all fields
                   </div>
                 )}
@@ -175,7 +174,7 @@ export default function TeacherPreferencesForm({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel
-                    className={`mb-5 flex gap-2 items-center font-bold ${
+                    className={`mb-5 flex items-center gap-2 font-bold ${
                       inputFocus === item.name ? "text-white" : ""
                     }`}
                   >
@@ -185,7 +184,7 @@ export default function TeacherPreferencesForm({
                   <FormControl className="tracking-wider">
                     <Textarea
                       placeholder={item.placeholder}
-                      className="resize-none  placeholder:text-xs font-semibold min-h-[6rem]"
+                      className="min-h-[6rem]  resize-none font-semibold placeholder:text-xs"
                       {...field}
                       onFocus={() => setInputFocus(item.name)}
                       onBlur={() => setInputFocus("")}

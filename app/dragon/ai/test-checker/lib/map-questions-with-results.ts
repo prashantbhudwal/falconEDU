@@ -6,10 +6,10 @@ import {
   type SingleTestResultWithID,
 } from "../tool";
 import { parsedQuestions } from "@prisma/client";
-import { UpdatedQuestionType } from "@/app/dragon/types";
+import { UpdatedQuestionType } from "@/types";
 
 const getDummyAnswer = function (
-  testQuestion: parsedQuestions
+  testQuestion: parsedQuestions,
 ): SingleTestResultWithID {
   const {
     question_number,
@@ -53,7 +53,7 @@ export const mapQuestionsWithResults = function ({
   const resultsWithQuestionID =
     testQuestions.reduce<TestResultObjectWithIdArray>((acc, question) => {
       const correspondingResult = results.results.find(
-        (result) => result.question_number === question.question_number
+        (result) => result.question_number === question.question_number,
       );
       if (correspondingResult) {
         acc.push({ ...correspondingResult, id: question.id });

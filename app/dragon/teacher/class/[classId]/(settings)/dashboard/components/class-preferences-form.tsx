@@ -29,7 +29,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
-import { db } from "@/app/dragon/teacher/routers";
+import { db } from "@/lib/routers";
 
 type GradeOption = {
   label: string;
@@ -93,7 +93,7 @@ export function ClassPreferencesForm({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-8 max-w-xl"
+        className="max-w-xl space-y-8"
       >
         <FormField
           control={form.control}
@@ -146,7 +146,7 @@ export function ClassPreferencesForm({
                       onChange={(e) => {
                         // Update the form state to null if the input is empty, otherwise use the input value
                         field.onChange(
-                          e.target.value === "" ? null : e.target.value
+                          e.target.value === "" ? null : e.target.value,
                         );
                       }}
                     />

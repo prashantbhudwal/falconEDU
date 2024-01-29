@@ -21,24 +21,24 @@ export default async function PaymentsTable() {
     return null;
   }
 
-
   return (
-    <div className="w-full mb-96 mt-5">
-      <h1 className="text-2xl text-bold mb-3 mx-auto w-fit">Payment History</h1>
-      <div className="flex flex-col px-6 w-full gap-3">
-          {payments.map((payment, index) => (
-            <div key={index} className="flex flex-row justify-between items-center w-full bg-base-100 rounded-2xl p-3">
-              <div className="flex flex-col gap-2">
-                <p className="capitalize">{payment.paymentMethod}</p>
-                <p>
-                  {getFormattedDate(payment.paymentDate.toLocaleDateString())}
-                </p>
-              </div>
-                <p>
-                  {payment.amount}
-                </p>
+    <div className="mb-96 mt-5 w-full">
+      <h1 className="text-bold mx-auto mb-3 w-fit text-2xl">Payment History</h1>
+      <div className="flex w-full flex-col gap-3 px-6">
+        {payments.map((payment, index) => (
+          <div
+            key={index}
+            className="flex w-full flex-row items-center justify-between rounded-2xl bg-base-100 p-3"
+          >
+            <div className="flex flex-col gap-2">
+              <p className="capitalize">{payment.paymentMethod}</p>
+              <p>
+                {getFormattedDate(payment.paymentDate.toLocaleDateString())}
+              </p>
             </div>
-          ))}
+            <p>{payment.amount}</p>
+          </div>
+        ))}
       </div>
     </div>
   );

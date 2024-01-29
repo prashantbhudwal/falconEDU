@@ -19,7 +19,7 @@ export default function ShadThemePreview() {
   ];
 
   return (
-    <Card className="w-full p-4 flex flex-col  gap-3">
+    <Card className="flex w-full flex-col gap-3  p-4">
       <h1 className="text-3xl">Theme</h1>
       {themeColors.map((color, index) => (
         <Card key={index}>

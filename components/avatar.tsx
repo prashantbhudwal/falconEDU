@@ -23,7 +23,7 @@ export default function UserAvatar() {
 
   if (isLoading) {
     return (
-      <Avatar className="w-5 h-5">
+      <Avatar className="h-5 w-5">
         <AvatarImage src="/chubbi.png" />
       </Avatar>
     );
@@ -32,7 +32,7 @@ export default function UserAvatar() {
   return (
     <>
       {user?.image ? (
-        <Avatar className="w-5 h-5">
+        <Avatar className="h-5 w-5">
           <AvatarImage src={user.image} />
         </Avatar>
       ) : (

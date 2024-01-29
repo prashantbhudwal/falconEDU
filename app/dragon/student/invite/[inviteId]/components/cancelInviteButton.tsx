@@ -1,5 +1,5 @@
 "use client";
-import { db } from "@/app/dragon/teacher/routers";
+import { db } from "@/lib/routers";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -19,7 +19,7 @@ export const CancelInviteButton = ({ inviteId }: { inviteId: string }) => {
   };
   return (
     <Button
-      className="w-fit disabled:opacity-40 min-w-[150px] disabled:cursor-not-allowed border border-slate-700 hover:bg-error"
+      className="w-fit min-w-[150px] border border-slate-700 hover:bg-error disabled:cursor-not-allowed disabled:opacity-40"
       disabled={loading}
       onClick={joinClassHandler}
       variant={"ghost"}

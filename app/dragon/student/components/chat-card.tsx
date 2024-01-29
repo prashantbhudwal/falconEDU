@@ -1,10 +1,9 @@
-import { getFormattedDate } from "../../teacher/utils";
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Avvvatars from "avvvatars-react";
 import { cn, formatDateWithTimeZone } from "@/lib/utils";
 const testPriorities = ["HIGH", "MEDIUM", "LOW"] as const;
-import { type BotsByTeacherAndStudentID } from "../../teacher/routers/botRouter";
+import { type BotsByTeacherAndStudentID } from "../../../../lib/routers/botRouter";
 import { getChatsByBotId, getDefaultChatReadStatus } from "../queries";
 import { getTaskProperties } from "../../teacher/utils";
 import { TaskType } from "@/types/dragon";
@@ -52,7 +51,7 @@ export async function TaskCard({
   }
   const defaultChatUrl = getStudentBotChatURL(
     defaultChat.bot.id,
-    defaultChat.id
+    defaultChat.id,
   );
   const defaultChatSubmitted = defaultChat.isSubmitted;
 
@@ -79,10 +78,10 @@ export async function TaskCard({
     <Link href={url} key={bot.id}>
       <Card
         className={cn(
-          "relative flex flex-row max-w-sm border-none bg-base-300",
+          "relative flex max-w-sm flex-row border-none bg-base-300",
           {
             grayscale: !isActive,
-          }
+          },
         )}
       >
         <div
@@ -96,9 +95,9 @@ export async function TaskCard({
             </div>
           )}
         </div> */}
-        <div className="flex flex-row space-x-5 px-4 py-5 w-full">
+        <div className="flex w-full flex-row space-x-5 px-4 py-5">
           <div
-            className={cn("pl-2 flex flex-col items-center gap-1", {
+            className={cn("flex flex-col items-center gap-1 pl-2", {
               "text-accent": !isRead,
             })}
           >
@@ -110,24 +109,24 @@ export async function TaskCard({
                 )}
               </AvatarFallback>
             </Avatar>
-            <div className="text-xs text-slate-500 lowercase">
-              {taskProperties.formattedType}
+            <div className="text-[10px] lowercase text-slate-500">
+              {taskProperties.formattedTypeStudent}
             </div>
           </div>
-          <div className="flex flex-col space-y-2 items-start w-full">
-            <div className="flex flex-row justify-between w-full">
-              <h1 className="capitalize text-sm">
+          <div className="flex w-full flex-col items-start space-y-2">
+            <div className="flex w-full flex-row justify-between">
+              <h1 className="text-sm capitalize">
                 {title.toLocaleLowerCase()}
               </h1>
               {canReattempt && (
-                <div className="flex space-x-1 text-xs text-slate-300 items-center">
+                <div className="flex items-center space-x-1 text-xs text-slate-300">
                   <PuzzlePieceIcon className="w-[14px]" />
                   <div className="">{attemptCount}</div>
                 </div>
               )}
             </div>
-            <div className="flex flex-row justify-between w-full">
-              <div className=" text-slate-500 text-xs flex space-x-2">
+            <div className="flex w-full flex-row justify-between">
+              <div className=" flex space-x-2 text-xs text-slate-500">
                 <div>
                   {defaultChatSubmitted && !canReattempt ? (
                     <div className="text-primary">

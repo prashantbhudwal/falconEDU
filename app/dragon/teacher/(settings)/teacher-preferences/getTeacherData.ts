@@ -1,7 +1,7 @@
 "use server";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-import { teacherPreferencesSchema } from "@/app/dragon/schema";
 import { getTeacherId } from "@/app/dragon/teacher/queries";
+import { teacherPreferencesSchema } from "@/lib/schema";
 import prisma from "@/prisma";
 import { getServerSession } from "next-auth";
 import { cache } from "react";

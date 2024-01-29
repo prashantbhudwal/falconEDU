@@ -3,7 +3,7 @@ import zodToJsonSchema from "zod-to-json-schema";
 
 export const topicSchema = Z.object({
   topicsArray: Z.array(
-    Z.string().describe("The array of topics for a given chapter")
+    Z.string().describe("The array of topics for a given chapter"),
   ),
 }).describe("The object containing the array of topics for a given chapter");
 

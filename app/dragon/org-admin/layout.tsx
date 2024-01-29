@@ -12,10 +12,6 @@ export default async function AdminLayout({
   children: React.ReactNode;
 }) {
   const session = await getServerSession(authOptions);
-  if (session?.user.userType !== "ORG_ADMIN") notFound();
-  return (
-    <main className="min-h-screen h-screen w-full overflow-y-scroll custom-scrollbar">
-      {children}
-    </main>
-  );
+  if (session?.user?.userType !== "ORG_ADMIN") notFound();
+  return <main className="min-h-screen w-full">{children}</main>;
 }

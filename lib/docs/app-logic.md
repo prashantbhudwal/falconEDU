@@ -44,8 +44,7 @@ Unpublished - Check isPublished in the config attached to the bot. - If false, t
 
 Active - Check isActive in the config attached to the bot. - If true, the student can respond to the task.
 
-InActive: We may call the as expired on the student side. - Check isActive in the config attached to the bot. - If false, - the student cannot respond to the task. - the task is greyed out in the task list.
----
+## InActive: We may call the as expired on the student side. - Check isActive in the config attached to the bot. - If false, - the student cannot respond to the task. - the task is greyed out in the task list.
 
 # Submission Logic
 

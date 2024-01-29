@@ -1,8 +1,6 @@
-import { cache } from "react";
-import BotPreferencesForm from "./bot-preferences-form";
-import prisma from "@/prisma";
-import { botPreferencesSchema } from "@/app/dragon/schema";
-import { db } from "@/app/dragon/teacher/routers";
+import { botPreferencesSchema } from "@/lib/schema";
+import BotPreferencesForm from "./bot-form";
+import { getTaskData } from "../get-task-data";
 
 export interface BotPageProps {
   params: {
@@ -13,26 +11,11 @@ export interface BotPageProps {
 
 export default async function BotPage({ params }: BotPageProps) {
   const { classId, taskId } = params;
-  const botData = await db.botConfig.fetchConfigAndPreferences({
-    configId: taskId,
-    type: "chat",
+  const { preferences, config, grade } = await getTaskData({
+    taskId,
+    taskType: "chat",
+    schema: botPreferencesSchema,
   });
-  const result = botPreferencesSchema.safeParse(botData?.preferences);
-
-  const preferences = result.success ? result.data : undefined;
-
-  const config = botData?.config;
-  if (!config) {
-    throw new Error("Bot config not found");
-  }
-  const Class = botData.config?.Class;
-
-  if (!Class) {
-    throw new Error("Class not found");
-  }
-
-  const grade = Class.grade;
-
   return (
     <BotPreferencesForm
       preferences={preferences}

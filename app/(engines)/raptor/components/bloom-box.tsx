@@ -52,7 +52,7 @@ export default function BoxDrop({
     }),
   };
   const applicableBloomLevels = questionData.find(
-    (question) => question.type === type
+    (question) => question.type === type,
   )?.bloomLevels;
 
   const fullBloomLevel = getBloomLevel(bloomLevel);

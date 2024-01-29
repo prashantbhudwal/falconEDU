@@ -2,10 +2,18 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { Paper } from "@/components/ui/paper";
 import TaskList from "./components/task-list";
-import { db } from "../../../routers";
-import { BotConfig, Class } from "@prisma/client";
+import { db } from "../../../../../../lib/routers";
 import Link from "next/link";
-import { BsInfoCircleFill } from "react-icons/bs";
+import AnalyticsWidget from "./components/analytics/analytics-widget";
+import { Suspense } from "react";
+import AnalyticsWidgetFallback from "./components/analytics/analytics-widget-fallback";
+import { cn } from "@/lib/utils";
+import { is } from "date-fns/locale";
+import { getStudentsByClassId } from "../../../queries";
+import { CheckCircleIcon } from "@heroicons/react/24/solid";
+import { get } from "http";
+import { getStudentsURL } from "@/lib/urls";
+import { EmptyClassCard } from "./components/empty-class-card";
 
 export default async function Classes({
   params,
@@ -25,25 +33,56 @@ export default async function Classes({
     userId,
     classId,
   });
+  const { students } = await getStudentsByClassId(classId);
+  const noStudents = students && students.length === 0;
   const allConfigs = classConfigs.all;
+  const isEmpty = allConfigs.length === 0;
+  const isArchived = !classDetails.isActive;
 
+  if (isEmpty) {
+    return (
+      <Paper className="flex h-full flex-col items-center justify-between space-y-2">
+        <EmptyClassCard classId={classId} noStudents={!!noStudents} />
+      </Paper>
+    );
+  }
   return (
-    <Paper className="h-full flex flex-col items-center w-5/6 overflow-y-auto custom-scrollbar justify-between">
-      {!classDetails.isActive && (
-        <p className="flex items-center text-warning/80 pb-5">
-          <BsInfoCircleFill className="w-3 h-3 mr-2" /> Class is archived
-          <Link
-            className="underline cursor-pointer px-2 hover:text-warning"
-            href={`${classId}/dashboard`}
-          >
-            Activate
-          </Link>
-          it to enable the execution of operations.
-        </p>
-      )}
-      <div className="w-8/12 max-w-6xl flex flex-col space-y-6">
-        <TaskList tasks={allConfigs} classId={classId} userId={userId} />
+    <Paper className="flex h-full flex-col items-center justify-between space-y-2">
+      {isArchived && <ArchivedClass classId={classId} />}
+      <div
+        className={cn(
+          "flex w-full flex-col items-center md:relative lg:relative",
+          {
+            "brightness-50": isArchived,
+          },
+        )}
+      >
+        <div className="right-5 top-20 md:fixed lg:fixed">
+          <Suspense fallback={<AnalyticsWidgetFallback />}>
+            <AnalyticsWidget classId={classId} />
+          </Suspense>
+        </div>
+        <div className="flex w-8/12 max-w-6xl flex-col space-y-6">
+          <TaskList tasks={allConfigs} classId={classId} userId={userId} />
+        </div>
       </div>
     </Paper>
   );
 }
+
+const ArchivedClass = ({ classId }: { classId: string }) => {
+  return (
+    <div className="flex h-full w-full flex-col items-center justify-center space-y-3 pb-5">
+      <h2 className="text-2xl font-semibold">Class is archived</h2>
+      <p className="text-sm text-slate-500">
+        <Link
+          className="cursor-pointer underline hover:text-warning"
+          href={`${classId}/dashboard`}
+        >
+          Activate
+        </Link>{" "}
+        it to start using it again
+      </p>
+    </div>
+  );
+};

@@ -43,7 +43,7 @@ export default function InviteDropdown() {
       </label>
       <ul
         tabIndex={0}
-        className="menu dropdown-content rounded-box menu-sm z-[1] mt-3 w-40 bg-base-100 p-2 shadow"
+        className="menu dropdown-content menu-sm z-[1] mt-3 w-40 rounded-box bg-base-100 p-2 shadow"
       >
         <li>
           <div className="flex justify-between gap-2">

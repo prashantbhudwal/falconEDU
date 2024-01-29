@@ -4,7 +4,7 @@ import prisma from "@/prisma";
 import { useState } from "react";
 const EMAIL = "trial.prashant@gmail.com";
 import { deleteUserByEmail } from "./actions";
-import { makeAllBotChatIsSubmitted } from "@/app/dragon/scripts";
+import { makeAllBotChatIsSubmitted } from "@/lib/scripts/scripts";
 import { set } from "date-fns";
 
 export default function Page() {

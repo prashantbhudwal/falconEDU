@@ -46,7 +46,7 @@ export function ChatMessageMarkdown({
                   alt="dot"
                   width={25}
                   height={25}
-                  className="inline-block ml-1"
+                  className="ml-1 inline-block"
                 />
               )}
             </p>

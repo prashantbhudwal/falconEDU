@@ -1,9 +1,8 @@
 import AddStudentForm from "./add-students-form";
 import { getStudentsByClassId } from "../../../../queries";
-import { DataTable } from "./dataTable";
-import { _TestOverflow } from "@/components/_test-overflow";
+import { DataTable } from "./data-table";
 import { Paper } from "@/components/ui/paper";
-import { InvitedSudents } from "./invitedStudents";
+import { InvitedSudents } from "./invited-students";
 import { HiOutlineInboxStack } from "react-icons/hi2";
 import {
   Dialog,
@@ -11,7 +10,7 @@ import {
   DialogHeader,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { db } from "@/app/dragon/teacher/routers";
+import { db } from "@/lib/routers";
 
 export const revalidate = 3600; // revalidate the data at most every hour
 
@@ -28,10 +27,10 @@ export default async function EditStudents({ params }: EditClassProps) {
   });
 
   return (
-    <Paper className="flex flex-col gap-10 w-full max-w-5xl min-h-screen">
-      <div className="flex w-full justify-between items-center">
-        <div className="flex flex-col space-y-2 items-baseline text-3xl justify-between">
-          <h1 className="font-semibold text-slate-200 flex gap-5 items-center">
+    <Paper className="flex min-h-screen w-full max-w-5xl flex-col gap-10">
+      <div className="flex w-full items-center justify-between">
+        <div className="flex flex-col items-baseline justify-between space-y-2 text-3xl">
+          <h1 className="flex items-center gap-5 font-semibold text-slate-200">
             Students{" "}
             <div className="-translate-y-[2px]">
               <AddStudentForm
@@ -45,7 +44,7 @@ export default async function EditStudents({ params }: EditClassProps) {
         {Array.isArray(inviteList) && inviteList.length > 0 && (
           <Dialog>
             <DialogTrigger>
-              <div className="rounded-3xl cursor-pointer bg-base-100 px-5 py-3 flex gap-3 items-center">
+              <div className="flex cursor-pointer items-center gap-3 rounded-3xl bg-base-100 px-5 py-3">
                 <HiOutlineInboxStack className="text-3xl" />
                 <h5 className="text-xs font-semibold">
                   Invited <br /> Students
@@ -55,7 +54,7 @@ export default async function EditStudents({ params }: EditClassProps) {
             <DialogContent className="min-w-[900px]">
               <DialogHeader>
                 <div className="pt-5">
-                  <h4 className="text-2xl mb-5 font-semibold tracking-wide">
+                  <h4 className="mb-5 text-2xl font-semibold tracking-wide">
                     Invited Students
                   </h4>
                   <InvitedSudents inviteList={inviteList} />

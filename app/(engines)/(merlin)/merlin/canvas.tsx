@@ -78,7 +78,7 @@ export default function Canvas({ className }: { className?: string }) {
   // Utils
   const handleBlockSelect = (
     id: string,
-    setSelectedBlockId: (id: string | null) => void
+    setSelectedBlockId: (id: string | null) => void,
   ) => {
     setSelectedBlockId(id);
   };
@@ -89,12 +89,12 @@ export default function Canvas({ className }: { className?: string }) {
 
   const updateLessonIdea = (
     selectedRadioButtonId: any,
-    newIdeaContent: string
+    newIdeaContent: string,
   ) => {
     setLessonIdeas((prevIdeas: BlockContent[]) => {
       // Find the index of the idea with the selected id
       const ideaIndex = prevIdeas.findIndex(
-        (idea) => idea.id === selectedRadioButtonId
+        (idea) => idea.id === selectedRadioButtonId,
       );
       if (ideaIndex !== -1) {
         // If the idea is found, create a new array with the modified content
@@ -176,7 +176,7 @@ export default function Canvas({ className }: { className?: string }) {
           handleInputChange={handleInputChange}
           isLoading={isLoading}
           selectedBlock={lessonIdeas.find(
-            (idea) => idea.id === selectedBlockId
+            (idea) => idea.id === selectedBlockId,
           )}
         />
       )}

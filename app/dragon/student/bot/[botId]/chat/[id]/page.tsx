@@ -13,12 +13,13 @@ import { Chat } from "@/components/chat/chat-dragon";
 import { AvatarNavbar } from "@/app/dragon/student/components/student-navbar";
 import SubmitTestButton from "./submit-test-btn";
 import { revalidatePath } from "next/cache";
-import { getTestQuestionsByBotChatId } from "@/app/dragon/ai/student-chat/prompts/test-prompts/testBotMessages";
-import { getChatContextByChatId } from "@/app/dragon/ai/student-chat/prompts/chat-prompts/queries";
-import { getLessonContextByChatId } from "@/app/dragon/ai/student-chat/prompts/lesson-prompts/queries";
+import { getTestQuestionsByBotChatId } from "@/app/dragon/ai/student-chat/prompts/test/messages";
+import { getChatContextByChatId } from "@/app/dragon/ai/student-chat/prompts/chat/queries";
+import { getLessonContextByChatId } from "@/app/dragon/ai/student-chat/prompts/lesson/queries";
 import { getTaskProperties } from "@/app/dragon/teacher/utils";
 import { TaskType } from "@/types/dragon";
 import { setIsReadToTrue } from "./mutations";
+import { getAITestContextByChatId } from "@/app/dragon/ai/student-chat/prompts/ai-test/queries";
 
 export interface ChatPageProps {
   params: {
@@ -38,6 +39,9 @@ const getChatContext = async function (type: TaskType, chatId: string) {
     case "lesson":
       const lessonContext = await getLessonContextByChatId(chatId);
       return JSON.stringify(lessonContext);
+    case "ai-test":
+      const aiTestContext = await getAITestContextByChatId(chatId);
+      return JSON.stringify(aiTestContext);
     default:
       throw new Error("Invalid type");
   }
@@ -61,22 +65,25 @@ export default async function ChatPage({ params }: ChatPageProps) {
   const emptyMessage = getTaskProperties(type).emptyChatMessage;
   const context = await getChatContext(type, id);
 
+  const showSubmit = !chat?.isSubmitted && ["test", "ai-test"].includes(type);
+
   const SubmitButton = ({ variant }: { variant: "outline" | "default" }) => {
     const styles =
       variant === "outline"
         ? "rounded-xl w-fit bg-base-200 border hover:bg-base-200 px-5 tracking-wider border-slate-500 text-slate-500"
         : "";
 
-    return bot?.BotConfig.type === "test" && !chat?.isSubmitted ? (
-      <SubmitTestButton
-        testBotId={botId}
-        className={styles}
-        botChatId={id}
-        redirectUrl={redirectUrl}
-        isMultipleChats={bot?.BotConfig.canReAttempt}
-      />
-    ) : (
-      <></>
+    return (
+      showSubmit && (
+        <SubmitTestButton
+          testBotId={botId}
+          className={styles}
+          botChatId={id}
+          redirectUrl={redirectUrl}
+          isMultipleChats={bot?.BotConfig.canReAttempt}
+          type={type}
+        />
+      )
     );
   };
 
@@ -94,7 +101,7 @@ export default async function ChatPage({ params }: ChatPageProps) {
           botChatId={id}
           button={<SubmitButton variant="default" />}
         />
-        <div className="fixed w-fit z-10 bottom-20 left-1/2 -translate-x-1/2 rounded-xl">
+        <div className="fixed bottom-20 left-1/2 z-10 w-fit -translate-x-1/2 rounded-xl">
           <SubmitButton variant="outline" />
         </div>
       </div>

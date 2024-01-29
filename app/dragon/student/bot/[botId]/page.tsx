@@ -29,7 +29,7 @@ export default async function BotPageProps({ params }: BotPageProps) {
   }
 
   return (
-    <div className="h-screen overflow-y-auto custom-scrollbar">
+    <div className="custom-scrollbar h-screen overflow-y-auto">
       <AttemptsNavbar
         title={bot?.BotConfig.name!}
         subtitle={bot?.BotConfig.teacher.User.name!}
@@ -40,7 +40,7 @@ export default async function BotPageProps({ params }: BotPageProps) {
         {chats
           .sort(
             (a, b) =>
-              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
           )
           .map((chat) => (
             <Link
@@ -74,10 +74,10 @@ const AttemptsNavbar = ({
 }) => {
   return (
     <StudentNavbar>
-      <Link href={studentHomeURL} className="flex gap-3 navbar-start pl-6">
+      <Link href={studentHomeURL} className="navbar-start flex gap-3 pl-6">
         <div className="flex flex-col gap-2">
           <p className="truncate ">{title}</p>
-          <div className="flex space-x-1 text-xs text-secondary items-center">
+          <div className="flex items-center space-x-1 text-xs text-secondary">
             <PuzzlePieceIcon className="w-[14px]" />
             <div className="">
               {attemptCount}
@@ -86,7 +86,7 @@ const AttemptsNavbar = ({
           </div>
         </div>
       </Link>
-      <div className="navbar-end flex gap-4 relative">
+      <div className="navbar-end relative flex gap-4">
         <NewAttemptButton
           botId={botId}
           className="fixed bottom-10 right-10 z-50"

@@ -11,7 +11,6 @@ export default function CheckboxGrid({
   handleChange,
   userFlow,
 }: PredictionGridProps) {
-
   return (
     <div className="flex flex-col items-center gap-4">
       <div className="mb-2 text-sm text-slate-500">

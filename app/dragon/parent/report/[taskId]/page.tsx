@@ -13,7 +13,7 @@ export default async function ParentChatPage({
   const taskId = params.taskId;
 
   return (
-    <div className="p-2 flex flex-col items-center space-y-3">
+    <div className="flex flex-col items-center space-y-3 p-2">
       <h1 className="text-lg font-medium">Report</h1>
       {/* <QuestionList botId={taskId} /> */}
     </div>

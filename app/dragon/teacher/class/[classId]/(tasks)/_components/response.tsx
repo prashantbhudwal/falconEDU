@@ -20,21 +20,21 @@ export async function IndividualResponse({
 
   return (
     <ReportModal>
-      <div className="w-full py-5 overflow-y-scroll custom-scrollbar h-screen bg-base-300 rounded-xl ring-1 ring-slate-700 ">
+      <div className="custom-scrollbar h-screen w-full overflow-y-scroll rounded-xl bg-base-300 py-5 ring-1 ring-slate-700 ">
         <div className="flex flex-col gap-4">
-          <h1 className="text-3xl text-center font-semibold ">{name}</h1>
+          <h1 className="text-center text-3xl font-semibold ">{name}</h1>
           <Separator />
 
           {reportComponent ? (
             <Tabs defaultValue="report">
-              <TabsList className="grid w-2/5 grid-cols-2 mx-auto bg-base-100">
+              <TabsList className="mx-auto grid w-2/5 grid-cols-2 bg-base-100">
                 <TabsTrigger value="report">Report</TabsTrigger>
                 <TabsTrigger value="fullResponse">Full Response</TabsTrigger>
               </TabsList>
               <TabsContent value="report">
                 <Paper
                   variant={"gray"}
-                  className="w-full max-w-5xl min-h-screen pb-20"
+                  className="min-h-screen w-full max-w-5xl pb-20"
                 >
                   {reportComponent}
                 </Paper>
@@ -42,7 +42,7 @@ export async function IndividualResponse({
               <TabsContent value="fullResponse">
                 <Paper
                   variant={"gray"}
-                  className="w-full max-w-5xl min-h-screen pb-20"
+                  className="min-h-screen w-full max-w-5xl pb-20"
                 >
                   {fullChatComponent}
                 </Paper>
@@ -51,7 +51,7 @@ export async function IndividualResponse({
           ) : (
             <Paper
               variant={"gray"}
-              className="w-full max-w-5xl min-h-screen pb-20"
+              className="min-h-screen w-full max-w-5xl pb-20"
             >
               {fullChatComponent}
             </Paper>

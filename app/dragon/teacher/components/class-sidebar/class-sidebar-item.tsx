@@ -7,7 +7,7 @@ import {
 import {
   archiveAllBotsOfBotConfig,
   unArchiveAllBotsOfBotConfig,
-} from "../../routers/botRouter";
+} from "../../../../../lib/routers/botRouter";
 import Link from "next/link";
 import {
   useSelectedLayoutSegment,
@@ -63,12 +63,12 @@ export const ClassSidebarItem = function ({
             "block rounded-md px-3 py-2 text-sm font-medium hover:text-neutral",
             {
               "text-gray-400 hover:bg-gray-800": !segmentActive,
-              "text-white bg-base-100": segmentActive,
+              "bg-base-100 text-white": segmentActive,
               "text-gray-600": isArchived,
-            }
+            },
           )}
         >
-          <div className="flex items-center gap-2 max-w-[200px]">
+          <div className="flex max-w-[200px] items-center gap-2">
             {isArchived ? (
               <ArchiveBoxXMarkIcon className="w-4" />
             ) : (
@@ -81,11 +81,11 @@ export const ClassSidebarItem = function ({
               </div>
             )}
             {isArchived ? (
-              <div className="truncate w-[200px] flex items-center gap-1 text-xs font-light">
+              <div className="flex w-[200px] items-center gap-1 truncate text-xs font-light">
                 {name}
               </div>
             ) : (
-              <div className="truncate w-[200px]">{name}</div>
+              <div className="w-[200px] truncate">{name}</div>
             )}
           </div>
         </Link>

@@ -1,6 +1,6 @@
 "use client";
 import { useDuplicateConfig } from "@/app/dragon/teacher/hooks/use-duplicate-config";
-import { db } from "@/app/dragon/teacher/routers";
+import { db } from "@/lib/routers";
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
@@ -17,10 +17,7 @@ import {
 import Lottie from "lottie-react";
 import { useState } from "react";
 import copyingAnimation from "@/public/animations/copying.json";
-import {
-  AlertDialog,
-  AlertDialogContent,
-} from "@/components/ui/alert-dialog";
+import { AlertDialog, AlertDialogContent } from "@/components/ui/alert-dialog";
 import { PropagationStopper } from "@/components/propagation-stopper";
 
 export function TaskActions({
@@ -42,9 +39,9 @@ export function TaskActions({
   const [isDuplicating, setIsDuplicating] = useState(false);
   const [open, setOpen] = useState(false);
   const archivedIcon = isArchived ? (
-    <ArrowUpOnSquareIcon className="w-4 text-primary " />
+    <ArrowUpOnSquareIcon className="w-3 text-primary " />
   ) : (
-    <ArchiveBoxArrowDownIcon className="w-4 text-destructive" />
+    <ArchiveBoxArrowDownIcon className="w-3" />
   );
 
   const archivingHandler = (e: React.MouseEvent) => {
@@ -69,23 +66,18 @@ export function TaskActions({
   };
 
   return (
-    <div className="flex gap-2 justify-end w-full">
+    <div className="flex w-full justify-end gap-2">
       {!isArchived && (
         <TooltipProvider delayDuration={100}>
           <Tooltip>
             <TooltipTrigger>
               <PropagationStopper>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={duplicateHandler}
-                  type="button"
-                >
-                  <DocumentDuplicateIcon className="w-4" />
-                </Button>
+                <div onClick={duplicateHandler} className="hover:translate-y-1">
+                  <DocumentDuplicateIcon className="w-3" />
+                </div>
               </PropagationStopper>
             </TooltipTrigger>
-            <TooltipContent className="bg-slate-500 text-slate-100">
+            <TooltipContent className="bg-slate-600 text-slate-100">
               <p>Create Copy</p>
             </TooltipContent>
           </Tooltip>
@@ -96,17 +88,12 @@ export function TaskActions({
           <Tooltip>
             <TooltipTrigger>
               <PropagationStopper>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  type="button"
-                  onClick={archivingHandler}
-                >
+                <div onClick={archivingHandler} className="hover:translate-y-1">
                   {archivedIcon}
-                </Button>
+                </div>
               </PropagationStopper>
             </TooltipTrigger>
-            <TooltipContent className="bg-slate-500 text-slate-100">
+            <TooltipContent className="bg-slate-600 text-slate-100">
               <p>{isArchived ? "Unarchive" : "Archive"}</p>
             </TooltipContent>
           </Tooltip>
@@ -117,7 +104,7 @@ export function TaskActions({
           <AlertDialog open={open}>
             <AlertDialogContent className="p-0">
               <Lottie className="h-[200px]" animationData={copyingAnimation} />
-              <p className="text-center -translate-y-10 text-lg font-semibold">
+              <p className="-translate-y-10 text-center text-lg font-semibold">
                 Generating Replica...
               </p>
             </AlertDialogContent>

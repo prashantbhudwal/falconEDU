@@ -6,7 +6,7 @@ import { getReportUrl } from "@/lib/urls";
 import { NoStudents } from "./no-students";
 import { NotPublished } from "./not-published";
 import { TaskType } from "@/types/dragon";
-import { db } from "@/app/dragon/teacher/routers";
+import { db } from "@/lib/routers";
 import { Response } from "./response-accordion";
 
 export const IndividualResponsesList = async function ({
@@ -24,10 +24,10 @@ export const IndividualResponsesList = async function ({
   const canReattempt = status.canReAttempt;
   if (!isPublished) return <NotPublished />;
   if (students.length === 0) return <NoStudents classId={classId} />;
-  
+
   return (
     <div className="flex flex-col items-center space-y-4">
-      <h1 className="text-center font-semibold text-xl mt-10 ">
+      <h1 className="mt-10 text-center text-xl font-semibold ">
         Individual Responses
       </h1>
       <div className="flex flex-col gap-2">

@@ -27,7 +27,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TaskCard } from "./task-card";
 import { FolderPlusIcon } from "@heroicons/react/24/solid";
-import { db } from "@/app/dragon/teacher/routers";
+import { db } from "@/lib/routers";
 
 const formSchema = z.object({
   className: z.string().min(3).max(50),

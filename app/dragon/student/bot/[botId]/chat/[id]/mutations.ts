@@ -11,17 +11,17 @@ import { z } from "zod";
 const testResultObjectSchemaWithId = z.array(
   TestResultsAnswerSchema.extend({
     id: z.string(),
-  })
+  }),
 );
 type FinalTestResults = z.infer<typeof testResultObjectSchemaWithId>;
 
-export const submitTestBotChat = async function ({
+export const submitBotChat = async function ({
   botChatId,
 }: {
   botChatId: string;
 }) {
   try {
-    await prisma.botChat.update({
+    await prisma.botChat.update({ 
       where: { id: botChatId },
       data: {
         isSubmitted: true,

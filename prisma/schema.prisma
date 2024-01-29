@@ -106,12 +106,20 @@ model TeacherProfile {
 }
 
 model OrgAdminProfile {
-  id          String  @id @default(cuid())
-  designation String  @default("")
-  org         Org?    @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  id          String    @id @default(cuid())
+  designation String    @default("")
+  org         Org?      @relation(fields: [orgId], references: [id], onDelete: Cascade)
   orgId       String?
-  User        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId      String  @unique
+  User        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String    @unique
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @default(now()) @updatedAt
+  adminRole   AdminRole @default(MANAGER)
+}
+
+enum AdminRole {
+  SUPER_ADMIN
+  MANAGER
 }
 
 model Org {
@@ -137,7 +145,7 @@ model Org {
 
 model Board {
   id    String    @id @default(cuid())
-  name  BoardName
+  name  BoardName @unique
   other String?
   org   Org[]
 }
@@ -264,6 +272,29 @@ model BotConfig {
   timeLimit       Int?              @default(0)
   canReAttempt    Boolean           @default(false)
   maxAttempts     Int?              @default(0)
+  learningGoals   LearningGoals[]
+}
+
+model LearningGoals {
+  id               String           @id @default(cuid())
+  botConfigId      String
+  botConfig        BotConfig        @relation(fields: [botConfigId], references: [id], onDelete: Cascade)
+  goal             String
+  cognitiveLevel   CognitiveLevel
+  assessmentMethod QuestionType[]   @default([])
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @default(now()) @updatedAt
+  GoalAssessment   GoalAssessment[]
+  goalNumber       Int
+}
+
+enum CognitiveLevel {
+  knowledge
+  comprehension
+  application
+  analysis
+  synthesis
+  evaluation
 }
 
 model parsedQuestions {
@@ -334,6 +365,28 @@ model BotChat {
   isSubmitted      Boolean            @default(false)
   isChecked        Boolean            @default(false)
   name             String?
+  goalAssessment   GoalAssessment[]
+}
+
+model GoalAssessment {
+  id             String               @id @default(uuid())
+  botChat        BotChat              @relation(fields: [botChatId], references: [id], onDelete: Cascade)
+  botChatId      String
+  learningGoal   LearningGoals?       @relation(fields: [learningGoalId], references: [id], onDelete: Cascade)
+  learningGoalId String?
+  createdAt      DateTime             @default(now())
+  updatedAt      DateTime             @default(now()) @updatedAt
+  result         GoalAssessmentResult
+  resultDesc     String
+  aiRemarks      String               @default("")
+}
+
+enum GoalAssessmentResult {
+  a
+  b
+  c
+  d
+  f
 }
 
 model BotChatQuestions {

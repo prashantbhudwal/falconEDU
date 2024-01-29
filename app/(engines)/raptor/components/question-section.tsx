@@ -63,7 +63,7 @@ const Questions: React.FC<Props> = ({
       headingColor={getQuestionSectionTextColor(type)}
       dividerColor={getQuestionSectionBorderColor(type)}
       className={`w-full rounded-lg px-5 py-3 shadow-sm ${getQuestionSectionShadow(
-        type
+        type,
       )}`}
     >
       {hasBloom && <BloomBoxes questionTypeKey={type} />}

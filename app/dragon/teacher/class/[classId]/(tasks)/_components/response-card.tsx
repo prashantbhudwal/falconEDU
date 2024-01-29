@@ -58,11 +58,11 @@ const ResponseCard = ({
     <Link
       href={disabled ? "" : link}
       className={cn(
-        "bg-base-200 max-w-3xl flex items-start py-6 space-x-6 w-full px-6 rounded-md hover:bg-base-100 relative my-1 border border-base-200",
+        "relative my-1 flex w-full max-w-3xl items-start space-x-6 rounded-md border border-base-200 bg-base-200 px-6 py-6 hover:bg-base-100",
         {
           "cursor-not-allowed hover:bg-base-200": disabled,
         },
-        className
+        className,
       )}
     >
       <div className="py-1">
@@ -73,11 +73,11 @@ const ResponseCard = ({
           </AvatarFallback>
         </Avatar>
       </div>
-      <div className="flex-grow border-none bg-inherit shadow-none flex flex-col space-y-3">
+      <div className="flex flex-grow flex-col space-y-3 border-none bg-inherit shadow-none">
         <div className="flex flex-col space-y-1">
           <h1 className="font-bold ">{title}</h1>
           {description && (
-            <div className="text-slate-600 text-sm">{description}</div>
+            <div className="text-sm text-slate-600">{description}</div>
           )}
         </div>
         <div>
@@ -113,12 +113,12 @@ const CardChip: React.FC<CardChipProps> = ({
   return (
     <div
       className={cn(
-        "rounded-md px-4 pl-0 flex items-center justify-start text-sm ",
-        className
+        "flex items-center justify-start rounded-md px-4 pl-0 text-sm ",
+        className,
       )}
     >
       {label && (
-        <span className="text-base-content font-semibold">{label}:</span>
+        <span className="font-semibold text-base-content">{label}:</span>
       )}
       <span className={`${valueColor || "text-base-content"}`}>{value}</span>
     </div>

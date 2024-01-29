@@ -1,6 +1,6 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getServerSession } from "next-auth";
-import { db } from "../teacher/routers";
+import { db } from "../../../lib/routers";
 import prisma from "@/prisma";
 import { cache } from "react";
 import { Card } from "@/components/ui/card";
@@ -23,10 +23,10 @@ const getTasksByStudentId = cache(async (studentId: string) => {
     bot.BotChat.map((botChat) => ({
       ...botChat,
       botConfigName: bot.BotConfig.name, // Include the name of the BotConfig
-    }))
+    })),
   );
   botChatsWithConfigNames = botChatsWithConfigNames.sort((a, b) =>
-    compareDesc(new Date(a.createdAt), new Date(b.createdAt))
+    compareDesc(new Date(a.createdAt), new Date(b.createdAt)),
   );
 
   return botChatsWithConfigNames;
@@ -61,19 +61,19 @@ export default async function Page() {
     return null;
   }
   return (
-    <div className="font-medium pt-2 flex-col gap-10 max-w-xl">
+    <div className="max-w-xl flex-col gap-10 pt-2 font-medium">
       {tasks?.map((task) => (
         <Link
           href={getParentReportUrlByTaskId({ taskId: task.id })}
           key={task.id}
         >
-          <Card key={task.id} className="bg-base-200 p-2 flex-col space-y-2">
+          <Card key={task.id} className="flex-col space-y-2 bg-base-200 p-2">
             <h3 className="font-medium">{task.botConfigName}</h3>
-            <div className="flex flex-row space-x-2 justify-between">
+            <div className="flex flex-row justify-between space-x-2">
               <p className="text-xs">
                 {format(new Date(task.createdAt), "PPP")} {/* Format date */}
               </p>
-              <p className="text-xs rounded-sm w-fit">
+              <p className="w-fit rounded-sm text-xs">
                 {task.isSubmitted ? (
                   <span className="text-primary">Completed</span>
                 ) : (

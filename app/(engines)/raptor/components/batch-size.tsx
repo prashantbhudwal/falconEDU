@@ -24,7 +24,7 @@ export const BatchSize: React.FC = () => {
         <div
           className={
             "flex items-center gap-1 rounded-lg border px-3 py-2 " +
-            "border-black/10 shadow-[0_1px_7px_0px_rgba(0,0,0,0.06)] bg-slate-800"
+            "border-black/10 bg-slate-800 shadow-[0_1px_7px_0px_rgba(0,0,0,0.06)]"
           }
         >
           <span className="truncate text-sm">-</span>

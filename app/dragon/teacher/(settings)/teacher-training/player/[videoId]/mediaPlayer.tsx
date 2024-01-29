@@ -12,7 +12,7 @@ export const MediaPlayer = ({
 }) => {
   if (!videoId || !isValidId)
     return (
-      <div className="w-full h-[350px] flex flex-col justify-center items-center">
+      <div className="flex h-[350px] w-full flex-col items-center justify-center">
         <Image src="/emptyCanvas.png" alt="canvas" width={300} height={200} />
         <h1 className="text-xl">This video isn&apos;t available any more</h1>
       </div>

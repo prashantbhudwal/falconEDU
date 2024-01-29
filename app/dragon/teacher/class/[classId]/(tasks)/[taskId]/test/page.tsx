@@ -1,18 +1,12 @@
 import { cache } from "react";
 import prisma from "@/prisma";
-import { testBotPreferencesSchema } from "@/app/dragon/schema";
 import { UnwrapPromise } from "@/app/dragon/student/queries";
 import { Paper } from "@/components/ui/paper";
 import TestPreferencesForm from "./components/test-preferences-form/test-preferences-form";
-import { db } from "@/app/dragon/teacher/routers";
+import { db } from "@/lib/routers";
 import { TestParsedQuestion } from "./components/test-preferences-form/test-parsed-questions";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionTrigger,
-  AccordionItem,
-} from "@/components/ui/accordion";
-import { typeActiveParsedQuestionByBotConfigId } from "@/app/dragon/teacher/routers/parsedQuestionRouter";
+import { typeActiveParsedQuestionByBotConfigId } from "@/lib/routers/parsedQuestionRouter";
+import { testBotPreferencesSchema } from "@/lib/schema";
 export interface BotPageProps {
   params: {
     classId: string;
@@ -71,7 +65,7 @@ export default async function BotPage({ params }: BotPageProps) {
     });
 
   const isAnswersPossiblyIncorrect = (
-    activeParsedQuestions: typeActiveParsedQuestionByBotConfigId[]
+    activeParsedQuestions: typeActiveParsedQuestionByBotConfigId[],
   ): boolean => {
     if (!activeParsedQuestions) return false;
     const incorrectQuestions = activeParsedQuestions.filter((question) => {
@@ -85,7 +79,7 @@ export default async function BotPage({ params }: BotPageProps) {
   return (
     <div className="w-full">
       <Paper
-        className="w-full max-w-5xl py-3 px-4 min-h-screen "
+        className="min-h-screen w-full max-w-5xl space-y-12 border-none px-4 py-3 pt-12 shadow-none "
         variant={"gray"}
       >
         <TestPreferencesForm
@@ -97,7 +91,7 @@ export default async function BotPage({ params }: BotPageProps) {
           isActive={isActive}
         />
         {activeParsedQuestions && (
-          <div className="flex flex-col space-y-4 items-center">
+          <div className="flex flex-col items-center space-y-4">
             <div className="text-center">
               <h1 className="text-2xl font-semibold text-slate-500">Review</h1>
               {isAnswersPossiblyIncorrect(activeParsedQuestions) && (

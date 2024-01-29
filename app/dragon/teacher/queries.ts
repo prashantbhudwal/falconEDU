@@ -46,7 +46,7 @@ export const getBotConfigs = cache(
       },
     });
     return botConfigs;
-  }
+  },
 );
 export type BotConfigs = UnwrapPromise<ReturnType<typeof getBotConfigs>>;
 
@@ -103,7 +103,7 @@ export const getTestResultsByBotChatId = cache(
       console.error(err);
       return null;
     }
-  }
+  },
 );
 export type TestResultsByBotId = UnwrapPromise<
   ReturnType<typeof getTestResultsByBotChatId>
@@ -121,5 +121,5 @@ export const getTotalQuestionByParsedQuestionId = cache(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );

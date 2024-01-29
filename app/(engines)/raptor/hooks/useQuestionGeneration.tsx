@@ -16,7 +16,7 @@ import { topicAtom } from "../../../../lib/atoms/preferences";
 
 export function getQuestionsByType(
   questionType: QuestionType,
-  questionBank: QuestionBank
+  questionBank: QuestionBank,
 ): QuestionItem[] {
   const matchingQuestions: QuestionItem[] = questionBank
     .filter((questionObject) => questionObject.type === questionType)
@@ -33,7 +33,7 @@ const getPayload = function (
   topic: string,
   subtopic: string,
   generatedQuestions: QuestionItem[],
-  batchSize: number = 1
+  batchSize: number = 1,
 ) {
   switch (action) {
     case "getQuestion":
@@ -78,7 +78,7 @@ export function useQuestionGeneration(action: QuestionAction) {
   const [topic] = useAtom(topicAtom);
   const [savedQuestions] = useAtom(savedQuestionsAtom);
   const [contentStreamCompleted, setContentStreamCompleted] = useAtom(
-    contentStreamCompletedAtom
+    contentStreamCompletedAtom,
   );
   const [batchSize] = useAtom(batchSizeAtom);
 
@@ -89,7 +89,7 @@ export function useQuestionGeneration(action: QuestionAction) {
   const startStreaming = () => {
     const generatedQuestions = getQuestionsByType(
       currentQuestion.type,
-      savedQuestions
+      savedQuestions,
     );
     const payload: QuestionPayload = getPayload(
       action,
@@ -101,7 +101,7 @@ export function useQuestionGeneration(action: QuestionAction) {
       topic,
       currentQuestion.subtopic,
       generatedQuestions,
-      batchSize
+      batchSize,
     );
     startGeneration(payload);
     setShouldRegenerate(false);

@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { AvatarNavbar } from "../../components/student-navbar";
 import { TaskCard } from "../../components/chat-card";
-import { db } from "@/app/dragon/teacher/routers";
+import { db } from "@/lib/routers";
 
 export default async function TeacherDashboard({
   params,
@@ -25,7 +25,7 @@ export default async function TeacherDashboard({
     );
   }
   const sortedBots = bots.sort(
-    (a, b) => b.createdAt.getTime() - a.createdAt.getTime()
+    (a, b) => b.createdAt.getTime() - a.createdAt.getTime(),
   );
 
   return (
@@ -35,7 +35,7 @@ export default async function TeacherDashboard({
         subtitle={teacher?.User.email!}
         avatarUrl={teacher?.User.image!}
       />
-      <div className="pt-1 pb-20 w-full overflow-y-auto h-screen custom-scrollbar flex flex-col">
+      <div className="custom-scrollbar flex h-screen w-full flex-col overflow-y-auto pb-20 pt-1">
         {sortedBots.map(async (bot) => (
           <TaskCard key={bot.id} bot={bot} />
         ))}

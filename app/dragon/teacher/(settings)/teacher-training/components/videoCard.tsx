@@ -45,8 +45,8 @@ export const VideoCard = async ({
     <Link
       href={addToExistingLink ? `${videoId}` : `player/${videoId}`}
       className={cn(
-        "flex group items-center gap-5 rounded-[5px] py-3 px-5 w-[700px] mx-auto bg-base-100/50 mb-5",
-        className
+        "group mx-auto mb-5 flex w-[700px] items-center gap-5 rounded-[5px] bg-base-100/50 px-5 py-3",
+        className,
       )}
     >
       <div className="relative">
@@ -55,20 +55,20 @@ export const VideoCard = async ({
           alt="thumbnail"
           width={120}
           height={80}
-          className="rounded-[5px] aspect-[1.7] object-cover"
+          className="aspect-[1.7] rounded-[5px] object-cover"
         />
-        <div className="opacity-0 group-hover:opacity-100 transition-all absolute top-0 bottom-0 left-0 right-0 bg-black/50 rounded-[5px]" />
-        <FaPlay className="opacity-0 group-hover:opacity-100 transition-all text-slate-100 text-3xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+        <div className="absolute bottom-0 left-0 right-0 top-0 rounded-[5px] bg-black/50 opacity-0 transition-all group-hover:opacity-100" />
+        <FaPlay className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-3xl text-slate-100 opacity-0 transition-all group-hover:opacity-100" />
       </div>
       <div className="w-9/12 text-start">
-        <h3 className="whitespace-nowrap truncate font-semibold mb-3 w-full text-slate-300">
+        <h3 className="mb-3 w-full truncate whitespace-nowrap font-semibold text-slate-300">
           {video.title || "Video"}
         </h3>
         <div className="flex gap-5 text-sm">
-          <div className="flex justify-between items-center w-full">
+          <div className="flex w-full items-center justify-between">
             <div>{formattedDuration}</div>
             {showRabbitIcon && (
-              <div className="flex space items-center space-x-3 text-info">
+              <div className="space flex items-center space-x-3 text-info">
                 <GiRabbit className="scale-x-[-1]" />
                 <div> very short </div>
               </div>
