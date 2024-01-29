@@ -6,6 +6,7 @@ import { orgRegisterFormSchema } from "@/app/dragon/org-admin/_components/org-re
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { Prisma } from "@prisma/client";
+import { UnwrapPromise } from "@/app/dragon/student/queries";
 
 export const getTeacherBrandNameByUserId = cache(
   async ({ userId }: { userId: string }) => {
@@ -286,3 +287,228 @@ export const removeTeacherFromOrg = async ({
     return false;
   }
 };
+
+export const addStudentToOrg = async ({
+  email,
+  orgId,
+}: {
+  email: string;
+  orgId: string;
+}) => {
+  try {
+    const student = await prisma.user.findUnique({
+      where: {
+        email: email,
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    if (!student) {
+      return { student: null, found: false };
+    }
+
+    const addedStudent = await prisma.studentProfile.update({
+      where: {
+        userId: student.id,
+      },
+      data: {
+        orgId: orgId,
+      },
+    });
+    revalidatePath("/dragon/org-admin/");
+    return { student: addedStudent, found: true };
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+};
+
+export const removeStudentFromOrg = async ({
+  userId,
+}: {
+  userId: string;
+}): Promise<boolean> => {
+  try {
+    await prisma.studentProfile.update({
+      where: {
+        userId: userId,
+      },
+      data: {
+        orgId: null,
+      },
+    });
+    revalidatePath("/dragon/org-admin/");
+    return true;
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+};
+
+export const addOrgAdminToOrg = async ({
+  email,
+  orgId,
+}: {
+  email: string;
+  orgId: string;
+}) => {
+  try {
+    const admin = await prisma.user.findUnique({
+      where: {
+        email: email,
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    if (!admin) {
+      return { admin: null, found: false };
+    }
+
+    const addedAdmin = await prisma.orgAdminProfile.update({
+      where: {
+        userId: admin.id,
+      },
+      data: {
+        orgId: orgId,
+      },
+    });
+    revalidatePath("/dragon/org-admin/");
+    return { admin: addedAdmin, found: true };
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+};
+
+export const removeOrgAdminFromOrg = async ({
+  userId,
+}: {
+  userId: string;
+}): Promise<boolean> => {
+  try {
+    await prisma.orgAdminProfile.update({
+      where: {
+        userId: userId,
+      },
+      data: {
+        orgId: null,
+      },
+    });
+    revalidatePath("/dragon/org-admin/");
+    return true;
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+};
+
+export const getTeachersInOrg = cache(
+  async ({ userId }: { userId: string }) => {
+    try {
+      const org = await prisma.orgAdminProfile.findUnique({
+        where: {
+          userId,
+        },
+        select: {
+          org: true,
+        },
+      });
+
+      if (!org) {
+        return null;
+      }
+
+      const teachers = await prisma.teacherProfile.findMany({
+        where: {
+          orgId: org.org?.id,
+        },
+        include: {
+          User: true,
+        },
+      }); // or find teachers from orgId
+
+      return teachers;
+    } catch (err) {
+      console.error(err);
+      return null;
+    }
+  },
+);
+
+export type TeachersInOrg = UnwrapPromise<ReturnType<typeof getTeachersInOrg>>;
+
+export const getStudentsInOrg = cache(
+  async ({ userId }: { userId: string }) => {
+    try {
+      const org = await prisma.orgAdminProfile.findUnique({
+        where: {
+          userId,
+        },
+        select: {
+          org: true,
+        },
+      });
+
+      if (!org) {
+        return null;
+      }
+
+      const students = await prisma.studentProfile.findMany({
+        where: {
+          orgId: org.org?.id,
+        },
+        include: {
+          User: true,
+        },
+      }); // or find students from orgId
+
+      return students;
+    } catch (err) {
+      console.error(err);
+      return null;
+    }
+  },
+);
+
+export type StudentsInOrg = UnwrapPromise<ReturnType<typeof getStudentsInOrg>>;
+
+export const getOrgAdminsInOrg = cache(
+  async ({ userId }: { userId: string }) => {
+    try {
+      const org = await prisma.orgAdminProfile.findUnique({
+        where: {
+          userId,
+        },
+        select: {
+          org: true,
+        },
+      });
+
+      if (!org) {
+        return null;
+      }
+
+      const admins = await prisma.orgAdminProfile.findMany({
+        where: {
+          orgId: org.org?.id,
+        },
+        include: {
+          User: true,
+        },
+      }); // or find admins from orgId
+
+      return admins;
+    } catch (err) {
+      console.error(err);
+      return null;
+    }
+  },
+);
+
+export type OrgAdminsInOrg = UnwrapPromise<
+  ReturnType<typeof getOrgAdminsInOrg>
+>;
