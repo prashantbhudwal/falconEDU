@@ -1,6 +1,6 @@
 import { AvatarNavbar } from "@/app/dragon/student/components/student-navbar";
 import React from "react";
-import {AdminNavbar} from "../../_components/navbar";
+import { AdminNavbar } from "../../_components/navbar";
 import { getStudentSubmissionsStatsByTaskId } from "../../queries";
 import { Card, Flex, Text, Title } from "@tremor/react";
 import { AvatarFallback, AvatarImage, Avatar } from "@/components/ui/avatar";
@@ -11,9 +11,9 @@ const ResponsesPage = async ({ params }: { params: { taskId: string } }) => {
   });
 
   return (
-    <div>
+    <div className="flex h-screen min-w-full flex-col">
       <AdminNavbar title="Responses" />
-      <div className="mx-auto w-11/12">
+      <div className="custom-scrollbar overflow-y-auto px-2">
         <Flex className="my-10 gap-3" flexDirection="col">
           {students &&
             students.length > 0 &&
