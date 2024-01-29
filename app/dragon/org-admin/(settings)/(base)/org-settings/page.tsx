@@ -1,43 +1,28 @@
-import { manageOrgURL, manageStudentsUrl, manageTeachersURL } from "@/lib/urls";
-import Link from "next/link";
 import {
-  Card,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { SchoolIcon, StudentIcon, TeacherIcon } from "@/components/icons";
-
-const useOrgSettingsCards = (): {
-  name: string;
-  link: string;
-  description: string;
-  icon: React.ReactNode;
-}[] => {
-  return [
-    {
-      name: "Manage Organization",
-      link: manageOrgURL,
-      description: "Change brand, admins and logo",
-      icon: <SchoolIcon size={"lg"} color="primary" />,
-    },
-    {
-      name: "Manage Teachers",
-      link: manageTeachersURL,
-      description: "Add or remove teachers to your organization",
-      icon: <TeacherIcon size={"lg"} color="secondary" />,
-    },
-    {
-      name: "Manage Students",
-      link: manageStudentsUrl,
-      description: "Add or remove students to your organization",
-      icon: <StudentIcon size={"lg"} color="accent" />,
-    },
-  ];
-};
+  manageAdminsURL,
+  manageOrgURL,
+  manageStudentsUrl,
+  manageTeachersURL,
+} from "@/lib/urls";
+import {
+  AdminIcon,
+  SchoolIcon,
+  StudentIcon,
+  TeacherIcon,
+} from "@/components/icons";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { db } from "@/lib/routers";
+import { AdminRole } from "@prisma/client";
+import { SettingsCard } from "./setting-card";
 
 export default async function OrgSettings() {
-  const orgSettingsCards = useOrgSettingsCards();
+  const session = await getServerSession(authOptions);
+  const userId = session?.user?.id;
+  if (!userId) return null;
+  const adminRole = await db.org.getAdminRoleByUserId({ userId });
+  if (!adminRole) return null;
+  const orgSettingsCards = getOrgSettingCardData({ role: adminRole });
   return (
     <div className="flex flex-col space-y-4 p-2">
       {orgSettingsCards.map((card) => (
@@ -53,28 +38,52 @@ export default async function OrgSettings() {
   );
 }
 
-const SettingsCard = ({
-  name,
-  link,
-  description,
-  icon,
+const getOrgSettingCardData = ({
+  role,
 }: {
+  role: AdminRole;
+}): {
   name: string;
   link: string;
   description: string;
-  icon?: React.ReactNode;
-}) => {
-  return (
-    <Link href={link}>
-      <Card className="w-full">
-        <CardHeader className="flex flex-row items-center space-x-7">
-          <div>{icon}</div>
-          <div className="flex flex-col space-y-2">
-            <CardTitle>{name}</CardTitle>
-            <CardDescription className="text-xs">{description}</CardDescription>
-          </div>
-        </CardHeader>
-      </Card>
-    </Link>
+  icon: React.ReactNode;
+  role: AdminRole;
+}[] => {
+  const orgSettingsCards = [
+    {
+      name: "Manage Organization",
+      link: manageOrgURL,
+      description: "Change brand, name, etc.",
+      icon: <SchoolIcon size={"lg"} color="primary" />,
+      role: "SUPER_ADMIN",
+    },
+    {
+      name: "Manage Admins",
+      link: manageAdminsURL,
+      description: "Add or remove admins",
+      icon: <AdminIcon size={"lg"} color="info" />,
+      role: "SUPER_ADMIN",
+    },
+    {
+      name: "Manage Teachers",
+      link: manageTeachersURL,
+      description: "Add or remove teachers",
+      icon: <TeacherIcon size={"lg"} color="secondary" />,
+      role: "MANAGER",
+    },
+    {
+      name: "Manage Students",
+      link: manageStudentsUrl,
+      description: "Add or remove students",
+      icon: <StudentIcon size={"lg"} color="accent" />,
+      role: "MANAGER",
+    },
+  ] as const;
+
+  const roleBasedCard = orgSettingsCards.filter(
+    (card) =>
+      card.role === role || (role === "SUPER_ADMIN" && card.role === "MANAGER"),
   );
+
+  return roleBasedCard;
 };
