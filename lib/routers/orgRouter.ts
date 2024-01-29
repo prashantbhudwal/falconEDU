@@ -206,3 +206,22 @@ export const getOrgDataByOrgId = cache(async ({ orgId }: { orgId: string }) => {
     return null;
   }
 });
+
+export const getAdminRoleByUserId = cache(
+  async ({ userId }: { userId: string }) => {
+    try {
+      const adminProfile = await prisma.orgAdminProfile.findUnique({
+        where: {
+          userId: userId,
+        },
+        select: {
+          adminRole: true,
+        },
+      });
+      return adminProfile?.adminRole;
+    } catch (err) {
+      console.log(err);
+      return null;
+    }
+  },
+);
