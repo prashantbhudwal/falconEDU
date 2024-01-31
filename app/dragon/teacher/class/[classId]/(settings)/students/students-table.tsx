@@ -39,7 +39,7 @@ import { StudentsByClassId } from "@/lib/routers/classRouter";
 
 type StudentData = NonNullable<StudentsByClassId["students"]>[number];
 
-export function DataTable({
+export function StudentsTable({
   students,
   classId,
 }: {
