@@ -167,7 +167,7 @@ export default function AddStudentForm({
     setIsNotOnFalconAI(false);
     form.reset();
   };
-
+  const email = form.getValues().email;
   return (
     <>
       <TooltipProvider delayDuration={100}>
@@ -184,16 +184,14 @@ export default function AddStudentForm({
       </TooltipProvider>
       <Dialog open={openDialog} onOpenChange={cancelModalHandler}>
         <DialogContent>
-          <DialogHeader className="flex flex-col items-center">
+          <DialogHeader className="flex flex-col">
             {!isNotOnFalconAI ? (
               <Form {...form}>
                 <form
                   onSubmit={form.handleSubmit(onSubmit)}
                   className="flex flex-col gap-5"
                 >
-                  <h3 className="text-center text-2xl font-bold">
-                    Add or Invite Students
-                  </h3>
+                  <h3 className=" text-2xl font-bold">Add Student</h3>
                   <FormField
                     control={form.control}
                     name="email"
@@ -214,21 +212,18 @@ export default function AddStudentForm({
                   <Button type="submit" className=" w-full">
                     Add to class
                   </Button>
-                  <p className="text-xs">
-                    <span className="font-semibold text-slate-200">Note:</span>{" "}
-                    Once published, students can see all tasks in the class.
+                  <p className="text-sm text-info">
+                    Once added, students will see all tasks in the class.
                   </p>
                 </form>
               </Form>
             ) : (
-              <>
-                <p className="text-sm">
-                  This email is not registered with FalconAI
-                </p>
-                <DialogTitle className="pb-2 pt-5 text-2xl text-slate-100">
-                  Invite this student to FalconAI
+              <div className="flex flex-col space-y-6">
+                <DialogTitle className="font-semibold">
+                  <span className="text-warning">{email}</span> is not joined
+                  joined FalconAI yet.
                 </DialogTitle>
-                <div className="flex justify-center gap-5">
+                <div className="flex gap-5">
                   {alreadyInvited && (
                     <Button
                       variant={"secondary"}
@@ -240,13 +235,13 @@ export default function AddStudentForm({
                     </Button>
                   )}
                   {!alreadyInvited ? (
-                    <Button onClick={sendEmailHandler} className="w-[150px]">
+                    <Button onClick={sendEmailHandler}>
                       {sendingEmail ? (
                         <span className="loading loading-infinity loading-md"></span>
                       ) : (
                         <span className="flex items-center gap-2 tracking-wider">
                           <LuMail />
-                          Invite
+                          Invite Student via Email
                         </span>
                       )}
                     </Button>
@@ -266,12 +261,7 @@ export default function AddStudentForm({
                 {emailError && (
                   <p className="pt-1 text-xs text-error">{emailError}</p>
                 )}
-                <DialogDescription className="pt-5 text-center text-xs">
-                  We&apos;ll send an email invitation to join your class, and
-                  your email address will be included in the message so that the
-                  student is aware of who extended the invitation.
-                </DialogDescription>
-              </>
+              </div>
             )}
           </DialogHeader>
         </DialogContent>
