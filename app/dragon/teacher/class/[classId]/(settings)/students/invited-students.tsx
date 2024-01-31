@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/table";
 import Avvvatars from "avvvatars-react";
 
-export const InvitedSudents = async ({
+export const InvitedStudents = async ({
   inviteList,
 }: {
   inviteList: typeGetInviteList["inviteList"];

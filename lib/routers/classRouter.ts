@@ -225,3 +225,31 @@ export const unarchiveClassByClassId = async ({
     return { success: false };
   }
 };
+
+export const getStudentsByClassId = cache(async (classId: string) => {
+  const students = await prisma.class.findUnique({
+    where: { id: classId },
+    select: {
+      id: true,
+      name: true,
+      students: {
+        select: {
+          grade: true,
+          id: true,
+          User: {
+            select: {
+              email: true,
+              name: true,
+              image: true,
+            },
+          },
+        },
+      },
+    },
+  });
+  return { students: students?.students, nameOfClass: students?.name };
+});
+
+export type StudentsByClassId = UnwrapPromise<
+  ReturnType<typeof getStudentsByClassId>
+>;

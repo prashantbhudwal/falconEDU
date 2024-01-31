@@ -8,11 +8,6 @@ import AnalyticsWidget from "./components/analytics/analytics-widget";
 import { Suspense } from "react";
 import AnalyticsWidgetFallback from "./components/analytics/analytics-widget-fallback";
 import { cn } from "@/lib/utils";
-import { is } from "date-fns/locale";
-import { getStudentsByClassId } from "../../../queries";
-import { CheckCircleIcon } from "@heroicons/react/24/solid";
-import { get } from "http";
-import { getStudentsURL } from "@/lib/urls";
 import { EmptyClassCard } from "./components/empty-class-card";
 
 export default async function Classes({
@@ -33,7 +28,7 @@ export default async function Classes({
     userId,
     classId,
   });
-  const { students } = await getStudentsByClassId(classId);
+  const { students } = await db.class.getStudentsByClassId(classId);
   const noStudents = students && students.length === 0;
   const allConfigs = classConfigs.all;
   const isEmpty = allConfigs.length === 0;

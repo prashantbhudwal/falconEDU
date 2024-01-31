@@ -1,8 +1,7 @@
 import AddStudentForm from "./add-students-form";
-import { getStudentsByClassId } from "../../../../queries";
 import { DataTable } from "./data-table";
 import { Paper } from "@/components/ui/paper";
-import { InvitedSudents } from "./invited-students";
+import { InvitedStudents } from "./invited-students";
 import { HiOutlineInboxStack } from "react-icons/hi2";
 import {
   Dialog,
@@ -21,7 +20,8 @@ type EditClassProps = {
 };
 export default async function EditStudents({ params }: EditClassProps) {
   const { classId } = params;
-  const { students, nameOfClass } = await getStudentsByClassId(classId);
+  const { students, nameOfClass } =
+    await db.class.getStudentsByClassId(classId);
   const { inviteList } = await db.inviteStudentsRouter.getInviteList({
     classId,
   });
@@ -57,7 +57,7 @@ export default async function EditStudents({ params }: EditClassProps) {
                   <h4 className="mb-5 text-2xl font-semibold tracking-wide">
                     Invited Students
                   </h4>
-                  <InvitedSudents inviteList={inviteList} />
+                  <InvitedStudents inviteList={inviteList} />
                 </div>
               </DialogHeader>
             </DialogContent>

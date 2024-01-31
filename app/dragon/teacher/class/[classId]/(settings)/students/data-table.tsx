@@ -24,7 +24,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { StudentsByClassId } from "../../../../queries";
 import Image from "next/image";
 import { FiTrash } from "react-icons/fi";
 import {
@@ -36,6 +35,7 @@ import {
 import { ClassDialog } from "../../../../components/class-dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { db } from "@/lib/routers";
+import { StudentsByClassId } from "@/lib/routers/classRouter";
 
 type StudentData = NonNullable<StudentsByClassId["students"]>[number];
 
