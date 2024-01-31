@@ -10,25 +10,6 @@ export const getTeacherId = cache(async function (userId: string) {
   return teacherProfile?.id;
 });
 
-//TODO: remove this
-export const getClassesByUserId = cache(async function (userId: string) {
-  const teacherProfile = await prisma.teacherProfile.findUnique({
-    where: { userId },
-  });
-
-  if (!teacherProfile) {
-    throw new Error(`TeacherProfile with userId ${userId} not found`);
-  }
-
-  const classes = await prisma.class.findMany({
-    where: {
-      teacherId: teacherProfile.id,
-    },
-  });
-
-  return classes;
-});
-
 export const getBotConfigs = cache(
   async (userId: string, classId: string, configType: string) => {
     const teacherProfile = await prisma.teacherProfile.findUnique({
@@ -49,34 +30,6 @@ export const getBotConfigs = cache(
   },
 );
 export type BotConfigs = UnwrapPromise<ReturnType<typeof getBotConfigs>>;
-
-export const getStudentsByClassId = cache(async (classId: string) => {
-  const students = await prisma.class.findUnique({
-    where: { id: classId },
-    select: {
-      id: true,
-      name: true,
-      students: {
-        select: {
-          grade: true,
-          id: true,
-          User: {
-            select: {
-              email: true,
-              name: true,
-              image: true,
-            },
-          },
-        },
-      },
-    },
-  });
-  return { students: students?.students, nameOfClass: students?.name };
-});
-
-export type StudentsByClassId = UnwrapPromise<
-  ReturnType<typeof getStudentsByClassId>
->;
 
 export const getTestResultsByBotChatId = cache(
   async ({ botChatId }: { botChatId: string }) => {
