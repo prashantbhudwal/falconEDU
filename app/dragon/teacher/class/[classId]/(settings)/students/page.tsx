@@ -1,5 +1,5 @@
 import AddStudentForm from "./add-students-form";
-import { DataTable } from "./data-table";
+import { StudentsTable } from "./students-table";
 import { Paper } from "@/components/ui/paper";
 import { InvitedStudents } from "./invited-students";
 import { HiOutlineInboxStack } from "react-icons/hi2";
@@ -10,21 +10,26 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { db } from "@/lib/routers";
+import { generateNameOfClass } from "@/app/dragon/teacher/utils";
+import { typeGetInviteList } from "@/lib/routers/inviteStudentsRouter";
 
 export const revalidate = 3600; // revalidate the data at most every hour
 
-type EditClassProps = {
+export default async function EditStudents({
+  params,
+}: {
   params: {
     classId: string;
   };
-};
-export default async function EditStudents({ params }: EditClassProps) {
+}) {
   const { classId } = params;
-  const { students, nameOfClass } =
+  const { students, grade, section } =
     await db.class.getStudentsByClassId(classId);
+  const nameOfClass = generateNameOfClass({ grade, section });
   const { inviteList } = await db.inviteStudentsRouter.getInviteList({
     classId,
   });
+  const hasInviteList = Array.isArray(inviteList) && inviteList.length > 0;
 
   return (
     <Paper className="flex min-h-screen w-full max-w-5xl flex-col gap-10">
@@ -39,32 +44,40 @@ export default async function EditStudents({ params }: EditClassProps) {
               />
             </div>
           </h1>
-          <span className="text-xl text-slate-500"> Class: {nameOfClass}</span>
+          <span className="text-xl text-slate-500">{nameOfClass}</span>
         </div>
-        {Array.isArray(inviteList) && inviteList.length > 0 && (
-          <Dialog>
-            <DialogTrigger>
-              <div className="flex cursor-pointer items-center gap-3 rounded-3xl bg-base-100 px-5 py-3">
-                <HiOutlineInboxStack className="text-3xl" />
-                <h5 className="text-xs font-semibold">
-                  Invited <br /> Students
-                </h5>
-              </div>
-            </DialogTrigger>
-            <DialogContent className="min-w-[900px]">
-              <DialogHeader>
-                <div className="pt-5">
-                  <h4 className="mb-5 text-2xl font-semibold tracking-wide">
-                    Invited Students
-                  </h4>
-                  <InvitedStudents inviteList={inviteList} />
-                </div>
-              </DialogHeader>
-            </DialogContent>
-          </Dialog>
-        )}
+        {hasInviteList && <InvitedStudentsDialog inviteList={inviteList} />}
       </div>
-      <DataTable students={students || []} classId={classId} />
+      <StudentsTable students={students || []} classId={classId} />
     </Paper>
   );
 }
+
+const InvitedStudentsDialog = ({
+  inviteList,
+}: {
+  inviteList: typeGetInviteList["inviteList"];
+}) => {
+  return (
+    <Dialog>
+      <DialogTrigger>
+        <div className="flex cursor-pointer items-center gap-3 rounded-3xl bg-base-100 px-5 py-3">
+          <HiOutlineInboxStack className="text-3xl" />
+          <h5 className="text-xs font-semibold">
+            Invited <br /> Students
+          </h5>
+        </div>
+      </DialogTrigger>
+      <DialogContent className="min-w-[900px]">
+        <DialogHeader>
+          <div className="pt-5">
+            <h4 className="mb-5 text-2xl font-semibold tracking-wide">
+              Invited Students
+            </h4>
+            <InvitedStudents inviteList={inviteList} />
+          </div>
+        </DialogHeader>
+      </DialogContent>
+    </Dialog>
+  );
+};
