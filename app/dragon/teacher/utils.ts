@@ -199,3 +199,19 @@ export const isNonEmptyObject = (obj: Object) => {
 export const isEmptyObject = (obj: Object) => {
   return obj && typeof obj === "object" && Object.keys(obj).length === 0;
 };
+
+
+export const generateNameOfClass = ({
+  grade,
+  section = "",
+}: {
+  grade: Grade | undefined;
+  section?: string | null;
+}): string => {
+  if (!grade) {
+    return "";
+  }
+  const formattedGrade = getFormattedGrade({ grade });
+  const formattedSection = section ? `-${section}` : "";
+  return `${formattedGrade}${formattedSection}`;
+};
