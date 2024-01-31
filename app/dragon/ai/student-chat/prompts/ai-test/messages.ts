@@ -1,4 +1,4 @@
-import { getAITestSystemMessage } from "./template";
+import { getEngineeredMessages } from "./template";
 import {
   ChatCompletionMessageParam,
   ChatCompletionSystemMessageParam,
@@ -95,7 +95,7 @@ export async function getEngineeredAITestBotMessages(
     console.error("context not found for chatId:");
   }
   const preferences = getPreferences(context);
-  const systemMessageContent = getAITestSystemMessage({
+  const engineeredMessages = getEngineeredMessages({
     studentName: preferences.studentName,
     grade: preferences.grade,
     aboutYourself: preferences.aboutYourself,
@@ -107,13 +107,6 @@ export async function getEngineeredAITestBotMessages(
     content: preferences.content,
     mediumOfInstruction: preferences.mediumOfInstruction,
   });
-
-  const systemMessage: ChatCompletionSystemMessageParam = {
-    role: "system",
-    content: systemMessageContent,
-  };
-
-  const engineeredMessages: ChatCompletionMessageParam[] = [systemMessage];
 
   return { engineeredMessages };
 }

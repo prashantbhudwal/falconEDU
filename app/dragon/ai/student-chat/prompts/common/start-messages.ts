@@ -23,7 +23,7 @@ export const getFirstMessage = ({
       hindi: "आप क्या कर सकते हैं?",
     },
     "ai-test": {
-      english: "Can we start the quiz?",
+      english: "Can you begin the quiz?",
       hindi: "क्या आप टेस्ट शुरू कर सकते हैं? मैं तैयार हूँ।",
     },
   };
