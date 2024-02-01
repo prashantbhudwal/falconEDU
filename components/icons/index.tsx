@@ -6,7 +6,11 @@ import {
   BuildingLibraryIcon,
   FaceSmileIcon,
   TrashIcon,
+  PlusIcon,
+  MinusIcon as MinusIconSolid,
+  XMarkIcon,
 } from "@heroicons/react/24/solid";
+import { XCircleIcon } from "@heroicons/react/24/outline";
 
 // Tailwind Size Mapping
 const sizeMapping = {
@@ -25,6 +29,9 @@ const colorMapping = {
   accent: "text-accent",
   white: "text-white",
   info: "text-info",
+  success: "text-success",
+  warning: "text-warning",
+  destructive: "text-destructive",
 };
 
 type BaseIconProps = {
@@ -78,4 +85,20 @@ export const AdminIcon: React.FC<IconProps> = (props) => (
 
 export const DeleteIcon: React.FC<IconProps> = (props) => (
   <BaseIcon {...props} Icon={TrashIcon} />
+);
+
+export const AddIcon: React.FC<IconProps> = (props) => (
+  <BaseIcon {...props} Icon={PlusIcon} />
+);
+
+export const MinusIcon: React.FC<IconProps> = (props) => (
+  <BaseIcon {...props} Icon={MinusIconSolid} />
+);
+
+export const CrossCircleIcon: React.FC<IconProps> = (props) => (
+  <BaseIcon {...props} Icon={XCircleIcon} />
+);
+
+export const CrossIcon: React.FC<IconProps> = (props) => (
+  <BaseIcon {...props} Icon={XMarkIcon} />
 );
