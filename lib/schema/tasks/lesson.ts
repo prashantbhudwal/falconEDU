@@ -29,6 +29,8 @@ export const videoSchema = z.object({
   metadata: z.string().optional(),
 });
 
+export const videoArraySchema = z.array(videoSchema).optional();
+
 export const lessonPreferencesSchema = z.object({
   topic: z.string().max(LIMITS_lessonPreferencesSchema.topic.maxLength),
   content: z.string().max(LIMITS_lessonPreferencesSchema.content.maxLength),
@@ -38,7 +40,7 @@ export const lessonPreferencesSchema = z.object({
   humorLevel: z.enum(humorLevel),
   languageProficiency: z.enum(languageProficiency),
   mediumOfInstruction: z.enum(mediumOfInstruction).optional(),
-  videos: z.array(videoSchema).optional(),
+  videos: videoArraySchema,
 });
 
 export const lessonNameSchema = z.object({
