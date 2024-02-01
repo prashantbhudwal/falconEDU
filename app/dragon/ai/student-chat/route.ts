@@ -51,6 +51,7 @@ export async function POST(req: NextRequest) {
 
     const relevantHistory = messages.slice(-MESSAGES_IN_CONTEXT_WINDOW);
     const messageArray = [...engineeredMessages, ...relevantHistory];
+    
 
     const { tools, toolsWithCallback } = findToolsByTask(botType);
     const temperature = getTaskProperties(botType).aiTemperature;
@@ -108,13 +109,12 @@ export async function POST(req: NextRequest) {
         await Promise.all(toolCallPromises);
         const appendedMessages = appendToolCallMessage();
         const functionCompletion = await openai.chat.completions.create({
-          messages: [...messages, ...appendedMessages],
+          messages: [...messageArray, ...appendedMessages],
           stream: true,
           model,
           temperature,
           // functions,
         });
-
         return functionCompletion;
       },
       async onCompletion(completion) {
