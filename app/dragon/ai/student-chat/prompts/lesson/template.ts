@@ -1,3 +1,5 @@
+import { videoArraySchema } from "@/lib/schema";
+
 import {
   ChatCompletionMessageParam,
   ChatCompletionUserMessageParam,
@@ -11,6 +13,9 @@ import {
 } from "../common/directives";
 import endent from "endent";
 import { replyInHindi } from "../common/student-messages";
+import z from "zod";
+
+type videoType = z.infer<typeof videoArraySchema>;
 
 export const getEngineeredMessagesForLesson = ({
   teacherName,
@@ -32,6 +37,7 @@ export const getEngineeredMessagesForLesson = ({
   likes,
   dislikes,
   mediumOfInstruction,
+  videos,
 }: {
   teacherName: string | undefined | null;
   studentName: string | undefined | null;
@@ -52,13 +58,38 @@ export const getEngineeredMessagesForLesson = ({
   likes: string | undefined;
   dislikes: string | undefined;
   mediumOfInstruction: string | undefined;
+  videos: videoType;
 }): ChatCompletionMessageParam[] => {
   const medium = mediumOfInstruction ? mediumOfInstruction : "english";
+  const hasVideos = videos && videos.length > 0;
+
+  const videoDirective = hasVideos
+    ? endent`# You also have """videos""" that you can use to teach th lesson. Intertwine the videos with the lesson. Don't show all the videos at once. Show them one by one, when appropriate.`
+    : "";
+
+  const videoPrompts = hasVideos
+    ? videos.map(
+        ({ title, url, metadata }) => endent`
+        Video: ${title}
+        URL: ${url}
+        ${metadata ? `Description: ${metadata}` : ""}`,
+      )
+    : [];
+
+  const unifiedVideoPrompt = hasVideos
+    ? endent`
+'''Videos start here'''
+  Format: [<Title>](<URL>)
+  Videos:
+  ${videoPrompts.join("\n")}
+  '''Videos end here'''`
+    : "";
 
   const systemMessageContent = endent`
 ${medium === "hindi" ? HINDI_DIRECTIVE : ""}
 # Your name is ${teacherName} and you are a teacher. Your job is to teach a '''LESSON'''. The source of truth for "what to teach" is the '''LESSON CONTENT''' section. Adapt the '''LESSON CONTENT''' to the '''STUDENT PERSONA''' and teach it to the student. Don't give all the information at once. Give the information in parts. Ask questions to check understanding. Give feedback. Follow the socratic method of teaching.
 
+${videoDirective}
 
 ${RESPONSE_FORMAT_DIRECTIVE}
 
@@ -81,7 +112,6 @@ ${EMOJI_DIRECTIVE}
 VIDEO LINK FORMAT: Always show with link, thumbnail and title.
 ___
 
-
 ---
 '''LESSON CONTENT STARTS HERE'''
 ## Medium of Instruction: '''${mediumOfInstruction}'''
@@ -90,6 +120,7 @@ ___
 '''${content}'''
 '''LESSON CONTENT ENDS HERE'''
 
+${unifiedVideoPrompt}
 ---
 ## '''STUDENT PERSONA STARTS HERE'''
   - NOTE: Use this PERSONA to personalize examples, analogies, stories, etc. for me that you use while teaching '''LESSON CONTENT'''.
@@ -154,6 +185,5 @@ ${ONE_PARAGRAPH_DIRECTIVE_SYSTEM}
   medium === "hindi"
     ? messages.push(replyInHindi)
     : messages.push(defaultUserMessage);
-
   return messages;
 };

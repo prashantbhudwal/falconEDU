@@ -47,6 +47,7 @@ export const getPreferences = (context: LessonContextByChatId) => {
     humorLevel,
     languageProficiency,
     mediumOfInstruction,
+    videos,
   } = lessonPreferences;
   const { personalInformation, professionalInformation, likes, dislikes } =
     teacherPreferences;
@@ -81,6 +82,7 @@ export const getPreferences = (context: LessonContextByChatId) => {
     favoriteFoods,
     interests,
     mediumOfInstruction,
+    videos,
   } as const;
   return preferences;
 };
@@ -113,6 +115,7 @@ export async function getEngineeredLessonBotMessages(
     tone: preferences.tone,
     content: preferences.content,
     mediumOfInstruction: preferences.mediumOfInstruction,
+    videos: preferences.videos,
   });
 
   return { engineeredMessages };
