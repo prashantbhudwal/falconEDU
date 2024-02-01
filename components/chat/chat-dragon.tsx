@@ -9,9 +9,14 @@ import { MdOutlineKeyboardDoubleArrowDown } from "react-icons/md";
 import { Button } from "../ui/button";
 import { useInView } from "react-intersection-observer";
 import { chatIsLoadingAtom } from "@/lib/atoms/student";
-import { useSubmitTest } from "@/hooks/ai/use-submit-test";
+import { useUI } from "@/hooks/ai/use-ui";
 import { useAtom } from "jotai";
 import { useFirstMessage } from "./use-first-message";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { showVideoModalAtom, videoUrlAtom } from "@/lib/atoms/ui";
+import ReactPlayer from "react-player";
+import { AspectRatio } from "../ui/aspect-ratio";
+import { motion } from "framer-motion";
 
 const InDev = ({ component }: { component: React.ReactNode }) => {
   if (process.env.NODE_ENV === "production") {
@@ -48,6 +53,25 @@ export function Chat({
   isSubmitted = false,
   type,
 }: ChatProps) {
+  const borderAnimation = {
+    initial: {
+      borderColor: "rgba(255, 255, 255, 0)", // Transparent border
+    },
+    animate: {
+      borderColor: "rgba(255, 255, 255, 1)", // Solid white border
+    },
+  };
+
+  const shadowAnimation = {
+    initial: {
+      boxShadow: "0px 0px 0px rgba(0, 0, 0, 0)", // No shadow
+    },
+    animate: {
+      boxShadow: "0px 5px 15px rgba(0, 0, 0, 0.5)", // Visible shadow
+    },
+  };
+  const [showVideoModal, setShowVideoModal] = useAtom(showVideoModalAtom);
+  const [videoUrl, setVideoUrl] = useAtom(videoUrlAtom);
   const { messages, append, reload, stop, isLoading, input, setInput, data } =
     useChat({
       api: apiPath,
@@ -61,7 +85,7 @@ export function Chat({
       },
     });
 
-  useSubmitTest({ data, isLoading });
+  useUI({ data, isLoading });
 
   const [, setIsLoadingAtom] = useAtom(chatIsLoadingAtom);
   useEffect(() => {
@@ -125,6 +149,36 @@ export function Chat({
                 isLoading={isLoading}
                 hideActions={type === "test"}
               />
+              {showVideoModal && (
+                <motion.div
+                  initial="initial"
+                  animate="animate"
+                  variants={shadowAnimation}
+                  transition={{ duration: 0.5 }}
+                >
+                  <Card className="mx-auto w-fit shadow-lg shadow-secondary">
+                    <CardHeader>
+                      <CardTitle>Recommended Video</CardTitle>
+                    </CardHeader>
+                    <CardContent className="bg-base-200">
+                      {ReactPlayer.canPlay(videoUrl) ? (
+                        <ReactPlayer
+                          url={videoUrl}
+                          controls={true}
+                          height={200}
+                          width={"100%"}
+                        />
+                      ) : (
+                        <div className="flex h-full flex-col items-center justify-center">
+                          <p className="text-center text-gray-500">
+                            This video is not supported.
+                          </p>
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              )}
             </>
           ) : (
             <div className="mx-auto max-w-2xl px-4 pt-8">
