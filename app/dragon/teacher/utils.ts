@@ -215,3 +215,15 @@ export const generateNameOfClass = ({
   const formattedSection = section ? `-${section}` : "";
   return `${formattedGrade}${formattedSection}`;
 };
+
+
+export const formatUrl = (url: string) => {
+  if (!url) return url;
+  if (!url.match(/^(http|https):\/\//)) {
+    url = `http://${url}`;
+  }
+  if (!url.match(/^http[s]?:\/\/www\./)) {
+    url = url.replace(/^http[s]?:\/\//, "http://www.");
+  }
+  return url;
+};
