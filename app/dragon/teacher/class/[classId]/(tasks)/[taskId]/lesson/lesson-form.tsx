@@ -29,6 +29,7 @@ import {
 } from "@/lib/schema";
 const MAX_CHARS = LIMITS_lessonPreferencesSchema.content.maxLength;
 import { MediumOfInstructionField } from "../../_components/task-form";
+import { VideoField } from "../../_components/task-form/fields/videos";
 
 const defaultValues: z.infer<typeof lessonPreferencesSchema> = {
   topic: "",
@@ -39,6 +40,7 @@ const defaultValues: z.infer<typeof lessonPreferencesSchema> = {
   humorLevel: "Moderate",
   languageProficiency: "Beginner",
   mediumOfInstruction: "english",
+  videos: [],
 };
 
 type LessonFormProps = {
@@ -66,7 +68,9 @@ export default function LessonForm({
   const form = useForm<z.infer<typeof lessonPreferencesSchema>>({
     resolver: zodResolver(lessonPreferencesSchema),
     defaultValues: preferences || defaultValues,
+    mode: "onBlur",
   });
+
   const { isDirty, setIsDirty } = useIsFormDirty(form);
   const isEmpty = preferences === null || preferences === undefined;
 
@@ -185,6 +189,7 @@ export default function LessonForm({
             />
             <MediumOfInstructionField name="mediumOfInstruction" />
             <HumorLevelField name="humorLevel" />
+            <VideoField name="videos" />
           </Paper>
         </form>
       </Form>
