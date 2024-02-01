@@ -19,7 +19,6 @@ export default function TRPCProvider({
   const [queryClient] = useState(() => new QueryClient());
   const [trpcClient] = useState(() =>
     api.createClient({
-      transformer,
       links: [
         loggerLink({
           enabled: (op) =>
@@ -33,6 +32,7 @@ export default function TRPCProvider({
             heads.set("x-trpc-source", "react");
             return Object.fromEntries(heads);
           },
+          transformer,
         }),
       ],
     }),
