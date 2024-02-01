@@ -187,9 +187,9 @@ export default function LessonForm({
                 </FormItem>
               )}
             />
+            <VideoField name="videos" />
             <MediumOfInstructionField name="mediumOfInstruction" />
             <HumorLevelField name="humorLevel" />
-            <VideoField name="videos" />
           </Paper>
         </form>
       </Form>
