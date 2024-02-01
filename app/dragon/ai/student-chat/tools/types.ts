@@ -1,7 +1,7 @@
 import { ChatCompletionTool } from "openai/resources";
 import { JsonSchema7Type } from "zod-to-json-schema";
 
-export type toolName = "search_youtube_video" | "submit_test";
+export type toolName = "search_youtube_video" | "submit_test" | "show_video";
 
 export type CustomJsonSchema = JsonSchema7Type & {
   $schema?: string | undefined;
