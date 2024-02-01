@@ -1,12 +1,16 @@
 "use client";
 import { ToolData } from "@/app/dragon/ai/student-chat/route";
-import { submitTestModalAtom } from "@/lib/atoms/ui";
+import {
+  showVideoModalAtom,
+  submitTestModalAtom,
+  videoUrlAtom,
+} from "@/lib/atoms/ui";
 import { JSONValue } from "ai";
 import { useSetAtom } from "jotai";
 import useDeepCompareEffect from "use-deep-compare-effect";
 import { SubmitTestResult } from "@/app/dragon/ai/student-chat/tools/toolkit/test-submission-tool";
 
-export const useSubmitTest = ({
+export const useUI = ({
   data,
   isLoading,
 }: {
@@ -14,6 +18,8 @@ export const useSubmitTest = ({
   isLoading: boolean;
 }) => {
   const setShowSubmitModal = useSetAtom(submitTestModalAtom);
+  const showVideoModal = useSetAtom(showVideoModalAtom);
+  const setVideoUrl = useSetAtom(videoUrlAtom);
   useDeepCompareEffect(() => {
     let toolData: ToolData[];
     if (data && !isLoading) {
@@ -21,6 +27,20 @@ export const useSubmitTest = ({
       const submitTool = toolData.find(
         (tool) => tool.function_name === "submit_test",
       );
+
+      const showVideoTool = toolData.find(
+        (tool) => tool.function_name === "show_video",
+      );
+
+      if (showVideoTool) {
+        if (showVideoTool.tool_call_result.video.url.length > 0) {
+          console.log(
+            showVideoTool.tool_call_result.video.whyIsRightTimeToShow,
+          );
+          setVideoUrl(showVideoTool.tool_call_result.video.url);
+          showVideoModal(true);
+        }
+      }
       if (submitTool) {
         if (submitTool.tool_call_result.submitTest.submit === true) {
           setShowSubmitModal(true);
