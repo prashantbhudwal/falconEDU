@@ -15,6 +15,7 @@
     "gruntfuggly.todo-tree",
     "pflannery.vscode-versionlens",
     "redhat.vscode-yaml",
-    "atlassian.atlascode"
+    "atlassian.atlascode",
+    "usernamehw.errorlens"
   ]
 }
