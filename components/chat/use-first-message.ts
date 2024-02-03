@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { CreateMessage, Message } from "ai";
+import { CreateMessage } from "ai";
 import { TaskType } from "@/types";
 import { getFirstMessage } from "@/app/dragon/ai/student-chat/prompts/common/start-messages";
 
@@ -9,7 +9,7 @@ export function useFirstMessage({
   type,
 }: {
   messages: CreateMessage[];
-  append: (message: CreateMessage) => void;
+  append: (message: CreateMessage) => Promise<string | null | undefined>;
   type: string;
 }) {
   useEffect(() => {
