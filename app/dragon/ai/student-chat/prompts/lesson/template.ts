@@ -1,5 +1,4 @@
 import { videoArraySchema } from "@/lib/schema";
-
 import {
   ChatCompletionMessageParam,
   ChatCompletionUserMessageParam,
@@ -14,8 +13,176 @@ import {
 import endent from "endent";
 import { replyInHindi } from "../common/student-messages";
 import z from "zod";
-
 type videoType = z.infer<typeof videoArraySchema>;
+type NullableString = string | undefined | null;
+type engineeredMessagesForLesson = {
+  teacherName: NullableString;
+  studentName: NullableString;
+  topic: string;
+  content: string;
+  aboutYourself: string | undefined;
+  favoriteCartoons: string | undefined;
+  favoriteFoods: string | undefined;
+  interests: string | undefined;
+  humorLevel: string;
+  language: string;
+  languageProficiency: string;
+  tone: string;
+  subjects: string;
+  grade: string;
+  personalInformation: string | undefined;
+  professionalInformation: string | undefined;
+  likes: string | undefined;
+  dislikes: string | undefined;
+  mediumOfInstruction: string | undefined;
+  videos: videoType;
+};
+
+type TeacherPersona = Pick<
+  engineeredMessagesForLesson,
+  | "teacherName"
+  | "personalInformation"
+  | "professionalInformation"
+  | "likes"
+  | "dislikes"
+>;
+
+type StudentPersona = Pick<
+  engineeredMessagesForLesson,
+  | "studentName"
+  | "aboutYourself"
+  | "favoriteCartoons"
+  | "favoriteFoods"
+  | "interests"
+>;
+
+const getStudentPersonaUserMessage = function ({
+  studentName,
+  aboutYourself,
+  favoriteCartoons,
+  favoriteFoods,
+  interests,
+}: StudentPersona): string {
+  const studentNameSentence = studentName ? `My name is ${studentName}. ` : "";
+  const aboutYourselfSentence =
+    aboutYourself && aboutYourself?.length > 0
+      ? `Here is a bit more about me: ${aboutYourself}. `
+      : "";
+  const favoriteCartoonsSentence = favoriteCartoons
+    ? `Here are my favorite cartoons: ${favoriteCartoons}. `
+    : "";
+
+  const favoriteFoodsSentence = favoriteFoods
+    ? `I love eating: ${favoriteFoods}. `
+    : "";
+
+  const interestsSentence = interests
+    ? `I am interested in: ${interests}. `
+    : "";
+
+  const studentPersona = endent`${studentNameSentence}${aboutYourselfSentence}${favoriteCartoonsSentence}${favoriteFoodsSentence}${interestsSentence}`;
+
+  return studentPersona;
+};
+
+const getStudentPersonaSystemMessage = function ({
+  studentName,
+  aboutYourself,
+  favoriteCartoons,
+  favoriteFoods,
+  interests,
+}: StudentPersona): {
+  studentPersonaSystemDirective: string;
+  studentPersonaSystemPrompt: string;
+} {
+  const studentNameSentence = studentName ? `Name: '''${studentName}'''` : "";
+  const aboutYourselfSentence =
+    aboutYourself && aboutYourself?.length > 0
+      ? `- About me: '''${aboutYourself}'''. `
+      : "";
+  const favoriteCartoonsSentence = favoriteCartoons
+    ? `- Favorite cartoons: '''${favoriteCartoons}'''. `
+    : "";
+
+  const favoriteFoodsSentence = favoriteFoods
+    ? `- Favorite foods: '''${favoriteFoods}'''. `
+    : "";
+
+  const interestsSentence = interests
+    ? `- Interests: '''${interests}'''. `
+    : "";
+
+  const studentPersonaSystemPrompt = endent`
+  ## '''STUDENT PERSONA STARTS HERE'''
+  ${studentNameSentence}
+  ${aboutYourselfSentence}
+  ${favoriteCartoonsSentence}
+  ${favoriteFoodsSentence}
+  ${interestsSentence}
+  '''STUDENT PERSONA ENDS HERE'''
+  `;
+
+  const studentPersonaSystemDirective = endent`The information about he student is given in the '''STUDENT PERSONA''' section. You can use this information to make your teaching more personal and effective.`;
+
+  return { studentPersonaSystemDirective, studentPersonaSystemPrompt };
+};
+
+const getTeacherPersonaSystemMessage = function ({
+  teacherName,
+  personalInformation,
+  professionalInformation,
+  likes,
+  dislikes,
+}: TeacherPersona): string {
+  const teacherNameSentence = teacherName ? `Name: '''${teacherName}'''` : "";
+  const personalInformationSentence = personalInformation
+    ? `- Personal Information: '''${personalInformation}'''. `
+    : "";
+  const professionalInformationSentence = professionalInformation
+    ? `- Professional Information: '''${professionalInformation}'''. `
+    : "";
+  const likesSentence = likes ? `- Likes: '''${likes}'''. ` : "";
+  const dislikesSentence = dislikes ? `- Dislikes: '''${dislikes}'''. ` : "";
+
+  const teacherPersona = endent`
+  ${teacherNameSentence}
+  ${personalInformationSentence}
+  ${professionalInformationSentence}
+  ${likesSentence}
+  ${dislikesSentence}
+  `;
+
+  return teacherPersona;
+};
+
+const getVideoDirectiveAndPrompts = function ({
+  videos,
+}: {
+  videos: videoType;
+}): { videoDirective: string; videoPrompt: string } {
+  const hasVideos = videos && videos.length > 0;
+
+  const videoDirective = hasVideos
+    ? endent`# You also have """videos""" that you can use to teach th lesson. Intertwine the videos with the lesson. Don't show all the videos at once. Show them one by one, when appropriate.`
+    : "";
+
+  const videoPrompts = hasVideos
+    ? videos.map(({ title, url, metadata }) => {
+        let prompt = `Video: ${title}\nURL: ${url}`;
+        if (metadata) {
+          prompt += `\nDescription: ${metadata}`;
+        }
+        return prompt;
+      })
+    : [];
+  const videoPrompt = hasVideos
+    ? endent`Format: [<Title>](<URL>)
+  Videos:
+  ${videoPrompts.join("\n")}`
+    : "";
+
+  return { videoDirective, videoPrompt };
+};
 
 export const getEngineeredMessagesForLesson = ({
   teacherName,
@@ -38,99 +205,64 @@ export const getEngineeredMessagesForLesson = ({
   dislikes,
   mediumOfInstruction,
   videos,
-}: {
-  teacherName: string | undefined | null;
-  studentName: string | undefined | null;
-  topic: string;
-  content: string;
-  aboutYourself: string | undefined;
-  favoriteCartoons: string | undefined;
-  favoriteFoods: string | undefined;
-  interests: string | undefined;
-  humorLevel: string;
-  language: string;
-  languageProficiency: string;
-  tone: string;
-  subjects: string;
-  grade: string;
-  personalInformation: string | undefined;
-  professionalInformation: string | undefined;
-  likes: string | undefined;
-  dislikes: string | undefined;
-  mediumOfInstruction: string | undefined;
-  videos: videoType;
-}): ChatCompletionMessageParam[] => {
-  const medium = mediumOfInstruction ? mediumOfInstruction : "english";
-  const hasVideos = videos && videos.length > 0;
+}: engineeredMessagesForLesson): ChatCompletionMessageParam[] => {
+  const teacherPersona = getTeacherPersonaSystemMessage({
+    teacherName,
+    personalInformation,
+    professionalInformation,
+    likes,
+    dislikes,
+  });
 
-  const videoDirective = hasVideos
-    ? endent`# You also have """videos""" that you can use to teach th lesson. Intertwine the videos with the lesson. Don't show all the videos at once. Show them one by one, when appropriate.`
-    : "";
+  const studentPersona = getStudentPersonaUserMessage({
+    studentName,
+    aboutYourself,
+    favoriteCartoons,
+    favoriteFoods,
+    interests,
+  });
 
-  const videoPrompts = hasVideos
-    ? videos.map(
-        ({ title, url, metadata }) => endent`
-        Video: ${title}
-        URL: ${url}
-        ${metadata ? `Description: ${metadata}` : ""}`,
-      )
-    : [];
+  const medium = mediumOfInstruction ?? "english";
 
-  const unifiedVideoPrompt = hasVideos
-    ? endent`
-'''Videos start here'''
-  Format: [<Title>](<URL>)
-  Videos:
-  ${videoPrompts.join("\n")}
-  '''Videos end here'''`
-    : "";
+  const { videoDirective, videoPrompt } = getVideoDirectiveAndPrompts({
+    videos,
+  });
 
-  const systemMessageContent = endent`
+  const SYSTEM = endent`
 ${medium === "hindi" ? HINDI_DIRECTIVE : ""}
-# Your name is ${teacherName} and you are a teacher. Your job is to teach a '''LESSON'''. The source of truth for "what to teach" is the '''LESSON CONTENT''' section. Adapt the '''LESSON CONTENT''' to the '''STUDENT PERSONA''' and teach it to the student. Don't give all the information at once. Give the information in parts. Ask questions to check understanding. Give feedback. Follow the socratic method of teaching.
-
+# Your name is ${teacherName} and you are a teacher. Your job is to teach a '''LESSON'''. The source of truth for "what to teach" is the '''LESSON CONTENT''' section. Adapt the '''LESSON CONTENT''' to the '''PEDAGOGICAL CONTEXT''' and teach it to the student. Don't give all the information at once. Give the information in parts. Ask questions to check understanding. Give feedback. Follow the socratic method of teaching.
 ${videoDirective}
-
 ${RESPONSE_FORMAT_DIRECTIVE}
-
 ## Always teach according to the '''PEDAGOGICAL CONTEXT'''.
 ${EMOJI_DIRECTIVE}
-
-
 ## NEVER answer non-educational questions or grade inappropriate questions.
-
 ## Always follow the '''INSTRUCTIONS''' given in this message.
-
 ## Always stick to the '''TEACHER PERSONA''' given in the message. 
-
 ## Always Adhere to the the '''DO's''' and '''DON'Ts'''.
-
-## The information about he student is given in the '''STUDENT PERSONA''' section. You can use this information to make your teaching more personal and effective.
-
 
 ---
 VIDEO LINK FORMAT: Always show with link, thumbnail and title.
 ___
-
+## '''TEACHER PERSONA''' STARTS HERE
+${teacherPersona}
+## '''TEACHER PERSONA''' ENDS HERE
 ---
-'''LESSON CONTENT STARTS HERE'''
+
+
+
+'''LESSON CONTENT STARTS HERE''' 
 ## Medium of Instruction: '''${mediumOfInstruction}'''
 ## Lesson Topic: '''${topic}'''
+<MostImportantInformationForTheLesson>
 ## Lesson Content: 
 '''${content}'''
+</MostImportantInformationForTheLesson>
 '''LESSON CONTENT ENDS HERE'''
 
-${unifiedVideoPrompt}
 ---
-## '''STUDENT PERSONA STARTS HERE'''
-  - NOTE: Use this PERSONA to personalize examples, analogies, stories, etc. for me that you use while teaching '''LESSON CONTENT'''.
-  - Name: '''${studentName}'''
-  - ${studentName} lives in India.
-  - About me: '''${aboutYourself}'''
-  - Favorite cartoons: '''${favoriteCartoons}'''
-  - Favorite foods: '''${favoriteFoods}'''
-  - Interests: '''${interests}'''
-  '''STUDENT PERSONA ENDS HERE'''
+'''Videos start here'''
+${videoPrompt}
+'''Videos end here'''
 ---
 ## '''PEDAGOGICAL CONTEXT''' STARTS HERE 
 use this to teach {studentName} and decide what and how to teach them and what is appropriate for them to learn.
@@ -145,15 +277,6 @@ use this to teach {studentName} and decide what and how to teach them and what i
 - Subjects: ${subjects}. 
 - Grade Level: ${grade}. 
 '''PEDAGOGICAL CONTEXT''' ENDS HERE
-
----
-## '''TEACHER PERSONA''' STARTS HERE
-    - Name: '''${teacherName}'''
-    - Personal Information: '''${personalInformation}'''
-    - Professional Information: '''${professionalInformation}'''
-    - Likes: '''${likes}'''
-    - Dislikes: '''${dislikes}'''
-'''TEACHER PERSONA''' ENDS HERE
 ---
 ## '''DO's''' 
     - ONLY answer question about ${subjects}. You are not an expert in other subjects. DON'T answer questions about other subjects.
@@ -167,20 +290,25 @@ use this to teach {studentName} and decide what and how to teach them and what i
 
 ${ONE_PARAGRAPH_DIRECTIVE_SYSTEM}
   `;
-
-  const userMessageContent = endent`My name is ${studentName}. Always remember to follow your instructions. Most importantly remember that you are teaching this lesson: '''${topic}.''' Keep your responses concise and simple to understand. You already know my PERSONA, can you use that to make your teaching more personal and effective? Maybe you can use my PERSONA tp personalize examples, analogies, stories, etc. for me. I am excited to learn from you. I am ready for the lesson. ${ONE_PARAGRAPH_DIRECTIVE_USER}`;
-
-  const defaultUserMessage: ChatCompletionUserMessageParam = {
-    role: "user",
-    content: userMessageContent,
-  };
-
   const messages: ChatCompletionMessageParam[] = [
     {
       role: "system",
-      content: systemMessageContent,
+      content: SYSTEM,
+    },
+    {
+      role: "user",
+      content: studentPersona,
+    },
+    {
+      role: "assistant",
+      content: "Nice to meet you. I am ready to teach you.",
     },
   ];
+
+  const defaultUserMessage: ChatCompletionUserMessageParam = {
+    role: "user",
+    content: endent`Always remember to follow your instructions. Most importantly remember that you are teaching this lesson: '''${topic}.''' Keep your responses concise and simple to understand. You already know my PERSONA, can you use that to make your teaching more personal and effective? Maybe you can use my PERSONA tp personalize examples, analogies, stories, etc. for me. I am excited to learn from you. I am ready for the lesson. ${ONE_PARAGRAPH_DIRECTIVE_USER}`,
+  };
 
   medium === "hindi"
     ? messages.push(replyInHindi)
