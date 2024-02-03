@@ -3,7 +3,7 @@ import {
   lessonPreferences as lessonPreferencesTest,
   teacherPreferences as teacherPreferencesTest,
   studentPreferences as studentPreferencesTest,
-} from "../../../../../../lib/schema/test-data";
+} from "@/lib/schema/test-data";
 import { LessonContextByChatId } from "./queries";
 import { isEmptyObject } from "../chat/queries";
 
@@ -36,53 +36,20 @@ export const getPreferences = (context: LessonContextByChatId) => {
   if (isEmptyObject(teacherPreferences) || teacherPreferences === undefined) {
     teacherPreferences = teacherPreferencesTest[0];
   }
-  const teacherName = context?.teacherName;
-  const studentName = context?.studentName;
-  const {
-    content,
-    topic,
-    subjects,
-    tone,
-    language,
-    humorLevel,
-    languageProficiency,
-    mediumOfInstruction,
-    videos,
-  } = lessonPreferences;
-  const { personalInformation, professionalInformation, likes, dislikes } =
-    teacherPreferences;
-
-  const { aboutYourself, favoriteCartoons, favoriteFoods, interests } =
-    studentPreferences;
-
-  const unformattedGrade = context?.grade;
-  const grade = unformattedGrade
-    ? getFormattedGrade({ grade: unformattedGrade })
+  const { teacherName, studentName } = context ?? {};
+  const { subjects, ...lessonPreferencesWithoutSubjects } = lessonPreferences;
+  const grade = context?.grade
+    ? getFormattedGrade({ grade: context?.grade })
     : "Grade %";
-
   const stringifiedSubjects = JSON.stringify(subjects);
-
   const preferences = {
     teacherName,
     studentName,
-    grade: grade,
-    humorLevel,
-    content,
-    topic,
-    language,
-    languageProficiency,
+    grade,
     subjects: stringifiedSubjects,
-    tone,
-    personalInformation,
-    professionalInformation,
-    likes,
-    dislikes,
-    aboutYourself,
-    favoriteCartoons,
-    favoriteFoods,
-    interests,
-    mediumOfInstruction,
-    videos,
+    ...lessonPreferencesWithoutSubjects,
+    ...teacherPreferences,
+    ...studentPreferences,
   } as const;
   return preferences;
 };
