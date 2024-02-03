@@ -9,7 +9,7 @@ import {
 
 export const LIMITS_lessonPreferencesSchema = {
   content: {
-    maxLength: 3000,
+    maxLength: 5000,
   },
   topic: {
     maxLength: 140,
