@@ -42,10 +42,10 @@ export const getGoalAssessmentResult = cache(
 export async function AITestReport({
   taskId,
   attemptId,
-}: {
+}: Readonly<{
   taskId: string;
   attemptId: string;
-}) {
+}>) {
   let testResults: UnwrapPromise<ReturnType<typeof getGoalAssessmentResult>> =
     null;
   const botChat = await getBotChatWithStudentByBotChatId({
@@ -55,7 +55,6 @@ export async function AITestReport({
   if (botChat?.isSubmitted) {
     testResults = await getGoalAssessmentResult({ botChatId: attemptId });
   }
-  console.log(testResults);
 
   return (
     <div>
@@ -72,7 +71,7 @@ export async function AITestReport({
                   key={goal.id}
                   className="w-full space-y-3 rounded  p-4 shadow-md"
                 >
-                  <CardContent>
+                  <CardContent className="space-y-3">
                     <div className="font-bold">
                       {goal.goalNumber}. {goal.goal}
                     </div>
