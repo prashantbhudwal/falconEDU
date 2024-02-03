@@ -21,7 +21,6 @@ import { submitTestModalAtom } from "@/lib/atoms/ui";
 import { useAtom } from "jotai";
 import { TaskType } from "@/types";
 import { saveGoalAssessmentByBotChatId } from "@/app/dragon/ai/tasks/ai-test/submission/mutations";
-import { cva } from "class-variance-authority";
 
 const testHandler = async (botChatId: string) => {
   const testResults = await checkTest({ botChatId: botChatId });
@@ -59,7 +58,7 @@ type PropTypes = React.HTMLAttributes<HTMLDivElement> & {
   type: TaskType;
 };
 
-const SubmitTestButton = React.forwardRef<HTMLButtonElement, PropTypes>(
+export const SubmitTestButton = React.forwardRef<HTMLButtonElement, PropTypes>(
   ({ testBotId, redirectUrl, botChatId, className, type: taskType }, ref) => {
     const [loading, setLoading] = useState(false);
     const [showDialog, setShowDialog] = useState(false);
@@ -148,5 +147,3 @@ const SubmitTestButton = React.forwardRef<HTMLButtonElement, PropTypes>(
 );
 
 SubmitTestButton.displayName = "SubmitTestButton";
-
-export default SubmitTestButton;
