@@ -1,39 +1,87 @@
 "use server";
 import { ChatPromptTemplate } from "langchain/prompts";
 import { JsonOutputFunctionsParser } from "langchain/output_parsers";
-import {
-  baseModel,
-  testQuestionDataExtractionModel,
-  testQuestionObjectSchema,
-} from "./model";
+import { extractTestQuestionsAsJson, testQuestionObjectSchema } from "./model";
 import { systemTemplateForParsing } from "./template";
 import { UnwrapPromise } from "../../student/queries";
+import { ChatOpenAI } from "langchain/chat_models/openai";
+import pRetry from "p-retry";
+import { z } from "zod";
+import { OPENAI_MODEL } from "../config";
 
-export async function parseTestQuestions(test: string) {
+type TestQuestionObjectType = z.infer<typeof testQuestionObjectSchema>;
+
+const MODEL_OPTIONS_RETRY = {
+  name: OPENAI_MODEL.GPT4,
+  temperatures: [0.0, 0.5, 1.0],
+};
+
+const tryExtraction = async function ({
+  attemptNumber,
+  test,
+}: {
+  attemptNumber: number;
+  test: string;
+}): Promise<TestQuestionObjectType> {
   const jsonOutputParser = new JsonOutputFunctionsParser();
-  //   const stringOutputParser = new StringOutputParser();
+
+  const temperature =
+    MODEL_OPTIONS_RETRY.temperatures[
+      Math.min(attemptNumber - 1, MODEL_OPTIONS_RETRY.temperatures.length - 1)
+    ];
+
+  const baseModel = new ChatOpenAI({
+    modelName: MODEL_OPTIONS_RETRY.name,
+    temperature,
+  });
+
+  const testQuestionDataExtractionModel = baseModel.bind({
+    functions: [extractTestQuestionsAsJson],
+    function_call: { name: "extractTestQuestionsAsJson" },
+  });
 
   const promptForJsonExtraction = ChatPromptTemplate.fromMessages([
     ["system", systemTemplateForParsing],
   ]);
 
-  try {
-    const extractionChain = promptForJsonExtraction
-      .pipe(testQuestionDataExtractionModel)
-      .pipe(jsonOutputParser);
+  const extractionChain = promptForJsonExtraction
+    .pipe(testQuestionDataExtractionModel)
+    .pipe(jsonOutputParser);
 
-    const testResultsJson = await extractionChain.invoke({
-      test: test,
+  const testResultsJson = await extractionChain.invoke({
+    test: test,
+  });
+
+  const parsedTestResults = testQuestionObjectSchema.safeParse(testResultsJson);
+
+  if (!parsedTestResults.success) {
+    throw new Error("Parsing failed", {
+      cause: parsedTestResults,
     });
+  }
 
-    const parsedTestResults =
-      testQuestionObjectSchema.safeParse(testResultsJson);
-    if (!parsedTestResults.success) {
-      throw new Error("Parsing failed");
-    }
-    const parsedQuestions = parsedTestResults.data.results;
-    const hasQuestions = parsedTestResults.data.questionsInTest;
-    const hasAnswers = parsedTestResults.data.answersInTest;
+  return parsedTestResults.data;
+};
+
+export async function parseTestQuestions(test: string) {
+  try {
+    const parsedTestResults = await pRetry(
+      async (attemptNumber) => {
+        return await tryExtraction({
+          attemptNumber: attemptNumber,
+          test: test,
+        });
+      },
+      {
+        retries: MODEL_OPTIONS_RETRY.temperatures.length - 1,
+      },
+    );
+
+    const {
+      results: parsedQuestions,
+      questionsInTest: hasQuestions,
+      answersInTest: hasAnswers,
+    } = parsedTestResults;
 
     return {
       parsedQuestions,
@@ -51,7 +99,6 @@ export async function parseTestQuestions(test: string) {
       error: true,
       message: "Can't generate questions for test",
     };
-    throw new Error("Can't generate results");
   }
 }
 export type ParsedQuestions = UnwrapPromise<
