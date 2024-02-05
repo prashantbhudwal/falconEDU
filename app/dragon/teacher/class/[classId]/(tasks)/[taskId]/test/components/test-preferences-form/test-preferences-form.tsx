@@ -29,13 +29,6 @@ type BotPreferencesFormProps = {
   isActive: boolean;
 };
 
-const ERROR = {
-  NO_QUESTIONS: "No questions provided. Please provide the questions.",
-  NO_ANSWERS: "No answers provided. Please provide the answers.",
-  NO_QUESTIONS_AND_ANSWERS:
-    "No questions and answers provided. Please provide the questions and answers.",
-};
-
 const appendTest = (existingTest: string, newTest: string) => {
   return newTest ? existingTest + "\n" + newTest : existingTest;
 };
@@ -48,17 +41,25 @@ const parseQuestions = async (fullTest: string) => {
     throw new Error(message);
   }
 
-  if (!hasQuestions || !hasAnswers) {
-    const errorMessage = !hasQuestions
-      ? ERROR.NO_QUESTIONS
-      : !hasAnswers
-        ? ERROR.NO_ANSWERS
-        : ERROR.NO_QUESTIONS_AND_ANSWERS;
-    throw new Error(errorMessage);
+  if (!hasQuestions && !hasAnswers) {
+    throw new Error(
+      "No questions and answers provided. Please provide the questions and answers and save again.",
+    );
   }
 
+  if (!hasQuestions) {
+    throw new Error(
+      "No questions provided. Please provide the questions and save again.",
+    );
+  }
+
+  if (!hasAnswers) {
+    throw new Error(
+      "No answers provided. Please provide the answers and save again.",
+    );
+  }
   if (!parsedQuestions) {
-    throw new Error(ERROR.NO_QUESTIONS_AND_ANSWERS);
+    throw new Error("Something went wrong. Please try again later.");
   }
 
   return parsedQuestions;
@@ -72,7 +73,7 @@ const addQuestionNumberToParsedQuestions = ({
   parsedQuestionFromDb: typeActiveParsedQuestionByBotConfigId[];
 }) => {
   if (!parsedQuestions) {
-    throw new Error("No parsed questions provided.");
+    throw new Error("Something went wrong. Please try again later.");
   }
   return parsedQuestions.map((question, index) => {
     return {
@@ -191,7 +192,7 @@ export default function TestPreferencesForm({
     const result = await db.botConfig.updateBotConfigName({
       classId,
       botId,
-      name: testName || "Test Preferences",
+      name: testName ?? "Test Preferences",
     });
     if (result.success) {
       setError("");
