@@ -15,6 +15,7 @@ import {
   lessonPreferencesSchema,
   testBotPreferencesSchema,
 } from "@/lib/schema";
+import { BotConfig } from "@prisma/client";
 type BotPreferencesSchemaType = z.infer<typeof botPreferencesSchema>;
 type TestBotPreferencesSchemaType = z.infer<typeof testBotPreferencesSchema>;
 type LessonPreferencesSchemaType = z.infer<typeof lessonPreferencesSchema>;
@@ -252,6 +253,34 @@ export const updateBotConfig = async function ({
     return { success: false, error };
   }
 };
+
+export const updateTaskConfig = async function ({
+  classId,
+  botId,
+  data,
+  configType,
+}: {
+  classId: string;
+  botId: string;
+  data: ConfigTypeSchemaMap[TaskType];
+  configType: TaskType;
+}): Promise<BotConfig> {
+  await isAuthorized({
+    userType: "TEACHER",
+  });
+  let result: BotConfig;
+  try {
+    result = await prisma.botConfig.update({
+      where: { id: botId },
+      data: { preferences: data },
+    });
+  } catch (error) {
+    throw new Error("Failed to update");
+  }
+  revalidatePath(getTaskUrl({ classId, taskId: botId, type: configType }));
+  return result;
+};
+
 export const updateBotConfigName = async function ({
   classId,
   botId,
