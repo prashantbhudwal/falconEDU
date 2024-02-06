@@ -4,7 +4,7 @@ import { isAuthorized } from "../is-authorized";
 import { LearningGoals } from "@/app/dragon/ai/tasks/ai-test/goals-generator/model";
 import { revalidatePath } from "next/cache";
 
-export const createLearningGoals = async ({
+export const saveLearningGoals = async ({
   learningGoals,
   configId,
 }: {
@@ -14,21 +14,28 @@ export const createLearningGoals = async ({
   await isAuthorized({
     userType: "TEACHER",
   });
-  try {
-    await prisma.$transaction(async (prisma) => {
-      await prisma.learningGoals.createMany({
-        data: learningGoals.map((goal) => ({
-          botConfigId: configId,
-          goal: goal.goal,
-          goalNumber: goal.goalNumber,
-          cognitiveLevel: goal.cognitiveSkillLevel,
-        })),
-      });
+  
+
+  await prisma.$transaction(async (prisma) => {
+    await prisma.learningGoals.createMany({
+      data: learningGoals.map((goal) => ({
+        botConfigId: configId,
+        goal: goal.goal,
+        goalNumber: goal.goalNumber,
+        cognitiveLevel: goal.cognitiveSkillLevel,
+      })),
     });
-    revalidatePath("/dragon/teacher/class");
-    return { success: true, error: false };
-  } catch (err) {
-    console.log(err);
-    return { success: false, error: err };
+  });
+
+  const updatedGoals = await prisma.learningGoals.findMany({
+    where: {
+      botConfigId: configId,
+    },
+  });
+  if (updatedGoals.length === 0) {
+    throw new Error("Failed to retrieve updated goals");
   }
+  
+  revalidatePath("/dragon/teacher/class");
+  return updatedGoals;
 };
