@@ -171,3 +171,28 @@ export const generateOptionsFromEnum = <
 };
 
 // -----------------------------------------------------------------------------------------------------------------------
+
+export const asyncSimulator = async ({
+  ms = 3000,
+  randomFailure = true,
+  alwaysFail = false,
+  alwaysSucceed = false,
+} = {}) => {
+  await new Promise((resolve) => setTimeout(resolve, ms));
+  if (alwaysFail) {
+    throw Promise.reject(new Error("Failure"));
+  }
+  if (alwaysSucceed) {
+    return Promise.resolve();
+  }
+  if (randomFailure) {
+    const random = Math.random();
+    if (random < 0.5) {
+      return Promise.reject(new Error("Random failure"));
+    }
+  }
+  return Promise.resolve();
+};
+
+export const delay = (ms: number) =>
+  new Promise((resolve) => setTimeout(resolve, ms));
