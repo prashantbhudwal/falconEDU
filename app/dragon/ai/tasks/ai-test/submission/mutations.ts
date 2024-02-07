@@ -9,36 +9,31 @@ export const saveGoalAssessmentByBotChatId = async function ({
   goals: GoalAssessmentObjectWithIdArray;
   botChatId: string;
 }) {
-  try {
-    const transaction = await prisma.$transaction(async (prisma) => {
-      const existingBotChat = await prisma.botChat.findUnique({
-        where: {
-          id: botChatId,
-        },
-      });
-      if (!existingBotChat) {
-        console.error("Bot not found");
-        return null;
-      }
-      await prisma.goalAssessment.createMany({
-        data: goals.map((goals) => ({
-          botChatId: existingBotChat?.id,
-          result: goals.gradeAssigned,
-          resultDesc: goals.gradeDescription,
-          learningGoalId: goals.id,
-          aiRemarks: goals.remarks,
-        })),
-      });
-
-      // const newGoalAssessment = await prisma.goalAssessment.findMany({
-      //   where: {
-      //     botChatId: existingBotChat?.id,
-      //   },
-      // });
-      // console.log(newGoalAssessment);
+  const existingBotChat = await prisma.botChat.findUnique({
+    where: {
+      id: botChatId,
+    },
+  });
+  if (!existingBotChat) {
+    throw new Error("Bot not found");
+  }
+  await prisma.$transaction(async (prisma) => {
+    await prisma.goalAssessment.createMany({
+      data: goals.map((goals) => ({
+        botChatId: existingBotChat?.id,
+        result: goals.gradeAssigned,
+        resultDesc: goals.gradeDescription,
+        learningGoalId: goals.id,
+        aiRemarks: goals.remarks,
+      })),
     });
-  } catch (err) {
-    console.log(err);
+  });
+  const newGoalAssessment = await prisma.goalAssessment.findMany({
+    where: {
+      botChatId: existingBotChat?.id,
+    },
+  });
+  if (newGoalAssessment.length !== goals.length) {
     throw new Error("Failed to save results");
   }
 };
