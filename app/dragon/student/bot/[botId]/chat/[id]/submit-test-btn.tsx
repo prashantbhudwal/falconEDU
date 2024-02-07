@@ -21,6 +21,7 @@ import { submitTestModalAtom } from "@/lib/atoms/ui";
 import { useAtom } from "jotai";
 import { TaskType } from "@/types";
 import { saveGoalAssessmentByBotChatId } from "@/app/dragon/ai/tasks/ai-test/submission/mutations";
+import { delay } from "@/lib/utils";
 
 const testHandler = async (botChatId: string) => {
   const testResults = await checkTest({ botChatId: botChatId });
@@ -60,42 +61,27 @@ type PropTypes = React.HTMLAttributes<HTMLDivElement> & {
 
 export const SubmitTestButton = React.forwardRef<HTMLButtonElement, PropTypes>(
   ({ testBotId, redirectUrl, botChatId, className, type: taskType }, ref) => {
-    const [loading, setLoading] = useState(false);
-    const [showDialog, setShowDialog] = useState(false);
-    const [isSubmitted, setIsSubmitted] = useState(false);
-    const router = useRouter();
     const [showSubmitModal, setShowSubmitModal] = useAtom(submitTestModalAtom);
-
-    const saveTaskHandler = async ({ taskType }: { taskType: TaskType }) => {
-      try {
-        setLoading(true);
-        await taskHandlers[taskType](botChatId);
-        setLoading(false);
-        setShowDialog(false);
-        setShowSubmitModal(false);
-        return { success: true };
-      } catch (err) {
-        setLoading(false);
-        setShowDialog(false);
-        console.log(err);
-        return { success: false };
-      }
-    };
+    const [loading, setLoading] = useState(false);
+    const [isSubmitted, setIsSubmitted] = useState(false);
+    const [error, setError] = useState(false);
+    const router = useRouter();
 
     const handleSubmit = async () => {
-      setShowDialog(true);
-      const { success }: { success: boolean } = await saveTaskHandler({
-        taskType,
-      });
-      if (!success) {
-        return;
-      }
-      setIsSubmitted(true);
-      setTimeout(() => {
+      setError(false);
+      setLoading(true);
+      try {
+        await taskHandlers[taskType](botChatId);
+        setShowSubmitModal(false);
         setIsSubmitted(true);
-        setShowDialog(false);
+        await delay(1000);
         router.push(redirectUrl);
-      }, 3000);
+      } catch (err) {
+        setError(true);
+        setShowSubmitModal(true);
+      } finally {
+        setLoading(false);
+      }
     };
 
     return (
@@ -106,44 +92,70 @@ export const SubmitTestButton = React.forwardRef<HTMLButtonElement, PropTypes>(
           </Button>
         </DialogTrigger>
         <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Do you want to submit?</DialogTitle>
-            <DialogDescription>
-              Test will be submitted to your teacher for checking.
-            </DialogDescription>
-            <div className="flex items-center justify-end gap-5 py-1">
-              <Dialog open={showDialog}>
-                <DialogContent className="mx-auto w-11/12 flex-col items-center">
-                  <DialogHeader className="rounded-t-lg p-4">
-                    <DialogTitle className="mb-2 flex items-center text-lg">
-                      {loading
-                        ? "Submitting..."
-                        : "Good Job! Taking you home..."}
-                    </DialogTitle>
-                    {loading && <Lottie animationData={loadingBall} />}
-                    {isSubmitted && (
-                      <Lottie animationData={testCheckAnimation} />
-                    )}
-                  </DialogHeader>
-                </DialogContent>
-              </Dialog>
-              <Button
-                ref={ref}
-                size={"sm"}
-                onClick={handleSubmit}
-                disabled={loading}
-              >
-                {loading ? "Submitting" : "Submit"}
-              </Button>
-              <DialogClose>
-                <Button variant={"outline"}>Cancel</Button>
-              </DialogClose>
-            </div>
-          </DialogHeader>
+          {error ? <ErrorHeader /> : <SubmitHeader />}
+          <div className="flex items-center justify-end gap-5 py-1">
+            {loading && (
+              <SubmitLoader loading={loading} isSubmitted={isSubmitted} />
+            )}
+            <Button
+              ref={ref}
+              size={"sm"}
+              onClick={handleSubmit}
+              disabled={loading}
+            >
+              {loading ? "Submitting" : "Submit"}
+            </Button>
+            <DialogClose>
+              <Button variant={"outline"}>Cancel</Button>
+            </DialogClose>
+          </div>
         </DialogContent>
       </Dialog>
     );
   },
 );
+
+const ErrorHeader = () => (
+  <DialogHeader>
+    <DialogTitle className="text-error">Error submitting the test</DialogTitle>
+    <DialogDescription className="text-error">
+      There was an error submitting the test. Please try again.
+    </DialogDescription>
+  </DialogHeader>
+);
+
+const SubmitHeader = () => (
+  <DialogHeader>
+    <DialogTitle>Do you want to submit?</DialogTitle>
+    <DialogDescription>
+      Test will be submitted to your teacher for checking.
+    </DialogDescription>
+  </DialogHeader>
+);
+
+const SubmitLoader = ({
+  loading,
+  isSubmitted,
+}: {
+  loading: boolean;
+  isSubmitted: boolean;
+}) => {
+  return (
+    <div>
+      <DialogContent className="mx-auto w-11/12 flex-col items-center">
+        <DialogHeader className="rounded-t-lg p-4">
+          <DialogTitle className="mb-2 flex items-center text-lg">
+            {loading ? "Submitting..." : "Good Job! Taking you home..."}
+          </DialogTitle>
+          {isSubmitted ? (
+            <Lottie animationData={testCheckAnimation} />
+          ) : (
+            <Lottie animationData={loadingBall} />
+          )}
+        </DialogHeader>
+      </DialogContent>
+    </div>
+  );
+};
 
 SubmitTestButton.displayName = "SubmitTestButton";
