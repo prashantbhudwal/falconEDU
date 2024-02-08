@@ -72,7 +72,7 @@ export const SubmitTestButton = React.forwardRef<HTMLButtonElement, PropTypes>(
   ({ testBotId, redirectUrl, botChatId, className, type: taskType }, ref) => {
     const [showSubmitModal, setShowSubmitModal] = useAtom(submitTestModalAtom);
     const [loading, setLoading] = useState(false);
-    const [isSubmitted, setIsSubmitted] = useState(true);
+    const [isSubmitted, setIsSubmitted] = useState(false);
     const [error, setError] = useState(false);
     const router = useRouter();
 
@@ -105,7 +105,7 @@ export const SubmitTestButton = React.forwardRef<HTMLButtonElement, PropTypes>(
             Submit
           </Button>
         </DialogTrigger>
-        <DialogContent>
+        <DialogContent className="w-11/12">
           {error ? <ErrorHeader /> : <SubmitHeader />}
           <div className="flex items-center justify-end gap-5 py-1">
             {loading && (
@@ -130,19 +130,19 @@ export const SubmitTestButton = React.forwardRef<HTMLButtonElement, PropTypes>(
 );
 
 const ErrorHeader = () => (
-  <DialogHeader>
-    <DialogTitle className="text-error">Error submitting the test</DialogTitle>
+  <DialogHeader className="text-left">
+    <DialogTitle className="text-error">Error submitting the test!</DialogTitle>
     <DialogDescription className="text-error">
-      There was an error submitting the test. Please try again.
+      Please try again.
     </DialogDescription>
   </DialogHeader>
 );
 
 const SubmitHeader = () => (
-  <DialogHeader>
+  <DialogHeader className="text-left">
     <DialogTitle>Do you want to submit?</DialogTitle>
     <DialogDescription>
-      Test will be submitted to your teacher for checking.
+      The teacher will be able to see your test results.
     </DialogDescription>
   </DialogHeader>
 );
