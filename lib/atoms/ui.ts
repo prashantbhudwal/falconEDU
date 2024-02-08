@@ -9,3 +9,6 @@ export const submitTestModalAtom = atom<boolean>(false);
 export const showVideoModalAtom = atom<boolean>(false);
 
 export const videoUrlAtom = atom<string>("");
+
+export const confettiAtom = atom(false);
+
