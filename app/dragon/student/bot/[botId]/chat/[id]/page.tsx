@@ -141,12 +141,16 @@ const ResultSection = ({
   });
   return (
     <div className="flex justify-center">
-      <Link
-        href={resultUrl}
-        className="w-full rounded-md bg-slate-500 py-2 text-center text-white"
-      >
-        See Result
-      </Link>
+      <div className="w-full rounded-md bg-gradient-to-b from-base-200 to-base-300 py-2 text-center">
+        <div className="group relative mx-auto w-fit">
+          <div className="animate-tilt absolute -inset-0.5 rounded-lg bg-gradient-to-r from-pink-600 to-purple-600 opacity-75 blur transition duration-1000 group-hover:opacity-100 group-hover:duration-200"></div>
+          <Link href={resultUrl}>
+            <div className="relative rounded-xl bg-base-300 px-6 py-3">
+              See Results
+            </div>
+          </Link>
+        </div>
+      </div>
     </div>
   );
 };
