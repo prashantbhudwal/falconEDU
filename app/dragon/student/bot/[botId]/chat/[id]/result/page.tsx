@@ -12,6 +12,7 @@ import { Separator } from "@/components/ui/separator";
 import { QuestionList } from "@/app/dragon/teacher/class/[classId]/(tasks)/[taskId]/test/components/report/question-list";
 import BackBar from "@/components/back-bar";
 import { url } from "@/lib/urls";
+import { QuizResult } from "./quiz-result";
 
 export type ResultPageProps = {
   params: {
@@ -44,7 +45,7 @@ export default async function ResultPage({
       <BackBar link={url.student.botChat({ botId: taskId, chatId })} />
       <div className="custom-scrollbar overflow-y-auto">
         {isQuiz ? (
-          <AITestReport taskId={taskId} attemptId={chatId} />
+          <QuizResult attemptId={chatId} />
         ) : (
           <div className="flex flex-col items-center space-y-5">
             <PieChartComponent testResults={testResults} />
