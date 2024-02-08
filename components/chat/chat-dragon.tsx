@@ -16,6 +16,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { showVideoModalAtom, videoUrlAtom } from "@/lib/atoms/ui";
 import ReactPlayer from "react-player";
 import { motion } from "framer-motion";
+import { TaskType } from "@/types";
 
 export interface ChatProps extends React.ComponentProps<"div"> {
   initialMessages?: Message[];
@@ -26,7 +27,7 @@ export interface ChatProps extends React.ComponentProps<"div"> {
   botImage?: string;
   isDisabled?: boolean;
   isSubmitted?: boolean;
-  type: string;
+  type: TaskType;
   hidePanel?: boolean;
 }
 
@@ -121,6 +122,7 @@ export function Chat({
           messages={messages}
           input={input}
           setInput={setInput}
+          showSuggestions={type === "lesson"}
         />
       );
     }
@@ -162,9 +164,9 @@ export function Chat({
         <Button
           variant="secondary"
           onClick={() => setAutoScrolling(true)}
-          className="fixed bottom-[80px] left-1/2 w-fit -translate-x-1/2 rounded-full hover:bg-secondary"
+          className="fixed bottom-[120px] right-0 h-8 w-8 -translate-x-1/2 rounded-xl p-0 hover:bg-secondary"
         >
-          <MdOutlineKeyboardDoubleArrowDown className="animate-pulse text-2xl" />
+          <MdOutlineKeyboardDoubleArrowDown className="animate-pulse text-lg" />
         </Button>
       )}
     </div>
@@ -228,7 +230,7 @@ const InDev = ({ component }: { component: React.ReactNode }) => {
     return null;
   }
   return (
-    <div className="fixed bottom-3 right-2 min-h-36 w-fit border border-dotted border-accent/60 p-2">
+    <div className="fixed bottom-1/2 right-2 z-20 min-h-36 w-fit border border-dotted border-accent/60 p-2">
       {component}
     </div>
   );
