@@ -17,11 +17,12 @@ import {
 } from "@/components/ui/dialog";
 import { checkTest } from "@/app/dragon/ai/test-checker";
 import { checkAITest } from "@/app/dragon/ai/tasks/ai-test/submission";
-import { submitTestModalAtom } from "@/lib/atoms/ui";
-import { useAtom } from "jotai";
+import { submitTestModalAtom, confettiAtom } from "@/lib/atoms/ui";
+import { useAtom, useSetAtom } from "jotai";
 import { TaskType } from "@/types";
 import { saveGoalAssessmentByBotChatId } from "@/app/dragon/ai/tasks/ai-test/submission/mutations";
 import { delay } from "@/lib/utils";
+import { url } from "@/lib/urls";
 
 const testHandler = async (botChatId: string) => {
   const testResults = await checkTest({ botChatId: botChatId });
@@ -63,9 +64,11 @@ export const SubmitTestButton = React.forwardRef<HTMLButtonElement, PropTypes>(
   ({ testBotId, redirectUrl, botChatId, className, type: taskType }, ref) => {
     const [showSubmitModal, setShowSubmitModal] = useAtom(submitTestModalAtom);
     const [loading, setLoading] = useState(false);
-    const [isSubmitted, setIsSubmitted] = useState(false);
+    const [isSubmitted, setIsSubmitted] = useState(true);
     const [error, setError] = useState(false);
     const router = useRouter();
+
+    const setConfetti = useSetAtom(confettiAtom);
 
     const handleSubmit = async () => {
       setError(false);
@@ -74,8 +77,11 @@ export const SubmitTestButton = React.forwardRef<HTMLButtonElement, PropTypes>(
         await taskHandlers[taskType](botChatId);
         setShowSubmitModal(false);
         setIsSubmitted(true);
+        setConfetti(true);
         await delay(1000);
-        router.push(redirectUrl);
+        router.push(
+          url.student.taskReport({ botId: testBotId, chatId: botChatId }),
+        );
       } catch (err) {
         setError(true);
         setShowSubmitModal(true);
