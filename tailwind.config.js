@@ -20,11 +20,6 @@ module.exports = {
       },
     },
     extend: {
-      animation: {
-        "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
-        breath: "breath 4s ease-in-out infinite",
-      },
       typography: {
         DEFAULT: {
           css: {
@@ -147,11 +142,6 @@ module.exports = {
         "dark-tremor-dropdown":
           "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
       },
-      borderRadius: {
-        "tremor-small": "0.375rem",
-        "tremor-default": "0.5rem",
-        "tremor-full": "9999px",
-      },
       fontSize: {
         "tremor-label": ["0.75rem"],
         "tremor-default": ["0.875rem", { lineHeight: "1.25rem" }],
@@ -162,6 +152,15 @@ module.exports = {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+        "tremor-small": "0.375rem",
+        "tremor-default": "0.5rem",
+        "tremor-full": "9999px",
+      },
+      animation: {
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
+        breath: "breath 4s ease-in-out infinite",
+        tilt: "tilt 10s infinite linear",
       },
       keyframes: {
         "accordion-down": {
@@ -175,6 +174,11 @@ module.exports = {
         breath: {
           "0%, 100%": { transform: "scale(0.8)" },
           "50%": { transform: "scale(1.1)" },
+        },
+        tilt: {
+          "0%, 50%, 100%": { transform: "rotate(0deg)" },
+          "25%": { transform: "rotate(0.5deg)" },
+          "75%": { transform: "rotate(-0.5deg)" },
         },
       },
     },
