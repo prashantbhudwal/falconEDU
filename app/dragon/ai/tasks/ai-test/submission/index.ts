@@ -2,6 +2,7 @@
 import { getAITestResultsFromOpenAI } from "./get-results";
 import { getCheckingContext } from "./context";
 import { mapGoalsWithResults } from "./mapper";
+import { getAITestFeedback } from "./get-feedback";
 
 export async function checkAITest({ botChatId }: { botChatId: string }) {
   const context = await getCheckingContext(botChatId);
@@ -21,5 +22,9 @@ export async function checkAITest({ botChatId }: { botChatId: string }) {
     results,
   });
 
-  return finalTestResults;
+  const studentFeedback = await getAITestFeedback({
+    report: finalTestResults,
+  });
+
+  return { finalTestResults, studentFeedback };
 }

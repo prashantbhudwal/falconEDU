@@ -20,7 +20,10 @@ import { checkAITest } from "@/app/dragon/ai/tasks/ai-test/submission";
 import { submitTestModalAtom, confettiAtom } from "@/lib/atoms/ui";
 import { useAtom, useSetAtom } from "jotai";
 import { TaskType } from "@/types";
-import { saveGoalAssessmentByBotChatId } from "@/app/dragon/ai/tasks/ai-test/submission/mutations";
+import {
+  saveFeedbackByBotChatId,
+  saveGoalAssessmentByBotChatId,
+} from "@/app/dragon/ai/tasks/ai-test/submission/mutations";
 import { delay } from "@/lib/utils";
 import { url } from "@/lib/urls";
 
@@ -36,9 +39,14 @@ const testHandler = async (botChatId: string) => {
 };
 
 const aiTestHandler = async (botChatId: string) => {
-  const goals = await checkAITest({ botChatId });
+  const { finalTestResults: goals, studentFeedback } = await checkAITest({
+    botChatId,
+  });
   if (goals) {
     await saveGoalAssessmentByBotChatId({ botChatId, goals });
+  }
+  if (studentFeedback) {
+    await saveFeedbackByBotChatId({ botChatId, feedback: studentFeedback });
   }
   await submitBotChat({ botChatId });
 };
