@@ -1,6 +1,6 @@
 "use server";
 import prisma from "@/prisma";
-import { GoalAssessmentObjectWithIdArray } from "./model";
+import { GoalAssessmentObjectWithIdArray } from "./checking-model";
 
 export const saveGoalAssessmentByBotChatId = async function ({
   goals,
@@ -35,5 +35,25 @@ export const saveGoalAssessmentByBotChatId = async function ({
   });
   if (newGoalAssessment.length !== goals.length) {
     throw new Error("Failed to save results");
+  }
+};
+
+export const saveFeedbackByBotChatId = async function ({
+  feedback,
+  botChatId,
+}: {
+  feedback: any;
+  botChatId: string;
+}) {
+  const existingBotChat = await prisma.botChat.update({
+    where: {
+      id: botChatId,
+    },
+    data: {
+      feedbackToStudent: feedback,
+    },
+  });
+  if (!existingBotChat) {
+    throw new Error("Bot not found");
   }
 };
