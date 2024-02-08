@@ -13,5 +13,5 @@ If the student has chatted about a learning goal, you can grade the learning goa
 <goals>
 {goals}
 </goals>
-The chat will start with the following messages:
+Every message after this is from a chat between the Student and the Teacher<AI in this case>.
 `;
