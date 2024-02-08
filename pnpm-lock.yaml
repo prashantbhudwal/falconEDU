@@ -115,13 +115,13 @@ dependencies:
     version: 3.13.3(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)(tailwindcss@3.4.1)
   '@trpc/client':
     specifier: next
-    version: 11.0.0-next-beta.257(@trpc/server@11.0.0-next-beta.257)
+    version: 11.0.0-next-beta.264(@trpc/server@11.0.0-next-beta.264)
   '@trpc/react-query':
     specifier: next
-    version: 11.0.0-next-beta.257(@tanstack/react-query@5.17.19)(@trpc/client@11.0.0-next-beta.257)(@trpc/server@11.0.0-next-beta.257)(react-dom@18.2.0)(react@18.2.0)
+    version: 11.0.0-next-beta.264(@tanstack/react-query@5.17.19)(@trpc/client@11.0.0-next-beta.264)(@trpc/server@11.0.0-next-beta.264)(react-dom@18.2.0)(react@18.2.0)
   '@trpc/server':
     specifier: next
-    version: 11.0.0-next-beta.257
+    version: 11.0.0-next-beta.264
   '@vercel/analytics':
     specifier: ^1.1.2
     version: 1.1.2
@@ -248,6 +248,9 @@ dependencies:
   react-chrono:
     specifier: ^2.4.2
     version: 2.4.2(react-dom@18.2.0)(react@18.2.0)
+  react-confetti:
+    specifier: ^6.1.0
+    version: 6.1.0(react@18.2.0)
   react-dnd:
     specifier: ^16.0.1
     version: 16.0.1(@types/node@20.11.8)(@types/react@18.2.48)(react@18.2.0)
@@ -4293,32 +4296,32 @@ packages:
       - tailwindcss
     dev: false
 
-  /@trpc/client@11.0.0-next-beta.257(@trpc/server@11.0.0-next-beta.257):
-    resolution: {integrity: sha512-kjDDmS2U5RTDR1CS/XNeTLKpxVO+SygtIkjYGez9RH1AVZcNLIpFR4uzgyGyAc7VX347I9bBFXZ3+0uf7oDC3Q==}
+  /@trpc/client@11.0.0-next-beta.264(@trpc/server@11.0.0-next-beta.264):
+    resolution: {integrity: sha512-He/kE++/rDq/yZr7xCkQmOC+1S3auulLVjBuo6LvuYuFQL+Slf2ObRftbNVWa92GVd/llxV+eNlbzR9mTVPCPg==}
     peerDependencies:
-      '@trpc/server': 11.0.0-next-beta.257+d61ece329
+      '@trpc/server': 11.0.0-next-beta.264+f5f08f35d
     dependencies:
-      '@trpc/server': 11.0.0-next-beta.257
+      '@trpc/server': 11.0.0-next-beta.264
     dev: false
 
-  /@trpc/react-query@11.0.0-next-beta.257(@tanstack/react-query@5.17.19)(@trpc/client@11.0.0-next-beta.257)(@trpc/server@11.0.0-next-beta.257)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-FmhB3rAj7LPPflWBO+cNYshf90eh2sygAUtgRiyVxYMJCyZbckJ4D+s19PUwU5uBB676sYVaFUvxtf2qTCEiBQ==}
+  /@trpc/react-query@11.0.0-next-beta.264(@tanstack/react-query@5.17.19)(@trpc/client@11.0.0-next-beta.264)(@trpc/server@11.0.0-next-beta.264)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-maIb/L1mtfwdTkLzscVhv6MGFwoRUdQkDU++e+9E7EPCSZD4ZJ12MyoDPQp85Wv44ot7frBFbfyWak/woP1zjQ==}
     peerDependencies:
       '@tanstack/react-query': ^5.0.0
-      '@trpc/client': 11.0.0-next-beta.257+d61ece329
-      '@trpc/server': 11.0.0-next-beta.257+d61ece329
+      '@trpc/client': 11.0.0-next-beta.264+f5f08f35d
+      '@trpc/server': 11.0.0-next-beta.264+f5f08f35d
       react: '>=18.2.0'
       react-dom: '>=18.2.0'
     dependencies:
       '@tanstack/react-query': 5.17.19(react@18.2.0)
-      '@trpc/client': 11.0.0-next-beta.257(@trpc/server@11.0.0-next-beta.257)
-      '@trpc/server': 11.0.0-next-beta.257
+      '@trpc/client': 11.0.0-next-beta.264(@trpc/server@11.0.0-next-beta.264)
+      '@trpc/server': 11.0.0-next-beta.264
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
-  /@trpc/server@11.0.0-next-beta.257:
-    resolution: {integrity: sha512-PxuB6vRRjKWFR/8MvSQgS2cXq1amL97leKLnXYsY4Rp0dscT87vrP9c3+cbVXQOoPxnp3kma3Kr46x7tb3OfrQ==}
+  /@trpc/server@11.0.0-next-beta.264:
+    resolution: {integrity: sha512-h6RJX+C+VgFQusxGVtw3n1PZPLt27ZG70U8cPR5pwmsnE2E3vREijOgEo5MRKoiUhVrjbw8e6gnGVeKzl7uZXg==}
     dev: false
 
   /@tsconfig/node10@1.0.9:
@@ -10226,6 +10229,16 @@ packages:
       xss: 1.0.14
     dev: false
 
+  /react-confetti@6.1.0(react@18.2.0):
+    resolution: {integrity: sha512-7Ypx4vz0+g8ECVxr88W9zhcQpbeujJAVqL14ZnXJ3I23mOI9/oBVTQ3dkJhUmB0D6XOtCZEM6N0Gm9PMngkORw==}
+    engines: {node: '>=10.18'}
+    peerDependencies:
+      react: ^16.3.0 || ^17.0.1 || ^18.0.0
+    dependencies:
+      react: 18.2.0
+      tween-functions: 1.2.0
+    dev: false
+
   /react-day-picker@8.10.0(date-fns@2.30.0)(react@18.2.0):
     resolution: {integrity: sha512-mz+qeyrOM7++1NCb1ARXmkjMkzWVh2GL9YiPbRjKe0zHccvekk4HE+0MPOZOrosn8r8zTHIIeOUXTmXRqmkRmg==}
     peerDependencies:
@@ -11731,6 +11744,10 @@ packages:
 
   /tslib@2.6.2:
     resolution: {integrity: sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==}
+    dev: false
+
+  /tween-functions@1.2.0:
+    resolution: {integrity: sha512-PZBtLYcCLtEcjL14Fzb1gSxPBeL7nWvGhO5ZFPGqziCcr8uvHp0NDmdjBchp6KHL+tExcg0m3NISmKxhU394dA==}
     dev: false
 
   /type-check@0.4.0:
