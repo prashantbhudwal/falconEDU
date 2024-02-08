@@ -1,11 +1,7 @@
 "use server";
-import * as z from "zod";
 import { revalidatePath } from "next/cache";
 import prisma from "@/prisma";
 import { cache } from "react";
-import { UnwrapPromise } from "../../app/dragon/student/queries";
-import { TaskType } from "@/types/dragon";
-import { getTaskProperties } from "../../app/dragon/teacher/utils";
 export const createBotChat = async ({ botId }: { botId: string }) => {
   try {
     await prisma.$transaction(async (prisma) => {
@@ -30,3 +26,18 @@ export const createBotChat = async ({ botId }: { botId: string }) => {
     throw error;
   }
 };
+
+export const getFeedbackForBotChat = cache(
+  async ({ botChatId }: { botChatId: string }) => {
+    try {
+      const botChat = await prisma.botChat.findUnique({
+        where: { id: botChatId },
+      });
+      const feedback = botChat?.feedbackToStudent;
+      return feedback;
+    } catch (error) {
+      console.error("Error getting feedback for BotChat:", error);
+      throw error;
+    }
+  },
+);
