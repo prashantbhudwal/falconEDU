@@ -259,5 +259,6 @@ module.exports = {
     require("@tailwindcss/typography"),
     require("@tailwindcss/aspect-ratio"),
     require("@headlessui/tailwindcss"),
+    require("tailwind-scrollbar-hide"),
   ],
 };

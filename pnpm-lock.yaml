@@ -115,13 +115,13 @@ dependencies:
     version: 3.13.3(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)(tailwindcss@3.4.1)
   '@trpc/client':
     specifier: next
-    version: 11.0.0-next-beta.264(@trpc/server@11.0.0-next-beta.264)
+    version: 11.0.0-next-beta.272(@trpc/server@11.0.0-next-beta.272)
   '@trpc/react-query':
     specifier: next
-    version: 11.0.0-next-beta.264(@tanstack/react-query@5.17.19)(@trpc/client@11.0.0-next-beta.264)(@trpc/server@11.0.0-next-beta.264)(react-dom@18.2.0)(react@18.2.0)
+    version: 11.0.0-next-beta.272(@tanstack/react-query@5.17.19)(@trpc/client@11.0.0-next-beta.272)(@trpc/server@11.0.0-next-beta.272)(react-dom@18.2.0)(react@18.2.0)
   '@trpc/server':
     specifier: next
-    version: 11.0.0-next-beta.264
+    version: 11.0.0-next-beta.272
   '@vercel/analytics':
     specifier: ^1.1.2
     version: 1.1.2
@@ -329,6 +329,9 @@ dependencies:
   swr:
     specifier: ^2.2.4
     version: 2.2.4(react@18.2.0)
+  tailwind-scrollbar-hide:
+    specifier: ^1.1.7
+    version: 1.1.7
   tailwindcss-animate:
     specifier: ^1.0.7
     version: 1.0.7(tailwindcss@3.4.1)
@@ -4296,32 +4299,32 @@ packages:
       - tailwindcss
     dev: false
 
-  /@trpc/client@11.0.0-next-beta.264(@trpc/server@11.0.0-next-beta.264):
-    resolution: {integrity: sha512-He/kE++/rDq/yZr7xCkQmOC+1S3auulLVjBuo6LvuYuFQL+Slf2ObRftbNVWa92GVd/llxV+eNlbzR9mTVPCPg==}
+  /@trpc/client@11.0.0-next-beta.272(@trpc/server@11.0.0-next-beta.272):
+    resolution: {integrity: sha512-d08zP9ZB1ciYzrrGWcuppWimQPRna/DTs9GBgd141keGg+PJH2toypHzgV6c5T4RHAUROOL/5o946VNYtftJOA==}
     peerDependencies:
-      '@trpc/server': 11.0.0-next-beta.264+f5f08f35d
+      '@trpc/server': 11.0.0-next-beta.272+765a5e71a
     dependencies:
-      '@trpc/server': 11.0.0-next-beta.264
+      '@trpc/server': 11.0.0-next-beta.272
     dev: false
 
-  /@trpc/react-query@11.0.0-next-beta.264(@tanstack/react-query@5.17.19)(@trpc/client@11.0.0-next-beta.264)(@trpc/server@11.0.0-next-beta.264)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-maIb/L1mtfwdTkLzscVhv6MGFwoRUdQkDU++e+9E7EPCSZD4ZJ12MyoDPQp85Wv44ot7frBFbfyWak/woP1zjQ==}
+  /@trpc/react-query@11.0.0-next-beta.272(@tanstack/react-query@5.17.19)(@trpc/client@11.0.0-next-beta.272)(@trpc/server@11.0.0-next-beta.272)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-w14g0Ykc6U3y3xchl46R9Khll6SBYNr2UICLxOhY3qe6fOJjeiUpC6ZQgq5ysDp2+apJvpdDFSYxywMtkk1HIw==}
     peerDependencies:
       '@tanstack/react-query': ^5.0.0
-      '@trpc/client': 11.0.0-next-beta.264+f5f08f35d
-      '@trpc/server': 11.0.0-next-beta.264+f5f08f35d
+      '@trpc/client': 11.0.0-next-beta.272+765a5e71a
+      '@trpc/server': 11.0.0-next-beta.272+765a5e71a
       react: '>=18.2.0'
       react-dom: '>=18.2.0'
     dependencies:
       '@tanstack/react-query': 5.17.19(react@18.2.0)
-      '@trpc/client': 11.0.0-next-beta.264(@trpc/server@11.0.0-next-beta.264)
-      '@trpc/server': 11.0.0-next-beta.264
+      '@trpc/client': 11.0.0-next-beta.272(@trpc/server@11.0.0-next-beta.272)
+      '@trpc/server': 11.0.0-next-beta.272
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
-  /@trpc/server@11.0.0-next-beta.264:
-    resolution: {integrity: sha512-h6RJX+C+VgFQusxGVtw3n1PZPLt27ZG70U8cPR5pwmsnE2E3vREijOgEo5MRKoiUhVrjbw8e6gnGVeKzl7uZXg==}
+  /@trpc/server@11.0.0-next-beta.272:
+    resolution: {integrity: sha512-nipSQSjogqDQ0KMYDtWZ9vk5N6Lcw1+T8iTwKB6jA4RdlR2Og37q+hgI9OALkdLN90DnYKh2cgjXDodgCfZnFA==}
     dev: false
 
   /@tsconfig/node10@1.0.9:
@@ -11519,6 +11522,10 @@ packages:
 
   /tailwind-merge@1.14.0:
     resolution: {integrity: sha512-3mFKyCo/MBcgyOTlrY8T7odzZFx+w+qKSMAmdFzRvqBfLlSigU6TZnlFHK0lkMwj9Bj8OYU+9yW9lmGuS0QEnQ==}
+
+  /tailwind-scrollbar-hide@1.1.7:
+    resolution: {integrity: sha512-X324n9OtpTmOMqEgDUEA/RgLrNfBF/jwJdctaPZDzB3mppxJk7TLIDmOreEDm1Bq4R9LSPu4Epf8VSdovNU+iA==}
+    dev: false
 
   /tailwindcss-animate@1.0.7(tailwindcss@3.4.1):
     resolution: {integrity: sha512-bl6mpH3T7I3UFxuvDEXLxy/VuFxBk5bbzplh7tXI68mwMokNYd1t9qPBHlnyTwfa4JGC4zP516I1hYYtQ/vspA==}
