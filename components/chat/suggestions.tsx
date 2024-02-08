@@ -11,7 +11,7 @@ const suggestions: Array<{
     keyword: "next",
     suggestion: "What's next?",
     prompt: {
-      role: "assistant",
+      role: "user",
       content: "What's next?",
     },
   },
@@ -19,7 +19,7 @@ const suggestions: Array<{
     keyword: "example",
     suggestion: "Give me an example of this",
     prompt: {
-      role: "assistant",
+      role: "user",
       content: "Can you give me an example?",
     },
   },
@@ -27,7 +27,7 @@ const suggestions: Array<{
     keyword: "confused",
     suggestion: "I am confused",
     prompt: {
-      role: "assistant",
+      role: "user",
       content: "I am confused about this, can you help me?",
     },
   },
@@ -35,7 +35,7 @@ const suggestions: Array<{
     keyword: "story",
     suggestion: "Tell me a story",
     prompt: {
-      role: "assistant",
+      role: "user",
       content: "Can you tell me a story to explain this?",
     },
   },
