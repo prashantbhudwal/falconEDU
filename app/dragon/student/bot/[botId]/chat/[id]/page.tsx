@@ -105,9 +105,9 @@ export default async function ChatPage({ params }: Readonly<ChatPageProps>) {
           button={<SubmitButton variant="default" />}
         />
         {isSubmitted && <ResultSection botId={botId} chatId={id} />}
-        <div className="fixed bottom-20 left-1/2 z-10 w-fit -translate-x-1/2 rounded-xl">
+        {/* <div className="fixed bottom-40 left-1/2 z-10 w-fit -translate-x-1/2 rounded-xl">
           <SubmitButton variant="outline" />
-        </div>
+        </div> */}
       </div>
       <Chat
         initialMessages={initialMessages}
@@ -122,7 +122,7 @@ export default async function ChatPage({ params }: Readonly<ChatPageProps>) {
         botImage={botImage}
         isDisabled={isDisabled}
         isSubmitted={isSubmitted}
-        type={bot?.BotConfig?.type ?? "chat"}
+        type={type ?? "chat"}
       />
     </div>
   );
@@ -143,7 +143,7 @@ const ResultSection = ({
     <div className="flex justify-center">
       <div className="w-full rounded-md bg-gradient-to-b from-base-200 to-base-300 py-2 text-center">
         <div className="group relative mx-auto w-fit">
-          <div className="animate-tilt absolute -inset-0.5 rounded-lg bg-gradient-to-r from-pink-600 to-purple-600 opacity-75 blur transition duration-1000 group-hover:opacity-100 group-hover:duration-200"></div>
+          <div className="absolute -inset-0.5 animate-tilt rounded-lg bg-gradient-to-r from-pink-600 to-purple-600 opacity-75 blur transition duration-1000 group-hover:opacity-100 group-hover:duration-200"></div>
           <Link href={resultUrl}>
             <div className="relative rounded-xl bg-base-300 px-6 py-3">
               See Results
