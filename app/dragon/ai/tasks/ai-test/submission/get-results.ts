@@ -1,6 +1,9 @@
 import { ChatPromptTemplate } from "langchain/prompts";
 import { systemTemplateForChecking } from "./template";
-import { gradeLearningGoalsModel, goalAssessmentObjectSchema } from "./model";
+import {
+  gradeLearningGoalsModel,
+  goalAssessmentObjectSchema,
+} from "./checking-model";
 import { JsonOutputFunctionsParser } from "langchain/output_parsers";
 import { mapMessagesToLangChainBaseMessage } from "../../../student-chat/utils";
 
@@ -27,6 +30,7 @@ export const getAITestResultsFromOpenAI = async function ({
   const results = await testCheckingChain.invoke({
     goals: JSON.stringify(goals),
   });
+  
 
   const parsedResults = goalAssessmentObjectSchema.safeParse(results);
 

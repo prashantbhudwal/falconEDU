@@ -3,7 +3,7 @@ import {
   GoalAssessmentObjectWithIdArray,
   SingleGoalAssessmentWithId,
   gradeDescriptionsObject,
-} from "./model";
+} from "./checking-model";
 import { LearningGoals } from "@prisma/client";
 
 const getDummyAnswer = function (
