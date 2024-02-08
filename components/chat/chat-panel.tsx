@@ -6,6 +6,7 @@ import { PromptForm } from "./prompt-form";
 import { IconRefresh, IconStop } from "@ui/icons";
 import { useAtom } from "jotai";
 import { showVideoModalAtom } from "@/lib/atoms/ui";
+import { ChatSuggestions } from "./suggestions";
 
 export interface ChatPanelProps
   extends Pick<
@@ -19,6 +20,7 @@ export interface ChatPanelProps
     | "setInput"
   > {
   id?: string;
+  showSuggestions?: boolean;
 }
 
 export function ChatPanel({
@@ -30,14 +32,34 @@ export function ChatPanel({
   input,
   setInput,
   messages,
+  showSuggestions = true,
 }: ChatPanelProps) {
   const [showVideoModal, setShowVideoModal] = useAtom(showVideoModalAtom);
 
   return (
     <div className=" fixed inset-x-0 bottom-0">
       <div className="mx-auto sm:max-w-2xl sm:px-4">
-        <div className="flex h-10 items-center justify-center">
-          {/* {isLoading ? (
+        {showSuggestions && <ChatSuggestions append={append} />}
+        <PromptForm
+          onSubmit={async (value) => {
+            setShowVideoModal(false);
+            await append({
+              id,
+              content: value,
+              role: "user",
+            });
+          }}
+          input={input}
+          setInput={setInput}
+          isLoading={isLoading}
+        />
+      </div>
+    </div>
+  );
+}
+
+{
+  /* {isLoading ? (
             <Button
               variant="outline"
               onClick={() => stop()}
@@ -57,22 +79,5 @@ export function ChatPanel({
                 Regenerate
               </Button>
             )
-          )} */}
-        </div>
-        <PromptForm
-          onSubmit={async (value) => {
-            setShowVideoModal(false);
-            await append({
-              id,
-              content: value,
-              role: "user",
-            });
-          }}
-          input={input}
-          setInput={setInput}
-          isLoading={isLoading}
-        />
-      </div>
-    </div>
-  );
+          )} */
 }
