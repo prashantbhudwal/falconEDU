@@ -14,8 +14,6 @@ export const getGoalAssessmentResult = cache(
 
       if (!goals || goals.length === 0) return null;
 
-      console.log(goals);
-
       const parsedGoals = goals.map((goal) => {
         const { learningGoal, ...rest } = goal;
         return {
@@ -101,7 +99,7 @@ export async function AITestReport({
   );
 }
 
-function getColorForResult(result: string) {
+export function getColorForResult(result: string) {
   switch (result) {
     case "a":
     case "b":
