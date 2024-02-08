@@ -41,8 +41,10 @@ export default async function ResultPage({
   const isQuiz = type === "ai-test";
 
   return (
-    <div className="flex h-screen flex-col">
-      <BackBar link={url.student.botChat({ botId: taskId, chatId })} />
+    <div className="flex h-screen flex-col space-y-5 pt-6">
+      <h1 className="text-center text-2xl font-semibold">
+        {isQuiz ? "Quiz Result" : "Test Result"}
+      </h1>
       <div className="custom-scrollbar overflow-y-auto">
         {isQuiz ? (
           <QuizResult attemptId={chatId} />
