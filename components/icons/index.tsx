@@ -9,6 +9,8 @@ import {
   PlusIcon,
   MinusIcon as MinusIconSolid,
   XMarkIcon,
+  PhotoIcon,
+  PlayIcon as PlayIconSolid,
 } from "@heroicons/react/24/solid";
 import { XCircleIcon } from "@heroicons/react/24/outline";
 
@@ -32,6 +34,7 @@ const colorMapping = {
   success: "text-success",
   warning: "text-warning",
   destructive: "text-destructive",
+  purple: "text-purple-200",
 };
 
 type BaseIconProps = {
@@ -101,4 +104,12 @@ export const CrossCircleIcon: React.FC<IconProps> = (props) => (
 
 export const CrossIcon: React.FC<IconProps> = (props) => (
   <BaseIcon {...props} Icon={XMarkIcon} />
+);
+
+export const MediaIcon: React.FC<IconProps> = (props) => (
+  <BaseIcon {...props} Icon={PhotoIcon} />
+);
+
+export const PlayIcon: React.FC<IconProps> = (props) => (
+  <BaseIcon {...props} Icon={PlayIconSolid} />
 );
