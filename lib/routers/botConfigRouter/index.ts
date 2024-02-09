@@ -6,9 +6,9 @@ import prisma from "@/prisma";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { cache } from "react";
-import { UnwrapPromise } from "../../app/dragon/student/queries";
+import { UnwrapPromise } from "../../../app/dragon/student/queries";
 import { TaskType } from "@/types/dragon";
-import { getTaskProperties } from "../../app/dragon/teacher/utils";
+import { getTaskProperties } from "../../../app/dragon/teacher/utils";
 import {
   AITestPreferenceSchema,
   botPreferencesSchema,
@@ -16,6 +16,7 @@ import {
   testBotPreferencesSchema,
 } from "@/lib/schema";
 import { BotConfig } from "@prisma/client";
+// export * from "./preferences";
 type BotPreferencesSchemaType = z.infer<typeof botPreferencesSchema>;
 type TestBotPreferencesSchemaType = z.infer<typeof testBotPreferencesSchema>;
 type LessonPreferencesSchemaType = z.infer<typeof lessonPreferencesSchema>;
