@@ -41,3 +41,60 @@ export const getFeedbackForBotChat = cache(
     }
   },
 );
+
+export const getPreferences = cache(async function ({
+  chatId,
+}: {
+  chatId: string;
+}) {
+  const context = await prisma.botChat.findUnique({
+    where: { id: chatId },
+    select: {
+      bot: {
+        select: {
+          student: {
+            select: {
+              preferences: true,
+              User: {
+                select: {
+                  name: true,
+                },
+              },
+            },
+          },
+          BotConfig: {
+            select: {
+              preferences: true,
+              Class: true,
+              teacher: {
+                select: {
+                  preferences: true,
+                  User: {
+                    select: {
+                      name: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  });
+
+  if (!context) throw new Error(`Context not found for chatId ${chatId}`);
+  const Class = context?.bot?.BotConfig?.Class;
+  if (!Class) throw new Error(`Class not found for chatId ${chatId}`);
+  const grade = Class.grade;
+
+  let configPreferences = context?.bot?.BotConfig?.preferences;
+  let teacherPreferences = context?.bot?.BotConfig?.teacher?.preferences;
+  let studentPreferences = context?.bot?.student?.preferences;
+
+  return {
+    configPreferences,
+    teacherPreferences,
+    studentPreferences,
+  };
+});
