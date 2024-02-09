@@ -26,6 +26,7 @@ import { typeGetBotConfigByConfigId } from "@/lib/routers/botConfigRouter";
 import { PublishButton } from "./publish-btn";
 import { Separator } from "@/components/ui/separator";
 
+// TODO a lot of duplicated code here, need to refactor. Almost identical to the one in student/bot/[botId]/chat/[id]/page.tsx
 const getChatContext = async function ({
   type,
   configId,
