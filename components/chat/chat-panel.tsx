@@ -1,9 +1,7 @@
 "use client";
 import { type UseChatHelpers } from "ai/react";
 
-import { Button } from "@ui/button";
 import { PromptForm } from "./prompt-form";
-import { IconRefresh, IconStop } from "@ui/icons";
 import { useAtom } from "jotai";
 import { showVideoModalAtom } from "@/lib/atoms/ui";
 import { ChatSuggestions } from "./suggestions";
@@ -39,7 +37,7 @@ export function ChatPanel({
   return (
     <div className=" fixed inset-x-0 bottom-0">
       <div className="mx-auto sm:max-w-2xl sm:px-4">
-        {showSuggestions && <ChatSuggestions append={append} />}
+        {showSuggestions && !isLoading && <ChatSuggestions append={append} />}
         <PromptForm
           onSubmit={async (value) => {
             setShowVideoModal(false);
