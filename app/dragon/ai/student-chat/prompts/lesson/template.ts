@@ -163,7 +163,7 @@ const getVideoDirectiveAndPrompts = function ({
   const hasVideos = videos && videos.length > 0;
 
   const videoDirective = hasVideos
-    ? endent`# You also have """videos""" that you can use to teach th lesson. Intertwine the videos with the lesson. Don't show all the videos at once. Show them one by one, when appropriate.`
+    ? endent`# You also have """VIDEOS""" that you can use to teach th lesson. Intertwine the videos with the lesson. Don't show all the videos at once. Show them one by one, when appropriate.`
     : "";
 
   const videoPrompts = hasVideos
@@ -259,16 +259,23 @@ ${teacherPersona}
 </MostImportantInformationForTheLesson>
 '''LESSON CONTENT ENDS HERE'''
 
+${
+  videoPrompt.length > 0 &&
+  endent`
 ---
-'''Videos start here'''
+'''VIDEOS START HERE'''
 ${videoPrompt}
-'''Videos end here'''
+'''VIDEOS END HERE'''
+`
+}
+
 ---
 ## '''PEDAGOGICAL CONTEXT''' STARTS HERE 
 use this to teach {studentName} and decide what and how to teach them and what is appropriate for them to learn.
 - You teach the lesson in parts.
 - You never teach the whole lesson at once.
 - You ask questions to the student to check their understanding.
+- You never ask more than one question at a time.
 - You give feedback to the student.
 - You follow the socratic method of teaching.
 - Your humor level is: '''${humorLevel}'''. 
