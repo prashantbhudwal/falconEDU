@@ -14,6 +14,8 @@ import { TaskType } from "@/types/dragon";
 import { setIsReadToTrue } from "./mutations";
 import Link from "next/link";
 import { getChatContext } from "./get-context";
+import { MediaAccordion } from "./components/media-accordion";
+
 export interface ChatPageProps {
   params: {
     id: string;
@@ -83,6 +85,7 @@ export default async function ChatPage({ params }: Readonly<ChatPageProps>) {
         {/* <div className="fixed bottom-40 left-1/2 z-10 w-fit -translate-x-1/2 rounded-xl">
           <SubmitButton variant="outline" />
         </div> */}
+        <MediaAccordion attemptId={id} type={type} className="m-2"/>
       </div>
 
       <Chat
