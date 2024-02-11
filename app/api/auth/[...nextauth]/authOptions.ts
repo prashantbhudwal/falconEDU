@@ -9,6 +9,7 @@ import { JWT } from "next-auth/jwt";
 import { redirect } from "next/navigation";
 import { createUserProfile } from "./mutations";
 import { UserType } from "@prisma/client";
+import { createMixpanelProfile } from "@/lib/mixpanel";
 
 const TRIAL_DURATION = 14;
 
@@ -169,8 +170,12 @@ const jwtCallback = async ({
   if (user && isNewUser) {
     try {
       await createUserProfile(user.id, user.userType);
-
-      //
+      await createMixpanelProfile(user.email as string, {
+        $email: user.email as string,
+        $name: user.name ?? "Unknown",
+        $avatar: user.image ?? undefined,
+        userType: user.userType as UserType,
+      });
     } catch (e) {
       return false;
     }
