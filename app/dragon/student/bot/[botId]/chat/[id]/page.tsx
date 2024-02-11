@@ -15,6 +15,9 @@ import { setIsReadToTrue } from "./mutations";
 import Link from "next/link";
 import { getChatContext } from "./get-context";
 import { MediaAccordion } from "./components/media-accordion";
+import { trackEvent } from "@/lib/mixpanel";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { getServerSession } from "next-auth";
 
 export interface ChatPageProps {
   params: {
@@ -24,6 +27,8 @@ export interface ChatPageProps {
 }
 
 export default async function ChatPage({ params }: Readonly<ChatPageProps>) {
+  const session = await getServerSession(authOptions);
+  const email = session?.user?.email;
   const { id, botId } = params;
   const chat = await getBotChatByChatId(id);
   const initialMessages: Message[] = chat?.messages || [];
@@ -46,6 +51,12 @@ export default async function ChatPage({ params }: Readonly<ChatPageProps>) {
   const showSubmit = !chat?.isSubmitted && ["test", "ai-test"].includes(type);
   const isDisabled = !classDetails?.isActive || !bot?.BotConfig?.isActive;
   const isSubmitted = chat?.isSubmitted;
+  trackEvent("student", "task_viewed", {
+    distinct_id: email as string,
+    task_type: type,
+    task_id: botId,
+    attempt_id: id,
+  });
 
   const SubmitButton = ({ variant }: { variant: "outline" | "default" }) => {
     const styles =
@@ -85,7 +96,7 @@ export default async function ChatPage({ params }: Readonly<ChatPageProps>) {
         {/* <div className="fixed bottom-40 left-1/2 z-10 w-fit -translate-x-1/2 rounded-xl">
           <SubmitButton variant="outline" />
         </div> */}
-        <MediaAccordion attemptId={id} type={type} className="m-2"/>
+        <MediaAccordion attemptId={id} type={type} className="m-2" />
       </div>
 
       <Chat
