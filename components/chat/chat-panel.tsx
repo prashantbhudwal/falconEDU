@@ -5,6 +5,7 @@ import { PromptForm } from "./prompt-form";
 import { useAtom } from "jotai";
 import { showVideoModalAtom } from "@/lib/atoms/ui";
 import { ChatSuggestions } from "./suggestions";
+import { TaskType } from "@/types";
 
 export interface ChatPanelProps
   extends Pick<
@@ -17,8 +18,10 @@ export interface ChatPanelProps
     | "input"
     | "setInput"
   > {
-  id?: string;
+  id: string;
   showSuggestions?: boolean;
+  type: TaskType;
+  taskId: string;
 }
 
 export function ChatPanel({
@@ -31,6 +34,8 @@ export function ChatPanel({
   setInput,
   messages,
   showSuggestions = true,
+  type,
+  taskId,
 }: ChatPanelProps) {
   const [showVideoModal, setShowVideoModal] = useAtom(showVideoModalAtom);
 
@@ -50,6 +55,9 @@ export function ChatPanel({
           input={input}
           setInput={setInput}
           isLoading={isLoading}
+          type={type}
+          attemptId={id}
+          taskId={taskId}
         />
       </div>
     </div>

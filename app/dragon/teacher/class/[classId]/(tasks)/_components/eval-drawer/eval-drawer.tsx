@@ -130,6 +130,8 @@ export function EvalDrawer({
               isTesting: true,
             }}
             type={taskType}
+            id="eval-attempt"
+            taskId={taskId}
           />
         </div>
       </DrawerContent>

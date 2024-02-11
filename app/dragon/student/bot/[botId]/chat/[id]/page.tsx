@@ -113,6 +113,7 @@ export default async function ChatPage({ params }: Readonly<ChatPageProps>) {
         isDisabled={isDisabled}
         isSubmitted={isSubmitted}
         type={type ?? "chat"}
+        taskId={botId}
       />
     </div>
   );

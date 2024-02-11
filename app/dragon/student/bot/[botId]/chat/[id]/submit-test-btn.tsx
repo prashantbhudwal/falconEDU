@@ -106,6 +106,7 @@ export const SubmitTestButton = React.forwardRef<HTMLButtonElement, PropTypes>(
           task_type: taskType,
           task_id: testBotId,
           attempt_id: botChatId,
+          isError: true,
         });
         setError(true);
         setShowSubmitModal(true);

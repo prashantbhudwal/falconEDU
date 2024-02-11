@@ -20,7 +20,7 @@ import { TaskType } from "@/types";
 
 export interface ChatProps extends React.ComponentProps<"div"> {
   initialMessages?: Message[];
-  id?: string;
+  id: string;
   apiPath: string;
   emptyMessage: string;
   chatBody: Record<string, unknown>;
@@ -29,6 +29,7 @@ export interface ChatProps extends React.ComponentProps<"div"> {
   isSubmitted?: boolean;
   type: TaskType;
   hidePanel?: boolean;
+  taskId: string;
 }
 
 const scrollToPercentage = (
@@ -67,6 +68,7 @@ export function Chat({
   isSubmitted = false,
   type,
   hidePanel,
+  taskId,
 }: Readonly<ChatProps>) {
   const [autoScrolling, setAutoScrolling] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -123,6 +125,8 @@ export function Chat({
           input={input}
           setInput={setInput}
           showSuggestions={type === "lesson"}
+          type={type}
+          taskId={taskId}
         />
       );
     }
@@ -150,6 +154,9 @@ export function Chat({
                 botImage={botImage}
                 isLoading={isLoading}
                 hideActions={type === "test"}
+                attemptId={id}
+                taskId={taskId}
+                type={type}
               />
               {showVideoModal && <VideoCard videoUrl={videoUrl} />}
             </>

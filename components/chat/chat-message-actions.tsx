@@ -13,10 +13,14 @@ import { PlayIcon, PlayPauseIcon } from "@heroicons/react/24/solid";
 import { BounceLoader, ScaleLoader } from "react-spinners";
 import { HiSpeakerWave } from "react-icons/hi2";
 import { FaPause } from "react-icons/fa6";
+import { TaskType } from "@/types";
 
 interface ChatMessageActionsProps extends React.ComponentProps<"div"> {
   message: Message;
   isLastMessage?: boolean;
+  attemptId: string;
+  taskId: string;
+  type: TaskType;
 }
 
 /**
@@ -31,6 +35,9 @@ export function ChatMessageActions({
   message,
   className,
   isLastMessage,
+  attemptId,
+  taskId,
+  type,
   ...props
 }: ChatMessageActionsProps): JSX.Element {
   const { isCopied, copyToClipboard } = useCopyToClipboard({ timeout: 2000 });
@@ -53,7 +60,7 @@ export function ChatMessageActions({
       try {
         const response = await axios.post(
           "/dragon/ai/speak",
-          { text: message.content },
+          { text: message.content, attemptId, taskId, type },
           { responseType: "blob" },
         );
         const audioBlob = new Blob([response.data], { type: "audio/mpeg" });

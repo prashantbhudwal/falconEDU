@@ -16,11 +16,15 @@ import { cn } from "@/lib/utils";
 import { useRef } from "react";
 import { useState } from "react";
 import { useEffect } from "react";
+import { TaskType } from "@/types";
 
 export interface PromptProps
   extends Pick<UseChatHelpers, "input" | "setInput"> {
   onSubmit: (value: string) => Promise<void>;
   isLoading: boolean;
+  type: TaskType;
+  attemptId: string;
+  taskId: string;
 }
 
 export function PromptForm({
@@ -28,6 +32,9 @@ export function PromptForm({
   input,
   setInput,
   isLoading,
+  type,
+  attemptId,
+  taskId,
 }: PromptProps) {
   const { formRef, onKeyDown } = useEnterSubmit();
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -55,7 +62,7 @@ export function PromptForm({
 
     if (recording) {
       mediaRecorder?.stop();
-      mediaRecorder?.stream.getTracks().forEach((track) => track.stop());
+      mediaRecorder?.stream?.getTracks().forEach((track) => track.stop());
       setRecording(false);
       setMediaRecorder(null);
     } else {
@@ -87,7 +94,9 @@ export function PromptForm({
     if (audioFile) {
       const formData = new FormData();
       formData.append("file", audioFile);
-
+      formData.append("taskType", type);
+      formData.append("attemptId", attemptId);
+      formData.append("taskId", taskId);
       try {
         const response = await axios
           .post("/dragon/ai/transcribe", formData)

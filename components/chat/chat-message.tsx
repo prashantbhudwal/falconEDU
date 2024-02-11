@@ -4,6 +4,7 @@ import { Avatar, AvatarImage } from "../ui/avatar";
 import { cn } from "@/lib/utils";
 import { ChatMessageActions } from "./chat-message-actions";
 import { ChatMessageMarkdown } from "./chat-message-markdown";
+import { TaskType } from "@/types";
 
 export interface ChatMessageProps {
   message: Message;
@@ -12,6 +13,9 @@ export interface ChatMessageProps {
   isLastMessage?: boolean;
   isLoading?: boolean;
   hideActions?: boolean;
+  attemptId: string;
+  taskId: string;
+  type: TaskType;
 }
 
 export function ChatMessage({
@@ -21,6 +25,10 @@ export function ChatMessage({
   isLastMessage,
   isLoading,
   hideActions,
+  attemptId,
+  taskId,
+  type,
+
   ...props
 }: ChatMessageProps) {
   const role = message.role;
@@ -64,7 +72,13 @@ export function ChatMessage({
           messageRole={message.role}
         />
         {!hideActions && (
-          <ChatMessageActions isLastMessage={isLastMessage} message={message} />
+          <ChatMessageActions
+            isLastMessage={isLastMessage}
+            message={message}
+            attemptId={attemptId}
+            taskId={taskId}
+            type={type}
+          />
         )}
       </div>
     </div>

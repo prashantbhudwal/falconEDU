@@ -27,6 +27,9 @@ export async function FullChat({ attemptId }: ChatResponseProps) {
         messages={messages}
         botImage={"/chubbi.png"}
         studentImage={userImage}
+        attemptId={id}
+        taskId={"teacher-side"}
+        type="test"
       />
     </Suspense>
   );

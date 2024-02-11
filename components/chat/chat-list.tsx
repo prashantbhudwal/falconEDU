@@ -1,6 +1,7 @@
 import { type Message } from "ai";
 
 import { ChatMessage } from "./chat-message";
+import { TaskType } from "@/types";
 
 export interface ChatList {
   messages: Message[];
@@ -8,6 +9,9 @@ export interface ChatList {
   studentImage?: string;
   isLoading?: boolean;
   hideActions?: boolean;
+  attemptId: string;
+  taskId: string;
+  type: TaskType;
 }
 
 export function ChatList({
@@ -16,6 +20,9 @@ export function ChatList({
   studentImage,
   isLoading,
   hideActions,
+  attemptId,
+  taskId,
+  type,
 }: ChatList) {
   if (!messages.length) {
     return null;
@@ -34,6 +41,9 @@ export function ChatList({
               isLastMessage={isLastMessage}
               isLoading={isLoading}
               hideActions={hideActions}
+              attemptId={attemptId}
+              taskId={taskId}
+              type={type}
             />
           </div>
         );

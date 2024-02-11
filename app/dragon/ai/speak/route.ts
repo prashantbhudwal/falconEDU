@@ -1,15 +1,32 @@
+import { trackEvent } from "@/lib/mixpanel";
 import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
 const openai = new OpenAI();
+import { OPENAI_MODEL } from "../config";
+
+const voice = "alloy";
+const speed = 0.9;
 export async function POST(req: Request, res: NextResponse) {
   const body = await req.json();
   try {
     const text = body.text;
+    const { attemptId, taskId, type } = body;
+
+    trackEvent("student", "textToSpeech_used", {
+      distinct_id: attemptId,
+      model: OPENAI_MODEL.SPEECH,
+      task_type: type,
+      task_id: taskId,
+      attempt_id: attemptId,
+      voice,
+      speed,
+    });
+
     const mp3 = await openai.audio.speech.create({
-      model: "tts-1",
-      voice: "alloy",
+      model: OPENAI_MODEL.SPEECH,
+      voice: voice,
       input: text,
-      speed: 0.9,
+      speed: speed,
     });
 
     // Convert to buffer

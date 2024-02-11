@@ -77,8 +77,8 @@ export async function POST(req: NextRequest) {
           trackEvent("student", "tool_used", {
             distinct_id: email as string,
             tool_name: toolName,
-            taskType: botType,
-            attemptId: botChatId,
+            task_type: botType,
+            attempt_id: botChatId,
             model: model,
             temperature: temperature,
           });
@@ -135,8 +135,8 @@ export async function POST(req: NextRequest) {
         );
         trackEvent("student", "message_sent", {
           distinct_id: email as string,
-          taskType: botType,
-          attemptId: botChatId,
+          task_type: botType,
+          attempt_id: botChatId,
           model: model,
           temperature: temperature,
         });
@@ -163,8 +163,8 @@ export async function POST(req: NextRequest) {
   } catch (e) {
     trackEvent("student", "chat_completion_failed", {
       distinct_id: email as string,
-      taskType: botType,
-      attemptId: botChatId,
+      task_type: botType,
+      attempt_id: botChatId,
       model: model,
       temperature: temperature,
       isError: true,
