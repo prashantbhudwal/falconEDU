@@ -7,16 +7,13 @@ type BaseTaskProperties = {
   task_type: TaskType;
   task_id: string;
   attempt_id: string;
-  subject: string;
-  grade: Grade;
-  mediumOfInstruction: Language;
 };
 
 type TaskEvents = {
   task_viewed: BaseTaskProperties;
   task_started: BaseTaskProperties;
   task_submitted: BaseTaskProperties;
-  result_opened: BaseTaskProperties;
+  result_viewed: BaseTaskProperties;
 };
 
 // --- Avatar Events ---
