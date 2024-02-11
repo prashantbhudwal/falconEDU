@@ -1,7 +1,9 @@
 "use server";
+import { PropertyDict } from "mixpanel";
 import { mp } from "./init";
 import { UserEventProperties, UserType } from "./schema/events";
 import { ProfileProperties } from "./schema/profile";
+import pRetry from "p-retry";
 
 export const trackPage = (pageName: string, distinct_id: string) => {
   mp.track("Page View", { page: pageName, distinct_id });
@@ -17,13 +19,18 @@ type EventProperties<
 
 // Generic tracking function that enforces user type, event names, and event properties correlation
 export async function trackEvent<U extends UserType, E extends EventNames<U>>(
+  userType: U,
   eventName: E,
   properties: EventProperties<U, E>,
-): Promise<void> {
+) {
   const eventFullName = `${eventName as string}`;
-  console.log("Tracking event", eventFullName, properties);
+  const run = async () => {
+    await mp.track(eventFullName, properties as PropertyDict);
+  };
 
-  // mp.track(eventFullName, properties as PropertyDict);
+  await pRetry(run, {
+    retries: 3,
+  });
 }
 
 export async function createMixpanelProfile(
