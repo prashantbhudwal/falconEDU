@@ -24,6 +24,7 @@ export const dynamic = "force-dynamic";
 import { toolName } from "./tools/types";
 import { findToolsByTask } from "./tools";
 import { getEngineeredMessagesByType } from "./prompts";
+import { trackEvent } from "@/lib/mixpanel";
 
 const MESSAGES_IN_CONTEXT_WINDOW = 50;
 
@@ -32,16 +33,17 @@ export async function POST(req: NextRequest) {
   if (!session) {
     return new Response("Unauthorized", { status: 401 });
   }
-
   const email = session.user.email;
+  const json = await req.json();
+  let { messages, chatId: botChatId, context, isTesting } = json;
+  const botType = json.type as TaskType;
+  if (!botType) {
+    throw new Error(`BotConfig with botChatId ${botChatId} not found`);
+  }
+  const temperature = getTaskProperties(botType).aiTemperature;
+  const model = "gpt-3.5-turbo-1106";
 
   try {
-    const json = await req.json();
-    let { messages, chatId: botChatId, context, isTesting } = json;
-    const botType = json.type as TaskType;
-    if (!botType) {
-      throw new Error(`BotConfig with botChatId ${botChatId} not found`);
-    }
     const parsedContext = JSON.parse(context);
 
     const { engineeredMessages } = await getEngineeredMessagesByType({
@@ -53,8 +55,6 @@ export async function POST(req: NextRequest) {
     const messageArray = [...engineeredMessages, ...relevantHistory];
 
     const { tools, toolsWithCallback } = findToolsByTask(botType);
-    const temperature = getTaskProperties(botType).aiTemperature;
-    const model = "gpt-3.5-turbo-1106";
 
     const completion = await openai.chat.completions.create({
       stream: true,
@@ -65,7 +65,6 @@ export async function POST(req: NextRequest) {
       tool_choice: !!tools ? "auto" : undefined,
     });
     const data = new experimental_StreamData();
-
     const newStream = OpenAIStream(completion, {
       experimental_onToolCall: async (
         toolCallPayload,
@@ -75,6 +74,15 @@ export async function POST(req: NextRequest) {
 
         const toolCallPromises = tools.map(async (tool) => {
           const toolName = tool.func.name as toolName;
+          trackEvent("student", "tool_used", {
+            distinct_id: email as string,
+            tool_name: toolName,
+            taskType: botType,
+            attemptId: botChatId,
+            model: model,
+            temperature: temperature,
+          });
+
           // TODO - fix this: Even though the types says record<string, unknown>, it's actually a string
           let args;
           // @ts-ignore
@@ -125,6 +133,13 @@ export async function POST(req: NextRequest) {
           completion,
           messages,
         );
+        trackEvent("student", "message_sent", {
+          distinct_id: email as string,
+          taskType: botType,
+          attemptId: botChatId,
+          model: model,
+          temperature: temperature,
+        });
 
         mp.track(
           `${botType.charAt(0).toUpperCase() + botType.slice(1)} Message`,
@@ -146,6 +161,14 @@ export async function POST(req: NextRequest) {
 
     return new StreamingTextResponse(newStream, {}, data);
   } catch (e) {
+    trackEvent("student", "chat_completion_failed", {
+      distinct_id: email as string,
+      taskType: botType,
+      attemptId: botChatId,
+      model: model,
+      temperature: temperature,
+      isError: true,
+    });
     console.error(e);
     return new Response("Error", { status: 500 });
   }
