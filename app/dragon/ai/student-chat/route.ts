@@ -8,7 +8,7 @@ import {
   experimental_StreamData,
 } from "ai";
 import { saveBotChatToDatabase } from "./mutations";
-import { mp } from "@/lib/mixpanel";
+import { mp } from "@/lib/mixpanel/init";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { TaskType } from "@/types/dragon";
@@ -51,7 +51,6 @@ export async function POST(req: NextRequest) {
 
     const relevantHistory = messages.slice(-MESSAGES_IN_CONTEXT_WINDOW);
     const messageArray = [...engineeredMessages, ...relevantHistory];
-    
 
     const { tools, toolsWithCallback } = findToolsByTask(botType);
     const temperature = getTaskProperties(botType).aiTemperature;
