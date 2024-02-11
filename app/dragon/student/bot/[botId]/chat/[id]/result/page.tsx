@@ -13,6 +13,9 @@ import { QuestionList } from "@/app/dragon/teacher/class/[classId]/(tasks)/[task
 import BackBar from "@/components/back-bar";
 import { url } from "@/lib/urls";
 import { QuizResult } from "./quiz-result";
+import { trackEvent } from "@/lib/mixpanel";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 
 export type ResultPageProps = {
   params: {
@@ -24,9 +27,18 @@ export type ResultPageProps = {
 export default async function ResultPage({
   params,
 }: Readonly<ResultPageProps>) {
+  const session = await getServerSession(authOptions);
+  const email = session?.user?.email;
   const { id: chatId, botId: taskId } = params;
   const bot = await getBotByBotId(taskId);
   const type = bot?.BotConfig?.type as TaskType;
+
+  trackEvent("student", "result_viewed", {
+    distinct_id: email as string,
+    attempt_id: chatId,
+    task_type: type,
+    task_id: taskId,
+  });
 
   let testResults: TestResultsByBotId = null;
 
