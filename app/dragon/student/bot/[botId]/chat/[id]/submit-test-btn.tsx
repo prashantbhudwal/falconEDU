@@ -26,6 +26,8 @@ import {
 } from "@/app/dragon/ai/tasks/ai-test/submission/mutations";
 import { delay } from "@/lib/utils";
 import { url } from "@/lib/urls";
+import { trackEvent } from "@/lib/mixpanel";
+import { useSession } from "next-auth/react";
 
 const testHandler = async (botChatId: string) => {
   const testResults = await checkTest({ botChatId: botChatId });
@@ -70,6 +72,8 @@ type PropTypes = React.HTMLAttributes<HTMLDivElement> & {
 
 export const SubmitTestButton = React.forwardRef<HTMLButtonElement, PropTypes>(
   ({ testBotId, redirectUrl, botChatId, className, type: taskType }, ref) => {
+    const session = useSession();
+    const email = session.data?.user?.email;
     const [showSubmitModal, setShowSubmitModal] = useAtom(submitTestModalAtom);
     const [loading, setLoading] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
@@ -83,6 +87,12 @@ export const SubmitTestButton = React.forwardRef<HTMLButtonElement, PropTypes>(
       setLoading(true);
       try {
         await taskHandlers[taskType](botChatId);
+        trackEvent("student", "task_submitted", {
+          distinct_id: email as string,
+          task_type: taskType,
+          task_id: testBotId,
+          attempt_id: botChatId,
+        });
         setShowSubmitModal(false);
         setIsSubmitted(true);
         setConfetti(true);
@@ -91,6 +101,12 @@ export const SubmitTestButton = React.forwardRef<HTMLButtonElement, PropTypes>(
           url.student.taskReport({ botId: testBotId, chatId: botChatId }),
         );
       } catch (err) {
+        trackEvent("student", "task_submission_failed", {
+          distinct_id: email as string,
+          task_type: taskType,
+          task_id: testBotId,
+          attempt_id: botChatId,
+        });
         setError(true);
         setShowSubmitModal(true);
       } finally {
