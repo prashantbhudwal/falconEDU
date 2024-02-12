@@ -1,5 +1,4 @@
 import { CommonEventProperties as CommonEvents } from "./common-events";
-import { Grade, Language } from "@prisma/client";
 import { TaskType } from "@/types";
 
 // --- Task Events ---
@@ -7,17 +6,22 @@ import { TaskType } from "@/types";
 type BaseTaskProperties = {
   task_type: TaskType;
   task_id: string;
-  attempt_id: string;
-  subject: string;
-  grade: Grade;
-  mediumOfInstruction: Language;
+  class_id: string;
 };
 
 type TaskEvents = {
   task_created: BaseTaskProperties;
   task_parsed: BaseTaskProperties;
-  task_published: BaseTaskProperties;
+  task_parsing_failed: BaseTaskProperties;
+  task_published: BaseTaskProperties; //Implemented
+  task_unpublished: BaseTaskProperties; //Implemented
+  task_publishing_failed: BaseTaskProperties & {
+    isError: true;
+  }; //Implemented
   report_opened: BaseTaskProperties;
+  task_unpublishing_failed: BaseTaskProperties & {
+    isError: true;
+  }; //Implemented
 };
 
 // --- Task Checking Events ---
