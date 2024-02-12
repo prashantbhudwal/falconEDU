@@ -1,3 +1,4 @@
+// TODO: Refactor this code, this is a mess. This code is so poorly written that the author should be ashamed of himself.
 "use client";
 import { Button } from "@/components/ui/button";
 import * as z from "zod";
@@ -14,7 +15,6 @@ import { Input } from "@/components/ui/input";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -30,6 +30,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { trackEvent } from "@/lib/mixpanel";
+import { useSession } from "next-auth/react";
 
 const addStudentFormSchema = z.object({
   email: z.string().email().nonempty(),
@@ -47,6 +49,8 @@ export default function AddStudentForm({
   classId,
   nameOfClass,
 }: AddStudentFormProps) {
+  const session = useSession();
+  const teacherEmail = session.data?.user?.email as string;
   const [openDialog, setOpenDialog] = useState(false);
   const { user } = useUserData();
   const [sendingEmail, setSendingEmail] = useState(false);
@@ -61,6 +65,9 @@ export default function AddStudentForm({
     },
   });
 
+  const studentEmail = form.getValues().email;
+
+  // TODO: Refactor this code
   const onSubmit = async function (
     values: z.infer<typeof addStudentFormSchema>,
   ) {
@@ -69,27 +76,29 @@ export default function AddStudentForm({
     const result = await db.studentRouter.addStudentToClass({ email, classId });
     if (result.notFound) {
       setIsNotOnFalconAI(true);
-      // form.setError("email", {
-      //   type: "manual",
-      //   message: "Student not on FalconAI. Ask them to sign up!",
-      // });
     } else if (result.error) {
       form.setError("email", {
         type: "manual",
         message: "Something went wrong. Please try again.",
       });
     } else if (result.success) {
+      trackEvent("teacher", "student_added", {
+        distinct_id: teacherEmail,
+        student_email: email,
+        class_id: classId,
+      });
       cancelModalHandler();
     }
   };
 
+  // TODO: Clean up this mess
   const sendEmailHandler = async () => {
     try {
       setSendingEmail(true);
       const { success, error, addedInvitation } =
         await db.inviteStudentsRouter.addToInviteList({
           classId,
-          studentEmail: form.getValues().email,
+          studentEmail: studentEmail,
         });
       if (!success && error) {
         setSendingEmail(false);
@@ -98,7 +107,7 @@ export default function AddStudentForm({
         return;
       }
       const data = {
-        studentEmail: form.getValues().email,
+        studentEmail: studentEmail,
         teacherEmail: user.email,
         nameOfClass,
         teacherImage: user.image,
@@ -109,6 +118,11 @@ export default function AddStudentForm({
         JSON.stringify(data),
       );
       if (emailResponse.status === 200) {
+        trackEvent("teacher", "student_invited", {
+          distinct_id: teacherEmail,
+          class_id: classId,
+          student_email: studentEmail,
+        });
         setOpenDialog(false);
         setEmailError("");
         setIsAlreadyInvited(false);
@@ -128,7 +142,7 @@ export default function AddStudentForm({
       const { success, updatedInvitation, error } =
         await db.inviteStudentsRouter.updateInviteTimehandler({
           classId,
-          studentEmail: form.getValues().email,
+          studentEmail: studentEmail,
         });
       if (!success && error) {
         setSendingEmail(false);
@@ -136,7 +150,7 @@ export default function AddStudentForm({
         return;
       }
       const data = {
-        studentEmail: form.getValues().email,
+        studentEmail: studentEmail,
         teacherEmail: user.email,
         nameOfClass,
         teacherImage: user.image,
@@ -147,6 +161,11 @@ export default function AddStudentForm({
         JSON.stringify(data),
       );
       if (emailResponse.status === 200) {
+        trackEvent("teacher", "student_invited", {
+          distinct_id: teacherEmail,
+          class_id: classId,
+          student_email: studentEmail,
+        });
         setOpenDialog(false);
         setEmailError("");
         setIsAlreadyInvited(false);

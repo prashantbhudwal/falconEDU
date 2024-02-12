@@ -36,6 +36,8 @@ import { ClassDialog } from "../../../../components/class-dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { db } from "@/lib/routers";
 import { StudentsByClassId } from "@/lib/routers/classRouter";
+import { trackEvent } from "@/lib/mixpanel";
+import { useSession } from "next-auth/react";
 
 type StudentData = NonNullable<StudentsByClassId["students"]>[number];
 
@@ -46,6 +48,24 @@ export function StudentsTable({
   students: StudentData[];
   classId: string;
 }) {
+  const session = useSession();
+  const email = session.data?.user?.email as string;
+  const removeStudent = async function (id: string, studentEmail: string) {
+    try {
+      await db.studentRouter.removeStudentFromClass({
+        studentId: id,
+        classId,
+      });
+      trackEvent("teacher", "student_removed", {
+        class_id: classId,
+        distinct_id: email,
+        student_email: studentEmail,
+      });
+    } catch (e) {
+      throw new Error("Failed to remove student");
+    }
+  };
+
   const columns: ColumnDef<StudentData>[] = [
     {
       id: "serialNumber",
@@ -108,6 +128,7 @@ export function StudentsTable({
       enableHiding: false,
       cell: ({ row }) => {
         const id = row.original?.id;
+        const studentEmail = row.original.User.email as string;
         return (
           <TooltipProvider>
             <Tooltip>
@@ -115,12 +136,7 @@ export function StudentsTable({
                 <ClassDialog
                   title="Delete Student"
                   description="are you sure you want to delete this student?"
-                  action={() =>
-                    db.studentRouter.removeStudentFromClass({
-                      studentId: id,
-                      classId,
-                    })
-                  }
+                  action={() => removeStudent(id, studentEmail)}
                   trigger={
                     <Button
                       variant={"ghost"}
@@ -167,16 +183,6 @@ export function StudentsTable({
 
   return (
     <div className="w-full">
-      {/* <div className="flex items-center py-4">
-        <Input
-          placeholder="Filter Students by Name..."
-          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
-      </div> */}
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -224,26 +230,6 @@ export function StudentsTable({
           </TableBody>
         </Table>
       </div>
-      {/* <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="space-x-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            Previous
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            Next
-          </Button>
-        </div>
-      </div> */}
     </div>
   );
 }

@@ -1,3 +1,4 @@
+import { Grade } from "@prisma/client";
 import { CommonEventProperties as CommonEvents } from "./common-events";
 import { TaskType } from "@/types";
 
@@ -14,8 +15,8 @@ type BaseTaskProperties = {
 };
 
 type TaskEvents = {
-  task_created: BaseTaskProperties;
-  task_creation_failed: BaseTaskProperties & ErrorProperties;
+  task_created: BaseTaskProperties; //Implemented
+  task_creation_failed: BaseTaskProperties & ErrorProperties; //Implemented
   task_content_parsed: BaseTaskProperties;
   task_content_parsing_failed: BaseTaskProperties & ErrorProperties;
   task_published: BaseTaskProperties; //Implemented
@@ -45,24 +46,22 @@ type TestingEvents = {
 
 type BaseClassProperties = {
   class_id: string;
-  grade: string;
-  board: string;
 };
 
 type ClassEvents = {
-  class_created: BaseClassProperties;
+  class_created: BaseClassProperties & {
+    grade: Grade;
+    section?: string;
+  }; //Implemented
   student_added: BaseClassProperties & {
     student_email: string;
-    student_name: string;
-  };
+  }; //Implemented
   student_removed: BaseClassProperties & {
     student_email: string;
-    student_name: string;
-  };
+  }; //Implemented
   student_invited: BaseClassProperties & {
     student_email: string;
-    student_name: string;
-  };
+  }; //Implemented
 };
 
 // --- Avatar Events ---
@@ -76,4 +75,5 @@ type AvatarEvents = {
 export type TeacherEventProperties = CommonEvents &
   TaskEvents &
   ClassEvents &
-  AvatarEvents;
+  AvatarEvents &
+  TestingEvents;

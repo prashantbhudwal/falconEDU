@@ -7,8 +7,6 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -16,7 +14,6 @@ import {
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -26,10 +23,8 @@ import { Input } from "@/components/ui/input";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FolderPlusIcon } from "@heroicons/react/24/solid";
 import { db } from "../../../../lib/routers";
-import { Grade } from "@prisma/client";
-import { Class } from "@prisma/client";
+import { Grade, Class } from "@prisma/client";
 import {
   Select,
   SelectContent,
@@ -38,6 +33,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
+import { trackEvent } from "@/lib/mixpanel";
 
 type GradeOption = {
   label: string;
@@ -65,6 +61,7 @@ const formSchema = z.object({
 export function NewClass() {
   const { data } = useSession();
   const userId = data?.user?.id ?? "";
+  const email = data?.user?.email ?? "";
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -72,7 +69,22 @@ export function NewClass() {
     const { grade, section } = values;
     try {
       setLoading(true);
-      await db.class.createClassForTeacher({ grade, section, userId });
+      const newClass = await db.class.createClassForTeacher({
+        grade,
+        section,
+        userId,
+      });
+      const {
+        id: newClassId,
+        grade: newClassGrade,
+        section: newClassSection,
+      } = newClass;
+      trackEvent("teacher", "class_created", {
+        distinct_id: email,
+        class_id: newClassId,
+        grade: newClassGrade,
+        section: newClassSection ?? undefined,
+      });
       setLoading(false);
       setOpen(false);
     } catch (error) {
