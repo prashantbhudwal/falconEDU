@@ -1,6 +1,10 @@
 import { CommonEventProperties as CommonEvents } from "./common-events";
 import { TaskType } from "@/types";
 
+type ErrorProperties = {
+  isError: true;
+};
+
 // --- Task Events ---
 
 type BaseTaskProperties = {
@@ -11,17 +15,14 @@ type BaseTaskProperties = {
 
 type TaskEvents = {
   task_created: BaseTaskProperties;
-  task_parsed: BaseTaskProperties;
-  task_parsing_failed: BaseTaskProperties;
+  task_creation_failed: BaseTaskProperties & ErrorProperties;
+  task_content_parsed: BaseTaskProperties;
+  task_content_parsing_failed: BaseTaskProperties & ErrorProperties;
   task_published: BaseTaskProperties; //Implemented
   task_unpublished: BaseTaskProperties; //Implemented
-  task_publishing_failed: BaseTaskProperties & {
-    isError: true;
-  }; //Implemented
+  task_publishing_failed: BaseTaskProperties & ErrorProperties; //Implemented
   report_opened: BaseTaskProperties;
-  task_unpublishing_failed: BaseTaskProperties & {
-    isError: true;
-  }; //Implemented
+  task_unpublishing_failed: BaseTaskProperties & ErrorProperties; //Implemented
 };
 
 // --- Task Checking Events ---
