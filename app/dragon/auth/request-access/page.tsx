@@ -66,7 +66,7 @@ const AccessRequestForm = () => {
               Request Access
             </Button>
           </Link>
-          {showAccessButton && (
+          {/* {showAccessButton && (
             <Button
               variant="default"
               rel="noopener noreferrer"
@@ -75,7 +75,7 @@ const AccessRequestForm = () => {
             >
               Testing: Click to get access
             </Button>
-          )}
+          )} */}
         </div>
       </div>
     </div>
