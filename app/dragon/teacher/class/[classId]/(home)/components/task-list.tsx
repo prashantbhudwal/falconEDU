@@ -1,8 +1,7 @@
-import { format, isToday, isThisWeek, isThisMonth } from "date-fns";
-import { BotConfig, Class } from "@prisma/client";
+import { isToday, isThisWeek, isThisMonth } from "date-fns";
 import { TaskCard } from "./task-card";
 import Link from "next/link";
-import { getTaskUrlByType } from "@/lib/urls";
+import { getTaskResponsesUrlByType, getTaskUrlByType } from "@/lib/urls";
 import { TaskType } from "@/types/dragon";
 import { AllConfigsInClass } from "@/lib/routers/botConfigRouter";
 
@@ -16,7 +15,24 @@ type TaskListProps = {
   userId: string;
 };
 
-const TaskList: React.FC<TaskListProps> = ({ tasks, classId, userId }) => {
+const getTaskLink = (classId: string, task: AllConfigsInClass["all"][0]) => {
+  const configId = task.id;
+  const type = task.type as TaskType;
+  if (task.published) {
+    return getTaskResponsesUrlByType({
+      classId,
+      configId,
+      type,
+    });
+  }
+  return getTaskUrlByType({
+    classId,
+    configId,
+    type,
+  });
+};
+
+export const TaskList = ({ tasks, classId, userId }: TaskListProps) => {
   const groupTasks = (sortedTasks: AllConfigsInClass["all"]): GroupedTasks => {
     return sortedTasks.reduce((acc: GroupedTasks, task) => {
       const date = new Date(task.createdAt);
@@ -52,15 +68,9 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, classId, userId }) => {
           <h2 className="mb-2 font-semibold">{group}</h2>
           <div className="mb-3 flex flex-col space-y-4">
             {groupedTasks[group].map((task) => {
+              const taskLink = getTaskLink(classId, task);
               return (
-                <Link
-                  href={getTaskUrlByType({
-                    classId: classId,
-                    configId: task.id,
-                    type: task.type as TaskType,
-                  })}
-                  key={task.id}
-                >
+                <Link href={taskLink} key={task.id}>
                   <TaskCard
                     key={task.id}
                     config={task}
@@ -76,5 +86,3 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, classId, userId }) => {
     </>
   );
 };
-
-export default TaskList;
