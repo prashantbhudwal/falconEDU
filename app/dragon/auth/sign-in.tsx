@@ -4,10 +4,10 @@ import { signIn, useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { ButtonProps } from "@/components/ui/button";
 import { authConfig } from "./config";
 import { cn } from "@/lib/utils";
 import { FcGoogle } from "react-icons/fc";
+import { Separator } from "@/components/ui/separator";
 interface SignInProps {
   type: "student" | "teacher" | "parent" | "org-admin";
   inviteId?: string | null;
@@ -47,23 +47,44 @@ export default function SignIn({ type, inviteId }: SignInProps) {
   const config = authConfig.find((cfg) => cfg.type === type);
   if (!config) return null;
 
-  return (
-    <div className="custom-scrollbar flex h-screen min-h-screen w-screen flex-col items-center overflow-y-auto py-16 ">
-      <div className="flex flex-row items-center space-x-3 rounded">
-        <Image src={"/chubbi.png"} height={35} width={35} alt="Falcon Logo" />
-        <h1 className="text-2xl font-bold">FalconAI</h1>
-      </div>
+  const getLoginDescription = (status: string) => {
+    switch (status) {
+      case "loading":
+        return "Signing you in...";
+      case "authenticated":
+        return "Taking you to the app...";
+      default:
+        return config.subtext;
+    }
+  };
 
-      <div className="mt-12 flex flex-col items-center space-y-4 ">
-        <div className="flex flex-col items-center space-y-10 rounded-md md:min-w-[500px]">
-          <h2
-            className={cn(
-              "text-xl font-semibold  underline decoration-1 underline-offset-8 md:text-4xl",
-              config.decorationColor,
-            )}
-          >
-            {config.headline}
-          </h2>
+  const loginDescription = getLoginDescription(sessionStatus);
+
+  return (
+    <div
+      className={cn(
+        "custom-scrollbar flex h-screen min-h-screen w-screen flex-col items-center overflow-y-auto bg-gradient-to-b",
+        config.gradient,
+      )}
+    >
+      <div className="flex w-full max-w-4xl flex-row justify-between px-6 py-4">
+        <div className="flex flex-row items-center space-x-3 rounded brightness-90">
+          <Image src={"/chubbi.png"} height={30} width={30} alt="Falcon Logo" />
+          <h1 className="text-lg font-bold">FalconAI</h1>
+        </div>
+        <Separator orientation="vertical" />
+        <h2 className={cn("text-lg font-semibold")}>{config.headline}</h2>
+      </div>
+      <div className="mt-16 flex flex-col items-center space-y-3">
+        <div className="flex flex-col items-center space-y-8 rounded-md md:min-w-[500px]">
+          <Image
+            src={config.imgPath}
+            height={300}
+            width={300}
+            alt="Falcon Logo"
+            className="rounded-2xl"
+          />
+
           <Button
             size="lg"
             variant={"outline"}
@@ -76,13 +97,7 @@ export default function SignIn({ type, inviteId }: SignInProps) {
               <div>{config.buttonText}</div>
             </div>
           </Button>
-          <div className="text-sm">
-            {sessionStatus === "loading"
-              ? "Signing you in..."
-              : sessionStatus === "authenticated"
-                ? "Taking you to the app..."
-                : config.subtext}
-          </div>
+          <div className="text-sm">{loginDescription}</div>
         </div>
       </div>
     </div>

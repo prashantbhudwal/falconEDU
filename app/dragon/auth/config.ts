@@ -13,6 +13,8 @@ export const authConfig = [
     userType: "STUDENT",
     inviteCallbackUrl: "/dragon/student/invite",
     decorationColor: "decoration-primary",
+    imgPath: "/img/student-hero.webp",
+    gradient: "from-slate-900 via-slate-950 to-emerald-950",
   },
   {
     type: "teacher",
@@ -28,6 +30,8 @@ export const authConfig = [
     userType: "TEACHER",
     inviteCallbackUrl: "/dragon/teacher/invite",
     decorationColor: "decoration-secondary",
+    imgPath: "/img/teacher-hero.webp",
+    gradient: "from-slate-900 via-slate-950 to-purple-950",
   },
 
   {
@@ -44,6 +48,8 @@ export const authConfig = [
     userType: "ORG_ADMIN",
     inviteCallbackUrl: "/dragon/org-admin/invite",
     decorationColor: "decoration-secondary",
+    imgPath: "/img/chubbi.png",
+    gradient: "from-slate-900 via-slate-950 to-emerald-950",
   },
   {
     type: "parent",
@@ -59,5 +65,7 @@ export const authConfig = [
     userType: "PARENT",
     inviteCallbackUrl: "/dragon/parent/invite",
     decorationColor: "decoration-secondary",
+    imgPath: "/img/chubbi.png",
+    gradient: "from-slate-900 via-slate-950 to-emerald-950",
   },
 ] as const;
