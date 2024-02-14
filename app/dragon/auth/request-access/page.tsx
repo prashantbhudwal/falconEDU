@@ -2,7 +2,6 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
-import { notFound } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { setTeacherOrgModeToTrue } from "../mutations";
 import { useRouter } from "next/navigation";
