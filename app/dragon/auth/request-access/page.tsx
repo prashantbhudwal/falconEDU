@@ -2,7 +2,6 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
-import { notFound } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { setTeacherOrgModeToTrue } from "../mutations";
 import { useRouter } from "next/navigation";
@@ -66,7 +65,7 @@ const AccessRequestForm = () => {
               Request Access
             </Button>
           </Link>
-          {showAccessButton && (
+          {/* {showAccessButton && (
             <Button
               variant="default"
               rel="noopener noreferrer"
@@ -75,7 +74,7 @@ const AccessRequestForm = () => {
             >
               Testing: Click to get access
             </Button>
-          )}
+          )} */}
         </div>
       </div>
     </div>

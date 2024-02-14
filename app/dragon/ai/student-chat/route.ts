@@ -8,7 +8,6 @@ import {
   experimental_StreamData,
 } from "ai";
 import { saveBotChatToDatabase } from "./mutations";
-import { mp } from "@/lib/mixpanel/init";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { TaskType } from "@/types/dragon";
@@ -140,16 +139,6 @@ export async function POST(req: NextRequest) {
           model: model,
           temperature: temperature,
         });
-
-        mp.track(
-          `${botType.charAt(0).toUpperCase() + botType.slice(1)} Message`,
-          {
-            distinct_id: email,
-            botType: botType,
-            teacherName: parsedContext.teacherName ?? "",
-            studentName: parsedContext.studentName ?? "",
-          },
-        );
       },
       onFinal(completion) {
         // IMPORTANT! you must close StreamData manually or the response will never finish.

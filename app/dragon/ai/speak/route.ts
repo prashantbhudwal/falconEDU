@@ -1,19 +1,26 @@
 import { trackEvent } from "@/lib/mixpanel";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import OpenAI from "openai";
-const openai = new OpenAI();
 import { OPENAI_MODEL } from "../config";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { getServerSession } from "next-auth";
+const openai = new OpenAI();
 
 const voice = "alloy";
 const speed = 0.9;
 export async function POST(req: Request, res: NextResponse) {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    return new Response("Unauthorized", { status: 401 });
+  }
+  const email = session.user.email as string;
   const body = await req.json();
   try {
     const text = body.text;
     const { attemptId, taskId, type } = body;
 
     trackEvent("student", "textToSpeech_used", {
-      distinct_id: attemptId,
+      distinct_id: email,
       model: OPENAI_MODEL.SPEECH,
       task_type: type,
       task_id: taskId,
