@@ -1,5 +1,4 @@
 "use client";
-import useDeepCompareEffect from "use-deep-compare-effect";
 import { evalDrawerAtom } from "@/lib/atoms/ui";
 import { useAtomValue, useSetAtom } from "jotai";
 import {
@@ -19,14 +18,20 @@ import {
   getLessonContextByConfigId,
   getTestQuestionsByBotConfigId,
 } from "./queries";
-import { useEffect, useState } from "react";
 import { TaskType } from "@/types";
-
 import { typeGetBotConfigByConfigId } from "@/lib/routers/botConfigRouter";
 import { PublishButton } from "./publish-btn";
 import { Separator } from "@/components/ui/separator";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
 
-// TODO a lot of duplicated code here, need to refactor. Almost identical to the one in student/bot/[botId]/chat/[id]/page.tsx
+const taskTypeToFunctionMap = {
+  chat: getChatContextByConfigId,
+  test: getTestQuestionsByBotConfigId,
+  lesson: getLessonContextByConfigId,
+  "ai-test": getAITestContextByConfigId,
+};
+
 const getChatContext = async function ({
   type,
   configId,
@@ -34,30 +39,12 @@ const getChatContext = async function ({
   type: TaskType;
   configId: string;
 }) {
-  switch (type) {
-    case "chat":
-      const chatContext = await getChatContextByConfigId({
-        configId: configId,
-      });
-      return JSON.stringify(chatContext);
-    case "test":
-      const parsedQuestions = await getTestQuestionsByBotConfigId({
-        configId: configId,
-      });
-      return JSON.stringify(parsedQuestions);
-    case "lesson":
-      const lessonContext = await getLessonContextByConfigId({
-        configId: configId,
-      });
-      return JSON.stringify(lessonContext);
-    case "ai-test":
-      const aiTestContext = await getAITestContextByConfigId({
-        configId: configId,
-      });
-      return JSON.stringify(aiTestContext);
-    default:
-      throw new Error("Invalid type");
+  const func = taskTypeToFunctionMap[type];
+  if (!func) {
+    throw new Error("Invalid type");
   }
+  const context = await func({ configId });
+  return JSON.stringify(context);
 };
 
 export function EvalDrawer({
@@ -75,7 +62,6 @@ export function EvalDrawer({
   task: NonNullable<typeGetBotConfigByConfigId>;
   totalParsedQuestions: number | undefined;
 }) {
-  const [context, setContext] = useState<string>();
   const isOpen = useAtomValue(evalDrawerAtom);
   const setEvalDrawer = useSetAtom(evalDrawerAtom);
 
@@ -83,18 +69,17 @@ export function EvalDrawer({
     setEvalDrawer(!isOpen);
   });
 
-  useDeepCompareEffect(() => {
-    if (!taskId) return;
-    const getContext = async function () {
-      const chatContext = await getChatContext({
-        type: taskType,
-        configId: taskId,
-      });
-      setContext(chatContext);
-      console.log(chatContext);
-    };
-    getContext();
-  }, [taskId, taskType, task]);
+  const { data: chatContext, refetch } = useQuery({
+    queryKey: ["chatContext", taskId, taskType, task],
+    queryFn: () => getChatContext({ type: taskType, configId: taskId }),
+    enabled: !!taskId,
+  });
+
+  useEffect(() => {
+    if (isOpen) {
+      refetch();
+    }
+  }, [isOpen, refetch]);
 
   const emptyMessage = getTaskProperties(taskType).emptyChatMessage;
   const formattedType = getTaskProperties(taskType).formattedType;
@@ -125,7 +110,7 @@ export function EvalDrawer({
             apiPath={getStudentChatApiURL()}
             emptyMessage={emptyMessage}
             chatBody={{
-              context,
+              context: chatContext,
               type: taskType,
               isTesting: true,
             }}
