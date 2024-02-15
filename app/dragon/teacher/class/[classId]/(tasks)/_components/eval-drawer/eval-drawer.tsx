@@ -23,7 +23,6 @@ import { typeGetBotConfigByConfigId } from "@/lib/routers/botConfigRouter";
 import { PublishButton } from "./publish-btn";
 import { Separator } from "@/components/ui/separator";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
 
 const taskTypeToFunctionMap = {
   chat: getChatContextByConfigId,
@@ -69,17 +68,11 @@ export function EvalDrawer({
     setEvalDrawer(!isOpen);
   });
 
-  const { data: chatContext, refetch } = useQuery({
+  const { data: context, isLoading } = useQuery({
     queryKey: ["chatContext", taskId, taskType, task],
     queryFn: () => getChatContext({ type: taskType, configId: taskId }),
-    enabled: !!taskId,
+    enabled: !!taskId && isOpen,
   });
-
-  useEffect(() => {
-    if (isOpen) {
-      refetch();
-    }
-  }, [isOpen, refetch]);
 
   const emptyMessage = getTaskProperties(taskType).emptyChatMessage;
   const formattedType = getTaskProperties(taskType).formattedType;
@@ -106,18 +99,21 @@ export function EvalDrawer({
         </DrawerHeader>
         <Separator />
         <div>
-          <Chat
-            apiPath={getStudentChatApiURL()}
-            emptyMessage={emptyMessage}
-            chatBody={{
-              context: chatContext,
-              type: taskType,
-              isTesting: true,
-            }}
-            type={taskType}
-            id="eval-attempt"
-            taskId={taskId}
-          />
+          {isOpen && !isLoading && (
+            <Chat
+              key={taskId}
+              apiPath={getStudentChatApiURL()}
+              emptyMessage={emptyMessage}
+              chatBody={{
+                context,
+                type: taskType,
+                isTesting: true,
+              }}
+              type={taskType}
+              id="eval-attempt"
+              taskId={taskId}
+            />
+          )}
         </div>
       </DrawerContent>
     </Drawer>
