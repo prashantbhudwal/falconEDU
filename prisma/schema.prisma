@@ -103,6 +103,7 @@ model TeacherProfile {
   orgMode            Boolean            @default(false)
   Org                Org?               @relation(fields: [orgId], references: [id])
   orgId              String?
+  sources            Source[]
 }
 
 model OrgAdminProfile {
@@ -225,6 +226,7 @@ model Class {
   BotConfig  BotConfig[]
   Invitation Invitation[]
   createdAt  DateTime         @default(now())
+  sources    Source[]
 }
 
 enum Grade {
@@ -250,6 +252,19 @@ enum Role {
   PRO
 }
 
+model Source {
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @default(now()) @updatedAt
+  id               String          @id @default(cuid())
+  title            String
+  description      String?
+  content          String
+  TeacherProfile   TeacherProfile? @relation(fields: [teacherProfileId], references: [id])
+  teacherProfileId String?
+  classes          Class[]
+  BotConfig        BotConfig[]
+}
+
 model BotConfig {
   id              String            @id @default(cuid())
   teacher         TeacherProfile    @relation(fields: [teacherId], references: [id], onDelete: Cascade)
@@ -273,6 +288,7 @@ model BotConfig {
   canReAttempt    Boolean           @default(false)
   maxAttempts     Int?              @default(0)
   learningGoals   LearningGoals[]
+  sources         Source[]
 }
 
 model LearningGoals {
