@@ -115,13 +115,13 @@ dependencies:
     version: 3.13.3(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)(tailwindcss@3.4.1)
   '@trpc/client':
     specifier: next
-    version: 11.0.0-next-beta.272(@trpc/server@11.0.0-next-beta.272)
+    version: 11.0.0-next-beta.283(@trpc/server@11.0.0-next-beta.283)
   '@trpc/react-query':
     specifier: next
-    version: 11.0.0-next-beta.272(@tanstack/react-query@5.17.19)(@trpc/client@11.0.0-next-beta.272)(@trpc/server@11.0.0-next-beta.272)(react-dom@18.2.0)(react@18.2.0)
+    version: 11.0.0-next-beta.283(@tanstack/react-query@5.17.19)(@trpc/client@11.0.0-next-beta.283)(@trpc/server@11.0.0-next-beta.283)(react-dom@18.2.0)(react@18.2.0)
   '@trpc/server':
     specifier: next
-    version: 11.0.0-next-beta.272
+    version: 11.0.0-next-beta.283
   '@vercel/analytics':
     specifier: ^1.1.2
     version: 1.1.2
@@ -353,6 +353,9 @@ dependencies:
   zod-to-json-schema:
     specifier: ^3.22.4
     version: 3.22.4(zod@3.22.4)
+  zustand:
+    specifier: ^4.5.0
+    version: 4.5.0(@types/react@18.2.48)(react@18.2.0)
 
 devDependencies:
   '@headlessui/tailwindcss':
@@ -4299,32 +4302,32 @@ packages:
       - tailwindcss
     dev: false
 
-  /@trpc/client@11.0.0-next-beta.272(@trpc/server@11.0.0-next-beta.272):
-    resolution: {integrity: sha512-d08zP9ZB1ciYzrrGWcuppWimQPRna/DTs9GBgd141keGg+PJH2toypHzgV6c5T4RHAUROOL/5o946VNYtftJOA==}
+  /@trpc/client@11.0.0-next-beta.283(@trpc/server@11.0.0-next-beta.283):
+    resolution: {integrity: sha512-lnYvtXagHbwZXS7XHeb/nfPc9JsFIIp7j2/24FTEF/tsgrBZ2Ax1keqXNt3+nOUp4bZ+d60QCHg+ZpBG2t6M5w==}
     peerDependencies:
-      '@trpc/server': 11.0.0-next-beta.272+765a5e71a
+      '@trpc/server': 11.0.0-next-beta.283+44a1b58a3
     dependencies:
-      '@trpc/server': 11.0.0-next-beta.272
+      '@trpc/server': 11.0.0-next-beta.283
     dev: false
 
-  /@trpc/react-query@11.0.0-next-beta.272(@tanstack/react-query@5.17.19)(@trpc/client@11.0.0-next-beta.272)(@trpc/server@11.0.0-next-beta.272)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-w14g0Ykc6U3y3xchl46R9Khll6SBYNr2UICLxOhY3qe6fOJjeiUpC6ZQgq5ysDp2+apJvpdDFSYxywMtkk1HIw==}
+  /@trpc/react-query@11.0.0-next-beta.283(@tanstack/react-query@5.17.19)(@trpc/client@11.0.0-next-beta.283)(@trpc/server@11.0.0-next-beta.283)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-Wsnp9Go9g/l0Hb6VURmRlnVhp6kpi67S3U6hCRG4yvkDu83p8Z6/5dIH3lsmg9NYhMx5+NrjLr9Dr1PIr0vv6A==}
     peerDependencies:
       '@tanstack/react-query': ^5.0.0
-      '@trpc/client': 11.0.0-next-beta.272+765a5e71a
-      '@trpc/server': 11.0.0-next-beta.272+765a5e71a
+      '@trpc/client': 11.0.0-next-beta.283+44a1b58a3
+      '@trpc/server': 11.0.0-next-beta.283+44a1b58a3
       react: '>=18.2.0'
       react-dom: '>=18.2.0'
     dependencies:
       '@tanstack/react-query': 5.17.19(react@18.2.0)
-      '@trpc/client': 11.0.0-next-beta.272(@trpc/server@11.0.0-next-beta.272)
-      '@trpc/server': 11.0.0-next-beta.272
+      '@trpc/client': 11.0.0-next-beta.283(@trpc/server@11.0.0-next-beta.283)
+      '@trpc/server': 11.0.0-next-beta.283
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
-  /@trpc/server@11.0.0-next-beta.272:
-    resolution: {integrity: sha512-nipSQSjogqDQ0KMYDtWZ9vk5N6Lcw1+T8iTwKB6jA4RdlR2Og37q+hgI9OALkdLN90DnYKh2cgjXDodgCfZnFA==}
+  /@trpc/server@11.0.0-next-beta.283:
+    resolution: {integrity: sha512-xIQYavC4bIn+FI1v6oZMw1+QoXw5YlZotTeHDSvG+L56MLGcWP6iDcftRuMBxe7XP/1NgF+IL2AlnWicS5KV4g==}
     dev: false
 
   /@tsconfig/node10@1.0.9:
@@ -12614,6 +12617,26 @@ packages:
 
   /zod@3.22.4:
     resolution: {integrity: sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==}
+    dev: false
+
+  /zustand@4.5.0(@types/react@18.2.48)(react@18.2.0):
+    resolution: {integrity: sha512-zlVFqS5TQ21nwijjhJlx4f9iGrXSL0o/+Dpy4txAP22miJ8Ti6c1Ol1RLNN98BMib83lmDH/2KmLwaNXpjrO1A==}
+    engines: {node: '>=12.7.0'}
+    peerDependencies:
+      '@types/react': '>=16.8'
+      immer: '>=9.0.6'
+      react: '>=16.8'
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      immer:
+        optional: true
+      react:
+        optional: true
+    dependencies:
+      '@types/react': 18.2.48
+      react: 18.2.0
+      use-sync-external-store: 1.2.0(react@18.2.0)
     dev: false
 
   /zwitch@2.0.4:
