@@ -23,6 +23,7 @@ import { typeGetBotConfigByConfigId } from "@/lib/routers/botConfigRouter";
 import { PublishButton } from "./publish-btn";
 import { Separator } from "@/components/ui/separator";
 import { useQuery } from "@tanstack/react-query";
+import { nanoid } from "nanoid";
 
 const taskTypeToFunctionMap = {
   chat: getChatContextByConfigId,
@@ -110,7 +111,7 @@ export function EvalDrawer({
                 isTesting: true,
               }}
               type={taskType}
-              id="eval-attempt"
+              id={nanoid()}
               taskId={taskId}
             />
           )}
