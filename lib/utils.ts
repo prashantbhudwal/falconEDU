@@ -38,25 +38,8 @@ export async function fetcher<JSON = any>(
 
   return res.json();
 }
-// -----------------------------------------------------------------------------------------------------------------------
 
-export function formatDate(input: string | number | Date): string {
-  const date = new Date(input);
-  return date.toLocaleDateString("en-US", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-  });
-}
 // -----------------------------------------------------------------------------------------------------------------------
-
-export const getFormattedDate = (date: string) => {
-  return new Date(date).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
-};
 
 // -----------------------------------------------------------------------------------------------------------------------
 
@@ -114,19 +97,6 @@ export const formatName = ({
 };
 
 // -----------------------------------------------------------------------------------------------------------------------
-
-export const formatDateWithTimeZone = ({
-  createdAt,
-  dateFormat,
-}: {
-  createdAt: Date;
-  dateFormat: string;
-}) => {
-  const timeZone = "Asia/Kolkata";
-  const zonedDate = utcToZonedTime(createdAt, timeZone);
-  const formattedDate = format(zonedDate, dateFormat, { timeZone });
-  return formattedDate;
-};
 
 // -----------------------------------------------------------------------------------------------------------------------
 
@@ -196,3 +166,65 @@ export const asyncSimulator = async ({
 
 export const delay = (ms: number) =>
   new Promise((resolve) => setTimeout(resolve, ms));
+
+// Date formatting -----------------------------------------------------------------------------------------------------------------------
+
+/**
+ * Formats a date to a string.
+ *
+ * @param {Date} date - The date to format.
+ * @param {Object} options - The formatting options.
+ * @param {boolean} [options.withTime=false] - Whether to include time in the formatted date.
+ * @returns {string} The formatted date string with or without time.
+ */
+export const formatDate = (
+  date: Date,
+  {
+    withTime = false,
+    withYear = false,
+  }: { withTime?: boolean; withYear?: boolean } = {},
+) => {
+  const timeZone = "Asia/Kolkata";
+
+  const formatString = withYear
+    ? withTime
+      ? "dd MMM yyyy, hh:mm a"
+      : "dd MMM yyyy"
+    : withTime
+      ? "dd MMM, hh:mm a"
+      : "dd MMM";
+
+  const formattedDate = format(date, formatString, { timeZone });
+  return formattedDate;
+};
+
+/**
+ * Formats a date to a string in a specific timezone.
+ *
+ * @deprecated This function is deprecated. Use formatDate instead.
+ */
+export const formatDateWithTimeZone = ({
+  createdAt,
+  dateFormat,
+}: {
+  createdAt: Date;
+  dateFormat: string;
+}) => {
+  const timeZone = "Asia/Kolkata";
+  const zonedDate = utcToZonedTime(createdAt, timeZone);
+  const formattedDate = format(zonedDate, dateFormat, { timeZone });
+  return formattedDate;
+};
+
+/**
+ * Formats a date to a string.
+ *
+ * @deprecated This function is deprecated. Use formatDate instead.
+ */
+export const getFormattedDate = (date: string) => {
+  return new Date(date).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+};
