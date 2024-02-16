@@ -3,11 +3,10 @@ import { chatIsLoadingAtom } from "@/lib/atoms/student";
 import { Cog8ToothIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Avvvatars from "avvvatars-react";
-import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
+import { ReactNode } from "react";
 import SignOutButton from "@/components/auth/sign-out-btn";
 import Image from "next/image";
 import Link from "next/link";
-import { MoonIcon, SunIcon } from "@heroicons/react/24/solid";
 import { PulseLoader } from "react-spinners";
 import {
   getStudentPreferencesURL,
@@ -16,10 +15,7 @@ import {
 } from "@/lib/urls";
 import { Button } from "@/components/ui/button";
 import { useAtom } from "jotai";
-import { useTheme } from "next-themes";
 import { ModeToggle } from "@/components/theme-toggle";
-import { MdInstallDesktop, MdInstallMobile } from "react-icons/md";
-import { InstallAppDrawer } from "@/components/install-app-drawer";
 
 const SettingsIcon: React.FC = () => {
   return (
