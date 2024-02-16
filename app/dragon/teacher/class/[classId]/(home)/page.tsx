@@ -4,7 +4,7 @@ import { Paper } from "@/components/ui/paper";
 import { TaskList } from "./components/task-list";
 import { db } from "../../../../../../lib/routers";
 import Link from "next/link";
-import AnalyticsWidget from "./components/widgets/analytics-widget";
+import { AnalyticsWidget } from "./components/widgets/analytics-widget";
 import { EmptyClassCard } from "./components/empty-class-card";
 
 export default async function Classes({

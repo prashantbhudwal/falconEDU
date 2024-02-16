@@ -11,7 +11,7 @@ import {
   UserIcon,
 } from "@heroicons/react/24/solid";
 
-const AnalyticsWidget = async ({ classId }: { classId: string }) => {
+export const AnalyticsWidget = async ({ classId }: { classId: string }) => {
   const leastInteractedTasksList = await getTasksWithInteractions({ classId });
   const threeLeastInteractedTasks = leastInteractedTasksList?.slice(0, 3);
   const threeMostInteractedTasks = leastInteractedTasksList?.slice(-3);
@@ -83,8 +83,6 @@ const TaskList = async ({
     </div>
   );
 };
-
-export default AnalyticsWidget;
 
 const AnalyticsWidgetFallback = () => {
   return (
