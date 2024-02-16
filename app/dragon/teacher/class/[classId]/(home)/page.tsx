@@ -5,7 +5,7 @@ import { TaskList } from "./components/task-list";
 import { db } from "../../../../../../lib/routers";
 import { AnalyticsWidget } from "./components/widgets/analytics-widget";
 import { EmptyClassCard } from "./components/empty-class-card";
-import { UploadWidget } from "./components/widgets/upload/upload-widget";
+import { UploadWidget } from "./components/widgets/resource-widget";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 
