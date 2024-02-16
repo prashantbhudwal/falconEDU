@@ -4,10 +4,7 @@ import { Paper } from "@/components/ui/paper";
 import { TaskList } from "./components/task-list";
 import { db } from "../../../../../../lib/routers";
 import Link from "next/link";
-import AnalyticsWidget from "./components/analytics/analytics-widget";
-import { Suspense } from "react";
-import AnalyticsWidgetFallback from "./components/analytics/analytics-widget-fallback";
-import { cn } from "@/lib/utils";
+import AnalyticsWidget from "./components/widgets/analytics-widget";
 import { EmptyClassCard } from "./components/empty-class-card";
 
 export default async function Classes({
@@ -41,25 +38,16 @@ export default async function Classes({
       </Paper>
     );
   }
+
+  if (isArchived) return <ArchivedClass classId={classId} />;
+
   return (
-    <Paper className="flex h-full flex-col items-center justify-between space-y-2">
-      {isArchived && <ArchivedClass classId={classId} />}
-      <div
-        className={cn(
-          "flex w-full flex-col items-center md:relative lg:relative",
-          {
-            "brightness-50": isArchived,
-          },
-        )}
-      >
-        <div className="right-5 top-20 md:fixed lg:fixed">
-          <Suspense fallback={<AnalyticsWidgetFallback />}>
-            <AnalyticsWidget classId={classId} />
-          </Suspense>
-        </div>
-        <div className="flex w-8/12 max-w-6xl flex-col space-y-6">
-          <TaskList tasks={allConfigs} classId={classId} userId={userId} />
-        </div>
+    <Paper className="relative ml-24 flex h-full flex-col space-y-2 2xl:ml-0 2xl:items-center">
+      <div className="flex w-7/12 max-w-6xl flex-col space-y-6">
+        <TaskList tasks={allConfigs} classId={classId} userId={userId} />
+      </div>
+      <div className="fixed right-10 top-20">
+        <AnalyticsWidget classId={classId} />
       </div>
     </Paper>
   );
@@ -67,7 +55,7 @@ export default async function Classes({
 
 const ArchivedClass = ({ classId }: { classId: string }) => {
   return (
-    <div className="flex h-full w-full flex-col items-center justify-center space-y-3 pb-5">
+    <Paper className="flex h-full w-full flex-col items-center justify-center space-y-3 pb-5">
       <h2 className="text-2xl font-semibold">Class is archived</h2>
       <p className="text-sm text-slate-500">
         <Link
@@ -78,6 +66,6 @@ const ArchivedClass = ({ classId }: { classId: string }) => {
         </Link>{" "}
         it to start using it again
       </p>
-    </div>
+    </Paper>
   );
 };
