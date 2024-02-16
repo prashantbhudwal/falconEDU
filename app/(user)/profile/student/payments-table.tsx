@@ -1,7 +1,7 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import prisma from "@/prisma";
 import { getServerSession } from "next-auth";
-import { getFormattedDate } from "@/lib/utils";
+import { formatDate } from "@/lib/utils";
 export const dynamic = "force-dynamic";
 export default async function PaymentsTable() {
   const session = await getServerSession(authOptions);
@@ -32,9 +32,7 @@ export default async function PaymentsTable() {
           >
             <div className="flex flex-col gap-2">
               <p className="capitalize">{payment.paymentMethod}</p>
-              <p>
-                {getFormattedDate(payment.paymentDate.toLocaleDateString())}
-              </p>
+              <p>{formatDate(payment.paymentDate)}</p>
             </div>
             <p>{payment.amount}</p>
           </div>

@@ -4,7 +4,7 @@ import Section from "@/components/section";
 import { RotateLoader } from "react-spinners";
 import useUserData from "@/hooks/useUserData";
 import EditProfileModal from "./edit/modal";
-import { getFormattedDate } from "@/lib/utils";
+import { formatDate } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 
 export default function BasicInfo() {
@@ -79,7 +79,7 @@ export default function BasicInfo() {
             <p className="font-bold text-slate-200">Start Date</p>
             <p>
               {user?.subscriptionStart
-                ? getFormattedDate(user?.subscriptionStart)
+                ? formatDate(new Date(user?.subscriptionStart))
                 : "Start Date"}
             </p>
           </div>
@@ -87,7 +87,7 @@ export default function BasicInfo() {
             <p className="font-bold text-slate-200">End Date</p>
             <p>
               {user?.subscriptionEnd
-                ? getFormattedDate(user?.subscriptionEnd)
+                ? formatDate(new Date(user?.subscriptionEnd))
                 : "End Date"}
             </p>
           </div>
