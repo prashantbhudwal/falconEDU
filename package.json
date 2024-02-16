@@ -120,6 +120,7 @@
     "stripe": "^13.11.0",
     "superjson": "^2.2.1",
     "swr": "^2.2.4",
+    "tailwind-scrollbar": "^3.1.0",
     "tailwind-scrollbar-hide": "^1.1.7",
     "tailwindcss-animate": "^1.0.7",
     "use-deep-compare-effect": "^1.8.1",
