@@ -3,9 +3,11 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { Paper } from "@/components/ui/paper";
 import { TaskList } from "./components/task-list";
 import { db } from "../../../../../../lib/routers";
-import Link from "next/link";
 import { AnalyticsWidget } from "./components/widgets/analytics-widget";
 import { EmptyClassCard } from "./components/empty-class-card";
+import { UploadWidget } from "./components/widgets/upload/upload-widget";
+import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 export default async function Classes({
   params,
@@ -46,12 +48,25 @@ export default async function Classes({
       <div className="flex w-7/12 max-w-6xl flex-col space-y-6">
         <TaskList tasks={allConfigs} classId={classId} userId={userId} />
       </div>
-      <div className="fixed right-10 top-20">
-        <AnalyticsWidget classId={classId} />
-      </div>
+      <WidgetSidebar className="fixed right-10 top-20" classId={classId} />
     </Paper>
   );
 }
+
+const WidgetSidebar = ({
+  classId,
+  className,
+}: {
+  classId: string;
+  className?: string;
+}) => {
+  return (
+    <div className={cn("flex w-[300px] flex-col space-y-4", className)}>
+      <AnalyticsWidget classId={classId} />
+      <UploadWidget classId={classId} />
+    </div>
+  );
+};
 
 const ArchivedClass = ({ classId }: { classId: string }) => {
   return (
