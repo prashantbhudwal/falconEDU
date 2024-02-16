@@ -10,6 +10,8 @@ import {
   FaceFrownIcon,
   UserIcon,
 } from "@heroicons/react/24/solid";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { WidgetFallback } from "./widget-fallback";
 
 export const AnalyticsWidget = async ({ classId }: { classId: string }) => {
   const leastInteractedTasksList = await getTasksWithInteractions({ classId });
@@ -17,12 +19,12 @@ export const AnalyticsWidget = async ({ classId }: { classId: string }) => {
   const threeMostInteractedTasks = leastInteractedTasksList?.slice(-3);
 
   return (
-    <Suspense fallback={<AnalyticsWidgetFallback />}>
-      <div className="flex w-[250px] flex-col space-y-4 rounded-xl border border-base-200 p-3">
-        <h3 className="flex w-full items-center gap-2 rounded-xl text-sm text-slate-500">
-          <span>Student Activity</span>
-        </h3>
-        <div className="flex flex-col space-y-9 text-xs text-slate-400">
+    <Suspense fallback={<WidgetFallback />}>
+      <Card>
+        <CardHeader>
+          <CardTitle>Student Activity</CardTitle>
+        </CardHeader>
+        <CardContent className="flex flex-col space-y-9 text-xs text-slate-400">
           <section className="flex flex-col space-y-2">
             <div className="flex items-center space-x-2 text-destructive/80">
               <h4>Least Active Tasks</h4>
@@ -37,8 +39,8 @@ export const AnalyticsWidget = async ({ classId }: { classId: string }) => {
             </div>
             <TaskList taskList={threeMostInteractedTasks} classId={classId} />
           </section>
-        </div>
-      </div>
+        </CardContent>
+      </Card>
     </Suspense>
   );
 };
@@ -80,16 +82,6 @@ const TaskList = async ({
           <p className="text-xs text-slate-500">No student activity yet</p>
         </div>
       )}
-    </div>
-  );
-};
-
-const AnalyticsWidgetFallback = () => {
-  return (
-    <div className="h-[200px] w-[250px] rounded-xl bg-base-200 p-3">
-      <div className="h-7 animate-pulse rounded-xl bg-base-100"></div>
-      <div className="mt-3 h-4 animate-pulse rounded-xl bg-base-100"></div>
-      <div className="mt-3 h-4 animate-pulse rounded-xl bg-base-100"></div>
     </div>
   );
 };
