@@ -36,7 +36,7 @@ export default async function ClassLayout({
           />
         </div>
         <div className="custom-scrollbar w-full overflow-y-auto bg-base-200">
-          <div className="min-h-screen w-full bg-base-300 pb-10 shadow-sm shadow-base-100">
+          <div className="min-h-screen w-full bg-base-300 shadow-sm shadow-base-100">
             {children}
             <Toaster />
           </div>
