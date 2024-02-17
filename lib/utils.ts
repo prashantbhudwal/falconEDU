@@ -17,30 +17,6 @@ export const nanoid = customAlphabet(
   7,
 ); // 7-character random string
 
-export async function fetcher<JSON = any>(
-  input: RequestInfo,
-  init?: RequestInit,
-): Promise<JSON> {
-  const res = await fetch(input, init);
-
-  if (!res.ok) {
-    const json = await res.json();
-    if (json.error) {
-      const error = new Error(json.error) as Error & {
-        status: number;
-      };
-      error.status = res.status;
-      throw error;
-    } else {
-      throw new Error("An unexpected error occurred");
-    }
-  }
-
-  return res.json();
-}
-
-// -----------------------------------------------------------------------------------------------------------------------
-
 // -----------------------------------------------------------------------------------------------------------------------
 
 type SchemaType<T extends z.ZodTypeAny> =
@@ -59,9 +35,30 @@ export const removeOptionalFieldFormZodTypes = <T extends z.ZodObject<any>>(
 
   return updatedSchema as unknown as z.ZodObject<SchemaType<T>>;
 };
+// -----------------------------------------------------------------------------------------------------------------------
+
+export const generateZodEnumSchema = <T extends Record<string, EnumValues<T>>>(
+  enumObject: T,
+) => {
+  const enumValues = Object.values(enumObject) as EnumValues<T>[];
+  const enumArray = enumValues.map(String) as [string, ...string[]];
+  return z.enum(enumArray);
+};
 
 // -----------------------------------------------------------------------------------------------------------------------
 
+/**
+ * Formats a name string based on the provided options.
+ * @example
+ * formatName({ name: 'john doe' });
+ * Returns: 'John Doe'
+ * formatName({ name: 'john doe', capitalize: true });
+ * Returns: 'JOHN DOE'
+ * formatName({ name: 'john_doe' });
+ * Returns: 'John Doe'
+ * formatName({ name: 'john_doe', capitalize: true });
+ * Returns: 'JOHN DOE'
+ */
 export const formatName = ({
   name,
   capitalize = false,
@@ -82,15 +79,7 @@ export const formatName = ({
     return nameArray
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
       .join(" ");
-  }
-  // if (name.includes("-")) {
-  //   const nameArray = name.split("-");
-  //   if (capitalize) return nameArray.join(" ").toUpperCase();
-  //   return nameArray
-  //     .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-  //     .join(" ");
-  // }
-  else {
+  } else {
     if (capitalize) return name.toUpperCase();
     return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
   }
@@ -98,8 +87,12 @@ export const formatName = ({
 
 // -----------------------------------------------------------------------------------------------------------------------
 
-// -----------------------------------------------------------------------------------------------------------------------
-
+/**
+ * Converts a Tailwind CSS color class to a hex color value.
+ * @param {string} colorClass - The Tailwind CSS color class.
+ * @returns {string} The hex color value.
+ * @throws {Error} An error if the color is not found.
+ */
 export const tailwindColorToHex = (colorClass: string): string => {
   const colorParts: string[] = colorClass.split("-");
   const colorName: string = colorParts[1];
@@ -112,16 +105,9 @@ export const tailwindColorToHex = (colorClass: string): string => {
 
 // -----------------------------------------------------------------------------------------------------------------------
 
-export const generateZodEnumSchema = <T extends Record<string, EnumValues<T>>>(
-  enumObject: T,
-) => {
-  const enumValues = Object.values(enumObject) as EnumValues<T>[];
-  const enumArray = enumValues.map(String) as [string, ...string[]];
-  return z.enum(enumArray);
-};
-
-// -----------------------------------------------------------------------------------------------------------------------
-
+/**
+ * Generates an array of options from an enum object.
+ */
 export const generateOptionsFromEnum = <
   T extends Record<string, EnumValues<T>>,
 >({
@@ -142,6 +128,16 @@ export const generateOptionsFromEnum = <
 
 // -----------------------------------------------------------------------------------------------------------------------
 
+/**
+ *  Simulates an asynchronous operation.
+ * @param {Object} options - The options for the simulator.
+ * @param {number} [options.ms=3000] - The time in milliseconds to simulate the operation.
+ * @param {boolean} [options.randomFailure=true] - Whether to randomly fail the operation.
+ * @param {boolean} [options.alwaysFail=false] - Whether to always fail the operation.
+ * @param {boolean} [options.alwaysSucceed=false] - Whether to always succeed the operation.
+ * @returns {Promise} A promise that resolves after the specified time.
+ * @throws {Error} An error if the operation fails.
+ */
 export const asyncSimulator = async ({
   ms = 3000,
   randomFailure = true,
