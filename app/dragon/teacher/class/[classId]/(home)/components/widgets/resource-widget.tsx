@@ -13,9 +13,11 @@ import { WidgetFallback } from "./widget-fallback";
 import { Suspense } from "react";
 import { Source } from "@prisma/client";
 import { formatDate } from "@/lib/utils";
+import { url } from "@/lib/urls";
 export async function UploadWidget({ classId }: { classId: string }) {
   const resources = await db.source.queries.allByClassId({ classId });
   const hasResources = resources.length > 0;
+  const resourcePageUrl = url.teacher.resources({ classId });
 
   return (
     <Suspense fallback={<WidgetFallback />}>
@@ -23,7 +25,7 @@ export async function UploadWidget({ classId }: { classId: string }) {
         <CardHeader className="sticky top-0 bg-base-200">
           <div className="flex items-center justify-between">
             <CardTitle>Resources</CardTitle>
-            <Link href={""}>
+            <Link href={resourcePageUrl}>
               <Button size={"icon"} variant={"ghost"}>
                 <AddIcon size="sm" />
               </Button>
@@ -34,7 +36,7 @@ export async function UploadWidget({ classId }: { classId: string }) {
           {hasResources ? (
             <ResourceList resources={resources} />
           ) : (
-            <NoResources />
+            <NoResources resourcePageUrl={resourcePageUrl} />
           )}
         </CardContent>
       </Card>
@@ -64,12 +66,12 @@ const ResourceList = ({ resources }: { resources: Source[] }) => {
   );
 };
 
-const NoResources = () => {
+const NoResources = ({ resourcePageUrl }: { resourcePageUrl: string }) => {
   return (
     <div className="text-center text-sm">
       No Resources Found.
       <br />
-      <Link href={""} className="text-info underline">
+      <Link href={resourcePageUrl} className="text-info underline">
         Add Resource
       </Link>
     </div>
