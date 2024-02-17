@@ -50,7 +50,8 @@ export default function RootLayout({
             <CelebrationConfetti />
             <TRPCProvider headers={headers()}>{children}</TRPCProvider>
           </main>
-          <Toaster />
+          {/* TODO Style the toaster with tailwind colors */}
+          <Toaster richColors />
         </Providers>
         <Analytics />
       </body>
