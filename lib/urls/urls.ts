@@ -10,6 +10,10 @@ export const getBotsURL = (classId: string) =>
   `${baseUrl}/teacher/class/${classId}/bots`;
 export const getStudentsURL = (classId: string) =>
   `${baseUrl}/teacher/class/${classId}/students`;
+
+export const getResourcesURL = (classId: string) =>
+  `${baseUrl}/teacher/class/${classId}/resources`;
+
 export const getTestsUrl = (classId: string) =>
   `${baseUrl}/teacher/class/${classId}/tests`;
 
@@ -185,6 +189,10 @@ export const getManageOrgURL = (orgId: string) =>
   `${baseUrl}/org-admin/manage/${orgId}/org`;
 
 export const url = {
+  teacher: {
+    resources: ({ classId }: { classId: string }) =>
+      `${baseUrl}/teacher/class/${classId}/resources`,
+  },
   student: {
     home: `${baseUrl}/student/`,
     profile: `/profile/student`,
