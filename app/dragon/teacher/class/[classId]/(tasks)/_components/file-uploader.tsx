@@ -1,11 +1,11 @@
 "use client";
-import { useState, useCallback } from "react";
+import { useState, useCallback, use, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
-import { WebPDFLoader } from "langchain/document_loaders/web/pdf";
-import mammoth from "mammoth";
 import { Variants, cubicBezier, motion } from "framer-motion";
 import { MdCloudUpload } from "react-icons/md";
 import { cn } from "@/lib/utils";
+import { ACCEPTED_FILE_TYPES, parseFileToString } from "@/lib/parser";
+import { toast } from "sonner";
 
 type PropTypes = {
   setParsedDocs: ({ docs }: { docs: string }) => void;
@@ -47,66 +47,27 @@ const FileUploader = ({ setParsedDocs, className }: PropTypes) => {
   const [isButtonHovered, setIsButtonHovered] = useState(false);
 
   const onDrop = useCallback(async (acceptedFiles: any) => {
-    const file = acceptedFiles[0];
-
-    if (file.type === "application/pdf") {
-      const blob = new Blob([file], { type: "application/pdf" });
-      const loader = new WebPDFLoader(blob);
-
-      try {
-        const pdfDocs = await loader.load();
-        let allPages = pdfDocs.map((doc) => doc.pageContent).join("\n");
-        setParsedDocs({ docs: allPages });
-      } catch (error) {
-        console.error("Error loading PDF:", error);
-      }
-    } else if (
-      file.type ===
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-    ) {
-      try {
-        const reader = new FileReader();
-        reader.onload = async (event) => {
-          const target = event.target;
-          if (target && target.result) {
-            const arrayBuffer = target.result as ArrayBuffer;
-            try {
-              const result = await mammoth.extractRawText({ arrayBuffer });
-              setParsedDocs({ docs: result.value });
-            } catch (error) {
-              console.error("Error loading DOCX:", error);
-            }
-          }
-        };
-        reader.readAsArrayBuffer(file);
-      } catch (error) {
-        console.error("Error loading DOCX:", error);
-      }
-    } else if (file.type === "text/plain") {
-      try {
-        const reader = new FileReader();
-        reader.onload = async (event) => {
-          if (reader.result) {
-            setParsedDocs({ docs: reader.result as string });
-          }
-        };
-        reader.readAsText(file);
-      } catch (error) {
-        console.log("Error loading TXT:", error);
-      }
+    try {
+      if (acceptedFiles.length === 0) throw new Error("No file provided");
+      const file = acceptedFiles[0] as File;
+      const parsedDocsPromise = parseFileToString(file);
+      toast.promise(parsedDocsPromise, {
+        loading: "Loading file...",
+        success: "File loaded successfully",
+        error: "Error loading file",
+      });
+      const parsedDocs = await parsedDocsPromise;
+      if (parsedDocs) setParsedDocs({ docs: parsedDocs });
+    } catch (e) {
+      console.error(e);
+    } finally {
     }
   }, []);
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     noDrag: false,
-    accept: {
-      "application/pdf": [".pdf"],
-      // "application/msword": [".doc"],
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
-        [".docx"],
-      "text/plain": [".txt"],
-    },
+    accept: ACCEPTED_FILE_TYPES,
   });
 
   return (
