@@ -14,8 +14,8 @@ export default async function SettingsLayout({
     <div className="flex h-screen w-full flex-col">
       <div className="flex h-full w-full flex-col">
         <BackBar link={getClassURL(classId)} />
-        <div className="custom-scrollbar w-full overflow-y-auto bg-base-200">
-          <div className="min-h-screen w-full bg-base-300 pb-10 shadow-sm shadow-base-100">
+        <div className="custom-scrollbar h-full w-full overflow-y-auto bg-base-200">
+          <div className="h-full min-h-screen w-full bg-base-300 pb-10 shadow-sm shadow-base-100">
             {children}
             <Toaster />
           </div>
