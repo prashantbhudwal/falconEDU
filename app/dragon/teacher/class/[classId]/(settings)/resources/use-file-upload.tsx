@@ -3,7 +3,7 @@ import { useDropzone } from "react-dropzone";
 import axios from "axios";
 import { toast } from "sonner";
 import { ACCEPTED_FILE_TYPES, MimeTypes } from "@/app/api/parser/parser/config";
-import { parseWithTesseract } from "@/app/api/parser/parser/img";
+import { parseWithTesseract } from "@/app/api/parser/parser/tesseract";
 
 const PARSING_API = "/api/parser";
 
