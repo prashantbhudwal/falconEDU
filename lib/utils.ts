@@ -224,3 +224,28 @@ export const getFormattedDate = (date: string) => {
     day: "numeric",
   });
 };
+
+/**
+ * Converts a File object into an Buffer.
+ *
+ *`Browser + Node.js`
+ *
+ * This function takes a File object as input and returns a Promise that
+ * resolves with an Buffer. The Buffer represents the contents
+ * of the file.
+ *
+ *
+ * @param file - The File object to be converted.
+ * @returns A Promise that resolves with an Buffer.
+ * @throws {Error} Will throw an error if the conversion fails.
+ *
+ */
+export const getBufferFromFile = async (file: File): Promise<Buffer> => {
+  try {
+    const bytes = await file.arrayBuffer();
+    const buffer = Buffer.from(bytes);
+    return buffer;
+  } catch (error) {
+    throw new Error("Something went wrong while processing the file.");
+  }
+};
