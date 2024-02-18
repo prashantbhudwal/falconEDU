@@ -11,8 +11,12 @@ import {
   XMarkIcon,
   PhotoIcon,
   PlayIcon as PlayIconSolid,
+  DocumentTextIcon,
+  PaperClipIcon,
 } from "@heroicons/react/24/solid";
 import { XCircleIcon } from "@heroicons/react/24/outline";
+import { FaFilePdf } from "react-icons/fa";
+import { FaFileWord, FaFileImage, FaFileLines } from "react-icons/fa6";
 
 // Tailwind Size Mapping
 const sizeMapping = {
@@ -35,6 +39,9 @@ const colorMapping = {
   warning: "text-warning",
   destructive: "text-destructive",
   purple: "text-purple-200",
+  "base-100": "text-base-100",
+  "base-200": "text-base-200",
+  "base-300": "text-base-300",
 };
 
 type BaseIconProps = {
@@ -112,4 +119,24 @@ export const MediaIcon: React.FC<IconProps> = (props) => (
 
 export const PlayIcon: React.FC<IconProps> = (props) => (
   <BaseIcon {...props} Icon={PlayIconSolid} />
+);
+
+export const DocumentFileIcon: React.FC<IconProps> = (props) => (
+  <BaseIcon {...props} Icon={FaFileWord} />
+);
+
+export const PdfFileIcon: React.FC<IconProps> = (props) => (
+  <BaseIcon {...props} Icon={FaFilePdf} />
+);
+
+export const ImageFileIcon: React.FC<IconProps> = (props) => (
+  <BaseIcon {...props} Icon={FaFileImage} />
+);
+
+export const TextFileIcon: React.FC<IconProps> = (props) => (
+  <BaseIcon {...props} Icon={FaFileLines} />
+);
+
+export const AttachmentIcon: React.FC<IconProps> = (props) => (
+  <BaseIcon {...props} Icon={PaperClipIcon} />
 );
