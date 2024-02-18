@@ -1,3 +1,4 @@
+"use server";
 import prisma from "@/prisma";
 import { revalidatePath } from "next/cache";
 import { isAuthorized } from "@/lib/is-authorized";
