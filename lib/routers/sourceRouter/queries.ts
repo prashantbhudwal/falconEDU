@@ -1,3 +1,4 @@
+"use server";
 import { isAuthorized } from "@/lib/is-authorized";
 import prisma from "@/prisma";
 import { cache } from "react";
@@ -44,6 +45,15 @@ export const allByTaskId = cache(async ({ taskId }: { taskId: string }) => {
     },
     orderBy: {
       updatedAt: "desc",
+    },
+  });
+});
+
+export const byId = cache(async ({ id }: { id: string }) => {
+  isAuthorized({ userType: "TEACHER" });
+  return await prisma.source.findUnique({
+    where: {
+      id,
     },
   });
 });
