@@ -18,8 +18,6 @@ export function AIMarkdown({
   content: string;
   className?: string;
 }) {
-    console.log("AIMarkdown");
-    console.log(content);
   return (
     <MemoizedReactMarkdown
       className={cn(
