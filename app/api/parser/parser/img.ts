@@ -1,17 +1,30 @@
+import { getBufferFromFile } from "@/lib/utils";
 import { createWorker } from "tesseract.js";
 
-export const parseImage = async (file: File): Promise<string> => {
-  const bytes = await file.arrayBuffer();
-  const buffer = Buffer.from(bytes);
+type tesseractLanguage = "eng" | "hin" | "eng+hin";
+
+export const parseWithTesseract = async (
+  file: File,
+  {
+    language = "eng+hin",
+  }: {
+    language?: tesseractLanguage;
+  } = {},
+): Promise<string> => {
   try {
-    const worker = await createWorker("eng");
+    const buffer = await getBufferFromFile(file);
+    const worker = await createWorker(language);
     const {
       data: { text },
     } = await worker.recognize(buffer);
     await worker.terminate();
     return text;
   } catch (error) {
-    console.error("Error while trying to parse the image file\n", error);
     throw new Error("Something went wrong during parsing.");
   }
+};
+
+export const parseImage = async (file: File): Promise<string> => {
+  const string = await parseWithTesseract(file);
+  return string;
 };
