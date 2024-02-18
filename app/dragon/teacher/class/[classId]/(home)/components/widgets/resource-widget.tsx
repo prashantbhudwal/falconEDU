@@ -34,7 +34,7 @@ export async function UploadWidget({ classId }: { classId: string }) {
         </CardHeader>
         <CardContent>
           {hasResources ? (
-            <ResourceList resources={resources} />
+            <ResourceList resources={resources} classId={classId} />
           ) : (
             <NoResources resourcePageUrl={resourcePageUrl} />
           )}
@@ -44,11 +44,20 @@ export async function UploadWidget({ classId }: { classId: string }) {
   );
 }
 
-const ResourceList = ({ resources }: { resources: Source[] }) => {
+const ResourceList = ({
+  resources,
+  classId,
+}: {
+  resources: Source[];
+  classId: string;
+}) => {
   return (
     <div className=" flex flex-col space-y-4">
       {resources.map((resource) => (
-        <Link href={""} key={resource.id}>
+        <Link
+          href={url.teacher.editResource({ classId, resourceId: resource.id })}
+          key={resource.id}
+        >
           <Card className="flex items-center justify-between">
             <CardHeader className="py-3">
               <CardTitle className="text-sm">{resource.title}</CardTitle>
