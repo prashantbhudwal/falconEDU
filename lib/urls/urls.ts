@@ -190,8 +190,17 @@ export const getManageOrgURL = (orgId: string) =>
 
 export const url = {
   teacher: {
+    class: ({ classId }: { classId: string }) =>
+      `${baseUrl}/teacher/class/${classId}`,
     resources: ({ classId }: { classId: string }) =>
       `${baseUrl}/teacher/class/${classId}/resources`,
+    editResource: ({
+      classId,
+      resourceId,
+    }: {
+      classId: string;
+      resourceId: string;
+    }) => `${baseUrl}/teacher/class/${classId}/resources/edit/${resourceId}`,
   },
   student: {
     home: `${baseUrl}/student/`,
