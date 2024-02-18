@@ -1,11 +1,26 @@
 import { Paper } from "@/components/ui/paper";
-import { UploadCard } from "./upload-card";
+import { db } from "@/lib/routers";
 
-export default async function Resources() {
+import { NewResourceDialog, NewResourceForm } from "./new-resource-form";
+
+export default async function Resources({
+  params,
+}: {
+  params: {
+    classId: string;
+  };
+}) {
+  const classId = params.classId;
+  const allResources = await db.source.queries.allByClassId({ classId });
+
   return (
-    <Paper>
-      <UploadCard />
-      <h1>Resources</h1>
+    <Paper className="items-center">
+      <NewResourceDialog classId={classId} />
+      <div>
+        {allResources.map((resource) => (
+          <div key={resource.id}>{resource.title}</div>
+        ))}
+      </div>
     </Paper>
   );
 }
