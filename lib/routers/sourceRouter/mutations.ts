@@ -2,6 +2,7 @@
 import prisma from "@/prisma";
 import { revalidatePath } from "next/cache";
 import { isAuthorized } from "@/lib/is-authorized";
+import { Source } from "@prisma/client";
 
 //TODO Write a higher order function to add revalidation to the mutations
 //TODO Add authorization to the mutations
@@ -141,4 +142,29 @@ export async function addToTask({
   }
 
   return source;
+}
+
+export async function update({
+  sourceId,
+  sourceData,
+  revalidate,
+}: {
+  sourceId: string;
+  sourceData: Partial<Pick<Source, "title" | "description" | "content">>;
+  revalidate?: string;
+}) {
+  isAuthorized({ userType: "TEACHER" });
+  const updatedSource = await prisma.source.update({
+    where: {
+      id: sourceId,
+    },
+    data: {
+      ...sourceData,
+    },
+  });
+
+  if (revalidate) {
+    revalidatePath(revalidate);
+  }
+  return updatedSource;
 }
