@@ -11,7 +11,7 @@ export default async function Resources({
     resourceId: string;
   };
 }) {
-  const resourceId = params.resourceId;
+  const { resourceId, classId } = params;
   const resource = await db.source.queries.byId({ id: resourceId });
   if (!resource) {
     return <div>Resource not found</div>;
@@ -19,7 +19,7 @@ export default async function Resources({
 
   return (
     <Paper variant={"readable"} className="h-full">
-      <Resource resource={resource} />
+      <Resource resource={resource} classId={classId} />
     </Paper>
   );
 }
