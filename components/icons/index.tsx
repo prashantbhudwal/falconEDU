@@ -18,7 +18,12 @@ import {
 } from "@heroicons/react/24/solid";
 import { XCircleIcon } from "@heroicons/react/24/outline";
 import { FaFilePdf } from "react-icons/fa";
-import { FaFileWord, FaFileImage, FaFileLines } from "react-icons/fa6";
+import {
+  FaFileWord,
+  FaFileImage,
+  FaFileLines,
+  FaSpinner,
+} from "react-icons/fa6";
 
 // Tailwind Size Mapping
 const sizeMapping = {
@@ -150,4 +155,8 @@ export const MaximizeIcon: React.FC<IconProps> = (props) => (
 
 export const MinimizeIcon: React.FC<IconProps> = (props) => (
   <BaseIcon {...props} Icon={ArrowsPointingInIcon} />
+);
+
+export const LoadingIcon: React.FC<IconProps> = (props) => (
+  <BaseIcon {...props} Icon={FaSpinner} className="animate-spin" />
 );
