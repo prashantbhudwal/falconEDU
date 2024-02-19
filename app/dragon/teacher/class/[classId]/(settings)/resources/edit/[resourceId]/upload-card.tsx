@@ -27,7 +27,7 @@ export const UploadCard = () => {
   ];
 
   return (
-    <div className="flex items-center space-x-4">
+    <div className="flex flex-row flex-wrap items-center space-x-8">
       <div className="-rotate-45 pl-2">
         <AttachmentIcon color="white" size="sm" />
       </div>
@@ -45,7 +45,7 @@ const IconWithText = ({
   Icon: React.ReactNode;
   text: string;
 }) => (
-  <div className="flex h-16 w-16 flex-col items-center justify-center space-y-2">
+  <div className="flex flex-col items-center justify-center space-y-2">
     {Icon}
     <span className="text-xs">{text}</span>
   </div>
