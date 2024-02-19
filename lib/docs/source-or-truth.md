@@ -1,3 +1,5 @@
+<!-- NOTE: These docs are normative, not descriptive. Everything in the docs is not implemented in the app. -->
+
 # Source of Truth
 
 FalconAI is syllabus agnostic educational platform. And every syllabus agnostic educational platform needs a source of truth, SOT. This SOT is uploaded by the educators.
