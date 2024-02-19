@@ -13,6 +13,8 @@ import {
   PlayIcon as PlayIconSolid,
   DocumentTextIcon,
   PaperClipIcon,
+  ArrowsPointingOutIcon,
+  ArrowsPointingInIcon,
 } from "@heroicons/react/24/solid";
 import { XCircleIcon } from "@heroicons/react/24/outline";
 import { FaFilePdf } from "react-icons/fa";
@@ -42,6 +44,7 @@ const colorMapping = {
   "base-100": "text-base-100",
   "base-200": "text-base-200",
   "base-300": "text-base-300",
+  slate: "text-slate-400",
 };
 
 type BaseIconProps = {
@@ -139,4 +142,12 @@ export const TextFileIcon: React.FC<IconProps> = (props) => (
 
 export const AttachmentIcon: React.FC<IconProps> = (props) => (
   <BaseIcon {...props} Icon={PaperClipIcon} />
+);
+
+export const MaximizeIcon: React.FC<IconProps> = (props) => (
+  <BaseIcon {...props} Icon={ArrowsPointingOutIcon} />
+);
+
+export const MinimizeIcon: React.FC<IconProps> = (props) => (
+  <BaseIcon {...props} Icon={ArrowsPointingInIcon} />
 );
