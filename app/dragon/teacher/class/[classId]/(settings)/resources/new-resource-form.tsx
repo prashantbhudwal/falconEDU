@@ -26,14 +26,17 @@ import { useState } from "react";
 import { db } from "@/lib/routers";
 import { url } from "@/lib/urls";
 import { useRouter } from "next/navigation";
+import { AddIcon } from "@/components/icons";
 
 const FormSchema = z.object({
   resourceTitle: z.string({
     required_error: "Resource title is required.",
   }),
-  resourceDescription: z.string({
-    required_error: "Resource description is required.",
-  }),
+  resourceDescription: z
+    .string({
+      required_error: "Resource description is required.",
+    })
+    .optional(),
 });
 interface NewResourceFormProps {
   initialValues?: z.infer<typeof FormSchema>;
@@ -84,9 +87,9 @@ export function NewResourceForm({
           name="resourceTitle"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Resource Title</FormLabel>
+              <FormLabel>Title</FormLabel>
               <FormControl>
-                <Input {...field} placeholder="Enter resource title" />
+                <Input {...field} placeholder="States of Matter" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -97,15 +100,18 @@ export function NewResourceForm({
           name="resourceDescription"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Resource Description</FormLabel>
+              <FormLabel>Description</FormLabel>
               <FormControl>
-                <Input {...field} placeholder="Enter resource description" />
+                <Input
+                  {...field}
+                  placeholder="What is this about? (optional)"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button type="submit">Create</Button>
       </form>
     </Form>
   );
@@ -117,14 +123,19 @@ export const NewResourceDialog = ({ classId }: { classId: string }) => {
 
   return (
     <Dialog onOpenChange={setIsOpen} open={isOpen}>
-      <DialogTrigger>Create Resource</DialogTrigger>
+      <DialogTrigger>
+        <Button
+          variant={"default"}
+          className="flex items-center space-x-2 rounded-2xl"
+          size={"lg"}
+        >
+          <AddIcon size="sm" />
+          <span>Add Resource</span>
+        </Button>
+      </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Are you absolutely sure?</DialogTitle>
-          <DialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
-          </DialogDescription>
+          <DialogTitle>Add a Resource</DialogTitle>
         </DialogHeader>
         <NewResourceForm closeFormDialog={closeFormDialog} classId={classId} />
       </DialogContent>
