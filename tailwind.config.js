@@ -261,5 +261,6 @@ module.exports = {
     require("@headlessui/tailwindcss"),
     require("tailwind-scrollbar-hide"),
     require("tailwind-scrollbar"),
+    require("@tailwindcss/container-queries"),
   ],
 };
