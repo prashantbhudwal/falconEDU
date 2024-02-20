@@ -249,3 +249,11 @@ export const getBufferFromFile = async (file: File): Promise<Buffer> => {
     throw new Error("Something went wrong while processing the file.");
   }
 };
+
+export const getGptGenerationTime = (contentValue: number) => {
+  const timeForOneCharacterInMs = 50;
+  const approximateTimeInSeconds = Math.ceil(
+    (contentValue * timeForOneCharacterInMs) / 1000,
+  );
+  return approximateTimeInSeconds;
+};
