@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+@layer components {
+
+    /* Default Scrollbar */
+    ::-webkit-scrollbar {
+        @apply w-[10px]
+    }
+
+    ::-webkit-scrollbar-thumb {
+        @apply bg-slate-600 rounded-md hover:bg-slate-500 transition-colors duration-1000 active:bg-slate-400
+    }
+
+    ::-webkit-scrollbar-track {
+        @apply bg-gray-900
+    }
+
+    /* Old Custom scrollbar. Deprecate slowly */
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background-color: #334155;
+        border-radius: 4px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-track {
+        background-color: rgb(15 23 42);
+        border-radius: 4px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-corner {
+        background-color: #334155;
+    }
+}
+
+@layer utilities {
+
+    .scrollbar-sm::-webkit-scrollbar {
+        @apply w-[7px]
+    }
+
+    .scrollbar-xs::-webkit-scrollbar {
+        @apply w-[5px]
+    }
+
+    .scrollbar-xs::-webkit-scrollbar-track {
+        @apply bg-transparent
+    }
+}

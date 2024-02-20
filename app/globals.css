@@ -2,23 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-.custom-scrollbar::-webkit-scrollbar {
-  width: 5px;
-}
+@import "@/css/globals/scrollbar.css";
 
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: #334155;
-  border-radius: 4px;
-}
 
-.custom-scrollbar::-webkit-scrollbar-track {
-  background-color: rgb(15 23 42);
-  border-radius: 4px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-corner {
-  background-color: #334155;
-}
 
 @layer base {
   :root {
