@@ -20,7 +20,7 @@ export async function IndividualResponse({
 
   return (
     <ReportModal>
-      <div className="custom-scrollbar h-screen w-full overflow-y-scroll rounded-xl bg-base-300 py-5 ring-1 ring-slate-700 ">
+      <div className=" h-screen w-full overflow-y-scroll rounded-xl bg-base-300 py-5 ring-1 ring-slate-700 ">
         <div className="flex flex-col gap-4">
           <h1 className="text-center text-3xl font-semibold ">{name}</h1>
           <Separator />

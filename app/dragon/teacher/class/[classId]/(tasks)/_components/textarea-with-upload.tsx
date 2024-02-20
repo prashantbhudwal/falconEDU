@@ -54,7 +54,7 @@ const TextAreaWithUpload = ({
   return (
     <div
       ref={textContainerRef}
-      className={cn("custom-scrollbar relative h-[200px] overflow-y-scroll")}
+      className={cn(" relative h-[200px] overflow-y-scroll")}
     >
       <Textarea
         className="mb-0 mt-3 h-full resize-none border-none py-0 pb-0 text-sm text-slate-200 outline-none placeholder:text-slate-600 focus-visible:ring-0"
@@ -85,7 +85,7 @@ const TextAreaWithUpload = ({
       )}
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="min-w-[800px] px-0 ">
-          <DialogHeader className="custom-scrollbar h-[550px] w-full overflow-y-scroll">
+          <DialogHeader className=" h-[550px] w-full overflow-y-scroll">
             <Textarea
               className="mb-0 mt-3 h-full resize-none border-none px-5 py-0 text-sm text-slate-200 outline-none placeholder:text-slate-400 focus-visible:ring-0"
               {...field}

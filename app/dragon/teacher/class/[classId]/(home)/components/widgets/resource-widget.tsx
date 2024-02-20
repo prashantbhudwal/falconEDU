@@ -21,7 +21,7 @@ export async function UploadWidget({ classId }: { classId: string }) {
 
   return (
     <Suspense fallback={<WidgetFallback />}>
-      <Card className="custom-scrollbar h-[400px] overflow-y-clip hover:overflow-y-auto">
+      <Card className="scrollbar-sm h-[400px] overflow-y-clip hover:overflow-y-auto">
         <CardHeader className="sticky top-0 bg-base-200">
           <div className="flex items-center justify-between">
             <CardTitle>Resources</CardTitle>

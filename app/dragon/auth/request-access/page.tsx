@@ -38,7 +38,7 @@ const AccessRequestForm = () => {
   if (!userId) return;
 
   return (
-    <div className="custom-scrollbar flex h-screen flex-col items-center justify-center bg-background p-4">
+    <div className=" flex h-screen flex-col items-center justify-center bg-background p-4">
       <div className="mb-4 w-full max-w-lg rounded bg-foreground px-8 pb-8 pt-6 shadow-md">
         {/* Hero Image */}
         <h1 className="mb-4 block text-2xl font-bold text-card">

@@ -77,7 +77,7 @@ export const AddQuestionsDialog = ({
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
-      <DialogContent className="custom-scrollbar min-w-[800px] overflow-y-scroll">
+      <DialogContent className=" min-w-[800px] overflow-y-scroll">
         <DialogHeader>
           <DialogTitle className="mt-5 flex w-full items-center justify-between">
             Add More Questions{" "}

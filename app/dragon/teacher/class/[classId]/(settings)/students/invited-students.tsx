@@ -17,7 +17,7 @@ export const InvitedStudents = async ({
   inviteList: typeGetInviteList["inviteList"];
 }) => {
   return (
-    <div className="custom-scrollbar max-h-[300px] overflow-y-scroll">
+    <div className=" max-h-[300px] overflow-y-scroll">
       <Table className="w-full">
         <TableHeader>
           <TableRow className="hover:bg-transparent">

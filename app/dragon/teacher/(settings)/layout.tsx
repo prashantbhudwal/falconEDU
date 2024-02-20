@@ -10,7 +10,7 @@ export default async function SettingsLayout({
     <div className="flex h-screen w-full flex-col bg-base-300">
       <div className="flex h-full w-full flex-col">
         <BackBar link={getTeacherHomeURL()} />
-        <div className="custom-scrollbar w-full overflow-y-auto bg-base-300">
+        <div className=" w-full overflow-y-auto bg-base-300">
           <div className="min-h-screen w-full bg-base-300 pb-10 shadow-sm shadow-base-100">
             {children}
           </div>

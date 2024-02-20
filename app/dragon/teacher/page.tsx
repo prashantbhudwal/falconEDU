@@ -33,7 +33,7 @@ export default async function Classes() {
   return (
     <div className="flex h-screen min-w-full flex-col">
       <Navbar />
-      <Paper className="custom-scrollbar flex h-full w-full flex-col justify-between space-y-6 overflow-y-auto bg-base-300">
+      <Paper className=" flex h-full w-full flex-col justify-between space-y-6 overflow-y-auto bg-base-300">
         <ClassCardList classes={activeClasses} />
         {archivedClasses.length > 0 && (
           <div className=" flex flex-col gap-4">

@@ -179,7 +179,7 @@ export function Resource({
                 />
               </CardDescription>
             </CardHeader>
-            <CardContent className="custom-scrollbar flex-grow overflow-y-auto rounded bg-base-300/30 p-3 shadow-inner shadow-base-300/60">
+            <CardContent className=" flex-grow overflow-y-auto rounded bg-base-300/30 p-3 shadow-inner shadow-base-300/60">
               <InDialog isOpen={showDialog} setIsOpen={setShowDialog}>
                 <FormField
                   control={form.control}
@@ -190,7 +190,7 @@ export function Resource({
                         <Textarea
                           required
                           {...field}
-                          className="custom-scrollbar h-full max-h-full w-full resize-none border-none bg-transparent py-0 pb-0 text-sm text-slate-200 outline-none placeholder:text-slate-600 focus-visible:ring-0"
+                          className=" h-full max-h-full w-full resize-none border-none bg-transparent py-0 pb-0 text-sm text-slate-200 outline-none placeholder:text-slate-600 focus-visible:ring-0"
                         />
                       </FormControl>
                       <FormMessage />
@@ -238,7 +238,7 @@ export const InDialog = ({
 }) => {
   return isOpen ? (
     <Dialog onOpenChange={setIsOpen} open={isOpen} modal>
-      <DialogContent className="custom-scrollbar h-[95%] max-w-6xl overflow-y-auto py-10">
+      <DialogContent className=" h-[95%] max-w-6xl overflow-y-auto py-10">
         {children}
       </DialogContent>
     </Dialog>

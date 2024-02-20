@@ -48,7 +48,7 @@ export function ClassSidebar({
   classesWithConfigs: ClassesByUserId;
 }) {
   return (
-    <nav className="custom-scrollbar flex h-full w-[240px] flex-col space-y-1 overflow-y-scroll bg-base-200 py-4 pb-32 pl-2">
+    <nav className=" flex h-full w-[240px] flex-col space-y-1 overflow-y-scroll bg-base-200 py-4 pb-32 pl-2">
       <Header nameOfClass={nameOfClass} classId={classId} />
       <Body configs={configs} classId={classId} userId={userId} />
       <Footer
