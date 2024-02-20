@@ -15,6 +15,7 @@ import {
   PaperClipIcon,
   ArrowsPointingOutIcon,
   ArrowsPointingInIcon,
+  CheckIcon,
 } from "@heroicons/react/24/solid";
 import { XCircleIcon } from "@heroicons/react/24/outline";
 import { FaFilePdf } from "react-icons/fa";
@@ -23,6 +24,7 @@ import {
   FaFileImage,
   FaFileLines,
   FaSpinner,
+  FaCheck,
 } from "react-icons/fa6";
 
 // Tailwind Size Mapping
@@ -160,4 +162,8 @@ export const MinimizeIcon: React.FC<IconProps> = (props) => (
 
 export const LoadingIcon: React.FC<IconProps> = (props) => (
   <BaseIcon {...props} Icon={FaSpinner} className="animate-spin" />
+);
+
+export const CheckmarkIcon: React.FC<IconProps> = (props) => (
+  <BaseIcon {...props} Icon={FaCheck} />
 );
