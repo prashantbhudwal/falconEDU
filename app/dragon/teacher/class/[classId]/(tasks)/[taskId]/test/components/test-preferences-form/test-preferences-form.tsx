@@ -19,6 +19,29 @@ import {
 } from "@/lib/schema";
 import { type ParsedQuestions } from "@/app/dragon/ai/test-question-parser/get-test-questions";
 import { TextAreaField } from "../../../../_components/task-form/fields/textarea";
+import { Processing } from "@/components/loading/processing";
+import { getGptGenerationTime } from "@/lib/utils";
+
+const getProcessingSteps = (approxGenerationTime: number) => {
+  return [
+    {
+      seconds: Math.ceil(approxGenerationTime * 0.3),
+      step: "Sending the questions to AI.",
+    },
+    {
+      seconds: Math.ceil(approxGenerationTime * 0.5),
+      step: "AI is reading the the questions",
+    },
+    {
+      seconds: Math.ceil(approxGenerationTime * 0.1),
+      step: "AI is processing the questions",
+    },
+    {
+      seconds: Math.ceil(approxGenerationTime * 0.1),
+      step: "AI is verifying the questions",
+    },
+  ];
+};
 
 type BotPreferencesFormProps = {
   preferences?: z.infer<typeof testBotPreferencesSchema> | null;
@@ -211,8 +234,34 @@ export default function TestPreferencesForm({
     setError("");
   };
 
+  const approxGenerationTime = getGptGenerationTime(
+    form.watch("fullTest").length || 1,
+  );
+
   return (
     <div className="w-full max-w-5xl">
+      {loading && (
+        <Processing
+          steps={[
+            {
+              seconds: Math.ceil(approxGenerationTime * 0.3),
+              step: "Sending the questions to AI.",
+            },
+            {
+              seconds: Math.ceil(approxGenerationTime * 0.5),
+              step: "AI is reading the the questions",
+            },
+            {
+              seconds: Math.ceil(approxGenerationTime * 0.1),
+              step: "AI is processing the questions",
+            },
+            {
+              seconds: Math.ceil(approxGenerationTime * 0.1),
+              step: "AI is verifying the questions",
+            },
+          ]}
+        />
+      )}
       <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div>
