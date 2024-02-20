@@ -21,6 +21,8 @@ import { MediumOfInstructionField } from "../../_components/task-form";
 import { TextAreaField } from "../../_components/task-form/fields/textarea";
 import { generateLearningGoalsWithAI } from "@/app/dragon/ai/tasks/ai-test/goals-generator";
 import { TaskName } from "../../_components/task-form/fields/task-name";
+import { getGptGenerationTime } from "@/lib/utils";
+import { Processing } from "@/components/loading/processing";
 
 const MAX_CHARS = LIMITS_AITestPreferencesSchema.content.maxLength;
 
@@ -87,9 +89,31 @@ export default function AITestForm({
       setLoading(false);
     }
   };
+  const approxGenerationTime = getGptGenerationTime(
+    form.watch("content").length || 1,
+    "GPT3",
+  );
 
   return (
     <Form {...form}>
+      {loading && (
+        <Processing
+          steps={[
+            {
+              seconds: Math.ceil(approxGenerationTime * 0.2),
+              step: "Sending the content to AI.",
+            },
+            {
+              seconds: Math.ceil(approxGenerationTime * 0.6),
+              step: "AI is learning from the content",
+            },
+            {
+              seconds: Math.ceil(approxGenerationTime * 0.2),
+              step: "AI is generating the learning goals",
+            },
+          ]}
+        />
+      )}
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
         <Paper variant="gray" className="w-full max-w-5xl bg-base-200">
           <div className="flex flex-wrap justify-between ">
