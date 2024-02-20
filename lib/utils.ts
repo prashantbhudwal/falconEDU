@@ -250,8 +250,11 @@ export const getBufferFromFile = async (file: File): Promise<Buffer> => {
   }
 };
 
-export const getGptGenerationTime = (contentValue: number) => {
-  const timeForOneCharacterInMs = 50;
+export const getGptGenerationTime = (
+  contentValue: number,
+  model: "GPT3" | "GPT4" = "GPT4",
+) => {
+  const timeForOneCharacterInMs = model === "GPT4" ? 50 : 5;
   const approximateTimeInSeconds = Math.ceil(
     (contentValue * timeForOneCharacterInMs) / 1000,
   );
