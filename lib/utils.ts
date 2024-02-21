@@ -250,6 +250,12 @@ export const getBufferFromFile = async (file: File): Promise<Buffer> => {
   }
 };
 
+/**
+ * Calculates the approximate time taken to generate content using GPT-3 or GPT-4.
+ * @param contentValue - The length of the content to be generated.
+ * @param model - The model to be used for generation. Optional. Defaults to "GPT4".
+ * @returns The approximate time taken in seconds.
+ */
 export const getGptGenerationTime = (
   contentValue: number,
   model: "GPT3" | "GPT4" = "GPT4",
