@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@auth/prisma-adapter": "^1.4.0",
+    "@formkit/auto-animate": "^0.8.1",
     "@heroicons/react": "^2.1.1",
     "@hookform/resolvers": "^3.3.4",
     "@next/bundle-analyzer": "^13.5.6",
