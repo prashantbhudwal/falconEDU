@@ -1,13 +1,10 @@
 import { StudentNavbar } from "../../components/student-navbar";
 import { getBotByBotId, getChatsByBotId } from "../../queries";
-import { ItemCard } from "../../components/item-card";
 import Link from "next/link";
-import { getStudentBotChatURL, studentHomeURL } from "@/lib/urls";
+import { studentHomeURL } from "@/lib/urls";
 import { NewAttemptButton } from "./new-attempt-btn";
-import { format } from "date-fns";
-import { AvatarImage, Avatar, AvatarFallback } from "@/components/ui/avatar";
-import Avvvatars from "avvvatars-react";
 import { PuzzlePieceIcon } from "@heroicons/react/24/solid";
+import AttemptsList from "./attempts-list";
 
 type BotPageProps = {
   params: {
@@ -20,49 +17,23 @@ export default async function BotPageProps({ params }: BotPageProps) {
   const bot = await getBotByBotId(botId);
   const attemptCount = chats?.length ?? 0;
 
-  if (!chats) {
-    return (
-      <>
-        <h1>Oops...No chats found. Ask a teacher to assign you a chat.</h1>
-      </>
-    );
-  }
+  if (!chats) return <NoChats />;
 
   return (
-    <div className="custom-scrollbar h-screen overflow-y-auto">
+    <div className="scrollbar-xs h-screen overflow-y-auto">
       <AttemptsNavbar
-        title={bot?.BotConfig.name!}
-        subtitle={bot?.BotConfig.teacher.User.name!}
+        title={bot?.BotConfig?.name ?? "Bot"}
+        subtitle={bot?.BotConfig?.teacher?.User?.name ?? "Teacher"}
         botId={botId}
         attemptCount={attemptCount}
       />
-      <div className="h-full">
-        {chats
-          .sort(
-            (a, b) =>
-              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
-          )
-          .map((chat) => (
-            <Link
-              href={getStudentBotChatURL(chat.bot.id, chat.id)}
-              key={chat.id}
-            >
-              <ItemCard
-                description={format(new Date(chat.createdAt), "dd MMM, h:mm a")}
-                title={"Attempt " + chat.attemptNumber.toString()}
-                isSubmitted={chat.isSubmitted}
-              />
-            </Link>
-          ))}
-      </div>
+      <AttemptsList chats={chats} />
     </div>
   );
 }
 
 const AttemptsNavbar = ({
   title,
-  subtitle,
-  avatarUrl,
   botId,
   attemptCount,
 }: {
@@ -93,5 +64,18 @@ const AttemptsNavbar = ({
         />
       </div>
     </StudentNavbar>
+  );
+};
+
+const NoChats = () => {
+  return (
+    <div className="mt-10 flex flex-col items-center justify-center">
+      <h1 className="mb-4 text-2xl font-bold text-red-600">
+        Oops...Nothing found.
+      </h1>
+      <p className="text-lg text-gray-700">
+        Ask a teacher to assign you a task.
+      </p>
+    </div>
   );
 };
