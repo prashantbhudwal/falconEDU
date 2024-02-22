@@ -58,6 +58,9 @@ export const getChatsByBotId = cache(async function (botId: string) {
         },
       },
     },
+    orderBy: {
+      createdAt: "desc",
+    },
   });
   return chats;
 });
