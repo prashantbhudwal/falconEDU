@@ -11,11 +11,12 @@ import {
   XMarkIcon,
   PhotoIcon,
   PlayIcon as PlayIconSolid,
-  DocumentTextIcon,
   PaperClipIcon,
   ArrowsPointingOutIcon,
   ArrowsPointingInIcon,
-  CheckIcon,
+  SparklesIcon,
+  FolderIcon as HiFolderIcon,
+  PencilSquareIcon,
 } from "@heroicons/react/24/solid";
 import { XCircleIcon } from "@heroicons/react/24/outline";
 import { FaFilePdf } from "react-icons/fa";
@@ -166,4 +167,16 @@ export const LoadingIcon: React.FC<IconProps> = (props) => (
 
 export const CheckmarkIcon: React.FC<IconProps> = (props) => (
   <BaseIcon {...props} Icon={FaCheck} />
+);
+
+export const AIMagicIcon: React.FC<IconProps> = (props) => (
+  <BaseIcon {...props} Icon={SparklesIcon} />
+);
+
+export const FolderIcon: React.FC<IconProps> = (props) => (
+  <BaseIcon {...props} Icon={HiFolderIcon} />
+);
+
+export const EditIcon: React.FC<IconProps> = (props) => (
+  <BaseIcon {...props} Icon={PencilSquareIcon} />
 );
