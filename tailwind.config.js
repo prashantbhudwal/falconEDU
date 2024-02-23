@@ -262,5 +262,6 @@ module.exports = {
     require("tailwind-scrollbar-hide"),
     require("tailwind-scrollbar"),
     require("@tailwindcss/container-queries"),
+    require("@tailwindcss/line-clamp"),
   ],
 };
