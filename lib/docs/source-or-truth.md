@@ -79,3 +79,12 @@ FalconAI is syllabus agnostic educational platform. And every syllabus agnostic 
       3. If it is a text PDF
          1. convert the file into a string using pdf-parse.
 5. Save the string in the database.
+
+## SOT and Tasks - User Journey & Interface
+
+1.  Teacher comes to the task creation page.
+2.  The teacher has a text area to add the content for the task.
+3.  The teacher can
+    1.  Enter the text manually and publish the task.
+    2.  Select an existing SOT and add its text to the context textarea of the task.
+    3.  Create a new SOT and add its text to the context textarea of the task.
