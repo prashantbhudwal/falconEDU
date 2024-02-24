@@ -1,35 +1,28 @@
 "use client";
-import { Grade, type BotConfig } from "@prisma/client";
-import { ChangeEvent, useState } from "react";
-import { FormProvider, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import { db } from "@/lib/routers";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { FiInfo } from "react-icons/fi";
+import { Form } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { Paper } from "@/components/ui/paper";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
-import { Input } from "@/components/ui/input";
-import TextAreaWithUpload from "../../_components/textarea-with-upload";
-import { HumorLevelField } from "../../_components/task-form/fields/humor-level";
-import { SubjectsField } from "../../_components/task-form/fields/subjects-old";
-import { TopicField } from "../../_components/task-form/fields/topic";
-import { SaveButton } from "../../_components/task-form/save-btn";
+import { db } from "@/lib/routers";
 import {
   LIMITS_lessonPreferencesSchema,
   lessonNameSchema,
   lessonPreferencesSchema,
 } from "@/lib/schema";
-const MAX_CHARS = LIMITS_lessonPreferencesSchema.content.maxLength;
+import { TaskType } from "@/types";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Grade, type BotConfig } from "@prisma/client";
+import { ChangeEvent, useState } from "react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 import { MediumOfInstructionField } from "../../_components/task-form";
+import { MagicContentField } from "../../_components/task-form/fields/magic-content";
+import { HumorLevelField } from "../../_components/task-form/fields/humor-level";
+import { SubjectsField } from "../../_components/task-form/fields/subjects-old";
+import { TopicField } from "../../_components/task-form/fields/topic";
 import { VideoField } from "../../_components/task-form/fields/videos";
+import { SaveButton } from "../../_components/task-form/save-btn";
+const MAX_CHARS = LIMITS_lessonPreferencesSchema.content.maxLength;
 
 const defaultValues: z.infer<typeof lessonPreferencesSchema> = {
   topic: "",
@@ -58,9 +51,9 @@ export default function LessonForm({
   taskConfig,
   grade,
 }: LessonFormProps) {
+  const taskType: TaskType = "lesson";
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [inputFocus, setInputFocus] = useState("");
   const [lessonName, setLessonName] = useState<string | undefined>(
     taskConfig?.name,
   );
@@ -80,7 +73,7 @@ export default function LessonForm({
       classId,
       botId: taskId,
       data,
-      configType: "lesson",
+      configType: taskType,
     });
     setLoading(false);
     if (result.success) {
@@ -124,157 +117,47 @@ export default function LessonForm({
   };
 
   return (
-    <>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
-          <Paper
-            variant="gray"
-            className="min-h-screen w-full max-w-5xl space-y-12 bg-base-200"
-          >
-            <div className="flex flex-wrap justify-between">
-              <div className="w-[50%]">
-                <Input
-                  type="text"
-                  value={lessonName}
-                  onChange={onBotNameChange}
-                  onBlur={updateBotNameHandler}
-                  className="border-none pl-0 font-bold tracking-wide outline-none focus-visible:ring-0 md:text-xl "
-                />
-                {error && (
-                  <div className="mt-3 text-xs text-red-500">{error}</div>
-                )}
-              </div>
-              <SaveButton
-                isLoading={loading}
-                isDisabled={(isEmpty && !isDirty) || !isDirty}
-                hasUnsavedChanges={isDirty}
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
+        <Paper
+          variant="gray"
+          className="min-h-screen w-full max-w-5xl space-y-12 bg-base-200"
+        >
+          <div className="flex flex-wrap justify-between">
+            <div className="w-[50%]">
+              <Input
+                type="text"
+                value={lessonName}
+                onChange={onBotNameChange}
+                onBlur={updateBotNameHandler}
+                className="border-none pl-0 font-bold tracking-wide outline-none focus-visible:ring-0 md:text-xl "
               />
-            </div>
-            <TopicField name="topic" />
-            <SubjectsField name="subjects" grade={grade} />
-            <FormField
-              control={form.control}
-              name="content"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel
-                    className={`mb-3 flex w-full justify-between align-middle font-bold ${
-                      inputFocus === "content" ? "text-white" : ""
-                    }`}
-                  >
-                    <div className="flex items-center gap-2 text-xs">
-                      Content
-                      <FiInfo />
-                    </div>
-                  </FormLabel>
-                  <FormProvider {...form}>
-                    <FormControl className="rounded-md">
-                      <div className="border border-input">
-                        <TextAreaWithUpload
-                          placeholder="Add any additional reference material"
-                          counter
-                          maxChars={MAX_CHARS}
-                          required
-                          hasDocUploader
-                          setIsDirty={setIsDirty}
-                          className="bg-base-200"
-                          {...field}
-                        />
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormProvider>
-                </FormItem>
+              {error && (
+                <div className="mt-3 text-xs text-red-500">{error}</div>
               )}
+            </div>
+            <SaveButton
+              isLoading={loading}
+              isDisabled={(isEmpty && !isDirty) || !isDirty}
+              hasUnsavedChanges={isDirty}
             />
-            <VideoField name="videos" />
-            <MediumOfInstructionField name="mediumOfInstruction" />
-            <HumorLevelField name="humorLevel" />
-          </Paper>
-        </form>
-      </Form>
-    </>
+          </div>
+          <TopicField name="topic" />
+          <SubjectsField name="subjects" grade={grade} />
+          <MagicContentField
+            classId={classId}
+            grade={grade}
+            name="content"
+            maxChars={MAX_CHARS}
+            placeholder="Enter manually"
+            className="bg-base-200"
+            type={taskType}
+          />
+          <VideoField name="videos" />
+          <MediumOfInstructionField name="mediumOfInstruction" />
+          <HumorLevelField name="humorLevel" />
+        </Paper>
+      </form>
+    </Form>
   );
 }
-
-/* ------------------------Tone ------------------------- */
-
-/* <FormField
-              control={form.control}
-              name="tone"
-              render={({ field }) => (
-                <FormItem className="space-y-3">
-                  <FormLabel className="mb-5 flex gap-2 items-center font-bold">
-                    Tone
-                    <SpeakerWaveIcon className="h-4 w-4" />
-                  </FormLabel>
-                  <FormControl>
-                    <RadioGroup
-                      onValueChange={() => {
-                        field.onChange;
-                      }}
-                      defaultValue={field.value}
-                      className="flex flex-row space-y-1 space-x-6"
-                    >
-                      {tone.map((tone) => (
-                        <FormItem
-                          className="flex flex-row items-center space-x-3 space-y-0"
-                          key={tone}
-                        >
-                          <FormControl>
-                            <RadioGroupItem
-                              value={tone}
-                              className=" active:scale-90 transition-all duration-200 hover:scale-[1.2]"
-                            />
-                          </FormControl>
-                          <FormLabel className="font-normal">{tone}</FormLabel>
-                        </FormItem>
-                      ))}
-                    </RadioGroup>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            /> */
-
-/* ------------------------Language ------------------------- */
-
-/* <FormField
-              control={form.control}
-              name="languageProficiency"
-              render={({ field }) => (
-                <FormItem className="space-y-3">
-                  <FormLabel className="flex gap-2 items-center font-bold">
-                    Language Proficiency
-                    <LanguageIcon className="h-4 w-4" />
-                  </FormLabel>
-                  <FormControl>
-                    <RadioGroup
-                      onValueChange={() => {
-                        field.onChange;
-                      }}
-                      defaultValue={field.value}
-                      className="flex flex-row space-y-1 space-x-6"
-                    >
-                      {languageProficiency.map((languageProficiency) => (
-                        <FormItem
-                          className="flex flex-row items-center space-x-3 space-y-0"
-                          key={languageProficiency}
-                        >
-                          <FormControl>
-                            <RadioGroupItem
-                              value={languageProficiency}
-                              className=" active:scale-90 transition-all duration-200 hover:scale-[1.2]"
-                            />
-                          </FormControl>
-                          <FormLabel className="font-normal">
-                            {languageProficiency}
-                          </FormLabel>
-                        </FormItem>
-                      ))}
-                    </RadioGroup>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            /> */
