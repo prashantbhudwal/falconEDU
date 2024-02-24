@@ -1,11 +1,6 @@
 import { z } from "zod";
-import {
-  humorLevel,
-  language,
-  languageProficiency,
-  mediumOfInstruction,
-  tone,
-} from "../constants";
+import { humorLevel, language, languageProficiency, tone } from "../constants";
+import { baseTaskSchema } from "../common";
 
 export const LIMITS_lessonPreferencesSchema = {
   content: {
@@ -31,15 +26,14 @@ export const videoSchema = z.object({
 
 export const videoArraySchema = z.array(videoSchema).optional();
 
-export const lessonPreferencesSchema = z.object({
-  topic: z.string().max(LIMITS_lessonPreferencesSchema.topic.maxLength),
-  content: z.string().max(LIMITS_lessonPreferencesSchema.content.maxLength),
-  subjects: z.array(z.string()),
+export const lessonPreferencesSchema = baseTaskSchema.extend({
+  content: baseTaskSchema.shape.content.max(
+    LIMITS_lessonPreferencesSchema.content.maxLength,
+  ),
   tone: z.enum(tone),
   language: z.enum(language),
   humorLevel: z.enum(humorLevel),
   languageProficiency: z.enum(languageProficiency),
-  mediumOfInstruction: z.enum(mediumOfInstruction).optional(),
   videos: videoArraySchema,
 });
 

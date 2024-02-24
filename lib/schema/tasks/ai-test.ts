@@ -6,6 +6,7 @@ import {
   mediumOfInstruction,
   tone,
 } from "../constants";
+import { baseTaskSchema } from "../common";
 
 export const LIMITS_AITestNameSchema = {
   name: {
@@ -30,13 +31,12 @@ export const LIMITS_AITestPreferencesSchema = {
   },
 };
 
-export const AITestPreferenceSchema = z.object({
-  topic: z.string().max(LIMITS_AITestPreferencesSchema.topic.maxLength),
-  content: z.string().max(LIMITS_AITestPreferencesSchema.content.maxLength),
-  subjects: z.array(z.string()),
+export const AITestPreferenceSchema = baseTaskSchema.extend({
+  content: baseTaskSchema.shape.content.max(
+    LIMITS_AITestPreferencesSchema.content.maxLength,
+  ),
   tone: z.enum(tone),
   language: z.enum(language),
   humorLevel: z.enum(humorLevel),
   languageProficiency: z.enum(languageProficiency),
-  mediumOfInstruction: z.enum(mediumOfInstruction).optional(),
 });
