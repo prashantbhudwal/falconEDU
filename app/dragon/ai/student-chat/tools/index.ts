@@ -1,3 +1,6 @@
+// Refactor this with a better pattern
+//https://chat.openai.com/share/d836ab75-fe54-4631-b50b-7b41fe818a49
+
 import { TaskType } from "@/types";
 import { ToolWithCallback, toolName } from "./types";
 import { youtubeSearch } from "./toolkit/youtube-search-tool";
