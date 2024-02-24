@@ -1,28 +1,29 @@
 "use client";
-import { Grade, type BotConfig } from "@prisma/client";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import { db } from "@/lib/routers";
+import { generateLearningGoalsWithAI } from "@/app/dragon/ai/tasks/ai-test/goals-generator";
+import { Processing } from "@/components/loading/processing";
 import { Form } from "@/components/ui/form";
 import { Paper } from "@/components/ui/paper";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
-import { SubjectsField } from "../../_components/task-form/fields/subjects-old";
-import { HumorLevelField } from "../../_components/task-form/fields/humor-level";
-import { TopicField } from "../../_components/task-form/fields/topic";
-import { SaveButton } from "../../_components/task-form/save-btn";
+import { db } from "@/lib/routers";
 import {
   AITestNameSchema,
   AITestPreferenceSchema,
   LIMITS_AITestPreferencesSchema,
 } from "@/lib/schema";
-import { MediumOfInstructionField } from "../../_components/task-form";
-import { TextAreaField } from "../../_components/task-form/fields/textarea";
-import { generateLearningGoalsWithAI } from "@/app/dragon/ai/tasks/ai-test/goals-generator";
-import { TaskName } from "../../_components/task-form/fields/task-name";
 import { getGptGenerationTime } from "@/lib/utils";
-import { Processing } from "@/components/loading/processing";
+import { TaskType } from "@/types";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Grade, type BotConfig } from "@prisma/client";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+import { MediumOfInstructionField } from "../../_components/task-form";
+import { MagicContentField } from "../../_components/task-form/fields/magic-content";
+import { HumorLevelField } from "../../_components/task-form/fields/humor-level";
+import { SubjectsField } from "../../_components/task-form/fields/subjects-old";
+import { TaskName } from "../../_components/task-form/fields/task-name";
+import { TopicField } from "../../_components/task-form/fields/topic";
+import { SaveButton } from "../../_components/task-form/save-btn";
 
 const MAX_CHARS = LIMITS_AITestPreferencesSchema.content.maxLength;
 
@@ -52,6 +53,7 @@ export default function AITestForm({
   taskConfig,
   grade,
 }: AITestFormProps) {
+  const taskType: TaskType = "ai-test";
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const isEmpty = preferences === null || preferences === undefined;
@@ -75,7 +77,7 @@ export default function AITestForm({
           classId,
           botId: taskId,
           data,
-          configType: "ai-test",
+          configType: taskType,
         });
         setError("");
         setIsDirty(false);
@@ -132,11 +134,14 @@ export default function AITestForm({
           {error && <div className="text-red-500">{error}</div>}
           <TopicField name="topic" />
           <SubjectsField name="subjects" grade={grade} />
-          <TextAreaField
+          <MagicContentField
+            classId={classId}
+            grade={grade}
             name="content"
             maxChars={MAX_CHARS}
-            placeholder="Add any additional reference material"
-            label="Content"
+            placeholder="Enter manually"
+            className="bg-base-200"
+            type={taskType}
           />
           <MediumOfInstructionField name="mediumOfInstruction" />
           <HumorLevelField name="humorLevel" />
