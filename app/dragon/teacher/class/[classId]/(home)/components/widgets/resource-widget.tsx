@@ -62,7 +62,7 @@ const ResourceList = ({
             <CardHeader className="py-3">
               <CardTitle className="text-sm">{resource.title}</CardTitle>
               <CardDescription className="text-xs">
-                Last used:
+                Last used:{" "}
                 {formatDate(resource.updatedAt, {
                   withTime: true,
                 })}
