@@ -8,7 +8,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { FormProvider, useFormContext } from "react-hook-form";
-import TextAreaWithUpload from "../../textarea-with-upload";
+import TextAreaWithUpload from "./textarea-with-upload";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 import { cn } from "@/lib/utils";
 

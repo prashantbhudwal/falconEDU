@@ -17,7 +17,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { LIMITS_testBotPreferencesSchema } from "@/lib/schema";
-import { TextAreaField } from "../../../../_components/task-form/fields/textarea";
+import { TextAreaField } from "../../../../_components/task-form/fields/magic-content/textarea";
 
 type AddQuestionsDialogProps = {
   loading?: boolean;

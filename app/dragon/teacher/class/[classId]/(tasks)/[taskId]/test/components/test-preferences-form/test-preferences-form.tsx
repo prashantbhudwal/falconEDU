@@ -18,7 +18,7 @@ import {
   testBotPreferencesSchema,
 } from "@/lib/schema";
 import { type ParsedQuestions } from "@/app/dragon/ai/test-question-parser/get-test-questions";
-import { TextAreaField } from "../../../../_components/task-form/fields/textarea";
+import { TextAreaField } from "../../../../_components/task-form/fields/magic-content/textarea";
 import { Processing } from "@/components/loading/processing";
 import { getGptGenerationTime } from "@/lib/utils";
 

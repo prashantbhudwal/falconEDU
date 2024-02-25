@@ -4,7 +4,7 @@ import { Separator } from "@/components/ui/separator";
 import { Grade } from "@prisma/client";
 import { useState } from "react";
 import { useFormContext } from "react-hook-form";
-import { TextAreaField } from "../textarea";
+import { TextAreaField } from "./textarea";
 import { IconButton } from "@/components/ui/icon-button";
 import { AIMagicIcon, FolderIcon } from "@/components/icons";
 import { ResourceDialog } from "./resource-dialog";

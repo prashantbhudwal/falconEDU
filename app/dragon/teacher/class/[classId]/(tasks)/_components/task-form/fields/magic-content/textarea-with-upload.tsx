@@ -4,7 +4,7 @@ import { useFormContext } from "react-hook-form";
 import { cn } from "@/lib/utils";
 import { TbBorderCorners } from "react-icons/tb";
 import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog";
-import { useFileUpload } from "../../(settings)/resources/edit/[resourceId]/use-file-upload";
+import { useFileUpload } from "../../../../../(settings)/resources/edit/[resourceId]/use-file-upload";
 import { Button } from "@/components/ui/button";
 import { AttachmentIcon } from "@/components/icons";
 
