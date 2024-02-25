@@ -18,30 +18,22 @@ export const isAuthorized = async ({
 }: isAuthorizedParams) => {
   const session = await getServerSession(authOptions);
   if (!session) {
-    return {
-      error: "unauthorized",
-    };
+    throw new Error("Unauthorized");
   }
 
   if (session.user.userType !== userType) {
-    return {
-      error: "unauthorized",
-    };
+    throw new Error("Unauthorized");
   }
 
   if (session.user.userType == "STUDENT") {
     const studentId = await getStudentId(session.user.id);
     if (!studentId) {
-      return {
-        error: "unauthorized",
-      };
+      throw new Error("Student not found");
     }
   } else if (session.user.userType == "TEACHER") {
     const teacherId = await getTeacherId(session.user.id);
     if (!teacherId) {
-      return {
-        error: "unauthorized",
-      };
+      throw new Error("Teacher not found");
     }
   }
   return true;
