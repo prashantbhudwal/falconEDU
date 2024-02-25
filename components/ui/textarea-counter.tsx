@@ -28,7 +28,10 @@ export const TextareaWithCounter: React.FC<TextareaWithCounterProps> = ({
     }
   };
 
-  const withinWarningLimit = maxChars ? count >= maxChars * 0.5 : false;
+  const warningPercent = 0.5;
+  const withinWarningLimit = maxChars
+    ? count >= maxChars * warningPercent
+    : false;
 
   return (
     <div className="relative h-full">
