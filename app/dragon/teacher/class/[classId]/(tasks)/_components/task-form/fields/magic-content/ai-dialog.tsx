@@ -201,9 +201,9 @@ export const AIDialog = ({
                 variant={"outline"}
                 color={"primary"}
                 type="submit"
-                size={"default"}
                 disabled={isLoading}
                 className="border-info text-info"
+                size={"sm"}
               >
                 Modify
               </Button>
