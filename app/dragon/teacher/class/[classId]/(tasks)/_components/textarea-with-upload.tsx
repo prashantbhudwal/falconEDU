@@ -49,7 +49,7 @@ const TextAreaWithUpload = ({
   const renderTextArea = () => {
     return (
       <Textarea
-        className="mb-0 mt-3 h-full resize-none border-none py-0 pb-0 text-sm text-slate-200 outline-none placeholder:text-slate-600 focus-visible:ring-0"
+        className="mb-0 h-full resize-none border-none py-0 pb-0 text-sm text-slate-200 outline-none placeholder:text-slate-600 focus-visible:ring-0"
         {...field}
         hasCounter={counter}
         maxChars={maxChars}
