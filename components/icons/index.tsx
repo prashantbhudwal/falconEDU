@@ -17,6 +17,7 @@ import {
   SparklesIcon,
   FolderIcon as HiFolderIcon,
   PencilSquareIcon,
+  ArrowLeftIcon,
 } from "@heroicons/react/24/solid";
 import { XCircleIcon } from "@heroicons/react/24/outline";
 import { FaFilePdf } from "react-icons/fa";
@@ -179,4 +180,8 @@ export const FolderIcon: React.FC<IconProps> = (props) => (
 
 export const EditIcon: React.FC<IconProps> = (props) => (
   <BaseIcon {...props} Icon={PencilSquareIcon} />
+);
+
+export const LeftArrowIcon: React.FC<IconProps> = (props) => (
+  <BaseIcon {...props} Icon={ArrowLeftIcon} />
 );
