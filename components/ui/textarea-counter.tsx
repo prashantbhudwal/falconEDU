@@ -1,11 +1,9 @@
 import React, { useState, ChangeEvent } from "react";
-import {
-  TextareaAutosize as Textarea,
-  TextareaAutosizeProps,
-} from "./textarea-autosize";
-import { cn } from "@/lib/utils";
 
-type TextareaWithCounterProps = TextareaAutosizeProps & {
+import { cn } from "@/lib/utils";
+import { Textarea, TextareaProps } from "./textarea";
+
+type TextareaWithCounterProps = TextareaProps & {
   hasCounter?: boolean;
   maxChars?: number;
 };
@@ -30,10 +28,10 @@ export const TextareaWithCounter: React.FC<TextareaWithCounterProps> = ({
     }
   };
 
-  const withinTwentyPercent = maxChars ? count >= maxChars * 0.8 : false;
+  const withinTwentyPercent = maxChars ? count >= maxChars * 0.5 : false;
 
   return (
-    <div className="relative">
+    <div className="relative h-full">
       <Textarea
         {...props}
         onChange={handleCount}
