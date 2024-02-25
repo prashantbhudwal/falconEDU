@@ -66,22 +66,20 @@ const TextAreaWithUpload = ({
         <div {...getRootProps()} className={cn("dropzone", className)}>
           <input {...getInputProps()} />
           <Button
-            variant={"outline"}
             size={"icon"}
-            className="rounded-full"
+            className="rounded-full bg-warning/80 hover:translate-y-1 hover:bg-warning"
             type="button"
           >
             <AttachmentIcon size="xs" className="-rotate-45" />
           </Button>
         </div>
         <Button
-          variant={"outline"}
           size={"icon"}
           onClick={() => setOpen(true)}
-          className="rounded-full"
+          className="rounded-full bg-warning/80 hover:translate-y-1 hover:bg-warning"
           type="button"
         >
-          <TbBorderCorners />
+          <TbBorderCorners className="h-5 w-5" />
         </Button>
       </footer>
       <Dialog open={open} onOpenChange={setOpen}>
