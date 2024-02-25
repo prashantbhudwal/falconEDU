@@ -21,6 +21,8 @@ import { type ParsedQuestions } from "@/app/dragon/ai/test-question-parser/get-t
 import { TextAreaField } from "../../../../_components/task-form/fields/magic-content/textarea";
 import { Processing } from "@/components/loading/processing";
 import { getGptGenerationTime } from "@/lib/utils";
+import { EquationsField } from "../../../../_components/task-form/fields/equations";
+import { Paper } from "@/components/ui/paper";
 
 const getProcessingSteps = (approxGenerationTime: number) => {
   return [
@@ -157,7 +159,7 @@ export default function TestPreferencesForm({
 
   const form = useForm<z.infer<typeof testBotPreferencesSchema>>({
     // resolver: zodResolver(testBotPreferencesSchema),
-    defaultValues: { fullTest: "" }, // later change with value from db of timelimit
+    defaultValues: { fullTest: "", hasEquations: false }, // later change with value from db of timelimit
     mode: "onChange",
   });
 
@@ -300,11 +302,18 @@ export default function TestPreferencesForm({
             </div>
             <div className="mb-6" />
             {!parsedQuestionFromDb && (
-              <TextAreaField
-                name="fullTest"
-                maxChars={MAX_CHARS}
-                placeholder="Enter or paste the full test here. Please provide the answers too. The bot will conduct the test for you."
-              />
+              <Paper
+                variant="gray"
+                className="w-full max-w-5xl space-y-8 bg-base-200"
+              >
+                <TextAreaField
+                  label="Content"
+                  name="fullTest"
+                  maxChars={MAX_CHARS}
+                  placeholder="Enter or paste the full test here. Please provide the answers too. The bot will conduct the test for you."
+                />
+                <EquationsField name="hasEquations" />
+              </Paper>
             )}
           </div>
         </form>
