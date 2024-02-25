@@ -7,6 +7,8 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/form";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
 import { useFormContext } from "react-hook-form";
 import { FiBookOpen } from "react-icons/fi";
 import { getFormattedGrade } from "@/app/dragon/teacher/utils";
@@ -35,49 +37,51 @@ export const SubjectsField = ({
   const form = useFormContext();
   const subjectsFromGrade = updateSubjectsHandler(grade);
   return (
-    <FormField
-      control={form.control}
-      name={name}
-      render={() => (
-        <FormItem>
-          <div className="mb-5 flex flex-col gap-2">
-            <FormLabel className="flex items-center gap-2 font-bold">
-              Subjects
-            </FormLabel>
-          </div>
-          <div className="flex flex-row flex-wrap gap-x-6 gap-y-5 ">
-            {subjectsFromGrade.map((subject) => (
-              <FormField
-                key={subject}
-                control={form.control}
-                name="subjects"
-                render={({ field }) => {
-                  return (
-                    <FormItem key={subject}>
-                      <FormControl>
-                        <Chip
-                          checked={field.value?.includes(subject)}
-                          onCheckedChange={(checked: boolean) => {
-                            return checked
-                              ? field.onChange([...field.value, subject])
-                              : field.onChange(
-                                  field.value?.filter(
-                                    (value: string) => value !== subject,
-                                  ),
-                                );
-                          }}
-                          toggleName={subject}
-                        />
-                      </FormControl>
-                    </FormItem>
-                  );
-                }}
-              />
-            ))}
-          </div>
-          <FormMessage />
-        </FormItem>
-      )}
-    />
+    <Card>
+      <CardContent>
+        <CardHeader className="px-0">
+          <CardTitle>Subjects</CardTitle>
+        </CardHeader>
+        <FormField
+          control={form.control}
+          name={name}
+          render={() => (
+            <FormItem>
+              <div className="flex flex-row flex-wrap gap-x-6 gap-y-3">
+                {subjectsFromGrade.map((subject) => (
+                  <FormField
+                    key={subject}
+                    control={form.control}
+                    name="subjects"
+                    render={({ field }) => {
+                      return (
+                        <FormItem key={subject}>
+                          <FormControl>
+                            <Chip
+                              checked={field.value?.includes(subject)}
+                              onCheckedChange={(checked: boolean) => {
+                                return checked
+                                  ? field.onChange([...field.value, subject])
+                                  : field.onChange(
+                                      field.value?.filter(
+                                        (value: string) => value !== subject,
+                                      ),
+                                    );
+                              }}
+                              toggleName={subject}
+                            />
+                          </FormControl>
+                        </FormItem>
+                      );
+                    }}
+                  />
+                ))}
+              </div>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </CardContent>
+    </Card>
   );
 };

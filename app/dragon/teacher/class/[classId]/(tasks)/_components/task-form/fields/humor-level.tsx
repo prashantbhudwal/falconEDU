@@ -10,6 +10,7 @@ import {
 import { Slider } from "@/components/ui/slider";
 import { BsStars } from "react-icons/bs";
 import { useFormContext } from "react-hook-form";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export function getHumorLevel(sliderValue: number) {
   switch (sliderValue) {
@@ -28,32 +29,38 @@ export const HumorLevelField = ({ name }: { name: string }) => {
   const form = useFormContext();
 
   return (
-    <FormField
-      control={form.control}
-      name={name}
-      render={({ field }) => (
-        <FormItem className="space-y-3">
-          <FormLabel className="mb-3 flex w-56 items-center justify-between gap-2 text-xs font-bold">
-            <div>Humor Level</div>
-            <div className="flex items-center gap-2 text-xs">
-              <BsStars /> {field.value}
-            </div>
-          </FormLabel>
-          <FormControl>
-            <Slider
-              defaultValue={[1]}
-              className="w-64 cursor-pointer"
-              max={2}
-              step={1}
-              onValueChange={(value) => {
-                const humourLevel = getHumorLevel(value[0]);
-                form.setValue(name, humourLevel);
-              }}
-            />
-          </FormControl>
-          <FormMessage />
-        </FormItem>
-      )}
-    />
+    <Card>
+      <CardContent>
+        <CardHeader className="px-0">
+          <CardTitle>Humor Level</CardTitle>
+        </CardHeader>
+        <FormField
+          control={form.control}
+          name={name}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="mb-3 flex w-56 items-center justify-between gap-2 text-xs font-bold">
+                <div className="flex items-center gap-2 text-xs">
+                  <BsStars /> {field.value}
+                </div>
+              </FormLabel>
+              <FormControl>
+                <Slider
+                  defaultValue={[1]}
+                  className="w-64 cursor-pointer"
+                  max={2}
+                  step={1}
+                  onValueChange={(value) => {
+                    const humourLevel = getHumorLevel(value[0]);
+                    form.setValue(name, humourLevel);
+                  }}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </CardContent>
+    </Card>
   );
 };

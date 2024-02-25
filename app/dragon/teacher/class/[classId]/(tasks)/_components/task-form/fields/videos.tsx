@@ -13,6 +13,7 @@ import { AddIcon, MinusIcon } from "@/components/icons";
 import {
   Card,
   CardContent,
+  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -52,108 +53,120 @@ export const VideoField = ({ name }: { name: string }) => {
   const allowVideoAddition = fields.length < 5 && fields.length > 0;
 
   return (
-    <div className="max-w-2xl space-y-2">
-      <div className="flex items-center space-x-5">
-        <FormLabel>Videos</FormLabel>
-        {fields.length === 0 && <AddVideoButton onClick={addVideoField} />}
-      </div>
-      <FormDescription>
-        Add upto 5 videos that will be shown to the students. (optional)
-      </FormDescription>
-      <div className="space-y-4">
-        {fields.map((field, index) => (
-          <Card key={field.id} className="relative ">
-            <RemoveVideoButton onClick={() => removeVideoField(index)} />
-            <CardHeader>
-              <CardTitle>
-                <FormField
-                  control={form.control}
-                  name={`${name}[${index}].title`}
-                  render={({
-                    field: titleField,
-                    fieldState: { error: titleError },
-                  }) => (
-                    <FormItem>
-                      <FormControl>
-                        <Input
-                          required
-                          autoComplete="off"
-                          className="text-sm"
-                          placeholder={`Title`}
-                          {...titleField}
-                        />
-                      </FormControl>
-                      {titleError && (
-                        <div className="text-xs text-destructive">
-                          {titleError.message}
-                        </div>
+    <Card>
+      <CardContent>
+        <CardHeader className="px-0">
+          <CardTitle>
+            <div className="flex items-center space-x-5">
+              <div>Videos</div>
+              {fields.length === 0 && (
+                <AddVideoButton onClick={addVideoField} />
+              )}
+            </div>
+          </CardTitle>
+          <CardDescription>
+            Add upto 5 videos that will be shown to the students. (optional)
+          </CardDescription>
+        </CardHeader>
+        <div className="max-w-2xl space-y-2">
+          <div className="space-y-4">
+            {fields.map((field, index) => (
+              <Card key={field.id} className="relative ">
+                <RemoveVideoButton onClick={() => removeVideoField(index)} />
+                <CardHeader>
+                  <CardTitle>
+                    <FormField
+                      control={form.control}
+                      name={`${name}[${index}].title`}
+                      render={({
+                        field: titleField,
+                        fieldState: { error: titleError },
+                      }) => (
+                        <FormItem>
+                          <FormControl>
+                            <Input
+                              required
+                              autoComplete="off"
+                              className="text-sm"
+                              placeholder={`Title`}
+                              {...titleField}
+                            />
+                          </FormControl>
+                          {titleError && (
+                            <div className="text-xs text-destructive">
+                              {titleError.message}
+                            </div>
+                          )}
+                        </FormItem>
                       )}
-                    </FormItem>
-                  )}
+                    />
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <FormField
+                    control={form.control}
+                    name={`${name}[${index}].url`}
+                    render={({
+                      field: urlField,
+                      fieldState: { error: urlError },
+                    }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input
+                            required
+                            autoComplete="off"
+                            className="text-sm"
+                            placeholder={`www.youtube.com/`}
+                            {...urlField}
+                            onBlur={(e) => handleBlur(e, index)}
+                          />
+                        </FormControl>
+                        {urlError && (
+                          <div className="text-xs text-destructive">
+                            {urlError.message}
+                          </div>
+                        )}
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name={`${name}[${index}].metadata`}
+                    render={({
+                      field: metadataField,
+                      fieldState: { error: metadataError },
+                    }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input
+                            autoComplete="off"
+                            className="text-sm"
+                            placeholder={`description (optional)`}
+                            {...metadataField}
+                          />
+                        </FormControl>
+                        {metadataError && (
+                          <div className="text-xs text-destructive">
+                            {metadataError.message}
+                          </div>
+                        )}
+                      </FormItem>
+                    )}
+                  />
+                </CardContent>
+                <PreviewVideo
+                  url={form.getValues(`${name}[${index}].url`)}
+                  title={form.getValues(`${name}[${index}].title`)}
                 />
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <FormField
-                control={form.control}
-                name={`${name}[${index}].url`}
-                render={({
-                  field: urlField,
-                  fieldState: { error: urlError },
-                }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input
-                        required
-                        autoComplete="off"
-                        className="text-sm"
-                        placeholder={`www.youtube.com/`}
-                        {...urlField}
-                        onBlur={(e) => handleBlur(e, index)}
-                      />
-                    </FormControl>
-                    {urlError && (
-                      <div className="text-xs text-destructive">
-                        {urlError.message}
-                      </div>
-                    )}
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name={`${name}[${index}].metadata`}
-                render={({
-                  field: metadataField,
-                  fieldState: { error: metadataError },
-                }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input
-                        autoComplete="off"
-                        className="text-sm"
-                        placeholder={`description (optional)`}
-                        {...metadataField}
-                      />
-                    </FormControl>
-                    {metadataError && (
-                      <div className="text-xs text-destructive">
-                        {metadataError.message}
-                      </div>
-                    )}
-                  </FormItem>
-                )}
-              />
-            </CardContent>
-            <PreviewVideo
-              url={form.getValues(`${name}[${index}].url`)}
-              title={form.getValues(`${name}[${index}].title`)}
-            />
-          </Card>
-        ))}
-      </div>
-      {allowVideoAddition && <AddMoreVideosButton onClick={addVideoField} />}
-    </div>
+              </Card>
+            ))}
+          </div>
+          {allowVideoAddition && (
+            <AddMoreVideosButton onClick={addVideoField} />
+          )}
+        </div>
+      </CardContent>
+    </Card>
   );
 };
 
