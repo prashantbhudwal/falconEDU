@@ -69,16 +69,18 @@ export default function AITestForm({
     try {
       const learningGoals = await generateLearningGoalsWithAI({ content });
       if (learningGoals) {
-        const updatedGoals = await db.learningGoals.saveLearningGoals({
-          configId: taskId,
-          learningGoals,
-        });
-        const updatedConfig = await db.botConfig.updateTaskConfig({
-          classId,
-          botId: taskId,
-          data,
-          configType: taskType,
-        });
+        const [updatedGoals, updatedConfig] = await Promise.all([
+          db.learningGoals.saveLearningGoals({
+            configId: taskId,
+            learningGoals,
+          }),
+          db.botConfig.updateTaskConfig({
+            classId,
+            botId: taskId,
+            data,
+            configType: taskType,
+          }),
+        ]);
         setError("");
         setIsDirty(false);
       }
