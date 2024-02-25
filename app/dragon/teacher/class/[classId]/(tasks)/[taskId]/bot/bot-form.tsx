@@ -27,6 +27,7 @@ import {
   botPreferencesSchema,
 } from "@/lib/schema";
 import { MediumOfInstructionField } from "../../_components/task-form";
+import { EquationsField } from "../../_components/task-form/fields/equations";
 
 const MAX_CHARS = LIMITS_botPreferencesSchema.instructions.maxLength;
 
@@ -37,6 +38,7 @@ const defaultValues: z.infer<typeof botPreferencesSchema> = {
   humorLevel: "Moderate",
   languageProficiency: "Beginner",
   mediumOfInstruction: "english",
+  hasEquations: false,
 };
 
 type BotPreferencesFormProps = {
@@ -123,7 +125,7 @@ export default function BotPreferencesForm({
         <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
           <Paper
             variant="gray"
-            className="min-h-screen w-full max-w-5xl space-y-12 border-none pt-12 shadow-none"
+            className="min-h-screen w-full max-w-5xl space-y-8 border-none pt-12 shadow-none"
           >
             <div className="flex min-h-14 flex-wrap justify-between">
               <div className="w-[50%]">
@@ -177,6 +179,7 @@ export default function BotPreferencesForm({
               )}
             />
             <MediumOfInstructionField name="mediumOfInstruction" />
+            <EquationsField name="hasEquations" />
             <HumorLevelField name="humorLevel" />
           </Paper>
         </form>

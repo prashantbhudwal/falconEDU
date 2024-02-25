@@ -24,6 +24,7 @@ import { SubjectsField } from "../../_components/task-form/fields/subjects-old";
 import { TaskName } from "../../_components/task-form/fields/task-name";
 import { TopicField } from "../../_components/task-form/fields/topic";
 import { SaveButton } from "../../_components/task-form/save-btn";
+import { EquationsField } from "../../_components/task-form/fields/equations";
 
 const MAX_CHARS = LIMITS_AITestPreferencesSchema.content.maxLength;
 
@@ -36,6 +37,7 @@ const defaultValues: z.infer<typeof AITestPreferenceSchema> = {
   humorLevel: "Moderate",
   languageProficiency: "Beginner",
   mediumOfInstruction: "english",
+  hasEquations: false,
 };
 
 type AITestFormProps = {
@@ -119,7 +121,10 @@ export default function AITestForm({
         />
       )}
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
-        <Paper variant="gray" className="w-full max-w-5xl bg-base-200">
+        <Paper
+          variant="gray"
+          className="w-full max-w-5xl space-y-8 bg-base-200"
+        >
           <div className="flex flex-wrap justify-between ">
             <TaskName
               initialName={taskConfig?.name || "AI Test Preferences"}
@@ -146,6 +151,7 @@ export default function AITestForm({
             type={taskType}
           />
           <MediumOfInstructionField name="mediumOfInstruction" />
+          <EquationsField name="hasEquations" />
           <HumorLevelField name="humorLevel" />
         </Paper>
       </form>

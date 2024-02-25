@@ -22,6 +22,7 @@ import { SubjectsField } from "../../_components/task-form/fields/subjects-old";
 import { TopicField } from "../../_components/task-form/fields/topic";
 import { VideoField } from "../../_components/task-form/fields/videos";
 import { SaveButton } from "../../_components/task-form/save-btn";
+import { EquationsField } from "../../_components/task-form/fields/equations";
 const MAX_CHARS = LIMITS_lessonPreferencesSchema.content.maxLength;
 
 const defaultValues: z.infer<typeof lessonPreferencesSchema> = {
@@ -34,6 +35,7 @@ const defaultValues: z.infer<typeof lessonPreferencesSchema> = {
   languageProficiency: "Beginner",
   mediumOfInstruction: "english",
   videos: [],
+  hasEquations: false,
 };
 
 type LessonFormProps = {
@@ -121,7 +123,7 @@ export default function LessonForm({
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
         <Paper
           variant="gray"
-          className="min-h-screen w-full max-w-5xl space-y-12 bg-base-200"
+          className="min-h-screen w-full max-w-5xl space-y-8  bg-base-200"
         >
           <div className="flex flex-wrap justify-between">
             <div className="w-[50%]">
@@ -155,6 +157,7 @@ export default function LessonForm({
           />
           <VideoField name="videos" />
           <MediumOfInstructionField name="mediumOfInstruction" />
+          <EquationsField name="hasEquations" />
           <HumorLevelField name="humorLevel" />
         </Paper>
       </form>
