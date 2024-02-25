@@ -2,6 +2,7 @@ import { getFormattedGrade } from "@/app/dragon/teacher/utils";
 import { ChatCompletionMessageParam } from "openai/resources";
 import { ContentAPIRequestBody } from "../route";
 import endent from "endent";
+import { LATEX_DIRECTIVE } from "../../student-chat/prompts/common/directives";
 
 const getMessagesForLesson = (
   context: ContentAPIRequestBody,
@@ -24,7 +25,8 @@ const getMessagesForLesson = (
       The language of instruction is English. However note that the students are not native English speakers. The content should be simple and easy to understand.
 
       The style of writing should be like that in a textbook.
-
+    
+      ${LATEX_DIRECTIVE}
       `,
     },
     {
@@ -58,6 +60,7 @@ const getMessagesForAITest = (
 
       The style of writing should be like that in a textbook.
 
+      ${LATEX_DIRECTIVE}
       `,
     },
     {

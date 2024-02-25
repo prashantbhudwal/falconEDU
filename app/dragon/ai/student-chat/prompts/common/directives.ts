@@ -3,6 +3,8 @@ import endent from "endent";
 export const LATEX_DIRECTIVE = endent`
 ## Always give math in latex surrounded by $$<latex here>$$. 
 ## Always give inline math in latex surrounded by $<latex here>$.
+## Always give chemical equations in latex surrounded by $[<latex here>]$.
+## Always give chemical equations in latex surrounded by $$[<latex here>]$$.
 `;
 
 export const RESPONSE_FORMAT_DIRECTIVE = endent`
