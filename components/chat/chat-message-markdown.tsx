@@ -1,4 +1,4 @@
-import { MemoizedReactMarkdown } from "@/components/markdown";
+import { MemoizedReactMarkdown } from "@/components/markdown-parser/markdown";
 import { ElementContent } from "react-markdown/lib";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
