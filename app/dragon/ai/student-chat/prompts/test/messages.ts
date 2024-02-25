@@ -4,6 +4,10 @@ import { cache } from "react";
 import { UnwrapPromise } from "../../../../student/queries";
 import { getEngineeredMessagesForTest } from "./template";
 import { getQuestionTypeName } from "@/app/dragon/teacher/utils";
+import { testBotPreferencesSchema } from "@/lib/schema";
+import { testPreferences as testPreferencesTestData } from "@/lib/schema/test-data";
+import { z } from "zod";
+import { isEmptyObject } from "../chat/queries";
 export type TestQuestionsByBotChatId = UnwrapPromise<
   ReturnType<typeof getTestQuestionsByBotChatId>
 >;
@@ -64,7 +68,15 @@ export const getTestQuestionsByBotChatId = cache(async function (
 
   let testQuestions = context?.bot?.BotConfig?.parsedQuestions;
 
-  return testQuestions;
+  let preferences = context?.bot?.BotConfig?.preferences as z.infer<
+    typeof testBotPreferencesSchema
+  >;
+
+  if (isEmptyObject(preferences) || preferences === undefined) {
+    preferences = testPreferencesTestData[0];
+  }
+
+  return { testQuestions, preferences };
 });
 
 export type TestContextByChatId = UnwrapPromise<
@@ -72,8 +84,9 @@ export type TestContextByChatId = UnwrapPromise<
 >;
 
 export async function getEngineeredTestBotMessages(
-  questions: TestQuestionsByBotChatId,
+  context: TestContextByChatId,
 ) {
+  const { testQuestions: questions, preferences } = context;
   const questionsWitRelevantFields = questions?.map((questionObject) => {
     const { question, question_type, hint, options } = questionObject;
 
@@ -94,9 +107,9 @@ export async function getEngineeredTestBotMessages(
   );
 
   const stringifiedQuestions = JSON.stringify(markdownQuestions ?? "");
-
   const engineeredMessages = getEngineeredMessagesForTest({
     fullTest: stringifiedQuestions,
+    hasEquations: preferences.hasEquations,
   });
   return { engineeredMessages };
 }

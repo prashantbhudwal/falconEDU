@@ -83,6 +83,7 @@ export async function getEngineeredLessonBotMessages(
     content: preferences.content,
     mediumOfInstruction: preferences.mediumOfInstruction,
     videos: preferences.videos,
+    hasEquations: preferences.hasEquations,
   });
 
   return { engineeredMessages };

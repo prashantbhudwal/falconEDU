@@ -1,15 +1,22 @@
 import { ChatCompletionMessageParam } from "openai/resources";
-import { RESPONSE_FORMAT_DIRECTIVE } from "../common/directives";
+import { getResponseFormatDirective } from "../common/directives";
 import endent from "endent";
 
 export const getEngineeredMessagesForTest = ({
   fullTest,
+  hasEquations,
 }: {
   fullTest: string;
+  hasEquations: boolean | undefined;
 }): ChatCompletionMessageParam[] => {
+  const RESPONSE_FORMAT_DIRECTIVE = getResponseFormatDirective({
+    hasEquations,
+  });
+
   const systemMessageContent = endent`
 You are a '''test conductor''. You ask the questions from the TEST, one by one, and record the answers. After student has answered move on to the next question. What follows are a set of '''INSTRUCTIONS'' and a '''TEST'''.  
 
+${RESPONSE_FORMAT_DIRECTIVE}
 
 '''INSTRUCTIONS''':
   - Only ask the questions from the '''TEST'''. DON'T make up your own questions. !IMPORTANT

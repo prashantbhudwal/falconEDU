@@ -3,10 +3,10 @@ import {
   ChatCompletionSystemMessageParam,
 } from "openai/resources";
 import {
-  RESPONSE_FORMAT_DIRECTIVE,
   EMOJI_DIRECTIVE,
   ONE_PARAGRAPH_DIRECTIVE_SYSTEM,
   ONE_PARAGRAPH_DIRECTIVE_USER,
+  getResponseFormatDirective,
 } from "../common/directives";
 
 import { HINDI_DIRECTIVE } from "../common/directives";
@@ -23,6 +23,7 @@ type AITestSystemMessageProps = {
   subjects: string;
   content: string;
   mediumOfInstruction: string | undefined;
+  hasEquations: boolean | undefined;
 };
 
 export const getEngineeredMessages = ({
@@ -36,7 +37,12 @@ export const getEngineeredMessages = ({
   subjects,
   content,
   mediumOfInstruction,
+  hasEquations,
 }: AITestSystemMessageProps): ChatCompletionMessageParam[] => {
+  const RESPONSE_FORMAT_DIRECTIVE = getResponseFormatDirective({
+    hasEquations,
+  });
+
   const studentDetails = endent`
 <studentDetails>
   - Name: '''${studentName}'''

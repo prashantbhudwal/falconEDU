@@ -1,10 +1,16 @@
 "use server";
-
+import { testPreferences as testPreferencesTestData } from "@/lib/schema/test-data";
 import {
   ChatContext,
   isEmptyObject,
 } from "@/app/dragon/ai/student-chat/prompts/chat/queries";
-import { StudentPreferenceSchema, botPreferencesSchema, lessonPreferencesSchema, teacherPreferencesSchema } from "@/lib/schema";
+import {
+  StudentPreferenceSchema,
+  botPreferencesSchema,
+  lessonPreferencesSchema,
+  teacherPreferencesSchema,
+  testBotPreferencesSchema,
+} from "@/lib/schema";
 import prisma from "@/prisma";
 import { cache } from "react";
 import * as z from "zod";
@@ -108,6 +114,7 @@ export const getTestQuestionsByBotConfigId = cache(async function ({
     where: { id: configId },
     select: {
       parsedQuestions: true,
+      preferences: true,
     },
   });
 
@@ -117,7 +124,15 @@ export const getTestQuestionsByBotConfigId = cache(async function ({
 
   let testQuestions = context?.parsedQuestions;
 
-  return testQuestions;
+  let preferences = context?.preferences as z.infer<
+    typeof testBotPreferencesSchema
+  >;
+
+  if (isEmptyObject(preferences) || preferences === undefined) {
+    preferences = testPreferencesTestData[0];
+  }
+
+  return { testQuestions, preferences };
 });
 
 export const getLessonContextByConfigId = cache(async function ({
@@ -214,7 +229,6 @@ export const getAITestContextByConfigId = cache(async function ({
       },
     },
   });
-  console.log("context", context);
 
   if (!context) {
     console.error(`BotConfig not found for configId ${configId}`);

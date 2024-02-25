@@ -4,11 +4,11 @@ import {
 } from "openai/resources";
 
 import {
-  RESPONSE_FORMAT_DIRECTIVE,
   EMOJI_DIRECTIVE,
   ONE_PARAGRAPH_DIRECTIVE_SYSTEM,
   ONE_PARAGRAPH_DIRECTIVE_USER,
   HINDI_DIRECTIVE,
+  getResponseFormatDirective,
 } from "../common/directives";
 import endent from "endent";
 import { replyInHindi } from "../common/student-messages";
@@ -20,6 +20,7 @@ export const getEngineeredMessagesForChat = ({
   instructions,
   name,
   mediumOfInstruction,
+  hasEquations,
 }: {
   teacherName: string | undefined | null;
   studentName: string | undefined | null;
@@ -27,7 +28,12 @@ export const getEngineeredMessagesForChat = ({
   instructions: string;
   name: string | undefined | null;
   mediumOfInstruction: string | undefined;
+  hasEquations: boolean | undefined;
 }): ChatCompletionMessageParam[] => {
+  const RESPONSE_FORMAT_DIRECTIVE = getResponseFormatDirective({
+    hasEquations,
+  });
+
   const medium = mediumOfInstruction ? mediumOfInstruction : "english";
 
   const systemMessageContent = endent`

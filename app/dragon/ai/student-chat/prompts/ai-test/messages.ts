@@ -1,9 +1,5 @@
 import { getEngineeredMessages } from "./template";
 import {
-  ChatCompletionMessageParam,
-  ChatCompletionSystemMessageParam,
-} from "openai/resources";
-import {
   AITestPreferences as AITestPreferencesTest,
   teacherPreferences as teacherPreferencesTest,
   studentPreferences as studentPreferencesTest,
@@ -50,6 +46,7 @@ export const getPreferences = (context: AITestContextByChatId) => {
     humorLevel,
     languageProficiency,
     mediumOfInstruction,
+    hasEquations,
   } = lessonPreferences;
   const { personalInformation, professionalInformation, likes, dislikes } =
     teacherPreferences;
@@ -84,6 +81,7 @@ export const getPreferences = (context: AITestContextByChatId) => {
     favoriteFoods,
     interests,
     mediumOfInstruction,
+    hasEquations,
   } as const;
   return preferences;
 };
@@ -106,6 +104,7 @@ export async function getEngineeredAITestBotMessages(
     subjects: preferences.subjects,
     content: preferences.content,
     mediumOfInstruction: preferences.mediumOfInstruction,
+    hasEquations: preferences.hasEquations,
   });
 
   return { engineeredMessages };
