@@ -35,12 +35,16 @@ export const TextareaWithCounter: React.FC<TextareaWithCounterProps> = ({
       <Textarea
         {...props}
         onChange={handleCount}
-        className={cn("min-h-[200px] sm:min-h-[150px]", className, {
-          "border border-error focus-visible:ring-error":
-            count >= (maxChars ?? Number.POSITIVE_INFINITY),
-          "pt-8": hasCounter && withinWarningLimit,
-          "focus-visible:ring-warning": withinWarningLimit,
-        })}
+        className={cn(
+          "scrollbar-sm min-h-[200px] sm:min-h-[150px]",
+          className,
+          {
+            "border border-error focus-visible:ring-error":
+              count >= (maxChars ?? Number.POSITIVE_INFINITY),
+            "pt-8": hasCounter && withinWarningLimit,
+            "focus-visible:ring-warning": withinWarningLimit,
+          },
+        )}
       />
       {hasCounter && withinWarningLimit && (
         <span
