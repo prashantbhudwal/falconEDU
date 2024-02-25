@@ -4,7 +4,7 @@ import {
 } from "../../queries";
 import { Separator } from "@/components/ui/separator";
 import { SummaryStats } from "./summary-stats";
-import { IndividualResponsesList } from "../../../../_components/individual-responses-list";
+import { IndividualResponsesList } from "../../../../components/individual-responses-list";
 import { SummaryStatTable } from "./summary-stat-table";
 import { db } from "@/lib/routers";
 import {
@@ -14,8 +14,8 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { getTestMetadata } from "../../../../../../../utils";
-import { NoStudents } from "../../../../_components/no-students";
-import { NotPublished } from "../../../../_components/not-published";
+import { NoStudents } from "../../../../components/no-students";
+import { NotPublished } from "../../../../components/not-published";
 
 export async function TestAnalysis({
   testBotId,

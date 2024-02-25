@@ -17,17 +17,17 @@ import { Paper } from "@/components/ui/paper";
 import { Grade } from "@prisma/client";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 import { Input } from "@/components/ui/input";
-import TextAreaWithUpload from "../../_components/task-form/fields/magic-content/textarea-with-upload";
+import TextAreaWithUpload from "../../components/task-form/fields/magic-content/textarea-with-upload";
 import endent from "endent";
-import { HumorLevelField } from "../../_components/task-form/fields/humor-level";
-import { SaveButton } from "../../_components/task-form/save-btn";
+import { HumorLevelField } from "../../components/task-form/fields/humor-level";
+import { SaveButton } from "../../components/task-form/save-btn";
 import {
   LIMITS_botPreferencesSchema,
   botNameSchema,
   botPreferencesSchema,
 } from "@/lib/schema";
-import { MediumOfInstructionField } from "../../_components/task-form";
-import { EquationsField } from "../../_components/task-form/fields/equations";
+import { MediumOfInstructionField } from "../../components/task-form";
+import { EquationsField } from "../../components/task-form/fields/equations";
 
 const MAX_CHARS = LIMITS_botPreferencesSchema.instructions.maxLength;
 

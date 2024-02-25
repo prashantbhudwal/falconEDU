@@ -11,17 +11,17 @@ import { parseTestQuestions } from "@/app/dragon/ai/test-question-parser/get-tes
 import { typeActiveParsedQuestionByBotConfigId } from "@/lib/routers/parsedQuestionRouter";
 const MAX_CHARS = LIMITS_testBotPreferencesSchema.fullTest.maxLength;
 import { AddQuestionsDialog } from "./add-questions-dialog";
-import { SaveButton } from "../../../../_components/task-form/save-btn";
+import { SaveButton } from "../../../../components/task-form/save-btn";
 import {
   LIMITS_testBotPreferencesSchema,
   botNameSchema,
   testBotPreferencesSchema,
 } from "@/lib/schema";
 import { type ParsedQuestions } from "@/app/dragon/ai/test-question-parser/get-test-questions";
-import { TextAreaField } from "../../../../_components/task-form/fields/magic-content/textarea";
+import { TextAreaField } from "../../../../components/task-form/fields/magic-content/textarea";
 import { Processing } from "@/components/loading/processing";
 import { getGptGenerationTime } from "@/lib/utils";
-import { EquationsField } from "../../../../_components/task-form/fields/equations";
+import { EquationsField } from "../../../../components/task-form/fields/equations";
 import { Paper } from "@/components/ui/paper";
 
 const getProcessingSteps = (approxGenerationTime: number) => {

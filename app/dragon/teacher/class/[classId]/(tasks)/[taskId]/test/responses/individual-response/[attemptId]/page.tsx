@@ -1,5 +1,5 @@
-import { IndividualResponse } from "../../../../../_components/response";
-import { FullChat } from "../../../../../_components/full-chat";
+import { IndividualResponse } from "../../../../../components/response";
+import { FullChat } from "../../../../../components/full-chat";
 import { StudentReport } from "../../../components/report/student-report";
 
 type ReportProps = {

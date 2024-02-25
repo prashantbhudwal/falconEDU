@@ -1,4 +1,4 @@
-import { ReportModal as Modal } from "../../../../../_components/report-modal";
+import { ReportModal as Modal } from "../../../../../components/report-modal";
 
 type ReportProps = {
   params: {

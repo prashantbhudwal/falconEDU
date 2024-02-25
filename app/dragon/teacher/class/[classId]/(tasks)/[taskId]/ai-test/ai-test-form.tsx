@@ -17,14 +17,14 @@ import { Grade, type BotConfig } from "@prisma/client";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { MediumOfInstructionField } from "../../_components/task-form";
-import { MagicContentField } from "../../_components/task-form/fields/magic-content";
-import { HumorLevelField } from "../../_components/task-form/fields/humor-level";
-import { SubjectsField } from "../../_components/task-form/fields/subjects-old";
-import { TaskName } from "../../_components/task-form/fields/task-name";
-import { TopicField } from "../../_components/task-form/fields/topic";
-import { SaveButton } from "../../_components/task-form/save-btn";
-import { EquationsField } from "../../_components/task-form/fields/equations";
+import { MediumOfInstructionField } from "../../components/task-form";
+import { MagicContentField } from "../../components/task-form/fields/magic-content";
+import { HumorLevelField } from "../../components/task-form/fields/humor-level";
+import { SubjectsField } from "../../components/task-form/fields/subjects-old";
+import { TaskName } from "../../components/task-form/fields/task-name";
+import { TopicField } from "../../components/task-form/fields/topic";
+import { SaveButton } from "../../components/task-form/save-btn";
+import { EquationsField } from "../../components/task-form/fields/equations";
 
 const MAX_CHARS = LIMITS_AITestPreferencesSchema.content.maxLength;
 

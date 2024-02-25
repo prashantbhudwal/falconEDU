@@ -1,4 +1,4 @@
-import { IndividualResponsesList } from "../../../_components/individual-responses-list";
+import { IndividualResponsesList } from "../../../components/individual-responses-list";
 
 export default function Responses({
   params,

@@ -3,9 +3,9 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { db } from "../../../../../../../lib/routers";
 import { ClassNavbar } from "../../(home)/components/class-navbar";
-import { TasksNavbar } from "../_components/tasks-navbar";
+import { TasksNavbar } from "../components/tasks-navbar";
 import { typeGetBotConfigByConfigId } from "@/lib/routers/botConfigRouter";
-import { EvalDrawer } from "@/app/dragon/teacher/class/[classId]/(tasks)/_components/eval-drawer/eval-drawer";
+import { EvalDrawer } from "@/app/dragon/teacher/class/[classId]/(tasks)/components/eval-drawer/eval-drawer";
 import { TaskType } from "@/types";
 
 export default async function ClassLayout({
