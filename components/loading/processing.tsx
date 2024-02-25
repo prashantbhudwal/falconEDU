@@ -12,7 +12,7 @@ type Step = {
 type Steps = [Step?, Step?, Step?, Step?];
 export const testData: Steps = [
   {
-    step: "Sending the data to AI.",
+    step: "Sending the data to AI",
     seconds: 20,
   },
   {
@@ -135,7 +135,7 @@ export const Processing = ({
         ))}
         {isComplete ? (
           <div className="animate-pulse self-center text-xs">
-            Finishing up ...
+            Finishing up...
           </div>
         ) : (
           <div></div>
