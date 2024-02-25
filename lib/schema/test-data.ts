@@ -3,6 +3,7 @@ import {
   botPreferencesSchema,
   lessonPreferencesSchema,
   teacherPreferencesSchema,
+  testBotPreferencesSchema,
 } from "@/lib/schema";
 import { type Message } from "ai";
 import { type User } from "@prisma/client";
@@ -210,3 +211,12 @@ export const studentPreferences: Array<
     favoriteFoods: "",
   },
 ];
+
+export const testPreferences: Array<z.infer<typeof testBotPreferencesSchema>> =
+  [
+    {
+      fullTest: "",
+      hasEquations: false,
+      timeLimit: 0,
+    },
+  ];
