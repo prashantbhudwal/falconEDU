@@ -35,6 +35,7 @@ export const lessonPreferencesSchema = baseTaskSchema.extend({
   humorLevel: z.enum(humorLevel),
   languageProficiency: z.enum(languageProficiency),
   videos: videoArraySchema,
+  hasEquations: z.boolean().optional(),
 });
 
 export const lessonNameSchema = z.object({

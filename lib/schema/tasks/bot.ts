@@ -30,6 +30,7 @@ export const botPreferencesSchema = z.object({
   humorLevel: z.enum(humorLevel),
   languageProficiency: z.enum(languageProficiency),
   mediumOfInstruction: z.enum(mediumOfInstruction).optional(),
+  hasEquations: z.boolean().optional(),
 });
 
 export const botNameSchema = z.object({
