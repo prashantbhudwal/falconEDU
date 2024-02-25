@@ -28,32 +28,26 @@ export const TextareaWithCounter: React.FC<TextareaWithCounterProps> = ({
     }
   };
 
-  const withinTwentyPercent = maxChars ? count >= maxChars * 0.5 : false;
+  const withinWarningLimit = maxChars ? count >= maxChars * 0.5 : false;
 
   return (
     <div className="relative h-full">
       <Textarea
         {...props}
         onChange={handleCount}
-        className={cn(
-          hasCounter && withinTwentyPercent ? "pt-8" : "",
-          withinTwentyPercent
-            ? "border-warning focus-visible:ring-warning"
-            : "",
-          count >= (maxChars ?? Number.POSITIVE_INFINITY)
-            ? "border-error focus-visible:ring-error"
-            : "",
-          "min-h-[200px] sm:min-h-[150px]",
-          className,
-        )}
+        className={cn("min-h-[200px] sm:min-h-[150px]", className, {
+          "border border-error focus-visible:ring-error":
+            count >= (maxChars ?? Number.POSITIVE_INFINITY),
+          "pt-8": hasCounter && withinWarningLimit,
+          "focus-visible:ring-warning": withinWarningLimit,
+        })}
       />
-      {hasCounter && withinTwentyPercent && (
+      {hasCounter && withinWarningLimit && (
         <span
-          className={cn(
-            "badge badge-lg absolute right-3 top-2 text-xs",
-            withinTwentyPercent ? "text-warning" : "",
-            count >= (maxChars ?? Number.POSITIVE_INFINITY) ? "text-error" : "",
-          )}
+          className={cn("badge badge-lg absolute right-3 top-2 text-xs", {
+            "text-warning": withinWarningLimit,
+            "text-error": count >= (maxChars ?? Number.POSITIVE_INFINITY),
+          })}
         >
           {maxChars ? maxChars - count : ``}
         </span>
