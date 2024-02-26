@@ -15,7 +15,6 @@ import {
   teacherPreferencesSchema,
 } from "@/lib/schema";
 import { UnwrapPromise } from "@/app/dragon/student/queries";
-import { isEmptyObject } from "@/app/dragon/ai/student-chat/prompts/chat/queries";
 import { z } from "zod";
 import { th } from "date-fns/locale";
 
