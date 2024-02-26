@@ -1,70 +1,45 @@
-import { getTestQuestionsByBotChatId } from "@/app/dragon/ai/student-chat/prompts/test/messages";
-import {
-  getChatContextByChatId,
-  isEmptyObject,
-} from "@/app/dragon/ai/student-chat/prompts/chat/queries";
-import { getLessonContextByChatId } from "@/app/dragon/ai/student-chat/prompts/lesson/queries";
 import { TaskType } from "@/types";
-import { getAITestContextByChatId } from "@/app/dragon/ai/student-chat/prompts/ai-test/queries";
-import { AITestContextByChatId } from "@/app/dragon/ai/student-chat/prompts/ai-test/queries";
-import { UnwrapPromise } from "@/app/dragon/student/queries";
-
-export type TaskContext =
-  | UnwrapPromise<ReturnType<typeof getAITestContextByChatId>>
-  | UnwrapPromise<ReturnType<typeof getChatContextByChatId>>
-  | UnwrapPromise<ReturnType<typeof getLessonContextByChatId>>
-  | UnwrapPromise<ReturnType<typeof getTestQuestionsByBotChatId>>;
-
-export type ContextMap = {
-  chat: UnwrapPromise<ReturnType<typeof getChatContextByChatId>>;
-  test: UnwrapPromise<ReturnType<typeof getTestQuestionsByBotChatId>>;
-  lesson: UnwrapPromise<ReturnType<typeof getLessonContextByChatId>>;
-  "ai-test": UnwrapPromise<ReturnType<typeof getAITestContextByChatId>>;
-};
+import { db } from "@/lib/routers";
+import { TaskContextMap, Contexts } from "@/lib/routers/contextRouter/queries";
 
 const taskTypeContextMap = {
-  chat: getChatContextByChatId,
-  test: getTestQuestionsByBotChatId,
-  lesson: getLessonContextByChatId,
-  "ai-test": getAITestContextByChatId,
+  chat: db.context.query.chat,
+  test: db.context.query.test,
+  lesson: db.context.query.lesson,
+  "ai-test": db.context.query.aiTest,
 };
 
 // TODO refactor this to not return true when undefined
-const getAutoCheck = (context: TaskContext, type: TaskType) => {
+const getAutoCheck = (context: Contexts, type: TaskType) => {
   // get autoCheck from preferences based on task type
   if (type === "ai-test") {
-    const taskContext = context as ContextMap["ai-test"];
-    const preferences = taskContext?.lessonPreferences;
-    if (!preferences || Object.keys(preferences).length === 0) {
-      return true;
-    } else if ("autoCheck" in preferences) {
-      return preferences.autoCheck;
-    } else {
-      return true;
-    }
+    const autoCheck = (context as TaskContextMap["ai-test"])?.lessonPreferences
+      ?.autoCheck;
+    return autoCheck === undefined ? true : autoCheck;
   }
   if (type === "test") {
-    const taskContext = context as ContextMap["test"];
-    const preferences = taskContext?.preferences;
-    if (!preferences || Object.keys(preferences).length === 0) {
-      return true;
-    } else if ("autoCheck" in preferences) {
-      return preferences.autoCheck;
-    } else {
-      return true;
-    }
+    const taskContext = context as TaskContextMap["test"];
+    const autoCheck = taskContext?.preferences?.autoCheck;
+    return autoCheck === undefined ? true : autoCheck;
   }
   return true;
 };
 
-export const getChatContext = async function (type: TaskType, chatId: string) {
+export const getChatContext = async function ({
+  type,
+  chatId,
+  configId,
+}: {
+  type: TaskType;
+  chatId?: string;
+  configId?: string;
+}) {
   const func = taskTypeContextMap[type];
   if (!func) {
     throw new Error("Invalid type");
   }
-  const chatContext = await func(chatId);
+  const chatContext = await func({ chatId, configId });
   const autoCheck = getAutoCheck(chatContext, type);
-
   return {
     stringifiedContext: JSON.stringify(chatContext),
     context: chatContext,
