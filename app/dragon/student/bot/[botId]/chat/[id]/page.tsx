@@ -41,7 +41,10 @@ export default async function ChatPage({ params }: Readonly<ChatPageProps>) {
   const bot = await getBotByBotId(botId);
   const type = bot?.BotConfig?.type as TaskType;
   const emptyMessage = getTaskProperties(type).emptyChatMessage;
-  const { stringifiedContext: context } = await getChatContext(type, id);
+  const { stringifiedContext: context, autoCheck } = await getChatContext(
+    type,
+    id,
+  );
   const teacherId = bot?.BotConfig?.teacherId;
   if (!teacherId) {
     throw new Error("Teacher not found");
@@ -73,11 +76,12 @@ export default async function ChatPage({ params }: Readonly<ChatPageProps>) {
           redirectUrl={redirectUrl}
           isMultipleChats={bot?.BotConfig?.canReAttempt}
           type={type}
+          autoCheck={autoCheck}
         />
       )
     );
   };
-
+  const showResults = isSubmitted && (autoCheck || autoCheck === undefined);
   return (
     <div className="w-full">
       <div className="">
@@ -92,7 +96,7 @@ export default async function ChatPage({ params }: Readonly<ChatPageProps>) {
           botChatId={id}
           button={<SubmitButton variant="default" />}
         />
-        {isSubmitted && <ResultSection botId={botId} chatId={id} />}
+        {showResults && <ResultSection botId={botId} chatId={id} />}
         {/* <div className="fixed bottom-40 left-1/2 z-10 w-fit -translate-x-1/2 rounded-xl">
           <SubmitButton variant="outline" />
         </div> */}

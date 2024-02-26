@@ -23,6 +23,7 @@ import { Processing } from "@/components/loading/processing";
 import { getGptGenerationTime } from "@/lib/utils";
 import { EquationsField } from "../../../../components/task-form/fields/equations";
 import { Paper } from "@/components/ui/paper";
+import { AutoCheckField } from "../../../../components/task-form/fields/auto-check";
 
 const getProcessingSteps = (approxGenerationTime: number) => {
   return [
@@ -159,7 +160,7 @@ export default function TestPreferencesForm({
 
   const form = useForm<z.infer<typeof testBotPreferencesSchema>>({
     // resolver: zodResolver(testBotPreferencesSchema),
-    defaultValues: { fullTest: "", hasEquations: false }, // later change with value from db of timelimit
+    defaultValues: { fullTest: "", hasEquations: false, autoCheck: true }, // later change with value from db of timelimit
     mode: "onChange",
   });
 
@@ -312,7 +313,16 @@ export default function TestPreferencesForm({
                   maxChars={MAX_CHARS}
                   placeholder="Enter or paste the full test here. Please provide the answers too. The bot will conduct the test for you."
                 />
-                <EquationsField name="hasEquations" />
+                <div className="grid grid-cols-6 gap-2">
+                  <EquationsField
+                    name="hasEquations"
+                    className="col-span-3 col-start-1"
+                  />
+                  <AutoCheckField
+                    name="autoCheck"
+                    className="col-span-3 col-start-4"
+                  />
+                </div>
               </Paper>
             )}
           </div>

@@ -25,6 +25,7 @@ import { TaskName } from "../../components/task-form/fields/task-name";
 import { TopicField } from "../../components/task-form/fields/topic";
 import { SaveButton } from "../../components/task-form/save-btn";
 import { EquationsField } from "../../components/task-form/fields/equations";
+import { AutoCheckField } from "../../components/task-form/fields/auto-check";
 
 const MAX_CHARS = LIMITS_AITestPreferencesSchema.content.maxLength;
 
@@ -38,6 +39,7 @@ const defaultValues: z.infer<typeof AITestPreferenceSchema> = {
   languageProficiency: "Beginner",
   mediumOfInstruction: "english",
   hasEquations: false,
+  autoCheck: true,
 };
 
 type AITestFormProps = {
@@ -150,9 +152,26 @@ export default function AITestForm({
             className="bg-base-200"
             type={taskType}
           />
-          <MediumOfInstructionField name="mediumOfInstruction" />
-          <EquationsField name="hasEquations" />
-          <HumorLevelField name="humorLevel" />
+          <div className="grid grid-cols-6 gap-2">
+            <MediumOfInstructionField
+              name="mediumOfInstruction"
+              className="col-span-3 col-start-1"
+            />
+            <HumorLevelField
+              name="humorLevel"
+              className="col-span-3 col-start-4"
+            />
+          </div>
+          <div className="grid grid-cols-6 gap-2">
+            <EquationsField
+              name="hasEquations"
+              className="col-span-3 col-start-1"
+            />
+            <AutoCheckField
+              name="autoCheck"
+              className="col-span-3 col-start-4"
+            />
+          </div>
         </Paper>
       </form>
     </Form>

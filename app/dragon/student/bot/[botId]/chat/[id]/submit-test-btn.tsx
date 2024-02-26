@@ -29,32 +29,45 @@ import { url } from "@/lib/urls";
 import { trackEvent } from "@/lib/mixpanel";
 import { useSession } from "next-auth/react";
 
-const testHandler = async (botChatId: string) => {
-  const testResults = await checkTest({ botChatId: botChatId });
-  if (testResults) {
-    await saveTestResultsByBotChatId({
-      botChatId,
-      testResults,
-    });
+const testHandler = async (
+  botChatId: string,
+  autoCheck: boolean | undefined,
+) => {
+  if (autoCheck === undefined || autoCheck) {
+    const testResults = await checkTest({ botChatId: botChatId });
+    if (testResults) {
+      await saveTestResultsByBotChatId({
+        botChatId,
+        testResults,
+      });
+    }
     await submitBotChat({ botChatId });
   }
 };
 
-const aiTestHandler = async (botChatId: string) => {
-  const { finalTestResults: goals, studentFeedback } = await checkAITest({
-    botChatId,
-  });
-  if (goals) {
-    await saveGoalAssessmentByBotChatId({ botChatId, goals });
-  }
-  if (studentFeedback) {
-    await saveFeedbackByBotChatId({ botChatId, feedback: studentFeedback });
+const aiTestHandler = async (
+  botChatId: string,
+  autoCheck: boolean | undefined,
+) => {
+  if (autoCheck === undefined || autoCheck) {
+    const { finalTestResults: goals, studentFeedback } = await checkAITest({
+      botChatId,
+    });
+    if (goals) {
+      await saveGoalAssessmentByBotChatId({ botChatId, goals });
+    }
+    if (studentFeedback) {
+      await saveFeedbackByBotChatId({ botChatId, feedback: studentFeedback });
+    }
   }
   await submitBotChat({ botChatId });
 };
 
 const taskHandlers: {
-  [key in TaskType]: (botChatId: string) => Promise<void>;
+  [key in TaskType]: (
+    botChatId: string,
+    autoCheck: boolean | undefined,
+  ) => Promise<void>;
 } = {
   test: testHandler,
   "ai-test": aiTestHandler,
@@ -68,10 +81,14 @@ type PropTypes = React.HTMLAttributes<HTMLDivElement> & {
   botChatId: string;
   isMultipleChats?: boolean;
   type: TaskType;
+  autoCheck: boolean | undefined;
 };
 
 export const SubmitTestButton = React.forwardRef<HTMLButtonElement, PropTypes>(
-  ({ testBotId, redirectUrl, botChatId, className, type: taskType }, ref) => {
+  (
+    { testBotId, redirectUrl, botChatId, className, type: taskType, autoCheck },
+    ref,
+  ) => {
     const session = useSession();
     const email = session.data?.user?.email;
     const [showSubmitModal, setShowSubmitModal] = useAtom(submitTestModalAtom);
@@ -86,7 +103,7 @@ export const SubmitTestButton = React.forwardRef<HTMLButtonElement, PropTypes>(
       setError(false);
       setLoading(true);
       try {
-        await taskHandlers[taskType](botChatId);
+        await taskHandlers[taskType](botChatId, autoCheck);
         trackEvent("student", "task_submitted", {
           distinct_id: email as string,
           task_type: taskType,
@@ -97,9 +114,13 @@ export const SubmitTestButton = React.forwardRef<HTMLButtonElement, PropTypes>(
         setIsSubmitted(true);
         setConfetti(true);
         await delay(1000);
-        router.push(
-          url.student.taskReport({ botId: testBotId, chatId: botChatId }),
-        );
+        if (autoCheck === false) {
+          router.push(url.student.home);
+        } else {
+          router.push(
+            url.student.taskReport({ botId: testBotId, chatId: botChatId }),
+          );
+        }
       } catch (err) {
         trackEvent("student", "task_submission_failed", {
           distinct_id: email as string,
