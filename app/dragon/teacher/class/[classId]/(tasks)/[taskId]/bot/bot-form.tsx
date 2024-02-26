@@ -28,6 +28,8 @@ import {
 } from "@/lib/schema";
 import { MediumOfInstructionField } from "../../components/task-form";
 import { EquationsField } from "../../components/task-form/fields/equations";
+import { TextAreaField } from "../../components/task-form/fields/magic-content/textarea";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const MAX_CHARS = LIMITS_botPreferencesSchema.instructions.maxLength;
 
@@ -125,7 +127,7 @@ export default function BotPreferencesForm({
         <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
           <Paper
             variant="gray"
-            className="min-h-screen w-full max-w-5xl space-y-8 border-none pt-12 shadow-none"
+            className="min-h-screen w-full max-w-5xl space-y-8 border-none bg-base-200 pt-12 shadow-none"
           >
             <div className="flex min-h-14 flex-wrap justify-between">
               <div className="w-[50%]">
@@ -146,41 +148,35 @@ export default function BotPreferencesForm({
                 hasUnsavedChanges={isDirty}
               />
             </div>
-            <FormField
-              control={form.control}
-              name="instructions"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel
-                    className={`mb-3 flex w-full justify-between align-middle${
-                      inputFocus === "instructions" ? "text-white" : ""
-                    }`}
-                  >
-                    How do you want the bot to behave?
-                  </FormLabel>
-                  <FormControl>
-                    <div className="border border-input">
-                      <TextAreaWithUpload
-                        placeholder={endent`Your name is Sporty, the sports teacher. You make students excited about sports. 
-                        
-                        - Be polite with the students. 
-                        - Never use negative language.
-                        - Use positive reinforcement.
-                         `}
-                        className="bg-base-200"
-                        {...field}
-                        counter
-                        maxChars={MAX_CHARS}
-                      />
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <MediumOfInstructionField name="mediumOfInstruction" />
+            <Card>
+              <CardHeader>
+                <CardTitle>Content</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <TextAreaField
+                  name="instructions"
+                  placeholder={endent`
+                Your name is Sporty, the sports teacher. You make students excited about sports. 
+                
+                - Be polite with the students. 
+                - Never use negative language.
+                - Use positive reinforcement.
+                 `}
+                  maxChars={MAX_CHARS}
+                />
+              </CardContent>
+            </Card>
             <EquationsField name="hasEquations" />
-            <HumorLevelField name="humorLevel" />
+            <div className="grid grid-cols-6 gap-2">
+              <MediumOfInstructionField
+                name="mediumOfInstruction"
+                className="col-span-3 col-start-1"
+              />
+              <HumorLevelField
+                name="humorLevel"
+                className="col-span-3 col-start-4"
+              />
+            </div>
           </Paper>
         </form>
       </Form>

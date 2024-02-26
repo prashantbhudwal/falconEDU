@@ -156,9 +156,17 @@ export default function LessonForm({
             type={taskType}
           />
           <VideoField name="videos" />
-          <MediumOfInstructionField name="mediumOfInstruction" />
           <EquationsField name="hasEquations" />
-          <HumorLevelField name="humorLevel" />
+          <div className="grid grid-cols-6 gap-2">
+            <MediumOfInstructionField
+              name="mediumOfInstruction"
+              className="col-span-3 col-start-1"
+            />
+            <HumorLevelField
+              name="humorLevel"
+              className="col-span-3 col-start-4"
+            />
+          </div>
         </Paper>
       </form>
     </Form>
