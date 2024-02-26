@@ -12,40 +12,13 @@ import { useHotkeys } from "react-hotkeys-hook";
 import { Chat } from "@/components/chat/chat-dragon";
 import { getStudentChatApiURL } from "@/lib/urls";
 import { getTaskProperties } from "../../../../../utils";
-import {
-  getAITestContextByConfigId,
-  getChatContextByConfigId,
-  getLessonContextByConfigId,
-  getTestQuestionsByBotConfigId,
-} from "./queries";
 import { TaskType } from "@/types";
 import { typeGetBotConfigByConfigId } from "@/lib/routers/botConfigRouter";
 import { PublishButton } from "./publish-btn";
 import { Separator } from "@/components/ui/separator";
 import { useQuery } from "@tanstack/react-query";
 import { nanoid } from "nanoid";
-
-const taskTypeToFunctionMap = {
-  chat: getChatContextByConfigId,
-  test: getTestQuestionsByBotConfigId,
-  lesson: getLessonContextByConfigId,
-  "ai-test": getAITestContextByConfigId,
-};
-
-const getChatContext = async function ({
-  type,
-  configId,
-}: {
-  type: TaskType;
-  configId: string;
-}) {
-  const func = taskTypeToFunctionMap[type];
-  if (!func) {
-    throw new Error("Invalid type");
-  }
-  const context = await func({ configId });
-  return JSON.stringify(context);
-};
+import { getChatContext } from "@/app/dragon/student/bot/[botId]/chat/[id]/get-context";
 
 export function EvalDrawer({
   taskId,
@@ -69,12 +42,13 @@ export function EvalDrawer({
     setEvalDrawer(!isOpen);
   });
 
-  const { data: context, isLoading } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["chatContext", taskId, taskType, task],
     queryFn: () => getChatContext({ type: taskType, configId: taskId }),
     enabled: !!taskId && isOpen,
   });
 
+  const context = data?.stringifiedContext;
   const emptyMessage = getTaskProperties(taskType).emptyChatMessage;
   const formattedType = getTaskProperties(taskType).formattedType;
 
