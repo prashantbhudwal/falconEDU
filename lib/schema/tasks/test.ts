@@ -15,6 +15,7 @@ export const testBotPreferencesSchema = z.object({
     .max(180, { message: "Time limit must not exceed 180" })
     .optional(),
   hasEquations: z.boolean().optional(),
+  autoCheck: z.boolean().optional(),
 });
 
 export const parsedQuestionsSchema = z.object({

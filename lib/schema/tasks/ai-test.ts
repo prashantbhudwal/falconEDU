@@ -40,4 +40,5 @@ export const AITestPreferenceSchema = baseTaskSchema.extend({
   humorLevel: z.enum(humorLevel),
   languageProficiency: z.enum(languageProficiency),
   hasEquations: z.boolean().optional(),
+  autoCheck: z.boolean().optional(),
 });
