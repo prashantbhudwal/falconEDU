@@ -1,4 +1,3 @@
-import { revalidatePath } from "next/cache";
 import * as botConfig from "./botConfigRouter";
 import * as classRouter from "./classRouter";
 import * as bot from "./botRouter";
@@ -12,6 +11,7 @@ import * as accountRouter from "./accountRouter";
 import * as orgRouter from "./orgRouter";
 import * as learningGoalsRouter from "./learningGoalsRouter";
 import * as sourceRouter from "./sourceRouter";
+import * as contextRouter from "./contextRouter";
 
 export const db = {
   botConfig,
@@ -27,4 +27,5 @@ export const db = {
   org: orgRouter,
   learningGoals: learningGoalsRouter,
   source: sourceRouter,
+  context: contextRouter,
 };
