@@ -22,6 +22,5 @@ export const getEngineeredMessagesByType = async ({
   if (!func) {
     throw new Error("Invalid type");
   }
-  console.log("context", context);
   return await func(context);
 };
