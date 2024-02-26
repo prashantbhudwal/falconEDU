@@ -12,12 +12,19 @@ import {
 import { useFormContext } from "react-hook-form";
 import { mediumOfInstruction } from "@/lib/schema/constants";
 import { Switch } from "@/components/ui/switch";
+import { cn } from "@/lib/utils";
 
-export const EquationsField = ({ name }: { name: string }) => {
+export const EquationsField = ({
+  name,
+  className,
+}: {
+  name: string;
+  className?: string;
+}) => {
   const form = useFormContext();
 
   return (
-    <Card>
+    <Card className={cn(className)}>
       <CardContent>
         <CardHeader className="px-0">
           <CardTitle>Equations</CardTitle>

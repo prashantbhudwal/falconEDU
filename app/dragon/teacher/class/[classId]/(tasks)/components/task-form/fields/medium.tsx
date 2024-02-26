@@ -19,12 +19,19 @@ import {
 } from "@/components/ui/select";
 import { useFormContext } from "react-hook-form";
 import { mediumOfInstruction } from "@/lib/schema/constants";
+import { cn } from "@/lib/utils";
 
-export const MediumOfInstructionField = ({ name }: { name: string }) => {
+export const MediumOfInstructionField = ({
+  name,
+  className,
+}: {
+  name: string;
+  className?: string;
+}) => {
   const form = useFormContext();
 
   return (
-    <Card>
+    <Card className={cn(className)}>
       <CardContent>
         <CardHeader className="px-0">
           <CardTitle>Medium of Instruction</CardTitle>

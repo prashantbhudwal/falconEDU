@@ -11,6 +11,7 @@ import { Slider } from "@/components/ui/slider";
 import { BsStars } from "react-icons/bs";
 import { useFormContext } from "react-hook-form";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 
 export function getHumorLevel(sliderValue: number) {
   switch (sliderValue) {
@@ -25,11 +26,17 @@ export function getHumorLevel(sliderValue: number) {
   }
 }
 
-export const HumorLevelField = ({ name }: { name: string }) => {
+export const HumorLevelField = ({
+  name,
+  className,
+}: {
+  name: string;
+  className?: string;
+}) => {
   const form = useFormContext();
 
   return (
-    <Card>
+    <Card className={cn(className)}>
       <CardContent>
         <CardHeader className="px-0">
           <CardTitle>Humor Level</CardTitle>
