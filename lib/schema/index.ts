@@ -5,3 +5,4 @@ export * from "./tasks/test";
 export * from "./common";
 export * from "./users/student";
 export * from "./users/teacher";
+export * from "./default-values";
