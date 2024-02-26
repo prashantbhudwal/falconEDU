@@ -41,10 +41,10 @@ export default async function ChatPage({ params }: Readonly<ChatPageProps>) {
   const bot = await getBotByBotId(botId);
   const type = bot?.BotConfig?.type as TaskType;
   const emptyMessage = getTaskProperties(type).emptyChatMessage;
-  const { stringifiedContext: context, autoCheck } = await getChatContext(
+  const { stringifiedContext: context, autoCheck } = await getChatContext({
     type,
-    id,
-  );
+    chatId: id,
+  });
   const teacherId = bot?.BotConfig?.teacherId;
   if (!teacherId) {
     throw new Error("Teacher not found");
