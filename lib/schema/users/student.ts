@@ -4,7 +4,7 @@ export const LIMITS_StudentPreferencesSchema = {
   interests: {
     minLength: {
       message: "Interests is required",
-      value: 1,
+      value: 0,
     },
     maxLength: {
       message: "Interests can't exceed 200 characters",
@@ -14,7 +14,7 @@ export const LIMITS_StudentPreferencesSchema = {
   favoriteCartoons: {
     minLength: {
       message: "Favorite Cartoons is required",
-      value: 1,
+      value: 0,
     },
     maxLength: {
       message: "Favorite Cartoons can't exceed 200 characters",
@@ -24,7 +24,7 @@ export const LIMITS_StudentPreferencesSchema = {
   favoriteFoods: {
     minLength: {
       message: "Favorite Foods is required",
-      value: 1,
+      value: 0,
     },
     maxLength: {
       message: "Favorite Foods can't exceed 200 characters",
@@ -34,7 +34,7 @@ export const LIMITS_StudentPreferencesSchema = {
   aboutYourself: {
     minLength: {
       message: "About Yourself is required",
-      value: 1,
+      value: 0,
     },
     maxLength: {
       message: "About Yourself can't exceed 500 characters",

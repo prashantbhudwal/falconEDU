@@ -2,19 +2,19 @@ import { z } from "zod";
 
 export const LIMITS_teacherPreferencesSchema = {
   professionalInformation: {
-    minLength: 50,
+    minLength: 0,
     maxLength: 500,
   },
   personalInformation: {
-    minLength: 50,
+    minLength: 0,
     maxLength: 500,
   },
   likes: {
-    minLength: 50,
+    minLength: 0,
     maxLength: 500,
   },
   dislikes: {
-    minLength: 50,
+    minLength: 0,
     maxLength: 500,
   },
 };
