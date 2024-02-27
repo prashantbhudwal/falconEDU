@@ -1,3 +1,4 @@
+"use client";
 import { AddIcon, EditIcon } from "@/components/icons";
 import { ChubbiLoading } from "@/components/loading/chubbi";
 import { Button } from "@/components/ui/button";
