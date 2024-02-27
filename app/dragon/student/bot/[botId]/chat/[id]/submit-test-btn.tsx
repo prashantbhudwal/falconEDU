@@ -33,7 +33,7 @@ const testHandler = async (
   botChatId: string,
   autoCheck: boolean | undefined,
 ) => {
-  if (autoCheck === undefined || autoCheck) {
+  if (autoCheck) {
     const testResults = await checkTest({ botChatId: botChatId });
     if (testResults) {
       await saveTestResultsByBotChatId({
@@ -49,7 +49,7 @@ const aiTestHandler = async (
   botChatId: string,
   autoCheck: boolean | undefined,
 ) => {
-  if (autoCheck === undefined || autoCheck) {
+  if (autoCheck) {
     const { finalTestResults: goals, studentFeedback } = await checkAITest({
       botChatId,
     });
