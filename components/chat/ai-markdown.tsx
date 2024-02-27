@@ -6,6 +6,8 @@ import "katex/dist/katex.min.css";
 import { CodeBlock } from "@/app/(engines)/(merlin)/merlin/components/code-block";
 import rehypeKatex from "rehype-katex";
 import { cn } from "@/lib/utils";
+import { preprocessLaTeX } from "../markdown-parser/preprocessor";
+import { useMemo } from "react";
 
 type TextElementContent = ElementContent & {
   value: string;
@@ -18,6 +20,8 @@ export function AIMarkdown({
   content: string;
   className?: string;
 }) {
+  const processedContent = useMemo(() => preprocessLaTeX(content), [content]);
+
   return (
     <MemoizedReactMarkdown
       className={cn(
@@ -78,7 +82,7 @@ export function AIMarkdown({
         },
       }}
     >
-      {content}
+      {processedContent}
     </MemoizedReactMarkdown>
   );
 }

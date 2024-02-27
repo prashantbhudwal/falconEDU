@@ -6,6 +6,8 @@ import "katex/dist/katex.min.css";
 import { CodeBlock } from "@/app/(engines)/(merlin)/merlin/components/code-block";
 import Image from "next/image";
 import rehypeKatex from "rehype-katex";
+import { useMemo } from "react";
+import { preprocessLaTeX } from "../markdown-parser/preprocessor";
 
 type TextElementContent = ElementContent & {
   value: string;
@@ -22,6 +24,11 @@ export function ChatMessageMarkdown({
   isLoading?: boolean;
   messageRole?: string;
 }) {
+  const processedContent = useMemo(
+    () => preprocessLaTeX(messageContent),
+    [messageContent],
+  );
+
   return (
     <MemoizedReactMarkdown
       className="prose break-words dark:prose-invert prose-p:leading-relaxed prose-pre:p-0"
@@ -30,7 +37,7 @@ export function ChatMessageMarkdown({
       components={{
         p({ children, node, ...props }) {
           const isLastParagraph =
-            node?.position?.end.offset === messageContent.length;
+            node?.position?.end.offset === processedContent.length;
           const showChubbi =
             messageRole !== "user" &&
             isLastMessage === true &&
@@ -96,7 +103,7 @@ export function ChatMessageMarkdown({
         },
       }}
     >
-      {messageContent}
+      {processedContent}
     </MemoizedReactMarkdown>
   );
 }
