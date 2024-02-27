@@ -110,14 +110,14 @@ export const AvatarNavbar: React.FC<AvatarNavbarProps> = ({
           </AvatarFallback>
         </Avatar>
         <div>
-          <p className="truncate">{title}</p>
+          <div className="truncate">{title}</div>
           {isLoading ? (
-            <p className="truncate text-sm text-primary">
+            <div className="truncate text-sm text-primary">
               <div className="flex flex-row items-baseline gap-1">
                 <div>typing</div>
                 <PulseLoader size={4} color={"#059669"} speedMultiplier={0.5} />
               </div>
-            </p>
+            </div>
           ) : (
             <p className="truncate text-sm text-slate-500">{subtitle}</p>
           )}
