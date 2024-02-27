@@ -7,9 +7,9 @@ import {
   DialogContent,
   DialogDescription,
   DialogHeader,
+  DialogTitle,
 } from "@/components/ui/dialog";
 import { Grade } from "@prisma/client";
-import { DialogTitle } from "@radix-ui/react-dialog";
 import { useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { baseTaskSchema } from "@/lib/schema";
