@@ -90,7 +90,7 @@ export async function AITestReport({
             </div>
           ) : (
             <div className="text-center text-lg ">
-              Can&apos;t generate report . Try again later...
+              Can&apos;t generate report. Try again later...
             </div>
           )}
         </>
