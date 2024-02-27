@@ -109,7 +109,7 @@ export default function AITestForm({
           steps={[
             {
               seconds: Math.ceil(approxGenerationTime * 0.2),
-              step: "Sending the content to AI.",
+              step: "Sending the content to AI",
             },
             {
               seconds: Math.ceil(approxGenerationTime * 0.6),

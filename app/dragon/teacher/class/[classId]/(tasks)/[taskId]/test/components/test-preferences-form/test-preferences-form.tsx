@@ -29,7 +29,7 @@ const getProcessingSteps = (approxGenerationTime: number) => {
   return [
     {
       seconds: Math.ceil(approxGenerationTime * 0.3),
-      step: "Sending the questions to AI.",
+      step: "Sending the questions to AI",
     },
     {
       seconds: Math.ceil(approxGenerationTime * 0.5),
@@ -248,7 +248,7 @@ export default function TestPreferencesForm({
           steps={[
             {
               seconds: Math.ceil(approxGenerationTime * 0.3),
-              step: "Sending the questions to AI.",
+              step: "Sending the questions to AI",
             },
             {
               seconds: Math.ceil(approxGenerationTime * 0.5),

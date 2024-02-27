@@ -106,7 +106,7 @@ export const Processing = ({
         {steps.map((step, index) => (
           <div key={index} className="flex flex-col space-y-3">
             <div className="fle-row flex items-center space-x-2">
-              <p className="text-sm font-semibold">{step?.step}</p>
+              <p className="text-sm">{step?.step}</p>
               {(currentStep > index || isComplete) && (
                 <CheckmarkIcon size="xs" color="primary" className="" />
               )}
