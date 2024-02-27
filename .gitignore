@@ -48,3 +48,7 @@ next-env.d.ts
 /public/*.map
 
 .react-email
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
