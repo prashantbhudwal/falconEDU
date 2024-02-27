@@ -170,10 +170,6 @@ const getContextByConfigId = cache(async function <T extends TaskType>(
   const teacherPreferences = context?.teacher?.preferences;
   const studentPreferences = defaultValues.preferences.studentPreferences;
 
-  console.log("taskPreferences", taskPreferences);
-  console.log("teacherPreferences", teacherPreferences);
-  console.log("studentPreferences", studentPreferences);
-
   const parsedTaskPreferences = parsePreferences(
     schemaMap[taskType],
     taskPreferences,
@@ -189,9 +185,6 @@ const getContextByConfigId = cache(async function <T extends TaskType>(
     studentPreferences,
     defaultValues.preferences.studentPreferences,
   );
-  console.log("parsedTaskPreferences", parsedTaskPreferences);
-  console.log("parsedTeacherPreferences", parsedTeacherPreferences);
-  console.log("parsedStudentPreferences", parsedStudentPreferences);
 
   if (
     parsedTaskPreferences.success &&
@@ -207,7 +200,7 @@ const getContextByConfigId = cache(async function <T extends TaskType>(
       name: context?.name,
       grade,
     };
-    console.log("flatContext", flatContext);
+
     return flatContext;
   } else {
     throw new Error("Validation failed");
