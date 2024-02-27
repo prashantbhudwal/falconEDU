@@ -1,4 +1,6 @@
 "use server";
+// TODO the interface for each task should be of the same type to make it easier to work with
+
 import prisma from "@/prisma";
 import { cache } from "react";
 import {
