@@ -69,9 +69,101 @@ model User {
   StudentProfile    StudentProfile?
   orgAdminProfile   OrgAdminProfile?
   ParentProfile     ParentProfile?
+  Event             Event[]
+  Activity          Activity[]
+  Notification      Notification[]
+  Reaction          Reaction[]
 }
 
 //*********************** App Models *****************************//
+
+//**************** App > Social Models ****************//
+
+// An event is a record of an action that a user has taken on an entity.
+// And entity can be a config, a bot, a class, a student, etc.
+
+model Event {
+  id             String     @id @default(cuid())
+  initiatorId    String
+  user           User       @relation(fields: [initiatorId], references: [id])
+  entityId       String
+  entityType     String
+  action         String
+  createdAt      DateTime   @default(now())
+  activities     Activity[]
+  reactions      Reaction[]
+  reactionsCount Int        @default(0)
+
+  @@index([initiatorId, createdAt])
+}
+
+// A system event is a record of an action that has been taken by the system.
+// This might include reminders of a deadline, notifications of a new feature, etc.
+model SystemEvent {
+  id            String         @id @default(cuid())
+  type          String
+  entityId      String?
+  entityType    String?
+  action        String
+  createdAt     DateTime       @default(now())
+  notifications Notification[]
+}
+
+model Reaction {
+  id        String       @id @default(cuid())
+  eventId   String
+  userId    String
+  type      ReactionType
+  count     Int          @default(1)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  event     Event        @relation(fields: [eventId], references: [id])
+  user      User         @relation(fields: [userId], references: [id])
+
+  @@unique([eventId, userId, type]) // Ensure uniqueness for each type of reaction per user per event
+  @@index([eventId, createdAt])
+}
+
+enum ReactionType {
+  LIKE
+  LOVE
+  CLAP
+  WOW
+}
+
+// An activity is a record of an event that has been created for a user.
+// It is displayed in the user's activity feed.
+model Activity {
+  id            String         @id @default(cuid())
+  eventId       String
+  recipientId   String
+  createdAt     DateTime       @default(now())
+  event         Event          @relation(fields: [eventId], references: [id])
+  user          User           @relation(fields: [recipientId], references: [id])
+  notifications Notification[]
+
+  @@index([eventId, createdAt, recipientId])
+}
+
+// A notification is a record of an activity that has been sent to a user.
+// It is displayed in the user's notification feed or sent as a push notification.
+model Notification {
+  id            String       @id @default(cuid())
+  activityId    String?
+  recipientId   String
+  title         String
+  message       String
+  metadata      Json
+  isRead        Boolean      @default(false)
+  readAt        DateTime?
+  createdAt     DateTime     @default(now())
+  activity      Activity?    @relation(fields: [activityId], references: [id])
+  user          User         @relation(fields: [recipientId], references: [id])
+  SystemEvent   SystemEvent? @relation(fields: [systemEventId], references: [id])
+  systemEventId String?
+
+  @@index([createdAt, recipientId])
+}
 
 //**************** App > Teacher Models ****************//
 
