@@ -1,22 +1,18 @@
 import TeacherPreferencesForm from "./teacher-preferences-form";
-import { getTeacherData, typeGetTeacherPreferences } from "./getTeacherData";
-import { Paper } from "@/components/ui/paper";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { getServerSession } from "next-auth";
+import { db } from "@/lib/routers";
 
-type TeacherPreferencesPageProps = {
-  params: {
-    classId: string;
-  };
-};
-
-export default async function TeacherPreferencesPage({
-  params,
-}: TeacherPreferencesPageProps) {
-  const { preferences, teacherId } = (await getTeacherData()) as {
-    preferences: typeGetTeacherPreferences;
-    teacherId: string;
-  };
-
+export default async function TeacherPreferencesPage() {
+  const session = await getServerSession(authOptions);
+  const userId = session?.user?.id;
+  if (!userId) {
+    return null;
+  }
+  const teacherData = await db.preferences.teacher({ userId });
+  if (!teacherData) return null;
+  const { preferences, teacherId } = teacherData;
   return (
     <Card className="m-8 bg-base-200 p-5">
       <CardContent className="py-4">
