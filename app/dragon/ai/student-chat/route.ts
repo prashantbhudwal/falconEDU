@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import { getTaskProperties } from "../../teacher/utils";
+import { getTaskProperties } from "../../../../lib/helpers";
 import OpenAI from "openai";
 const openai = new OpenAI();
 import {

@@ -1,5 +1,5 @@
 "use client";
-import { getFormattedGrade } from "@/app/dragon/teacher/utils";
+import { getFormattedGrade } from "@/lib/helpers";
 import { Button } from "@/components/ui/button";
 import { AIMarkdown } from "@/components/chat/ai-markdown";
 import {

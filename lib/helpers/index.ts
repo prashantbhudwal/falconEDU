@@ -1,17 +1,7 @@
-import { cache } from "react";
-import { AllStudentResponsesByBotConfigId } from "./class/[classId]/(tasks)/[taskId]/test/queries";
-import prisma from "@/prisma";
-import { ConditionalPromptSelector } from "langchain/prompts";
-import { AcademicCapIcon } from "@heroicons/react/24/solid";
-import { FaRobot } from "react-icons/fa6";
-import {
-  HiClipboardDocumentCheck,
-  HiAcademicCap,
-  HiOutlineClipboard,
-} from "react-icons/hi2";
+import { AllStudentResponsesByBotConfigId } from "../../app/dragon/teacher/class/[classId]/(tasks)/[taskId]/test/queries";
 import { TaskType } from "@/types/dragon";
-import { IoIosChatboxes } from "react-icons/io";
 import { Grade } from "@prisma/client";
+import { taskPropertiesMap } from "@/lib/constants";
 
 /**
  * Calculates the test metadata based on the given student responses.
@@ -87,79 +77,8 @@ export const getQuestionTypeName = (questionType: string) => {
   return name;
 };
 
-export const getTaskIcon = (taskType: string) => {
-  switch (taskType) {
-    case "chat":
-      return {
-        Icon: IoIosChatboxes,
-        iconColor: "text-primary",
-      };
-    case "test":
-      return {
-        Icon: HiClipboardDocumentCheck,
-        iconColor: "text-secondary",
-      };
-    default:
-      return {
-        Icon: HiAcademicCap,
-        iconColor: "text-blue-500",
-      };
-  }
-};
-
 export const getTaskProperties = (taskType: TaskType) => {
-  switch (taskType) {
-    case "chat":
-      return {
-        formattedType: "Bot",
-        formattedTypeStudent: "Bot",
-        Icon: FaRobot,
-        iconColor: "text-primary",
-        newName: "Untitled Bot",
-        emptyChatMessage: "Start chatting with your teacher.",
-        aiTemperature: 1,
-      };
-    case "test":
-      return {
-        formattedType: "Test",
-        formattedTypeStudent: "Test",
-        Icon: HiClipboardDocumentCheck,
-        iconColor: "text-secondary",
-        newName: "Untitled Test",
-        emptyChatMessage: "Say hello to start the test",
-        aiTemperature: 0.2,
-      };
-    case "lesson":
-      return {
-        formattedType: "Lesson",
-        formattedTypeStudent: "Lesson",
-        Icon: HiAcademicCap,
-        iconColor: "text-info",
-        newName: "Untitled Lesson",
-        emptyChatMessage: "Say hello to start the lesson",
-        aiTemperature: 1,
-      };
-    case "ai-test":
-      return {
-        formattedType: "AI Test",
-        formattedTypeStudent: "Quiz",
-        Icon: HiOutlineClipboard,
-        iconColor: "text-accent",
-        newName: "Untitled AI Test",
-        emptyChatMessage: "Say hello to start the quiz",
-        aiTemperature: 0.7,
-      };
-    default:
-      return {
-        formattedType: "Chat",
-        formattedTypeStudent: "Chat",
-        Icon: IoIosChatboxes,
-        iconColor: "text-blue-500",
-        newName: "Untitled Chat",
-        emptyChatMessage: "Start chatting with your teacher.",
-        aiTemperature: 1,
-      };
-  }
+  return taskPropertiesMap[taskType];
 };
 
 export const getFormattedDate = (date: Date) =>
@@ -192,15 +111,6 @@ export function getFormattedGrade({
   return converted;
 }
 
-export const isNonEmptyObject = (obj: Object) => {
-  return obj && typeof obj === "object" && Object.keys(obj).length > 0;
-};
-
-export const isEmptyObject = (obj: Object) => {
-  return obj && typeof obj === "object" && Object.keys(obj).length === 0;
-};
-
-
 export const generateNameOfClass = ({
   grade,
   section = "",
@@ -215,7 +125,6 @@ export const generateNameOfClass = ({
   const formattedSection = section ? `-${section}` : "";
   return `${formattedGrade}${formattedSection}`;
 };
-
 
 export const formatUrl = (url: string) => {
   if (!url) return url;

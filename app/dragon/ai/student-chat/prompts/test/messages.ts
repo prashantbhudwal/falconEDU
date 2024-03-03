@@ -1,6 +1,6 @@
 "use server";
 import { getEngineeredMessagesForTest } from "./template";
-import { getQuestionTypeName } from "@/app/dragon/teacher/utils";
+import { getQuestionTypeName } from "@/lib/helpers";
 import { TestContext } from "@/lib/routers/contextRouter/queries";
 
 //TODO - this is a big jugaad, need to fix this, either use LangChain or OpenAI Format, don't mix both

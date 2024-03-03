@@ -21,7 +21,7 @@ import {
 import { debounce } from "lodash";
 import { VideoDialog } from "../../video-dialog";
 import ReactPlayer from "react-player";
-import { formatUrl } from "@/app/dragon/teacher/utils";
+import { formatUrl } from "@/lib/helpers";
 
 export const VideoField = ({ name }: { name: string }) => {
   const form = useFormContext();

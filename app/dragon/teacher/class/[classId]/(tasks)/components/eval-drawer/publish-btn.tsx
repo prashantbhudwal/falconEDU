@@ -6,7 +6,7 @@ import { ClassDialog } from "@/app/dragon/teacher/components/class-dialog";
 import { AlertDialogComponent } from "../../[taskId]/test/components/alertDialog";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { getTaskProperties } from "@/app/dragon/teacher/utils";
+import { getTaskProperties } from "@/lib/helpers";
 import { useEffect, useState } from "react";
 import { TaskType } from "@/types";
 import { evalDrawerAtom } from "@/lib/atoms/ui";

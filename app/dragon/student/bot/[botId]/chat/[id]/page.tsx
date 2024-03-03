@@ -9,7 +9,7 @@ import { Chat } from "@/components/chat/chat-dragon";
 import { AvatarNavbar } from "@/app/dragon/student/components/student-navbar";
 import { SubmitTestButton } from "./submit-test-btn";
 import { revalidatePath } from "next/cache";
-import { getTaskProperties } from "@/app/dragon/teacher/utils";
+import { getTaskProperties } from "@/lib/helpers";
 import { TaskType } from "@/types/dragon";
 import { setIsReadToTrue } from "./mutations";
 import Link from "next/link";
@@ -18,6 +18,7 @@ import { MediaAccordion } from "./components/media-accordion";
 import { trackEvent } from "@/lib/mixpanel";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getServerSession } from "next-auth";
+import { get } from "lodash";
 
 export interface ChatPageProps {
   params: {
@@ -51,7 +52,7 @@ export default async function ChatPage({ params }: Readonly<ChatPageProps>) {
   }
   const redirectUrl = getStudentTeacherURL(teacherId);
   const classDetails = await getClassByBotId({ botId });
-  const showSubmit = !chat?.isSubmitted && ["test", "ai-test"].includes(type);
+  const showSubmit = !chat?.isSubmitted;
   const isDisabled = !classDetails?.isActive || !bot?.BotConfig?.isActive;
   const isSubmitted = chat?.isSubmitted;
   trackEvent("student", "task_viewed", {
@@ -61,45 +62,35 @@ export default async function ChatPage({ params }: Readonly<ChatPageProps>) {
     attempt_id: id,
   });
 
-  const SubmitButton = ({ variant }: { variant: "outline" | "default" }) => {
-    const styles =
-      variant === "outline"
-        ? "rounded-xl w-fit bg-base-200 border hover:bg-base-200 px-5 tracking-wider border-slate-500 text-slate-500"
-        : "";
-
-    return (
-      showSubmit && (
-        <SubmitTestButton
-          testBotId={botId}
-          className={styles}
-          botChatId={id}
-          redirectUrl={redirectUrl}
-          isMultipleChats={bot?.BotConfig?.canReAttempt}
-          type={type}
-          autoCheck={autoCheck}
-        />
-      )
-    );
-  };
-  const showResults = isSubmitted && (autoCheck || autoCheck === undefined);
+  const isCheckable = type === "test" || type === "ai-test";
+  const showResults = isSubmitted && autoCheck && isCheckable;
+  const formattedType = getTaskProperties(type).formattedTypeStudent;
   return (
     <div className="w-full">
       <div className="">
         <AvatarNavbar
           title={bot?.BotConfig?.name!}
-          subtitle={bot?.BotConfig?.type}
+          subtitle={formattedType}
           timeLimit={bot?.BotConfig?.timeLimit ?? undefined}
           testBotId={botId}
           redirectUrl={redirectUrl}
           isSubmitted={chat?.isSubmitted}
           isMultipleChats={bot?.BotConfig?.canReAttempt}
           botChatId={id}
-          button={<SubmitButton variant="default" />}
+          button={
+            showSubmit && (
+              <SubmitTestButton
+                testBotId={botId}
+                botChatId={id}
+                redirectUrl={redirectUrl}
+                isMultipleChats={bot?.BotConfig?.canReAttempt}
+                type={type}
+                autoCheck={autoCheck}
+              />
+            )
+          }
         />
         {showResults && <ResultSection botId={botId} chatId={id} />}
-        {/* <div className="fixed bottom-40 left-1/2 z-10 w-fit -translate-x-1/2 rounded-xl">
-          <SubmitButton variant="outline" />
-        </div> */}
         <MediaAccordion attemptId={id} type={type} className="m-2" />
       </div>
 

@@ -11,7 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { useFormContext } from "react-hook-form";
 import { FiBookOpen } from "react-icons/fi";
-import { getFormattedGrade } from "@/app/dragon/teacher/utils";
+import { getFormattedGrade } from "@/lib/helpers";
 import subjectsArray from "../../../../../../../../data/subjects.json";
 import { Grade } from "@prisma/client";
 import { Chip } from "@/components/ui/chip";

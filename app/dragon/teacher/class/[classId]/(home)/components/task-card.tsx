@@ -1,7 +1,10 @@
 import { type BotConfig, type Class } from "@prisma/client";
 import { cn } from "@/lib/utils";
 import { TaskActions } from "./task-actions";
-import { getFormattedDate, getTaskProperties } from "../../../../utils";
+import {
+  getFormattedDate,
+  getTaskProperties,
+} from "../../../../../../../lib/helpers";
 import { TaskType } from "@/types/dragon";
 import { AllConfigsInClass } from "@/lib/routers/botConfigRouter";
 import { db } from "@/lib/routers";

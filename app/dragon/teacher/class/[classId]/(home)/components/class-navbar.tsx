@@ -10,7 +10,7 @@ import { getSettingsUrl } from "@/lib/urls";
 import Link from "next/link";
 import { Grade } from "@prisma/client";
 import { Class } from "@prisma/client";
-import { getFormattedGrade } from "@/app/dragon/teacher/utils";
+import { getFormattedGrade } from "@/lib/helpers";
 import { EditClassModal } from "../../(settings)/dashboard/components/edit-class-modal";
 
 export async function ClassNavbar({

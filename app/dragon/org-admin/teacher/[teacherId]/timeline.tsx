@@ -7,7 +7,7 @@ import {
   formatName,
   tailwindColorToHex,
 } from "@/lib/utils";
-import { getTaskIcon, getTaskProperties } from "../../../teacher/utils";
+import { getTaskProperties } from "../../../../../lib/helpers";
 import { Flex, Select, SelectItem, Title } from "@tremor/react";
 import { v4 as uuid } from "uuid";
 import { TaskType } from "@/types";

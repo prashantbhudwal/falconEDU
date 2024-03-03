@@ -7,7 +7,7 @@ import { revalidatePath } from "next/cache";
 import { cache } from "react";
 import { UnwrapPromise } from "../../../app/dragon/student/queries";
 import { TaskType } from "@/types/dragon";
-import { getTaskProperties } from "../../../app/dragon/teacher/utils";
+import { getTaskProperties } from "../../helpers";
 import {
   AITestPreferenceSchema,
   botPreferencesSchema,

@@ -2,7 +2,7 @@
 import { useRouter } from "next/navigation";
 import { db } from "../../../../lib/routers";
 import { type TaskType } from "@/types/dragon";
-import { getTaskProperties } from "../utils";
+import { getTaskProperties } from "../../../../lib/helpers";
 import { getTaskUrl } from "@/lib/urls";
 import { trackEvent } from "@/lib/mixpanel";
 import { useSession } from "next-auth/react";

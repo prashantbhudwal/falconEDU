@@ -5,7 +5,7 @@ import { cn, formatDateWithTimeZone } from "@/lib/utils";
 const testPriorities = ["HIGH", "MEDIUM", "LOW"] as const;
 import { type BotsByTeacherAndStudentID } from "../../../../lib/routers/botRouter";
 import { getChatsByBotId, getDefaultChatReadStatus } from "../queries";
-import { getTaskProperties } from "../../teacher/utils";
+import { getTaskProperties } from "../../../../lib/helpers";
 import { TaskType } from "@/types/dragon";
 import { getStudentBotChatURL, getStudentBotURL } from "@/lib/urls";
 import Link from "next/link";

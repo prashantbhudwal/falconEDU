@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/card";
 import { PlusIcon } from "@radix-ui/react-icons";
 import { TaskType } from "@/types/dragon";
-import { getTaskProperties } from "@/app/dragon/teacher/utils";
+import { getTaskProperties } from "@/lib/helpers";
 
 type propType = {
   classId: string;

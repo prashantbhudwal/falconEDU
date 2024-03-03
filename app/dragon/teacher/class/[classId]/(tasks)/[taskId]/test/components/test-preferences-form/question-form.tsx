@@ -38,7 +38,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { questionTypes } from "@/app/dragon/ai/test-checker/tool";
-import { getQuestionTypeName } from "../../../../../../../utils";
+import { getQuestionTypeName } from "../../../../../../../../../../lib/helpers";
 import { parsedQuestionsSchema } from "@/lib/schema";
 import { UpdatedQuestionType } from "@/types";
 

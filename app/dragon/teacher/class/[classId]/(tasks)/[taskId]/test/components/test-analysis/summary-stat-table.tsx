@@ -16,7 +16,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { InformationCircleIcon } from "@heroicons/react/24/solid";
-import { getProgressBarColor } from "../../../../../../../utils";
+import { getProgressBarColor } from "../../../../../../../../../../lib/helpers";
 import { typeActiveParsedQuestionByBotConfigId } from "@/lib/routers/parsedQuestionRouter";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";

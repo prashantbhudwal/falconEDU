@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/form";
 import { FiBookOpen } from "react-icons/fi";
 import { useFormContext } from "react-hook-form";
-import { getFormattedGrade } from "@/app/dragon/teacher/utils";
+import { getFormattedGrade } from "@/lib/helpers";
 import subjectsArray from "../../../../../../../../data/subjects.json";
 import { Grade } from "@prisma/client";
 import { Combobox } from "@/components/ui/combobox";

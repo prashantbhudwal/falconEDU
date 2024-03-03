@@ -1,5 +1,5 @@
 import { getEngineeredMessagesForLesson } from "./template";
-import { getFormattedGrade } from "@/app/dragon/teacher/utils";
+import { getFormattedGrade } from "@/lib/helpers";
 import { LessonContext } from "@/lib/routers/contextRouter/queries";
 
 export async function getEngineeredLessonBotMessages(context: LessonContext) {

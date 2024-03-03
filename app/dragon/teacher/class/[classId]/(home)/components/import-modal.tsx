@@ -25,7 +25,7 @@ import {
 import { ClassesByUserId } from "../../../../../../../lib/routers/classRouter";
 import { useState } from "react";
 import { TaskType } from "@/types/dragon";
-import { getTaskProperties } from "@/app/dragon/teacher/utils";
+import { getTaskProperties } from "@/lib/helpers";
 
 export function ImportModal({
   classId,

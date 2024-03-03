@@ -1,4 +1,4 @@
-import { getFormattedGrade } from "@/app/dragon/teacher/utils";
+import { getFormattedGrade } from "@/lib/helpers";
 import { ChatCompletionMessageParam } from "openai/resources";
 import { ContentAPIRequestBody } from "../route";
 import endent from "endent";

@@ -1,5 +1,5 @@
-import { isNonEmptyObject } from "@/app/dragon/teacher/utils";
 import { db } from "@/lib/routers";
+import { isNonEmptyObject } from "@/lib/utils";
 import { TaskType } from "@/types";
 import { z } from "zod";
 

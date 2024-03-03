@@ -1,5 +1,5 @@
 import { getEngineeredMessagesForChat } from "./template";
-import { getFormattedGrade } from "@/app/dragon/teacher/utils";
+import { getFormattedGrade } from "@/lib/helpers";
 import { ChatContext } from "@/lib/routers/contextRouter/queries";
 
 export async function getEngineeredChatBotMessages(context: ChatContext) {

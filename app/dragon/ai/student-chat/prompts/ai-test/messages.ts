@@ -1,5 +1,5 @@
 import { getEngineeredMessages } from "./template";
-import { getFormattedGrade } from "@/app/dragon/teacher/utils";
+import { getFormattedGrade } from "@/lib/helpers";
 import { AITestContext } from "@/lib/routers/contextRouter/queries";
 
 export async function getEngineeredAITestBotMessages(context: AITestContext) {

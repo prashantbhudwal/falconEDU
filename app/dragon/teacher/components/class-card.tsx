@@ -2,7 +2,7 @@
 import { Card, CardFooter } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { Class } from "@prisma/client";
-import { getFormattedGrade } from "../utils";
+import { getFormattedGrade } from "../../../../lib/helpers";
 import { Grade } from "@prisma/client";
 import Avvvatars from "avvvatars-react";
 import { motion } from "framer-motion";

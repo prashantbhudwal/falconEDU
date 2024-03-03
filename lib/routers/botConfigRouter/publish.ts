@@ -1,5 +1,5 @@
 "use server";
-import { getTaskProperties } from "@/app/dragon/teacher/utils";
+import { getTaskProperties } from "@/lib/helpers";
 import { isAuthorized } from "@/lib/is-authorized";
 import prisma from "@/prisma";
 import { TaskType } from "@/types";

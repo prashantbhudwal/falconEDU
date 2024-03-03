@@ -13,7 +13,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { getTestMetadata } from "../../../../../../../utils";
+import { getTestMetadata } from "../../../../../../../../../../lib/helpers";
 import { NoStudents } from "../../../../components/no-students";
 import { NotPublished } from "../../../../components/not-published";
 

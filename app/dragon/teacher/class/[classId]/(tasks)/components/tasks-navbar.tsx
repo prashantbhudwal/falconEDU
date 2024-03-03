@@ -19,7 +19,7 @@ import {
 import { db } from "../../../../../../../lib/routers";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { getTaskProperties } from "../../../../utils";
+import { getTaskProperties } from "../../../../../../../lib/helpers";
 import { BotConfig } from "@prisma/client";
 import {
   ChevronLeftIcon,

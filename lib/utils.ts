@@ -266,3 +266,15 @@ export const getGptGenerationTime = (
   );
   return approximateTimeInSeconds;
 };
+
+// -----------------------------------------------------------------------------------------------------------------------
+/**
+ * Checks if an object is non-empty.
+ * @param {Object} obj - The object to check.
+ * @returns {boolean} Whether the object is non-empty.
+ * @example
+ * isNonEmptyObject({}); // false
+ */
+export const isNonEmptyObject = (obj: Object) => {
+  return obj && typeof obj === "object" && Object.keys(obj).length > 0;
+};
