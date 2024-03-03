@@ -8,6 +8,8 @@ import {
   Notification,
 } from "@prisma/client";
 
+type USER = "TEACHER" | "STUDENT" | "ADMIN" | "PARENT";
+type ENTITY = "TASK" | "PROFILE";
 export type Entity = "TASK" | "PROFILE";
 
 type NotificationData = Pick<Notification, "title" | "message" | "metadata">;
@@ -37,7 +39,7 @@ type UserEntityActions = {
     }
  })
  register("teacher","task","publish",{
-    
+
  })
 
 

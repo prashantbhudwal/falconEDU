@@ -6,7 +6,7 @@ import { TaskType } from "@/types";
 import { Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { PublishResult } from "./publish.types";
-import { Entity } from "@/lib/notifications";
+import { Entity, EntityActions } from "@/lib/notifications";
 // The frontend works with these types. If you change them, you'll need to update the frontend as well.
 
 async function validateBotConfig(botConfigId: string, type: TaskType) {
