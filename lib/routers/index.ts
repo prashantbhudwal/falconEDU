@@ -12,6 +12,7 @@ import * as orgRouter from "./orgRouter";
 import * as learningGoalsRouter from "./learningGoalsRouter";
 import * as sourceRouter from "./sourceRouter";
 import * as contextRouter from "./contextRouter";
+import * as preferencesRouter from "./preferences";
 
 export const db = {
   botConfig,
@@ -28,4 +29,5 @@ export const db = {
   learningGoals: learningGoalsRouter,
   source: sourceRouter,
   context: contextRouter,
+  preferences: preferencesRouter,
 };
