@@ -1,5 +1,7 @@
 import TeacherPreferencesForm from "./teacher-preferences-form";
 import { getTeacherData, typeGetTeacherPreferences } from "./getTeacherData";
+import { Paper } from "@/components/ui/paper";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 type TeacherPreferencesPageProps = {
   params: {
@@ -16,11 +18,13 @@ export default async function TeacherPreferencesPage({
   };
 
   return (
-    <div className=" h-full w-full overflow-y-scroll">
-      <TeacherPreferencesForm
-        initialValues={preferences || {}}
-        teacherId={teacherId}
-      />
-    </div>
+    <Card className="m-8 bg-base-200 p-5">
+      <CardContent className="py-4">
+        <TeacherPreferencesForm
+          initialValues={preferences || {}}
+          teacherId={teacherId}
+        />
+      </CardContent>
+    </Card>
   );
 }

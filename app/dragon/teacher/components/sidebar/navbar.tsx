@@ -17,7 +17,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { db } from "../../../../../lib/routers";
 
-export default async function Navbar() {
+export async function Navbar() {
   const session = await getServerSession(authOptions);
   const userId = session?.user?.id;
   if (!userId) {

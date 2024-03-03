@@ -22,7 +22,10 @@ import {
 import { useState } from "react";
 import { Paper } from "@/components/ui/paper";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
-import { LIMITS_teacherPreferencesSchema, teacherPreferencesSchema } from "@/lib/schema";
+import {
+  LIMITS_teacherPreferencesSchema,
+  teacherPreferencesSchema,
+} from "@/lib/schema";
 
 const defaultValues: z.infer<typeof teacherPreferencesSchema> = {
   personalInformation: "",
@@ -122,86 +125,71 @@ export default function TeacherPreferencesForm({
   };
 
   return (
-    <Paper variant="gray" className="my-8 bg-base-200">
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="flex justify-between rounded-lg p-5 ">
-            <div className=" flex flex-col gap-2">
-              <h2 className="font-bold tracking-wide text-slate-200 md:text-3xl">
-                My Avatar
-              </h2>
-
-              <p
-                className={` max-w-lg text-base duration-300 hover:transition-all ${
-                  onHover ? "text-slate-400" : "text-slate-400"
-                } `}
-              >
-                Your avatar that will represent you in the classroom. The more
-                information you provide, the more your avatar will be able to
-                connect with your students.
-              </p>
-            </div>
-            <div className="w-36">
-              <Button
-                type="submit"
-                onMouseEnter={handleDescriptionHoverEnter}
-                onMouseLeave={handleDescriptionHoverLeave}
-                disabled={!isDirty}
-                className="w-full"
-              >
-                {loading ? "Saving" : isDirty ? "Save" : "Saved"}
-              </Button>
-              <div className="flex flex-col space-y-2">
-                {isDirty && (
-                  <div className="mt-2 whitespace-nowrap text-sm  font-semibold text-slate-500 ">
-                    Unsaved changes
-                  </div>
-                )}
-                {Object.keys(form.formState.errors).length > 0 && (
-                  <div className="my-2 text-sm font-semibold text-destructive">
-                    Check all fields
-                  </div>
-                )}
-              </div>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <div className="flex justify-between rounded-lg">
+          <p
+            className={` max-w-lg text-base duration-300 hover:transition-all ${
+              onHover ? "text-slate-400" : "text-slate-400"
+            } `}
+          >
+            Your avatar that will represent you in the classroom. The more
+            information you provide, the more your avatar will be able to
+            connect with your students.
+          </p>
+          <div className="w-36">
+            <Button
+              type="submit"
+              onMouseEnter={handleDescriptionHoverEnter}
+              onMouseLeave={handleDescriptionHoverLeave}
+              disabled={!isDirty}
+              className="w-full"
+            >
+              {loading ? "Saving" : isDirty ? "Save" : "Saved"}
+            </Button>
+            <div className="flex flex-col space-y-2">
+              {isDirty && (
+                <div className="mt-2 whitespace-nowrap text-sm  font-semibold text-slate-500 ">
+                  Unsaved changes
+                </div>
+              )}
+              {Object.keys(form.formState.errors).length > 0 && (
+                <div className="my-2 text-sm font-semibold text-destructive">
+                  Check all fields
+                </div>
+              )}
             </div>
           </div>
-          <Separator className="my-4" />
-          {personalInfo.map((item) => (
-            <FormField
-              key={item.name}
-              control={form.control}
-              name={item.name}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel
-                    className={`mb-5 flex items-center gap-2 font-bold ${
-                      inputFocus === item.name ? "text-white" : ""
-                    }`}
-                  >
-                    {item.label}
-                    {getIconForFormLabel(item.iconName)}
-                  </FormLabel>
-                  <FormControl className="tracking-wider">
-                    <Textarea
-                      placeholder={item.placeholder}
-                      className="min-h-[6rem]  resize-none font-semibold placeholder:text-xs"
-                      {...field}
-                      onFocus={() => setInputFocus(item.name)}
-                      onBlur={() => setInputFocus("")}
-                      hasCounter
-                      maxChars={
-                        LIMITS_teacherPreferencesSchema[item.name].maxLength
-                      }
-                    />
-                  </FormControl>
-                  <FormDescription>{item.description}</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          ))}
-        </form>
-      </Form>
-    </Paper>
+        </div>
+        <Separator className="my-4" />
+        {personalInfo.map((item) => (
+          <FormField
+            key={item.name}
+            control={form.control}
+            name={item.name}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{item.label}</FormLabel>
+                <FormControl className="tracking-wider">
+                  <Textarea
+                    placeholder={item.placeholder}
+                    className="min-h-[6rem]  resize-none placeholder:text-xs"
+                    {...field}
+                    onFocus={() => setInputFocus(item.name)}
+                    onBlur={() => setInputFocus("")}
+                    hasCounter
+                    maxChars={
+                      LIMITS_teacherPreferencesSchema[item.name].maxLength
+                    }
+                  />
+                </FormControl>
+                <FormDescription>{item.description}</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        ))}
+      </form>
+    </Form>
   );
 }

@@ -18,6 +18,9 @@ import {
   FolderIcon as HiFolderIcon,
   PencilSquareIcon,
   ArrowLeftIcon,
+  HomeIcon as HomeIconSolid,
+  BellIcon as BellIconSolid,
+  BellAlertIcon,
 } from "@heroicons/react/24/solid";
 import { XCircleIcon } from "@heroicons/react/24/outline";
 import { FaFilePdf } from "react-icons/fa";
@@ -28,6 +31,7 @@ import {
   FaSpinner,
   FaCheck,
 } from "react-icons/fa6";
+import { FiSliders, FiAirplay, FiTool } from "react-icons/fi";
 
 // Tailwind Size Mapping
 const sizeMapping = {
@@ -184,4 +188,28 @@ export const EditIcon: React.FC<IconProps> = (props) => (
 
 export const LeftArrowIcon: React.FC<IconProps> = (props) => (
   <BaseIcon {...props} Icon={ArrowLeftIcon} />
+);
+
+export const HomeIcon: React.FC<IconProps> = (props) => (
+  <BaseIcon {...props} Icon={HomeIconSolid} />
+);
+
+export const SlidersIcon = React.forwardRef<SVGSVGElement, IconProps>(
+  (props) => <BaseIcon {...props} Icon={FiSliders} />,
+);
+
+export const ScreenIcon = React.forwardRef<SVGSVGElement, IconProps>(
+  (props) => <BaseIcon {...props} Icon={FiAirplay} />,
+);
+
+export const ToolIcon = React.forwardRef<SVGSVGElement, IconProps>((props) => (
+  <BaseIcon {...props} Icon={FiTool} />
+));
+
+export const BellIcon: React.FC<IconProps> = (props) => (
+  <BaseIcon {...props} Icon={BellIconSolid} />
+);
+
+export const BellRingingIcon: React.FC<IconProps> = (props) => (
+  <BaseIcon {...props} Icon={BellAlertIcon} />
 );

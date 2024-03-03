@@ -108,11 +108,7 @@ export function NewClass() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild className="rounded-lg">
-        <Button
-          variant={"outline"}
-          size={"sm"}
-          className="rounded border-slate-300 text-slate-300 hover:bg-secondary"
-        >
+        <Button variant={"outline"} size={"sm"}>
           <div className="flex items-center gap-1">
             <FaPlus className="h-3 w-3 text-secondary" />
             <div> New Class</div>
