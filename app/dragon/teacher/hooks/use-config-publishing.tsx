@@ -21,7 +21,7 @@ export function useConfigPublishing({
   const [config, setConfig] = useState<BotConfig | null>(null);
   const onPublish = async () => {
     setLoading(true);
-    const result = await db.botConfig.publishBotConfig({
+    const result = await db.botConfig.publish({
       classId,
       botConfigId: botId,
       type,
