@@ -13,7 +13,7 @@ export const NewAttemptButton = ({
   className?: string;
 }) => {
   const createHandler = async (e: React.MouseEvent) => {
-    await db.botChatRouter.createBotChat({
+    await db.attempt.create({
       botId: botId,
     });
   };

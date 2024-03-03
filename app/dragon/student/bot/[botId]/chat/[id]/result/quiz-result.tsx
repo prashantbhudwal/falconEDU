@@ -66,8 +66,8 @@ export async function QuizResult({
     if (testResults) grades = testResults.map((result) => result.result);
     overallGrade = calculateAverageGrade(grades);
     feedback =
-      (await db.botChatRouter.getFeedbackForBotChat({
-        botChatId: attemptId,
+      (await db.attempt.feedback({
+        attemptId,
       })) ?? "";
   }
 

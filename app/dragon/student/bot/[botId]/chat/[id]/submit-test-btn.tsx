@@ -63,7 +63,10 @@ export const SubmitTestButton = React.forwardRef<HTMLButtonElement, PropTypes>(
       setError(false);
       setLoading(true);
       try {
-        await taskSubmissionHandlers[taskType](botChatId, autoCheck);
+        await taskSubmissionHandlers[taskType]({
+          attemptId: botChatId,
+          autoCheck,
+        });
         trackEvent("student", "task_submitted", {
           distinct_id: email as string,
           task_type: taskType,

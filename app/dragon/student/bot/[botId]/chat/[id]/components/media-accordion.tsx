@@ -25,8 +25,8 @@ export async function MediaAccordion({
   className?: string;
 }) {
   if (type !== "lesson") return null;
-  const { configPreferences } = await db.botChatRouter.getPreferences({
-    chatId: attemptId,
+  const { configPreferences } = await db.attempt.preferences({
+    attemptId,
   });
 
   const preferences = lessonPreferencesSchema.safeParse(configPreferences);
@@ -43,7 +43,7 @@ export async function MediaAccordion({
       className={cn("rounded-xl", className)}
     >
       <AccordionItem value="item-1" className="border-none">
-        <AccordionTrigger className="rounded-2xl bg-purple-900 px-2 py-2 font-bold text-secondary/80 hover:no-underline data-[state=open]:rounded-b-none [&[data-state=closed]>svg]:text-purple-200">
+        <AccordionTrigger className="rounded-2xl bg-purple-900 px-2 py-2 font-bold text-secondary/80 data-[state=open]:rounded-b-none hover:no-underline [&[data-state=closed]>svg]:text-purple-200">
           <div className="flex flex-row items-center space-x-2 text-purple-200">
             <MediaIcon size="sm" />
             <span>Media</span>
@@ -63,7 +63,7 @@ const VideoList = ({
   videos: Array<z.infer<typeof videoSchema>>;
 }) => {
   return (
-    <div className="scrollbar-hide flex gap-4 overflow-y-scroll">
+    <div className="flex gap-4 overflow-y-scroll scrollbar-hide">
       {videos.map((video, index) => (
         <VideoCard key={index} video={video} />
       ))}

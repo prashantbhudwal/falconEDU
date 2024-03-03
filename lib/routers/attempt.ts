@@ -2,7 +2,7 @@
 import { revalidatePath } from "next/cache";
 import prisma from "@/prisma";
 import { cache } from "react";
-export const createBotChat = async ({ botId }: { botId: string }) => {
+export const create = async ({ botId }: { botId: string }) => {
   try {
     await prisma.$transaction(async (prisma) => {
       const botChatsCount = await prisma.botChat.count({
@@ -27,28 +27,26 @@ export const createBotChat = async ({ botId }: { botId: string }) => {
   }
 };
 
-export const getFeedbackForBotChat = cache(
-  async ({ botChatId }: { botChatId: string }) => {
-    try {
-      const botChat = await prisma.botChat.findUnique({
-        where: { id: botChatId },
-      });
-      const feedback = botChat?.feedbackToStudent;
-      return feedback;
-    } catch (error) {
-      console.error("Error getting feedback for BotChat:", error);
-      throw error;
-    }
-  },
-);
+export const feedback = cache(async ({ attemptId }: { attemptId: string }) => {
+  try {
+    const botChat = await prisma.botChat.findUnique({
+      where: { id: attemptId },
+    });
+    const feedback = botChat?.feedbackToStudent;
+    return feedback;
+  } catch (error) {
+    console.error("Error getting feedback for BotChat:", error);
+    throw error;
+  }
+});
 
-export const getPreferences = cache(async function ({
-  chatId,
+export const preferences = cache(async function ({
+  attemptId,
 }: {
-  chatId: string;
+  attemptId: string;
 }) {
   const context = await prisma.botChat.findUnique({
-    where: { id: chatId },
+    where: { id: attemptId },
     select: {
       bot: {
         select: {
@@ -83,9 +81,9 @@ export const getPreferences = cache(async function ({
     },
   });
 
-  if (!context) throw new Error(`Context not found for chatId ${chatId}`);
+  if (!context) throw new Error(`Context not found for chatId ${attemptId}`);
   const Class = context?.bot?.BotConfig?.Class;
-  if (!Class) throw new Error(`Class not found for chatId ${chatId}`);
+  if (!Class) throw new Error(`Class not found for chatId ${attemptId}`);
   const grade = Class.grade;
 
   let configPreferences = context?.bot?.BotConfig?.preferences;
@@ -98,3 +96,19 @@ export const getPreferences = cache(async function ({
     studentPreferences,
   };
 });
+
+export const submit = async function ({ attemptId }: { attemptId: string }) {
+  try {
+    await prisma.botChat.update({
+      where: { id: attemptId },
+      data: {
+        isSubmitted: true,
+      },
+    });
+    revalidatePath("/dragon/student");
+    return { success: true };
+  } catch (error) {
+    console.log("Error updating Bot:", error);
+    throw new Error("Failed to update Bot");
+  }
+};
