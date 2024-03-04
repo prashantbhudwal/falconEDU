@@ -263,5 +263,6 @@ module.exports = {
     require("tailwind-scrollbar"),
     require("@tailwindcss/container-queries"),
     require("@tailwindcss/line-clamp"),
+    require("tailwind-capitalize-first-letter"),
   ],
 };
