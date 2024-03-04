@@ -26,20 +26,24 @@ export default function ClassCard({
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       exit={{ x: 100, opacity: 0 }}
-      transition={{ type: "spring", stiffness: 70, damping: 20 }}
+      transition={{ type: "spring", stiffness: 90, damping: 10 }}
       layout
       whileHover={{ translateY: -10 }}
-      className="group card w-48 border hover:-translate-y-1 hover:border-fuchsia-800 hover:bg-base-200/60"
+      className="group group card w-48 hover:-translate-y-1"
     >
-      <figure className="bg-base-200 bg-gradient-to-t from-slate-800 to-slate-950 py-6 text-fuchsia-800 ">
-        <div>
-          <Avvvatars value={id} style="shape" size={70} />
+      <Card className="border border-slate-700">
+        <figure className="bg-gradient-to-t from-slate-900 to-slate-950 py-6 text-fuchsia-800 group-hover:from-fuchsia-900 ">
+          <div>
+            <Avvvatars value={id} style="shape" size={70} />
+          </div>
+        </figure>
+        <div className="card-body h-20 items-center border-t border-t-slate-800 py-2 ">
+          <h2 className="card-title group-hover:text-fuchsia-700">
+            {getFormattedGrade({ grade })}
+          </h2>
+          {section && <div className="truncate text-sm">{section}</div>}
         </div>
-      </figure>
-      <div className="card-body h-20 items-center py-2">
-        <h2 className="card-title">{getFormattedGrade({ grade })}</h2>
-        {section && <div className="truncate text-sm">{section}</div>}
-      </div>
+      </Card>
     </motion.div>
   );
 }
