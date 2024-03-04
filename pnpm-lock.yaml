@@ -114,8 +114,8 @@ dependencies:
     specifier: ^0.4.4
     version: 0.4.4(tailwindcss@3.4.1)
   '@tanstack/react-query':
-    specifier: ^5.24.6
-    version: 5.24.6(react@18.2.0)
+    specifier: ^5.24.7
+    version: 5.24.7(react@18.2.0)
   '@tanstack/react-table':
     specifier: ^8.13.2
     version: 8.13.2(react-dom@18.2.0)(react@18.2.0)
@@ -127,7 +127,7 @@ dependencies:
     version: 11.0.0-next-beta.305(@trpc/server@11.0.0-next-beta.305)
   '@trpc/react-query':
     specifier: next
-    version: 11.0.0-next-beta.305(@tanstack/react-query@5.24.6)(@trpc/client@11.0.0-next-beta.305)(@trpc/server@11.0.0-next-beta.305)(react-dom@18.2.0)(react@18.2.0)
+    version: 11.0.0-next-beta.305(@tanstack/react-query@5.24.7)(@trpc/client@11.0.0-next-beta.305)(@trpc/server@11.0.0-next-beta.305)(react-dom@18.2.0)(react@18.2.0)
   '@trpc/server':
     specifier: next
     version: 11.0.0-next-beta.305
@@ -135,8 +135,8 @@ dependencies:
     specifier: ^1.2.2
     version: 1.2.2(next@14.1.1)(react@18.2.0)
   ai:
-    specifier: ^3.0.2
-    version: 3.0.2(react@18.2.0)(solid-js@1.8.15)(svelte@4.2.12)(vue@3.4.21)(zod@3.22.4)
+    specifier: ^3.0.4
+    version: 3.0.4(react@18.2.0)(solid-js@1.8.15)(svelte@4.2.12)(vue@3.4.21)(zod@3.22.4)
   avvvatars-react:
     specifier: ^0.4.2
     version: 0.4.2(csstype@3.1.3)(react-dom@18.2.0)(react@18.2.0)
@@ -4443,16 +4443,16 @@ packages:
       tailwindcss: 3.4.1(ts-node@10.9.2)
     dev: true
 
-  /@tanstack/query-core@5.24.6:
-    resolution: {integrity: sha512-xYhxiMUPh1JzamVK8VwwkBpIBXVYRyIBW9gjSN+/BB4kL1nS86gnRWeW8L+sacCj1RiyEsysJe3GSvtbIpHdWw==}
+  /@tanstack/query-core@5.24.7:
+    resolution: {integrity: sha512-24d9o44FktHTgTOu3XdQWXMu24SJodmzGWXfvd9gT57ijarjOsN2cUyg/RqyCzuDTfD59+1QdCfPB4QvRRsCjw==}
     dev: false
 
-  /@tanstack/react-query@5.24.6(react@18.2.0):
-    resolution: {integrity: sha512-eyIWwHiO1ZirYGzqs0kfRMkf8icuXroFunjnsgntk9YgGFbGoPs3Hxy9/OushNvpnkHT9RwPZb8UfEKzMzzEaQ==}
+  /@tanstack/react-query@5.24.7(react@18.2.0):
+    resolution: {integrity: sha512-+yO1UuXeh47/mnegBZcgwqRrxcXiOYkUSMdk69FsNKtPzH7PFFRXLdkyWk/cu6eEc0Zc8g9Skgu26oqEYWTxpQ==}
     peerDependencies:
       react: ^18.0.0
     dependencies:
-      '@tanstack/query-core': 5.24.6
+      '@tanstack/query-core': 5.24.7
       react: 18.2.0
     dev: false
 
@@ -4516,7 +4516,7 @@ packages:
       '@trpc/server': 11.0.0-next-beta.305
     dev: false
 
-  /@trpc/react-query@11.0.0-next-beta.305(@tanstack/react-query@5.24.6)(@trpc/client@11.0.0-next-beta.305)(@trpc/server@11.0.0-next-beta.305)(react-dom@18.2.0)(react@18.2.0):
+  /@trpc/react-query@11.0.0-next-beta.305(@tanstack/react-query@5.24.7)(@trpc/client@11.0.0-next-beta.305)(@trpc/server@11.0.0-next-beta.305)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-bpVdlaJBI0ZRYK/vFeg5weqJB5FMeq0gTsZ9L36MbQXXWTfBa6sqpmGafJjrnGDFCkMVL03dmtzCAI9BaPHWqw==}
     peerDependencies:
       '@tanstack/react-query': ^5.0.0
@@ -4525,7 +4525,7 @@ packages:
       react: '>=18.2.0'
       react-dom: '>=18.2.0'
     dependencies:
-      '@tanstack/react-query': 5.24.6(react@18.2.0)
+      '@tanstack/react-query': 5.24.7(react@18.2.0)
       '@trpc/client': 11.0.0-next-beta.305(@trpc/server@11.0.0-next-beta.305)
       '@trpc/server': 11.0.0-next-beta.305
       react: 18.2.0
@@ -4962,7 +4962,7 @@ packages:
       '@vue/compiler-ssr': 3.4.21
       '@vue/shared': 3.4.21
       estree-walker: 2.0.2
-      magic-string: 0.30.7
+      magic-string: 0.30.8
       postcss: 8.4.35
       source-map-js: 1.0.2
     dev: false
@@ -5190,8 +5190,8 @@ packages:
       humanize-ms: 1.2.1
     dev: false
 
-  /ai@3.0.2(react@18.2.0)(solid-js@1.8.15)(svelte@4.2.12)(vue@3.4.21)(zod@3.22.4):
-    resolution: {integrity: sha512-dDOj7U63tLCSQixSKk3nmPekjqPnb0st/ZC8ERpBiu5+nezcic5B5bHKzPDLx4rbObCocfA+KPcez9Y1Luf4Vw==}
+  /ai@3.0.4(react@18.2.0)(solid-js@1.8.15)(svelte@4.2.12)(vue@3.4.21)(zod@3.22.4):
+    resolution: {integrity: sha512-DsQwPbOszx58iPag+vujQKv5idl4Y7tHyJSPCeCchDfJ67Ipf/++h4oiDWsKT+U3ibPFrT8xmHel6oRJF+0uMQ==}
     engines: {node: '>=14.6'}
     peerDependencies:
       react: ^18.2.0
@@ -5465,7 +5465,7 @@ packages:
       postcss: ^8.1.0
     dependencies:
       browserslist: 4.23.0
-      caniuse-lite: 1.0.30001591
+      caniuse-lite: 1.0.30001593
       fraction.js: 4.3.7
       normalize-range: 0.1.2
       picocolors: 1.0.0
@@ -5649,7 +5649,7 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001591
+      caniuse-lite: 1.0.30001593
       electron-to-chromium: 1.4.690
       node-releases: 2.0.14
       update-browserslist-db: 1.0.13(browserslist@4.23.0)
@@ -5720,8 +5720,8 @@ packages:
     resolution: {integrity: sha512-dU+Tx2fsypxTgtLoE36npi3UqcjSSMNYfkqgmoEhtZrraP5VWq0K7FkWVTYa8eMPtnU/G2txVsfdCJTn9uzpuQ==}
     dev: false
 
-  /caniuse-lite@1.0.30001591:
-    resolution: {integrity: sha512-PCzRMei/vXjJyL5mJtzNiUCKP59dm8Apqc3PH8gJkMnMXZGox93RbE76jHsmLwmIo6/3nsYIpJtx0O7u5PqFuQ==}
+  /caniuse-lite@1.0.30001593:
+    resolution: {integrity: sha512-UWM1zlo3cZfkpBysd7AS+z+v007q9G1+fLTUU42rQnY6t2axoogPW/xol6T7juU5EUoOhML4WgBIdG+9yYqAjQ==}
 
   /ccount@2.0.1:
     resolution: {integrity: sha512-eyrF0jiFpY+3drT6383f1qhkbGsLSifNAjA61IUjZjmLCWjItY6LB9ft9YhoDgwfmclB2zhu51Lc7+95b8NRAg==}
@@ -9121,8 +9121,8 @@ packages:
     dependencies:
       sourcemap-codec: 1.4.8
 
-  /magic-string@0.30.7:
-    resolution: {integrity: sha512-8vBuFF/I/+OSLRmdf2wwFCJCz+nSn0m6DPvGH1fS/KiQoSaR+sETbov0eIk9KhEKy8CYqIkIAnbohxT/4H0kuA==}
+  /magic-string@0.30.8:
+    resolution: {integrity: sha512-ISQTe55T2ao7XtlAStud6qwYPZjE4GK1S/BeVPus4jrq6JuOnQ00YKQC581RWhR122W7msZV263KzVeLoqidyQ==}
     engines: {node: '>=12'}
     dependencies:
       '@jridgewell/sourcemap-codec': 1.4.15
@@ -9917,7 +9917,7 @@ packages:
       '@next/env': 13.5.6
       '@swc/helpers': 0.5.2
       busboy: 1.6.0
-      caniuse-lite: 1.0.30001591
+      caniuse-lite: 1.0.30001593
       postcss: 8.4.31
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
@@ -9956,7 +9956,7 @@ packages:
       '@next/env': 14.1.1
       '@swc/helpers': 0.5.2
       busboy: 1.6.0
-      caniuse-lite: 1.0.30001591
+      caniuse-lite: 1.0.30001593
       graceful-fs: 4.2.11
       postcss: 8.4.31
       react: 18.2.0
@@ -12108,7 +12108,7 @@ packages:
       estree-walker: 3.0.3
       is-reference: 3.0.2
       locate-character: 3.0.0
-      magic-string: 0.30.7
+      magic-string: 0.30.8
       periscopic: 3.1.0
     dev: false
 
