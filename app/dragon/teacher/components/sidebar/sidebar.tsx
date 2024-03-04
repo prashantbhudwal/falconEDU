@@ -29,7 +29,10 @@ export async function Sidebar() {
         </div>
         <NewClass />
       </div>
-      <SidebarChips className="col-span-4 row-start-2 row-end-12" />
+      <SidebarChips
+        className="col-span-4 row-start-2 row-end-12"
+        userId={userId}
+      />
       <div className="col-span-4 row-start-13">
         <ProfileDropdown profileLink={teacherProfileURL} />
       </div>

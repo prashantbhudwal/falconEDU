@@ -1,3 +1,4 @@
+"use client";
 import {
   Card,
   CardDescription,
@@ -5,68 +6,69 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Paper } from "@/components/ui/paper";
-import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import { Notification } from "@prisma/client";
 import Link from "next/link";
+import { db } from "@/lib/routers";
+import type { NotificationsByRecipient } from "@/lib/routers/notification";
+import { Entity } from "@/lib/notifications";
+import { useQuery } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
+import { Skeleton } from "@/components/ui/skeleton";
+import { ChubbiLoading } from "@/components/loading/chubbi";
+import { useQueryClient } from "@tanstack/react-query";
 
-type NotificationData = Pick<
-  Notification,
-  "id" | "title" | "message" | "isRead"
-> & {
-  link: string;
-};
+export default function NotificationPage() {
+  const queryClient = useQueryClient();
+  const session = useSession();
+  const id = session?.data?.user?.id;
+  if (!id) {
+    return null;
+  }
+  const { data, isLoading } = useQuery({
+    queryKey: ["notifications", id],
+    queryFn: async () => {
+      const notifications = await db.notification.byRecipient({
+        recipientId: id,
+      });
+      const idsToMarkAsRead = notifications
+        .filter((n) => !n.isRead)
+        .map((n) => n.id);
+      await db.notification.markAsRead({ ids: idsToMarkAsRead });
+      queryClient.invalidateQueries({ queryKey: ["notifications"] });
+      return notifications;
+    },
+    refetchInterval: 1000 * 60 * 1, // 1 minute
+    refetchOnMount: "always",
+  });
 
-const notificationData: NotificationData[] = [
-  {
-    id: "1",
-    title: "Teacher assigned a new bot",
-    message: "Click here to view the task.",
-    isRead: false,
-    link: "/dragon/teacher/settings/notifications",
-  },
-  {
-    id: "2",
-    title: "Teacher assigned a new test",
-    message: "Click here to view the task.",
-    isRead: false,
-    link: "/dragon/teacher/settings/notifications",
-  },
-  {
-    id: "3",
-    title: "Teacher assigned a new lesson",
-    message: "Click here to view the task.",
-    isRead: true,
-    link: "/dragon/teacher/settings/notifications",
-  },
-  {
-    id: "4",
-    title: "Teacher assigned a new ai-test",
-    message: "Click here to view the task.",
-    isRead: true,
-    link: "/dragon/teacher/settings/notifications",
-  },
-  {
-    id: "5",
-    title: "Teacher assigned a new test",
-    message: "Click here to view the task.",
-    isRead: true,
-    link: "/dragon/teacher/settings/notifications",
-  },
-];
+  if (isLoading) {
+    return (
+      <div>
+        <ChubbiLoading />
+      </div>
+    );
+  }
+  if (!data) {
+    return <div>No notifications</div>;
+  }
 
-export default async function NotificationPage() {
+  const notifications = data;
+
   return (
     <Paper>
-      <NotificationList />
+      <NotificationList notifications={notifications} />
     </Paper>
   );
 }
 
-const NotificationList = () => {
+const NotificationList = ({
+  notifications,
+}: {
+  notifications: NotificationsByRecipient;
+}) => {
   return (
     <div className="">
-      {notificationData.map((notification) => (
+      {notifications.map((notification) => (
         <NotificationItem notification={notification} key={notification.id} />
       ))}
     </div>
@@ -76,13 +78,43 @@ const NotificationList = () => {
 const NotificationItem = ({
   notification,
 }: {
-  notification: NotificationData;
+  notification: NotificationsByRecipient[number];
 }) => {
   const title = notification.title;
   const message = notification.message;
   const isRead = notification.isRead;
+  const entityId = notification.activity?.event?.entityId as string;
+  const entityType = notification.activity?.event?.entityType as Entity;
+
+  const { data, isLoading } = useQuery({
+    queryFn: () => db.notification.notificationUrl(entityType, entityId),
+    queryKey: ["notificationUrl", entityId],
+  });
+
+  if (isLoading) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle>
+            <Skeleton className="h-[10px] w-full" />
+          </CardTitle>
+          <CardDescription>
+            <Skeleton className="h-[10px] w-full" />
+            <Skeleton className="h-[10px] w-full" />
+            <Skeleton className="h-[10px] w-full" />
+          </CardDescription>
+        </CardHeader>
+      </Card>
+    );
+  }
+
+  if (!data) {
+    return "Url not found";
+  }
+
+  const link = data;
   return (
-    <Link href={notification.link}>
+    <Link href={link}>
       <Card
         className={cn(
           "flex max-w-5xl flex-col rounded-none border-base-200 bg-transparent hover:bg-base-200",
@@ -93,14 +125,14 @@ const NotificationItem = ({
       >
         <CardHeader>
           <CardTitle
-            className={cn({
+            className={cn("capitalize-first lowercase", {
               "text-slate-500": isRead,
             })}
           >
             {title}
           </CardTitle>
           <CardDescription
-            className={cn({
+            className={cn("lowercase", {
               "text-slate-600": isRead,
             })}
           >

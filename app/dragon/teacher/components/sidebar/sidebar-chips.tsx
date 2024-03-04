@@ -8,16 +8,14 @@ import {
   SlidersIcon,
   ScreenIcon,
   BellIcon,
+  BellRingingIcon,
 } from "@/components/icons";
 import { url } from "@/lib/urls";
+import { db } from "@/lib/routers";
+import { useQuery } from "@tanstack/react-query";
+import { Badge } from "@/components/ui/badge";
 
 const sidebarChips = [
-  {
-    link: url.teacher.settings.notifications,
-    icon: <BellIcon className="text-primary" size="xxs" />,
-    label: "Notifications",
-    segment: "notifications",
-  },
   {
     link: url.teacher.home,
     icon: <HomeIcon className="text-white" size="xxs" />,
@@ -44,11 +42,23 @@ const sidebarChips = [
   //   },
 ];
 
-export function SidebarChips({ className }: { className?: string }) {
+export function SidebarChips({
+  className,
+  userId,
+}: {
+  className?: string;
+  userId: string;
+}) {
   const segments = useSelectedLayoutSegments();
   const segmentsSet = new Set(segments);
   return (
     <div className={cn("flex flex-col gap-3", className)}>
+      <NotificationChip
+        link={url.teacher.settings.notifications}
+        label="Notifications"
+        recipientId={userId}
+        isSelected={segmentsSet.has("notifications")}
+      />
       {sidebarChips.map((chip) => {
         const isSelected =
           segmentsSet.size === 0 && chip.segment === "home"
@@ -91,6 +101,51 @@ const SidebarChip = ({
       >
         {icon}
         <span>{label}</span>
+      </Button>
+    </Link>
+  );
+};
+
+const NotificationChip = ({
+  link,
+  label,
+  isSelected,
+  recipientId,
+}: {
+  link: string;
+  label: string;
+  isSelected?: boolean;
+  recipientId: string;
+}) => {
+  const data = useQuery({
+    queryKey: ["notifications"],
+    queryFn: () => db.notification.hasUnread({ recipientId }),
+    refetchInterval: 1000 * 60 * 1,
+  });
+  const hasUnread = data.data?.hasUnread;
+  const unReadCount = data.data?.unreadNotificationsCount;
+
+  return (
+    <Link href={link}>
+      <Button
+        variant={"ghost"}
+        size={"default"}
+        disabled={isSelected}
+        className={cn("flex w-full items-center justify-start gap-2", {
+          "bg-base-300 text-white ": isSelected,
+        })}
+      >
+        {!hasUnread ? (
+          <BellIcon className="text-primary" size="xxs" />
+        ) : (
+          <BellRingingIcon className="text-secondary" size="xxs" />
+        )}
+        <span>{label}</span>
+        {hasUnread && (
+          <Badge className="ml-auto rounded-full" variant={"secondary"}>
+            {unReadCount}
+          </Badge>
+        )}
       </Button>
     </Link>
   );
