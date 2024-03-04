@@ -4,7 +4,7 @@ import { teacherProfileURL } from "@/lib/urls";
 import Image from "next/image";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-import { db } from "../../../../../lib/routers";
+import { db } from "@/lib/routers";
 import { ProfileDropdown } from "./profile-dropdown";
 import { SidebarChips } from "./sidebar-chips";
 import { cn } from "@/lib/utils";
@@ -16,6 +16,9 @@ export async function Sidebar() {
     return null;
   }
   const { orgBrandName } = await db.org.getTeacherBrandNameByUserId({ userId });
+  const isOrgBrandNameShort = orgBrandName && orgBrandName.length < 30;
+  const showFlaconAIText = !orgBrandName || isOrgBrandNameShort;
+  const showCrossIcon = isOrgBrandNameShort;
 
   return (
     <nav className="col-span-4 grid h-screen w-full grid-cols-4 grid-rows-8 bg-base-200/50">
@@ -23,10 +26,8 @@ export async function Sidebar() {
         <div className="flex items-center  justify-center gap-2 rounded-lg px-3 py-2 shadow-md shadow-slate-950">
           <Image src={"/chubbi.png"} height={20} width={20} alt="Falcon Logo" />
           <div className={cn("flex w-full flex-row items-center gap-2 px-1")}>
-            {orgBrandName && orgBrandName.length < 30 ? (
-              <div className="text-xs">FalconAI</div>
-            ) : null}
-            {orgBrandName && orgBrandName.length < 30 ? (
+            {showFlaconAIText ? <div className="text-xs">FalconAI</div> : null}
+            {showCrossIcon ? (
               <XMarkIcon className="h-4 w-4 text-secondary" />
             ) : null}
             {orgBrandName && (
