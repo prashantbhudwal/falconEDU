@@ -7,6 +7,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { db } from "../../../../../lib/routers";
 import { ProfileDropdown } from "./profile-dropdown";
 import { SidebarChips } from "./sidebar-chips";
+import { cn } from "@/lib/utils";
 
 export async function Sidebar() {
   const session = await getServerSession(authOptions);
@@ -21,10 +22,16 @@ export async function Sidebar() {
       <div className="col-span-4 row-span-1 row-start-1 flex flex-col space-y-2 p-2">
         <div className="flex items-center  justify-center gap-2 rounded-lg px-3 py-2 shadow-md shadow-slate-950">
           <Image src={"/chubbi.png"} height={20} width={20} alt="Falcon Logo" />
-          <div className="flex flex-row items-center gap-2">
-            <div className="text-xs">FalconAI</div>
-            {orgBrandName && <XMarkIcon className="h-4 w-4 text-secondary" />}
-            {orgBrandName && <div className="text-xs">{orgBrandName}</div>}
+          <div className={cn("flex w-full flex-row items-center gap-2 px-1")}>
+            {orgBrandName && orgBrandName.length < 30 ? (
+              <div className="text-xs">FalconAI</div>
+            ) : null}
+            {orgBrandName && orgBrandName.length < 30 ? (
+              <XMarkIcon className="h-4 w-4 text-secondary" />
+            ) : null}
+            {orgBrandName && (
+              <div className="truncate text-xs">{orgBrandName}</div>
+            )}
           </div>
         </div>
         <NewClass />
