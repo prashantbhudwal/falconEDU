@@ -40,6 +40,7 @@ export const SubmitTestButton = React.forwardRef<HTMLButtonElement, PropTypes>(
   ) => {
     const session = useSession();
     const email = session.data?.user?.email;
+    const userId = session.data?.user?.id as string;
     const [showSubmitModal, setShowSubmitModal] = useAtom(submitTestModalAtom);
     const [loading, setLoading] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
@@ -66,6 +67,7 @@ export const SubmitTestButton = React.forwardRef<HTMLButtonElement, PropTypes>(
         await taskSubmissionHandlers[taskType]({
           attemptId: botChatId,
           autoCheck,
+          userId: userId,
         });
         trackEvent("student", "task_submitted", {
           distinct_id: email as string,

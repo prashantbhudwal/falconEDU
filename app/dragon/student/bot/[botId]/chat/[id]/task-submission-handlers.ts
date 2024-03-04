@@ -11,9 +11,11 @@ import { db } from "@/lib/routers";
 const testHandler = async ({
   attemptId,
   autoCheck,
+  userId,
 }: {
   attemptId: string;
   autoCheck: boolean;
+  userId: string;
 }) => {
   if (autoCheck) {
     const testResults = await checkTest({ botChatId: attemptId });
@@ -23,16 +25,18 @@ const testHandler = async ({
         testResults,
       });
     }
-    await db.attempt.submit({ attemptId });
+    await db.attempt.submit({ attemptId, userId });
   }
 };
 
 const aiTestHandler = async ({
   attemptId,
   autoCheck,
+  userId,
 }: {
   attemptId: string;
   autoCheck: boolean;
+  userId: string;
 }) => {
   if (autoCheck) {
     const { finalTestResults: goals, studentFeedback } = await checkAITest({
@@ -48,36 +52,42 @@ const aiTestHandler = async ({
       });
     }
   }
-  await db.attempt.submit({ attemptId });
+  await db.attempt.submit({ attemptId, userId });
 };
 
 const lessonHandler = async ({
   attemptId,
   autoCheck,
+  userId,
 }: {
   attemptId: string;
   autoCheck: boolean;
+  userId: string;
 }) => {
-  await db.attempt.submit({ attemptId });
+  await db.attempt.submit({ attemptId, userId });
 };
 
 const chatHandler = async ({
   attemptId,
   autoCheck,
+  userId,
 }: {
   attemptId: string;
   autoCheck: boolean;
+  userId: string;
 }) => {
-  await db.attempt.submit({ attemptId });
+  await db.attempt.submit({ attemptId, userId });
 };
 
 export const taskSubmissionHandlers: {
   [key in TaskType]: ({
     attemptId,
     autoCheck,
+    userId,
   }: {
     attemptId: string;
     autoCheck: boolean;
+    userId: string;
   }) => Promise<void>;
 } = {
   test: testHandler,
