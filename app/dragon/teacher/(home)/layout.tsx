@@ -1,4 +1,4 @@
-import { Sidebar } from "./components/sidebar/sidebar";
+import { Sidebar } from "../components/sidebar/sidebar";
 
 export const metadata = {
   manifest: "/manifest-teacher.json",

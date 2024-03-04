@@ -5,7 +5,7 @@ import { TextareaWithCounter as Textarea } from "@/components/ui/textarea-counte
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { updateTeacherPreferences } from "../../mutations";
+import { updateTeacherPreferences } from "../../../mutations";
 import { FiThumbsDown } from "react-icons/fi";
 import { FiThumbsUp } from "react-icons/fi";
 import { FiInfo } from "react-icons/fi";

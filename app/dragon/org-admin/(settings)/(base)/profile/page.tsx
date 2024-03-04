@@ -1,4 +1,4 @@
-import { BasicInfo } from "@/app/dragon/teacher/(settings)/profile/basic-info";
+import { BasicInfo } from "@/app/dragon/teacher/(home)/(settings)/profile/basic-info";
 import { DeleteAccountSection } from "@/components/delete-account-section";
 export default function ProfilePage() {
   return (
