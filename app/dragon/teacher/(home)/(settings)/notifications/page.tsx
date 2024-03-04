@@ -18,6 +18,8 @@ import { useQueryClient, useQuery } from "@tanstack/react-query";
 import { is } from "date-fns/locale";
 
 export default function NotificationPage() {
+  // Use it in combination with react server components, fetch the data on the server and then pass it down to the client
+  // And then refetch the data on the client, so that the data is always up to date
   const queryClient = useQueryClient();
   const session = useSession();
   const id = session?.data?.user?.id;
@@ -82,13 +84,13 @@ const NotificationItem = ({
 }: {
   notification: NotificationsByRecipient[number];
 }) => {
-  console.log(notification);
   const title = notification.title;
   const message = notification.message;
   const isRead = notification.isRead;
   const entityId = notification.activity?.event?.entityId as string;
   const entityType = notification.activity?.event?.entityType as Entity;
-
+  // Fetch this data in the parent component and then pass it down with other notification data
+  // Does not make sense to fetch this data for each notification
   const { data, isLoading } = useQuery({
     queryFn: () => db.notification.notificationUrl(entityType, entityId),
     queryKey: ["notificationUrl", entityId],
