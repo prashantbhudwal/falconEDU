@@ -96,7 +96,7 @@ const SidebarChip = ({
         size={"default"}
         disabled={isSelected}
         className={cn("flex w-full items-center justify-start gap-2", {
-          "bg-base-300 text-white ": isSelected,
+          "bg-base-300 text-white disabled:opacity-100": isSelected,
         })}
       >
         {icon}
@@ -132,7 +132,7 @@ const NotificationChip = ({
         size={"default"}
         disabled={isSelected}
         className={cn("flex w-full items-center justify-start gap-2", {
-          "bg-base-300 text-white ": isSelected,
+          "bg-base-300 text-white disabled:opacity-100": isSelected,
         })}
       >
         {!hasUnread ? (

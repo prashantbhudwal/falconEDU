@@ -43,7 +43,7 @@ export default function NotificationPage() {
 
   if (isLoading) {
     return (
-      <div>
+      <div className="h-screen">
         <ChubbiLoading />
       </div>
     );
@@ -93,15 +93,15 @@ const NotificationItem = ({
 
   if (isLoading) {
     return (
-      <Card>
+      <Card className="mb-2">
         <CardHeader>
           <CardTitle>
-            <Skeleton className="h-[10px] w-full" />
+            <Skeleton className="h-[10px] w-full bg-base-100" />
           </CardTitle>
           <CardDescription>
-            <Skeleton className="h-[10px] w-full" />
-            <Skeleton className="h-[10px] w-full" />
-            <Skeleton className="h-[10px] w-full" />
+            <Skeleton className="h-[10px] w-full bg-base-100" />
+            <Skeleton className="h-[10px] w-full bg-base-100" />
+            <Skeleton className="h-[10px] w-full bg-base-100" />
           </CardDescription>
         </CardHeader>
       </Card>
@@ -125,15 +125,15 @@ const NotificationItem = ({
       >
         <CardHeader>
           <CardTitle
-            className={cn("lowercase capitalize-first", {
+            className={cn("lowercase text-white capitalize-first", {
               "text-slate-500": isRead,
             })}
           >
             {title}
           </CardTitle>
           <CardDescription
-            className={cn("lowercase", {
-              "text-slate-600": isRead,
+            className={cn("lowercase text-white", {
+              "text-slate-500": isRead,
             })}
           >
             {message}

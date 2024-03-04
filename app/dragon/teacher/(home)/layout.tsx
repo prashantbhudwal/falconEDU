@@ -14,7 +14,9 @@ export default async function TeacherLayout({
       <div className="col-start-1 col-end-3">
         <Sidebar />
       </div>
-      <div className="col-start-3 col-end-13 overflow-y-auto">{children}</div>
+      <div className="col-start-3 col-end-13 overflow-y-auto bg-base-300">
+        {children}
+      </div>
     </main>
   );
 }
