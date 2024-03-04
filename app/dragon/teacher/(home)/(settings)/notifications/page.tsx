@@ -15,14 +15,15 @@ import { useSession } from "next-auth/react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ChubbiLoading } from "@/components/loading/chubbi";
 import { useQueryClient, useQuery } from "@tanstack/react-query";
+import { is } from "date-fns/locale";
 
 export default function NotificationPage() {
   const queryClient = useQueryClient();
   const session = useSession();
   const id = session?.data?.user?.id;
 
-  const { data, isLoading } = useQuery({
-    queryKey: ["notifications", id],
+  const { data, isLoading, isFetching } = useQuery({
+    queryKey: ["notificationsAll"],
     queryFn: async () => {
       if (!id) {
         return null;
@@ -38,7 +39,8 @@ export default function NotificationPage() {
       return notifications;
     },
     refetchInterval: 1000 * 60 * 1, // 1 minute
-    refetchOnMount: "always",
+    refetchOnWindowFocus: true,
+    refetchIntervalInBackground: true,
   });
 
   if (isLoading) {
@@ -80,6 +82,7 @@ const NotificationItem = ({
 }: {
   notification: NotificationsByRecipient[number];
 }) => {
+  console.log(notification);
   const title = notification.title;
   const message = notification.message;
   const isRead = notification.isRead;
