@@ -11,22 +11,22 @@ import Link from "next/link";
 import { db } from "@/lib/routers";
 import type { NotificationsByRecipient } from "@/lib/routers/notification";
 import { Entity } from "@/lib/notifications";
-import { useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ChubbiLoading } from "@/components/loading/chubbi";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQueryClient, useQuery } from "@tanstack/react-query";
 
 export default function NotificationPage() {
   const queryClient = useQueryClient();
   const session = useSession();
   const id = session?.data?.user?.id;
-  if (!id) {
-    return null;
-  }
+
   const { data, isLoading } = useQuery({
     queryKey: ["notifications", id],
     queryFn: async () => {
+      if (!id) {
+        return null;
+      }
       const notifications = await db.notification.byRecipient({
         recipientId: id,
       });
@@ -125,7 +125,7 @@ const NotificationItem = ({
       >
         <CardHeader>
           <CardTitle
-            className={cn("capitalize-first lowercase", {
+            className={cn("lowercase capitalize-first", {
               "text-slate-500": isRead,
             })}
           >
