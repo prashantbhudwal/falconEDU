@@ -185,6 +185,8 @@ export async function publish({
     const { classData, teacherName, teacherId } =
       await fetchClassAndTeacherData(classId);
 
+    const userIdTeacher = classData.Teacher.userId;
+
     const studentIds = classData.students.map((student) => student.id);
 
     const studentIdsWithExistingBots = await fetchExistingBotsForStudents(
@@ -219,7 +221,7 @@ export async function publish({
       // Create an event for the teacher
       const event = await prisma.event.create({
         data: {
-          initiatorId: teacherId,
+          initiatorId: userIdTeacher,
           entityId: botConfigId,
           entityType,
           action: entityAction,
