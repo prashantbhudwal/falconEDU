@@ -21,8 +21,8 @@ export async function Sidebar() {
   const showCrossIcon = isOrgBrandNameShort;
 
   return (
-    <nav className="col-span-4 grid h-screen w-full grid-cols-4 grid-rows-8 bg-base-200/50">
-      <div className="col-span-4 row-span-1 row-start-1 flex flex-col space-y-2 p-2">
+    <nav className="col-span-4 col-start-1 flex h-screen  w-full flex-col space-y-2 bg-base-200/50">
+      <div className="flex flex-col space-y-2  p-2">
         <div className="flex items-center  justify-center gap-2 rounded-lg px-3 py-2 shadow-md shadow-slate-950">
           <Image src={"/chubbi.png"} height={20} width={20} alt="Falcon Logo" />
           <div className={cn("flex w-full flex-row items-center gap-2 px-1")}>
@@ -35,13 +35,10 @@ export async function Sidebar() {
             )}
           </div>
         </div>
-        <NewClass />
+        <NewClass className="rounded-none border-b border-dashed hover:border-none hover:bg-primary/90 hover:text-black active:translate-y-1" />
       </div>
-      <SidebarChips
-        className="col-span-4 row-start-2 row-end-12"
-        userId={userId}
-      />
-      <div className="col-span-4 row-start-13">
+      <SidebarChips className="flex-grow " userId={userId} />
+      <div className="">
         <ProfileDropdown profileLink={teacherProfileURL} />
       </div>
     </nav>

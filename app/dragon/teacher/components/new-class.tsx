@@ -58,7 +58,7 @@ const formSchema = z.object({
   hasSection: z.boolean(),
 });
 
-export function NewClass() {
+export function NewClass({ className }: { className?: string }) {
   const { data } = useSession();
   const userId = data?.user?.id ?? "";
   const email = data?.user?.email ?? "";
@@ -108,9 +108,9 @@ export function NewClass() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild className="rounded-lg">
-        <Button variant={"outline"} size={"sm"}>
+        <Button variant={"outline"} size={"sm"} className={className}>
           <div className="flex items-center gap-1">
-            <FaPlus className="h-3 w-3 text-secondary" />
+            <FaPlus className="h-3 w-3 text-inherit" />
             <div> New Class</div>
           </div>
         </Button>

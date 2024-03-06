@@ -19,7 +19,7 @@ const sidebarChips = [
   {
     link: url.teacher.home,
     icon: <HomeIcon className="text-white" size="xxs" />,
-    label: "All Classes",
+    label: "Classes",
     segment: "home",
   },
   {
@@ -31,7 +31,7 @@ const sidebarChips = [
   {
     link: url.teacher.settings.training,
     icon: <ScreenIcon className="text-info" size="xxs" />,
-    label: "Teacher Training",
+    label: "Training",
     segment: "teacher-training",
   },
   //   {
