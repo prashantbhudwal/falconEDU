@@ -278,3 +278,21 @@ export const getGptGenerationTime = (
 export const isNonEmptyObject = (obj: Object) => {
   return obj && typeof obj === "object" && Object.keys(obj).length > 0;
 };
+
+// -----------------------------------------------------------------------------------------------------------------------
+
+/**
+ * Checks if a string is a valid URL.
+ * @param {string} url - The string to check.
+ * @returns {boolean} Whether the string is a valid URL.
+ * Endpoint = blr.cdn.digitaloceanspaces.com
+ */
+export const constructDigitalOceanUrl = ({
+  bucket,
+  key,
+}: {
+  bucket: string;
+  key: string;
+}) => {
+  return `https://${bucket}.blr1.cdn.digitaloceanspaces.com/${key}`;
+};
