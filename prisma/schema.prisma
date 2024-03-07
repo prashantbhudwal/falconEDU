@@ -76,6 +76,15 @@ model User {
 }
 
 //*********************** App Models *****************************//
+model HostedImage {
+  id        String      @id @default(cuid())
+  key       String
+  bucket    String
+  url       String?
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  BotConfig BotConfig[]
+}
 
 //**************** App > Social Models ****************//
 
@@ -379,6 +388,8 @@ model BotConfig {
   maxAttempts     Int?              @default(0)
   learningGoals   LearningGoals[]
   sources         Source[]
+  avatar          HostedImage?      @relation(fields: [hostedImageId], references: [id])
+  hostedImageId   String?
 }
 
 model LearningGoals {
