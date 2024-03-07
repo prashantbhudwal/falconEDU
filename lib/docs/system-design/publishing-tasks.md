@@ -1,3 +1,5 @@
+NOTE: THIS IS A WIP: The document is not complete yet. Also, whatever is written is not final and can, & will, be changed.
+
 Teacher creates a config that creates bots on the students side.
 
 # Task State
@@ -6,7 +8,7 @@ Teacher creates a config that creates bots on the students side.
 
 - Saved or Unsaved -> Meaning if self evident
 - Publish: The task is visible to the students. The students can see the task and interact with it.
-- Unpublish: The task is not visible to the students. The students cannot see the task at all, along with their responses. Its deleted for the students.
+- Unpublish: The task is not visible to the students. The students cannot see the task at all, along with their responses. It's deleted for the students.
 - Inactive: The students can see the task but cannot respond to the task.
 - Active: The students can respond to the task.
 - Hidden or Unhidden -> UI State for teachers to hide the task from the task list.
