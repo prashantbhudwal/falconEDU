@@ -5,6 +5,8 @@ import { BotConfig } from "@prisma/client";
 import { TaskType } from "@/types/dragon";
 import { trackEvent } from "@/lib/mixpanel";
 import { useSession } from "next-auth/react";
+import axios from "axios";
+const API = "/api/publish";
 export function useConfigPublishing({
   classId,
   botId,
@@ -21,14 +23,21 @@ export function useConfigPublishing({
   const [config, setConfig] = useState<BotConfig | null>(null);
   const onPublish = async () => {
     setLoading(true);
-    const result = await db.botConfig.publish({
+    // const result = await db.botConfig.publish({
+    //   classId,
+    //   botConfigId: botId,
+    //   type,
+    // });
+    const response = await axios.post(API, {
       classId,
       botConfigId: botId,
       type,
     });
+    const result = response.data;
+
     setLoading(false);
 
-    if (result.success) {
+    if (response.status === 200) {
       setConfig(result.updatedBotConfig);
       trackEvent("teacher", "task_published", {
         distinct_id: email,
