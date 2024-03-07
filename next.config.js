@@ -27,7 +27,13 @@ const nextConfig = {
   },
   experimental: {},
   images: {
-    domains: ["lh3.googleusercontent.com", "i.ytimg.com", "img.youtube.com"],
+    domains: [
+      "lh3.googleusercontent.com",
+      "i.ytimg.com",
+      "img.youtube.com",
+      "falconone.blr1.cdn.digitaloceanspaces.com",
+      "falconone.blr1.digitaloceanspaces.com",
+    ],
     remotePatterns: [
       {
         protocol: "https",
