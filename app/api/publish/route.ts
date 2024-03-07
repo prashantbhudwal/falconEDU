@@ -12,7 +12,6 @@ export async function POST(request: Request) {
   const { success, updatedBotConfig, message } =
     await db.botConfig.publish(body);
 
-  console.log({ success, updatedBotConfig });
   revalidatePath("/dragon/teacher/class");
 
   try {

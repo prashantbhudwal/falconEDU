@@ -23,21 +23,13 @@ export function useConfigPublishing({
   const [config, setConfig] = useState<BotConfig | null>(null);
   const onPublish = async () => {
     setLoading(true);
-    // const result = await db.botConfig.publish({
-    //   classId,
-    //   botConfigId: botId,
-    //   type,
-    // });
-    const response = await axios.post(API, {
+    const result = await db.botConfig.publishBotConfig({
       classId,
       botConfigId: botId,
       type,
     });
-    const result = response.data;
 
-    setLoading(false);
-
-    if (response.status === 200) {
+    if (result.success) {
       setConfig(result.updatedBotConfig);
       trackEvent("teacher", "task_published", {
         distinct_id: email,
