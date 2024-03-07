@@ -1,23 +1,15 @@
 "use client";
-import { type BotConfig } from "@prisma/client";
+import { HostedImage, type BotConfig } from "@prisma/client";
 import { ChangeEvent, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { db } from "@/lib/routers";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form } from "@/components/ui/form";
 import { Paper } from "@/components/ui/paper";
 import { Grade } from "@prisma/client";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 import { Input } from "@/components/ui/input";
-import TextAreaWithUpload from "../../components/task-form/fields/magic-content/textarea-with-upload";
 import endent from "endent";
 import { HumorLevelField } from "../../components/task-form/fields/humor-level";
 import { SaveButton } from "../../components/task-form/save-btn";
@@ -30,6 +22,8 @@ import { MediumOfInstructionField } from "../../components/task-form";
 import { EquationsField } from "../../components/task-form/fields/equations";
 import { TextAreaField } from "../../components/task-form/fields/magic-content/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { BotImage } from "../../components/image-upload/bot-image";
+import { TaskType } from "@/types";
 
 const MAX_CHARS = LIMITS_botPreferencesSchema.instructions.maxLength;
 
@@ -49,6 +43,7 @@ type BotPreferencesFormProps = {
   botId: string;
   botConfig: BotConfig | null;
   grade: Grade;
+  avatar: HostedImage | null;
 };
 
 export default function BotPreferencesForm({
@@ -57,15 +52,16 @@ export default function BotPreferencesForm({
   botId,
   botConfig,
   grade,
+  avatar,
 }: BotPreferencesFormProps) {
+  const taskType: TaskType = "chat";
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [inputFocus, setInputFocus] = useState("");
   const [botName, setBotName] = useState<string | undefined>(botConfig?.name);
 
   const form = useForm<z.infer<typeof botPreferencesSchema>>({
     resolver: zodResolver(botPreferencesSchema),
-    defaultValues: preferences || defaultValues,
+    defaultValues: preferences ?? defaultValues,
   });
   const { isDirty, setIsDirty } = useIsFormDirty(form);
   const isEmpty = preferences === null || preferences === undefined;
@@ -78,7 +74,7 @@ export default function BotPreferencesForm({
       classId,
       botId,
       data,
-      configType: "chat",
+      configType: taskType,
     });
     setLoading(false);
     if (result.success) {
@@ -122,143 +118,69 @@ export default function BotPreferencesForm({
   };
 
   return (
-    <>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
-          <Paper
-            variant="gray"
-            className="min-h-screen w-full max-w-5xl space-y-8 border-none bg-base-200 pt-12 shadow-none"
-          >
-            <div className="flex min-h-14 flex-wrap justify-between">
-              <div className="w-[50%]">
-                <Input
-                  type="text"
-                  value={botName}
-                  onChange={onBotNameChange}
-                  onBlur={updateBotNameHandler}
-                  className="border-none pl-0 text-xl font-bold tracking-wide outline-none focus-visible:ring-0  "
-                />
-                {error && (
-                  <div className="mt-3 text-xs text-red-500">{error}</div>
-                )}
-              </div>
-              <SaveButton
-                isLoading={loading}
-                isDisabled={(isEmpty && !isDirty) || !isDirty}
-                hasUnsavedChanges={isDirty}
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
+        <Paper
+          variant="gray"
+          className="min-h-screen w-full max-w-5xl space-y-8 border-none bg-base-200 pt-12 shadow-none"
+        >
+          <BotImage
+            taskId={botId}
+            taskName={botName || "Unnamed Bot"}
+            classId={classId}
+            type={taskType}
+            avatar={avatar}
+          />
+          <div className="flex min-h-14 flex-wrap justify-between">
+            <div className="w-[50%]">
+              <Input
+                type="text"
+                value={botName}
+                onChange={onBotNameChange}
+                onBlur={updateBotNameHandler}
+                className="border-none pl-0 text-xl font-bold tracking-wide outline-none focus-visible:ring-0  "
               />
+              {error && (
+                <div className="mt-3 text-xs text-red-500">{error}</div>
+              )}
             </div>
-            <Card>
-              <CardHeader>
-                <CardTitle>Content</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <TextAreaField
-                  name="instructions"
-                  placeholder={endent`
+            <SaveButton
+              isLoading={loading}
+              isDisabled={(isEmpty && !isDirty) || !isDirty}
+              hasUnsavedChanges={isDirty}
+            />
+          </div>
+          <Card>
+            <CardHeader>
+              <CardTitle>Content</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <TextAreaField
+                name="instructions"
+                placeholder={endent`
                 Your name is Sporty, the sports teacher. You make students excited about sports. 
                 
                 - Be polite with the students. 
                 - Never use negative language.
                 - Use positive reinforcement.
                  `}
-                  maxChars={MAX_CHARS}
-                />
-              </CardContent>
-            </Card>
-            <EquationsField name="hasEquations" />
-            <div className="grid grid-cols-6 gap-2">
-              <MediumOfInstructionField
-                name="mediumOfInstruction"
-                className="col-span-3 col-start-1"
+                maxChars={MAX_CHARS}
               />
-              <HumorLevelField
-                name="humorLevel"
-                className="col-span-3 col-start-4"
-              />
-            </div>
-          </Paper>
-        </form>
-      </Form>
-    </>
+            </CardContent>
+          </Card>
+          <EquationsField name="hasEquations" />
+          <div className="grid grid-cols-6 gap-2">
+            <MediumOfInstructionField
+              name="mediumOfInstruction"
+              className="col-span-3 col-start-1"
+            />
+            <HumorLevelField
+              name="humorLevel"
+              className="col-span-3 col-start-4"
+            />
+          </div>
+        </Paper>
+      </form>
+    </Form>
   );
 }
-
-// Old fields -----------------------------
-/* <FormField
-              control={form.control}
-              name="tone"
-              render={({ field }) => (
-                <FormItem className="space-y-3">
-                  <FormLabel className="mb-5 flex gap-2 items-center font-bold">
-                    Tone
-                    <SpeakerWaveIcon className="h-4 w-4" />
-                  </FormLabel>
-                  <FormControl>
-                    <RadioGroup
-                      onValueChange={() => {
-                        field.onChange;
-                      }}
-                      defaultValue={field.value}
-                      className="flex flex-row space-y-1 space-x-6"
-                    >
-                      {tone.map((tone) => (
-                        <FormItem
-                          className="flex flex-row items-center space-x-3 space-y-0"
-                          key={tone}
-                        >
-                          <FormControl>
-                            <RadioGroupItem
-                              value={tone}
-                              className=" active:scale-90 transition-all duration-200 hover:scale-[1.2]"
-                            />
-                          </FormControl>
-                          <FormLabel className="font-normal">{tone}</FormLabel>
-                        </FormItem>
-                      ))}
-                    </RadioGroup>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            /> */
-
-/* <FormField
-              control={form.control}
-              name="languageProficiency"
-              render={({ field }) => (
-                <FormItem className="space-y-3">
-                  <FormLabel className="flex gap-2 items-center font-bold">
-                    Language Proficiency
-                    <LanguageIcon className="h-4 w-4" />
-                  </FormLabel>
-                  <FormControl>
-                    <RadioGroup
-                      onValueChange={() => {
-                        field.onChange;
-                      }}
-                      defaultValue={field.value}
-                      className="flex flex-row space-y-1 space-x-6"
-                    >
-                      {languageProficiency.map((languageProficiency) => (
-                        <FormItem
-                          className="flex flex-row items-center space-x-3 space-y-0"
-                          key={languageProficiency}
-                        >
-                          <FormControl>
-                            <RadioGroupItem
-                              value={languageProficiency}
-                              className=" active:scale-90 transition-all duration-200 hover:scale-[1.2]"
-                            />
-                          </FormControl>
-                          <FormLabel className="font-normal">
-                            {languageProficiency}
-                          </FormLabel>
-                        </FormItem>
-                      ))}
-                    </RadioGroup>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            /> */

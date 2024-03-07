@@ -23,6 +23,7 @@ export default async function BotPage({ params }: BotPageProps) {
       classId={classId}
       botId={taskId}
       grade={grade}
+      avatar={config?.avatar}
     />
   );
 }

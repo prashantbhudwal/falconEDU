@@ -588,6 +588,7 @@ export const fetchConfigAndPreferences = cache(
         where: { id: configId },
         include: {
           Class: true,
+          avatar: true,
         },
       });
       let preferences;
@@ -750,3 +751,53 @@ export const getAllBotChats = async ({
   }
 };
 export type AllBotChats = UnwrapPromise<ReturnType<typeof getAllBotChats>>;
+
+export const addOrUpdateImage = async ({
+  botId,
+  bucket,
+  key,
+  url,
+  revalidationUrl,
+}: {
+  botId: string;
+  bucket: string;
+  key: string;
+  url?: string;
+  revalidationUrl: string;
+}) => {
+  try {
+    // First, attempt to retrieve the existing BotConfig with its associated HostedImage
+    const existingConfig = await prisma.botConfig.findUnique({
+      where: { id: botId },
+      include: { avatar: true },
+    });
+
+    let avatar;
+
+    if (existingConfig?.avatar) {
+      // If an avatar already exists, update its details
+      avatar = await prisma.hostedImage.update({
+        where: { id: existingConfig.avatar.id },
+        data: { bucket, key, url },
+      });
+    } else {
+      avatar = await prisma.hostedImage.create({
+        data: {
+          bucket,
+          key,
+          url,
+          BotConfig: {
+            connect: { id: botId },
+          },
+        },
+      });
+    }
+
+    revalidatePath(revalidationUrl);
+
+    return avatar;
+  } catch (err) {
+    console.error(err);
+    throw new Error("Failed to add or update image");
+  }
+};
