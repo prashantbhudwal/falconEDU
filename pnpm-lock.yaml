@@ -339,7 +339,7 @@ dependencies:
     specifier: ^0.0.1
     version: 0.0.1
   sharp:
-    specifier: ^0.32.6
+    specifier: 0.32.6
     version: 0.32.6
   showdown:
     specifier: ^2.1.0
