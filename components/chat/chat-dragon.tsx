@@ -18,20 +18,6 @@ import ReactPlayer from "react-player";
 import { motion } from "framer-motion";
 import { TaskType } from "@/types";
 
-export interface ChatProps extends React.ComponentProps<"div"> {
-  initialMessages?: Message[];
-  id: string;
-  apiPath: string;
-  emptyMessage: string;
-  chatBody: Record<string, unknown>;
-  botImage?: string;
-  isDisabled?: boolean;
-  isSubmitted?: boolean;
-  type: TaskType;
-  hidePanel?: boolean;
-  taskId: string;
-}
-
 const scrollToPercentage = (
   percent: number,
   containerRef: React.RefObject<HTMLElement>,
@@ -55,6 +41,20 @@ const scrollToEnd = (containerRef: React.RefObject<HTMLElement>) => {
     }); //  might need to adjust this if there's a fixed header/footer.
   }
 };
+export interface ChatProps extends React.ComponentProps<"div"> {
+  initialMessages?: Message[];
+  id: string;
+  apiPath: string;
+  emptyMessage: string;
+  chatBody: Record<string, unknown>;
+  botImage?: string;
+  isDisabled?: boolean;
+  isSubmitted?: boolean;
+  type: TaskType;
+  hidePanel?: boolean;
+  taskId: string;
+  maxMessages?: number;
+}
 
 export function Chat({
   id,
@@ -69,6 +69,7 @@ export function Chat({
   type,
   hidePanel,
   taskId,
+  maxMessages,
 }: Readonly<ChatProps>) {
   const [autoScrolling, setAutoScrolling] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -111,8 +112,15 @@ export function Chat({
   }, [messages, autoScrolling, inView, isLoading]);
 
   function renderChatPanel() {
-    if (hidePanel) return null;
+    if (maxMessages && messages.length >= maxMessages)
+      return (
+        <div className="fixed inset-x-0 bottom-0 flex flex-col items-center justify-center bg-base-100 py-2">
+          <div className="font-bold text-error">Max Messages Reached </div>
+          <div>Contact your school for more</div>
+        </div>
+      );
 
+    if (hidePanel) return null;
     if (!isDisabled && !isSubmitted) {
       return (
         <ChatPanel
