@@ -12,9 +12,7 @@ export const uploadToDigitalOcean = async (formData: FormData) => {
   }
   const file = formData.get("file") as File;
   const buffer = Buffer.from(await file.arrayBuffer());
-  const OptimizedBuffer = await sharp(buffer)
-    .webp({ lossless: true })
-    .toBuffer();
+  const OptimizedBuffer = await sharp(buffer).webp({ quality: 80 }).toBuffer();
 
   const bucket = process.env.DO_SPACES_BUCKET ?? "";
 
@@ -22,10 +20,11 @@ export const uploadToDigitalOcean = async (formData: FormData) => {
     const stored = await s3
       .upload({
         Bucket: bucket,
-        Key: `uploads/${file.name}-${nanoid()}.webp`,
+        Key: `uploads/${file.name}-${nanoid()}.webp`, // Adding an nanoid ensures cache busting
         Body: OptimizedBuffer,
         ACL: "public-read",
         ContentType: "image/webp",
+        CacheControl: "max-age=31536000", // cached in the browser for a year
       })
       .promise();
     return { url: stored.Location, key: stored.Key, bucket: bucket };
