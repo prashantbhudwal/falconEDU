@@ -13,8 +13,8 @@ import {
 import { TalkButton } from "./talk-button";
 
 export default async function CareerGallery() {
-  // const classId = "cltgwnyv30001139z6zvd873q"; // Anushka
-  const classId = "clt4zg5gs000n9y3uf3jez9r4"; // Prashant
+  const classId = "cltgwnyv30001139z6zvd873q"; // Anushka
+  // const classId = "clt4zg5gs000n9y3uf3jez9r4"; // Prashant
   const taskType: TaskType = "chat";
   const botConfig = await prisma.botConfig.findMany({
     where: {
