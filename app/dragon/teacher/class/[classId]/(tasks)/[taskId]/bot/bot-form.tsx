@@ -58,6 +58,9 @@ export default function BotPreferencesForm({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [botName, setBotName] = useState<string | undefined>(botConfig?.name);
+  const [botDescription, setBotDescription] = useState<string | undefined>(
+    botConfig?.description ?? "",
+  );
 
   const form = useForm<z.infer<typeof botPreferencesSchema>>({
     resolver: zodResolver(botPreferencesSchema),
@@ -111,10 +114,33 @@ export default function BotPreferencesForm({
     setBotName(e.target.value);
     const isValidName = botNameSchema.safeParse({ name: e.target.value });
     if (!isValidName.success) {
-      setError("Warning: Message length is out of the 3-30 character limit."); // set the error message
+      setError("Should be within 3-30 character limit."); // set the error message
       return;
     }
     setError("");
+  };
+
+  const onBotDescriptionChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setBotDescription(e.target.value);
+    const isValid = botDescription && botDescription?.length < 50;
+    if (!isValid) {
+      setError("Description should be within 50 characters.");
+      return;
+    }
+    setError("");
+  };
+
+  const updateBotDescriptionHandler = async () => {
+    const result = await db.botConfig.updateBotConfigDescription({
+      classId,
+      botId,
+      description: botDescription || "",
+    });
+    if (result.success) {
+      setError("");
+    } else {
+      setError("Failed to update bot name. Please try again.");
+    }
   };
 
   return (
@@ -132,7 +158,7 @@ export default function BotPreferencesForm({
             avatar={avatar}
           />
           <div className="flex min-h-14 flex-wrap justify-between">
-            <div className="w-[50%]">
+            <div className="flex w-[50%] flex-col space-y-2">
               <Input
                 type="text"
                 value={botName}
@@ -140,6 +166,7 @@ export default function BotPreferencesForm({
                 onBlur={updateBotNameHandler}
                 className="border-none pl-0 text-xl font-bold tracking-wide outline-none focus-visible:ring-0  "
               />
+
               {error && (
                 <div className="mt-3 text-xs text-red-500">{error}</div>
               )}
@@ -150,6 +177,20 @@ export default function BotPreferencesForm({
               hasUnsavedChanges={isDirty}
             />
           </div>
+          <Card>
+            <CardHeader>
+              <CardTitle>Description</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Input
+                type="text"
+                value={botDescription}
+                onChange={onBotDescriptionChange}
+                onBlur={updateBotDescriptionHandler}
+              />
+            </CardContent>
+          </Card>
+
           <Card>
             <CardHeader>
               <CardTitle>Content</CardTitle>
