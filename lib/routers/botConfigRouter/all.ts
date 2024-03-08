@@ -310,6 +310,35 @@ export const updateBotConfigName = async function ({
   }
 };
 
+export const updateBotConfigDescription = async function ({
+  classId,
+  botId,
+  description,
+}: {
+  classId: string;
+  botId: string;
+  description: string;
+}): Promise<{ success: boolean; error?: any }> {
+  await isAuthorized({
+    userType: "TEACHER",
+  });
+  try {
+    const result = await prisma.botConfig.update({
+      where: { id: botId },
+      data: {
+        description: description,
+      },
+    });
+    revalidatePath(
+      getTaskUrl({ classId, taskId: botId, type: result.type as TaskType }),
+    );
+    return { success: true };
+  } catch (error) {
+    console.error("Failed to update:", error);
+    return { success: false, error };
+  }
+};
+
 export const getAllConfigsInClass = cache(
   async ({ userId, classId }: { userId: string; classId: string }) => {
     const organizeConfigs = (botConfigs: BOT_CONFIG_TYPE[]) => {
