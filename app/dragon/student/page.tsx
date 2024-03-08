@@ -1,15 +1,13 @@
-import { getChats } from "@/app/(engines)/chubbi/actions";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-import { bots } from "@/lib/schema/test-data";
-import { getBotsByUserId } from "./queries";
 import { StudentHomeNavbar } from "./components/student-navbar";
 import { ItemCard } from "./components/item-card";
 import Link from "next/link";
-import { getStudentBotURL, getStudentTeacherURL } from "@/lib/urls";
+import { getStudentTeacherURL } from "@/lib/urls";
 import { getTeachersByUserId } from "./queries";
 import { InstallAppDrawer } from "@/components/install-app-drawer";
 import { db } from "../../../lib/routers";
+import { CareerCard } from "./components/career-card";
 
 const basePath = "/dragon/student";
 
@@ -23,6 +21,7 @@ export default async function AllChats() {
   const { orgBrandName } = await db.org.getStudentBrandNameByUserId({
     userId: id,
   });
+  const hasTeachers = teachers.length > 0;
 
   return (
     <>
@@ -38,6 +37,7 @@ export default async function AllChats() {
             </p>
           </div>
         )}
+        <CareerCard />
         {teachers.map((teacher) => (
           <Link href={getStudentTeacherURL(teacher.id)} key={teacher.id}>
             <ItemCard
