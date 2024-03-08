@@ -102,6 +102,7 @@ export const getBotChatByChatId = cache(async function (chatId: string) {
         select: {
           BotConfig: {
             select: {
+              avatar: true,
               teacher: {
                 select: {
                   User: {
@@ -136,6 +137,7 @@ export const getBotChatByChatId = cache(async function (chatId: string) {
     isRead: botChat.isRead,
     botChatId: botChat.id,
     isSubmitted: botChat.isSubmitted,
+    avatar: botChat.bot?.BotConfig?.avatar,
   };
 });
 
