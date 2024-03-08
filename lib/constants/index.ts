@@ -42,3 +42,4 @@ export const taskPropertiesMap = {
     aiTemperature: 0.7,
   },
 };
+export const digitalOceanCdnEndpoint = "blr1.cdn.digitaloceanspaces.com";
