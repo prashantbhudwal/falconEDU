@@ -113,7 +113,7 @@ export function ImageUploadDialog({
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     noDrag: false,
-    maxSize: 500000, // 500kb
+    maxSize: 2000000, // 2MB
     accept: ACCEPTED_FILE_TYPES,
   });
 
