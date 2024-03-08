@@ -16,6 +16,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useAtom } from "jotai";
 import { ModeToggle } from "@/components/theme-toggle";
+import { cn } from "@/lib/utils";
 
 const SettingsIcon: React.FC = () => {
   return (
@@ -41,10 +42,18 @@ const SettingsIcon: React.FC = () => {
 
 type StudentNavbarProps = {
   children: ReactNode;
+  className?: string;
 };
 
-export const StudentNavbar: React.FC<StudentNavbarProps> = ({ children }) => (
-  <div className="navbar bg-base-200 shadow-sm shadow-base-100">{children}</div>
+export const StudentNavbar: React.FC<StudentNavbarProps> = ({
+  children,
+  className,
+}) => (
+  <div
+    className={cn("navbar bg-base-200 shadow-sm shadow-base-100", className)}
+  >
+    {children}
+  </div>
 );
 
 export const StudentHomeNavbar = ({
@@ -85,6 +94,8 @@ type AvatarNavbarProps = {
   isSubmitted?: boolean;
   botChatId?: string;
   isMultipleChats?: boolean;
+  hideAvatar?: boolean;
+  className?: string;
 };
 
 export const AvatarNavbar: React.FC<AvatarNavbarProps> = ({
@@ -98,18 +109,26 @@ export const AvatarNavbar: React.FC<AvatarNavbarProps> = ({
   isSubmitted,
   isMultipleChats,
   botChatId,
+  hideAvatar,
+  className,
 }) => {
   const [isLoading] = useAtom(chatIsLoadingAtom);
   return (
-    <StudentNavbar>
+    <StudentNavbar className={className}>
       <Link href={studentHomeURL} className="navbar-start flex gap-3">
-        <Avatar>
-          <AvatarImage src={avatarUrl} />
-          <AvatarFallback className="bg-base-300">
-            <Avvvatars value={title} style="shape" />
-          </AvatarFallback>
-        </Avatar>
-        <div>
+        {!hideAvatar && (
+          <Avatar>
+            <AvatarImage src={avatarUrl} />
+            <AvatarFallback className="bg-base-300">
+              <Avvvatars value={title} style="shape" />
+            </AvatarFallback>
+          </Avatar>
+        )}
+        <div
+          className={cn("", {
+            "pl-2": hideAvatar,
+          })}
+        >
           <div className="truncate">{title}</div>
           {isLoading ? (
             <div className="truncate text-sm text-primary">
