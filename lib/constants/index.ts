@@ -33,11 +33,11 @@ export const taskPropertiesMap = {
     aiTemperature: 1,
   },
   "ai-test": {
-    formattedType: "AI Test",
+    formattedType: "Quiz",
     formattedTypeStudent: "Quiz",
     Icon: HiOutlineClipboard,
     iconColor: "text-accent",
-    newName: "Untitled AI Test",
+    newName: "Untitled Quiz",
     emptyChatMessage: "Say hello to start the quiz",
     aiTemperature: 0.7,
   },

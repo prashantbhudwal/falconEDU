@@ -53,7 +53,7 @@ export function NewTaskModal({
   const [open, setOpen] = useAtom(newTaskModalAtom);
   const [error, setError] = useState("");
 
-  const types: TaskType[] = ["lesson", "test", "chat", "ai-test"];
+  const types: TaskType[] = ["lesson", "ai-test", "test", "chat"];
 
   const formSchema = z.object({
     taskName: z.string().min(3).max(50),
@@ -145,7 +145,7 @@ export function NewTaskModal({
                           <FormControl>
                             <RadioGroupItem value={type} className="sr-only" />
                           </FormControl>
-                          <div className="relative rounded-full border-2 p-4 text-5xl">
+                          <div className="relative rounded-full border-2 p-4 text-5xl hover:border-primary active:translate-y-1">
                             {getTypeIcon(type)}
                             <span className="absolute -right-1 top-0 hidden rounded-full bg-base-200 text-2xl text-primary">
                               <IoIosCheckmarkCircle />
