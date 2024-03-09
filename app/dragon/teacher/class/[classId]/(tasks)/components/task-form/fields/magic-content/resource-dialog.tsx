@@ -29,7 +29,7 @@ import { useQuery } from "@tanstack/react-query";
 import Fuse from "fuse.js";
 import Link from "next/link";
 import { useMemo, useState } from "react";
-
+import { AIMarkdown } from "@/components/chat/ai-markdown";
 export const ResourceDialog = ({
   open,
   setOpen,
@@ -182,7 +182,7 @@ const ResourcePreview = ({
       <Separator />
       <CardContent className="flex-grow pt-3 text-sm">
         {selectedResource?.content?.length > 0 ? (
-          selectedResource.content
+          <AIMarkdown content={selectedResource.content} />
         ) : (
           <span className="text-lg text-slate-600">
             You have not added content to this resource. Please edit and add
