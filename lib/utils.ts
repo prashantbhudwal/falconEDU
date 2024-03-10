@@ -296,3 +296,5 @@ export const constructDigitalOceanUrl = ({
 }) => {
   return `https://${bucket}.blr1.cdn.digitaloceanspaces.com/${key}`;
 };
+
+export const isProduction = process.env.NODE_ENV === "production";

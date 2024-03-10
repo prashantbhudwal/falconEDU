@@ -11,10 +11,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { TalkButton } from "./talk-button";
+import { isProduction } from "@/lib/utils";
 
 export default async function CareerGallery() {
-  const classId = "cltgwnyv30001139z6zvd873q"; // Anushka
-  // const classId = "clt4zg5gs000n9y3uf3jez9r4"; // Prashant
+  const classId = isProduction
+    ? "cltj928su0001147kbnpccdag"
+    : "cltgwnyv30001139z6zvd873q";
+
   const taskType: TaskType = "chat";
   const botConfig = await prisma.botConfig.findMany({
     where: {
