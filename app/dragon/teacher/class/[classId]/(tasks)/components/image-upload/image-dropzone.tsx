@@ -82,7 +82,7 @@ export function ImageUploadDialog({
         fileRejections.forEach((rejection: any) => {
           rejection.errors.forEach((error: any) => {
             if (error.code === "file-too-large") {
-              toast.error("File is too large. Limit 500kb");
+              toast.error("File is too large. Limit is 2MB");
             }
             if (error.code === "file-invalid-type") {
               toast.error("Invalid file type. Only jpg and png are allowed");
