@@ -15,6 +15,7 @@ import { cn } from "@/lib/utils";
 const ACCEPTED_FILE_TYPES = {
   [MimeTypes.JPG]: [".jpg", ".jpeg"],
   [MimeTypes.PNG]: [".png"],
+  [MimeTypes.WEBP]: [".webp"],
 };
 const toastifyPromise = (promise: Promise<any>) => {
   return toast.promise(promise, {
