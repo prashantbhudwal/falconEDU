@@ -142,7 +142,7 @@ export function ImageUploadDialog({
             </div>
           </div>
           <p className="w-full pb-5 text-center text-xs text-slate-600">
-            {"Max Size - 500kb. Formats - jpg, png"}
+            {"Max Size - 500kb. Formats - jpg, png, webp"}
           </p>
         </div>
       </DialogContent>
