@@ -4,7 +4,7 @@ import { cn } from "../../lib/utils";
 import { ChatList } from "./chat-list";
 import { ChatPanel } from "./chat-panel";
 import { toast } from "react-hot-toast";
-import React, { useRef, useLayoutEffect, useState, useEffect } from "react";
+import { useRef, useLayoutEffect, useState, useEffect } from "react";
 import { MdOutlineKeyboardDoubleArrowDown } from "react-icons/md";
 import { Button } from "../ui/button";
 import { useInView } from "react-intersection-observer";
@@ -12,35 +12,15 @@ import { chatIsLoadingAtom } from "@/lib/atoms/student";
 import { useUI } from "@/hooks/ai/use-ui";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useFirstMessage } from "./use-first-message";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { showVideoModalAtom, videoUrlAtom } from "@/lib/atoms/ui";
-import ReactPlayer from "react-player";
-import { motion } from "framer-motion";
 import { TaskType } from "@/types";
+import { VideoCard } from "./video-card";
+import { InDev } from "./in-dev";
+import { scrollToEnd, scrollToPercentage } from "./helpers";
+import { EmptyMessage } from "./empty-message";
+import { MaxLimitReached } from "./max-limit-reached";
+import { PanelInactive } from "./panel-inactive";
 
-const scrollToPercentage = (
-  percent: number,
-  containerRef: React.RefObject<HTMLElement>,
-) => {
-  const container = containerRef.current;
-  if (container) {
-    const scrollPosition = container.scrollHeight * (percent / 100);
-    container.scrollTo({
-      top: scrollPosition,
-      behavior: "smooth",
-    });
-  }
-};
-
-const scrollToEnd = (containerRef: React.RefObject<HTMLElement>) => {
-  const container = containerRef.current;
-  if (container) {
-    container.scrollTo({
-      top: container.scrollHeight,
-      behavior: "smooth",
-    }); //  might need to adjust this if there's a fixed header/footer.
-  }
-};
 export interface ChatProps extends React.ComponentProps<"div"> {
   initialMessages?: Message[];
   id: string;
@@ -89,7 +69,12 @@ export function Chat({
         }
       },
     });
+  // controls the UI of the chat using data generated from the LLM
   useUI({ data, isLoading });
+
+  // custom hook auto send first message
+  useFirstMessage({ messages, append, type });
+
   useEffect(() => {
     setIsLoadingAtom(isLoading);
   }, [isLoading, setIsLoadingAtom]);
@@ -99,8 +84,6 @@ export function Chat({
       scrollToPercentage(100, containerRef);
     }
   }, [messages.length]);
-
-  useFirstMessage({ messages, append, type });
 
   useLayoutEffect(() => {
     if (messages.length && autoScrolling) {
@@ -113,13 +96,7 @@ export function Chat({
 
   function renderChatPanel() {
     if (maxMessages && messages.length >= maxMessages)
-      return (
-        <div className="fixed inset-x-0 bottom-0 flex flex-col items-center justify-center bg-base-100 py-2">
-          <div className="font-bold text-error">Max Messages Reached </div>
-          <div>Contact your school for more</div>
-        </div>
-      );
-
+      return <MaxLimitReached />;
     if (hidePanel) return null;
     if (!isDisabled && !isSubmitted) {
       return (
@@ -139,11 +116,9 @@ export function Chat({
       );
     }
     return (
-      <div className="fixed inset-x-0 bottom-0 rounded-t-lg bg-gray-900 p-4 text-white shadow-lg">
-        <h1 className="text-center text-lg font-semibold">
-          {!isSubmitted ? "No longer active." : "Already submitted."}
-        </h1>
-      </div>
+      <PanelInactive
+        message={!isSubmitted ? "No longer active." : "Already submitted."}
+      />
     );
   }
 
@@ -187,66 +162,3 @@ export function Chat({
     </div>
   );
 }
-
-const EmptyMessage = ({ message }: { message: string }) => {
-  return (
-    <div className="mx-auto max-w-2xl px-4 pt-8">
-      <div className="flex place-content-center rounded-md bg-slate-900 py-4">
-        <h1 className="text-xl font-medium text-slate-500">{message}</h1>
-      </div>
-    </div>
-  );
-};
-
-const VideoCard = ({ videoUrl }: { videoUrl: string }) => {
-  const shadowAnimation = {
-    initial: {
-      boxShadow: "0px 0px 0px rgba(0, 0, 0, 0)", // No shadow
-    },
-    animate: {
-      boxShadow: "0px 5px 15px rgba(0, 0, 0, 0.5)", // Visible shadow
-    },
-  };
-
-  return (
-    <motion.div
-      initial="initial"
-      animate="animate"
-      variants={shadowAnimation}
-      transition={{ duration: 0.5 }}
-    >
-      <Card className="mx-auto w-fit shadow-lg shadow-secondary">
-        <CardHeader>
-          <CardTitle>Recommended Video</CardTitle>
-        </CardHeader>
-        <CardContent className="bg-base-200">
-          {ReactPlayer.canPlay(videoUrl) ? (
-            <ReactPlayer
-              url={videoUrl}
-              controls={true}
-              height={200}
-              width={"100%"}
-            />
-          ) : (
-            <div className="flex h-full flex-col items-center justify-center">
-              <p className="text-center text-gray-500">
-                This video is not supported.
-              </p>
-            </div>
-          )}
-        </CardContent>
-      </Card>
-    </motion.div>
-  );
-};
-
-const InDev = ({ component }: { component: React.ReactNode }) => {
-  if (process.env.NODE_ENV === "production") {
-    return null;
-  }
-  return (
-    <div className="fixed bottom-1/2 right-2 z-20 min-h-36 w-fit border border-dotted border-accent/60 p-2">
-      {component}
-    </div>
-  );
-};
