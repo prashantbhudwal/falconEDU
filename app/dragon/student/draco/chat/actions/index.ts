@@ -7,7 +7,7 @@ import { getServerSession } from "next-auth";
 import { Chat } from "../types";
 import { getUIStateFromAIState } from "../get-ui-from-ai-state";
 import { saveChat } from "../save-chat";
-import { submitUserMessage } from "./submit-user-message";
+import { submitUserMessage } from "./submit";
 import { confirmPurchase } from "./confirm-purchase";
 
 export type Message = {

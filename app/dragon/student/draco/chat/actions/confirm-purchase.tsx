@@ -1,7 +1,7 @@
 import { createStreamableUI, getMutableAIState } from "ai/rsc";
 import { AI } from ".";
 import { spinner } from "../rsc/spinner";
-import { sleep } from "./submit-user-message";
+import { sleep } from "./submit";
 import { SystemMessage } from "../rsc/system-message";
 import { nanoid } from "nanoid";
 export const runAsyncFnWithoutBlocking = (
