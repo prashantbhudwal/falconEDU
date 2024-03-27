@@ -31,38 +31,40 @@ export const Response = async function ({
   const allAttempts = await db.botConfig.getAllBotChats({
     studentBotId: student.studentBotId,
   });
+  const numberOfAttempts = allAttempts.length;
 
   return (
-    <div className="relative my-1 flex w-[700px] max-w-3xl items-start space-x-6 rounded-md border border-base-200 bg-base-200">
+    <div className="relative flex w-[700px] max-w-3xl items-start space-x-6 rounded-md border bg-base-200">
       <Accordion
         type="single"
+        defaultValue={!canReattempt ? "item-1" : undefined}
         collapsible
         className="my-3 w-full cursor-pointer border border-base-200 p-3 text-slate-500"
       >
         <AccordionItem value="item-1" className="border-none">
-          <AccordionTrigger className="px-4 text-lg text-slate-400">
-            {student.name}
+          <AccordionTrigger>
+            <div className="flex w-full flex-row items-center justify-between ">
+              <div className=" px-4 text-lg text-slate-400">{student.name}</div>
+              {canReattempt && numberOfAttempts > 0 ? (
+                <span className="text-sm text-slate-500">
+                  ({numberOfAttempts} attempts)
+                </span>
+              ) : null}
+            </div>
           </AccordionTrigger>
-          <AccordionContent className="pl-2 text-base text-slate-400">
-            {allAttempts
-              .sort(
-                (a, b) =>
-                  new Date(b.createdAt).getTime() -
-                  new Date(a.createdAt).getTime(),
-              )
-              .map((attempt) => (
-                <AttemptCard
-                  attemptId={attempt.id}
-                  key={attempt.botId}
-                  className={className}
-                  student={student}
-                  type={type}
-                  taskId={taskId}
-                  classId={classId}
-                  attemptNumber={attempt.attemptNumber}
-                  attemptSubmitted={attempt.isSubmitted}
-                />
-              ))}
+          <AccordionContent className="p-2 text-base text-slate-400">
+            {allAttempts.map((attempt) => (
+              <AttemptCard
+                key={attempt.botId}
+                className={className}
+                student={student}
+                type={type}
+                taskId={taskId}
+                classId={classId}
+                attempt={attempt}
+                canReattempt={newCanReattempt}
+              />
+            ))}
           </AccordionContent>
         </AccordionItem>
       </Accordion>

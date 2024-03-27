@@ -3,15 +3,14 @@ import { StudentsByBotConfigId } from "../[taskId]/test/queries";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { TaskType } from "@/types/dragon";
-import { getReportUrl, getReportUrlWithAttempts } from "@/lib/urls";
-type action = {
-  name: string;
-  title: string;
-  description: string;
-  icon: React.ReactNode;
-  action: any;
-  actionParams: any[];
-};
+import { getReportUrl } from "@/lib/urls";
+import { AllBotChats } from "@/lib/routers/botConfigRouter";
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 type AttemptCardProps = {
   className?: string;
@@ -19,9 +18,26 @@ type AttemptCardProps = {
   type: TaskType;
   taskId: string;
   classId: string;
-  attemptNumber: number;
-  attemptSubmitted: boolean;
-  attemptId: string;
+  attempt: AllBotChats[0];
+  canReattempt: boolean;
+};
+type StatusResult = {
+  status: string;
+  statusText: string;
+};
+const statusMap = {
+  notStarted: { status: "notStarted", statusText: "Has not started" },
+  inProgress: {
+    status: "inProgress",
+    statusText: "Started but not submitted",
+  },
+  submitted: { status: "submitted", statusText: "Submitted" },
+};
+
+const getStatus = (hasStarted: boolean, isSubmitted: boolean): StatusResult => {
+  if (!hasStarted) return statusMap.notStarted;
+  if (!isSubmitted) return statusMap.inProgress;
+  return statusMap.submitted;
 };
 
 const AttemptCard = ({
@@ -30,44 +46,56 @@ const AttemptCard = ({
   type,
   taskId,
   classId,
-  attemptNumber,
-  attemptSubmitted,
-  attemptId,
+  attempt,
+  canReattempt,
 }: AttemptCardProps) => {
+  const {
+    id: attemptId,
+    attemptNumber,
+    isSubmitted: attemptSubmitted,
+    createdAt,
+  } = attempt;
   const link = getReportUrl({
     classId,
     testId: taskId,
     attemptId,
     type,
   });
-  const title = `Attempt ${attemptNumber}`;
+
+  const messages = attempt.messages as string[] | undefined;
+  const hasStarted = messages && messages.length > 2 ? true : false;
+  const title = canReattempt ? `Attempt ${attemptNumber}` : "View Response";
   const isSubmitted = attemptSubmitted;
   const disabled = !isSubmitted && type == "test";
+
+  const { status, statusText } = getStatus(hasStarted, isSubmitted);
+
   return (
     <Link
       href={disabled ? "" : link}
       className={cn(
-        "relative my-1 flex w-full max-w-3xl items-start space-x-6 rounded-md border border-base-200 bg-base-200 px-6 py-6 hover:bg-base-100",
         {
           "cursor-not-allowed hover:bg-base-200": disabled,
         },
         className,
       )}
     >
-      <div className="flex flex-grow flex-col space-y-3 border-none bg-inherit shadow-none">
-        <div className="flex flex-col space-y-1">
-          <h1 className="font-bold ">{title}</h1>
-          {type === "test" && (
-            <>
-              {isSubmitted ? (
-                <p className="text-sm text-slate-400">Submitted</p>
-              ) : (
-                <p className="text-sm text-slate-400">Pending</p>
-              )}
-            </>
-          )}
-        </div>
-      </div>
+      <Card className="z-50 hover:-translate-y-1 hover:bg-base-100 hover:shadow hover:shadow-gray-800 hover:duration-500 active:translate-y-2">
+        <CardHeader>
+          <CardTitle>{title}</CardTitle>
+          <CardDescription className="flex flex-row space-x-2">
+            <div
+              className={cn({
+                "text-error": status === "notStarted",
+                "text-warning": status === "inProgress",
+                "text-primary": status === "submitted",
+              })}
+            >
+              {statusText}
+            </div>
+          </CardDescription>
+        </CardHeader>
+      </Card>
     </Link>
   );
 };

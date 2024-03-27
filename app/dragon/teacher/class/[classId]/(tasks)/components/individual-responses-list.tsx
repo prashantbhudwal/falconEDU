@@ -1,8 +1,6 @@
 import {
-  StudentsByBotConfigId,
-  getStudentsByBotConfigId,
+  getStudentsByBotConfigId
 } from "../[taskId]/test/queries";
-import { getReportUrl } from "@/lib/urls";
 import { NoStudents } from "./no-students";
 import { NotPublished } from "./not-published";
 import { TaskType } from "@/types/dragon";
@@ -26,10 +24,7 @@ export const IndividualResponsesList = async function ({
   if (students.length === 0) return <NoStudents classId={classId} />;
 
   return (
-    <div className="flex flex-col items-center space-y-4">
-      <h1 className="mt-10 text-center text-xl font-semibold ">
-        Individual Responses
-      </h1>
+    <div className="flex flex-col items-center space-y-4 py-5">
       <div className="flex flex-col gap-2">
         {students.map((student) => (
           <Response

@@ -772,6 +772,9 @@ export const getAllBotChats = async ({
       where: {
         botId: studentBotId,
       },
+      orderBy: {
+        createdAt: "desc",
+      },
     });
     return botChats;
   } catch (err) {
