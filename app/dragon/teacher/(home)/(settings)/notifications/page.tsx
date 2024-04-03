@@ -9,7 +9,7 @@ import { Paper } from "@/components/ui/paper";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { db } from "@/lib/routers";
-import type { NotificationsByRecipient } from "@/lib/routers/notification";
+import type { NotificationsByRecipient } from "@/lib/routers/notification/";
 import { Entity } from "@/lib/notifications";
 import { useSession } from "next-auth/react";
 import { Skeleton } from "@/components/ui/skeleton";

@@ -13,7 +13,7 @@ import * as learningGoalsRouter from "./learningGoalsRouter";
 import * as sourceRouter from "./sourceRouter";
 import * as contextRouter from "./context";
 import * as preferencesRouter from "./preferences";
-import * as notification from "./notification";
+import * as notification from "./notification/router";
 
 export const db = {
   botConfig,
