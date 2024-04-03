@@ -16,7 +16,7 @@ import { BoardName, IndianStates, OrgType, Language } from "@prisma/client";
 import { Select, SelectItem, TextInput } from "@tremor/react";
 import { registerOrg } from "../mutations";
 import { generateOptionsFromEnum } from "@/lib/utils";
-import { updateOrg } from "@/lib/routers/orgRouter";
+import { updateOrg } from "@/lib/routers/org";
 import { Button } from "@/components/ui/button";
 import { Org } from "@prisma/client";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";

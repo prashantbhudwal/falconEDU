@@ -8,7 +8,7 @@ import * as studentRouter from "./student";
 import * as attemptRouter from "./attempt";
 import * as profileRouter from "./profileRouter";
 import * as accountRouter from "./account";
-import * as orgRouter from "./orgRouter";
+import * as orgRouter from "./org";
 import * as learningGoalsRouter from "./learningGoals";
 import * as sourceRouter from "./source";
 import * as contextRouter from "./context";

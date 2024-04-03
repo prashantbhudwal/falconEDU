@@ -1,12 +1,11 @@
 "use server";
 import prisma from "@/prisma";
 import { cache } from "react";
-import { db } from ".";
+import { db } from "..";
 import { orgRegisterFormSchema } from "@/app/dragon/org-admin/_components/org-register-form";
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { Prisma } from "@prisma/client";
-import { UnwrapPromise } from "@/app/dragon/student/queries";
 
 export const getTeacherBrandNameByUserId = cache(
   async ({ userId }: { userId: string }) => {
@@ -439,7 +438,6 @@ export const getTeachersInOrg = cache(
   },
 );
 
-export type TeachersInOrg = UnwrapPromise<ReturnType<typeof getTeachersInOrg>>;
 
 export const getStudentsInOrg = cache(
   async ({ userId }: { userId: string }) => {
@@ -474,7 +472,6 @@ export const getStudentsInOrg = cache(
   },
 );
 
-export type StudentsInOrg = UnwrapPromise<ReturnType<typeof getStudentsInOrg>>;
 
 export const getOrgAdminsInOrg = cache(
   async ({ userId }: { userId: string }) => {
@@ -509,6 +506,4 @@ export const getOrgAdminsInOrg = cache(
   },
 );
 
-export type OrgAdminsInOrg = UnwrapPromise<
-  ReturnType<typeof getOrgAdminsInOrg>
->;
+
