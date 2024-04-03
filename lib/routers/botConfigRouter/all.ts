@@ -1,35 +1,14 @@
 "use server";
-import * as z from "zod";
 import { getBotsURL, getTaskUrl, getTeacherHomeURL } from "@/lib/urls";
 import { isAuthorized } from "@/lib/utils";
 import prisma from "@/prisma";
 import { revalidatePath } from "next/cache";
 import { cache } from "react";
-import { UnwrapPromise } from "../../../app/dragon/student/queries";
 import { TaskType } from "@/types/dragon";
 import { getTaskProperties } from "../../helpers";
-import {
-  AITestPreferenceSchema,
-  botPreferencesSchema,
-  lessonPreferencesSchema,
-  testBotPreferencesSchema,
-} from "@/lib/schema";
 import { BotConfig } from "@prisma/client";
 import { PublishResult } from "./publish.types";
-type BotPreferencesSchemaType = z.infer<typeof botPreferencesSchema>;
-type TestBotPreferencesSchemaType = z.infer<typeof testBotPreferencesSchema>;
-type LessonPreferencesSchemaType = z.infer<typeof lessonPreferencesSchema>;
-type AITestPreferencesSchemaType = z.infer<typeof AITestPreferenceSchema>;
-type ConfigTypeSchemaMap = {
-  chat: BotPreferencesSchemaType;
-  test: TestBotPreferencesSchemaType;
-  lesson: LessonPreferencesSchemaType;
-  "ai-test": AITestPreferencesSchemaType;
-};
-export type AllConfigsInClass = UnwrapPromise<
-  ReturnType<typeof getAllConfigsInClass>
->;
-export type AllConfigs = UnwrapPromise<ReturnType<typeof getAllConfigs>>;
+import { ConfigTypeSchemaMap } from "./types";
 
 export const publishBotConfig = async function ({
   classId,
@@ -605,10 +584,6 @@ export const getBotConfigByConfigId = cache(async function ({
   }
 });
 
-export type typeGetBotConfigByConfigId = UnwrapPromise<
-  ReturnType<typeof getBotConfigByConfigId>
->;
-
 export const fetchConfigAndPreferences = cache(
   async ({ configId, type }: { configId: string; type: TaskType }) => {
     const emptyPreferences = {};
@@ -782,7 +757,6 @@ export const getAllBotChats = async ({
     return [];
   }
 };
-export type AllBotChats = UnwrapPromise<ReturnType<typeof getAllBotChats>>;
 
 export const addOrUpdateImage = async ({
   botId,

@@ -14,9 +14,7 @@ import {
   lessonPreferencesSchema,
   teacherPreferencesSchema,
 } from "@/lib/schema";
-import { UnwrapPromise } from "@/app/dragon/student/queries";
 import { z } from "zod";
-import { th } from "date-fns/locale";
 
 export const test = "test";
 
@@ -133,10 +131,6 @@ export const getLessonPreferences = cache(async function (chatId: string) {
     grade: Class.grade,
   };
 });
-
-export type LessonPreferences = UnwrapPromise<
-  ReturnType<typeof getLessonPreferences>
->;
 
 // dummy function to be replaced with actual implementation
 export const getChatPreferences = async function (chatId: string) {
