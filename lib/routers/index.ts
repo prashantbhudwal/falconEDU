@@ -15,15 +15,17 @@ import * as preferencesRouter from "./preferences";
 import * as notification from "./notification/router";
 import { student } from "./student";
 import * as test from "./tasks/test";
+import { admin } from "./admin";
 
 export const db = {
+  // Teacher Routers:
+  // TODO Will refactor to use the same pattern as student/admin later
   botConfig,
   class: classRouter,
   bot,
   teacher,
   parseQuestionRouter,
   inviteStudentsRouter,
-  student,
   attempt: attemptRouter,
   profile: profileRouter,
   account: accountRouter,
@@ -34,4 +36,7 @@ export const db = {
   preferences: preferencesRouter,
   notification: notification,
   test,
+  // Other User Types
+  student,
+  admin,
 };

@@ -14,12 +14,12 @@ import {
 } from "@/components/ui/form";
 import { BoardName, IndianStates, OrgType, Language } from "@prisma/client";
 import { Select, SelectItem, TextInput } from "@tremor/react";
-import { registerOrg } from "../mutations";
 import { generateOptionsFromEnum } from "@/lib/utils";
 import { updateOrg } from "@/lib/routers/org";
 import { Button } from "@/components/ui/button";
 import { Org } from "@prisma/client";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
+import { db } from "@/lib/routers";
 
 export const orgRegisterFormSchema = z.object({
   name: z.string().min(2),
@@ -255,7 +255,7 @@ export const RegisterOrgForm = ({
     values: z.infer<typeof orgRegisterFormSchema>,
   ) {
     setLoading(true);
-    await registerOrg({ values, userId });
+    await db.admin.org.registerOrg({ values, userId });
     setLoading(false);
   };
 

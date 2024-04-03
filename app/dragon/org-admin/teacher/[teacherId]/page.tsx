@@ -1,16 +1,16 @@
 import React from "react";
 import { AdminNavbar } from "../../_components/navbar";
 import { Timeline } from "./timeline";
-import { getOrgByUserId, getTeacherTasksWithTeacherId } from "../../queries";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { formatName } from "@/lib/utils";
 import { redirect } from "next/navigation";
+import { db } from "@/lib/routers";
 
 const TeacherPage = async ({ params }: { params: { teacherId: string } }) => {
   const session = await getServerSession(authOptions);
-  const org = await getOrgByUserId(session?.user?.id || "");
-  const teacher = await getTeacherTasksWithTeacherId({
+  const org = await db.admin.org.getOrgByUserId(session?.user?.id || "");
+  const teacher = await db.admin.teacher.getTeacherTasksWithTeacherId({
     teacherId: params.teacherId,
   });
   if (org && org.teacher.length === 0) {

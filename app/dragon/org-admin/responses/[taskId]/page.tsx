@@ -1,11 +1,11 @@
 import React from "react";
 import { AdminNavbar } from "../../_components/navbar";
-import { getStudentSubmissionsStatsByTaskId } from "../../queries";
 import { Card, Flex, Text, Title } from "@tremor/react";
 import { AvatarFallback, AvatarImage, Avatar } from "@/components/ui/avatar";
+import { db } from "@/lib/routers";
 
 const ResponsesPage = async ({ params }: { params: { taskId: string } }) => {
-  const students = await getStudentSubmissionsStatsByTaskId({
+  const students = await db.admin.task.getStudentSubmissionsStatsByTaskId({
     taskId: params.taskId,
   });
 

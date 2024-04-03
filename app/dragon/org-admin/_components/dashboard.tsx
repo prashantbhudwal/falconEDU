@@ -1,13 +1,13 @@
 import React from "react";
 import { Card, Text, Metric, Flex, Grid, Title } from "@tremor/react";
 import TaskChart from "./task-chart";
-import { getAllPublishedTasksByDate, getAllTeachersInAnOrg } from "../queries";
 import Link from "next/link";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa6";
+import { db } from "@/lib/routers";
 
 const Dashboard = async () => {
-  const allTasks = await getAllPublishedTasksByDate();
-  const teachers = await getAllTeachersInAnOrg();
+  const allTasks = await db.admin.task.getAllPublishedTasksByDate();
+  const teachers = await db.admin.org.getAllTeachersInAnOrg();
   const sortedTeachers = Array.from(teachers?.teacherWeeklyData || []).sort(
     (a, b) => b[1].thisWeek - a[1].thisWeek,
   );

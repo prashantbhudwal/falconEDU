@@ -21,8 +21,8 @@ import {
   Text,
   TextInput,
 } from "@tremor/react";
-import { registerOrg } from "../mutations";
 import { generateOptionsFromEnum } from "@/lib/utils";
+import { db } from "@/lib/routers";
 
 export const orgRegisterFormSchema = z.object({
   name: z.string().min(2),
@@ -62,7 +62,7 @@ const OrgRegisterForm = ({ userId }: { userId: string }) => {
   const onSubmit = async function (
     values: z.infer<typeof orgRegisterFormSchema>,
   ) {
-    const result = await registerOrg({ values, userId });
+    const result = await db.admin.org.registerOrg({ values, userId });
     if (result) {
       form.reset();
     }

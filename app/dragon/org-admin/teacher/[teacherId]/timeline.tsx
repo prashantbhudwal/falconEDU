@@ -1,7 +1,6 @@
 "use client";
 import React, { useMemo, useState } from "react";
 import { Chrono } from "react-chrono";
-import { TeacherTask } from "../../queries";
 import {
   formatDateWithTimeZone,
   formatName,
@@ -12,6 +11,7 @@ import { Flex, Select, SelectItem, Title } from "@tremor/react";
 import { v4 as uuid } from "uuid";
 import { TaskType } from "@/types";
 import { useRouter } from "next/navigation";
+import { TeacherTask } from "@/lib/routers/admin/teacher";
 
 function formatClassName(classItem: any) {
   let className = formatName({ name: classItem.grade });

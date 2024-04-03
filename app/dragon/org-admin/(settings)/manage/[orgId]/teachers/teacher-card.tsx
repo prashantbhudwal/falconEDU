@@ -1,10 +1,10 @@
 "use client";
 import { Card, Flex, Text, Title } from "@tremor/react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { TeachersInOrg } from "@/app/dragon/org-admin/queries";
 import { Button } from "@/components/ui/button";
 import { DeleteIcon } from "@/components/icons";
 import { db } from "@/lib/routers";
+import { TeachersInOrg } from "@/lib/routers/admin/org";
 type NonNullableTeachersInOrg = NonNullable<TeachersInOrg>;
 
 export const TeacherCard = function ({
