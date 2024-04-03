@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import { db } from "@/lib/routers";
 import { generateNameOfClass } from "@/lib/helpers";
-import { typeGetInviteList } from "@/lib/routers/inviteStudentsRouter";
+import { typeGetInviteList } from "@/lib/routers/inviteStudents";
 
 export const revalidate = 3600; // revalidate the data at most every hour
 

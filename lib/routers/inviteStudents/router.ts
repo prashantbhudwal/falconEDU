@@ -3,7 +3,6 @@ import prisma from "@/prisma";
 import { InvitationStatus } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { cache } from "react";
-import { UnwrapPromise } from "../../app/dragon/student/queries";
 
 export const addToInviteList = async ({
   studentEmail,
@@ -104,8 +103,6 @@ export const getInviteList = cache(async ({ classId }: { classId: string }) => {
     return { inviteList: null };
   }
 });
-
-export type typeGetInviteList = UnwrapPromise<ReturnType<typeof getInviteList>>;
 
 export const getInviteDetailsByInviteId = async ({
   inviteId,

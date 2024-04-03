@@ -1,5 +1,5 @@
 import { db } from "@/lib/routers";
-import { typeGetInviteList } from "@/lib/routers/inviteStudentsRouter";
+import { typeGetInviteList } from "@/lib/routers/inviteStudents";
 import {
   Table,
   TableBody,
