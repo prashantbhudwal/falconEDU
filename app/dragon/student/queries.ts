@@ -2,9 +2,17 @@
 import prisma from "@/prisma";
 import { cache } from "react";
 import { db } from "@/lib/routers";
+export const getStudentId = cache(async function (userId: string) {
+  const studentProfile = await prisma.studentProfile.findFirst({
+    where: { userId },
+    select: { id: true },
+  });
+
+  return studentProfile?.id;
+});
 
 export const getBotsByUserId = cache(async function (userId: string) {
-  const studentId = await db.studentRouter.getStudentId(userId);
+  const studentId = await getStudentId(userId);
   if (!studentId) {
     console.error(`StudentProfile with userId ${userId} not found`);
   }

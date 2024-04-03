@@ -4,6 +4,7 @@ import prisma from "@/prisma";
 import { db } from "./routers";
 import { getTeacherId } from "@/app/dragon/teacher/queries";
 import { type } from "os";
+import { getStudentId } from "@/app/dragon/student/queries";
 type isAuthorizedParams = {
   userType: "STUDENT" | "TEACHER";
   chatId?: string;
@@ -26,7 +27,7 @@ export const isAuthorized = async ({
   }
 
   if (session.user.userType == "STUDENT") {
-    const studentId = await db.studentRouter.getStudentId(session.user.id);
+    const studentId = await getStudentId(session.user.id);
     if (!studentId) {
       throw new Error("Student not found");
     }
