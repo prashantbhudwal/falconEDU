@@ -4,10 +4,7 @@ import {
   ArchiveBoxXMarkIcon,
   DocumentDuplicateIcon,
 } from "@heroicons/react/24/solid";
-import {
-  archiveAllBotsOfBotConfig,
-  unArchiveAllBotsOfBotConfig,
-} from "../../../../../lib/routers/botRouter";
+import { db } from "@/lib/routers";
 import Link from "next/link";
 import {
   useSelectedLayoutSegment,
@@ -95,9 +92,9 @@ export const ClassSidebarItem = function ({
           className="text-sm"
           onSelect={() => {
             if (isArchived) {
-              unArchiveAllBotsOfBotConfig(configId);
+              db.bot.unArchiveAllBotsOfBotConfig(configId);
             } else {
-              archiveAllBotsOfBotConfig(configId);
+              db.bot.archiveAllBotsOfBotConfig(configId);
             }
           }}
         >

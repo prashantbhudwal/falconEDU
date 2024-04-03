@@ -3,7 +3,6 @@ import { isAuthorized } from "@/lib/is-authorized";
 import prisma from "@/prisma";
 import { revalidatePath } from "next/cache";
 import { cache } from "react";
-import { UnwrapPromise } from "../../app/dragon/student/queries";
 
 export const archiveAllBotsOfBotConfig = async (botConfigId: string) => {
   await isAuthorized({
@@ -166,6 +165,3 @@ export const getBotsByTeacherAndStudentID = cache(async function (
   return bots;
 });
 
-export type BotsByTeacherAndStudentID = UnwrapPromise<
-  ReturnType<typeof getBotsByTeacherAndStudentID>
->;

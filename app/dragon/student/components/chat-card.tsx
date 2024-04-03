@@ -3,7 +3,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Avvvatars from "avvvatars-react";
 import { cn, formatDateWithTimeZone } from "@/lib/utils";
 const testPriorities = ["HIGH", "MEDIUM", "LOW"] as const;
-import { type BotsByTeacherAndStudentID } from "../../../../lib/routers/botRouter";
 import { getChatsByBotId, getDefaultChatReadStatus } from "../queries";
 import { getTaskProperties } from "../../../../lib/helpers";
 import { TaskType } from "@/types/dragon";
@@ -12,6 +11,7 @@ import Link from "next/link";
 import format from "date-fns/format";
 import prisma from "@/prisma";
 import { PuzzlePieceIcon } from "@heroicons/react/24/solid";
+import { BotsByTeacherAndStudentID } from "@/lib/routers/bot";
 const priorityColor: Record<(typeof testPriorities)[number], string> = {
   HIGH: "bg-destructive",
   MEDIUM: "bg-info",
