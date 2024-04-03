@@ -3,8 +3,8 @@ import { getStudentBotChatURL } from "@/lib/urls";
 import Link from "next/link";
 import { ItemCard } from "../../components/item-card";
 import { format } from "date-fns";
-import { ChatsByBotId } from "../../queries";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
+import { ChatsByBotId } from "@/lib/routers/student/botChat";
 
 interface AttemptsListProps {
   chats: ChatsByBotId;

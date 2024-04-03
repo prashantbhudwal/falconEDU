@@ -3,11 +3,11 @@ import { ChatPromptTemplate } from "langchain/prompts";
 import { JsonOutputFunctionsParser } from "langchain/output_parsers";
 import { extractTestQuestionsAsJson, testQuestionObjectSchema } from "./model";
 import { systemTemplateForParsing } from "./template";
-import { UnwrapPromise } from "../../student/queries";
 import { ChatOpenAI } from "langchain/chat_models/openai";
 import pRetry from "p-retry";
 import { z } from "zod";
 import { OPENAI_MODEL } from "../config";
+import { UnwrapPromise } from "@/lib/routers/helpers";
 
 type TestQuestionObjectType = z.infer<typeof testQuestionObjectSchema>;
 

@@ -1,5 +1,5 @@
 import { getBotsByTeacherAndStudentID } from "./router";
-import { UnwrapPromise } from "../../../app/dragon/student/queries";
+import { UnwrapPromise } from "@/lib/routers/helpers";
 
 export type BotsByTeacherAndStudentID = UnwrapPromise<
   ReturnType<typeof getBotsByTeacherAndStudentID>

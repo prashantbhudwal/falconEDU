@@ -3,7 +3,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Avvvatars from "avvvatars-react";
 import { cn, formatDateWithTimeZone } from "@/lib/utils";
 const testPriorities = ["HIGH", "MEDIUM", "LOW"] as const;
-import { getChatsByBotId, getDefaultChatReadStatus } from "../queries";
 import { getTaskProperties } from "../../../../lib/helpers";
 import { TaskType } from "@/types/dragon";
 import { getStudentBotChatURL, getStudentBotURL } from "@/lib/urls";
@@ -12,6 +11,7 @@ import format from "date-fns/format";
 import prisma from "@/prisma";
 import { PuzzlePieceIcon } from "@heroicons/react/24/solid";
 import { BotsByTeacherAndStudentID } from "@/lib/routers/bot";
+import { db } from "@/lib/routers";
 const priorityColor: Record<(typeof testPriorities)[number], string> = {
   HIGH: "bg-destructive",
   MEDIUM: "bg-info",
@@ -29,7 +29,7 @@ export async function TaskCard({
   bot,
 }: TaskCardProps) {
   const getDefaultStudentChat = async (botId: string) => {
-    const chats = await getChatsByBotId(botId);
+    const chats = await db.student.botChat.getChatsByBotId(botId);
     if (!chats) {
       return null;
     }
@@ -56,8 +56,7 @@ export async function TaskCard({
   const defaultChatSubmitted = defaultChat.isSubmitted;
 
   const multipleChatUrl = getStudentBotURL(botId);
-  const { isRead } = await getDefaultChatReadStatus(botId);
-  const readStatus = await getDefaultChatReadStatus(botId);
+  const { isRead } = await db.student.botChat.getDefaultChatReadStatus(botId);
   const type = bot.BotConfig.type as TaskType;
   const taskProperties = getTaskProperties(type);
   const Icon = taskProperties.Icon;

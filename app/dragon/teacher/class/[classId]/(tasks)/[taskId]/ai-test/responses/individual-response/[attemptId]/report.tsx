@@ -1,4 +1,4 @@
-import { UnwrapPromise } from "@/app/dragon/student/queries";
+import { UnwrapPromise } from "@/lib/routers/helpers";
 import prisma from "@/prisma";
 import { cache } from "react";
 import { getBotChatWithStudentByBotChatId } from "../../../../test/queries";

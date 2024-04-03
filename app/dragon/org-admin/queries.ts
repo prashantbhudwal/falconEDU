@@ -12,7 +12,7 @@ import prisma from "@/prisma";
 import { cache } from "react";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-import { UnwrapPromise } from "../student/queries";
+import { UnwrapPromise } from "@/lib/routers/helpers";
 
 const getUserId: () => Promise<string> = async () => {
   const session = await getServerSession(authOptions);

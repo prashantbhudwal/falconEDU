@@ -1,4 +1,3 @@
-import { getBotByBotId } from "@/app/dragon/student/queries";
 import { TaskType } from "@/types";
 import React from "react";
 import { AITestReport } from "@/app/dragon/teacher/class/[classId]/(tasks)/[taskId]/ai-test/responses/individual-response/[attemptId]/report";
@@ -16,6 +15,7 @@ import { QuizResult } from "./quiz-result";
 import { trackEvent } from "@/lib/mixpanel";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { db } from "@/lib/routers";
 
 export type ResultPageProps = {
   params: {
@@ -30,7 +30,7 @@ export default async function ResultPage({
   const session = await getServerSession(authOptions);
   const email = session?.user?.email;
   const { id: chatId, botId: taskId } = params;
-  const bot = await getBotByBotId(taskId);
+  const bot = await db.student.bot.getBotByBotId(taskId);
   const type = bot?.BotConfig?.type as TaskType;
 
   trackEvent("student", "result_viewed", {

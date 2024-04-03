@@ -1,10 +1,10 @@
 import { StudentNavbar } from "../../components/student-navbar";
-import { getBotByBotId, getChatsByBotId } from "../../queries";
 import Link from "next/link";
 import { studentHomeURL } from "@/lib/urls";
 import { NewAttemptButton } from "./new-attempt-btn";
 import { PuzzlePieceIcon } from "@heroicons/react/24/solid";
 import AttemptsList from "./attempts-list";
+import { db } from "@/lib/routers";
 
 type BotPageProps = {
   params: {
@@ -13,8 +13,8 @@ type BotPageProps = {
 };
 export default async function BotPageProps({ params }: BotPageProps) {
   const botId = params.botId;
-  const chats = await getChatsByBotId(botId);
-  const bot = await getBotByBotId(botId);
+  const chats = await db.student.botChat.getChatsByBotId(botId);
+  const bot = await db.student.bot.getBotByBotId(botId);
   const attemptCount = chats?.length ?? 0;
 
   if (!chats) return <NoChats />;

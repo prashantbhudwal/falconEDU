@@ -1,4 +1,4 @@
-import { UnwrapPromise } from "../../../app/dragon/student/queries";
+import { UnwrapPromise } from "@/lib/routers/helpers";
 import { getClassesByUserId, getStudentsByClassId } from "./router";
 export type ClassesByUserId = UnwrapPromise<
   ReturnType<typeof getClassesByUserId>

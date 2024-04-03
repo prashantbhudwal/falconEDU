@@ -1,10 +1,5 @@
 import { Message } from "ai/react";
 import { getStudentChatApiURL, getStudentTeacherURL, url } from "@/lib/urls";
-import {
-    getBotChatByChatId,
-    getClassByBotId,
-    getBotByBotId,
-} from "@/app/dragon/student/queries";
 import { Chat } from "@/components/chat/chat-dragon";
 import { AvatarNavbar } from "@/app/dragon/student/components/student-navbar";
 import { revalidatePath } from "next/cache";
@@ -19,6 +14,7 @@ import { getChatContext } from "@/app/dragon/student/bot/[botId]/chat/[id]/get-c
 import { MediaAccordion } from "@/app/dragon/student/bot/[botId]/chat/[id]/components/media-accordion";
 import { constructDigitalOceanUrl } from "@/lib/utils";
 import { HostedImage } from "@prisma/client";
+import { db } from "@/lib/routers";
 
 export interface ChatPageProps {
   params: {
@@ -40,7 +36,7 @@ export default async function ChatPage({ params }: Readonly<ChatPageProps>) {
   const session = await getServerSession(authOptions);
   const email = session?.user?.email;
   const { chatId: id, botId } = params;
-  const chat = await getBotChatByChatId(id);
+  const chat = await db.student.botChat.getBotChatByChatId(id);
   const initialMessages: Message[] = chat?.messages || [];
   const avatar = chat?.avatar;
   const url = getImageUrlWithFallback(avatar);
@@ -50,7 +46,7 @@ export default async function ChatPage({ params }: Readonly<ChatPageProps>) {
     revalidatePath("/");
   }
 
-  const bot = await getBotByBotId(botId);
+  const bot = await db.student.bot.getBotByBotId(botId);
   const type = bot?.BotConfig?.type as TaskType;
   const emptyMessage = getTaskProperties(type).emptyChatMessage;
   const { stringifiedContext: context, autoCheck } = await getChatContext({
@@ -62,7 +58,7 @@ export default async function ChatPage({ params }: Readonly<ChatPageProps>) {
     throw new Error("Teacher not found");
   }
   const redirectUrl = getStudentTeacherURL(teacherId);
-  const classDetails = await getClassByBotId({ botId });
+  const classDetails = await db.student.class.getClassByBotId({ botId });
   const showSubmit = !chat?.isSubmitted;
   const isDisabled = !classDetails?.isActive || !bot?.BotConfig?.isActive;
   const isSubmitted = chat?.isSubmitted;

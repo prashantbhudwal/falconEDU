@@ -4,7 +4,7 @@ import {
   lessonPreferencesSchema,
   testBotPreferencesSchema,
 } from "@/lib/schema";
-import { UnwrapPromise } from "../../../app/dragon/student/queries";
+import { UnwrapPromise } from "@/lib/routers/helpers";
 import {
   getAllBotChats,
   getAllConfigs,

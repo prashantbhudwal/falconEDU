@@ -1,10 +1,10 @@
 "use server ";
 
 import { cache } from "react";
-import { getConfigByBotChatId } from "@/app/dragon/student/queries";
 import { getChatMessagesByBotChatId } from "@/app/dragon/teacher/class/[classId]/(tasks)/[taskId]/test/queries";
+import { db } from "@/lib/routers";
 const getTest = cache(async function ({ botChatId }: { botChatId: string }) {
-  const config = await getConfigByBotChatId({ botChatId });
+  const config = await db.student.botConfig.getConfigByBotChatId({ botChatId });
 
   if (config) {
     const questions = config?.parsedQuestions;

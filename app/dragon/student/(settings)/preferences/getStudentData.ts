@@ -4,7 +4,7 @@ import prisma from "@/prisma";
 import { getServerSession } from "next-auth";
 import { cache } from "react";
 import { db } from "@/lib/routers";
-import { getStudentId } from "../../queries";
+import { getStudentId } from "@/lib/routers/student/router";
 
 type UnwrapPromise<T> = T extends Promise<infer U> ? U : T;
 

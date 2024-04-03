@@ -1,6 +1,6 @@
 import { cache } from "react";
 import prisma from "@/prisma";
-import { UnwrapPromise } from "@/app/dragon/student/queries";
+import { UnwrapPromise } from "@/lib/routers/helpers";
 import { Paper } from "@/components/ui/paper";
 import TestPreferencesForm from "./components/test-preferences-form/test-preferences-form";
 import { db } from "@/lib/routers";

@@ -4,7 +4,6 @@ import * as bot from "./bot";
 import * as teacher from "./teacher";
 import * as parseQuestionRouter from "./parsedQuestions";
 import * as inviteStudentsRouter from "./inviteStudents";
-import * as studentRouter from "./student";
 import * as attemptRouter from "./attempt";
 import * as profileRouter from "./profile";
 import * as accountRouter from "./account";
@@ -14,6 +13,7 @@ import * as sourceRouter from "./source";
 import * as contextRouter from "./context";
 import * as preferencesRouter from "./preferences";
 import * as notification from "./notification/router";
+import { student } from "./student";
 
 export const db = {
   botConfig,
@@ -22,7 +22,7 @@ export const db = {
   teacher,
   parseQuestionRouter,
   inviteStudentsRouter,
-  studentRouter,
+  student,
   attempt: attemptRouter,
   profile: profileRouter,
   account: accountRouter,

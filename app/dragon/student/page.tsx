@@ -4,7 +4,6 @@ import { StudentHomeNavbar } from "./components/student-navbar";
 import { ItemCard } from "./components/item-card";
 import Link from "next/link";
 import { getStudentTeacherURL } from "@/lib/urls";
-import { getTeachersByUserId } from "./queries";
 import { InstallAppDrawer } from "@/components/install-app-drawer";
 import { db } from "../../../lib/routers";
 import { CareerCard } from "./components/career-card";
@@ -17,7 +16,7 @@ export default async function AllChats() {
   if (!id) {
     return null;
   }
-  const teachers = await getTeachersByUserId(id);
+  const teachers = await db.student.teacher.getTeachersByUserId(id);
   const { orgBrandName } = await db.org.getStudentBrandNameByUserId({
     userId: id,
   });
