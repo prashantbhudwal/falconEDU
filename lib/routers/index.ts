@@ -6,7 +6,7 @@ import * as parseQuestionRouter from "./parsedQuestions";
 import * as inviteStudentsRouter from "./inviteStudents";
 import * as studentRouter from "./student";
 import * as attemptRouter from "./attempt";
-import * as profileRouter from "./profileRouter";
+import * as profileRouter from "./profile";
 import * as accountRouter from "./account";
 import * as orgRouter from "./org";
 import * as learningGoalsRouter from "./learningGoals";
