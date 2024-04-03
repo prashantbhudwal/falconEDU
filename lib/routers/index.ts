@@ -7,7 +7,7 @@ import * as inviteStudentsRouter from "./inviteStudents";
 import * as studentRouter from "./studentRouter";
 import * as attemptRouter from "./attempt";
 import * as profileRouter from "./profileRouter";
-import * as accountRouter from "./accountRouter";
+import * as accountRouter from "./account";
 import * as orgRouter from "./orgRouter";
 import * as learningGoalsRouter from "./learningGoals";
 import * as sourceRouter from "./source";
