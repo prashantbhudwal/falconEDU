@@ -35,7 +35,7 @@ import {
 import { ClassDialog } from "../../../../components/class-dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { db } from "@/lib/routers";
-import { StudentsByClassId } from "@/lib/routers/classRouter";
+import { StudentsByClassId } from "@/lib/routers/class";
 import { trackEvent } from "@/lib/mixpanel";
 import { useSession } from "next-auth/react";
 

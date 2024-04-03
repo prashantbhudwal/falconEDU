@@ -22,7 +22,7 @@ import {
   DialogTrigger,
   DialogOverlay,
 } from "@/components/ui/dialog";
-import { ClassesByUserId } from "../../../../../../../lib/routers/classRouter";
+import { ClassesByUserId } from "../../../../../../../lib/routers/class";
 import { useState } from "react";
 import { TaskType } from "@/types/dragon";
 import { getTaskProperties } from "@/lib/helpers";

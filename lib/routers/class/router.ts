@@ -5,7 +5,6 @@ import prisma from "@/prisma";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { cache } from "react";
-import { UnwrapPromise } from "../../app/dragon/student/queries";
 import { Class } from "@prisma/client";
 
 export const createClassForTeacher = async function ({
@@ -136,9 +135,7 @@ export const getClassesByUserId = cache(
   },
 );
 
-export type ClassesByUserId = UnwrapPromise<
-  ReturnType<typeof getClassesByUserId>
->;
+
 
 export const getClassByClassId = cache(
   async ({ classId }: { classId: string }) => {
@@ -257,6 +254,4 @@ export const getStudentsByClassId = cache(async (classId: string) => {
   };
 });
 
-export type StudentsByClassId = UnwrapPromise<
-  ReturnType<typeof getStudentsByClassId>
->;
+

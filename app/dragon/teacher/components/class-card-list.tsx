@@ -1,6 +1,6 @@
 "use client";
 import { getClassURL } from "@/lib/urls";
-import { ClassesByUserId } from "../../../../lib/routers/classRouter";
+import { ClassesByUserId } from "../../../../lib/routers/class";
 
 import Link from "next/link";
 import ClassCard from "./class-card";

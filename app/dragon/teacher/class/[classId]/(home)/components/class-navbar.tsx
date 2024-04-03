@@ -1,7 +1,7 @@
 import DragonHomeBtn from "@/components/navbar/dragon-home-btn";
 import { ImportModal } from "./import-modal";
 import { db } from "../../../../../../../lib/routers";
-import type { ClassesByUserId } from "../../../../../../../lib/routers/classRouter";
+import type { ClassesByUserId } from "../../../../../../../lib/routers/class";
 import { NewTaskModal } from "./new-task-modal";
 import MyStudentsBtn from "../../../../components/class-sidebar/my-students-btn";
 import { Button } from "@/components/ui/button";

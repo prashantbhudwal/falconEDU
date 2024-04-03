@@ -31,7 +31,7 @@ import { useSelectedLayoutSegment } from "next/navigation";
 import { MdDashboard } from "react-icons/md";
 import { cn } from "@/lib/utils";
 import { AllConfigsInClass } from "../../../../../lib/routers/botConfig";
-import { ClassesByUserId } from "../../../../../lib/routers/classRouter";
+import { ClassesByUserId } from "../../../../../lib/routers/class";
 import { TaskType } from "@/types/dragon";
 
 export function ClassSidebar({

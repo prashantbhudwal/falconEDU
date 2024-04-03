@@ -1,5 +1,5 @@
 import * as botConfig from "./botConfig";
-import * as classRouter from "./classRouter";
+import * as classRouter from "./class";
 import * as bot from "./bot";
 import * as teacher from "./teacherRouter";
 import * as parseQuestionRouter from "./parsedQuestionRouter";
