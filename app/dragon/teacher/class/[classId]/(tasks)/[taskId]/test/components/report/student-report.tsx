@@ -2,10 +2,8 @@ import { Separator } from "@/components/ui/separator";
 import PieChartComponent from "./pieChart";
 import { QuestionList } from "./question-list";
 import { getBotChatWithStudentByBotChatId } from "../../queries";
-import {
-  TestResultsByBotId,
-  getTestResultsByBotChatId,
-} from "@/app/dragon/teacher/queries";
+import { db } from "@/lib/routers";
+import { TestResultsByBotId } from "@/lib/routers/tasks/test";
 
 export async function StudentReport({
   taskId,
@@ -20,7 +18,9 @@ export async function StudentReport({
   });
 
   if (botChat?.isSubmitted) {
-    testResults = await getTestResultsByBotChatId({ botChatId: attemptId });
+    testResults = await db.test.getTestResultsByBotChatId({
+      botChatId: attemptId,
+    });
   }
 
   return (

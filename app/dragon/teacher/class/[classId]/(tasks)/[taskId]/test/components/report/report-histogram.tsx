@@ -1,5 +1,5 @@
 "use client";
-import { TestResultsByBotId } from "@/app/dragon/teacher/queries";
+import { TestResultsByBotId } from "@/lib/routers/tasks/test";
 import { AxisOptions, Chart } from "react-charts";
 import { AllStudentResponsesByBotConfigId } from "../../queries";
 import React from "react";

@@ -34,3 +34,10 @@ export const getTeacherByTeacherId = cache(
     }
   },
 );
+
+export const getTeacherId = cache(async function (userId: string) {
+  const teacherProfile = await prisma.teacherProfile.findUnique({
+    where: { userId },
+  });
+  return teacherProfile?.id;
+});

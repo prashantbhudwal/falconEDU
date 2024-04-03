@@ -1,7 +1,10 @@
 "use server";
 import { teacherPreferencesSchema } from "@/lib/schema";
+import { isAuthorized } from "@/lib/utils";
 import prisma from "@/prisma";
+import { revalidatePath } from "next/cache";
 import { cache } from "react";
+import { z } from "zod";
 
 export const getTeacherPreferences = cache(
   async ({ userId }: { userId: string }) => {
@@ -39,3 +42,25 @@ export const getTeacherPreferences = cache(
     }
   },
 );
+
+export const updateTeacherPreferences = async (
+  teacherId: string,
+  data: z.infer<typeof teacherPreferencesSchema>,
+) => {
+  await isAuthorized({
+    userType: "TEACHER",
+  });
+  try {
+    const updatedTeacherProfile = await prisma.teacherProfile.update({
+      where: { id: teacherId },
+      data: {
+        preferences: data,
+      },
+    });
+    revalidatePath("/");
+    return { updatedTeacherProfile, success: true };
+  } catch (error) {
+    console.error("Error updating TeacherProfile:", error);
+    return { error: true };
+  }
+};

@@ -1,10 +1,7 @@
 import { TaskType } from "@/types";
 import React from "react";
 import { AITestReport } from "@/app/dragon/teacher/class/[classId]/(tasks)/[taskId]/ai-test/responses/individual-response/[attemptId]/report";
-import {
-  TestResultsByBotId,
-  getTestResultsByBotChatId,
-} from "@/app/dragon/teacher/queries";
+
 import { getBotChatWithStudentByBotChatId } from "@/app/dragon/teacher/class/[classId]/(tasks)/[taskId]/test/queries";
 import PieChartComponent from "@/app/dragon/teacher/class/[classId]/(tasks)/[taskId]/test/components/report/pieChart";
 import { Separator } from "@/components/ui/separator";
@@ -16,6 +13,7 @@ import { trackEvent } from "@/lib/mixpanel";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { db } from "@/lib/routers";
+import { TestResultsByBotId } from "@/lib/routers/tasks/test";
 
 export type ResultPageProps = {
   params: {
@@ -47,7 +45,9 @@ export default async function ResultPage({
   });
 
   if (botChat?.isSubmitted) {
-    testResults = await getTestResultsByBotChatId({ botChatId: chatId });
+    testResults = await db.test.getTestResultsByBotChatId({
+      botChatId: chatId,
+    });
   }
 
   const isQuiz = type === "ai-test";

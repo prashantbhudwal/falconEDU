@@ -5,7 +5,6 @@ import { TextareaWithCounter as Textarea } from "@/components/ui/textarea-counte
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { updateTeacherPreferences } from "../../../mutations";
 import { FiThumbsDown } from "react-icons/fi";
 import { FiThumbsUp } from "react-icons/fi";
 import { FiInfo } from "react-icons/fi";
@@ -26,6 +25,7 @@ import {
   LIMITS_teacherPreferencesSchema,
   teacherPreferencesSchema,
 } from "@/lib/schema";
+import { db } from "@/lib/routers";
 
 const defaultValues: z.infer<typeof teacherPreferencesSchema> = {
   personalInformation: "",
@@ -92,7 +92,7 @@ export default function TeacherPreferencesForm({
   const onSubmit = async (values: z.infer<typeof teacherPreferencesSchema>) => {
     setLoading(true);
     try {
-      await updateTeacherPreferences(teacherId, values);
+      await db.preferences.updateTeacherPreferences(teacherId, values);
       setIsDirty(false);
     } catch (error) {
       form.setError("personalInformation", {

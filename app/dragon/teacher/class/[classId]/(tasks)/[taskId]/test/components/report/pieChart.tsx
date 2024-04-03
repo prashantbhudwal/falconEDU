@@ -1,6 +1,6 @@
 "use client";
+import { TestResultsByBotId } from "@/lib/routers/tasks/test";
 import { PieChart } from "react-minimal-pie-chart";
-import { type TestResultsByBotId } from "@/app/dragon/teacher/queries";
 
 export default function PieChartComponent({
   testResults,

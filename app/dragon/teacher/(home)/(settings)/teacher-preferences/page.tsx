@@ -10,7 +10,7 @@ export default async function TeacherPreferencesPage() {
   if (!userId) {
     return null;
   }
-  const teacherData = await db.preferences.teacher({ userId });
+  const teacherData = await db.preferences.getTeacherPreferences({ userId });
   if (!teacherData) return null;
   const { preferences, teacherId } = teacherData;
   return (

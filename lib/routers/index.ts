@@ -14,6 +14,7 @@ import * as contextRouter from "./context";
 import * as preferencesRouter from "./preferences";
 import * as notification from "./notification/router";
 import { student } from "./student";
+import * as test from "./tasks/test";
 
 export const db = {
   botConfig,
@@ -32,4 +33,5 @@ export const db = {
   context: contextRouter,
   preferences: preferencesRouter,
   notification: notification,
+  test,
 };

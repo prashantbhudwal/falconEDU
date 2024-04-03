@@ -24,7 +24,6 @@ import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 import { LuCopy, LuX } from "react-icons/lu";
 import { LuTrash } from "react-icons/lu";
 import { typeActiveParsedQuestionByBotConfigId } from "@/lib/routers/parsedQuestions";
-import { saveParsedQuestions } from "@/app/dragon/teacher/mutations";
 import {
   Tooltip,
   TooltipContent,
@@ -42,6 +41,7 @@ import { questionTypes } from "@/app/dragon/ai/test-checker/tool";
 import { getQuestionTypeName } from "../../../../../../../../../../lib/helpers";
 import { parsedQuestionsSchema } from "@/lib/schema";
 import { UpdatedQuestionType } from "@/types";
+import { db } from "@/lib/routers";
 
 type PropType = React.HTMLProps<HTMLDivElement> & {
   question: typeActiveParsedQuestionByBotConfigId;
@@ -150,7 +150,7 @@ export const AddQuestionForm = forwardRef<HTMLDivElement, PropType>(
           },
         };
 
-        const { success } = await saveParsedQuestions({
+        const { success } = await db.test.saveParsedQuestions({
           parsedQuestions: [formattedData],
           botId: botConfigId,
           classId: classId,

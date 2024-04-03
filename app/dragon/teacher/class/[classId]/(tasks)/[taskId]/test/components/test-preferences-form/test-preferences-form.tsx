@@ -3,7 +3,6 @@ import { type BotConfig } from "@prisma/client";
 import { ChangeEvent, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import * as z from "zod";
-import { saveParsedQuestions } from "../../../../../../../mutations";
 import { db } from "@/lib/routers";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 import { Input } from "@/components/ui/input";
@@ -189,7 +188,7 @@ export default function TestPreferencesForm({
         });
       }
 
-      await saveParsedQuestions({
+      await db.test.saveParsedQuestions({
         parsedQuestions: questionsToBeSaved,
         botId,
         classId,

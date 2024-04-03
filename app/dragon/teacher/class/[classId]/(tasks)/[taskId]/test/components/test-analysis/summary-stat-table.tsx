@@ -1,4 +1,3 @@
-import { getTotalQuestionByParsedQuestionId } from "@/app/dragon/teacher/queries";
 import { Progress } from "@/components/progress";
 import {
   Table,
@@ -20,6 +19,7 @@ import { getProgressBarColor } from "../../../../../../../../../../lib/helpers";
 import { typeActiveParsedQuestionByBotConfigId } from "@/lib/routers/parsedQuestions";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { db } from "@/lib/routers";
 export const SummaryStatTable = ({
   testQuestions,
 }: {
@@ -28,7 +28,7 @@ export const SummaryStatTable = ({
   if (!testQuestions) return null;
 
   const getTotalQuestion = async (id: string) => {
-    const response = await getTotalQuestionByParsedQuestionId(id);
+    const response = await db.test.getTotalQuestionByParsedQuestionId(id);
     return response;
   };
 

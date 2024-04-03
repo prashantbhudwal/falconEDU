@@ -1,34 +1,52 @@
 "use server";
+import { TestQuestions } from "@/app/dragon/ai/test-question-parser/model";
+import { isAuthorized } from "@/lib/utils";
 import prisma from "@/prisma";
 import { revalidatePath } from "next/cache";
-import * as z from "zod";
-import { isAuthorized } from "@/lib/utils";
-import { TestQuestions } from "../ai/test-question-parser/model";
-import { teacherPreferencesSchema } from "@/lib/schema";
+import { cache } from "react";
 
-//TODO: Add auth for functions
+export const getTestResultsByBotChatId = cache(
+  async ({ botChatId }: { botChatId: string }) => {
+    try {
+      const response = await prisma.botChat.findUnique({
+        where: {
+          id: botChatId,
+        },
+        select: {
+          BotChatQuestions: {
+            select: {
+              student_answer: true,
+              isCorrect: true,
+              parsedQuestionsId: true,
+            },
+          },
+        },
+      });
+      if (response?.BotChatQuestions.length) {
+        return response.BotChatQuestions;
+      }
+      return null;
+    } catch (err) {
+      console.error(err);
+      return null;
+    }
+  },
+);
 
-export const updateTeacherPreferences = async (
-  teacherId: string,
-  data: z.infer<typeof teacherPreferencesSchema>,
-) => {
-  await isAuthorized({
-    userType: "TEACHER",
-  });
-  try {
-    const updatedTeacherProfile = await prisma.teacherProfile.update({
-      where: { id: teacherId },
-      data: {
-        preferences: data,
-      },
-    });
-    revalidatePath("/");
-    return { updatedTeacherProfile, success: true };
-  } catch (error) {
-    console.error("Error updating TeacherProfile:", error);
-    return { error: true };
-  }
-};
+export const getTotalQuestionByParsedQuestionId = cache(
+  async (parsedQuestionId: string) => {
+    try {
+      const response = await prisma.botChatQuestions.findMany({
+        where: {
+          parsedQuestionsId: parsedQuestionId,
+        },
+      });
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  },
+);
 
 export const saveParsedQuestions = async ({
   parsedQuestions,
