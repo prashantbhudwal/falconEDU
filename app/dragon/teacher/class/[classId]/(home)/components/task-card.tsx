@@ -6,7 +6,7 @@ import {
   getTaskProperties,
 } from "../../../../../../../lib/helpers";
 import { TaskType } from "@/types/dragon";
-import { AllConfigsInClass } from "@/lib/routers/botConfigRouter";
+import { AllConfigsInClass } from "@/lib/routers/botConfig";
 import { db } from "@/lib/routers";
 import TaskAnalytics from "./task-analytics";
 

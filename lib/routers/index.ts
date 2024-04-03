@@ -1,4 +1,4 @@
-import * as botConfig from "./botConfigRouter";
+import * as botConfig from "./botConfig";
 import * as classRouter from "./classRouter";
 import * as bot from "./bot";
 import * as teacher from "./teacherRouter";

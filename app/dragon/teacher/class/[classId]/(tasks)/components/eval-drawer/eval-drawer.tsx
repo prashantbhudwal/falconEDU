@@ -13,7 +13,7 @@ import { Chat } from "@/components/chat/chat-dragon";
 import { getStudentChatApiURL } from "@/lib/urls";
 import { getTaskProperties } from "../../../../../../../../lib/helpers";
 import { TaskType } from "@/types";
-import { typeGetBotConfigByConfigId } from "@/lib/routers/botConfigRouter";
+import { typeGetBotConfigByConfigId } from "@/lib/routers/botConfig";
 import { PublishButton } from "./publish-btn";
 import { Separator } from "@/components/ui/separator";
 import { useQuery } from "@tanstack/react-query";

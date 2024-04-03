@@ -3,7 +3,7 @@ import { TaskCard } from "./task-card";
 import Link from "next/link";
 import { getTaskResponsesUrlByType, getTaskUrlByType } from "@/lib/urls";
 import { TaskType } from "@/types/dragon";
-import { AllConfigsInClass } from "@/lib/routers/botConfigRouter";
+import { AllConfigsInClass } from "@/lib/routers/botConfig";
 
 type GroupedTasks = {
   [key: string]: AllConfigsInClass["all"];

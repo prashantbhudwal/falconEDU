@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { TaskType } from "@/types/dragon";
 import { getReportUrl } from "@/lib/urls";
-import { AllBotChats } from "@/lib/routers/botConfigRouter";
+import { AllBotChats } from "@/lib/routers/botConfig";
 import {
   Card,
   CardDescription,

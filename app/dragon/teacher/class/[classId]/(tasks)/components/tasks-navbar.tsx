@@ -38,7 +38,7 @@ import { ClassDialog } from "@/app/dragon/teacher/components/class-dialog";
 import { useConfigPublishing } from "@/app/dragon/teacher/hooks/use-config-publishing";
 import { useEffect, useState } from "react";
 import { TaskType } from "@/types/dragon";
-import { typeGetBotConfigByConfigId } from "@/lib/routers/botConfigRouter";
+import { typeGetBotConfigByConfigId } from "@/lib/routers/botConfig";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
 import { useSetAtom } from "jotai";
