@@ -17,7 +17,7 @@ export const VerifyInviteButton = ({
   const [loading, setLoading] = useState(false);
   const joinClassHandler = async () => {
     setLoading(true);
-    const { success } = await db.studentRouter.addStudentToClass({
+    const { success } = await db.class.addStudentToClass({
       email: studentEmail,
       classId,
     });

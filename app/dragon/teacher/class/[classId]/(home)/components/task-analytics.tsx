@@ -2,7 +2,7 @@ import React from "react";
 import { BiChat } from "react-icons/bi";
 import { PiPercentBold } from "react-icons/pi";
 import { HiOutlineClipboardDocumentCheck } from "react-icons/hi2";
-import { TypeGetTaskStats } from "@/lib/routers/student";
+import { TypeGetTaskStats } from "@/lib/routers/botConfig";
 import { UserIcon } from "@heroicons/react/24/solid";
 import { ChatBubbleLeftRightIcon } from "@heroicons/react/24/solid";
 import {

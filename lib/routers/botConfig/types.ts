@@ -12,6 +12,7 @@ import {
   getBotConfigByConfigId,
 } from "./all";
 import { z } from "zod";
+import { getTaskStats, getTasksWithInteractions } from "./all";
 
 export type BotPreferencesSchemaType = z.infer<typeof botPreferencesSchema>;
 export type TestBotPreferencesSchemaType = z.infer<
@@ -39,3 +40,7 @@ export type typeGetBotConfigByConfigId = UnwrapPromise<
 >;
 
 export type AllBotChats = UnwrapPromise<ReturnType<typeof getAllBotChats>>;
+export type TypeGetTaskStats = UnwrapPromise<ReturnType<typeof getTaskStats>>;
+export type TasksWithInteractions = UnwrapPromise<
+  ReturnType<typeof getTasksWithInteractions>
+>;

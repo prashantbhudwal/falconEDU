@@ -3,7 +3,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import prisma from "@/prisma";
 import { getServerSession } from "next-auth";
 import { cache } from "react";
-import { getStudentId } from "../../queries";
+import { db } from "@/lib/routers";
 
 type UnwrapPromise<T> = T extends Promise<infer U> ? U : T;
 
@@ -44,7 +44,7 @@ export const getStudentData = async (): Promise<{
   if (!userId) {
     return { preferences: null, studentId: "" };
   }
-  const studentId = await getStudentId(userId);
+  const studentId = await db.studentRouter.getStudentId(userId);
   if (!studentId) {
     return { preferences: null, studentId: "" };
   }

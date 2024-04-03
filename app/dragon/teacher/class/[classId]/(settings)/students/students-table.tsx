@@ -52,7 +52,7 @@ export function StudentsTable({
   const email = session.data?.user?.email as string;
   const removeStudent = async function (id: string, studentEmail: string) {
     try {
-      await db.studentRouter.removeStudentFromClass({
+      await db.class.removeStudentFromClass({
         studentId: id,
         classId,
       });

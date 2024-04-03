@@ -1,9 +1,8 @@
-import { getTasksWithInteractions } from "@/lib/routers/student";
 import { getTaskUrlByType } from "@/lib/urls";
 import { TaskType } from "@/types";
 import Link from "next/link";
 import React, { Suspense } from "react";
-import { type TasksWithInteractions } from "@/lib/routers/student";
+import { type TasksWithInteractions } from "@/lib/routers/botConfig";
 import {
   ArrowTrendingDownIcon,
   ArrowTrendingUpIcon,
@@ -12,9 +11,12 @@ import {
 } from "@heroicons/react/24/solid";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { WidgetFallback } from "./widget-fallback";
+import { db } from "@/lib/routers";
 
 export const AnalyticsWidget = async ({ classId }: { classId: string }) => {
-  const leastInteractedTasksList = await getTasksWithInteractions({ classId });
+  const leastInteractedTasksList = await db.botConfig.getTasksWithInteractions({
+    classId,
+  });
   const threeLeastInteractedTasks = leastInteractedTasksList?.slice(0, 3);
   const threeMostInteractedTasks = leastInteractedTasksList?.slice(-3);
 

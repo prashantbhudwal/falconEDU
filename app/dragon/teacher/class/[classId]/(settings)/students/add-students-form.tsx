@@ -73,7 +73,7 @@ export default function AddStudentForm({
   ) {
     let { email } = values;
     email = email.replace(/^www\./, "");
-    const result = await db.studentRouter.addStudentToClass({ email, classId });
+    const result = await db.class.addStudentToClass({ email, classId });
     if (result.notFound) {
       setIsNotOnFalconAI(true);
     } else if (result.error) {

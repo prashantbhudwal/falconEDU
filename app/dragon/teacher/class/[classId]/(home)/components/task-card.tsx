@@ -33,7 +33,7 @@ export async function TaskCard({
   const { Icon, iconColor, formattedType } = getTaskProperties(type);
   let analyticsStats = null;
   if (isPublished) {
-    const analytics = await db.studentRouter.getTaskStats({
+    const analytics = await db.botConfig.getTaskStats({
       classId,
       taskId: config.id,
       taskType: type,
