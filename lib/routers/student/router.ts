@@ -6,7 +6,6 @@ import prisma from "@/prisma";
 import { TaskType } from "@/types";
 import { revalidatePath } from "next/cache";
 import { cache } from "react";
-import { UnwrapPromise } from "../../app/dragon/student/queries";
 
 export const addStudentToClass = async ({
   email,
@@ -270,7 +269,6 @@ export const getTaskStats = cache(
   },
 );
 
-export type TypeGetTaskStats = UnwrapPromise<ReturnType<typeof getTaskStats>>;
 
 export const getTasksWithInteractions = cache(
   async ({ classId }: { classId: string }) => {
@@ -358,9 +356,7 @@ export const getTasksWithInteractions = cache(
   },
 );
 
-export type TasksWithInteractions = UnwrapPromise<
-  ReturnType<typeof getTasksWithInteractions>
->;
+
 
 //OLD
 // export const addStudentToClassOld = async (email: string, classId: string) => {

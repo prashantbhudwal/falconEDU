@@ -1,10 +1,10 @@
 import * as botConfig from "./botConfig";
 import * as classRouter from "./class";
 import * as bot from "./bot";
-import * as teacher from "./teacherRouter";
+import * as teacher from "./teacher";
 import * as parseQuestionRouter from "./parsedQuestionRouter";
 import * as inviteStudentsRouter from "./inviteStudents";
-import * as studentRouter from "./studentRouter";
+import * as studentRouter from "./student";
 import * as attemptRouter from "./attempt";
 import * as profileRouter from "./profileRouter";
 import * as accountRouter from "./account";
