@@ -1,6 +1,6 @@
 "use server";
 import prisma from "@/prisma";
-import { isAuthorized } from "../is-authorized";
+import { isAuthorized } from "../../is-authorized";
 import { LearningGoals } from "@/app/dragon/ai/tasks/ai-test/goals-generator/model";
 import { revalidatePath } from "next/cache";
 
@@ -14,7 +14,6 @@ export const saveLearningGoals = async ({
   await isAuthorized({
     userType: "TEACHER",
   });
-  
 
   await prisma.$transaction(async (prisma) => {
     await prisma.learningGoals.createMany({
@@ -35,7 +34,7 @@ export const saveLearningGoals = async ({
   if (updatedGoals.length === 0) {
     throw new Error("Failed to retrieve updated goals");
   }
-  
+
   revalidatePath("/dragon/teacher/class");
   return updatedGoals;
 };
