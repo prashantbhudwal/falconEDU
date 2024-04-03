@@ -2,7 +2,7 @@
 import prisma from "@/prisma";
 import { revalidatePath } from "next/cache";
 import { cache } from "react";
-type UnwrapPromise<T> = T extends Promise<infer U> ? U : T;
+import { typeActiveParsedQuestionByBotConfigId } from "./types";
 
 export const updateParsedQuestion = async ({
   parseQuestionId,
@@ -78,18 +78,6 @@ export const getParsedQuestionByBotConfigId = cache(
 // export type typeGetParsedQuestionByBotConfigId = UnwrapPromise<
 //   ReturnType<typeof getParsedQuestionByBotConfigId>
 // >;
-
-export type typeActiveParsedQuestionByBotConfigId = NonNullable<
-  UnwrapPromise<
-    ReturnType<typeof getParsedQuestionByBotConfigId>
-  >["activeParsedQuestions"]
->[number];
-
-export type typeArchivedParsedQuestionByBotConfigId = NonNullable<
-  UnwrapPromise<
-    ReturnType<typeof getParsedQuestionByBotConfigId>
-  >["archivedParsedQuestions"]
->[number];
 
 export const getParsedQuestionsByBotChatId = cache(
   async ({ botChatId }: { botChatId: string }) => {

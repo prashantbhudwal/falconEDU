@@ -1,5 +1,5 @@
 "use client";
-import { typeActiveParsedQuestionByBotConfigId } from "@/lib/routers/parsedQuestionRouter";
+import { typeActiveParsedQuestionByBotConfigId } from "@/lib/routers/parsedQuestions";
 import {
   Answer,
   Option,

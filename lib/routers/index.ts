@@ -2,7 +2,7 @@ import * as botConfig from "./botConfig";
 import * as classRouter from "./class";
 import * as bot from "./bot";
 import * as teacher from "./teacher";
-import * as parseQuestionRouter from "./parsedQuestionRouter";
+import * as parseQuestionRouter from "./parsedQuestions";
 import * as inviteStudentsRouter from "./inviteStudents";
 import * as studentRouter from "./student";
 import * as attemptRouter from "./attempt";

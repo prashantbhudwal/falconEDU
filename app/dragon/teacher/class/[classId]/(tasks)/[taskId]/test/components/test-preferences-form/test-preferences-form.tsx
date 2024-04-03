@@ -8,7 +8,7 @@ import { db } from "@/lib/routers";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 import { Input } from "@/components/ui/input";
 import { parseTestQuestions } from "@/app/dragon/ai/test-question-parser/get-test-questions";
-import { typeActiveParsedQuestionByBotConfigId } from "@/lib/routers/parsedQuestionRouter";
+import { typeActiveParsedQuestionByBotConfigId } from "@/lib/routers/parsedQuestions";
 const MAX_CHARS = LIMITS_testBotPreferencesSchema.fullTest.maxLength;
 import { AddQuestionsDialog } from "./add-questions-dialog";
 import { SaveButton } from "../../../../components/task-form/save-btn";

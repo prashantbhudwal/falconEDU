@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/tooltip";
 import { InformationCircleIcon } from "@heroicons/react/24/solid";
 import { getProgressBarColor } from "../../../../../../../../../../lib/helpers";
-import { typeActiveParsedQuestionByBotConfigId } from "@/lib/routers/parsedQuestionRouter";
+import { typeActiveParsedQuestionByBotConfigId } from "@/lib/routers/parsedQuestions";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 export const SummaryStatTable = ({

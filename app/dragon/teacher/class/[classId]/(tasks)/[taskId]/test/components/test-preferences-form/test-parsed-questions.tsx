@@ -2,7 +2,7 @@
 import {
   typeActiveParsedQuestionByBotConfigId,
   typeArchivedParsedQuestionByBotConfigId,
-} from "@/lib/routers/parsedQuestionRouter";
+} from "@/lib/routers/parsedQuestions";
 import { QuestionForm } from "./question-form";
 import React, { useEffect, useRef, useState } from "react";
 import { AddQuestionForm } from "./add-question-form";

@@ -19,7 +19,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { IoClose } from "react-icons/io5";
-import { typeActiveParsedQuestionByBotConfigId } from "@/lib/routers/parsedQuestionRouter";
+import { typeActiveParsedQuestionByBotConfigId } from "@/lib/routers/parsedQuestions";
 import { Button } from "@/components/ui/button";
 import { db } from "@/lib/routers";
 import { useState } from "react";
@@ -171,7 +171,7 @@ const Answer = React.forwardRef<HTMLDivElement, AccordionProps>(
                         </div>
                         <button
                           onClick={removeWarningHandler}
-                          className="hidden w-fit rounded-full text-sm text-slate-500 hover:text-slate-100 group-hover:block"
+                          className="hidden w-fit rounded-full text-sm text-slate-500 group-hover:block hover:text-slate-100"
                         >
                           <IoClose />
                         </button>

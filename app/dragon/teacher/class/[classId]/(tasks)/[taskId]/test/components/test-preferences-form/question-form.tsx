@@ -22,7 +22,7 @@ import { TextareaAutosize } from "@/components/ui/textarea-autosize";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 import { db } from "@/lib/routers";
-import { typeActiveParsedQuestionByBotConfigId } from "@/lib/routers/parsedQuestionRouter";
+import { typeActiveParsedQuestionByBotConfigId } from "@/lib/routers/parsedQuestions";
 import { LuCopy, LuTrash } from "react-icons/lu";
 import {
   Tooltip,
