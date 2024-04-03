@@ -1,6 +1,6 @@
 import { TaskType } from "@/types";
 import { db } from "@/lib/routers";
-import { TaskContextMap, Contexts } from "@/lib/routers/contextRouter/queries";
+import { TaskContextMap, Contexts } from "@/lib/routers/context/";
 
 const taskTypeContextMap = {
   chat: db.context.query.chat,

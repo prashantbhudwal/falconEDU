@@ -1,6 +1,6 @@
 import { getEngineeredMessagesForLesson } from "./template";
 import { getFormattedGrade } from "@/lib/helpers";
-import { LessonContext } from "@/lib/routers/contextRouter/queries";
+import { LessonContext } from "@/lib/routers/context/";
 
 export async function getEngineeredLessonBotMessages(context: LessonContext) {
   const {

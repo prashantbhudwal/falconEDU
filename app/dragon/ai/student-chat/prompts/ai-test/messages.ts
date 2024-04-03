@@ -1,6 +1,6 @@
 import { getEngineeredMessages } from "./template";
 import { getFormattedGrade } from "@/lib/helpers";
-import { AITestContext } from "@/lib/routers/contextRouter/queries";
+import { AITestContext } from "@/lib/routers/context/";
 
 export async function getEngineeredAITestBotMessages(context: AITestContext) {
   const { studentName, lessonPreferences, studentPreferences } = context;

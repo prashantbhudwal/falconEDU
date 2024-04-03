@@ -1,7 +1,7 @@
 "use server";
 import { getEngineeredMessagesForTest } from "./template";
 import { getQuestionTypeName } from "@/lib/helpers";
-import { TestContext } from "@/lib/routers/contextRouter/queries";
+import { TestContext } from "@/lib/routers/context/";
 
 //TODO - this is a big jugaad, need to fix this, either use LangChain or OpenAI Format, don't mix both
 function formatToMarkdown(questions: any[]): string {

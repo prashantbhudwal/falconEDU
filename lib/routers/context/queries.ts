@@ -240,7 +240,6 @@ export const aiTest = cache(async function ({
   };
   return flatContext;
 });
-export type AITestContext = UnwrapPromise<ReturnType<typeof aiTest>>;
 
 // ------------------------------
 export const chat = cache(async function ({
@@ -259,7 +258,6 @@ export const chat = cache(async function ({
   };
   return flatContext;
 });
-export type ChatContext = UnwrapPromise<ReturnType<typeof chat>>;
 
 // ------------------------------
 
@@ -279,7 +277,6 @@ export const lesson = cache(async function ({
   };
   return flatContext;
 });
-export type LessonContext = UnwrapPromise<ReturnType<typeof lesson>>;
 
 // ------------------------------
 
@@ -371,17 +368,4 @@ export const test = cache(async function ({
   return { testQuestions, preferences };
 });
 
-export type TestContext = UnwrapPromise<ReturnType<typeof test>>;
 
-export type Contexts =
-  | LessonContext
-  | ChatContext
-  | AITestContext
-  | TestContext;
-
-export type TaskContextMap = {
-  chat: ChatContext;
-  test: TestContext;
-  lesson: LessonContext;
-  "ai-test": AITestContext;
-};

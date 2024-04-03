@@ -1,6 +1,6 @@
 import { getEngineeredMessagesForChat } from "./template";
 import { getFormattedGrade } from "@/lib/helpers";
-import { ChatContext } from "@/lib/routers/contextRouter/queries";
+import { ChatContext } from "@/lib/routers/context/";
 
 export async function getEngineeredChatBotMessages(context: ChatContext) {
   const unformattedGrade = context?.grade;

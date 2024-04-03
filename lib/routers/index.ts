@@ -11,7 +11,7 @@ import * as accountRouter from "./accountRouter";
 import * as orgRouter from "./orgRouter";
 import * as learningGoalsRouter from "./learningGoalsRouter";
 import * as sourceRouter from "./sourceRouter";
-import * as contextRouter from "./contextRouter";
+import * as contextRouter from "./context";
 import * as preferencesRouter from "./preferences";
 import * as notification from "./notification";
 
