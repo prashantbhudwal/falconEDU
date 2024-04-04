@@ -9,7 +9,9 @@ import {
   getAllBotChats,
   getAllConfigs,
   getAllConfigsInClass,
+  getAllQuestionResponsesByBotConfigId,
   getBotConfigByConfigId,
+  getStudentsByBotConfigId,
 } from "./all";
 import { z } from "zod";
 import { getTaskStats, getTasksWithInteractions } from "./all";
@@ -43,4 +45,11 @@ export type AllBotChats = UnwrapPromise<ReturnType<typeof getAllBotChats>>;
 export type TypeGetTaskStats = UnwrapPromise<ReturnType<typeof getTaskStats>>;
 export type TasksWithInteractions = UnwrapPromise<
   ReturnType<typeof getTasksWithInteractions>
+>;
+
+export type StudentsByBotConfigId = UnwrapPromise<
+  ReturnType<typeof getStudentsByBotConfigId>
+>;
+export type AllStudentResponsesByBotConfigId = UnwrapPromise<
+  ReturnType<typeof getAllQuestionResponsesByBotConfigId>
 >;

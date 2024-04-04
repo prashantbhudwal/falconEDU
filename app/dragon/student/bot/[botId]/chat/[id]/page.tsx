@@ -6,7 +6,6 @@ import { SubmitTestButton } from "./submit-test-btn";
 import { revalidatePath } from "next/cache";
 import { getTaskProperties } from "@/lib/helpers";
 import { TaskType } from "@/types/dragon";
-import { setIsReadToTrue } from "./mutations";
 import Link from "next/link";
 import { getChatContext } from "./get-context";
 import { MediaAccordion } from "./components/media-accordion";
@@ -30,7 +29,7 @@ export default async function ChatPage({ params }: Readonly<ChatPageProps>) {
   const initialMessages: Message[] = chat?.messages || [];
   const botImage = chat?.botImage;
   if (chat?.isRead === false) {
-    await setIsReadToTrue(chat.botChatId);
+    await db.student.botChat.setIsReadToTrue(chat.botChatId);
     revalidatePath("/");
   }
 

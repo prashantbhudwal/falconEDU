@@ -1,7 +1,6 @@
 import { Separator } from "@/components/ui/separator";
 import PieChartComponent from "./pieChart";
 import { QuestionList } from "./question-list";
-import { getBotChatWithStudentByBotChatId } from "../../queries";
 import { db } from "@/lib/routers";
 import { TestResultsByBotId } from "@/lib/routers/tasks/test";
 
@@ -13,7 +12,7 @@ export async function StudentReport({
   attemptId: string;
 }) {
   let testResults: TestResultsByBotId = null;
-  const botChat = await getBotChatWithStudentByBotChatId({
+  const botChat = await db.botChat.getBotChatWithStudentByBotChatId({
     botChatId: attemptId,
   });
 

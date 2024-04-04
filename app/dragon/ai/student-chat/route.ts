@@ -7,7 +7,6 @@ import {
   StreamingTextResponse,
   experimental_StreamData,
 } from "ai";
-import { saveBotChatToDatabase } from "./mutations";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { TaskType } from "@/types/dragon";
@@ -24,6 +23,7 @@ import { toolName } from "./tools/types";
 import { findToolsByTask } from "./tools";
 import { getEngineeredMessagesByType } from "./prompts";
 import { trackEvent } from "@/lib/mixpanel";
+import { db } from "@/lib/routers";
 
 const MESSAGES_IN_CONTEXT_WINDOW = 50;
 
@@ -127,7 +127,7 @@ export async function POST(req: NextRequest) {
         if (isTesting) {
           return;
         }
-        const test = await saveBotChatToDatabase(
+        const test = await db.student.botChat.saveBotChatToDatabase(
           botChatId,
           completion,
           messages,

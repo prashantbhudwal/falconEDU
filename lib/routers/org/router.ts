@@ -6,6 +6,7 @@ import { orgRegisterFormSchema } from "@/app/dragon/org-admin/_components/org-re
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { Prisma } from "@prisma/client";
+import { redirect } from "next/navigation";
 
 export const getTeacherBrandNameByUserId = cache(
   async ({ userId }: { userId: string }) => {
@@ -438,7 +439,6 @@ export const getTeachersInOrg = cache(
   },
 );
 
-
 export const getStudentsInOrg = cache(
   async ({ userId }: { userId: string }) => {
     try {
@@ -471,7 +471,6 @@ export const getStudentsInOrg = cache(
     }
   },
 );
-
 
 export const getOrgAdminsInOrg = cache(
   async ({ userId }: { userId: string }) => {
@@ -506,4 +505,21 @@ export const getOrgAdminsInOrg = cache(
   },
 );
 
+export async function setTeacherOrgModeToTrue(userId: string) {
+  const updateTeacherProfile = await prisma.teacherProfile.upsert({
+    where: {
+      userId: userId,
+    },
+    update: {
+      orgMode: true,
+    },
+    create: {
+      userId: userId,
+      // other required fields for creation
+      orgMode: true,
+    },
+  });
+  redirect("/dragon/teacher");
 
+  return updateTeacherProfile;
+}

@@ -1,8 +1,8 @@
 import { Paper } from "@/components/ui/paper";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { getBotChatWithStudentByBotChatId } from "../[taskId]/test/queries";
 import { Separator } from "@/components/ui/separator";
 import { ReportModal } from "./report-modal";
+import { db } from "@/lib/routers";
 
 export async function IndividualResponse({
   attemptId,
@@ -13,7 +13,7 @@ export async function IndividualResponse({
   reportComponent?: React.ReactNode;
   fullChatComponent: React.ReactNode;
 }) {
-  const botChat = await getBotChatWithStudentByBotChatId({
+  const botChat = await db.botChat.getBotChatWithStudentByBotChatId({
     botChatId: attemptId,
   });
   const name = botChat?.bot.student?.User.name;

@@ -1,5 +1,5 @@
 "use client";
-import { StudentsByBotConfigId } from "../[taskId]/test/queries";
+import { StudentsByBotConfigId } from "@/lib/routers/botConfig";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import Avvvatars from "avvvatars-react";

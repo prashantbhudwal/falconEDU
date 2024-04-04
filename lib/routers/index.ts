@@ -15,7 +15,9 @@ import * as preferencesRouter from "./preferences";
 import * as notification from "./notification/router";
 import { student } from "./student";
 import * as test from "./tasks/test";
+import * as botChat from "./botChat";
 import { admin } from "./admin";
+import { publicRouter } from "./public";
 
 export const db = {
   // Teacher Routers:
@@ -36,7 +38,9 @@ export const db = {
   preferences: preferencesRouter,
   notification: notification,
   test,
+  botChat,
   // Other User Types
   student,
   admin,
+  public: publicRouter,
 };

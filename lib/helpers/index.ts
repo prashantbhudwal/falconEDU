@@ -1,7 +1,7 @@
-import { AllStudentResponsesByBotConfigId } from "../../app/dragon/teacher/class/[classId]/(tasks)/[taskId]/test/queries";
 import { TaskType } from "@/types/dragon";
 import { Grade } from "@prisma/client";
 import { taskPropertiesMap } from "@/lib/constants";
+import { AllStudentResponsesByBotConfigId } from "../routers/botConfig";
 
 /**
  * Calculates the test metadata based on the given student responses.

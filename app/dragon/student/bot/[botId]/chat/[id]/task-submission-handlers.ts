@@ -1,10 +1,6 @@
 import { checkTest } from "@/app/dragon/ai/test-checker";
 import { checkAITest } from "@/app/dragon/ai/tasks/ai-test/submission";
-import {
-  saveFeedbackByBotChatId,
-  saveGoalAssessmentByBotChatId,
-} from "@/app/dragon/ai/tasks/ai-test/submission/mutations";
-import { saveTestResultsByBotChatId, submitBotChat } from "./mutations";
+
 import { TaskType } from "@/types";
 import { db } from "@/lib/routers";
 
@@ -20,7 +16,7 @@ const testHandler = async ({
   if (autoCheck) {
     const testResults = await checkTest({ botChatId: attemptId });
     if (testResults) {
-      await saveTestResultsByBotChatId({
+      await db.student.botChat.saveTestResultsByBotChatId({
         botChatId: attemptId,
         testResults,
       });
@@ -43,10 +39,13 @@ const aiTestHandler = async ({
       botChatId: attemptId,
     });
     if (goals) {
-      await saveGoalAssessmentByBotChatId({ botChatId: attemptId, goals });
+      await db.student.botChat.saveGoalAssessmentByBotChatId({
+        botChatId: attemptId,
+        goals,
+      });
     }
     if (studentFeedback) {
-      await saveFeedbackByBotChatId({
+      await db.student.botChat.saveFeedbackByBotChatId({
         botChatId: attemptId,
         feedback: studentFeedback,
       });

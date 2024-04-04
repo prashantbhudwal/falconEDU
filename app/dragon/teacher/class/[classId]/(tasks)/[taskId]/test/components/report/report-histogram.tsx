@@ -1,9 +1,9 @@
 "use client";
 import { TestResultsByBotId } from "@/lib/routers/tasks/test";
 import { AxisOptions, Chart } from "react-charts";
-import { AllStudentResponsesByBotConfigId } from "../../queries";
 import React from "react";
 import { getTestMetadata } from "../../../../../../../../../../lib/helpers";
+import { AllStudentResponsesByBotConfigId } from "@/lib/routers/botConfig";
 
 type ReportHistogramType = {
   testResults: TestResultsByBotId;

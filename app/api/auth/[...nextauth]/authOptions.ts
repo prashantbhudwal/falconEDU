@@ -7,9 +7,9 @@ import { AuthOptions } from "next-auth";
 import { User, Account, Profile } from "next-auth";
 import { JWT } from "next-auth/jwt";
 import { redirect } from "next/navigation";
-import { createUserProfile } from "./mutations";
 import { UserType } from "@prisma/client";
 import { createMixpanelProfile } from "@/lib/mixpanel";
+import { db } from "@/lib/routers";
 
 const TRIAL_DURATION = 14;
 
@@ -169,7 +169,7 @@ const jwtCallback = async ({
 
   if (user && isNewUser) {
     try {
-      await createUserProfile(user.id, user.userType);
+      await db.public.profile.createUserProfile(user.id, user.userType);
       await createMixpanelProfile(user.email as string, {
         $email: user.email as string,
         $name: user.name ?? "Unknown",

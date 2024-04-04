@@ -9,7 +9,6 @@ import Link from "next/link";
 import { trackEvent } from "@/lib/mixpanel";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getServerSession } from "next-auth";
-import { setIsReadToTrue } from "@/app/dragon/student/bot/[botId]/chat/[id]/mutations";
 import { getChatContext } from "@/app/dragon/student/bot/[botId]/chat/[id]/get-context";
 import { MediaAccordion } from "@/app/dragon/student/bot/[botId]/chat/[id]/components/media-accordion";
 import { constructDigitalOceanUrl } from "@/lib/utils";
@@ -42,7 +41,7 @@ export default async function ChatPage({ params }: Readonly<ChatPageProps>) {
   const url = getImageUrlWithFallback(avatar);
 
   if (chat?.isRead === false) {
-    await setIsReadToTrue(chat.botChatId);
+    await db.student.botChat.setIsReadToTrue(chat.botChatId);
     revalidatePath("/");
   }
 

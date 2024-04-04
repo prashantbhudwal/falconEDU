@@ -3,7 +3,6 @@ import testCheckAnimation from "@/public/animations/test-check.json";
 import loadingBall from "@/public/animations/loading-ball.json";
 import Lottie from "lottie-react";
 import React, { useEffect, useRef, useState } from "react";
-import { saveTestResultsByBotChatId, submitBotChat } from "./mutations";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import {
@@ -18,6 +17,7 @@ import {
 import { checkTest } from "@/app/dragon/ai/test-checker";
 import { submitTestModalAtom } from "@/lib/atoms/ui";
 import { useAtom } from "jotai";
+import { db } from "@/lib/routers";
 
 type PropTypes = React.HTMLAttributes<HTMLDivElement> & {
   testBotId: string;
@@ -38,11 +38,11 @@ const SubmitTestButton = React.forwardRef<HTMLButtonElement, PropTypes>(
         setLoading(true);
         const testResults = await checkTest({ botChatId: botChatId });
         if (testResults) {
-          await saveTestResultsByBotChatId({
+          await db.student.botChat.saveTestResultsByBotChatId({
             botChatId,
             testResults,
           });
-          await submitBotChat({ botChatId });
+          await db.student.botChat.submitBotChat({ botChatId });
           setLoading(false);
           return { success: true };
         }

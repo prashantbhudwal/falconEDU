@@ -2,7 +2,6 @@ import { TaskType } from "@/types";
 import React from "react";
 import { AITestReport } from "@/app/dragon/teacher/class/[classId]/(tasks)/[taskId]/ai-test/responses/individual-response/[attemptId]/report";
 
-import { getBotChatWithStudentByBotChatId } from "@/app/dragon/teacher/class/[classId]/(tasks)/[taskId]/test/queries";
 import PieChartComponent from "@/app/dragon/teacher/class/[classId]/(tasks)/[taskId]/test/components/report/pieChart";
 import { Separator } from "@/components/ui/separator";
 import { QuestionList } from "@/app/dragon/teacher/class/[classId]/(tasks)/[taskId]/test/components/report/question-list";
@@ -40,7 +39,7 @@ export default async function ResultPage({
 
   let testResults: TestResultsByBotId = null;
 
-  const botChat = await getBotChatWithStudentByBotChatId({
+  const botChat = await db.botChat.getBotChatWithStudentByBotChatId({
     botChatId: chatId,
   });
 

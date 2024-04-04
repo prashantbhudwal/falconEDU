@@ -3,6 +3,7 @@ import * as bot from "./bot";
 import * as teacher from "./teacher";
 import * as botConfig from "./botConfig";
 import * as classRouter from "./class";
+import * as profile from "./profile";
 
 export const student = {
   botChat,
@@ -10,4 +11,5 @@ export const student = {
   teacher,
   botConfig,
   class: classRouter,
+  profile,
 };

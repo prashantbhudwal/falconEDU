@@ -3,14 +3,14 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
-import { setTeacherOrgModeToTrue } from "../mutations";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { db } from "@/lib/routers";
 
 const GOOGLE_FORM_URL = "https://forms.gle/ZBQAs2XoZoze7aDc6";
 
 const giveOrgModeAccess = async ({ userId }: { userId: string }) => {
-  await setTeacherOrgModeToTrue(userId);
+  await db.org.setTeacherOrgModeToTrue(userId);
 };
 
 const AccessRequestForm = () => {

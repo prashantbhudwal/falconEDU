@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import { getClassIsActiveByClassId } from "../queries";
 import { ClassDialog } from "@/app/dragon/teacher/components/class-dialog";
 import { LuArchive } from "react-icons/lu";
 import { BoltIcon } from "@heroicons/react/24/solid";
@@ -24,7 +23,7 @@ export const ToggleClassStatusCard = ({ classId }: { classId: string }) => {
 
   useEffect(() => {
     (async () => {
-      const isActive = await getClassIsActiveByClassId(classId);
+      const isActive = await db.class.getClassIsActiveByClassId(classId);
       setIsActive(isActive);
     })();
   }, []);

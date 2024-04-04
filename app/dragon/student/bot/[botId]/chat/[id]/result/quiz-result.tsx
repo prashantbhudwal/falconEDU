@@ -1,6 +1,5 @@
 import { UnwrapPromise } from "@/lib/routers/helpers";
 import { getGoalAssessmentResult } from "@/app/dragon/teacher/class/[classId]/(tasks)/[taskId]/ai-test/responses/individual-response/[attemptId]/report";
-import { getBotChatWithStudentByBotChatId } from "@/app/dragon/teacher/class/[classId]/(tasks)/[taskId]/test/queries";
 import { Separator } from "@/components/ui/separator";
 import { db } from "@/lib/routers";
 import { GoalAssessmentResult } from "@prisma/client";
@@ -56,7 +55,7 @@ export async function QuizResult({
     null;
   let feedback: string = "";
   let overallGrade: GoalAssessmentResult = "f";
-  const botChat = await getBotChatWithStudentByBotChatId({
+  const botChat = await db.botChat.getBotChatWithStudentByBotChatId({
     botChatId: attemptId,
   });
 

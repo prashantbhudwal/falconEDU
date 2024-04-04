@@ -403,3 +403,61 @@ export const removeStudentFromClass = async ({
     return { error: true };
   }
 };
+
+export const getTotalStudentsByClassId = cache(async (classId: string) => {
+  try {
+    const response = await prisma.class.findUnique({
+      where: { id: classId },
+      select: {
+        students: true,
+      },
+    });
+    if (!response) {
+      throw new Error("class not found");
+    }
+    if (response.students) {
+      return response.students;
+    }
+    return null;
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+});
+
+export const getClassIsActiveByClassId = cache(async (classId: string) => {
+  try {
+    const response = await prisma.class.findUnique({
+      where: { id: classId },
+      select: {
+        isActive: true,
+      },
+    });
+    if (!response) {
+      throw new Error("class not found");
+    }
+    if (response.isActive) {
+      return true;
+    }
+    return false;
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+});
+
+export const updateClassNameByClassId = async (
+  classId: string,
+  name: string,
+) => {
+  try {
+    const response = await prisma.class.update({
+      where: { id: classId },
+      data: { name },
+    });
+    return response;
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+};

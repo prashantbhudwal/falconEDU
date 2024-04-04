@@ -1,7 +1,3 @@
-import {
-  getAllQuestionResponsesByBotConfigId,
-  getStudentsByBotConfigId,
-} from "../../queries";
 import { Separator } from "@/components/ui/separator";
 import { SummaryStats } from "./summary-stats";
 import { IndividualResponsesList } from "../../../../components/individual-responses-list";
@@ -25,7 +21,7 @@ export async function TestAnalysis({
   classId: string;
 }) {
   const allStudentResponses =
-    await getAllQuestionResponsesByBotConfigId(testBotId);
+    await db.botConfig.getAllQuestionResponsesByBotConfigId(testBotId);
   const { averageScore, highestScore, leastScore, maxScore } =
     getTestMetadata(allStudentResponses);
   const { activeParsedQuestions, archivedParsedQuestions } =
@@ -36,7 +32,8 @@ export async function TestAnalysis({
     botConfigId: testBotId,
   });
 
-  const { isPublished, students } = await getStudentsByBotConfigId(testBotId);
+  const { isPublished, students } =
+    await db.botConfig.getStudentsByBotConfigId(testBotId);
   const totalSubmittedTest = students.filter(
     (student) => student.isSubmitted,
   ).length;

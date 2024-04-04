@@ -4,7 +4,6 @@ import {
   TooltipTrigger,
   TooltipProvider,
 } from "@ui/tooltip";
-import { getTotalStudentsByClassId } from "./queries";
 import Link from "next/link";
 import { getStudentsURL } from "@/lib/urls";
 import { ToggleClassStatusCard } from "./components/toggle-class-status";
@@ -26,7 +25,7 @@ export default async function ClassSettings({
   const session = await getServerSession(authOptions);
   if (!session) return null;
   const userId = session?.user?.id;
-  const totalStudents = await getTotalStudentsByClassId(classId);
+  const totalStudents = await db.class.getTotalStudentsByClassId(classId);
   const configs = await db.botConfig.getAllConfigsInClass({ userId, classId });
   const classDetails = await db.class.getClassByClassId({ classId });
   return (

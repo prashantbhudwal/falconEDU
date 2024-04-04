@@ -1,9 +1,9 @@
 "use server";
-import { z } from "zod";
-import { isAuthorized } from "@/lib/is-authorized";
+import { StudentPreferenceSchema } from "@/lib/schema";
 import prisma from "@/prisma";
 import { revalidatePath } from "next/cache";
-import { StudentPreferenceSchema } from "@/lib/schema";
+import { cache } from "react";
+import { z } from "zod";
 
 export const updateStudentPreferences = async ({
   studentId,

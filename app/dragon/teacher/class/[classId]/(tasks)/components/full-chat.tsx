@@ -2,16 +2,17 @@ import { ChatList } from "@/components/chat/chat-list";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import Image from "next/image";
-import { getChatMessagesByBotChatId } from "../[taskId]/test/queries";
+import { db } from "@/lib/routers";
 
 type ChatResponseProps = {
   attemptId: string;
 };
 
 export async function FullChat({ attemptId }: ChatResponseProps) {
-  const { messages, id, userImage } = await getChatMessagesByBotChatId({
-    botChatId: attemptId,
-  });
+  const { messages, id, userImage } =
+    await db.botChat.getChatMessagesByBotChatId({
+      botChatId: attemptId,
+    });
 
   if (!messages)
     return <h1 className="text-lg">Submitted without responding!</h1>;

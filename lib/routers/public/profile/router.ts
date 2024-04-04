@@ -1,3 +1,4 @@
+"use server";
 import prisma from "@/prisma";
 export const createUserProfile = async (id: string, userType: string) => {
   switch (userType) {

@@ -15,9 +15,9 @@ import { TextareaAutosize } from "@/components/ui/textarea-autosize";
 import { Paper } from "@/components/ui/paper";
 import { useToast } from "@/components/ui/use-toast";
 import { useState } from "react";
-import { updateStudentPreferences } from "./mutations";
 import { useIsFormDirty } from "@/hooks/use-is-form-dirty";
 import { StudentPreferenceSchema } from "@/lib/schema";
+import { db } from "@/lib/routers";
 
 //TODO: shifting this to a seperate schema file
 
@@ -50,7 +50,7 @@ export function StudentPreferencesForm({
     setIsLoading(true);
     setError("");
     try {
-      const { success } = await updateStudentPreferences({
+      const { success } = await db.student.profile.updateStudentPreferences({
         studentId: studentId,
         data,
       });

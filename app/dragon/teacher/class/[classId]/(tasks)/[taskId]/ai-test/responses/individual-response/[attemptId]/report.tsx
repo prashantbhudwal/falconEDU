@@ -1,8 +1,8 @@
 import { UnwrapPromise } from "@/lib/routers/helpers";
 import prisma from "@/prisma";
 import { cache } from "react";
-import { getBotChatWithStudentByBotChatId } from "../../../../test/queries";
 import { Card, CardContent } from "@/components/ui/card";
+import { db } from "@/lib/routers";
 
 export const getGoalAssessmentResult = cache(
   async ({ botChatId }: { botChatId: string }) => {
@@ -46,7 +46,7 @@ export async function AITestReport({
 }>) {
   let testResults: UnwrapPromise<ReturnType<typeof getGoalAssessmentResult>> =
     null;
-  const botChat = await getBotChatWithStudentByBotChatId({
+  const botChat = await db.botChat.getBotChatWithStudentByBotChatId({
     botChatId: attemptId,
   });
 

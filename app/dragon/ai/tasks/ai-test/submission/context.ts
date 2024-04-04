@@ -1,7 +1,7 @@
 "use server";
 import { cache } from "react";
-import { getChatMessagesByBotChatId } from "@/app/dragon/teacher/class/[classId]/(tasks)/[taskId]/test/queries";
 import prisma from "@/prisma";
+import { db } from "@/lib/routers";
 
 const getBotChatConfig = cache(async function ({
   botChatId,
@@ -59,7 +59,9 @@ const getLearningGoals = async (botChatId: string) => {
 };
 
 export const getCheckingContext = async (botChatId: string) => {
-  const { messages } = await getChatMessagesByBotChatId({ botChatId });
+  const { messages } = await db.botChat.getChatMessagesByBotChatId({
+    botChatId,
+  });
   const goals = await getLearningGoals(botChatId);
 
   if (!goals) {

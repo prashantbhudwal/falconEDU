@@ -1,6 +1,3 @@
-import {
-  getStudentsByBotConfigId
-} from "../[taskId]/test/queries";
 import { NoStudents } from "./no-students";
 import { NotPublished } from "./not-published";
 import { TaskType } from "@/types/dragon";
@@ -16,7 +13,8 @@ export const IndividualResponsesList = async function ({
   taskId: string;
   type: TaskType;
 }) {
-  const { isPublished, students } = await getStudentsByBotConfigId(taskId);
+  const { isPublished, students } =
+    await db.botConfig.getStudentsByBotConfigId(taskId);
   const status = await db.botConfig.getReattemptStatus({ taskId });
   if (!status.success) return null;
   const canReattempt = status.canReAttempt;

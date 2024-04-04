@@ -1,4 +1,4 @@
-import { StudentsByBotConfigId } from "../[taskId]/test/queries";
+import { StudentsByBotConfigId } from "@/lib/routers/botConfig";
 import { TaskType } from "@/types/dragon";
 import { ResponseCard } from "./response-card";
 import { db } from "@/lib/routers";

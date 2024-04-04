@@ -1,7 +1,6 @@
 "use server ";
 
 import { cache } from "react";
-import { getChatMessagesByBotChatId } from "@/app/dragon/teacher/class/[classId]/(tasks)/[taskId]/test/queries";
 import { db } from "@/lib/routers";
 const getTest = cache(async function ({ botChatId }: { botChatId: string }) {
   const config = await db.student.botConfig.getConfigByBotChatId({ botChatId });
@@ -24,7 +23,7 @@ export const getCheckingContext = async function ({
 }: {
   botChatId: string;
 }) {
-  const { messages } = await getChatMessagesByBotChatId({
+  const { messages } = await db.botChat.getChatMessagesByBotChatId({
     botChatId,
   });
 

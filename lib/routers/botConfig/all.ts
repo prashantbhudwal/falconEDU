@@ -1002,3 +1002,124 @@ export const addOrUpdateImage = async ({
     throw new Error("Failed to add or update image");
   }
 };
+
+export const getStudentsByBotConfigId = cache(async function (
+  botConfigId: string,
+) {
+  const isPublished = await prisma.botConfig.findUnique({
+    where: { id: botConfigId },
+    select: {
+      published: true,
+    },
+  });
+  if (!isPublished?.published) {
+    return {
+      students: [],
+      isPublished: false,
+    };
+  }
+
+  const bots = await prisma.bot.findMany({
+    where: { botConfigId },
+    select: {
+      id: true,
+      isSubmitted: true,
+      isChecked: true,
+      isActive: true,
+      student: {
+        select: {
+          User: {
+            select: {
+              name: true,
+              email: true,
+              image: true,
+            },
+          },
+        },
+      },
+    },
+  });
+
+  if (bots.length === 0) {
+    return {
+      students: [],
+      isPublished: false,
+    };
+  }
+
+  const students = bots.map((bot) => ({
+    studentBotId: bot.id,
+    name: bot.student.User.name,
+    email: bot.student.User.email,
+    image: bot.student.User.image,
+    isSubmitted: bot.isSubmitted,
+    isChecked: bot.isChecked,
+    isActive: bot.isActive,
+  }));
+
+  return {
+    students,
+    isPublished: true,
+  };
+});
+
+export const getAllQuestionResponsesByBotConfigId = cache(
+  async (botConfigId: string) => {
+    try {
+      const isPublished = await prisma.botConfig.findUnique({
+        where: { id: botConfigId },
+        select: {
+          published: true,
+        },
+      });
+      if (!isPublished?.published) {
+        return {
+          students: [],
+          isPublished: false,
+        };
+      }
+
+      const bots = await prisma.bot.findMany({
+        where: { botConfigId },
+        select: {
+          id: true,
+          isSubmitted: true,
+          BotChat: {
+            select: {
+              isSubmitted: true,
+              BotChatQuestions: {
+                select: {
+                  isCorrect: true,
+                  parsedQuestionsId: true,
+                  botChatId: true,
+                  student_answer: true,
+                  id: true,
+                  score: true,
+                  feedback: true,
+                },
+              },
+            },
+          },
+        },
+      });
+
+      if (bots.length === 0) {
+        return {
+          students: [],
+          isPublished: false,
+        };
+      }
+
+      const studentResponses = bots.map((response) => {
+        return {
+          id: response.id,
+          BotChatQuestions: response.BotChat[0].BotChatQuestions,
+        };
+      });
+
+      return studentResponses;
+    } catch (err) {
+      return null;
+    }
+  },
+);
