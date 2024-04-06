@@ -24,7 +24,6 @@ export default async function AdminHome() {
       <div className="custom-scrollbar overflow-y-auto">
         {!org && <RegisterOrg userId={userId} />}
         {hasTeachers ? <Dashboard /> : <AddTeachers orgId={orgId} />}
-        <AddTeachers orgId={orgId} />
       </div>
     </div>
   );
