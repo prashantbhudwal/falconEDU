@@ -5,7 +5,7 @@ import Link from "next/link";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa6";
 import { db } from "@/lib/routers";
 
-const Dashboard = async () => {
+export const Dashboard = async () => {
   const allTasks = await db.admin.task.getAllPublishedTasksByDate();
   const teachers = await db.admin.org.getAllTeachersInAnOrg();
   const sortedTeachers = Array.from(teachers?.teacherWeeklyData || []).sort(
@@ -54,4 +54,3 @@ const Dashboard = async () => {
   );
 };
 
-export default Dashboard;

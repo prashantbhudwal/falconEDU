@@ -1,14 +1,13 @@
-import React from "react";
 import { AdminNavbar } from "./_components/navbar";
-import { IoAdd } from "react-icons/io5";
-import { Button, Flex, Text } from "@tremor/react";
 import Link from "next/link";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getServerSession } from "next-auth";
 import { RegisterOrgForm } from "./_components/org-form";
-import Dashboard from "./_components/dashboard";
+import { Dashboard } from "./_components/dashboard";
 import { getManageTeachersURL } from "@/lib/urls";
 import { db } from "@/lib/routers";
+import { Button } from "@/components/ui/button";
+import { AddIcon } from "@/components/icons";
 
 export default async function AdminHome() {
   const session = await getServerSession(authOptions);
@@ -18,7 +17,6 @@ export default async function AdminHome() {
   const name = org?.name;
   const hasTeachers = org && org?.teacher?.length > 0;
   const orgId = org?.id || "";
-  console.log(org);
 
   return (
     <div className="flex h-screen min-w-full flex-col">
@@ -26,6 +24,7 @@ export default async function AdminHome() {
       <div className="custom-scrollbar overflow-y-auto">
         {!org && <RegisterOrg userId={userId} />}
         {hasTeachers ? <Dashboard /> : <AddTeachers orgId={orgId} />}
+        <AddTeachers orgId={orgId} />
       </div>
     </div>
   );
@@ -42,24 +41,18 @@ const RegisterOrg = ({ userId }: { userId: string }) => {
 
 const AddTeachers = ({ orgId }: { orgId: string }) => {
   return (
-    <Flex
-      className="h-full w-full"
-      alignItems="center"
-      justifyContent="center"
-      flexDirection="col"
-    >
-      <>
-        <Text className="text-center">
-          You have no Teacher in your Organization add one{" "}
-        </Text>
-        <Button size="sm" className="mt-5 rounded-xl">
-          <Link href={getManageTeachersURL(orgId)}>
-            <Flex>
-              <IoAdd /> Teacher
-            </Flex>
-          </Link>
-        </Button>
-      </>
-    </Flex>
+    <div className="flex h-full w-full flex-col place-content-center">
+      <div className="flex flex-col items-center space-y-3">
+        <div className="flex flex-col items-center space-y-2 font-semibold">
+          Start Tracking Progress
+        </div>
+        <Link href={getManageTeachersURL(orgId)}>
+          <Button className="flex flex-row items-center space-x-3">
+            <AddIcon size="xxs" />
+            <div>Add teachers</div>
+          </Button>
+        </Link>
+      </div>
+    </div>
   );
 };
