@@ -12,14 +12,17 @@ import { db } from "@/lib/routers";
 
 export default async function AdminHome() {
   const session = await getServerSession(authOptions);
-  const org = await db.admin.org.getOrgByUserId(session?.user?.id || "");
-  const userId = session?.user?.id || "";
+  if (!session) return null;
+  const userId = session?.user?.id;
+  const org = await db.admin.org.getOrgByUserId(userId);
+  const name = org?.name;
   const hasTeachers = org && org?.teacher?.length > 0;
   const orgId = org?.id || "";
+  console.log(org);
 
   return (
     <div className="flex h-screen min-w-full flex-col">
-      <AdminNavbar title="Home" />
+      <AdminNavbar title={name && name?.length > 0 ? name : "Home"} />
       <div className="custom-scrollbar overflow-y-auto">
         {!org && <RegisterOrg userId={userId} />}
         {hasTeachers ? <Dashboard /> : <AddTeachers orgId={orgId} />}
