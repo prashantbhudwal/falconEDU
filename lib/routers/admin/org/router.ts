@@ -5,8 +5,8 @@ import { isThisWeek } from "date-fns";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { revalidatePath } from "next/cache";
-import { orgRegisterFormSchema } from "@/app/dragon/org-admin/components/org-register-form";
 import { z } from "zod";
+import { orgRegisterFormSchema } from "@/lib/schema/org-admin";
 
 export const getTeachersWithUserId = cache(
   async ({ userId }: { userId: string }) => {
