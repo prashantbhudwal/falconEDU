@@ -1,8 +1,8 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-import { UpdateOrgForm } from "../../../../_components/org-form";
+import { UpdateOrgForm } from "../../../../components/org-form";
 import { getServerSession } from "next-auth";
 import { db } from "@/lib/routers";
-import { OrgFormValues } from "../../../../_components/org-form";
+import { OrgFormValues } from "../../../../components/org-form";
 
 export default async function ManageOrg({
   params: { orgId },

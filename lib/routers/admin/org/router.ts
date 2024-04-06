@@ -1,13 +1,11 @@
 "use server";
 import prisma from "@/prisma";
 import { cache } from "react";
-import {
-    isThisWeek
-} from "date-fns";
+import { isThisWeek } from "date-fns";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { revalidatePath } from "next/cache";
-import { orgRegisterFormSchema } from "@/app/dragon/org-admin/_components/org-register-form";
+import { orgRegisterFormSchema } from "@/app/dragon/org-admin/components/org-register-form";
 import { z } from "zod";
 
 export const getTeachersWithUserId = cache(

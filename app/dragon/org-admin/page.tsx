@@ -1,9 +1,9 @@
-import { AdminNavbar } from "./_components/navbar";
+import { AdminNavbar } from "./components/navbar";
 import Link from "next/link";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getServerSession } from "next-auth";
-import { RegisterOrgForm } from "./_components/org-form";
-import { Dashboard } from "./_components/dashboard";
+import { RegisterOrgForm } from "./components/org-form";
+import { Dashboard } from "./components/dashboard";
 import { getManageTeachersURL } from "@/lib/urls";
 import { db } from "@/lib/routers";
 import { Button } from "@/components/ui/button";

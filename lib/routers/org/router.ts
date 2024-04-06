@@ -2,7 +2,7 @@
 import prisma from "@/prisma";
 import { cache } from "react";
 import { db } from "..";
-import { orgRegisterFormSchema } from "@/app/dragon/org-admin/_components/org-register-form";
+import { orgRegisterFormSchema } from "@/app/dragon/org-admin/components/org-register-form";
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { Prisma } from "@prisma/client";

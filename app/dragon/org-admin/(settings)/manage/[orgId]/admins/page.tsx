@@ -1,6 +1,6 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-import { AddOrgAdminForm } from "@/app/dragon/org-admin/_components/add-user-form";
-import { UserManagementCard } from "@/app/dragon/org-admin/_components/user-card";
+import { AddOrgAdminForm } from "@/app/dragon/org-admin/components/add-user-form";
+import { UserManagementCard } from "@/app/dragon/org-admin/components/user-card";
 import { db } from "@/lib/routers";
 import { getServerSession } from "next-auth";
 export default async function ManageAdmins({
