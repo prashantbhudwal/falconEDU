@@ -11,7 +11,7 @@ export const AdminNavbar = ({ title }: AdminNavbarProps) => {
   return (
     <div className="sticky left-0 top-0 z-20 flex w-full items-center justify-between bg-base-300 px-3 py-3">
       <Link href={url.orgAdmin.home}>
-        <Image src={"/chubbi.png"} height={30} width={30} alt="Falcon Logo" />
+        <Image src={"/chubbi.png"} height={25} width={25} alt="Falcon Logo" />
       </Link>
       <h1>{title}</h1>
       <div className="flex w-fit flex-row items-center gap-2">
