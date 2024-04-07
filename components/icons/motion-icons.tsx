@@ -1,3 +1,4 @@
+"use client";
 import { motion } from "framer-motion";
 
 const sparklesIconAnimation = {
@@ -26,4 +27,3 @@ export const Sparkles = (props = {}) => {
     </svg>
   );
 };
-
