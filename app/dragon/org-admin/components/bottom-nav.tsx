@@ -1,11 +1,6 @@
 "use client";
 import Link from "next/link";
-import {
-  ToolIcon,
-  FalconIcon,
-  PieChartIcon,
-  AIMagicIcon,
-} from "@/components/icons";
+import { ToolIcon, PieChartIcon, AIMagicIcon } from "@/components/icons";
 import { url } from "@/lib/urls";
 import { useSelectedLayoutSegment } from "next/navigation";
 import { motion } from "framer-motion";
@@ -63,22 +58,5 @@ export const BottomNav = () => {
         })}
       </motion.div>
     </div>
-  );
-};
-
-const NavItem = ({
-  href,
-  Icon,
-  text,
-}: {
-  href: string;
-  Icon: FalconIcon;
-  text: string;
-}) => {
-  return (
-    <Link href={href} className="flex flex-col items-center">
-      <Icon size="sm" />
-      <span className="text-sm">{text}</span>
-    </Link>
   );
 };
