@@ -137,7 +137,7 @@
     "tailwind-scrollbar-hide": "^1.1.7",
     "tailwindcss-animate": "^1.0.7",
     "tesseract.js": "^5.0.5",
-    "use-deep-compare-effect": "^1.8.1",
+    "use-deep-compare": "^1.2.1",
     "usehooks-ts": "^2.15.1",
     "utility-types": "^3.11.0",
     "uuid": "^9.0.1",

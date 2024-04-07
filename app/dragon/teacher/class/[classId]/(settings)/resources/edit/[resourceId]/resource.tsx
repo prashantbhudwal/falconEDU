@@ -12,7 +12,7 @@ import {
 import { cn } from "@/lib/utils";
 import { useFileUpload } from "./use-file-upload";
 import { useCallback, useEffect, useState } from "react";
-import { Dialog, DialogContent, DialogClose } from "@/components/ui/dialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { LoadingIcon, MaximizeIcon } from "@/components/icons";
 import {
@@ -29,8 +29,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { db } from "@/lib/routers";
 import { url } from "@/lib/urls";
-import useDeepCompareEffect from "use-deep-compare-effect";
-import { TextareaWithCounter } from "@/components/ui/textarea-counter";
+import { useDeepCompareEffect } from "use-deep-compare";
 import _, { debounce } from "lodash";
 import pRetry from "p-retry";
 const FormSchema = z.object({

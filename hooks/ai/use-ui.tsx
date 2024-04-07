@@ -7,8 +7,7 @@ import {
 } from "@/lib/atoms/ui";
 import { JSONValue } from "ai";
 import { useSetAtom } from "jotai";
-import useDeepCompareEffect from "use-deep-compare-effect";
-import { SubmitTestResult } from "@/app/dragon/ai/student-chat/tools/toolkit/test-submission-tool";
+import { useDeepCompareEffect } from "use-deep-compare";
 
 export const useUI = ({
   data,

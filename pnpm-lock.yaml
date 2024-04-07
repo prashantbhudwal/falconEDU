@@ -380,9 +380,9 @@ dependencies:
   tesseract.js:
     specifier: ^5.0.5
     version: 5.0.5
-  use-deep-compare-effect:
-    specifier: ^1.8.1
-    version: 1.8.1(react@18.2.0)
+  use-deep-compare:
+    specifier: ^1.2.1
+    version: 1.2.1(react@18.2.0)
   usehooks-ts:
     specifier: ^2.15.1
     version: 2.15.1(react@18.2.0)
@@ -13151,6 +13151,16 @@ packages:
       '@babel/runtime': 7.24.0
       dequal: 2.0.3
       react: 18.2.0
+    dev: true
+
+  /use-deep-compare@1.2.1(react@18.2.0):
+    resolution: {integrity: sha512-JTnOZAr0fq1ix6CQ4XANoWIh03xAiMFlP/lVAYDdAOZwur6nqBSdATn1/Q9PLIGIW+C7xmFZBCcaA4KLDcQJtg==}
+    peerDependencies:
+      react: '>=16.8.0'
+    dependencies:
+      dequal: 2.0.3
+      react: 18.2.0
+    dev: false
 
   /use-intl@3.9.1(react@18.2.0):
     resolution: {integrity: sha512-tWcT636/jYC0hILyFTLmiuE+ovbvPPBXwN/OOQxxE+4bssHXeeksdWXzpDsKqE37aV62DFrQ2jhumV8udecjNA==}
