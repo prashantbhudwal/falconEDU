@@ -1,4 +1,3 @@
-import { AdminNavbar } from "../components/navbar";
 import Link from "next/link";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getServerSession } from "next-auth";
@@ -18,11 +17,9 @@ export default async function AdminHome() {
   const orgId = org?.id || "";
 
   return (
-    <div className="flex h-screen min-w-full flex-col pb-32">
-      <div className="custom-scrollbar overflow-y-auto">
-        {!org && <RegisterOrg userId={userId} />}
-        {hasTeachers ? <Dashboard /> : <AddTeachers orgId={orgId} />}
-      </div>
+    <div className="flex flex-col">
+      {!org && <RegisterOrg userId={userId} />}
+      {hasTeachers ? <Dashboard /> : <AddTeachers orgId={orgId} />}
     </div>
   );
 }

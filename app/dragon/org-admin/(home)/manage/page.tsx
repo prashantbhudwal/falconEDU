@@ -22,7 +22,7 @@ export default async function OrgSettings() {
 
   const orgSettingsCards = getOrgSettingCardData({ role: adminRole });
   return (
-    <div className="flex flex-col space-y-4 p-2">
+    <div className="flex flex-col space-y-4">
       {orgSettingsCards.map((card) => (
         <SettingsCard
           key={card.name}
