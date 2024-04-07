@@ -1,5 +1,5 @@
 import React from "react";
-import { AdminNavbar } from "../../components/navbar";
+import { AdminNavbar } from "../../../components/navbar";
 import { Timeline } from "./timeline";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";

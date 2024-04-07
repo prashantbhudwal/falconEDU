@@ -1,10 +1,10 @@
-import { AdminNavbar } from "./components/navbar";
+import { AdminNavbar } from "../components/navbar";
 import Link from "next/link";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getServerSession } from "next-auth";
-import { RegisterOrgForm } from "./components/org-form";
-import { Dashboard } from "./components/dashboard";
-import { getManageTeachersURL } from "@/lib/urls";
+import { RegisterOrgForm } from "../components/org-form";
+import { Dashboard } from "../components/dashboard";
+import { url } from "@/lib/urls";
 import { db } from "@/lib/routers";
 import { Button } from "@/components/ui/button";
 import { AddIcon } from "@/components/icons";
@@ -14,13 +14,11 @@ export default async function AdminHome() {
   if (!session) return null;
   const userId = session?.user?.id;
   const org = await db.admin.org.getOrgByUserId(userId);
-  const name = org?.name;
   const hasTeachers = org && org?.teacher?.length > 0;
   const orgId = org?.id || "";
 
   return (
-    <div className="flex h-screen min-w-full flex-col">
-      <AdminNavbar title={name && name?.length > 0 ? name : "Home"} />
+    <div className="flex h-screen min-w-full flex-col pb-32">
       <div className="custom-scrollbar overflow-y-auto">
         {!org && <RegisterOrg userId={userId} />}
         {hasTeachers ? <Dashboard /> : <AddTeachers orgId={orgId} />}
@@ -45,7 +43,7 @@ const AddTeachers = ({ orgId }: { orgId: string }) => {
         <div className="flex flex-col items-center space-y-2 font-semibold">
           Start Tracking Progress
         </div>
-        <Link href={getManageTeachersURL(orgId)}>
+        <Link href={url.orgAdmin.manage.teachers(orgId)}>
           <Button className="flex flex-row items-center space-x-3">
             <AddIcon size="xxs" />
             <div>Add teachers</div>

@@ -21,6 +21,7 @@ import {
   HomeIcon as HomeIconSolid,
   BellIcon as BellIconSolid,
   BellAlertIcon,
+  ChartPieIcon,
 } from "@heroicons/react/24/solid";
 import { XCircleIcon } from "@heroicons/react/24/outline";
 import { FaFilePdf } from "react-icons/fa";
@@ -89,6 +90,7 @@ const BaseIcon: React.FC<BaseIconProps> = ({
 export default BaseIcon;
 
 export type IconProps = Omit<BaseIconProps, "Icon">;
+export type FalconIcon = React.FC<IconProps>;
 
 export const Settings: React.FC<IconProps> = (props) => (
   <BaseIcon {...props} Icon={WrenchScrewdriverIcon} />
@@ -212,4 +214,8 @@ export const BellIcon: React.FC<IconProps> = (props) => (
 
 export const BellRingingIcon: React.FC<IconProps> = (props) => (
   <BaseIcon {...props} Icon={BellAlertIcon} />
+);
+
+export const PieChartIcon: React.FC<IconProps> = (props) => (
+  <BaseIcon {...props} Icon={ChartPieIcon} />
 );

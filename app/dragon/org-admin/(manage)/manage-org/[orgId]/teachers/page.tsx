@@ -17,8 +17,6 @@ export default async function AddTeacherPage({
   return (
     <>
       <div className="mx-auto my-2 flex w-11/12 flex-col space-y-6">
-        <div className="self-center font-bold text-accent">Manage Teachers</div>
-
         <AddTeacherForm orgId={orgId} />
         {teachers?.map((teacher) => (
           <UserManagementCard

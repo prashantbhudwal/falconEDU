@@ -1,5 +1,5 @@
 import React from "react";
-import { AdminNavbar } from "../../components/navbar";
+import { AdminNavbar } from "../../../components/navbar";
 import { Card, Flex, Text, Title } from "@tremor/react";
 import { AvatarFallback, AvatarImage, Avatar } from "@/components/ui/avatar";
 import { db } from "@/lib/routers";

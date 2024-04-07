@@ -174,20 +174,6 @@ export const getParentReportUrlByTaskId = ({ taskId }: { taskId: string }) => {
   return `${baseUrl}/parent/report/${taskId}`;
 };
 
-//Org Admin urls ---------------------------------------
-export const orgAdminHomeURL = `${baseUrl}/org-admin/`;
-export const orgAdminProfileURL = `${baseUrl}/org-admin/profile`;
-export const orgAdminOrgSettingsURL = `${baseUrl}/org-admin/org-settings`;
-
-export const getManageTeachersURL = (orgId: string) =>
-  `${baseUrl}/org-admin/manage/${orgId}/teachers`;
-export const getManageStudentsURL = (orgId: string) =>
-  `${baseUrl}/org-admin/manage/${orgId}/students`;
-export const getManageAdminsURL = (orgId: string) =>
-  `${baseUrl}/org-admin/manage/${orgId}/admins`;
-export const getManageOrgURL = (orgId: string) =>
-  `${baseUrl}/org-admin/manage/${orgId}/org`;
-
 export const url = {
   teacher: {
     home: `${baseUrl}/teacher/`,
@@ -229,14 +215,17 @@ export const url = {
   orgAdmin: {
     home: `${baseUrl}/org-admin/`,
     profile: `${baseUrl}/org-admin/profile`,
-    orgSettings: `${baseUrl}/org-admin/org-settings`,
+    orgSettings: `${baseUrl}/org-admin/manage`,
+    explore: `${baseUrl}/org-admin/explore`,
     manage: {
+      home: `${baseUrl}/org-admin/manage`,
       teachers: (orgId: string) =>
-        `${baseUrl}/org-admin/manage/${orgId}/teachers`,
+        `${baseUrl}/org-admin/manage-org/${orgId}/teachers`,
       students: (orgId: string) =>
-        `${baseUrl}/org-admin/manage/${orgId}/students`,
-      admins: (orgId: string) => `${baseUrl}/org-admin/manage/${orgId}/admins`,
-      org: (orgId: string) => `${baseUrl}/org-admin/manage/${orgId}/org`,
+        `${baseUrl}/org-admin/manage-org/${orgId}/students`,
+      admins: (orgId: string) =>
+        `${baseUrl}/org-admin/manage-org/${orgId}/admins`,
+      org: (orgId: string) => `${baseUrl}/org-admin/manage-org/${orgId}/org`,
     },
   },
 };

@@ -16,10 +16,6 @@ export default async function ManageStudents({
   return (
     <>
       <div className="mx-auto my-2 flex w-11/12 flex-col space-y-6">
-        <div className="self-center font-bold text-accent">
-          {" "}
-          Manage Students
-        </div>
         <AddStudentForm orgId={orgId} />
         {students?.map((student) => (
           <UserManagementCard

@@ -29,7 +29,6 @@ export default async function ManageOrg({
 
   return (
     <div className="flex flex-col space-y-4 p-2">
-      <div className="self-center font-semibold text-accent">Edit your Org</div>
       <UpdateOrgForm initialValues={initialValues} orgId={orgId} />
     </div>
   );

@@ -1,9 +1,4 @@
-import {
-  getManageAdminsURL,
-  getManageOrgURL,
-  getManageStudentsURL,
-  getManageTeachersURL,
-} from "@/lib/urls";
+import { url } from "@/lib/urls";
 import {
   AdminIcon,
   SchoolIcon,
@@ -55,28 +50,28 @@ const getOrgSettingCardData = ({
   const orgSettingsCards = [
     {
       name: "Manage Organization",
-      link: getManageOrgURL,
+      link: url.orgAdmin.manage.org,
       description: "Change brand, name, etc.",
       icon: <SchoolIcon size={"lg"} color="primary" />,
       role: "SUPER_ADMIN",
     },
     {
       name: "Manage Admins",
-      link: getManageAdminsURL,
+      link: url.orgAdmin.manage.admins,
       description: "Add or remove admins",
       icon: <AdminIcon size={"lg"} color="info" />,
       role: "SUPER_ADMIN",
     },
     {
       name: "Manage Teachers",
-      link: getManageTeachersURL,
+      link: url.orgAdmin.manage.teachers,
       description: "Add or remove teachers",
       icon: <TeacherIcon size={"lg"} color="secondary" />,
       role: "MANAGER",
     },
     {
       name: "Manage Students",
-      link: getManageStudentsURL,
+      link: url.orgAdmin.manage.students,
       description: "Add or remove students",
       icon: <StudentIcon size={"lg"} color="accent" />,
       role: "MANAGER",

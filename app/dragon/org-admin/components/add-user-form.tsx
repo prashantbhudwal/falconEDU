@@ -13,7 +13,6 @@ import { Flex, TextInput } from "@tremor/react";
 import { db } from "@/lib/routers";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { set } from "date-fns";
 
 const addUserFormSchema = z.object({
   email: z.string().email().nonempty(),
@@ -26,31 +25,27 @@ const AddUserForm = ({
 }: {
   form: any;
   onSubmit: any;
-  loading: any;
+  loading: boolean;
 }) => {
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="text-center">
-        <Flex className="gap-3" alignItems="center" justifyContent="start">
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <TextInput
-                    type="email"
-                    placeholder="Enter email."
-                    className="w-52 max-w-72"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button type="submit">{loading ? "Adding..." : "Add to Org"}</Button>
-        </Flex>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="flex w-full flex-row items-center space-x-2"
+      >
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem className="w-full">
+              <FormControl>
+                <TextInput type="email" placeholder="Enter email." {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button type="submit">{loading ? "Adding..." : "Add to Org"}</Button>
       </form>
     </Form>
   );
