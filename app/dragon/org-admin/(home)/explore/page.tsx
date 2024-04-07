@@ -1,36 +1,43 @@
-import { Card, Text, Metric, Flex, Title } from "@tremor/react";
+import { Metric } from "@tremor/react";
 import Link from "next/link";
-import { FaArrowDown, FaArrowUp } from "react-icons/fa6";
 import { db } from "@/lib/routers";
 import { url } from "@/lib/urls";
+import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import { ArrowUpIcon, ArrowDownIcon } from "@/components/icons";
+
 export default async function ExplorePage() {
   const teachers = await db.admin.org.getAllTeachersInAnOrg();
+  // TODO: Refactor this to use better naming and sorting
   const sortedTeachers = Array.from(teachers?.teacherWeeklyData || []).sort(
     (a, b) => b[1].thisWeek - a[1].thisWeek,
   );
+
   return (
-    <div>
-      <Title className="mb-2 mt-5">All Teachers</Title>
-      {sortedTeachers.map(([key, value]) => (
-        <Card key={key} className="mb-5 rounded-xl">
-          <Link href={url.orgAdmin.explore.teacher(key ?? "")}>
-            <Flex>
-              <Text>{value.name}</Text>
-              <div>
-                <Flex className="gap-1">
-                  <Metric>{value.prevWeek}</Metric>
-                  {value.prevWeek > value.thisWeek ? (
-                    <FaArrowDown className="text-error" />
-                  ) : (
-                    <FaArrowUp className="text-primary" />
-                  )}
-                  <Metric>{value.thisWeek}</Metric>
-                </Flex>
-              </div>
-            </Flex>
+    <div className="flex flex-col space-x-2">
+      {sortedTeachers.map(([key, value]) => {
+        const { name, prevWeek, thisWeek } = value;
+        const hasIncreased = thisWeek > prevWeek;
+        return (
+          <Link href={url.orgAdmin.explore.teacher(key ?? "") || ""} key={key}>
+            <Card key={key}>
+              <CardHeader className="flex flex-row items-center justify-between">
+                <CardTitle>{name}</CardTitle>
+                <div className="flex flex-row gap-1">
+                  <Metric>{prevWeek}</Metric>
+                  <div className="flex h-fit flex-row gap-[0.15rem] p-1 text-xs">
+                    {hasIncreased ? (
+                      <ArrowDownIcon size="3xs" color="destructive" />
+                    ) : (
+                      <ArrowUpIcon size="3xs" color="primary" />
+                    )}
+                    <div>{thisWeek}</div>
+                  </div>
+                </div>
+              </CardHeader>
+            </Card>
           </Link>
-        </Card>
-      ))}
+        );
+      })}
     </div>
   );
 }
