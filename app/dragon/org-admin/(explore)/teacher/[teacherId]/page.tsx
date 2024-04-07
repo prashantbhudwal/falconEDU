@@ -18,9 +18,6 @@ const TeacherPage = async ({ params }: { params: { teacherId: string } }) => {
   }
   return (
     <div className="flex h-screen min-w-full flex-col">
-      <AdminNavbar
-        title={formatName({ name: teacher?.name || "" }) || "Teacher"}
-      />
       <div className="custom-scrollbar overflow-y-auto">
         <Timeline teacher={teacher} />
       </div>

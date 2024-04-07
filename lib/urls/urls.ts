@@ -216,7 +216,11 @@ export const url = {
     home: `${baseUrl}/org-admin/`,
     profile: `${baseUrl}/org-admin/profile`,
     orgSettings: `${baseUrl}/org-admin/manage`,
-    explore: `${baseUrl}/org-admin/explore`,
+    explore: {
+      home: `${baseUrl}/org-admin/explore`,
+      teacher: (teacherId: string) =>
+        `${baseUrl}/org-admin/teacher/${teacherId}`,
+    },
     manage: {
       home: `${baseUrl}/org-admin/manage`,
       teachers: (orgId: string) =>

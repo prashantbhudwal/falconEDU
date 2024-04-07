@@ -11,7 +11,6 @@ const ResponsesPage = async ({ params }: { params: { taskId: string } }) => {
 
   return (
     <div className="flex h-screen min-w-full flex-col">
-      <AdminNavbar title="Responses" />
       <div className="custom-scrollbar overflow-y-auto px-2">
         <Flex className="my-10 gap-3" flexDirection="col">
           {students &&

@@ -14,7 +14,7 @@ export const BottomNav = () => {
       <div className="flex justify-around py-2">
         <NavbarItem href={url.orgAdmin.home} Icon={AIMagicIcon} text="Act" />
         <NavbarItem
-          href={url.orgAdmin.explore}
+          href={url.orgAdmin.explore.home}
           Icon={PieChartIcon}
           text="Explore"
         />
