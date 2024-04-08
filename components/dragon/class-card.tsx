@@ -1,8 +1,7 @@
 "use client";
-import { Card, CardFooter } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
+import { Card } from "@/components/ui/card";
 import { Class } from "@prisma/client";
-import { getFormattedGrade } from "../../../../lib/helpers";
+import { getFormattedGrade } from "../../lib/helpers";
 import { Grade } from "@prisma/client";
 import Avvvatars from "avvvatars-react";
 import { motion } from "framer-motion";
@@ -14,7 +13,7 @@ type ClassCardProps = {
   id: Class["id"];
 };
 
-export default function ClassCard({
+export function ClassCard({
   className,
   grade,
   section,

@@ -1,11 +1,7 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-import Link from "next/link";
-import { getClassURL } from "@/lib/urls";
-import Avvvatars from "avvvatars-react";
-import ClassCard from "../components/class-card";
 import { Paper } from "@/components/ui/paper";
-import { notFound, redirect } from "next/navigation";
+import { redirect } from "next/navigation";
 import { db } from "../../../../lib/routers";
 import { ClassCardList } from "../components/class-card-list";
 

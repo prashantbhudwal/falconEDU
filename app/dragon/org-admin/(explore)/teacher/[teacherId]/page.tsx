@@ -5,7 +5,7 @@ import { db } from "@/lib/routers";
 import { url } from "@/lib/urls";
 import { SetBackBar } from "../../../../../../components/back-bar/set-back-bar";
 import Link from "next/link";
-import ClassCard from "@/app/dragon/teacher/components/class-card";
+import { ClassCard } from "@/components/dragon/class-card";
 import { Separator } from "@/components/ui/separator";
 
 const TeacherPage = async ({
