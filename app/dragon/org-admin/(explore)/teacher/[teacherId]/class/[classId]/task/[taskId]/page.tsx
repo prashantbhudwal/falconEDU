@@ -8,9 +8,9 @@ import { url } from "@/lib/urls";
 const TaskPage = async ({
   params,
 }: {
-  params: { taskId: string; teacherId: string };
+  params: { taskId: string; teacherId: string; classId: string };
 }) => {
-  const { teacherId, taskId } = params;
+  const { teacherId, taskId, classId } = params;
 
   const students = await db.admin.task.getStudentSubmissionsStatsByTaskId({
     taskId,
@@ -20,7 +20,7 @@ const TaskPage = async ({
     <Flex className="my-10 gap-3" flexDirection="col">
       <SetBackBar
         title="Student Responses"
-        url={url.orgAdmin.explore.teacher(teacherId)}
+        url={url.orgAdmin.explore.class({ teacherId, classId })}
       />
       {students &&
         students.length > 0 &&
