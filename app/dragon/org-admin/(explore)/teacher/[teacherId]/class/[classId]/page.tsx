@@ -41,9 +41,15 @@ const TeacherPage = async ({
 
   if (!tasks || tasks.length === 0)
     return (
-      <div className="w-full items-center justify-center">
-        <div className="mb-2 mt-5">No Tasks Yet</div>
-      </div>
+      <>
+        <SetBackBar
+          title={nameOfClass || "Teacher Profile"}
+          url={url.orgAdmin.explore.teacher(teacherId)}
+        />
+        <div className="w-full items-center justify-center">
+          <div className="mb-2 mt-5 text-center">No Tasks Yet</div>
+        </div>
+      </>
     );
 
   return (
