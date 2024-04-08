@@ -5,7 +5,9 @@ import prisma from "@/prisma";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { cache } from "react";
-import { Class } from "@prisma/client";
+import { Class, Grade } from "@prisma/client";
+import { formatName } from "@/lib/utils";
+import { getFormattedGrade } from "@/lib/helpers";
 
 export const createClassForTeacher = async function ({
   grade,
@@ -108,6 +110,28 @@ export const getClassNameByClassId = cache(async (classId: string) => {
   if (!classData) return "";
   return classData.name;
 });
+
+export const getFormattedClassNameByClassId = cache(
+  async ({ classId }: { classId: string }) => {
+    const classData = await prisma.class.findUnique({
+      where: {
+        id: classId,
+      },
+      select: {
+        grade: true,
+        section: true,
+      },
+    });
+    if (!classData) return "";
+
+    const formattedGrade = getFormattedGrade({ grade: classData.grade });
+
+    const className = classData.section
+      ? `${formattedGrade} - ${classData.section}`
+      : formattedGrade;
+    return className;
+  },
+);
 
 export const getClassesByUserId = cache(
   async ({ userId }: { userId: string }) => {
