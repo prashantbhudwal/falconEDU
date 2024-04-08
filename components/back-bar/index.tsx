@@ -1,8 +1,7 @@
 import Link from "next/link";
-import { Button } from "./ui/button";
-import { ChevronLeftIcon } from "@heroicons/react/24/solid";
+import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
-import { title } from "process";
+import { LeftArrowIcon } from "../icons";
 
 interface BackBarProps {
   link: string;
@@ -28,12 +27,14 @@ const BackBar: React.FC<BackBarProps> = ({
     >
       <Link href={link}>
         <Button
-          className="flex items-center gap-1 hover:bg-base-300 hover:font-semibold hover:text-slate-100"
+          className="flex items-center gap-5 hover:bg-base-300 hover:font-semibold hover:text-slate-100"
           variant="ghost"
           size="sm"
         >
-          <ChevronLeftIcon className="h-8 w-8" />
-          <div className="text-base font-medium text-slate-400">{header}</div>
+          <LeftArrowIcon size="sm" />
+          <div className="text-base font-medium capitalize text-slate-400">
+            {header}
+          </div>
         </Button>
       </Link>
     </div>
