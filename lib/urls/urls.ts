@@ -220,6 +220,8 @@ export const url = {
       home: `${baseUrl}/org-admin/explore`,
       teacher: (teacherId: string) =>
         `${baseUrl}/org-admin/teacher/${teacherId}`,
+      task: ({ teacherId, taskId }: { teacherId: string; taskId: string }) =>
+        `${baseUrl}/org-admin/teacher/${teacherId}/task/${taskId}`,
     },
     manage: {
       home: `${baseUrl}/org-admin/manage`,
