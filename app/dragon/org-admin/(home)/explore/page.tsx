@@ -13,7 +13,7 @@ export default async function ExplorePage() {
   );
 
   return (
-    <div className="flex flex-col space-x-2">
+    <div className="flex flex-col space-y-2">
       {sortedTeachers.map(([key, value]) => {
         const { name, prevWeek, thisWeek } = value;
         const hasIncreased = thisWeek > prevWeek;
