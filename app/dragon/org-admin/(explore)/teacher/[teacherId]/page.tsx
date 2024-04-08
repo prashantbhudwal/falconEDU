@@ -6,8 +6,15 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { formatName } from "@/lib/utils";
 import { redirect } from "next/navigation";
 import { db } from "@/lib/routers";
+import { url } from "@/lib/urls";
+import { SetBackBar } from "../../../../../../components/back-bar/set-back-bar";
 
-const TeacherPage = async ({ params }: { params: { teacherId: string } }) => {
+const TeacherPage = async ({
+  params,
+}: {
+  params: { teacherId: string; taskId: string };
+}) => {
+  const teacherId = params.teacherId;
   const session = await getServerSession(authOptions);
   const org = await db.admin.org.getOrgByUserId(session?.user?.id || "");
   const teacher = await db.admin.teacher.getTeacherTasksWithTeacherId({
@@ -17,11 +24,13 @@ const TeacherPage = async ({ params }: { params: { teacherId: string } }) => {
     redirect("/dragon/org-admin");
   }
   return (
-    <div className="flex h-screen min-w-full flex-col">
-      <div className="custom-scrollbar overflow-y-auto">
-        <Timeline teacher={teacher} />
-      </div>
-    </div>
+    <>
+      <SetBackBar
+        title={teacher?.name || "Teacher Profile"}
+        url={url.orgAdmin.explore.home}
+      />
+      <Timeline teacher={teacher} teacherId={teacherId} />
+    </>
   );
 };
 

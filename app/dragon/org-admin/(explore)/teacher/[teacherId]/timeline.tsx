@@ -12,6 +12,7 @@ import { v4 as uuid } from "uuid";
 import { TaskType } from "@/types";
 import { useRouter } from "next/navigation";
 import { TeacherTask } from "@/lib/routers/admin/teacher";
+import { url } from "@/lib/urls";
 
 function formatClassName(classItem: any) {
   let className = formatName({ name: classItem.grade });
@@ -21,7 +22,13 @@ function formatClassName(classItem: any) {
   return className;
 }
 
-export const Timeline = ({ teacher }: { teacher: TeacherTask }) => {
+export const Timeline = ({
+  teacher,
+  teacherId,
+}: {
+  teacher: TeacherTask;
+  teacherId: string;
+}) => {
   const [teacherTasks, setTeacherTasks] = useState(teacher?.tasks || []);
   const [selectedClassId, setSelectedClassId] = useState("");
   const [disableNavigation, setDisableNavigation] = useState(true);
@@ -60,11 +67,15 @@ export const Timeline = ({ teacher }: { teacher: TeacherTask }) => {
       return;
     }
     const taskId = items[index].id;
-    router.push(`/dragon/org-admin/responses/${taskId}`);
+    const redirectUrl = url.orgAdmin.explore.task({
+      teacherId,
+      taskId,
+    });
+    router.push(redirectUrl);
   };
 
   return (
-    <div className="flex flex-col space-y-6 px-2 py-2">
+    <div className="flex flex-col space-y-6 px-2">
       <Select
         value={selectedClassId}
         className="w-full justify-self-end"
