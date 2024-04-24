@@ -9,7 +9,7 @@ export const prisma =
       timeout: 10000, // 10 seconds
       maxWait: 5000, // 5 seconds
     },
-    log: ["error", "info", "query", "warn"],
+    // log: ["error", "info", "query", "warn"],
     errorFormat: "pretty",
   });
 
