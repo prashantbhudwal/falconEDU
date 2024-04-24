@@ -1,12 +1,11 @@
-import { Inter } from "next/font/google";
+import { Assistant } from "next/font/google";
 import { headers } from "next/headers";
 import { Toaster } from "@/components/ui/sonner";
 import { CelebrationConfetti } from "@/components/confetti/confetti";
-import Providers from "@/components/providers";
 import { ThemeProvider } from "@/components/theme-provider";
 import TRPCProvider from "../_trpc/provider";
 
-const inter = Inter({
+const assistant = Assistant({
   subsets: ["latin"],
   display: "swap",
 });
@@ -18,11 +17,11 @@ function generateTitle() {
 
   let title;
   if (isDev) {
-    title = "🟠 DEV | FalconAI";
+    title = "🟠 DEV | Falcoo";
   } else if (isTestUrl) {
-    title = "🟣 TEST | FalconAI";
+    title = "🟣 TEST | Falcoo";
   } else {
-    title = "FalconAI";
+    title = "Falcoo";
   }
 
   return title;
@@ -31,9 +30,9 @@ function generateTitle() {
 const title = generateTitle();
 export const metadata = {
   title: title,
-  description: "AI for Teachers, and Schools.",
-  metadataBase: new URL("https://falconai.in"),
-  manifest: "/manifest.json",
+  description: "Learn by Teaching.",
+  metadataBase: new URL("https://falconai.in/play"),
+  // manifest: "/manifest.json",
 };
 
 export default function RootLayout({
@@ -42,18 +41,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={inter.className}>
-      <body className="custom-scrollbar flex min-h-screen flex-col overflow-hidden bg-slate-900 text-slate-400">
+    <html lang="en" className={assistant.className}>
+      <body>
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
           disableTransitionOnChange
         >
-          <main className="flex grow flex-col items-center">
-            <CelebrationConfetti />
+          <main>
             <TRPCProvider headers={headers()}>{children}</TRPCProvider>
           </main>
           <Toaster richColors />
+          <CelebrationConfetti />
         </ThemeProvider>
       </body>
     </html>
