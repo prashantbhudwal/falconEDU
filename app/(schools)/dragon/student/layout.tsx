@@ -15,7 +15,7 @@ export default async function StudentLayout({
   const session = await getServerSession(authOptions);
   if (session?.user.userType !== "STUDENT") notFound();
   return (
-    <div className="flex min-h-screen w-full flex-col bg-base-300">
+    <div className="flex h-screen w-full flex-col bg-base-300">
       <PWAProvider>
         <main className="flex flex-1 flex-col">{children}</main>
       </PWAProvider>

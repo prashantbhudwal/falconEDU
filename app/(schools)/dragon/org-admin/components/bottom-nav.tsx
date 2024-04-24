@@ -49,7 +49,7 @@ export const BottomNav = () => {
               {isSelected && (
                 <motion.div
                   layoutId="activeNavItem"
-                  className="absolute inset-0 -z-10 rounded-badge bg-purple-800"
+                  className="absolute inset-0 -z-10 rounded-full bg-purple-800"
                   transition={{ duration: 0.2 }}
                 ></motion.div>
               )}

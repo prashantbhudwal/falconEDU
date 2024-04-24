@@ -9,18 +9,18 @@ import DragonHomeBtn from "./dragon-home-btn";
 import { MyClassesBtn } from "./classes-btn";
 export default function Navbar() {
   return (
-    <div className="navbar h-2 bg-base-200 shadow-sm shadow-base-100">
-      <div className="navbar-start gap-4 pr-2">
+    <div className="flex h-2 justify-between bg-base-200 shadow-sm shadow-base-100">
+      <div className="flex w-2/6 gap-4 pr-2">
         <ChubbiDropdown />
         <DragonHomeBtn />
         <MyClassesBtn />
         <InviteDropdown />
         <UpgradeBtn />
       </div>
-      <div className="navbar-center">
+      <div className="flex">
         <FalconBreadCrumbs />
       </div>
-      <div className="navbar-end gap-3 pr-1">
+      <div className="flex w-2/6 gap-3 pr-1">
         <RightActionBar />
         <ProfileDropDown url={"/profile/teacher"} />
         <HelpDropdown />

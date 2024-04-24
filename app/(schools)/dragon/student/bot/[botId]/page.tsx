@@ -5,6 +5,7 @@ import { NewAttemptButton } from "./new-attempt-btn";
 import { PuzzlePieceIcon } from "@heroicons/react/24/solid";
 import AttemptsList from "./attempts-list";
 import { db } from "@/lib/routers";
+import { TestOverflow } from "@/components/testing/test-overflow";
 
 type BotPageProps = {
   params: {
@@ -20,7 +21,7 @@ export default async function BotPageProps({ params }: BotPageProps) {
   if (!chats) return <NoChats />;
 
   return (
-    <div className="scrollbar-xs h-screen overflow-y-auto">
+    <div className="flex h-screen flex-col">
       <AttemptsNavbar
         title={bot?.BotConfig?.name ?? "Bot"}
         subtitle={bot?.BotConfig?.teacher?.User?.name ?? "Teacher"}
@@ -45,7 +46,7 @@ const AttemptsNavbar = ({
 }) => {
   return (
     <StudentNavbar>
-      <Link href={studentHomeURL} className="navbar-start flex gap-3 pl-6">
+      <Link href={studentHomeURL} className="flex gap-3 pl-6">
         <div className="flex flex-col gap-2">
           <p className="truncate ">{title}</p>
           <div className="flex items-center space-x-1 text-xs text-secondary">
@@ -57,7 +58,7 @@ const AttemptsNavbar = ({
           </div>
         </div>
       </Link>
-      <div className="navbar-end relative flex gap-4">
+      <div className="relative">
         <NewAttemptButton
           botId={botId}
           className="fixed bottom-10 right-10 z-50"

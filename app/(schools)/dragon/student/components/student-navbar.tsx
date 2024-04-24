@@ -17,26 +17,31 @@ import { Button } from "@/components/ui/button";
 import { useAtom } from "jotai";
 import { ModeToggle } from "@/components/theme-toggle";
 import { cn } from "@/lib/utils";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const SettingsIcon: React.FC = () => {
   return (
-    <div className="dropdown dropdown-end">
-      <label tabIndex={0}>
+    <DropdownMenu>
+      <DropdownMenuTrigger>
         <Cog8ToothIcon className="h-6 w-6 text-slate-500" />
-      </label>
-      <ul
-        tabIndex={0}
-        className="menu dropdown-content menu-sm z-[1] mt-3 w-32 rounded-box bg-base-100 p-2 shadow"
-      >
-        <li>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <DropdownMenuItem>
           <Link href={studentProfileURL}>My Profile</Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
           <SignOutButton />
-        </li>
-        <li className="flex items-center gap-2">
+        </DropdownMenuItem>
+        {/* <DropdownMenuItem>
           <ModeToggle />
-        </li>
-      </ul>
-    </div>
+        </DropdownMenuItem> */}
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 };
 
@@ -49,9 +54,7 @@ export const StudentNavbar: React.FC<StudentNavbarProps> = ({
   children,
   className,
 }) => (
-  <div
-    className={cn("navbar bg-base-200 shadow-sm shadow-base-100", className)}
-  >
+  <div className={cn("flex justify-between px-1.5 py-2 static ", className)}>
     {children}
   </div>
 );
@@ -63,7 +66,7 @@ export const StudentHomeNavbar = ({
 }) => {
   return (
     <StudentNavbar>
-      <div className="navbar-start flex gap-2">
+      <div className="flex items-center gap-2">
         <Image src={"/chubbi.png"} height={20} width={20} alt="Falcon Logo" />
         <div className="flex flex-row items-center gap-2">
           <div className="text-xs">FalconAI</div>
@@ -71,7 +74,7 @@ export const StudentHomeNavbar = ({
           {brandName && <div className="text-xs">{brandName}</div>}
         </div>
       </div>
-      <div className="navbar-end flex items-center gap-2">
+      <div className="flex items-center gap-2">
         <Link href={getStudentPreferencesURL()}>
           <Button variant="ghost" size={"sm"}>
             About Me
@@ -115,7 +118,7 @@ export const AvatarNavbar: React.FC<AvatarNavbarProps> = ({
   const [isLoading] = useAtom(chatIsLoadingAtom);
   return (
     <StudentNavbar className={className}>
-      <Link href={studentHomeURL} className="navbar-start flex gap-3">
+      <Link href={studentHomeURL} className="flex gap-3">
         {!hideAvatar && (
           <Avatar>
             <AvatarImage src={avatarUrl} />
@@ -142,7 +145,7 @@ export const AvatarNavbar: React.FC<AvatarNavbarProps> = ({
           )}
         </div>
       </Link>
-      <div className="navbar-end flex gap-4">{button}</div>
+      <div className="flex gap-4">{button}</div>
     </StudentNavbar>
   );
 };

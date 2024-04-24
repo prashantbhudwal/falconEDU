@@ -5,6 +5,7 @@ import { ItemCard } from "../../components/item-card";
 import { format } from "date-fns";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { ChatsByBotId } from "@/lib/routers/student/botChat";
+import { TestOverflow } from "@/components/testing/test-overflow";
 
 interface AttemptsListProps {
   chats: ChatsByBotId;
@@ -13,7 +14,7 @@ interface AttemptsListProps {
 const AttemptsList: React.FC<AttemptsListProps> = ({ chats }) => {
   const [parent] = useAutoAnimate();
   return (
-    <div className="h-full" ref={parent}>
+    <div ref={parent} className="scrollbar-xs overflow-y-auto">
       {chats.map((chat) => (
         <Link href={getStudentBotChatURL(chat.bot.id, chat.id)} key={chat.id}>
           <ItemCard

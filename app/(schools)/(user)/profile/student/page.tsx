@@ -5,11 +5,13 @@ import { StudentHomeNavbar } from "@/app/(schools)/dragon/student/components/stu
 
 export default function ProfilePage() {
   return (
-    <div className="flex w-full flex-col items-center">
+    <div className="w-full">
       <StudentHomeNavbar />
-      <div className="custom-scrollbar flex h-screen w-full  flex-col items-center gap-3 overflow-y-auto ">
-        <BasicInfo />
-        <PaymentsTable />
+      <div className="flex flex-col items-center">
+        <div className="custom-scrollbar flex h-screen w-full  flex-col items-center gap-3 overflow-y-auto ">
+          <BasicInfo />
+          <PaymentsTable />
+        </div>
       </div>
     </div>
   );

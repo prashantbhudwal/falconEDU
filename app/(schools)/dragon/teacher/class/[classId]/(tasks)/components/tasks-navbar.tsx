@@ -24,6 +24,7 @@ import { BotConfig } from "@prisma/client";
 import {
   ChevronLeftIcon,
   EllipsisHorizontalIcon,
+  EllipsisVerticalIcon,
 } from "@heroicons/react/24/solid";
 import { cn } from "@/lib/utils";
 import {
@@ -63,13 +64,13 @@ export function TasksNavbar({
   const type = task.type as TaskType;
 
   return (
-    <div className="navbar flex h-full w-full border-b border-base-200 bg-base-300 py-0">
-      <div className="navbar-start flex gap-4 pr-2">
+    <div className="flex h-full w-full items-center justify-between border-b border-base-200 bg-base-300 py-2">
+      <div className="flex w-2/6 gap-4">
         <ClassLink classId={classId} />
       </div>
-      <div className="navbar-center self-end">
+      <div className="flex flex-grow items-center justify-center self-end ">
         <Tabs defaultValue="test">
-          <TabsList className="flex w-96 border-b bg-transparent">
+          <TabsList className="flex w-96 justify-center rounded-none border-b bg-transparent">
             <TabsTrigger
               className={cn(
                 "w-1/2 rounded-none border-white bg-base-300 text-lg data-[state=active]:bg-transparent",
@@ -101,24 +102,13 @@ export function TasksNavbar({
         </Tabs>
       </div>
 
-      <div className="navbar-end flex items-center space-x-6 pr-1">
+      <div className="flex w-2/6 items-center justify-end space-x-6 pr-1">
         <ReAttemptSwitch
           classId={classId}
           taskId={task.id}
           canReattempt={task.canReAttempt}
           className="justify-end"
         />
-        {task.Class?.isActive && (
-          <>
-            {!task.published && (
-              <TaskOptionsDropdown
-                classId={classId}
-                userId={userId}
-                task={task}
-              />
-            )}
-          </>
-        )}
 
         {task.published ? (
           <PublishButton
@@ -138,6 +128,17 @@ export function TasksNavbar({
           >
             <div className="capitalize">Check & Publish</div>
           </Button>
+        )}
+        {task.Class?.isActive && (
+          <>
+            {!task.published && (
+              <TaskOptionsDropdown
+                classId={classId}
+                userId={userId}
+                task={task}
+              />
+            )}
+          </>
         )}
       </div>
     </div>
@@ -225,7 +226,7 @@ export const TaskOptionsDropdown = function ({
         asChild
         className="flex cursor-pointer items-center gap-1"
       >
-        <EllipsisHorizontalIcon className="w-6 text-slate-500" />
+        <EllipsisVerticalIcon className="w-6 text-slate-500" />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-48 cursor-pointer">
         <DropdownMenuItem
@@ -319,7 +320,7 @@ export function ReAttemptSwitch({
     <Form {...form}>
       <form className={cn("flex items-center gap-1", className)}>
         <FormItem className="flex flex-row items-center gap-2">
-          <FormLabel className="pt-2 text-xs">Allow Re-attempts</FormLabel>
+          <FormLabel className="pt-2 text-xs">Reattempts</FormLabel>
           <FormControl>
             <Switch
               checked={form.watch("isReAttemptEnabled")}

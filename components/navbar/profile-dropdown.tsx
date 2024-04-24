@@ -2,6 +2,13 @@ import Avatar from "@/components/avatar";
 import Link from "next/link";
 import SignOutButton from "@/components/auth/sign-out-btn";
 import { Button } from "../ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  DropdownMenuLabel
+} from "@/components/ui/dropdown-menu";
 
 interface Props {
   url: string;
@@ -9,21 +16,19 @@ interface Props {
 
 export default function ProfileDropDown({ url }: Props) {
   return (
-    <div className="dropdown dropdown-end">
-      <label tabIndex={0} className="hover:cursor-pointer hover:bg-base-300">
+    <DropdownMenu>
+      <DropdownMenuTrigger>
         <Avatar />
-      </label>
-      <ul
-        tabIndex={0}
-        className="menu dropdown-content menu-sm z-[1] mt-3 w-32 rounded-box bg-base-100 p-2 shadow"
+      </DropdownMenuTrigger>
+      <DropdownMenuContent
       >
-        <li>
+        <DropdownMenuItem>
           <Link href={url}>Profile</Link>
-        </li>
-        <li>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
           <SignOutButton />
-        </li>
-      </ul>
-    </div>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }

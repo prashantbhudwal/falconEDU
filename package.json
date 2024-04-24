@@ -171,7 +171,6 @@
     "@types/showdown": "^2.0.6",
     "@types/uuid": "^9.0.8",
     "autoprefixer": "^10.4.19",
-    "daisyui": "^4.10.2",
     "eslint": "^8.57.0",
     "eslint-config-next": "^13.5.6",
     "eslint-config-prettier": "^9.1.0",

@@ -31,8 +31,10 @@ export default async function CareerGallery() {
   });
   return (
     <div className=" bg-gradient-to-b from-fuchsia-950  to-slate-950">
-      <div className={cn("navbar text-slate-200")}>
-        <div className={cn("navbar-start flex flex-col items-start pl-2")}>
+      <div
+        className={cn("flex items-center justify-between p-2 text-slate-200")}
+      >
+        <div className={cn("flex flex-col items-start pl-2")}>
           <div className="truncate">{"Career Gallery"}</div>
           <p className="truncate text-sm text-slate-400">
             {"Talk to AI Guides, explore careers"}
