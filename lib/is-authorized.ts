@@ -1,5 +1,5 @@
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { authOptions } from "@/app/(schools)/api/auth/[...nextauth]/authOptions";
 import prisma from "@/prisma";
 import { db } from "./routers";
 import { type } from "os";

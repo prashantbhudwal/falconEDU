@@ -4,7 +4,7 @@ import prisma from "@/prisma";
 import { revalidatePath } from "next/cache";
 import { FinalTestResults } from "./types";
 import type { Message } from "ai";
-import { GoalAssessmentObjectWithIdArray } from "@/app/dragon/ai/tasks/ai-test/submission/checking-model";
+import { GoalAssessmentObjectWithIdArray } from "@/app/(schools)/dragon/ai/tasks/ai-test/submission/checking-model";
 
 export const getChatsByBotId = cache(async function (botId: string) {
   const chats = await prisma.botChat.findMany({

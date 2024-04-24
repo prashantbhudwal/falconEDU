@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth";
-import { authOptions } from "../../app/api/auth/[...nextauth]/authOptions";
-import { getUser } from "@/app/api/db/user/[email]/queries";
-import Plans from "../../app/(user)/pricing/plans";
+import { authOptions } from "../../app/(schools)/api/auth/[...nextauth]/authOptions";
+import { getUser } from "@/app/(schools)/api/db/user/[email]/queries";
+import Plans from "../../app/(schools)/(user)/pricing/plans";
 import { getProducts } from "@/lib/stripe";
 import { redirect } from "next/navigation";
 import SignOutButton from "./sign-out-btn";

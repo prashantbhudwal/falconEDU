@@ -11,7 +11,7 @@ import {
   startOfDay,
 } from "date-fns";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { authOptions } from "@/app/(schools)/api/auth/[...nextauth]/authOptions";
 
 export const getStudentSubmissionsStatsByTaskId = cache(
   async ({ taskId }: { taskId: string }) => {

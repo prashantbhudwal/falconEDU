@@ -2,7 +2,7 @@ import { QuestionType } from "@/types";
 import { ideaType } from "@/types/ideaTypes";
 import { aidType } from "@/types/ideaTypes";
 import { worksheetAidType } from "@/types/ideaTypes";
-import questionData from "@/app/data/questionMatrix.json";
+import questionData from "@/app/(schools)/data/questionMatrix.json";
 import { customAlphabet } from "nanoid";
 export const nanoid = customAlphabet(
   "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",

@@ -1,0 +1,58 @@
+"use server";
+import { authOptions } from "@/app/(schools)/api/auth/[...nextauth]/authOptions";
+import { s3 } from "@/lib/aws";
+import { nanoid } from "nanoid";
+import { getServerSession } from "next-auth";
+import sharp from "sharp";
+
+export const uploadToDigitalOcean = async (formData: FormData) => {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    throw new Error("No session found");
+  }
+  const file = formData.get("file") as File;
+  const buffer = Buffer.from(await file.arrayBuffer());
+  const OptimizedBuffer = await sharp(buffer).webp({ quality: 80 }).toBuffer();
+
+  const bucket = process.env.DO_SPACES_BUCKET ?? "";
+
+  try {
+    const stored = await s3
+      .upload({
+        Bucket: bucket,
+        Key: `uploads/${file.name}-${nanoid()}.webp`, // Adding an nanoid ensures cache busting
+        Body: OptimizedBuffer,
+        ACL: "public-read",
+        ContentType: "image/webp",
+        CacheControl: "max-age=31536000", // cached in the browser for a year
+      })
+      .promise();
+    return { url: stored.Location, key: stored.Key, bucket: bucket };
+  } catch (error) {
+    console.error("Error uploading file:", error);
+    throw error;
+  }
+};
+
+export const deleteFromDigitalOcean = async ({
+  key,
+  bucket,
+}: {
+  key: string;
+  bucket: string;
+}) => {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    throw new Error("No session found");
+  }
+  const params = {
+    Bucket: bucket,
+    Key: key,
+  };
+
+  try {
+    await s3.deleteObject(params).promise();
+  } catch (error) {
+    throw new Error("Error deleting file from DigitalOcean");
+  }
+};

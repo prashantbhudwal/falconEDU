@@ -3,7 +3,7 @@ import prisma from "@/prisma";
 import { cache } from "react";
 import { isThisWeek } from "date-fns";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { authOptions } from "@/app/(schools)/api/auth/[...nextauth]/authOptions";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { orgRegisterFormSchema } from "@/lib/schema/org-admin";

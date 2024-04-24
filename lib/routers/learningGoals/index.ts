@@ -1,7 +1,7 @@
 "use server";
 import prisma from "@/prisma";
 import { isAuthorized } from "../../is-authorized";
-import { LearningGoals } from "@/app/dragon/ai/tasks/ai-test/goals-generator/model";
+import { LearningGoals } from "@/app/(schools)/dragon/ai/tasks/ai-test/goals-generator/model";
 import { revalidatePath } from "next/cache";
 
 export const saveLearningGoals = async ({

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { CreateMessage } from "ai";
 import { TaskType } from "@/types";
-import { getFirstMessage } from "@/app/dragon/ai/student-chat/prompts/common/start-messages";
+import { getFirstMessage } from "@/app/(schools)/dragon/ai/student-chat/prompts/common/start-messages";
 
 export function useFirstMessage({
   messages,

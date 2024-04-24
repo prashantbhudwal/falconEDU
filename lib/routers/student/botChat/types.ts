@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { UnwrapPromise } from "../../helpers";
 import { getBotChatByChatId, getChatsByBotId } from "./router";
-import { TestResultsAnswerSchema } from "@/app/dragon/ai/test-checker/tool";
+import { TestResultsAnswerSchema } from "@/app/(schools)/dragon/ai/test-checker/tool";
 
 export type ChatsByBotId = UnwrapPromise<ReturnType<typeof getChatsByBotId>>;
 

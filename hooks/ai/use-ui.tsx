@@ -1,5 +1,5 @@
 "use client";
-import { ToolData } from "@/app/dragon/ai/student-chat/route";
+import { ToolData } from "@/app/(schools)/dragon/ai/student-chat/route";
 import {
   showVideoModalAtom,
   submitTestModalAtom,

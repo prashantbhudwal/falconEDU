@@ -1,5 +1,5 @@
 "use server";
-import { TestQuestions } from "@/app/dragon/ai/test-question-parser/model";
+import { TestQuestions } from "@/app/(schools)/dragon/ai/test-question-parser/model";
 import { isAuthorized } from "@/lib/utils";
 import prisma from "@/prisma";
 import { revalidatePath } from "next/cache";

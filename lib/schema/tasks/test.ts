@@ -1,4 +1,4 @@
-import { questionTypes } from "@/app/dragon/ai/test-checker/tool";
+import { questionTypes } from "@/app/(schools)/dragon/ai/test-checker/tool";
 import * as z from "zod";
 import { mediumOfInstruction } from "../constants";
 
