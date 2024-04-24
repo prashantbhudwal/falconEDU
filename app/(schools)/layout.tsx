@@ -40,21 +40,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={inter.className}>
-      <body className="custom-scrollbar flex min-h-screen flex-col overflow-hidden bg-slate-900 text-slate-400">
+    <main lang="en" className={inter.className}>
+      <div className="custom-scrollbar flex min-h-screen flex-col overflow-hidden bg-slate-900 text-slate-400">
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
           disableTransitionOnChange
         >
-          <main className="flex grow flex-col items-center">
+          <div className="flex grow flex-col items-center">
             <CelebrationConfetti />
             <TRPCProvider headers={headers()}>{children}</TRPCProvider>
-          </main>
+          </div>
           {/* TODO Style the toaster with tailwind colors */}
           <Toaster richColors />
         </ThemeProvider>
-      </body>
-    </html>
+      </div>
+    </main>
   );
 }

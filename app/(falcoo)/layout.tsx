@@ -41,20 +41,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={assistant.className}>
-      <body>
+    <main lang="en" className={assistant.className}>
+      <div>
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
           disableTransitionOnChange
         >
-          <main>
+          <div>
             <TRPCProvider headers={headers()}>{children}</TRPCProvider>
-          </main>
+          </div>
           <Toaster richColors />
           <CelebrationConfetti />
         </ThemeProvider>
-      </body>
-    </html>
+      </div>
+    </main>
   );
 }

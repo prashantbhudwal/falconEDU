@@ -8,9 +8,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
+    // The root layout must contain an html element with a body element
     <html>
-      <Providers>{children}</Providers>
-      <Analytics />
+      <body>
+        <Providers>{children}</Providers>
+        <Analytics />
+      </body>
     </html>
   );
 }
