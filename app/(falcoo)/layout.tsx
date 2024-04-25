@@ -45,7 +45,7 @@ export default function RootLayout({
       <div>
         <ThemeProvider
           attribute="class"
-          defaultTheme="dark"
+          defaultTheme="game"
           disableTransitionOnChange
         >
           <div>
