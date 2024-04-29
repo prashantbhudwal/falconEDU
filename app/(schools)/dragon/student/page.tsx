@@ -4,7 +4,7 @@ import { StudentHomeNavbar } from "./components/student-navbar";
 import { ItemCard } from "./components/item-card";
 import Link from "next/link";
 import { getStudentTeacherURL } from "@/lib/urls";
-import { InstallAppDrawer } from "@/components/install-app-drawer";
+import { InstallAppDrawer } from "@/components/pwa/install-app-drawer";
 import { db } from "../../../../lib/routers";
 import { CareerCard } from "./components/career-card";
 

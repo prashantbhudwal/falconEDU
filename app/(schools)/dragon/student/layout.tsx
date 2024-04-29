@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/(schools)/api/auth/[...nextauth]/authOptions";
 import { notFound } from "next/navigation";
-import { PWAProvider } from "@/components/pwa-context-provider";
+import { PWAProvider } from "@/components/pwa/pwa-context-provider";
 
 export const metadata = {
   manifest: "/manifest-student.json",
